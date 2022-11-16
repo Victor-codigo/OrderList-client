@@ -1,0 +1,60 @@
+version: "3.9"
+
+services: 
+
+  # SERVIDOR WEB
+  nginx:
+    container_name: ${APP_NAME}-nginx
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - PATH_PUBLIC=${VOLUME_CONTAINER_PATH_PUBLIC}
+    ports: 
+      - ${SERVER_PORT}
+    volumes: 
+      - $PWD/${VOLUME_HOST_PATH_PHP_SOURCE}:${VOLUME_CONTAINER_PATH_PHP_SOURCE}
+    networks: 
+      - network
+
+  # INTERPRETE PHP
+  php:
+    container_name: ${APP_NAME}-php-8.1
+    user: ${USER_ID}:${GROUP_ID}
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+      args:
+        - GROUP_ID=${GROUP_ID}
+        - USER_ID=${USER_ID}
+        - TIMEZONE=${TIMEZONE}
+        - WORK_DIR=${VOLUME_CONTAINER_PATH_PHP_SOURCE}
+        - GIT_NAME=${GIT_NAME}
+        - GIT_EMAIL={GIT_EMAIL}
+    restart: always
+    env_file:  
+      - ./env/php.env
+    volumes: 
+      - $PWD/${VOLUME_HOST_PATH_PHP_SOURCE}:${VOLUME_CONTAINER_PATH_PHP_SOURCE}
+    networks: 
+      - network
+    depends_on: 
+      - nginx
+
+  # COMPOSER
+  composer:
+    container_name: ${APP_NAME}-composer-2.0
+    build: 
+      context: ./composer
+      dockerfile: Dockerfile
+    networks: 
+      - network
+    depends_on: 
+      - nginx
+
+
+
+# REDES
+networks: 
+  network:
