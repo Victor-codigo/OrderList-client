@@ -1,0 +1,13 @@
+{
+    "workbench.colorCustomizations": {
+        "sideBar.foreground": "#ffffff",
+        "editorSuggestWidget.border": "#818181",
+        "gitDecoration.modifiedResourceForeground": "#68bbff",
+        "gitDecoration.untrackedResourceForeground": "#84ff9f",
+        "gitDecoration.addedResourceForeground": "#84ff9f",
+        "gitDecoration.ignoredResourceForeground": "#868686",
+        "activityBar.background": "#2B3010",
+        "titleBar.activeBackground": "#3D4317",
+        "titleBar.activeForeground": "#F9FBF2"
+    }
+}

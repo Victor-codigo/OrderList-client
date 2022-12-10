@@ -1,0 +1,7 @@
+twig:
+    default_path: "%kernel.project_dir%/src/Twig"
+    paths: ["%kernel.project_dir%/templates", "%kernel.project_dir%/src/Twig"]
+
+when@test:
+    twig:
+        strict_variables: true
