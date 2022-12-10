@@ -1,0 +1,37 @@
+<div class="card {{ cssType }} m-3 mx-auto" style="max-width: fit-content;">
+	{% if data.title %}
+		<header class="card-header">
+			<h5>{{ data.title }}</h5>
+		</header>
+	{% endif %}
+	<section class="card-body">
+		{% if data.subtitle %}
+			<h5 class="card-title">
+				{{ data.subtitle }}
+			</h5>
+		{% endif %}
+
+		{% if data.messages is iterable %}
+			<ul class="list-group ">
+				{% for message in data.messages %}
+					<li class="list-group-item  border border-0  bg-transparent  {{ cssTextColor }}">
+						{% if data.escapeMesage %}
+							<p class="card-text">{{ message|nl2br }}</p>
+						{% else %}
+							<p class="card-text">{{ message|raw|nl2br }}</p>
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+
+		{% else %}
+
+			{% if data.escapeMesage %}
+				<p class="card-text">{{ data.messages|nl2br }}</p>
+			{% else %}
+				<p class="card-text">{{ data.messages|raw|nl2br }}</p>
+			{% endif %}
+
+		{% endif %}
+	</section>
+</div>

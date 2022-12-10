@@ -1,0 +1,25 @@
+title: Login
+
+email:
+  label: Email
+  placeholder: Enter your email
+  msg_invalid: Enter a valid email direction
+
+password:
+  label: Password
+  placeholder: Enter your password
+  msg_invalid: Password is wrong. Password must contain at least 6 characters
+
+login_button: Login
+
+remember_login: Remember me
+
+password_forget: Forgot your password?
+
+register: Sign up
+
+validation:
+  title: Errors
+  error:
+    login: Email or password are incorrect
+    internal_server: An error has been occured, try it later

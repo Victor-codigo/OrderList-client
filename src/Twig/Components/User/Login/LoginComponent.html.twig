@@ -1,0 +1,39 @@
+<form id="frm_login" name="{{ formName }}" data-controller="LoginComponent" class="contaniner  p-5" method="post" enctype="multipart/form-data" novalidate>
+	<input type="hidden" name="{{ tokenCsrfFiledName }}" value="{{ data.csrfToken }}"/>
+
+	{% if lang.validationErrors.messages %}
+		{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{% endif %}
+
+
+	<div class="mb-5 pt-5 display-1 text-center">
+		{{ lang.title }}
+	</div>
+
+	<div class="mb-3">
+		<label for="email" class="form-label">{{ lang.emailLabel }}</label>
+		<input type="email" class="form-control" id="email" name="{{ emailFiledName }}" placeholder="{{ lang.emailPlaceholder }}" value="{{ data.email }}" required>
+		<div class="invalid-feedback">{{ lang.emailMsgInvalid }}</div>
+	</div>
+
+	<div class="mb-3">
+		<label for="password" class="form-label">{{ lang.passwordLabel }}</label>
+		<input type="password" class="form-control" id="password" name="{{ passwordFiledName }}" pattern=".{6,}" placeholder="{{ lang.passwordPlaceholder }}" value="{{ data.password }}" required>
+		<div class="invalid-feedback">{{ lang.passwordMsgInvalid }}</div>
+	</div>
+
+	<div class="mb-3">
+		<input type="checkbox" class="form-check-input" id="remember" name="{{ rememberMeFiledName }}" {{ data.rememberMe ? "checked" }}>
+		<label for="remember" class="form-label">{{ lang.rememberLogin }}</label>
+	</div>
+
+	<div class="mt-5">
+		<input type="submit" class="btn btn-primary w-100" name="{{ submitFiledName }}" value="{{ lang.loginButton }}"/>
+	</div>
+
+	<div class="mt-5  text-center">
+		<a href="{{ path('user_remember') }}">{{ lang.passwordForget }}</a>
+		o
+		<a href="{{ path('user_register') }}">{{ lang.register }}</a>
+	</div>
+</form>
