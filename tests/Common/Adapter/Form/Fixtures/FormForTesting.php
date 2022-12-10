@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Common\Adapter\Form\Fixtures;
+
+use Common\Domain\Form\FormType;
+use Common\Domain\Validation\ValidationInterface;
+
+class FormForTesting extends FormType
+{
+    public static function getName(): string
+    {
+        return 'formName';
+    }
+
+    public static function getCsrfTokenId(): string
+    {
+        return 'csrfTokenId';
+    }
+
+    public static function getCsrfTokenFieldName(): string
+    {
+        return 'csrfTokenName';
+    }
+
+    public function formBuild(): void
+    {
+    }
+
+    public function validate(ValidationInterface $validatior, array $formData): array
+    {
+        return [];
+    }
+}
