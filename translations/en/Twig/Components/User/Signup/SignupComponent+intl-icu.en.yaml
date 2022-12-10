@@ -1,0 +1,33 @@
+title: Sign Up
+
+email:
+  label: Email
+  placeholder: Enter your email
+  msg_invalid: Enter a valid email direction
+
+password:
+  label: Password
+  placeholder: Enter your password
+  msg_invalid: Password is wrong. Password must contain at least 6 characters
+
+password_repeated:
+  label: Password repeat
+  placeholder: Enter your password again
+  msg_invalid: Fields Password and Password repeat are not equals
+
+nick:
+  label: Nick
+  placeholder: Enter your nick on the web
+  msg_invalid: |
+    Enter a valid nick.
+    Nick must contain alphanumeric characters, and between 1 and 30 characters
+
+register_button: Sign up!
+
+login_link: Or login here
+
+validation:
+  title: Errors
+  error:
+    email_exists: The email is already resistered
+    default: An error has been occured, try it later

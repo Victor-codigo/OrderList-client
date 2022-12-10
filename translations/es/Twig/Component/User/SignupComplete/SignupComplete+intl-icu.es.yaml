@@ -1,0 +1,8 @@
+registration_complete:
+  title: Registro casi completado
+  msg: |
+    Enhorabuena, ya casi te has registrado en <strong>{appName}</strong>.
+    <strong>Te hemos enviado un email</strong> a tú dirección de correo, con un enlace, para comfirmar el registro.
+    Haz click en el enlace <strong>antes de 24 horas</strong> para comfirmar tú email, y completar el registro.
+
+    Gracias por registrarte en <strong>{appName}</strong>.

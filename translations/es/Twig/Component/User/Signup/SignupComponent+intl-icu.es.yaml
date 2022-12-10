@@ -1,0 +1,33 @@
+title: Registrate
+
+email:
+  label: Email
+  placeholder: Introduce tú email
+  msg_invalid: Introduce una dirección de email válida
+
+password:
+  label: Contraseña
+  placeholder: Introduce tú contraseña
+  msg_invalid: Contrasña incorrecta. La constraseña tiene que contener al menos 6 caracteres
+
+password_repeated:
+  label: Repitir la contraseña
+  placeholder: Introduce tú contraseña otra vez
+  msg_invalid: Los campos Contraseña y Repetir contraseña no son iguales
+
+nick:
+  label: Nick
+  placeholder: Introduce tú nick en la web
+  msg_invalid: |
+    Introduce un nick válido
+    El nick debe contener, caracteres alfanuméricos y estar entre 1 y 30 caracteres
+
+register_button: ¡Regístrate!
+
+login_link: O Identiticate aquí
+
+validation:
+  title: Errors
+  error:
+    email_exists: El email ya está registrado
+    internal_server: An error has been occured, try it later
