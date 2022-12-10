@@ -2,9 +2,25 @@ version: "3.9"
 
 services: 
 
+  # SERVIDOR PROXY
+  proxy:
+    container_name: ${APP_NAME}-proxy
+    build: 
+      context: ./proxy-server
+      dockerfile: Dockerfile
+    networks:
+      - orderlist-network-client
+      - orderlist-network-api
+    ports:
+      - 80:80
+      # - 443:443
+    depends_on:
+      - nginx-client
+
+
   # SERVIDOR WEB
-  nginx:
-    container_name: ${APP_NAME}-nginx
+  nginx-client:
+    container_name: ${APP_NAME}-nginx-client
     build: 
       context: ./nginx
       dockerfile: Dockerfile
@@ -16,7 +32,7 @@ services:
     volumes: 
       - $PWD/${VOLUME_HOST_PATH_PHP_SOURCE}:${VOLUME_CONTAINER_PATH_PHP_SOURCE}
     networks: 
-      - network
+      - orderlist-network-client
 
   # INTERPRETE PHP
   php:
@@ -38,9 +54,9 @@ services:
     volumes: 
       - $PWD/${VOLUME_HOST_PATH_PHP_SOURCE}:${VOLUME_CONTAINER_PATH_PHP_SOURCE}
     networks: 
-      - network
+      - orderlist-network-client
     depends_on: 
-      - nginx
+      - nginx-client
 
   # COMPOSER
   composer:
@@ -49,12 +65,15 @@ services:
       context: ./composer
       dockerfile: Dockerfile
     networks: 
-      - network
+      - orderlist-network-client
     depends_on: 
-      - nginx
-
+      - nginx-client
 
 
 # REDES
-networks: 
-  network:
+networks:
+  orderlist-network-client:
+    name: orderlist-network-client
+
+  orderlist-network-api:
+    name: orderlist-network-api

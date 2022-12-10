@@ -1,6 +1,6 @@
 server {
-    server_name OrderList-client;
-    listen 8080;
+    server_name orderlist.client;
+    listen 80;
 
     root /usr/src/public;
     index index.php index.html index.htm;
