@@ -10,6 +10,7 @@ use Common\Adapter\Form\FormSymfonyAdapter;
 use Common\Adapter\Form\FormTypeSymfony;
 use Common\Domain\Form\FormTypeInterface;
 use Common\Domain\Validation\ValidationInterface;
+use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormConfigInterface;
@@ -379,10 +380,70 @@ class FormSymfonyAdapterTest extends TestCase
     }
 
     /** @test */
+    public function itShouldReturnFormFieldData(): void
+    {
+        $data = [
+            FormTypeSymfony::OPTION_FORM_TYPE => 'this should be removed',
+            'formField1' => 'value1',
+            'formField2' => 'value2',
+            'formField3' => 'value3',
+        ];
+
+        $dataExpected = [
+            'formField1' => 'value1',
+            'formField2' => 'value2',
+            'formField3' => 'value3',
+        ];
+
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->form);
+
+        $this->form
+            ->expects($this->once())
+            ->method('getData')
+            ->willReturn($data['formField2']);
+
+        $this->createStubsForGetFormType();
+
+        $return = $this->object->getFieldData('formField2');
+
+        $this->assertSame($dataExpected['formField2'], $return);
+    }
+
+    /** @test */
+    public function itShouldFailReturningFormFieldDataFieldDoesNotExists(): void
+    {
+        $data = [
+            FormTypeSymfony::OPTION_FORM_TYPE => 'this should be removed',
+            'formField1' => 'value1',
+            'formField2' => 'value2',
+            'formField3' => 'value3',
+        ];
+
+        $dataExpected = [
+            'formField1' => 'value1',
+            'formField2' => 'value2',
+            'formField3' => 'value3',
+        ];
+
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->willThrowException(new InvalidArgumentException());
+
+        $this->createStubsForGetFormType();
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->object->getFieldData('formField2');
+    }
+
+    /** @test */
     public function itShouldAddAnErrorToTheForm()
     {
         $errorValue = 'error value';
-        $return = $this->object->addError(FORM_ERRORS::FORM_ERROR_1, $errorValue);
+        $return = $this->object->addError(FORM_ERRORS::FORM_ERROR_1->value, $errorValue);
 
         $this->assertSame($this->object, $return);
         $this->assertArrayHasKey(FORM_ERRORS::FORM_ERROR_1->value, $this->object->getErrors());
@@ -402,8 +463,8 @@ class FormSymfonyAdapterTest extends TestCase
     {
         $errorValue1 = 'error value 1';
         $errorValue2 = 'error value 2';
-        $this->object->addError(FORM_ERRORS::FORM_ERROR_1, $errorValue1);
-        $this->object->addError(FORM_ERRORS::FORM_ERROR_2, $errorValue2);
+        $this->object->addError(FORM_ERRORS::FORM_ERROR_1->value, $errorValue1);
+        $this->object->addError(FORM_ERRORS::FORM_ERROR_2->value, $errorValue2);
         $return = $this->object->getErrors();
 
         $this->assertArrayHasKey(FORM_ERRORS::FORM_ERROR_1->value, $return);

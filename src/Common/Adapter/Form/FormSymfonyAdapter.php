@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Common\Adapter\Form;
 
+use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use Common\Domain\Form\FormErrorInterface;
 use Common\Domain\Form\FormTypeInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Validation\ValidationInterface;
+use InvalidArgumentException;
 use LogicException;
+use Symfony\Component\Form\Exception\OutOfBoundsException;
 use Symfony\Component\Form\FormInterface as SymfonyFormInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -125,6 +128,18 @@ class FormSymfonyAdapter implements FormInterface
         unset($dataSetted[FormTypeSymfony::OPTION_FORM_TYPE]);
 
         return array_merge($dataDefault, $dataSetted);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function getFieldData(string $fieldName): mixed
+    {
+        try {
+            return $this->form->get($fieldName)->getData();
+        } catch(OutOfBoundsException) {
+            throw new InvalidArgumentException('The field name is incorrect');
+        }
     }
 
     private function getFieldsValueDefaults(): array
