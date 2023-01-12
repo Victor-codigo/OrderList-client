@@ -12,6 +12,7 @@ use Common\Domain\Validation\ValidationInterface;
 use InvalidArgumentException;
 use LogicException;
 use Symfony\Component\Form\Exception\OutOfBoundsException;
+use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface as SymfonyFormInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -25,11 +26,11 @@ class FormSymfonyAdapter implements FormInterface
     private SymfonyFormInterface $form;
     private CsrfTokenManagerInterface $tokenManager;
     private ValidationInterface $validator;
+    private FormTypeInterface $formType;
 
     private string|null $csrfTokenId;
     private string $csrfTokenValue;
     private array $validationErrors;
-
 
 
 
@@ -59,13 +60,14 @@ class FormSymfonyAdapter implements FormInterface
         $this->form = $form;
         $this->tokenManager = $tokenManager;
         $this->validator = $validator;
+        $this->formType = $this->form->getConfig()->getType()->getInnerType()->getFormType();
         $this->csrfTokenId = $csrfTokenId;
     }
 
     public function isValid(bool $csrfValidation = true): bool
     {
         if (!isset($this->validationErrors)) {
-            $this->validationErrors = $this->getFormType()->validate($this->validator, $this->getData());
+            $this->validationErrors = $this->formType->validate($this->validator, $this->getData());
         }
 
         return (!$csrfValidation || $this->isCsrfValid()) && empty($this->validationErrors);
@@ -80,7 +82,7 @@ class FormSymfonyAdapter implements FormInterface
     public function isCsrfValid(): bool
     {
         $data = $this->form->getData();
-        $tokenFieldName = $this->getFormType()::getCsrfTokenFieldName();
+        $tokenFieldName = $this->formType::getCsrfTokenFieldName();
 
         if (!isset($data[$tokenFieldName])) {
             return false;
@@ -138,20 +140,12 @@ class FormSymfonyAdapter implements FormInterface
         try {
             return $this->form->get($fieldName)->getData();
         } catch(OutOfBoundsException) {
-            throw new InvalidArgumentException('The field name is incorrect');
+            throw new InvalidArgumentException("The field {$fieldName} does not exist in form");
         }
     }
 
     private function getFieldsValueDefaults(): array
     {
-        $formType = $this->getFormType();
-
-        return $formType->getFieldsValueDefaults();
-    }
-
-
-    private function getFormType(): FormTypeInterface
-    {
-        return $this->form->getConfig()->getType()->getInnerType()->getFormType();
+        return $this->formType->getFieldsValueDefaults();
     }
 }
