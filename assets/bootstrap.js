@@ -4,6 +4,12 @@ import SignupComponent from '../src/Twig/Components/User/Signup/SignupComponent_
 import ProfileComponent from '../src/Twig/Components/User/Profile/ProfileComponent_controller';
 import AlertComponent from '../src/Twig/Components/Alert/AlertComponent_controller';
 import PasswordRememberComponent from '../src/Twig/Components/User/PasswordRemember/PasswordRememberComponent_controller';
+import PasswordChangeComponent from '../src/Twig/Components/User/PasswordChange/PasswordChangeComponent_controller';
+import EmailChangeComponent from '../src/Twig/Components/User/EmailChange/EmailChangeComponent_controller';
+import UserRemoveComponent from '../src/Twig/Components/User/UserRemove/UserRemoveComponent_controller';
+import NavigationBar from '../src/Twig/Components/NavigationBar/NavigationBar_controller';
+import ModalComponent from '../src/Twig/Components/Modal/Modal_Component';
+import FileUploadComponent from '../src/Twig/Components/Controls/FileUpload/FileUpload_Component';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -19,3 +25,9 @@ app.register('SignupComponent', SignupComponent);
 app.register('ProfileComponent', ProfileComponent);
 app.register('AlertComponent', AlertComponent);
 app.register('PasswordRememberComponent', PasswordRememberComponent);
+app.register('PasswordChangeComponent', PasswordChangeComponent);
+app.register('EmailChangeComponent', EmailChangeComponent);
+app.register('UserRemoveComponent', UserRemoveComponent);
+app.register('NavigationBar', NavigationBar);
+app.register('ModalComponent', ModalComponent);
+app.register('FileUploadComponent', FileUploadComponent);

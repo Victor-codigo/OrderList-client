@@ -15,3 +15,17 @@ export function validate(form, validationCallback) {
         form.classList.add('was-validated');
     }, false);
 };
+
+export function validatePasswordRepeat(password, passwordRepeated) {
+    'use strict'
+
+    if (password.value === passwordRepeated.value) {
+        passwordRepeated.setCustomValidity('');
+
+        return true;
+    }
+
+    passwordRepeated.setCustomValidity('not valid');
+
+    return false;
+};
