@@ -1,0 +1,9 @@
+email_send:
+  title: Email forwared
+  message: |
+    <strong>We have forwared you an email</strong> to your email account.
+    <strong>Click on the link</strong> that the email contains, to change your password.
+
+    The link will be valid for 24 hours.
+
+    If you have not receibed the email, <a href="{urlRememberPasswordForm}">repeate the action again in the form.</a>
