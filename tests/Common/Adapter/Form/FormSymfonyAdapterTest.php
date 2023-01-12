@@ -35,6 +35,17 @@ class FormSymfonyAdapterTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+    }
+
+    private function createFormSymfonyAdapter(bool $mockFormType): FormSymfonyAdapter
+    {
+        if ($mockFormType) {
+            $this->formType = $this
+                ->getMockBuilder(FormTypeInterface::class)
+                ->getMockForAbstractClass();
+        } else {
+            $this->formType = new FormForTesting();
+        }
 
         $this->csrfManager = $this->createMock(CsrfTokenManager::class);
         $this->form = $this->createMock(FormInterface::class);
@@ -46,13 +57,15 @@ class FormSymfonyAdapterTest extends TestCase
             ->addMethods(['getFormType'])
             ->getMockForAbstractClass();
         $this->validator = $this->createMock(ValidationInterface::class);
-        $this->formType = $this->createMock(FormTypeInterface::class);
-        $this->object = new FormSymfonyAdapter($this->form, $this->csrfManager, $this->validator, $this->tokenId);
+        $this->createStubsForGetFormType();
+
+        return new FormSymfonyAdapter($this->form, $this->csrfManager, $this->validator, $this->tokenId);
     }
 
     /** @test */
     public function ItSouldFailNotReturnCsrfTokenValueCsrfManagerNotInitialized(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $tokenValue = 'token value';
         $this->csrfManager
             ->expects($this->once())
@@ -67,6 +80,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldReturnTheCsrfTokenValue(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $tokenValue = 'token value';
 
         $this->csrfManager
@@ -83,6 +97,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldBeSubmittedTheForm(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $this->form
             ->expects($this->once())
             ->method('isSubmitted')
@@ -96,6 +111,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldNotBeSubmittedTheForm(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $this->form
             ->expects($this->once())
             ->method('isSubmitted')
@@ -150,6 +166,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldBeAValidFormNotCsrfProtectetionChecked(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(true);
         $this->createStubsForMethodIsValid(true, []);
 
         $return = $this->object->isValid(false);
@@ -160,6 +177,8 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldBeAValidFormCsrfProtectetionChecked(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(true);
+
         /** @var MockObject|FormSymfonyAdapter $object */
         $object = $this
             ->getMockBuilder(FormSymfonyAdapter::class)
@@ -182,6 +201,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldNotBeAValidFormBecauseOfFormValidation(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(true);
         $this->createStubsForMethodIsValid(true, ['email' => [1,2]]);
 
         $return = $this->object->isValid(false);
@@ -192,6 +212,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldNotBeAValidFormBecauseOfSymfonyFormAndFormValidation(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(true);
         $this->createStubsForMethodIsValid(false, ['email' => [1, 2]]);
 
         $return = $this->object->isValid(false);
@@ -202,6 +223,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldRefreshTheCsrfToken(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $tokenRefreshed = 'token refreshed';
 
         $this->csrfManager
@@ -219,7 +241,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldBeAValidCsrfToken(): void
     {
-        $this->formType = new FormForTesting();
+        $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
             $tokenFieldName => 'this is a token'
@@ -246,7 +268,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldBeAValidCsrfTokenInitiallyTokenValueIsNotSet(): void
     {
-        $this->formType = new FormForTesting();
+        $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
             $tokenFieldName => 'this is a token'
@@ -281,8 +303,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldNotBeAValidCsrfTokenItDoesNotExistInFormData(): void
     {
-        $this->formType = new FormForTesting();
-
+        $this->object = $this->createFormSymfonyAdapter(false);
         $this->createStubsForGetFormType();
 
         $this->form
@@ -298,7 +319,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldNotBeAValidCsrfTokenInitiallyTokenIdDoesNotExist(): void
     {
-        $this->formType = new FormForTesting();
+        $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
             $tokenFieldName => 'this is a token'
@@ -321,7 +342,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldNotBeAValidCsrfToken(): void
     {
-        $this->formType = new FormForTesting();
+        $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
             $tokenFieldName => 'this is a token'
@@ -354,6 +375,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldReturnFormDataWhithoutTheFormType(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(true);
         $data = [
             FormTypeSymfony::OPTION_FORM_TYPE => 'this should be removed',
             'formField1' => 'value1',
@@ -382,6 +404,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldReturnFormFieldData(): void
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $data = [
             FormTypeSymfony::OPTION_FORM_TYPE => 'this should be removed',
             'formField1' => 'value1',
@@ -415,18 +438,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldFailReturningFormFieldDataFieldDoesNotExists(): void
     {
-        $data = [
-            FormTypeSymfony::OPTION_FORM_TYPE => 'this should be removed',
-            'formField1' => 'value1',
-            'formField2' => 'value2',
-            'formField3' => 'value3',
-        ];
-
-        $dataExpected = [
-            'formField1' => 'value1',
-            'formField2' => 'value2',
-            'formField3' => 'value3',
-        ];
+        $this->object = $this->createFormSymfonyAdapter(false);
 
         $this->form
             ->expects($this->once())
@@ -442,6 +454,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldAddAnErrorToTheForm()
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $errorValue = 'error value';
         $return = $this->object->addError(FORM_ERRORS::FORM_ERROR_1->value, $errorValue);
 
@@ -453,6 +466,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldReturnAnEmptyArrayNoErrorsFound()
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $return = $this->object->getErrors();
 
         $this->assertEmpty($return);
@@ -461,6 +475,7 @@ class FormSymfonyAdapterTest extends TestCase
     /** @test */
     public function itShouldReturnAnErrorOfTheForm()
     {
+        $this->object = $this->createFormSymfonyAdapter(false);
         $errorValue1 = 'error value 1';
         $errorValue2 = 'error value 2';
         $this->object->addError(FORM_ERRORS::FORM_ERROR_1->value, $errorValue1);
