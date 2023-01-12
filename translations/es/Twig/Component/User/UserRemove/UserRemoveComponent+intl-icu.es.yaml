@@ -1,0 +1,16 @@
+title: Eliminar usuario
+
+
+remove_user_button:
+  label: Elimina tú cuenta
+
+message_advice:
+  text: |
+    Si presionas el botón, tú y toda tú información será eliminada de la página web.
+    Una vez el proceso cominenza, no puede ser deshecho. ¿Estás seguro?
+
+validation:
+  title: Errors
+  error:
+    email_exists: The email is already resistered
+    default: An error has been occured, try it later

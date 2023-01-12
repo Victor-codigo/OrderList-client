@@ -1,0 +1,22 @@
+title: Cambiar de email
+
+email:
+  label: Nuevo emal
+  placeholder: Introduce tú nuevo email
+  msg_invalid: El email no es válido
+
+password:
+  label: Contraseña
+  placeholder: Introduce tú contraseña
+  msg_invalid: La contraseña no es válido. Debe contener al menof 6 caracteres
+
+button_email_change:
+  label: Cambiar email
+
+validation:
+  title: Errores
+  error:
+    email: El email no es válido
+    password: La constraseña no es válida
+    password_invalid: La contraseña no es válido. Debe contener al menof 6 caracteres
+    internal_server: Ocurrió un error, inténtalo más tarde

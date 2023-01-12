@@ -8,4 +8,5 @@ enum ALERT_TYPE
 {
     case DANGER;
     case INFO;
+    case SUCCESS;
 }

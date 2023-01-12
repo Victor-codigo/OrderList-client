@@ -1,0 +1,15 @@
+title: User remove
+
+message_advice:
+  text: |
+    By pressing the button, you and all your information will be removed from the website.
+    Once the process starts, cannot be undone. Are you sure?
+
+remove_user_button:
+  label: Remove your account
+
+validation:
+  title: Errors
+  error:
+    email_exists: The email is already resistered
+    default: An error has been occured, try it later

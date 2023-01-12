@@ -16,8 +16,8 @@ class AlertComponent extends TwigComponent
 {
     public AlertComponentDto|TwigComponentDtoInterface $data;
 
-    public readonly string $cssType;
-    public readonly string $cssTextColor;
+    public string $cssType;
+    public string $cssTextColor;
 
     protected static function getComponentName(): string
     {
@@ -30,17 +30,18 @@ class AlertComponent extends TwigComponent
         $this->setAlertType($this->data->type);
     }
 
-
     private function setAlertType(ALERT_TYPE $alertType): void
     {
         $this->cssType = match ($alertType) {
             ALERT_TYPE::DANGER => 'text-bg-danger',
             ALERT_TYPE::INFO => 'text-bg-light',
+            ALERT_TYPE::SUCCESS => 'text-bg-success'
         };
 
         $this->cssTextColor = match ($alertType) {
             ALERT_TYPE::DANGER => 'text-light',
             ALERT_TYPE::INFO => 'text-dark',
+            ALERT_TYPE::SUCCESS => 'text-success',
         };
     }
 }

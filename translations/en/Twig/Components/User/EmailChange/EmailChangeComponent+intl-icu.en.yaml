@@ -1,0 +1,22 @@
+title: Email change
+
+email:
+  label: New email
+  placeholder: Enter your new email
+  msg_invalid: Email is wrong
+
+password:
+  label: Password
+  placeholder: Enter your password
+  msg_invalid: Password is wrong. Password must contain at least 6 characters
+
+button_email_change:
+  label: Change Email
+
+validation:
+  title: Errors
+  error:
+    email: Email is wrong.
+    password: The password is worng
+    password_invalid: Password is wrong. Password must contain at least 6 characters
+    internal_server: An error has been occured, try it later

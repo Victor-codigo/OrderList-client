@@ -1,0 +1,47 @@
+title: Profile
+
+email:
+  placeholder: Click to change email
+
+password:
+  label: Password ****
+  placeholder: Click to change password
+
+nick:
+  label: Nick
+  placeholder: Enter your nick
+  msg_invalid: |
+    Enter a valid nick.
+    Nick must contain at least a character and maximum 30 characters.
+    Only are allowed alphanumeric characters and "_"
+
+image:
+  label: Avatar
+  alt: User profile image
+
+button_save:
+  label: Save profile
+
+user_remove:
+  label: Remove user
+  placeholder: Remove your user from the website
+
+validation:
+  title: Errors
+  ok: Profile has been changed
+  error:
+    email_change:
+      email: Email is wrong.
+      password: The password is worng
+      password_invalid: Password is wrong. Password must contain at least 6 characters
+    password_change:
+      old: Password is wrong
+      new: The new password is wrong. Password must contain at least 6 characters
+      change: The password could not be changed
+      new_repeat: Fields Password new and Password new repeat are not equals
+    profile:
+      name: |
+        Nick must contain at least a character and maximum 30 characters.
+        Only are allowed alphanumeric characters and "_"
+      image: The image is not valid. It should be a jpg, png, bmp
+    internal_server: An error has been occured, try it later
