@@ -25,5 +25,7 @@ interface FormInterface
 
     public function getData(): array;
 
+    public function getFieldData(string $fieldName): mixed;
+
     public function addError(string $name, mixed $value = null): static;
 }
