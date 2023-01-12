@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_login',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es'
+        '_locale' => 'en|es',
     ]
 )]
 class UserLoginController extends AbstractController
@@ -40,7 +40,6 @@ class UserLoginController extends AbstractController
         private string $cookieSessionName
     ) {
     }
-
 
     public function __invoke(Request $request): Response
     {
@@ -60,10 +59,10 @@ class UserLoginController extends AbstractController
     {
         return $this->httpClient->request(
             'POST',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN . self::LOGIN_ENDPOINT,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::LOGIN_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([
-                "username" => $formData[LOGIN_FORM_FIELDS::EMAIL],
-                "password" => $formData[LOGIN_FORM_FIELDS::PASSWORD]
+                'username' => $formData[LOGIN_FORM_FIELDS::EMAIL],
+                'password' => $formData[LOGIN_FORM_FIELDS::PASSWORD],
             ])
         );
     }
@@ -76,10 +75,10 @@ class UserLoginController extends AbstractController
             $headers = $response->getHeaders();
             $responseHttp = $this->redirectToRoute('home');
             $responseHttp->headers->setCookie($this->getCookieSession($form, $headers));
-        } catch(Error400Exception $e) {
+        } catch (Error400Exception $e) {
             $form->addError(LOGIN_FORM_ERRORS::LOGIN->value);
             $responseHttp = $this->formNotValid($form);
-        } catch(Error500Exception|NetworkException) {
+        } catch (Error500Exception|NetworkException) {
             $form->addError(LOGIN_FORM_ERRORS::INTERNAL_SERVER->value);
             $responseHttp = $this->formNotValid($form);
         } finally {
@@ -125,7 +124,7 @@ class UserLoginController extends AbstractController
         );
 
         return $this->renderView('user_login/index.html.twig', [
-            'LoginComponent' => $loginComponentData
+            'LoginComponent' => $loginComponentData,
         ]);
     }
 }
