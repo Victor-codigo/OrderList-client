@@ -1,0 +1,17 @@
+signup_email_confirmation:
+  title: Email verificado
+  message: |
+    Enhorabuena, has verificado correctamente tú email.
+    Ahora puedes hacer login a través del formulario en el siguiente enlace <a href="{loginLink}">here</a>
+
+    Gracias por registrate en {appName}
+
+signup_email_confirmation_fail:
+  title: Uppsss!
+  message: Ha ocurrido un error, inténtalo más tarde
+
+signup_email_confirmation_already_verified:
+  title: Email ya verificado
+  message: |
+    Tú email ya estaba verificado.
+    Puedes hacer login a través del formulario en el siguiente enlace <a href="{loginLink}">aquí</a>.

@@ -1,0 +1,19 @@
+signup_email_confirmation:
+  title: Email verificated
+  message: |
+    Congratulations, you have verificated your email correctly.
+    Now you can login through the form <a href="{loginLink}">here</a>
+
+    Thanks for signup in {appName}.
+
+signup_email_confirmation_fail:
+  title: Uppsss!
+  message: An error has been occured, try it later.
+
+signup_email_confirmation_already_verified:
+  title: Email already verified
+  message: |
+    Your email is already verified.
+    You can login through the form <a href="{loginLink}">here</a>
+
+    Thanks for signup in {appName}.

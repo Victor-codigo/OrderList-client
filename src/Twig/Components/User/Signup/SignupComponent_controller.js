@@ -16,25 +16,10 @@ export default class extends Controller {
     }
 
     formValidate() {
-        form.validate(this.element, this.validatePasswordRepeat.bind());
-        this.element.addEventListener('input', this.validatePasswordRepeat);
+        form.validate(this.element);
+        this.element.addEventListener('input', callback => form.validatePasswordRepeat(
+            document.getElementById('password'),
+            document.getElementById('password_repeated')
+        ));
     }
-
-    validatePasswordRepeat() {
-        let password = document.getElementById('password');
-        let passwordRepeated = document.getElementById('password_repeated');
-
-        if (password.value == passwordRepeated.value) {
-            passwordRepeated.setCustomValidity('');
-
-            return true;
-        }
-        else {
-            passwordRepeated.setCustomValidity('not valid');
-
-            return false;
-        }
-    }
-
-
 }
