@@ -1,0 +1,66 @@
+<form id="{{ formName }}"
+	  name="{{ formName }}"
+	  data-controller="GroupCreateComponent"
+	  class="contaniner  p-5"
+	  method="post"
+	  enctype="multipart/form-data"
+	  novalidate>
+	<input type="hidden"
+		   name="{{ tokenCsrfFiledName }}"
+		   value="{{ data.groupCreate.csrfToken }}"/>
+
+	{% if lang.validationErrors.messages %}
+		{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{% endif %}
+
+
+	<div class="mb-5 pt-5 display-1 text-center">
+		{{ lang.title }}
+	</div>
+
+	<div class="mb-3">
+		<label for="name"
+			   class="form-label">
+			{{ lang.nameLabel }}
+		</label>
+		<input type="name"
+			   class="form-control"
+			   id="name"
+			   maxlength="50"
+			   name="{{ nameFieldName }}"
+			   placeholder="{{ lang.namePlaceholder }}"
+			   value="{{ data.groupCreate.name }}"
+			   required>
+		<div class="invalid-feedback">
+			{{ lang.nameMsgInvalid }}
+		</div>
+	</div>
+
+	<div class="mb-3">
+		<label for="description"
+			   class="form-label">
+			{{ lang.descriptionLabel }}
+		</label>
+		<textarea type="descrition"
+		       	  class="form-control"
+			   	  id="description"
+			   	  name="{{ descriptionFiledName }}"
+			   	  maxlength="500"
+			   	  placeholder="{{ lang.descriptionPlaceholder }}"
+			   	  value="{{ data.groupCreate.description }}"></textarea>
+		<div class="invalid-feedback">
+			{{ lang.descriptionMsgInvalid }}
+		</div>
+	</div>
+
+	<div class="mb-3">
+		{{ component('DropZoneComponent', { data: data.imageDropZoneDto }) }}
+	</div>
+
+	<div class="mt-5">
+		<input type="submit"
+			   class="btn btn-primary w-100"
+			   name="{{ submitFiledName }}"
+			   value="{{ lang.groupCreateButton }}"/>
+	</div>
+</form>
