@@ -9,7 +9,8 @@ import EmailChangeComponent from '../src/Twig/Components/User/EmailChange/EmailC
 import UserRemoveComponent from '../src/Twig/Components/User/UserRemove/UserRemoveComponent_controller';
 import NavigationBar from '../src/Twig/Components/NavigationBar/NavigationBar_controller';
 import ModalComponent from '../src/Twig/Components/Modal/Modal_Component';
-import FileUploadComponent from '../src/Twig/Components/Controls/FileUpload/FileUpload_Component';
+import DropZoneComponent from '../src/Twig/Components/Controls/DropZone/DropZone_Component';
+import GroupCreateComponent from '../src/Twig/Components/Group/GroupCreate/GroupCreate_controller';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -20,14 +21,21 @@ export const app = startStimulusApp(require.context(
 
 // register any custom, 3rd party controllers here
 // app.register('some_controller_name', SomeImportedController);
+
+// GENERAL
+app.register('AlertComponent', AlertComponent);
+app.register('NavigationBar', NavigationBar);
+app.register('ModalComponent', ModalComponent);
+app.register('DropZoneComponent', DropZoneComponent);
+
+// USER
 app.register('LoginComponent', LoginComponent);
 app.register('SignupComponent', SignupComponent);
 app.register('ProfileComponent', ProfileComponent);
-app.register('AlertComponent', AlertComponent);
 app.register('PasswordRememberComponent', PasswordRememberComponent);
 app.register('PasswordChangeComponent', PasswordChangeComponent);
 app.register('EmailChangeComponent', EmailChangeComponent);
 app.register('UserRemoveComponent', UserRemoveComponent);
-app.register('NavigationBar', NavigationBar);
-app.register('ModalComponent', ModalComponent);
-app.register('FileUploadComponent', FileUploadComponent);
+
+// GROUP
+app.register('GroupCreateComponent', GroupCreateComponent);

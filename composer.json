@@ -18,6 +18,7 @@
         "symfony/security-csrf": "6.1.*",
         "symfony/translation": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symfony/ux-dropzone": "^2.7",
         "symfony/ux-twig-component": "^2.5",
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*",

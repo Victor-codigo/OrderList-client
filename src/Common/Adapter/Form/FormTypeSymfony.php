@@ -46,6 +46,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\UuidType;
 use Symfony\Component\Form\Extension\Core\Type\WeekType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class FormTypeSymfony extends AbstractType
 {
@@ -63,7 +64,6 @@ class FormTypeSymfony extends AbstractType
     {
         return $this->validationErrors;
     }
-
 
     public function getBlockPrefix(): string
     {
@@ -83,7 +83,6 @@ class FormTypeSymfony extends AbstractType
             $builder->add($field->name, $this->toSymfonyFormField($field->type));
         }
     }
-
 
     private function toSymfonyFormField(FIELD_TYPE $type): string
     {
@@ -126,6 +125,7 @@ class FormTypeSymfony extends AbstractType
             FIELD_TYPE::URL => UrlType::class,
             FIELD_TYPE::UUID => UuidType::class,
             FIELD_TYPE::WEEK => WeekType::class,
+            FIELD_TYPE::DROPDOWN => DropzoneType::class,
         };
     }
 }

@@ -44,4 +44,5 @@ enum FIELD_TYPE
     case URL;
     case UUID;
     case WEEK;
+    case DROPDOWN;
 }
