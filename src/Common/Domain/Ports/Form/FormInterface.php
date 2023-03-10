@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Common\Domain\Ports\Form;
 
-use Common\Domain\Form\FormErrorInterface;
-
 interface FormInterface
 {
     /**
@@ -25,7 +23,15 @@ interface FormInterface
 
     public function getData(): array;
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function getFieldData(string $fieldName): mixed;
+
+    /**
+     * @throws \InvalidArgumentException
+     */
+    public function setFieldData(string $fieldName, mixed $value): mixed;
 
     public function addError(string $name, mixed $value = null): static;
 }

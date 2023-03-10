@@ -452,6 +452,43 @@ class FormSymfonyAdapterTest extends TestCase
     }
 
     /** @test */
+    public function itShouldSetTheDataForAField(): void
+    {
+        $this->object = $this->createFormSymfonyAdapter(false);
+        $valueToSet = 'fieldValue';
+
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->form);
+
+        $this->form
+            ->expects($this->once())
+            ->method('setData')
+            ->with($valueToSet);
+
+        $return = $this->object->setFieldData('formField1', $valueToSet);
+
+        $this->assertEquals($this->object, $return);
+    }
+
+    /** @test */
+    public function itShouldFailSettingFormFieldDataFieldDoesNotExists(): void
+    {
+        $this->object = $this->createFormSymfonyAdapter(false);
+
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->willThrowException(new InvalidArgumentException());
+
+        $this->createStubsForGetFormType();
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->object->setFieldData('formField2','value');
+    }
+
+    /** @test */
     public function itShouldAddAnErrorToTheForm()
     {
         $this->object = $this->createFormSymfonyAdapter(false);

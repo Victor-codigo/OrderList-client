@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace Common\Adapter\Form;
 
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
-use Common\Domain\Form\FormErrorInterface;
 use Common\Domain\Form\FormTypeInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Validation\ValidationInterface;
-use InvalidArgumentException;
-use LogicException;
 use Symfony\Component\Form\Exception\OutOfBoundsException;
-use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface as SymfonyFormInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -32,10 +27,8 @@ class FormSymfonyAdapter implements FormInterface
     private string $csrfTokenValue;
     private array $validationErrors;
 
-
-
     /**
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function getCsrfToken(): string
     {
@@ -52,7 +45,7 @@ class FormSymfonyAdapter implements FormInterface
             return [];
         }
 
-        return  $this->validationErrors;
+        return $this->validationErrors;
     }
 
     public function __construct(SymfonyFormInterface $form, CsrfTokenManagerInterface $tokenManager, ValidationInterface $validator, string|null $csrfTokenId = null)
@@ -77,7 +70,6 @@ class FormSymfonyAdapter implements FormInterface
     {
         return $this->form->isSubmitted();
     }
-
 
     public function isCsrfValid(): bool
     {
@@ -133,14 +125,28 @@ class FormSymfonyAdapter implements FormInterface
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
+     */
+    public function setFieldData(string $fieldName, mixed $value): static
+    {
+        try {
+            $this->form->get($fieldName)->setData($value);
+
+            return $this;
+        } catch (OutOfBoundsException) {
+            throw new \InvalidArgumentException("The field {$fieldName} does not exist in form");
+        }
+    }
+
+    /**
+     * @throws \InvalidArgumentException
      */
     public function getFieldData(string $fieldName): mixed
     {
         try {
             return $this->form->get($fieldName)->getData();
-        } catch(OutOfBoundsException) {
-            throw new InvalidArgumentException("The field {$fieldName} does not exist in form");
+        } catch (OutOfBoundsException) {
+            throw new \InvalidArgumentException("The field {$fieldName} does not exist in form");
         }
     }
 
