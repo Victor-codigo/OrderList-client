@@ -1,16 +1,24 @@
 import { startStimulusApp } from '@symfony/stimulus-bridge';
+
+// USER
 import LoginComponent from '../src/Twig/Components/User/Login/LoginComponent_controller';
 import SignupComponent from '../src/Twig/Components/User/Signup/SignupComponent_controller';
 import ProfileComponent from '../src/Twig/Components/User/Profile/ProfileComponent_controller';
-import AlertComponent from '../src/Twig/Components/Alert/AlertComponent_controller';
 import PasswordRememberComponent from '../src/Twig/Components/User/PasswordRemember/PasswordRememberComponent_controller';
 import PasswordChangeComponent from '../src/Twig/Components/User/PasswordChange/PasswordChangeComponent_controller';
 import EmailChangeComponent from '../src/Twig/Components/User/EmailChange/EmailChangeComponent_controller';
 import UserRemoveComponent from '../src/Twig/Components/User/UserRemove/UserRemoveComponent_controller';
+
+// GENERAL
+import AlertComponent from '../src/Twig/Components/Alert/AlertComponent_controller';
 import NavigationBar from '../src/Twig/Components/NavigationBar/NavigationBar_controller';
 import ModalComponent from '../src/Twig/Components/Modal/Modal_Component';
 import DropZoneComponent from '../src/Twig/Components/Controls/DropZone/DropZone_Component';
+import ImageAvatarComponent from '../src/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
+
+// GROUP
 import GroupCreateComponent from '../src/Twig/Components/Group/GroupCreate/GroupCreate_controller';
+import GroupModifyComponent from '../src/Twig/Components/Group/GroupModify/GroupModify_controller';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -27,6 +35,7 @@ app.register('AlertComponent', AlertComponent);
 app.register('NavigationBar', NavigationBar);
 app.register('ModalComponent', ModalComponent);
 app.register('DropZoneComponent', DropZoneComponent);
+app.register('ImageAvatarComponent', ImageAvatarComponent);
 
 // USER
 app.register('LoginComponent', LoginComponent);
@@ -39,3 +48,4 @@ app.register('UserRemoveComponent', UserRemoveComponent);
 
 // GROUP
 app.register('GroupCreateComponent', GroupCreateComponent);
+app.register('GroupModifyComponent', GroupModifyComponent);
