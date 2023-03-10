@@ -1,0 +1,37 @@
+title: Group Modify
+
+name:
+  label: Group name
+  placeholder: Enter the name of the group
+  msg_invalid: |
+    Enter a valid name.
+    The name must contain at least a character and maximum 30 characters.
+    Only are allowed alphanumeric characters and "_"
+
+description:
+  label: Description
+  placeholder: Enter your a description for the group
+  msg_invalid: The description is too large
+
+image:
+  label: Group image
+  placeholder: Upload a file for the group
+
+image_thumbnail:
+  alt: Image of the group
+
+button_group_modify:
+  label: Modify group
+
+validation:
+  title: Errors
+  ok: Group Modified
+  error:
+    name: |
+      Enter a valid name.
+      The name must contain at least a character and maximum 30 characters.
+      Only are allowed alphanumeric characters and "_"
+    name_repeated: The name of the group, is already in use
+    description: The description is too large
+    image: The image is not valid. It should be a jpg, png, bmp
+    internal_server: An error has been occurred, try it later
