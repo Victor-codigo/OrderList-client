@@ -31,6 +31,6 @@ export default class extends Controller {
         this.buttonImageRemoveUndo.classList.add('d-none');
         this.buttonImageRemove.classList.remove('d-none');
 
-        this.dispatch('imageRemoveUndo', { detail: { imageRemove: false } });
+        this.dispatch('imageRemovedUndo', { detail: { imageRemove: false } });
     }
 }
