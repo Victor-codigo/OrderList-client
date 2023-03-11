@@ -10,7 +10,8 @@ use App\Form\Profile\PROFILE_FORM_ERRORS;
 use App\Form\Profile\PROFILE_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
-use App\Twig\Components\Controls\FileUpload\FileUploadComponentDto;
+use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
+use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -30,8 +31,10 @@ class ProfileComponent extends TwigComponent
     public readonly string $tokenCsrfFiledName;
     public readonly string $nickFiledName;
     public readonly string $imageFieldName;
+    public readonly string $imageRemoveFieldName;
     public readonly string $submitFiledName;
-    public FileUploadComponentDto $fileUploadComponent;
+    public ImageAvatarComponentDto $imageAvatarDto;
+    public DropZoneComponentDto $dropZoneDto;
 
     public readonly string $userRemoveFieldName;
 
@@ -48,22 +51,37 @@ class ProfileComponent extends TwigComponent
         $this->tokenCsrfFiledName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::TOKEN);
         $this->nickFiledName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::NICK);
         $this->imageFieldName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::IMAGE);
+        $this->imageRemoveFieldName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::IMAGE_REMOVE);
         $this->submitFiledName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::SUBMIT);
     }
 
     public function mount(ProfileComponentDto $data): void
     {
         $this->data = $data;
-        $this->fileUploadComponent = new FileUploadComponentDto(
-            sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::IMAGE),
-            sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::IMAGE_REMOVE),
-            'http://orderlist.api/assets/img/common/user-avatar-no-image.svg',
-            $data->image,
-            null,
-            $this->translate('image.alt')
-        );
+        $this->imageAvatarDto = $this->getImageAvatarComponentDto($data->image);
+        $this->dropZoneDto = $this->getDropZoneComponentDto();
 
         $this->loadTranslation();
+    }
+
+    private function getImageAvatarComponentDto(string|null $imagePath): ImageAvatarComponentDto
+    {
+        return new ImageAvatarComponentDto(
+            $imagePath,
+            'http://orderlist.api/assets/img/common/user-avatar-no-image.svg',
+            $this->translate('image.alt')
+        );
+    }
+
+    private function getDropZoneComponentDto(): DropZoneComponentDto
+    {
+        return new DropZoneComponentDto(
+            PROFILE_FORM_FIELDS::IMAGE,
+            PROFILE_FORM_FIELDS::FORM,
+            $this->translate('image.label'),
+            PROFILE_FORM_FIELDS::IMAGE,
+            $this->translate('image.placeholder')
+        );
     }
 
     private function loadTranslation(): void
@@ -78,11 +96,6 @@ class ProfileComponent extends TwigComponent
             ->password(
                 $this->translate('password.label'),
                 $this->translate('password.placeholder')
-            )
-            ->image(
-                $this->translate('image.label'),
-                $this->translate('image.placeholder'),
-                $this->translate('image.alt')
             )
             ->nick(
                 $this->translate('nick.label'),

@@ -17,7 +17,7 @@ nick:
 
 image:
   label: Avatar
-  alt: User profile image
+  alt: Upload your user profile image
 
 button_save:
   label: Save profile
@@ -32,7 +32,7 @@ validation:
   error:
     email_change:
       email: Email is wrong.
-      password: The password is worng
+      password: The password is wrong
       password_invalid: Password is wrong. Password must contain at least 6 characters
     password_change:
       old: Password is wrong
@@ -44,4 +44,4 @@ validation:
         Nick must contain at least a character and maximum 30 characters.
         Only are allowed alphanumeric characters and "_"
       image: The image is not valid. It should be a jpg, png, bmp
-    internal_server: An error has been occured, try it later
+    internal_server: An error has been occurred, try it later

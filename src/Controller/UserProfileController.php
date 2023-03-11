@@ -43,6 +43,7 @@ class UserProfileController extends AbstractController
     private const PROFILE_PASSWORD_CHANGE_ENDPOINT = '/api/v1/users/password';
     private const PROFILE_GET_USER_ENDPOINT = '/api/v1/users';
     private const PROFILE_USER_REMOVE_ENDPOINT = '/api/v1/users/remove';
+    private const PROFILE_IMAGE_NOT_SET = '/assets/img/common/user-avatar-no-image.svg';
 
     private array $userData;
 
@@ -208,7 +209,9 @@ class UserProfileController extends AbstractController
             $formProfile->getCsrfToken(),
             $this->userData['email'],
             $this->userData['name'],
-            null === $this->userData['image'] ? null : $this->apiUrl.$this->userData['image'],
+            null === $this->userData['image']
+                ? HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_IMAGE_NOT_SET
+                : $this->apiUrl.$this->userData['image'],
             $this->getEmailModalData($formEmailChange),
             $this->getPasswordModalData($formPasswordChange),
             $this->getUserRemoveModalData($formUserRemove),

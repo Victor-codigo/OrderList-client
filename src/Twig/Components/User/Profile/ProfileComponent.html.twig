@@ -1,9 +1,22 @@
-<form id="{{ formName }}" name="{{ formName }}" data-controller="ProfileComponent" class="contaniner  p-5" method="post" enctype="multipart/form-data" novalidate>
+<form id="{{ formName }}"
+	  name="{{ formName }}"
+	  data-controller="ProfileComponent"
+	  data-action="ImageAvatarComponent:imageRemoved->ProfileComponent#setImageAvatarAsRemoved  ImageAvatarComponent:imageRemovedUndo->ProfileComponent#setImageAvatarAsRemoved"
+	  class="contaniner  p-5"
+	  method="post"
+	  enctype="multipart/form-data"
+	  novalidate>
 
-	<input type="hidden" name="{{ tokenCsrfFiledName }}" value="{{ data.csrfToken }}"/>
+	<input type="hidden"
+		   name="{{ tokenCsrfFiledName }}"
+		   value="{{ data.csrfToken }}" />
+
+	<input type="hidden"
+		   name="{{ imageRemoveFieldName }}"
+		   data-js-image-remove />
 
 	{% if lang.validationErrors %}
-		{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
 
@@ -11,60 +24,113 @@
 		{{ lang.title }}
 	</div>
 
-	<div class="mb-3  d-flex justify-content-center">
-		{{ component('FileUploadComponent', { data: fileUploadComponent }) }}
+	<div class="mb-5  d-flex justify-content-center">
+		{{ component('ImageAvatarComponent', { data: imageAvatarDto }) }}
 	</div>
 
 	<div class="text-center  border-bottom d-grid gap-2">
-		<button type="button" class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex" data-bs-toggle="modal" data-bs-target="#email_modal">
+		<button type="button"
+				class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex"
+				data-bs-toggle="modal"
+				data-bs-target="#email_modal">
+
 			<div class="flex-grow-1">
 
 				{{ data.email }}
 
 				<br><span class="fs-6  text-black-50">{{ lang.emailPlaceholder }}</span>
 			</div>
-			<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-compact-right  align-self-center  me-3" viewbox="0 0 16 16">
-				<path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+			<svg xmlns="http://www.w3.org/2000/svg"
+				 width="30"
+				 height="30"
+				 fill="currentColor"
+				 class="bi bi-chevron-compact-right  align-self-center  me-3"
+				 viewbox="0 0 16 16">
+
+				<path fill-rule="evenodd"
+					  d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z" />
 			</svg>
 		</button>
 	</div>
 
 	<div class="mb-3  text-center  border-bottom  d-grid gap-2">
-		<button type="button" class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex" data-bs-toggle="modal" data-bs-target="#password_modal">
+		<button type="button"
+				class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex"
+				data-bs-toggle="modal"
+				data-bs-target="#password_modal">
+
 			<div class="flex-grow-1">
 
 				{{ lang.passwordLabel }}
 
 				<br><span class="fs-6  text-black-50">{{ lang.passwordPlaceholder }}</span>
 			</div>
-			<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-compact-right  align-self-center  me-3" viewbox="0 0 16 16">
-				<path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+			<svg xmlns="http://www.w3.org/2000/svg"
+				 width="30"
+				 height="30"
+				 fill="currentColor"
+				 class="bi bi-chevron-compact-right  align-self-center  me-3"
+				 viewbox="0 0 16 16">
+
+				<path fill-rule="evenodd"
+					  d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z" />
 			</svg>
 		</button>
 	</div>
 
 	<div class="mb-3">
-		<label for="nick" class="form-label">{{ lang.nickLabel }}</label>
-		<input type="text" class="form-control" id="nick" name="{{ nickFiledName }}" placeholder="{{ lang.nickPlaceholder }}" value="{{ data.nick }}" minlength="1" maxlength="30" pattern="[a-zA-Z0-9_]+" required>
+		<label for="nick"
+			   class="form-label">{{ lang.nickLabel }}</label>
+
+		<input type="text"
+			   class="form-control"
+			   id="nick"
+			   name="{{ nickFiledName }}"
+			   placeholder="{{ lang.nickPlaceholder }}"
+			   value="{{ data.nick }}"
+			   minlength="1"
+			   maxlength="30"
+			   pattern="[a-zA-Z0-9_]+"
+			   required>
+
 		<div class="invalid-feedback">{{ lang.nickMsgInvalid|nl2br }}</div>
 	</div>
 
+	<div class="mb-3">
+
+		{{ component('DropZoneComponent', { data: dropZoneDto }) }}
+	</div>
+
 	<div class="mt-5">
-		<input type="submit" class="btn btn-primary w-100  mi-clase" name="{{ submitFiledName }}" value="{{ lang.saveButton }}"/>
+		<input type="submit"
+			   class="btn btn-primary w-100  mi-clase"
+			   name="{{ submitFiledName }}"
+			   value="{{ lang.saveButton }}" />
 	</div>
 </form>
 
 <div class="contaniner  mt-5  p-5">
 	<div class="text-center  border-bottom d-grid gap-2">
-		<button type="button" class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex" data-bs-toggle="modal" data-bs-target="#user_remove_modal">
+		<button type="button"
+				class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex"
+				data-bs-toggle="modal"
+				data-bs-target="#user_remove_modal">
+
 			<div class="flex-grow-1  text-danger">
 
 				{{ lang.userRemoveLabel }}
 
 				<br><span class="fs-6">{{ lang.userRemovePlaceholder }}</span>
 			</div>
-			<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-compact-right  align-self-center  me-3" viewbox="0 0 16 16">
-				<path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+			<svg xmlns="http://www.w3.org/2000/svg"
+				 width="30"
+				 height="30"
+				 fill="currentColor"
+				 class="bi bi-chevron-compact-right  align-self-center  me-3"
+				 viewbox="0 0 16 16">
+
+				<path fill-rule="evenodd"
+					  d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z" />
 			</svg>
 		</button>
 	</div>

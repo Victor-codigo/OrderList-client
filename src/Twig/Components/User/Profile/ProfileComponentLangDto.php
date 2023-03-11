@@ -19,10 +19,6 @@ class ProfileComponentLangDto
     public string $nickPlaceholder;
     public string $nickMsgInvalid;
     // --
-    public string $imageLabel;
-    public string $imagePlaceholder;
-    public string $imageAlt;
-    // --
     public AlertComponentDto|null $validationErrors;
     public string $saveButton;
 
@@ -34,7 +30,6 @@ class ProfileComponentLangDto
         'email' => false,
         'password' => false,
         'nick' => false,
-        'image' => false,
         'saveButton' => false,
         'validationErrors' => false,
         'userRemove' => false,
@@ -80,17 +75,6 @@ class ProfileComponentLangDto
         $this->nickLabel = $nickLabel;
         $this->nickPlaceholder = $nickPlaceholder;
         $this->nickMsgInvalid = $nickMsgInvalid;
-
-        return $this;
-    }
-
-    public function image(string $imageLabel, string $imagePlaceholder, string $imageAlt): static
-    {
-        $this->builder['image'] = true;
-
-        $this->imageLabel = $imageLabel;
-        $this->imagePlaceholder = $imagePlaceholder;
-        $this->imageAlt = $imageAlt;
 
         return $this;
     }
