@@ -13,6 +13,7 @@ class GroupCreateComponentDto implements TwigComponentDtoInterface
         public readonly string|null $name,
         public readonly string|null $description,
         public readonly string|null $csrfToken,
+        public readonly bool $validForm,
     ) {
     }
 }

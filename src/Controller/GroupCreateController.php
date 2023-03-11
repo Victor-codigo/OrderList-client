@@ -73,23 +73,23 @@ class GroupCreateController extends AbstractController
             $response = $this->requestGroupCreate($formData, $tokenSession);
             $response->toArray();
         } catch (Error400Exception $e) {
-            array_walk(
-                $e->getResponse()->toArray(false)['errors'],
-                fn (string $errorDescription, string $error) => $form->addError($error, $errorDescription)
-            );
+            $responseData = $e->getResponse()->toArray(false);
+            foreach ($responseData['errors'] as $error => $errorDescription) {
+                $form->addError($error, $errorDescription);
+            }
         } catch (Error500Exception|NetworkException) {
             $form->addError(GROUP_CREATE_FORM_ERRORS::INTERNAL_SERVER->value);
         } finally {
-            return new Response($this->renderGroupCreateComponent($form));
+            return new Response($this->renderGroupCreateComponent($form, true));
         }
     }
 
     private function formNotValid(FormInterface $form): Response
     {
-        return new Response($this->renderGroupCreateComponent($form));
+        return new Response($this->renderGroupCreateComponent($form, false));
     }
 
-    private function renderGroupCreateComponent(FormInterface $form): string
+    private function renderGroupCreateComponent(FormInterface $form, bool $formSubmitted): string
     {
         $formData = $form->getData();
 
@@ -97,7 +97,8 @@ class GroupCreateController extends AbstractController
             $form->getErrors(),
             $formData[GROUP_CREATE_FORM_FIELDS::NAME],
             $formData[GROUP_CREATE_FORM_FIELDS::DESCRIPTION],
-            $form->getCsrfToken()
+            $form->getCsrfToken(),
+            $formSubmitted
         );
 
         return $this->renderView('group/group_create/index.html.twig', [

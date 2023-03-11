@@ -7,10 +7,10 @@
 	  novalidate>
 	<input type="hidden"
 		   name="{{ tokenCsrfFiledName }}"
-		   value="{{ data.groupCreate.csrfToken }}"/>
+		   value="{{ data.groupCreate.csrfToken }}" />
 
-	{% if lang.validationErrors.messages %}
-		{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{% if lang.validationErrors %}
+	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
 
@@ -42,12 +42,12 @@
 			{{ lang.descriptionLabel }}
 		</label>
 		<textarea type="descrition"
-		       	  class="form-control"
-			   	  id="description"
-			   	  name="{{ descriptionFiledName }}"
-			   	  maxlength="500"
-			   	  placeholder="{{ lang.descriptionPlaceholder }}"
-			   	  value="{{ data.groupCreate.description }}"></textarea>
+				  class="form-control"
+				  id="description"
+				  name="{{ descriptionFiledName }}"
+				  maxlength="500"
+				  placeholder="{{ lang.descriptionPlaceholder }}"
+				  value="{{ data.groupCreate.description }}"></textarea>
 		<div class="invalid-feedback">
 			{{ lang.descriptionMsgInvalid }}
 		</div>
@@ -61,6 +61,6 @@
 		<input type="submit"
 			   class="btn btn-primary w-100"
 			   name="{{ submitFiledName }}"
-			   value="{{ lang.groupCreateButton }}"/>
+			   value="{{ lang.groupCreateButton }}" />
 	</div>
 </form>

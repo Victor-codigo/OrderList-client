@@ -70,7 +70,7 @@ final class GroupCreateComponent extends TwigComponent
             $this->translate('description.placeholder'),
             $this->translate('description.msg_invalid'),
             $this->translate('button_group_create.label'),
-            $this->loadErrorsTranslation()
+            $this->data->groupCreate->validForm ? $this->loadErrorsTranslation() : null
         );
     }
 
