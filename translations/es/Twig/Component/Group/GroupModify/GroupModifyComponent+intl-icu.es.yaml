@@ -31,7 +31,7 @@ validation:
       Introduce un nombre válido.
       El nombre debe contener al menos un carácter y un máximo de 30 caracteres.
       Solo están permitidos, caracteres alfanuméricos y "_"
-    name_repeated: El nombre del grupo ya está en uso
-    description: Descripción muy larga
-    image: La imagen no es válida, debe ser un archivo jpg, png, bmp
+    group_not_found: Grupo se ha encontrado el grupo
+    description: La descripción es demasiado larga
+    image: La imagen no es válida. Debe ser un jpg, png, bmp
     internal_server: Ocurrió un error, inténtalo más tarde

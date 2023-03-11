@@ -2,7 +2,7 @@
 
 namespace App\Twig\Components\Group\GroupModify;
 
-use App\Form\Group\GroupCreate\GROUP_CREATE_FORM_ERRORS;
+use App\Form\Group\GroupModify\GROUP_MODIFY_FORM_ERRORS;
 use App\Form\Group\GroupModify\GROUP_MODIFY_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
@@ -19,7 +19,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class GroupModifyComponent extends TwigComponent
 {
     public GroupModifyComponentDtoLang $lang;
-    public GroupModifyComponentDto|TwigComponentDtoInterface $data;
+    public GroupModifyComponentDataDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
     public readonly string $tokenCsrfFiledName;
@@ -86,22 +86,23 @@ final class GroupModifyComponent extends TwigComponent
             $this->translate('description.msg_invalid'),
             $this->translate('image_thumbnail.alt'),
             $this->translate('button_group_modify.label'),
-            $this->loadErrorsTranslation()
+            $this->data->groupModify->validForm ? $this->loadErrorsTranslation() : null
         );
     }
 
     private function loadErrorsTranslation(): AlertComponentDto
     {
         $errorsLang = [];
-        // foreach ($this->data->groupCreate->errors as $field => $error) {
-        //     $errorsLang[] = match ($field) {
-        //         GROUP_CREATE_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
-        //         GROUP_CREATE_FORM_ERRORS::DESCRIPTION->value => $this->translate('validation.error.description'),
-        //         GROUP_CREATE_FORM_ERRORS::GROUP_NAME_REPEATED->value => $this->translate('validation.error.name_repeated'),
-        //         GROUP_CREATE_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.image'),
-        //         default => $this->translate('validation.error.internal_server')
-        //     };
-        // }
+        foreach ($this->data->groupModify->errors as $field => $error) {
+            $errorsLang[] = match ($field) {
+                GROUP_MODIFY_FORM_ERRORS::GROUP_ID->value,
+                GROUP_MODIFY_FORM_ERRORS::GROUP_NOT_FOUND->value => $this->translate('validation.error.group_not_found'),
+                GROUP_MODIFY_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
+                GROUP_MODIFY_FORM_ERRORS::DESCRIPTION->value => $this->translate('validation.error.description'),
+                GROUP_MODIFY_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.image'),
+                default => $this->translate('validation.error.internal_server')
+            };
+        }
 
         if (!empty($errorsLang)) {
             return new AlertComponentDto(

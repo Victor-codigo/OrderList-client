@@ -101,16 +101,16 @@ class GroupModifyController extends AbstractController
             $response = $this->requestGroupModify($formData, $tokenSession);
             $response->toArray();
         } catch (Error400Exception $e) {
-            array_walk(
-                $e->getResponse()->toArray(false)['errors'],
-                fn (string $errorDescription, string $error) => $form->addError($error, $errorDescription)
-            );
+            $responseData = $e->getResponse()->toArray(false);
+            foreach ($responseData['errors'] as $error => $errorDescription) {
+                $form->addError($error, $errorDescription);
+            }
         } catch (Error500Exception|NetworkException $e) {
             $form->addError(GROUP_MODIFY_FORM_ERRORS::INTERNAL_SERVER->value);
         } finally {
             $groupData = $this->getGroupData($groupId, $tokenSession);
 
-            return new Response($this->renderGroupCreateComponent($form, $groupData));
+            return new Response($this->renderGroupCreateComponent($form, $groupData, true));
         }
     }
 
@@ -118,10 +118,10 @@ class GroupModifyController extends AbstractController
     {
         $groupData = $this->getGroupData($groupId, $tokenSession);
 
-        return new Response($this->renderGroupCreateComponent($form, $groupData));
+        return new Response($this->renderGroupCreateComponent($form, $groupData, false));
     }
 
-    private function renderGroupCreateComponent(FormInterface $form, array $groupData): string
+    private function renderGroupCreateComponent(FormInterface $form, array $groupData, bool $formSubmitted): string
     {
         $groupModifyComponentData = new GroupModifyComponentDto(
             $form->getErrors(),
@@ -130,7 +130,8 @@ class GroupModifyController extends AbstractController
             $groupData[GROUP_MODIFY_FORM_FIELDS::DESCRIPTION],
             null === $groupData['image'] ? HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_IMAGE_NOT_SET : HTTP_CLIENT_CONFIGURATION::API_DOMAIN.$groupData['image'],
             HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_IMAGE_NOT_SET,
-            $form->getCsrfToken()
+            $form->getCsrfToken(),
+            $formSubmitted
         );
 
         return $this->renderView('group/group_modify/index.html.twig', [

@@ -19,7 +19,7 @@
 		   name="{{ imageAvatarRemoveFieldName }}"
 		   data-js-image-remove />
 
-	{% if lang.validationErrors.messages %}
+	{% if lang.validationErrors %}
 	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 

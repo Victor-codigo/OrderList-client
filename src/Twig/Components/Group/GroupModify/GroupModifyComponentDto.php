@@ -16,6 +16,7 @@ class GroupModifyComponentDto implements TwigComponentDtoInterface
         public readonly string|null $image,
         public readonly string|null $imageNoAvatar,
         public readonly string|null $csrfToken,
+        public readonly bool $validForm
     ) {
     }
 }
