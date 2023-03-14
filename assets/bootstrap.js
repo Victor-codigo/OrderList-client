@@ -19,6 +19,7 @@ import ImageAvatarComponent from '../src/Twig/Components/Controls/ImageAvatar/Im
 // GROUP
 import GroupCreateComponent from '../src/Twig/Components/Group/GroupCreate/GroupCreate_controller';
 import GroupModifyComponent from '../src/Twig/Components/Group/GroupModify/GroupModify_controller';
+import GroupRemoveComponent from '../src/Twig/Components/Group/GroupRemove/GroupRemove_controller';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -49,3 +50,4 @@ app.register('UserRemoveComponent', UserRemoveComponent);
 // GROUP
 app.register('GroupCreateComponent', GroupCreateComponent);
 app.register('GroupModifyComponent', GroupModifyComponent);
+app.register('GroupRemoveComponent', GroupRemoveComponent);

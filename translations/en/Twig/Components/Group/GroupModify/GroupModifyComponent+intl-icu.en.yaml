@@ -23,6 +23,10 @@ image_thumbnail:
 button_group_modify:
   label: Modify group
 
+group_remove:
+  label: Group Remove
+  placeholder: Remove the group from the website
+
 validation:
   title: Errors
   ok: Group Modified

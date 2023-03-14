@@ -1,0 +1,33 @@
+<form id="{{ formName }}"
+	  name="{{ formName }}"
+	  data-controller="GroupRemoveComponent"
+	  class="contaniner  p-5"
+	  method="post"
+	  enctype="multipart/form-data"
+	  novalidate>
+
+	<input type="hidden"
+		   name="{{ tokenCsrfFiledName }}"
+		   value="{{ data.csrfToken }}" />
+
+	<input type="hidden"
+		   name="{{ groupIdFieldName }}"
+		   value="{{ data.groupId }}" />
+
+	<div class="mb-5 pt-5 display-4 text-center">
+		{{ lang.title }}
+	</div>
+
+	<div class="mt-5">
+		<p>
+			{{ lang.messageAdvice }}
+		</p>
+	</div>
+
+	<div class="mt-5">
+		<input type="submit"
+			   class="btn btn-danger w-100"
+			   name="{{ submitFieldName }}"
+			   value="{{ lang.userRemoveButton }}" />
+	</div>
+</form>

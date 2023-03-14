@@ -6,6 +6,8 @@ use App\Form\Group\GroupCreate\GROUP_CREATE_FORM_FIELDS;
 use App\Form\Group\GroupModify\GROUP_MODIFY_FORM_ERRORS;
 use App\Form\Group\GroupModify\GROUP_MODIFY_FORM_FIELDS;
 use App\Form\Group\GroupModify\GroupModifyForm;
+use App\Form\Group\GroupRemove\GROUP_REMOVE_FORM_FIELDS;
+use App\Form\Group\GroupRemove\GroupRemoveForm;
 use App\Twig\Components\Group\GroupModify\GroupModifyComponentDto;
 use Common\Adapter\Form\FormFactory;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
@@ -23,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '{_locale}/group/modify/{group_id}',
     name: 'group_modify',
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'DELETE'],
     requirements: [
         '_locale' => 'en|es',
     ]
@@ -32,6 +34,7 @@ class GroupModifyController extends AbstractController
 {
     private const GROUP_MODIFY_ENDPOINT = '/api/v1/groups/modify';
     private const GROUP_GET_DATA_ENDPOINT = '/api/v1/groups/data/';
+    private const GROUP_REMOVE_ENDPOINT = '/api/v1/groups';
     private const GROUP_IMAGE_NOT_SET = '/assets/img/common/group-avatar-no-image.svg';
 
     public function __construct(
@@ -42,22 +45,41 @@ class GroupModifyController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->formFactory->create(new GroupModifyForm(), $request);
+        $groupModifyForm = $this->formFactory->create(new GroupModifyForm(), $request);
+        $groupRemoveForm = $this->formFactory->create(new GroupRemoveForm(), $request);
         $tokenSession = $request->cookies->get('TOKENSESSION');
         $groupId = $request->attributes->get('group_id');
+        $submitted = false;
+        $errorList = [];
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->formValid($form, $groupId, $tokenSession);
+        if ($groupModifyForm->isSubmitted() && $groupModifyForm->isValid()) {
+            $errorList = $this->formManagement($this->requestGroupModify(...), $groupModifyForm, $tokenSession);
+            $submitted = true;
+        } elseif ($groupRemoveForm->isSubmitted() && $groupRemoveForm->isValid()) {
+            $errorList = $this->formManagement($this->requestGroupRemove(...), $groupRemoveForm, $tokenSession);
+            $submitted = true;
         }
 
-        return $this->formNotValid($form, $groupId, $tokenSession);
+        $groupData = $this->getGroupData($groupId, $tokenSession);
+        $this->addFormErrors($groupModifyForm, $errorList);
+
+        return $this->renderGroupCreateComponent($groupModifyForm, $groupRemoveForm, $groupData, $submitted);
     }
 
-    private function requestGroupModify(array $formData, string $tokenSession): HttpClientResponseInteface
+    private function addFormErrors(FormInterface $form, array $errorList): void
     {
+        foreach ($errorList as $error => $errorValue) {
+            $form->addError($error, $errorValue);
+        }
+    }
+
+    private function requestGroupModify(FormInterface $form, string $tokenSession): HttpClientResponseInteface
+    {
+        $formData = $form->getData();
+
         return $this->httpClient->request(
             'POST',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_MODIFY_ENDPOINT.'?XDEBUG_SESSION=VSCODE',
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_MODIFY_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::form([
                     'group_id' => $formData[GROUP_MODIFY_FORM_FIELDS::GROUP_ID],
                     'name' => $formData[GROUP_CREATE_FORM_FIELDS::NAME],
@@ -73,6 +95,21 @@ class GroupModifyController extends AbstractController
         );
     }
 
+    private function requestGroupRemove(FormInterface $form, string $tokenSession): HttpClientResponseInteface
+    {
+        $formData = $form->getData();
+
+        return $this->httpClient->request(
+            'DELETE',
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_REMOVE_ENDPOINT,
+            HTTP_CLIENT_CONFIGURATION::json([
+                    'group_id' => $formData[GROUP_REMOVE_FORM_FIELDS::GROUP_ID],
+                ],
+                $tokenSession
+            )
+        );
+    }
+
     private function requestGroupData(string $groupId, string $tokenSession): HttpClientResponseInteface
     {
         return $this->httpClient->request(
@@ -82,59 +119,45 @@ class GroupModifyController extends AbstractController
         );
     }
 
-    private function getGroupData(string $groupId, string $tokenSession): array|null
+    private function formManagement(callable $requestCallback, ...$requestCallbackArguments): array
     {
         try {
-            $response = $this->requestGroupData($groupId, $tokenSession);
+            $response = $requestCallback(...$requestCallbackArguments);
             $responseData = $response->toArray();
 
-            return $responseData['data'][0];
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            return null;
-        }
-    }
-
-    private function formValid(FormInterface $form, string $groupId, string $tokenSession): Response
-    {
-        try {
-            $formData = $form->getData();
-            $response = $this->requestGroupModify($formData, $tokenSession);
-            $response->toArray();
+            return [];
         } catch (Error400Exception $e) {
             $responseData = $e->getResponse()->toArray(false);
-            foreach ($responseData['errors'] as $error => $errorDescription) {
-                $form->addError($error, $errorDescription);
-            }
-        } catch (Error500Exception|NetworkException $e) {
-            $form->addError(GROUP_MODIFY_FORM_ERRORS::INTERNAL_SERVER->value);
-        } finally {
-            $groupData = $this->getGroupData($groupId, $tokenSession);
 
-            return new Response($this->renderGroupCreateComponent($form, $groupData, true));
+            return isset($responseData['errors']) ? $responseData['errors'] : [];
+        } catch (Error500Exception|NetworkException) {
+            return [GROUP_MODIFY_FORM_ERRORS::INTERNAL_SERVER];
         }
     }
 
-    private function formNotValid(FormInterface $form, string $groupId, string $tokenSession): Response
+    private function getGroupData(string $groupId, string $tokenSession): array|null
     {
-        $groupData = $this->getGroupData($groupId, $tokenSession);
+        $response = $this->requestGroupData($groupId, $tokenSession);
+        $responseData = $response->toArray();
 
-        return new Response($this->renderGroupCreateComponent($form, $groupData, false));
+        return $responseData['data'][0];
     }
 
-    private function renderGroupCreateComponent(FormInterface $form, array $groupData, bool $formSubmitted): string
+    private function renderGroupCreateComponent(FormInterface $groupModifyForm, FormInterface $groupRemoveForm, array $groupData, bool $formSubmitted): Response
     {
         $groupModifyComponentData = new GroupModifyComponentDto(
-            $form->getErrors(),
+            $groupModifyForm->getErrors(),
             $groupData[GROUP_MODIFY_FORM_FIELDS::GROUP_ID],
             $groupData[GROUP_MODIFY_FORM_FIELDS::NAME],
             $groupData[GROUP_MODIFY_FORM_FIELDS::DESCRIPTION],
             null === $groupData['image'] ? HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_IMAGE_NOT_SET : HTTP_CLIENT_CONFIGURATION::API_DOMAIN.$groupData['image'],
             HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_IMAGE_NOT_SET,
-            $form->getCsrfToken(),
+            $groupModifyForm->getCsrfToken(),
+            $groupRemoveForm->getCsrfToken(),
             $formSubmitted
         );
 
-        return $this->renderView('group/group_modify/index.html.twig', [
+        return $this->render('group/group_modify/index.html.twig', [
             'GroupModifyComponent' => $groupModifyComponentData,
         ]);
     }

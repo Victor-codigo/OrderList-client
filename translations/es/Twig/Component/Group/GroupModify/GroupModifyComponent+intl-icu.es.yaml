@@ -23,6 +23,10 @@ image_thumbnail:
 button_group_modify:
   label: Modificar grupo
 
+group_remove:
+  label: Eliminar el grupo
+  placeholder: Elimina el grupo de la página web
+
 validation:
   title: Errores
   ok: Grupo modificado
@@ -31,7 +35,7 @@ validation:
       Introduce un nombre válido.
       El nombre debe contener al menos un carácter y un máximo de 30 caracteres.
       Solo están permitidos, caracteres alfanuméricos y "_"
-    group_not_found: Grupo se ha encontrado el grupo
+    group_not_found: No se ha encontrado el grupo
     description: La descripción es demasiado larga
     image: La imagen no es válida. Debe ser un jpg, png, bmp
     internal_server: Ocurrió un error, inténtalo más tarde

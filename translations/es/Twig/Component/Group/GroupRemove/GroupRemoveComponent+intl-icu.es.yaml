@@ -1,0 +1,14 @@
+title: Eliminar grupo
+
+message_advice:
+  text: |
+    Al presionar el botón, el grupo y toda su información, serán eliminado de la página web.
+    Una vez el proceso comienza, no puede ser detenido. Estas seguro
+
+remove_group_button:
+  label: Eliminar grupo
+
+validation:
+  title: Errors
+  error:
+    default: Ocurrió un error, inténtalo más tarde
