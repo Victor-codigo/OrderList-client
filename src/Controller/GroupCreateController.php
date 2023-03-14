@@ -57,6 +57,7 @@ class GroupCreateController extends AbstractController
             HTTP_CLIENT_CONFIGURATION::form([
                     'name' => $formData[GROUP_CREATE_FORM_FIELDS::NAME],
                     'description' => $formData[GROUP_CREATE_FORM_FIELDS::DESCRIPTION],
+                    'type' => 'TYPE_GROUP',
                 ],
                 [
                     'image' => $formData[GROUP_CREATE_FORM_FIELDS::IMAGE],
