@@ -9,7 +9,7 @@ use Common\Domain\HttpClient\Exception\Error300Exception;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
-use Common\Domain\Ports\HttpCllent\HttpClientResponseInteface;
+use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -17,7 +17,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class HttpClientResponse implements HttpClientResponseInteface
+class HttpClientResponse implements HttpClientResponseInterface
 {
     private ResponseInterface $response;
 
@@ -38,7 +38,7 @@ class HttpClientResponse implements HttpClientResponseInteface
     {
         try {
             return $this->response->getStatusCode();
-        } catch(TransportExceptionInterface $e) {
+        } catch (TransportExceptionInterface $e) {
             throw NetworkException::fromMessage($e->getMessage());
         }
     }
@@ -53,13 +53,13 @@ class HttpClientResponse implements HttpClientResponseInteface
     {
         try {
             return $this->response->getContent($throwException);
-        } catch(TransportExceptionInterface $e) {
+        } catch (TransportExceptionInterface $e) {
             throw NetworkException::fromMessage($e->getMessage());
-        } catch(RedirectionExceptionInterface $e) {
+        } catch (RedirectionExceptionInterface $e) {
             throw Error300Exception::fromMessage($e->getMessage(), $e);
-        } catch(ClientExceptionInterface $e) {
+        } catch (ClientExceptionInterface $e) {
             throw Error400Exception::fromMessage($e->getMessage(), $e);
-        } catch(ServerExceptionInterface $e) {
+        } catch (ServerExceptionInterface $e) {
             throw Error500Exception::fromMessage($e->getMessage(), $e);
         }
     }
@@ -74,13 +74,13 @@ class HttpClientResponse implements HttpClientResponseInteface
     {
         try {
             return $this->response->getHeaders($throwException);
-        } catch(TransportExceptionInterface $e) {
+        } catch (TransportExceptionInterface $e) {
             throw NetworkException::fromMessage($e->getMessage());
-        } catch(RedirectionExceptionInterface $e) {
+        } catch (RedirectionExceptionInterface $e) {
             throw Error300Exception::fromMessage($e->getMessage(), $e);
-        } catch(ClientExceptionInterface $e) {
+        } catch (ClientExceptionInterface $e) {
             throw Error400Exception::fromMessage($e->getMessage(), $e);
-        } catch(ServerExceptionInterface $e) {
+        } catch (ServerExceptionInterface $e) {
             throw Error500Exception::fromMessage($e->getMessage(), $e);
         }
     }
@@ -101,15 +101,15 @@ class HttpClientResponse implements HttpClientResponseInteface
     {
         try {
             return $this->response->toArray($throwException);
-        } catch(DecodingExceptionInterface $e) {
+        } catch (DecodingExceptionInterface $e) {
             throw DecodingException::fromMessage($e->getMessage());
-        } catch(TransportExceptionInterface $e) {
+        } catch (TransportExceptionInterface $e) {
             throw NetworkException::fromMessage($e->getMessage());
-        } catch(RedirectionExceptionInterface $e) {
+        } catch (RedirectionExceptionInterface $e) {
             throw Error300Exception::fromMessage($e->getMessage(), $e);
-        } catch(ClientExceptionInterface $e) {
+        } catch (ClientExceptionInterface $e) {
             throw Error400Exception::fromMessage($e->getMessage(), $e);
-        } catch(ServerExceptionInterface $e) {
+        } catch (ServerExceptionInterface $e) {
             throw Error500Exception::fromMessage($e->getMessage(), $e);
         }
     }

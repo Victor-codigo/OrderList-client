@@ -28,11 +28,11 @@ class ProfileComponent extends TwigComponent
     public ProfileComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
-    public readonly string $tokenCsrfFiledName;
-    public readonly string $nickFiledName;
+    public readonly string $tokenCsrfFieldName;
+    public readonly string $nickFieldName;
     public readonly string $imageFieldName;
     public readonly string $imageRemoveFieldName;
-    public readonly string $submitFiledName;
+    public readonly string $submitFieldName;
     public ImageAvatarComponentDto $imageAvatarDto;
     public DropZoneComponentDto $dropZoneDto;
 
@@ -48,11 +48,11 @@ class ProfileComponent extends TwigComponent
         parent::__construct($request, $translator);
 
         $this->formName = PROFILE_FORM_FIELDS::FORM;
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::TOKEN);
-        $this->nickFiledName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::NICK);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::TOKEN);
+        $this->nickFieldName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::NICK);
         $this->imageFieldName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::IMAGE);
         $this->imageRemoveFieldName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::IMAGE_REMOVE);
-        $this->submitFiledName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::SUBMIT);
+        $this->submitFieldName = sprintf('%s[%s]', PROFILE_FORM_FIELDS::FORM, PROFILE_FORM_FIELDS::SUBMIT);
     }
 
     public function mount(ProfileComponentDto $data): void

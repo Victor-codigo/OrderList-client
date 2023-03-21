@@ -8,7 +8,7 @@
 	  novalidate>
 
 	<input type="hidden"
-		   name="{{ tokenCsrfFiledName }}"
+		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.groupModify.groupModifyCsrfToken }}" />
 
 	<input type="hidden"
@@ -60,7 +60,7 @@
 		</label>
 		<textarea class="form-control"
 				  id="description"
-				  name="{{ descriptionFiledName }}"
+				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
 				  placeholder="{{ lang.descriptionPlaceholder }}">{{ data.groupModify.description }}</textarea>
 
@@ -78,7 +78,7 @@
 
 		<input type="submit"
 			   class="btn btn-primary w-100"
-			   name="{{ submitFiledName }}"
+			   name="{{ submitFieldName }}"
 			   value="{{ lang.groupCreateButton }}" />
 	</div>
 </form>

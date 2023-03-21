@@ -118,10 +118,10 @@ class FormSymfonyAdapter implements FormInterface
     public function getData(): array
     {
         $dataDefault = $this->getFieldsValueDefaults();
-        $dataSetted = $this->form->getData();
-        unset($dataSetted[FormTypeSymfony::OPTION_FORM_TYPE]);
+        $dataSet = $this->form->getData();
+        unset($dataSet[FormTypeSymfony::OPTION_FORM_TYPE]);
 
-        return array_merge($dataDefault, $dataSetted);
+        return array_merge($dataDefault, $dataSet);
     }
 
     /**

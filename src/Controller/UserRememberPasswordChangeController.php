@@ -12,8 +12,8 @@ use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\Form\FormInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientResponseInteface;
+use Common\Domain\Ports\HttpClient\HttpClientInterface;
+use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_remember_password_change',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es'
+        '_locale' => 'en|es',
     ]
 )]
 class UserRememberPasswordChangeController extends AbstractController
@@ -36,6 +36,7 @@ class UserRememberPasswordChangeController extends AbstractController
         private FormFactory $formFactory
     ) {
     }
+
     public function __invoke(Request $request): Response
     {
         $sessionToken = $request->attributes->get('token');
@@ -54,29 +55,29 @@ class UserRememberPasswordChangeController extends AbstractController
             $response = $this->requestPasswordChange($form, $sessionToken);
             $responseData = $response->getContent();
             $responseHttp = $this->redirectToRoute('user_password_remember_changed');
-        } catch(Error400Exception $e) {
+        } catch (Error400Exception $e) {
             $responseData = $e->getResponse()->toArray(false);
             foreach ($responseData['errors'] as $error => $errorValue) {
                 $form->addError($error, $errorValue);
             }
-        } catch(Error500Exception|NetworkException) {
+        } catch (Error500Exception|NetworkException) {
             $form->addError(PASSWORD_CHANGE_FORM_ERRORS::INTERNAL_SERVER->value);
         } finally {
             return $responseHttp ?? $this->renderPasswordChange($form);
         }
     }
 
-    private function requestPasswordChange(FormInterface $form, string $sessionToken): HttpClientResponseInteface
+    private function requestPasswordChange(FormInterface $form, string $sessionToken): HttpClientResponseInterface
     {
         $formData = $form->getData();
 
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN . self::PASSWORD_CHANGE_ENDPONT . '?' . HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_CHANGE_ENDPONT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json([
-                "token" => $sessionToken,
-                "passwordNew" => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW],
-                "passwordNewRepeat" => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT]
+                'token' => $sessionToken,
+                'passwordNew' => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW],
+                'passwordNewRepeat' => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT],
             ])
         );
     }

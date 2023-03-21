@@ -20,11 +20,11 @@ final class LoginComponent extends TwigComponent
     public LoginComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
-    public readonly string $tokenCsrfFiledName;
-    public readonly string $emailFiledName;
-    public readonly string $passwordFiledName;
-    public readonly string $rememberMeFiledName;
-    public readonly string $submitFiledName;
+    public readonly string $tokenCsrfFieldName;
+    public readonly string $emailFieldName;
+    public readonly string $passwordFieldName;
+    public readonly string $rememberMeFieldName;
+    public readonly string $submitFieldName;
 
     public static function getComponentName(): string
     {
@@ -36,11 +36,11 @@ final class LoginComponent extends TwigComponent
         $this->data = $data;
 
         $this->formName = LOGIN_FORM_FIELDS::FORM;
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::TOKEN);
-        $this->emailFiledName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::EMAIL);
-        $this->passwordFiledName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::PASSWORD);
-        $this->rememberMeFiledName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::REMEMBER_ME);
-        $this->submitFiledName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::SUBMIT);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::TOKEN);
+        $this->emailFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::EMAIL);
+        $this->passwordFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::PASSWORD);
+        $this->rememberMeFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::REMEMBER_ME);
+        $this->submitFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
     }

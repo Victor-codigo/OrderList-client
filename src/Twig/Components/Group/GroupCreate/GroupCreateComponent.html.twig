@@ -6,7 +6,7 @@
 	  enctype="multipart/form-data"
 	  novalidate>
 	<input type="hidden"
-		   name="{{ tokenCsrfFiledName }}"
+		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.groupCreate.csrfToken }}" />
 
 	{% if lang.validationErrors %}
@@ -44,7 +44,7 @@
 		<textarea type="descrition"
 				  class="form-control"
 				  id="description"
-				  name="{{ descriptionFiledName }}"
+				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
 				  placeholder="{{ lang.descriptionPlaceholder }}"
 				  value="{{ data.groupCreate.description }}"></textarea>
@@ -60,7 +60,7 @@
 	<div class="mt-5">
 		<input type="submit"
 			   class="btn btn-primary w-100"
-			   name="{{ submitFiledName }}"
+			   name="{{ submitFieldName }}"
 			   value="{{ lang.groupCreateButton }}" />
 	</div>
 </form>

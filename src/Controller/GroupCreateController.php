@@ -12,8 +12,8 @@ use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\Form\FormInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientResponseInteface;
+use Common\Domain\Ports\HttpClient\HttpClientInterface;
+use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +29,7 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class GroupCreateController extends AbstractController
 {
-    private const GROUP_CRETE_ENDPOINT = '/api/v1/groups';
+    private const GROUP_CREATE_ENDPOINT = '/api/v1/groups';
 
     public function __construct(
         private FormFactory $formFactory,
@@ -49,11 +49,11 @@ class GroupCreateController extends AbstractController
         return $this->formNotValid($form);
     }
 
-    private function requestGroupCreate(array $formData, string $tokenSession): HttpClientResponseInteface
+    private function requestGroupCreate(array $formData, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_CRETE_ENDPOINT,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_CREATE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::form([
                     'name' => $formData[GROUP_CREATE_FORM_FIELDS::NAME],
                     'description' => $formData[GROUP_CREATE_FORM_FIELDS::DESCRIPTION],

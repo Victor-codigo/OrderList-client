@@ -12,8 +12,8 @@ use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\Form\FormInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientResponseInteface;
+use Common\Domain\Ports\HttpClient\HttpClientInterface;
+use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,9 +53,9 @@ class UserLoginController extends AbstractController
     }
 
     /**
-     * @throws UnsuportedOptionException
+     * @throws UnsupportedOptionException
      */
-    private function requestLogin(array $formData): HttpClientResponseInteface
+    private function requestLogin(array $formData): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',

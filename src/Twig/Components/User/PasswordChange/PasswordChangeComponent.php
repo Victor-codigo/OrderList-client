@@ -26,7 +26,7 @@ class PasswordChangeComponent extends TwigComponent
     public readonly string $passwordNewFieldName;
     public readonly string $passwordNewRepeatFieldName;
     public readonly string $submitFieldName;
-    public readonly string $tokenCsrfFiledName;
+    public readonly string $tokenCsrfFieldName;
 
     public static function getComponentName(): string
     {
@@ -41,8 +41,8 @@ class PasswordChangeComponent extends TwigComponent
         $this->passwordOldFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_OLD);
         $this->passwordNewFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW);
         $this->passwordNewRepeatFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT);
-        $this->submitFiledName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::SUBMIT);
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::TOKEN);
+        $this->submitFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::SUBMIT);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::TOKEN);
 
         $this->loadTranslation();
     }

@@ -30,4 +30,4 @@ validation:
   title: Errors
   error:
     email_exists: El email ya está registrado
-    internal_server: An error has been occured, try it later
+    internal_server: An error has been occurred, try it later

@@ -63,7 +63,7 @@ class FormSymfonyAdapterTest extends TestCase
     }
 
     /** @test */
-    public function ItSouldFailNotReturnCsrfTokenValueCsrfManagerNotInitialized(): void
+    public function ItShouldFailNotReturnCsrfTokenValueCsrfManagerNotInitialized(): void
     {
         $this->object = $this->createFormSymfonyAdapter(false);
         $tokenValue = 'token value';
@@ -164,7 +164,7 @@ class FormSymfonyAdapterTest extends TestCase
 
 
     /** @test */
-    public function itShouldBeAValidFormNotCsrfProtectetionChecked(): void
+    public function itShouldBeAValidFormNotCsrfProtectionChecked(): void
     {
         $this->object = $this->createFormSymfonyAdapter(true);
         $this->createStubsForMethodIsValid(true, []);
@@ -175,7 +175,7 @@ class FormSymfonyAdapterTest extends TestCase
     }
 
     /** @test */
-    public function itShouldBeAValidFormCsrfProtectetionChecked(): void
+    public function itShouldBeAValidFormCsrfProtectionChecked(): void
     {
         $this->object = $this->createFormSymfonyAdapter(true);
 

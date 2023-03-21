@@ -29,5 +29,5 @@ login_link: Or login here
 validation:
   title: Errors
   error:
-    email_exists: The email is already resistered
-    default: An error has been occured, try it later
+    email_exists: The email is already registered
+    default: An error has been occurred, try it later

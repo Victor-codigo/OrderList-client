@@ -21,11 +21,11 @@ final class GroupCreateComponent extends TwigComponent
     public GroupCreateComponentDataDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
-    public readonly string $tokenCsrfFiledName;
+    public readonly string $tokenCsrfFieldName;
     public readonly string $nameFieldName;
-    public readonly string $descriptionFiledName;
-    public readonly string $imageFiledName;
-    public readonly string $submitFiledName;
+    public readonly string $descriptionFieldName;
+    public readonly string $imageFieldName;
+    public readonly string $submitFieldName;
 
     public static function getComponentName(): string
     {
@@ -35,11 +35,11 @@ final class GroupCreateComponent extends TwigComponent
     public function mount(GroupCreateComponentDto $data): void
     {
         $this->formName = GROUP_CREATE_FORM_FIELDS::FORM;
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::TOKEN);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::TOKEN);
         $this->nameFieldName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::NAME);
-        $this->descriptionFiledName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::DESCRIPTION);
-        $this->imageFiledName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::IMAGE);
-        $this->submitFiledName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::SUBMIT);
+        $this->descriptionFieldName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::DESCRIPTION);
+        $this->imageFieldName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::IMAGE);
+        $this->submitFieldName = sprintf('%s[%s]', GROUP_CREATE_FORM_FIELDS::FORM, GROUP_CREATE_FORM_FIELDS::SUBMIT);
 
         $this->data = new GroupCreateComponentDataDto(
             $data,

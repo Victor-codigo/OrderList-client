@@ -8,7 +8,7 @@ signup_email_confirmation:
 
 signup_email_confirmation_fail:
   title: Uppsss!
-  message: An error has been occured, try it later.
+  message: An error has been occurred, try it later.
 
 signup_email_confirmation_already_verified:
   title: Email already verified

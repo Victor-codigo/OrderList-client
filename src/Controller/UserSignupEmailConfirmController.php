@@ -3,15 +3,13 @@
 namespace App\Controller;
 
 use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponent;
 use App\Twig\Components\Alert\AlertComponentDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
-use Common\Domain\Ports\HttpCllent\HttpClientInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientResponseInteface;
-use Exception;
+use Common\Domain\Ports\HttpClient\HttpClientInterface;
+use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
     name: 'user_signup_email_confirm',
     methods: ['GET'],
     requirements: [
-        '_locale' => 'en|es'
+        '_locale' => 'en|es',
     ]
 )]
 class UserSignupEmailConfirmController extends AbstractController
@@ -45,7 +43,7 @@ class UserSignupEmailConfirmController extends AbstractController
             $response = $this->requestSignupConfirm($token);
             $responseData = $response->toArray();
             $responseHttp = $this->renderSignupEmailConfirmationOk();
-        } catch(Error400Exception|Error500Exception|NetworkException $e) {
+        } catch (Error400Exception|Error500Exception|NetworkException $e) {
             $responseData = (object) $e->getResponse()->toArray(false);
 
             if (isset($responseData->errors['email_verified'])) {
@@ -59,15 +57,15 @@ class UserSignupEmailConfirmController extends AbstractController
     }
 
     /**
-     * @throws UnsuportedOptionException
+     * @throws UnsupportedOptionException
      */
-    private function requestSignupConfirm(string $token): HttpClientResponseInteface
+    private function requestSignupConfirm(string $token): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN . self::SIGNUP_CONFIRM_ENDPOINT,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::SIGNUP_CONFIRM_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([
-                'token' => $token
+                'token' => $token,
             ])
         );
     }
@@ -76,7 +74,7 @@ class UserSignupEmailConfirmController extends AbstractController
     {
         $params = [
             'loginLink' => $this->generateUrl('user_login'),
-            'appName' => $this->domainName
+            'appName' => $this->domainName,
         ];
 
         return $this->renderSignupEmailConfirmation(
@@ -89,7 +87,7 @@ class UserSignupEmailConfirmController extends AbstractController
     {
         $params = [
             'loginLink' => $this->generateUrl('user_login'),
-            'appName' => $this->domainName
+            'appName' => $this->domainName,
         ];
 
         return $this->renderSignupEmailConfirmation(

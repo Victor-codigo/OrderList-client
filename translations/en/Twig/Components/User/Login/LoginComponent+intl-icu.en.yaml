@@ -22,4 +22,4 @@ validation:
   title: Errors
   error:
     login: Email or password are incorrect
-    internal_server: An error has been occured, try it later
+    internal_server: An error has been occurred, try it later

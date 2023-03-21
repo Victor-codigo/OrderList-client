@@ -27,7 +27,7 @@ class EmailChangeComponent extends TwigComponent
     public readonly string $emailFieldName;
     public readonly string $passwordFieldName;
     public readonly string $submitFieldName;
-    public readonly string $tokenCsrfFiledName;
+    public readonly string $tokenCsrfFieldName;
 
     public static function getComponentName(): string
     {
@@ -41,8 +41,8 @@ class EmailChangeComponent extends TwigComponent
         $this->formName = EMAIL_CHANGE_FORM_FIELDS::FORM;
         $this->emailFieldName = sprintf('%s[%s]', EMAIL_CHANGE_FORM_FIELDS::FORM, EMAIL_CHANGE_FORM_FIELDS::EMAIL);
         $this->passwordFieldName = sprintf('%s[%s]', EMAIL_CHANGE_FORM_FIELDS::FORM, EMAIL_CHANGE_FORM_FIELDS::PASSWORD);
-        $this->submitFiledName = sprintf('%s[%s]', EMAIL_CHANGE_FORM_FIELDS::FORM, EMAIL_CHANGE_FORM_FIELDS::SUBMIT);
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', EMAIL_CHANGE_FORM_FIELDS::FORM, EMAIL_CHANGE_FORM_FIELDS::TOKEN);
+        $this->submitFieldName = sprintf('%s[%s]', EMAIL_CHANGE_FORM_FIELDS::FORM, EMAIL_CHANGE_FORM_FIELDS::SUBMIT);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', EMAIL_CHANGE_FORM_FIELDS::FORM, EMAIL_CHANGE_FORM_FIELDS::TOKEN);
     }
 
     public function mount(EmailChangeComponentDto $data): void

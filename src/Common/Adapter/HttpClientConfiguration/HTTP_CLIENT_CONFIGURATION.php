@@ -33,10 +33,10 @@ final class HTTP_CLIENT_CONFIGURATION
         $files = array_map(self::loadFiles(...), $files);
         $data = array_map(fn (mixed $value) => (string) $value, $data);
         $data = array_merge($data, $files);
-        $formdData = new FormDataPart($data);
+        $formData = new FormDataPart($data);
 
-        $form['body'] = $formdData->toIterable();
-        $form['headers'] = $formdData->getPreparedHeaders()->toArray();
+        $form['body'] = $formData->toIterable();
+        $form['headers'] = $formData->getPreparedHeaders()->toArray();
 
         return $form;
     }

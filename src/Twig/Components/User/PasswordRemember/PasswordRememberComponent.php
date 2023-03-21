@@ -22,9 +22,9 @@ class PasswordRememberComponent extends TwigComponent
     public PasswordRememberDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
-    public readonly string $tokenCsrfFiledName;
-    public readonly string $emailFiledName;
-    public readonly string $submitFiledName;
+    public readonly string $tokenCsrfFieldName;
+    public readonly string $emailFieldName;
+    public readonly string $submitFieldName;
 
     public static function getComponentName(): string
     {
@@ -36,9 +36,9 @@ class PasswordRememberComponent extends TwigComponent
         $this->data = $data;
 
         $this->formName = PASSWORD_REMEMBER_FORM_FIELDS::FORM;
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::TOKEN);
-        $this->emailFiledName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::EMAIL);
-        $this->submitFiledName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::TOKEN);
+        $this->emailFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::EMAIL);
+        $this->submitFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
     }

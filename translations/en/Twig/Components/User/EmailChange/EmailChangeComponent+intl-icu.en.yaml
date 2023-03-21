@@ -19,4 +19,4 @@ validation:
     email: Email is wrong.
     password: The password is worng
     password_invalid: Password is wrong. Password must contain at least 6 characters
-    internal_server: An error has been occured, try it later
+    internal_server: An error has been occurred, try it later

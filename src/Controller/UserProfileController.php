@@ -21,8 +21,8 @@ use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientResponseInteface;
+use Common\Domain\Ports\HttpClient\HttpClientInterface;
+use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +39,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserProfileController extends AbstractController
 {
     private const PROFILE_ENDPOINT = '/api/v1/users/modify';
-    private const PROFILE_EMAIL_CHANGE_ENDPONIT = '/api/v1/users/email';
+    private const PROFILE_EMAIL_CHANGE_ENDPOINT = '/api/v1/users/email';
     private const PROFILE_PASSWORD_CHANGE_ENDPOINT = '/api/v1/users/password';
     private const PROFILE_GET_USER_ENDPOINT = '/api/v1/users';
     private const PROFILE_USER_REMOVE_ENDPOINT = '/api/v1/users/remove';
@@ -63,20 +63,20 @@ class UserProfileController extends AbstractController
         $tokenSession = $request->cookies->get('TOKENSESSION');
         $userId = $request->attributes->get('id');
         $errorList = [];
-        $submited = false;
+        $submitted = false;
 
         if ($formEmailChange->isSubmitted() && $formEmailChange->isValid()) {
             $errorList = $this->formManagement($this->requestEmailChange(...), $formEmailChange, $tokenSession);
-            $submited = true;
+            $submitted = true;
         } elseif ($formPasswordChange->isSubmitted() && $formPasswordChange->isValid()) {
             $errorList = $this->formManagement($this->requestPasswordChange(...), $formPasswordChange, $userId, $tokenSession);
-            $submited = true;
+            $submitted = true;
         } elseif ($formProfile->isSubmitted() && $formProfile->isValid()) {
             $errorList = $this->formManagement($this->requestProfile(...), $formProfile, $tokenSession);
-            $submited = true;
+            $submitted = true;
         } elseif ($formUserRemove->isSubmitted() && $formUserRemove->isValid()) {
             $errorList = $this->formManagement($this->requestUserRemove(...), $userId, $tokenSession);
-            $submited = true;
+            $submitted = true;
         }
 
         $this->userData = $this->getUserData($userId, $tokenSession);
@@ -87,7 +87,7 @@ class UserProfileController extends AbstractController
             $formEmailChange,
             $formPasswordChange,
             $formUserRemove,
-            $submited,
+            $submitted,
             $errorList
         );
     }
@@ -116,7 +116,7 @@ class UserProfileController extends AbstractController
         return $responseData['data'][0];
     }
 
-    private function requestUserData(string $userId, string $tokenSession): HttpClientResponseInteface
+    private function requestUserData(string $userId, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'GET',
@@ -132,13 +132,13 @@ class UserProfileController extends AbstractController
         }
     }
 
-    private function requestEmailChange(FormInterface $form, string $tokenSession): HttpClientResponseInteface
+    private function requestEmailChange(FormInterface $form, string $tokenSession): HttpClientResponseInterface
     {
         $formData = $form->getData();
 
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_EMAIL_CHANGE_ENDPONIT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_EMAIL_CHANGE_ENDPOINT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json(
                 [
                     'email' => $formData[EMAIL_CHANGE_FORM_FIELDS::EMAIL],
@@ -149,7 +149,7 @@ class UserProfileController extends AbstractController
         );
     }
 
-    private function requestPasswordChange(FormInterface $form, string $userId, string $tokenSession): HttpClientResponseInteface
+    private function requestPasswordChange(FormInterface $form, string $userId, string $tokenSession): HttpClientResponseInterface
     {
         $formData = $form->getData();
 
@@ -167,7 +167,7 @@ class UserProfileController extends AbstractController
         );
     }
 
-    private function requestProfile(FormInterface $form, string $tokenSession): HttpClientResponseInteface
+    private function requestProfile(FormInterface $form, string $tokenSession): HttpClientResponseInterface
     {
         $formData = $form->getData();
 
@@ -187,7 +187,7 @@ class UserProfileController extends AbstractController
         );
     }
 
-    private function requestUserRemove(string $userId, string $tokenSession): HttpClientResponseInteface
+    private function requestUserRemove(string $userId, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'DELETE',
@@ -201,7 +201,7 @@ class UserProfileController extends AbstractController
         FormInterface $formEmailChange,
         FormInterface $formPasswordChange,
         FormInterface $formUserRemove,
-        bool $submited,
+        bool $submitted,
         array $errorList
     ): Response {
         $profileComponentData = new ProfileComponentDto(
@@ -215,7 +215,7 @@ class UserProfileController extends AbstractController
             $this->getEmailModalData($formEmailChange),
             $this->getPasswordModalData($formPasswordChange),
             $this->getUserRemoveModalData($formUserRemove),
-            $submited
+            $submitted
         );
 
         return $this->render('user_profile/index.html.twig', [

@@ -13,4 +13,4 @@ validation:
   error:
     email: The email is not correct
     remember: The email is not registered
-    internal_server: An error has been occured, try it later
+    internal_server: An error has been occurred, try it later

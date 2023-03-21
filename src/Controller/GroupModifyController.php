@@ -15,8 +15,8 @@ use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\Form\FormInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientInterface;
-use Common\Domain\Ports\HttpCllent\HttpClientResponseInteface;
+use Common\Domain\Ports\HttpClient\HttpClientInterface;
+use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,7 +73,7 @@ class GroupModifyController extends AbstractController
         }
     }
 
-    private function requestGroupModify(FormInterface $form, string $tokenSession): HttpClientResponseInteface
+    private function requestGroupModify(FormInterface $form, string $tokenSession): HttpClientResponseInterface
     {
         $formData = $form->getData();
 
@@ -95,7 +95,7 @@ class GroupModifyController extends AbstractController
         );
     }
 
-    private function requestGroupRemove(FormInterface $form, string $tokenSession): HttpClientResponseInteface
+    private function requestGroupRemove(FormInterface $form, string $tokenSession): HttpClientResponseInterface
     {
         $formData = $form->getData();
 
@@ -110,7 +110,7 @@ class GroupModifyController extends AbstractController
         );
     }
 
-    private function requestGroupData(string $groupId, string $tokenSession): HttpClientResponseInteface
+    private function requestGroupData(string $groupId, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'GET',

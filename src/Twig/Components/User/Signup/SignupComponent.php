@@ -21,11 +21,11 @@ class SignupComponent extends TwigComponent
     public SignupComponentLangDto $lang;
     public SignupComponentDto|TwigComponentDtoInterface $data;
 
-    public readonly string $tokenCsrfFiledName;
-    public readonly string $emailFiledName;
-    public readonly string $passwordFiledName;
-    public readonly string $passwordRepeatedFiledName;
-    public readonly string $nickFiledName;
+    public readonly string $tokenCsrfFieldName;
+    public readonly string $emailFieldName;
+    public readonly string $passwordFieldName;
+    public readonly string $passwordRepeatedFieldName;
+    public readonly string $nickFieldName;
 
     protected static function getComponentName(): string
     {
@@ -37,12 +37,12 @@ class SignupComponent extends TwigComponent
         $this->data = $data;
 
         $this->formName = SIGNUP_FORM_FIELDS::FORM;
-        $this->tokenCsrfFiledName = sprintf("%s[%s]", SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::TOKEN);
-        $this->emailFiledName = sprintf("%s[%s]", SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::EMAIL);
-        $this->passwordFiledName = sprintf("%s[%s]", SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD);
-        $this->passwordRepeatedFiledName = sprintf("%s[%s]", SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD_REPEATED);
-        $this->nickFiledName = sprintf("%s[%s]", SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::NICK);
-        $this->submitFiledName = sprintf("%s[%s]", SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::SUBMIT);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::TOKEN);
+        $this->emailFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::EMAIL);
+        $this->passwordFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD);
+        $this->passwordRepeatedFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD_REPEATED);
+        $this->nickFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::NICK);
+        $this->submitFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
     }

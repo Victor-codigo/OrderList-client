@@ -1,8 +1,16 @@
-<form id="{{ formName }}" name="{{ formName }}" data-controller="EmailChangeComponent" class="contaniner  p-5" method="post" enctype="multipart/form-data" novalidate>
-	<input type="hidden" name="{{ tokenCsrfFiledName }}" value="{{ data.csrfToken }}"/>
+<form id="{{ formName }}"
+	  name="{{ formName }}"
+	  data-controller="EmailChangeComponent"
+	  class="contaniner  p-5"
+	  method="post"
+	  enctype="multipart/form-data"
+	  novalidate>
+	<input type="hidden"
+		   name="{{ tokenCsrfFieldName }}"
+		   value="{{ data.csrfToken }}" />
 
 	{% if lang.validationErrors.messages %}
-		{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
 
@@ -19,7 +27,11 @@
 	</div>
 
 	<div class="mt-5">
-		<input type="submit" class="btn btn-danger w-100" name="{{ submitFieldName }}" value="{{ lang.userRemoveButton }}"/>
-		<input type="hidden" value="{{ data.userId }}"/>
+		<input type="submit"
+			   class="btn btn-danger w-100"
+			   name="{{ submitFieldName }}"
+			   value="{{ lang.userRemoveButton }}" />
+		<input type="hidden"
+			   value="{{ data.userId }}" />
 	</div>
 </form>

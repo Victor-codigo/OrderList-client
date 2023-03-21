@@ -17,7 +17,7 @@ final class GroupRemoveComponent extends TwigComponent
     public GroupRemoveComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
-    public readonly string $tokenCsrfFiledName;
+    public readonly string $tokenCsrfFieldName;
     public readonly string $groupIdFieldName;
     public readonly string $submitFieldName;
 
@@ -31,7 +31,7 @@ final class GroupRemoveComponent extends TwigComponent
         $this->data = $data;
 
         $this->formName = GROUP_REMOVE_FORM_FIELDS::FORM;
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', GROUP_REMOVE_FORM_FIELDS::FORM, GROUP_REMOVE_FORM_FIELDS::TOKEN);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', GROUP_REMOVE_FORM_FIELDS::FORM, GROUP_REMOVE_FORM_FIELDS::TOKEN);
         $this->groupIdFieldName = sprintf('%s[%s]', GROUP_REMOVE_FORM_FIELDS::FORM, GROUP_REMOVE_FORM_FIELDS::GROUP_ID);
         $this->submitFieldName = sprintf('%s[%s]', GROUP_REMOVE_FORM_FIELDS::FORM, GROUP_REMOVE_FORM_FIELDS::SUBMIT);
 

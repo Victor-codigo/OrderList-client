@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Common\Domain\Ports\HttpCllent;
+namespace Common\Domain\Ports\HttpClient;
 
-interface HttpClientResponseInteface
+interface HttpClientResponseInterface
 {
     public function close(): void;
 

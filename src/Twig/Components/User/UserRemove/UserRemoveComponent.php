@@ -24,7 +24,7 @@ class UserRemoveComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $submitFieldName;
-    public readonly string $tokenCsrfFiledName;
+    public readonly string $tokenCsrfFieldName;
 
     public static function getComponentName(): string
     {
@@ -37,7 +37,7 @@ class UserRemoveComponent extends TwigComponent
 
         $this->formName = USER_REMOVE_FORM_FIELDS::FORM;
         $this->submitFieldName = sprintf('%s[%s]', USER_REMOVE_FORM_FIELDS::FORM, USER_REMOVE_FORM_FIELDS::SUBMIT);
-        $this->tokenCsrfFiledName = sprintf('%s[%s]', USER_REMOVE_FORM_FIELDS::FORM, USER_REMOVE_FORM_FIELDS::TOKEN);
+        $this->tokenCsrfFieldName = sprintf('%s[%s]', USER_REMOVE_FORM_FIELDS::FORM, USER_REMOVE_FORM_FIELDS::TOKEN);
     }
 
     public function mount(UserRemoveComponentDto $data): void
