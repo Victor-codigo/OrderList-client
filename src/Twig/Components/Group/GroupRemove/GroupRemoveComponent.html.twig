@@ -1,6 +1,7 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="GroupRemoveComponent"
+	  data-action="GroupListItemComponent:onGroupRemoveEvent@window->GroupRemoveComponent#setGroupIdToRemove"
 	  class="contaniner  p-5"
 	  method="post"
 	  enctype="multipart/form-data"
@@ -12,6 +13,7 @@
 
 	<input type="hidden"
 		   name="{{ groupIdFieldName }}"
+		   data-js-group-id
 		   value="{{ data.groupId }}" />
 
 	<div class="mb-5 pt-5 display-4 text-center">
