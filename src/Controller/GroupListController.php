@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Form\Group\GroupList\GroupRemoveForm;
 use App\Form\Group\GroupRemove\GROUP_REMOVE_FORM_ERRORS;
+use App\Form\Group\GroupRemove\GroupRemoveForm;
 use App\Twig\Components\Group\GroupList\ListItem\GroupListItemComponentDto;
 use App\Twig\Components\Group\GroupList\List\GroupListComponentDto;
 use App\Twig\Components\Group\GroupRemove\GroupRemoveComponentDto;

@@ -2,7 +2,6 @@
 
 namespace App\Twig\Components\Group\GroupList\List;
 
-use App\Form\Group\GroupList\GROUP_LIST_FORM_FIELDS;
 use App\Form\Group\GroupRemove\GROUP_REMOVE_FORM_ERRORS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
@@ -21,10 +20,6 @@ final class GroupListComponent extends TwigComponent
     private const API_DOMAIN = HTTP_CLIENT_CONFIGURATION::API_DOMAIN;
     public GroupListComponentLangDto $lang;
     public GroupListComponentDto|TwigComponentDtoInterface $data;
-
-    public readonly string $formName;
-    public readonly string $tokenCsrfFieldName;
-    public readonly string $submitFieldName;
     public readonly ListComponentDto $listDto;
 
     public static function getComponentName(): string
@@ -35,10 +30,6 @@ final class GroupListComponent extends TwigComponent
     public function mount(GroupListComponentDto $data): void
     {
         $this->data = $data;
-
-        $this->formName = GROUP_LIST_FORM_FIELDS::FORM;
-        $this->tokenCsrfFieldName = sprintf('%s[%s]', GROUP_LIST_FORM_FIELDS::FORM, GROUP_LIST_FORM_FIELDS::TOKEN);
-        $this->submitFieldName = sprintf('%s[%s]', GROUP_LIST_FORM_FIELDS::FORM, GROUP_LIST_FORM_FIELDS::SUBMIT_REMOVE);
 
         $this->loadTranslation();
 
