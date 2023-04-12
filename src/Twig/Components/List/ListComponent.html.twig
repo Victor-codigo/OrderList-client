@@ -1,0 +1,27 @@
+<ul class="list-group  list-group-flush"
+	data-controller="ListController">
+
+	{% if data.listItemsDto is empty %}
+
+	<li class="d-flex  flex-row  justify-content-center  align-items-center  list-empty">
+		<img class="me-2"
+			 src="{{ data.listEmptyIconPath }}"
+			 alt="{{ data.listEmptyIconAlt }}">
+		<span>{{ data.listEmptyMessage }}</span>
+	</li>
+
+	{% else %}
+
+	{% for item in data.listItemsDto %}
+
+	<li class="list-group-item">
+
+		{{ component(data.itemComponentName, { data: item }) }}
+
+	</li>
+
+	{% endfor %}
+
+	{% endif %}
+
+</ul>
