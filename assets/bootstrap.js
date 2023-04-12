@@ -15,11 +15,15 @@ import NavigationBar from '../src/Twig/Components/NavigationBar/NavigationBar_co
 import ModalComponent from '../src/Twig/Components/Modal/Modal_Component';
 import DropZoneComponent from '../src/Twig/Components/Controls/DropZone/DropZone_Component';
 import ImageAvatarComponent from '../src/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
+import PaginatorComponent from '../src/Twig/Components/Paginator/Paginator_Component';
+import ListComponent from '../src/Twig/Components/List/List_controller';
 
 // GROUP
 import GroupCreateComponent from '../src/Twig/Components/Group/GroupCreate/GroupCreate_controller';
 import GroupModifyComponent from '../src/Twig/Components/Group/GroupModify/GroupModify_controller';
 import GroupRemoveComponent from '../src/Twig/Components/Group/GroupRemove/GroupRemove_controller';
+import GroupListComponent from '../src/Twig/Components/Group/GroupList/List/GroupList_controller';
+import GroupListItemComponent from '../src/Twig/Components/Group/GroupList/ListItem/GroupListItem_controller';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -37,6 +41,8 @@ app.register('NavigationBar', NavigationBar);
 app.register('ModalComponent', ModalComponent);
 app.register('DropZoneComponent', DropZoneComponent);
 app.register('ImageAvatarComponent', ImageAvatarComponent);
+app.register('PaginatorComponent', PaginatorComponent);
+app.register('ListComponent', ListComponent);
 
 // USER
 app.register('LoginComponent', LoginComponent);
@@ -51,3 +57,5 @@ app.register('UserRemoveComponent', UserRemoveComponent);
 app.register('GroupCreateComponent', GroupCreateComponent);
 app.register('GroupModifyComponent', GroupModifyComponent);
 app.register('GroupRemoveComponent', GroupRemoveComponent);
+app.register('GroupListComponent', GroupListComponent);
+app.register('GroupListItemComponent', GroupListItemComponent);

@@ -1,0 +1,14 @@
+title: Your groups
+
+list_empty:
+  message: There are not groups
+  icon:
+    alt: There are not groups
+
+validation:
+  ok: Group Removed
+  error:
+    group_id_wrong: Group id is not valid
+    group_not_found: The group was not found
+    group_permissions: You have not permissions to remove the group
+    internal_server: An error has been occurred, try it later

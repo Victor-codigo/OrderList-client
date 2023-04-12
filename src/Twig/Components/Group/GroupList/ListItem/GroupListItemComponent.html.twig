@@ -1,0 +1,45 @@
+<div class="d-flex flex-row"
+     data-controller="GroupListItemComponent">
+
+    <input type="hidden"
+           name="group_id"
+           data-js-group-id
+           value="{{ data.id }}">
+
+    <a class="position-relative  group-list-item-image  flex-grow-0  flex-shrink-0"
+       href="#">
+
+        <img class="img-thumbnail"
+             src="{{ data.image }}"
+             alt="{{ lang.imageGroupAlt }}">
+
+        {% if data.admin %}
+
+        <span class="position-absolute  translate-middle-y  top-100  start-0  badge  border-light text-bg-success">
+            Admin
+        </span>
+
+        {% endif %}
+    </a>
+    <div class="d-flex  flex-column  ms-3  me-2">
+        <a class="fs-5  link-primary  text-decoration-none"
+           href="#">{{ data.name }}</a>
+
+        <span class="ms-1  text-secondary">{{ data.description }}</span>
+    </div>
+
+    {% if data.admin %}
+
+    <button class="ms-auto  align-self-center  btn"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#group_remove_modal"
+            data-js-group-remove-button>
+
+        <img class="remove"
+             src="{{ constant('API_DOMAIN', this) ~ '/assets/img/common/remove-icon.svg' }}"
+             alt="{{ lang.removeGroupAlt }}">
+    </button>
+
+    {% endif %}
+</div>

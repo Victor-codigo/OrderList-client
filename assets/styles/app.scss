@@ -1,8 +1,8 @@
-// Components
-@import '/src/Twig/Components/Modal/ModalComponent.sass';
-@import '/src/Twig/Components/User/Profile/ProfileComponent';
-
-
-
-
 @import '/node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+// Groups
+@import '/src/Twig/Components/Group/GroupList/ListItem/GroupListItemComponent.scss';
+
+
+// List
+@import '/src/Twig/Components/List/ListComponent';
