@@ -1,0 +1,18 @@
+title: Usuarios del grupo {grupo_nombre}
+
+list_empty:
+  message: No hay usuarios
+  icon:
+    alt: Not hay usuarios
+
+validation:
+  ok: Usuario eliminado
+  title: Errores
+  error:
+    group_id_wrong: El id del usuario no es válido
+    group_empty: El grupo no contiene usuarios que puedan ser eliminados. Si quieres eliminar a todos los usuarios restantes, elimina el grupo
+    group_users_not_found: El grupo no tiene usuarios
+    group_without_admins: No se pueden eliminar todos los administradores del grupo. Al menos deve haber uno.
+    permissions: No tienes permisos para eliminar el usuario
+    users: El id de usuario no es válido
+    internal_server: Ocurrió un error, inténtalo más tarde

@@ -1,0 +1,9 @@
+title: Group user remove
+
+message_advice:
+  text: |
+    By pressing the button, the user #USER_NAME# will be removed from the group.
+    Are you sure?
+
+remove_group_user_button:
+  label: Remove user from the group
