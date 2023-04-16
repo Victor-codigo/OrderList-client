@@ -27,6 +27,7 @@ import GroupListItemComponent from '../src/Twig/Components/Group/GroupList/ListI
 import GroupUsersListComponent from '../src/Twig/Components/Group/GroupUsersList/List/GroupUsersList_controller';
 import GroupUsersListItemComponent from '../src/Twig/Components/Group/GroupUsersList/ListItem/GroupUsersListItem_controller';
 import GroupUserRemoveComponent from '../src/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
+import GroupUserAddComponent from '../src/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -65,3 +66,4 @@ app.register('GroupListItemComponent', GroupListItemComponent);
 app.register('GroupUsersListComponent', GroupUsersListComponent);
 app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
 app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
+app.register('GroupUserAddComponent', GroupUserAddComponent);
