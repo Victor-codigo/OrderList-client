@@ -1,4 +1,4 @@
-title: Usuarios del grupo {grupo_nombre}
+title: Usuarios del grupo {group_name}
 
 list_empty:
   message: No hay usuarios

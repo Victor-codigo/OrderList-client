@@ -4,6 +4,7 @@
     <input type="hidden"
            name="group_id"
            data-js-group-id
+           data-group-name="{{ data.name }}"
            value="{{ data.id }}">
 
     <a class="position-relative  group-list-item-image  flex-grow-0  flex-shrink-0"
@@ -15,7 +16,7 @@
 
         {% if data.admin %}
 
-        <span class="position-absolute  translate-middle-y  top-100  start-0  badge  border-light text-bg-success">
+        <span class="position-absolute  bottom-0 start-0  badge  border-light text-bg-success">
             Admin
         </span>
 

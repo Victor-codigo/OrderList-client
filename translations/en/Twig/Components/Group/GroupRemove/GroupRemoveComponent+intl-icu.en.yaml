@@ -2,7 +2,7 @@ title: Group remove
 
 message_advice:
   text: |
-    By pressing the button, the group and all its information will be removed from the website.
+    By pressing the button, the group #GROUP_NAME# and all its information will be removed from the website.
     Once the process starts, cannot be undone. Are you sure?
 
 remove_group_button:
