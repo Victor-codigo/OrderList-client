@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
     path: '{_locale}/group/{group_id}/users/list/page/{page}',
-    name: 'group_list',
+    name: 'group_users_list',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
