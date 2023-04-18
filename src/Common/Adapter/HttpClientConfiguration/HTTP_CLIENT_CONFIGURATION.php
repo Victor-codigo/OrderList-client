@@ -13,6 +13,7 @@ final class HTTP_CLIENT_CONFIGURATION
     public const API_DOMAIN = 'http://orderlist.api';
     public const CLIENT_DOMAIN = 'http://orderlist.client';
     public const XDEBUG_VAR = 'XDEBUG_SESSION=VSCODE';
+    public const COOKIE_SESSION_NAME = 'TOKENSESSION';
 
     public static function json(array $data = null, string $tokenSession = null): array
     {

@@ -40,7 +40,7 @@ class GroupCreateController extends AbstractController
     public function __invoke(Request $request): Response
     {
         $form = $this->formFactory->create(new GroupCreateForm(), $request);
-        $tokenSession = $request->cookies->get('TOKENSESSION');
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
 
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->formValid($form, $tokenSession);

@@ -47,7 +47,7 @@ class GroupModifyController extends AbstractController
     {
         $groupModifyForm = $this->formFactory->create(new GroupModifyForm(), $request);
         $groupRemoveForm = $this->formFactory->create(new GroupRemoveForm(), $request);
-        $tokenSession = $request->cookies->get('TOKENSESSION');
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
         $groupId = $request->attributes->get('group_id');
         $submitted = false;
         $errorList = [];

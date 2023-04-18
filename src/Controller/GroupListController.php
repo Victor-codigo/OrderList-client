@@ -48,7 +48,7 @@ class GroupListController extends AbstractController
     public function __invoke(Request $request): Response
     {
         $formRemove = $this->formFactory->create(new GroupRemoveForm(), $request);
-        $tokenSession = $request->cookies->get('TOKENSESSION');
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
         $this->pageCurrent = $request->attributes->getInt('page');
         $userGroupsData = $this->getUserGroups($formRemove, $tokenSession);
         $formRemoveValid = false;

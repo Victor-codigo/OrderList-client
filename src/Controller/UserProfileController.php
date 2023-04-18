@@ -60,7 +60,7 @@ class UserProfileController extends AbstractController
         $formPasswordChange = $this->formFactory->create(new PasswordChangeForm(), $request);
         $formProfile = $this->formFactory->create(new ProfileForm(), $request);
         $formUserRemove = $this->formFactory->create(new UserRemoveForm(), $request);
-        $tokenSession = $request->cookies->get('TOKENSESSION');
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
         $userId = $request->attributes->get('id');
         $errorList = [];
         $submitted = false;

@@ -43,7 +43,7 @@ class GroupUserAddController extends AbstractController
     public function __invoke(Request $request): Response
     {
         try {
-            $tokenSession = $request->cookies->get('TOKENSESSION');
+            $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
             $groupId = $request->attributes->get('group_id');
             $form = $this->formFactory->create(new GroupUserAddForm(), $request);
             $groupData = $this->getResponseRequest($form, $groupId, '', $tokenSession, $this->requestGroupData(...))[0];
