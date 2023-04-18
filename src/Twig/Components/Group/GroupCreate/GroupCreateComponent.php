@@ -17,7 +17,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 final class GroupCreateComponent extends TwigComponent
 {
-    public GroupCreateComponentDtoLang $lang;
+    public GroupCreateComponentLangDto $lang;
     public GroupCreateComponentDataDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
@@ -61,7 +61,7 @@ final class GroupCreateComponent extends TwigComponent
 
     private function loadTranslation(): void
     {
-        $this->lang = new GroupCreateComponentDtoLang(
+        $this->lang = new GroupCreateComponentLangDto(
             $this->translate('title'),
             $this->translate('name.label'),
             $this->translate('name.placeholder'),

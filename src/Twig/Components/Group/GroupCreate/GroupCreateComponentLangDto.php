@@ -6,7 +6,7 @@ namespace App\Twig\Components\Group\GroupCreate;
 
 use App\Twig\Components\Alert\AlertComponentDto;
 
-class GroupCreateComponentDtoLang
+class GroupCreateComponentLangDto
 {
     public function __construct(
         public readonly string $title,
