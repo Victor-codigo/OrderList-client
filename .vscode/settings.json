@@ -21,6 +21,8 @@
     "peacock.remoteColor": "#f9e64f",
     "dotenv.enableAutocloaking": false,
     "cSpell.ignoreWords": [
-        "TOKENSESSION"
+        "TOKENSESSION",
+        "symfony",
+        "viewbox"
     ]
 }

@@ -1,40 +1,32 @@
 <div id="{{ data.componentId }}">
     <div class="mb-3">
         <label for="dropzone_form_file"
-                class="form-label required">
+               class="form-label required">
             {{ data.labelField }}
         </label>
         <div class="dropzone-container"
-                data-controller="symfony--ux-dropzone--dropzone">
+             data-controller="symfony--ux-dropzone--dropzone">
 
             <input type="file"
-                    id="dropzone_form_file"
-                    name="{{ data.formName }}[{{ data.nameField }}]"
-                    {# required="required" #}
-                    placeholder="{{ data.placeholderField }}"
-                    data-controller=""
-                    class="dropzone-input"
-                    data-symfony--ux-dropzone--dropzone-target="input"
-                    style="display: block;">
+                   id="dropzone_form_file"
+                   name="{{ data.formName }}[{{ data.nameField }}]"
+                   placeholder="{{ data.placeholderField }}"
+                   data-controller=""
+                   class="dropzone-input"
+                   data-symfony--ux-dropzone--dropzone-target="input"
+                   style="display: block;">
 
             <div class="dropzone-placeholder"
-                data-symfony--ux-dropzone--dropzone-target="placeholder"
-                style="display: block;">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="32"
-                     height="32"
-                     fill="currentColor"
-                     class="bi bi-cloud-upload-fill  me-2"
-                     viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z"/>
-                </svg>
-                    {{ data.placeholderField }}
+                 data-symfony--ux-dropzone--dropzone-target="placeholder"
+                 style="display: block;">
+
+                {{ include('Components/Controls/DropZone/img/icon.svg') }}
+                {{ data.placeholderField }}
             </div>
 
             <div class="dropzone-preview"
-                    data-symfony--ux-dropzone--dropzone-target="preview"
-                    style="display: none">
+                 data-symfony--ux-dropzone--dropzone-target="preview"
+                 style="display: none">
                 <button class="dropzone-preview-button"
                         type="button"
                         data-symfony--ux-dropzone--dropzone-target="previewClearButton">
