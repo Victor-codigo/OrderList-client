@@ -136,10 +136,12 @@ class FormTypeSymfony extends AbstractType
     private function getFormFieldOptions(FIELD_TYPE $type): array
     {
         return match ($type) {
-            FIELD_TYPE::DATE,
-            FIELD_TYPE::DATETIME => [
+            FIELD_TYPE::DATE => [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
+            ],
+            FIELD_TYPE::DATETIME => [
+                'widget' => 'single_text',
             ],
             default => []
         };

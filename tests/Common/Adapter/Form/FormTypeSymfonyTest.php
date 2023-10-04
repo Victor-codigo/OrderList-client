@@ -71,10 +71,12 @@ class FormTypeSymfonyTest extends TestCase
     private function assertFieldOptionsAreOk(string $type, array $options): void
     {
         $expectedOptions = match ($type) {
-            DateType::class,
-            DateTimeType::class => [
+            DateType::class => [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
+            ],
+            DateTimeType::class => [
+                'widget' => 'single_text',
             ],
             default => []
         };
