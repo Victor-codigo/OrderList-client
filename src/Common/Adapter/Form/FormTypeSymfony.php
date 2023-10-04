@@ -80,7 +80,11 @@ class FormTypeSymfony extends AbstractType
         $this->formType->formBuild();
 
         foreach ($this->formType->getFields() as $field) {
-            $builder->add($field->name, $this->toSymfonyFormField($field->type));
+            $builder->add(
+                $field->name,
+                $this->toSymfonyFormField($field->type),
+                $this->getFormFieldOptions($field->type)
+            );
         }
     }
 
@@ -126,6 +130,18 @@ class FormTypeSymfony extends AbstractType
             FIELD_TYPE::UUID => UuidType::class,
             FIELD_TYPE::WEEK => WeekType::class,
             FIELD_TYPE::DROPDOWN => DropzoneType::class,
+        };
+    }
+
+    private function getFormFieldOptions(FIELD_TYPE $type): array
+    {
+        return match ($type) {
+            FIELD_TYPE::DATE,
+            FIELD_TYPE::DATETIME => [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+            ],
+            default => []
         };
     }
 }

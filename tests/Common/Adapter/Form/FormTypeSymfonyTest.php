@@ -11,6 +11,8 @@ use Common\Domain\Form\FormField;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,11 +33,8 @@ class FormTypeSymfonyTest extends TestCase
         $this->object = new FormTypeSymfony();
         $this->formBuilder = $this->createMock(FormBuilderInterface::class);
         $this->formType = $this->createMock(FormForTesting::class);
-        $this->options['data'] = [self::OPTION_FORM_TYPE => $this->formType] ;
+        $this->options['data'] = [self::OPTION_FORM_TYPE => $this->formType];
     }
-
-
-
 
     /** @test */
     public function itShouldBuildTheForm(): void
@@ -58,9 +57,29 @@ class FormTypeSymfonyTest extends TestCase
                 [$formFields[0]['field']->name, $formFields[0]['symfonyType']],
                 [$formFields[1]['field']->name, $formFields[1]['symfonyType']],
                 [$formFields[2]['field']->name, $formFields[2]['symfonyType']],
-            );
+                [$formFields[3]['field']->name, $formFields[3]['symfonyType']],
+            )
+            ->willReturnCallback(function (string $name, string $type, array $options) {
+                $this->assertFieldOptionsAreOk($type, $options);
+
+                return $this->formBuilder;
+            });
 
         $this->object->buildForm($this->formBuilder, $this->options);
+    }
+
+    private function assertFieldOptionsAreOk(string $type, array $options): void
+    {
+        $expectedOptions = match ($type) {
+            DateType::class,
+            DateTimeType::class => [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+            ],
+            default => []
+        };
+
+        $this->assertEquals($expectedOptions, $options);
     }
 
     /**
@@ -72,6 +91,8 @@ class FormTypeSymfonyTest extends TestCase
             ['field' => new FormField('name', FIELD_TYPE::TEXT, null), 'symfonyType' => TextType::class],
             ['field' => new FormField('age', FIELD_TYPE::INTEGER, null), 'symfonyType' => IntegerType::class],
             ['field' => new FormField('country', FIELD_TYPE::COUNTRY, null), 'symfonyType' => CountryType::class],
+            ['field' => new FormField('date', FIELD_TYPE::DATE, null), 'symfonyType' => DateType::class],
+            ['field' => new FormField('date', FIELD_TYPE::DATETIME, null), 'symfonyType' => DateTimeType::class],
         ];
     }
 }
