@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Common\Domain\Form;
 
-use Common\Domain\Form\FIELD_TYPE;
-use Common\Domain\Form\FormField;
-use Common\Domain\Form\FormTypeInterface;
-
 abstract class FormType implements FormTypeInterface
 {
     /**
@@ -33,9 +29,9 @@ abstract class FormType implements FormTypeInterface
         return $fieldValueDefaults;
     }
 
-    protected function addField(string $name, FIELD_TYPE $type, mixed $default = null): static
+    protected function addField(string $name, FIELD_TYPE $type, mixed $default = null, array $options = []): static
     {
-        $this->formFields[] = new FormField($name, $type, $default);
+        $this->formFields[] = new FormField($name, $type, $default, $options);
 
         return $this;
     }

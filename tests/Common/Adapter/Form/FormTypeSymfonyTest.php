@@ -10,6 +10,7 @@ use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormField;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -58,6 +59,7 @@ class FormTypeSymfonyTest extends TestCase
                 [$formFields[1]['field']->name, $formFields[1]['symfonyType']],
                 [$formFields[2]['field']->name, $formFields[2]['symfonyType']],
                 [$formFields[3]['field']->name, $formFields[3]['symfonyType']],
+                [$formFields[4]['field']->name, $formFields[4]['symfonyType']],
             )
             ->willReturnCallback(function (string $name, string $type, array $options) {
                 $this->assertFieldOptionsAreOk($type, $options);
@@ -78,6 +80,7 @@ class FormTypeSymfonyTest extends TestCase
             DateTimeType::class => [
                 'widget' => 'single_text',
             ],
+            ChoiceType::class => $options,
             default => []
         };
 
@@ -94,7 +97,8 @@ class FormTypeSymfonyTest extends TestCase
             ['field' => new FormField('age', FIELD_TYPE::INTEGER, null), 'symfonyType' => IntegerType::class],
             ['field' => new FormField('country', FIELD_TYPE::COUNTRY, null), 'symfonyType' => CountryType::class],
             ['field' => new FormField('date', FIELD_TYPE::DATE, null), 'symfonyType' => DateType::class],
-            ['field' => new FormField('date', FIELD_TYPE::DATETIME, null), 'symfonyType' => DateTimeType::class],
+            ['field' => new FormField('dateTime', FIELD_TYPE::DATETIME, null), 'symfonyType' => DateTimeType::class],
+            ['field' => new FormField('choice', FIELD_TYPE::CHOICE, null), 'symfonyType' => ChoiceType::class],
         ];
     }
 }

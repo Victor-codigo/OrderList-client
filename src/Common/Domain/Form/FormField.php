@@ -9,7 +9,8 @@ class FormField
     public function __construct(
         public readonly string $name,
         public readonly FIELD_TYPE $type,
-        public readonly mixed $default
+        public readonly mixed $default = null,
+        public readonly array $options = []
     ) {
     }
 }
