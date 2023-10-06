@@ -29,6 +29,11 @@ import GroupUsersListItemComponent from '../src/Twig/Components/Group/GroupUsers
 import GroupUserRemoveComponent from '../src/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
 import GroupUserAddComponent from '../src/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
 
+// LIST ORDERS
+import ListOrdersCreateComponent from '../src/Twig/Components/ListOrders/ListOrdersCreate/ListOrdersCreate_controller';
+import ListOrdersListComponent from '../src/Twig/Components/ListOrders/ListOrdersList/List/ListOrdersList_controller';
+import ListOrdersListItemComponent from '../src/Twig/Components/ListOrders/ListOrdersList/ListItem/ListOrdersListItem_controller';
+
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
     '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
@@ -67,3 +72,8 @@ app.register('GroupUsersListComponent', GroupUsersListComponent);
 app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
 app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
 app.register('GroupUserAddComponent', GroupUserAddComponent);
+
+// LIST ORDERS
+app.register('ListOrdersCreateComponent', ListOrdersCreateComponent);
+app.register('ListoOrdersListComponent', ListOrdersListComponent);
+app.register('ListoOrdersListItemComponent', ListOrdersListItemComponent);

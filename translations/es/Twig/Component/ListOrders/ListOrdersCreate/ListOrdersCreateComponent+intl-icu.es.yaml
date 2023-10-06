@@ -1,0 +1,38 @@
+title: Crea una lista de la compra
+
+name:
+  label: Nombre de la lista de compras
+  placeholder: Introduce un nombre para la lista de compras
+  msg_invalid: |
+    Introduce un nombre válido.
+    El nombre debe contener entre 1 y 30 caracteres
+    Solo está permitido, caracteres alfanuméricos, espacios en blanco y "_"
+
+description:
+  label: Descripción
+  placeholder: Introduce una description para la lista de la compra
+  msg_invalid: La descripción es muy larga
+
+date_to_buy:
+  label: Fecha de compra
+  placeholder: Introduce una fecha, para la que la lista de la compra, debería estar comprada
+  msg_invalid: La fecha no es correcta
+
+userGroups:
+  label: Grupo
+  placeholder: Selecciona el grupo al que se añade la lista de la compra
+  msg_invalid: La lista de la compra es incorrecta
+
+button_list_orders_create:
+  label: Crear la lista de la compra
+
+validation:
+  title: Errores
+  error:
+    name: |
+      Introduce un nombre válido.
+      El nopmbre debe contener al menos un caracter y máximo 30
+      Solo se permiten caracteres alfanuméricos y "_"
+    name_exists: Ya existe una lista con el mismo nombre
+    group_id: Selecciona un grupo válido
+    internal_server: Ocurrió un error, inténtalo más tarde
