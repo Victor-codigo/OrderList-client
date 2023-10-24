@@ -17,6 +17,8 @@ interface FormInterface
 
     public function isSubmitted(): bool;
 
+    public function isButtonClicked(string $buttonName): bool;
+
     public function isCsrfValid(): bool;
 
     public function csrfTokenRefresh(): static;

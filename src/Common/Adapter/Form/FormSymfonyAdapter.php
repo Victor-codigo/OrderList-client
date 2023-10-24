@@ -8,6 +8,8 @@ use Common\Domain\Form\FormTypeInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Validation\ValidationInterface;
 use Symfony\Component\Form\Exception\OutOfBoundsException;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface as SymfonyFormInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -48,7 +50,7 @@ class FormSymfonyAdapter implements FormInterface
         return $this->validationErrors;
     }
 
-    public function __construct(SymfonyFormInterface $form, CsrfTokenManagerInterface $tokenManager, ValidationInterface $validator, string|null $csrfTokenId = null)
+    public function __construct(SymfonyFormInterface $form, CsrfTokenManagerInterface $tokenManager, ValidationInterface $validator, string $csrfTokenId = null)
     {
         $this->form = $form;
         $this->tokenManager = $tokenManager;
@@ -69,6 +71,22 @@ class FormSymfonyAdapter implements FormInterface
     public function isSubmitted(): bool
     {
         return $this->form->isSubmitted();
+    }
+
+    /**
+     * @throws \LogicException if control is not a button
+     */
+    public function isButtonClicked(string $buttonName): bool
+    {
+        $button = $this->form->get($buttonName);
+        $buttonInnerType = $button->getConfig()->getType()->getInnerType();
+
+        if (!$buttonInnerType instanceof SubmitType
+        && !$buttonInnerType instanceof ButtonType) {
+            throw new \LogicException('This is not a button');
+        }
+
+        return $button->isClicked();
     }
 
     public function isCsrfValid(): bool

@@ -10,9 +10,11 @@ use Common\Adapter\Form\FormSymfonyAdapter;
 use Common\Adapter\Form\FormTypeSymfony;
 use Common\Domain\Form\FormTypeInterface;
 use Common\Domain\Validation\ValidationInterface;
-use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface as SymfonyFormTypeInterface;
@@ -28,7 +30,7 @@ class FormSymfonyAdapterTest extends TestCase
     private MockObject|FormConfigInterface $formConfig;
     private MockObject|ResolvedFormTypeInterface $resolvedForm;
     private MockObject|FormTypeInterface $formType;
-    private MockObject|SymfonyFormTypeInterface  $formTypeSymfony;
+    private MockObject|SymfonyFormTypeInterface $formTypeSymfony;
     private MockObject|ValidationInterface $validator;
     private string $tokenId = 'tokenId';
 
@@ -63,7 +65,7 @@ class FormSymfonyAdapterTest extends TestCase
     }
 
     /** @test */
-    public function ItShouldFailNotReturnCsrfTokenValueCsrfManagerNotInitialized(): void
+    public function itShouldFailNotReturnCsrfTokenValueCsrfManagerNotInitialized(): void
     {
         $this->object = $this->createFormSymfonyAdapter(false);
         $tokenValue = 'token value';
@@ -122,6 +124,129 @@ class FormSymfonyAdapterTest extends TestCase
         $this->assertFalse($return);
     }
 
+    /** @test */
+    public function itShouldCheckIfTheButtonIsClicked(): void
+    {
+        $formField = $this->getMockBuilder(FormInterface::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['isClicked'])
+            ->getMockForAbstractClass();
+        $config = $this->createMock(FormConfigInterface::class);
+        $innerType = $this->createMock(ResolvedFormTypeInterface::class);
+        $button = $this->createMock(ButtonType::class);
+        $buttonName = 'buttonName';
+
+        $this->object = $this->createFormSymfonyAdapter(false);
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->with($buttonName)
+            ->willReturn($formField);
+
+        $formField
+            ->expects($this->once())
+            ->method('getConfig')
+            ->willReturn($config);
+
+        $formField
+            ->expects($this->once())
+            ->method('isClicked')
+            ->willReturn(true);
+
+        $config
+            ->expects($this->once())
+            ->method('getType')
+            ->willReturn($innerType);
+
+        $innerType
+            ->expects($this->once())
+            ->method('getInnerType')
+            ->willReturn($button);
+
+        $return = $this->object->isButtonClicked($buttonName);
+
+        $this->assertTrue($return);
+    }
+
+    /** @test */
+    public function itShouldCheckIfTheSubmitButtonIsClicked(): void
+    {
+        $formField = $this->getMockBuilder(FormInterface::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['isClicked'])
+            ->getMockForAbstractClass();
+        $config = $this->createMock(FormConfigInterface::class);
+        $innerType = $this->createMock(ResolvedFormTypeInterface::class);
+        $button = $this->createMock(SubmitType::class);
+        $buttonName = 'submitButtonName';
+
+        $this->object = $this->createFormSymfonyAdapter(false);
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->with($buttonName)
+            ->willReturn($formField);
+
+        $formField
+            ->expects($this->once())
+            ->method('getConfig')
+            ->willReturn($config);
+
+        $formField
+            ->expects($this->once())
+            ->method('isClicked')
+            ->willReturn(true);
+
+        $config
+            ->expects($this->once())
+            ->method('getType')
+            ->willReturn($innerType);
+
+        $innerType
+            ->expects($this->once())
+            ->method('getInnerType')
+            ->willReturn($button);
+
+        $return = $this->object->isButtonClicked($buttonName);
+
+        $this->assertTrue($return);
+    }
+
+    /** @test */
+    public function itShouldCheckItIsNotaButton(): void
+    {
+        $formField = $this->createMock(FormInterface::class);
+        $config = $this->createMock(FormConfigInterface::class);
+        $innerType = $this->createMock(ResolvedFormTypeInterface::class);
+        $button = $this->createMock(TextType::class);
+        $buttonName = 'submitButtonName';
+
+        $this->object = $this->createFormSymfonyAdapter(false);
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->with($buttonName)
+            ->willReturn($formField);
+
+        $formField
+            ->expects($this->once())
+            ->method('getConfig')
+            ->willReturn($config);
+
+        $config
+            ->expects($this->once())
+            ->method('getType')
+            ->willReturn($innerType);
+
+        $innerType
+            ->expects($this->once())
+            ->method('getInnerType')
+            ->willReturn($button);
+
+        $this->expectException(\LogicException::class);
+        $this->object->isButtonClicked($buttonName);
+    }
+
     private function createStubsForMethodIsValid(bool $formSymfonyValid, array $formTypeErrors): void
     {
         $this->createStubsForGetFormType();
@@ -160,8 +285,6 @@ class FormSymfonyAdapterTest extends TestCase
             ->method('getFormType')
             ->willReturn($this->formType);
     }
-
-
 
     /** @test */
     public function itShouldBeAValidFormNotCsrfProtectionChecked(): void
@@ -202,7 +325,7 @@ class FormSymfonyAdapterTest extends TestCase
     public function itShouldNotBeAValidFormBecauseOfFormValidation(): void
     {
         $this->object = $this->createFormSymfonyAdapter(true);
-        $this->createStubsForMethodIsValid(true, ['email' => [1,2]]);
+        $this->createStubsForMethodIsValid(true, ['email' => [1, 2]]);
 
         $return = $this->object->isValid(false);
 
@@ -244,7 +367,7 @@ class FormSymfonyAdapterTest extends TestCase
         $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
-            $tokenFieldName => 'this is a token'
+            $tokenFieldName => 'this is a token',
         ];
 
         $this->form
@@ -271,7 +394,7 @@ class FormSymfonyAdapterTest extends TestCase
         $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
-            $tokenFieldName => 'this is a token'
+            $tokenFieldName => 'this is a token',
         ];
 
         $this->createStubsForGetFormType();
@@ -293,12 +416,10 @@ class FormSymfonyAdapterTest extends TestCase
             ->with($this->equalTo(new CsrfToken($this->tokenId, $dataReturn[$tokenFieldName])))
             ->willReturn(true);
 
-
         $return = $this->object->isCsrfValid();
 
         $this->assertTrue($return);
     }
-
 
     /** @test */
     public function itShouldNotBeAValidCsrfTokenItDoesNotExistInFormData(): void
@@ -322,7 +443,7 @@ class FormSymfonyAdapterTest extends TestCase
         $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
-            $tokenFieldName => 'this is a token'
+            $tokenFieldName => 'this is a token',
         ];
 
         $this->object = new FormSymfonyAdapter($this->form, $this->csrfManager, $this->validator, null);
@@ -345,7 +466,7 @@ class FormSymfonyAdapterTest extends TestCase
         $this->object = $this->createFormSymfonyAdapter(false);
         $tokenFieldName = $this->formType::getCsrfTokenFieldName();
         $dataReturn = [
-            $tokenFieldName => 'this is a token'
+            $tokenFieldName => 'this is a token',
         ];
 
         $this->createStubsForGetFormType();
@@ -443,10 +564,10 @@ class FormSymfonyAdapterTest extends TestCase
         $this->form
             ->expects($this->once())
             ->method('get')
-            ->willThrowException(new InvalidArgumentException());
+            ->willThrowException(new \InvalidArgumentException());
 
         $this->createStubsForGetFormType();
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->object->getFieldData('formField2');
     }
@@ -480,12 +601,12 @@ class FormSymfonyAdapterTest extends TestCase
         $this->form
             ->expects($this->once())
             ->method('get')
-            ->willThrowException(new InvalidArgumentException());
+            ->willThrowException(new \InvalidArgumentException());
 
         $this->createStubsForGetFormType();
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
-        $this->object->setFieldData('formField2','value');
+        $this->object->setFieldData('formField2', 'value');
     }
 
     /** @test */
