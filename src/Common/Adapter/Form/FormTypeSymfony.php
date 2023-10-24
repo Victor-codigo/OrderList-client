@@ -146,6 +146,9 @@ class FormTypeSymfony extends AbstractType
             FIELD_TYPE::CHOICE => [
                 'choices' => $options,
             ],
+            FIELD_TYPE::COLLECTION => [
+                'allow_add' => true,
+            ],
             default => []
         };
     }
