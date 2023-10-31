@@ -1,0 +1,33 @@
+title: Crear producto
+
+name:
+  label: Nombre
+  placeholder: Introduce el nombre del producto
+  msg_invalid: |
+    Introduce un nombre válido.
+    El nombre debe contener al menos, un caracter y un máximo de 30 caracteres
+    Solo están permitidos caracteres alfanuméricos y "_"
+
+description:
+  label: Descripción
+  placeholder: Introduce la descripción del producto
+  msg_invalid: La descripción es demasiado larga
+
+image:
+  label: Imagen
+  placeholder: Sube una imagen para el producto
+
+product_create_button:
+  label: Crear producto
+
+validation:
+  title: Errores
+  ok: Producto creado
+  error:
+    name: |
+      El nombre no es correcto.
+      El nombre debe contener al menos un caracter y un máximo de 30 caracteres
+      Solo se permiten caracteres alfanuméricos y "_"
+    product_name_repeated: Ya hay un producto con el mismo nombre
+    image: Imagen no válida. Debe ser del tipo jpg, png, bmp
+    internal_server: ocurrió un error, inténtalo más tarde

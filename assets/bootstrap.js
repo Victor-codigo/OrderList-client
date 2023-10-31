@@ -16,6 +16,7 @@ import ModalComponent from '../src/Twig/Components/Modal/Modal_Component';
 import DropZoneComponent from '../src/Twig/Components/Controls/DropZone/DropZone_Component';
 import ImageAvatarComponent from '../src/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
 import PaginatorComponent from '../src/Twig/Components/Paginator/Paginator_Component';
+import PaginatorAjaxComponent from '../src/Twig/Components/PaginatorAjax/PaginatorAjax_Component';
 import ListComponent from '../src/Twig/Components/List/List_controller';
 
 // GROUP
@@ -29,10 +30,15 @@ import GroupUsersListItemComponent from '../src/Twig/Components/Group/GroupUsers
 import GroupUserRemoveComponent from '../src/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
 import GroupUserAddComponent from '../src/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
 
-// LIST ORDERS
-import ListOrdersCreateComponent from '../src/Twig/Components/ListOrders/ListOrdersCreate/ListOrdersCreate_controller';
-import ListOrdersListComponent from '../src/Twig/Components/ListOrders/ListOrdersList/List/ListOrdersList_controller';
-import ListOrdersListItemComponent from '../src/Twig/Components/ListOrders/ListOrdersList/ListItem/ListOrdersListItem_controller';
+// ORDERS
+import OrdersListComponent from '../src/Twig/Components/Orders/OrdersList/List/OrdersList_controller';
+import OrdersListItemComponent from '../src/Twig/Components/Orders/OrdersList/ListItem/OrdersListItem_controller';
+
+// PRODUCT
+import ProductCreateComponent from '../src/Twig/Components/Product/ProductCreate/ProductCreate_controller';
+
+
+
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -51,6 +57,7 @@ app.register('ModalComponent', ModalComponent);
 app.register('DropZoneComponent', DropZoneComponent);
 app.register('ImageAvatarComponent', ImageAvatarComponent);
 app.register('PaginatorComponent', PaginatorComponent);
+app.register('PaginatorAjaxComponent', PaginatorAjaxComponent);
 app.register('ListComponent', ListComponent);
 
 // USER
@@ -73,7 +80,10 @@ app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
 app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
 app.register('GroupUserAddComponent', GroupUserAddComponent);
 
-// LIST ORDERS
-app.register('ListOrdersCreateComponent', ListOrdersCreateComponent);
-app.register('ListoOrdersListComponent', ListOrdersListComponent);
-app.register('ListoOrdersListItemComponent', ListOrdersListItemComponent);
+
+// ORDERS
+app.register('OrdersListComponent', OrdersListComponent);
+app.register('OrdersListItemComponent', OrdersListItemComponent);
+
+// PRODUCT
+app.register('ProductCreateComponent', ProductCreateComponent);
