@@ -16,8 +16,7 @@ class ModalComponent extends TwigComponent
 {
     public ModalComponentDto|TwigComponentDtoInterface $data;
 
-
-    protected static function getComponentName(): string
+    public static function getComponentName(): string
     {
         return 'ModalComponent';
     }
