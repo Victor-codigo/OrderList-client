@@ -29,4 +29,6 @@ interface EndpointsInterface
     public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array;
 
     public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
+
+    public function shopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
 }

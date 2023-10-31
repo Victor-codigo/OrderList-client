@@ -74,4 +74,9 @@ class Endpoints implements EndpointsInterface
     {
         return ProductsEndPoint::getInstance($this->httpClient)->productCreate($groupId, $name, $description, $image, $tokenSession);
     }
+
+    public function shopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
+    {
+        return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $description, $image, $tokenSession);
+    }
 }

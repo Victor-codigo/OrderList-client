@@ -1,0 +1,33 @@
+title: Shop create
+
+name:
+  label: Name
+  placeholder: Enter a shop name
+  msg_invalid: |
+    Enter a valid name.
+    The name must contain at least a character and maximum 30 characters.
+    Only are allowed alphanumeric characters and "_"
+
+description:
+  label: Description
+  placeholder: Enter your a description for the shop
+  msg_invalid: The description is too large
+
+image:
+  label: Image
+  placeholder: Upload a file for the shop
+
+shop_create_button:
+  label: Create shop
+
+validation:
+  title: Errors
+  ok: Shop created
+  error:
+    name: |
+      The name is not correct.
+      The name must contain at least a character and maximum 30 characters.
+      Only are allowed alphanumeric characters and "_"
+    shop_name_repeated: There is already a shop with the same name
+    image: The image is not valid. It should be a jpg, png, bmp
+    internal_server: An error has been occurred, try it later
