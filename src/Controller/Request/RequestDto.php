@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RequestDto
 {
+    // comment
     public function __construct(
         public readonly string|null $tokenSession,
         public readonly array|null $groupData,

@@ -42,6 +42,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $this->loadGroupData($request->attributes, $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME)),
             $request
         );
+
         $request->attributes->set('requestDto', $requestDto);
     }
 
