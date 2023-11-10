@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Common\Adapter\Events;
 
 use App\Controller\Request\RequestDto;
+use App\Controller\Request\Response\GroupDataResponse;
+use App\Controller\Request\Response\ShopDataResponse;
 use App\Twig\Components\NavigationBar\NavigationBarDto;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Events\Exceptions\RequestGroupNameException;
+use Common\Adapter\Events\Exceptions\RequestShopNameException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -20,7 +23,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private Environment $twig,
-        private Endpoints $endpoints
+        private Endpoints $endpoints,
     ) {
     }
 
@@ -37,9 +40,14 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadRequestDto(Request $request): void
     {
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+        $groupData = $this->loadGroupData($request->attributes, $tokenSession);
+
         $requestDto = new RequestDto(
             $this->loadTokenSession($request),
-            $this->loadGroupData($request->attributes, $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME)),
+            $this->loadGroupName($request->attributes),
+            $groupData,
+            $this->loadShopData($request->attributes, $groupData->id ?? null, $tokenSession),
             $request
         );
 
@@ -64,7 +72,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('NavigationBarComponent', $navigationBarComponentData);
     }
 
-    private function loadGroupData(ParameterBag $attributes, string $tokenSession): array|null
+    private function loadGroupData(ParameterBag $attributes, string $tokenSession): GroupDataResponse|null
     {
         if (!$attributes->has('group_name')) {
             return null;
@@ -77,7 +85,13 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             throw RequestGroupNameException::fromMessage('Could not get group data');
         }
 
-        return $groupData['data'];
+        return new GroupDataResponse(
+            $groupData['data']['group_id'],
+            $groupData['data']['name'],
+            $groupData['data']['description'],
+            $groupData['data']['image'],
+            $groupData['data']['created_on'],
+        );
     }
 
     private function loadTokenSession(Request $request): string|null
@@ -87,5 +101,37 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+    }
+
+    private function loadGroupName(ParameterBag $attributes): string|null
+    {
+        if (!$attributes->has('group_name')) {
+            return null;
+        }
+
+        return $this->decodeUrlName($attributes->get('group_name'));
+    }
+
+    private function loadShopData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ShopDataResponse|null
+    {
+        if (null === $groupId || !$attributes->has('shop_name')) {
+            return null;
+        }
+
+        $shopNameDecoded = $this->decodeUrlName($attributes->get('shop_name'));
+        $shopData = $this->endpoints->shopsGetData($groupId, null, null, $shopNameDecoded, $tokenSession);
+
+        if (!empty($shopData['errors'])) {
+            throw RequestShopNameException::fromMessage('Could not get shop data');
+        }
+
+        return new ShopDataResponse(
+            $shopData['data'][0]['id'],
+            $shopData['data'][0]['group_id'],
+            $shopData['data'][0]['name'],
+            $shopData['data'][0]['description'],
+            $shopData['data'][0]['image'],
+            $shopData['data'][0]['created_on'],
+        );
     }
 }
