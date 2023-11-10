@@ -645,4 +645,25 @@ class FormSymfonyAdapterTest extends TestCase
         $this->assertContains($errorValue1, $this->object->getErrors());
         $this->assertContains($errorValue2, $this->object->getErrors());
     }
+
+    /** @test */
+    public function itShouldCheckThatFormHasErrors(): void
+    {
+        $this->object = $this->createFormSymfonyAdapter(false);
+        $this->object->addError('error1', 'error1');
+
+        $return = $this->object->hasErrors();
+
+        $this->assertTrue($return);
+    }
+
+    /** @test */
+    public function itShouldCheckThatFormHasNoErrors(): void
+    {
+        $this->object = $this->createFormSymfonyAdapter(false);
+
+        $return = $this->object->hasErrors();
+
+        $this->assertFalse($return);
+    }
 }

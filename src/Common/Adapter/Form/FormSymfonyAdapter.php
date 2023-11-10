@@ -41,6 +41,11 @@ class FormSymfonyAdapter implements FormInterface
         return $this->csrfTokenValue;
     }
 
+    public function hasErrors(): bool
+    {
+        return !empty($this->getErrors());
+    }
+
     public function getErrors(): array
     {
         if (!isset($this->validationErrors)) {
