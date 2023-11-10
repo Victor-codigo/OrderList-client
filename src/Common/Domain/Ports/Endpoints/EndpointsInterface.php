@@ -8,6 +8,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface EndpointsInterface
 {
+    public function decodeUrlName(string|null $name): string|null;
+
+    public function encodeUrl(string $url): string;
+
     public function listOrdersGetOrders(string $groupId, string $listOrdersId, int $page, int $pageItems, string $tokenSession): array;
 
     public function listOrdersGetData(string $groupId, string $listOrderName, string $tokenSession): array;
@@ -31,4 +35,8 @@ interface EndpointsInterface
     public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
 
     public function shopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
+
+    public function shopModify(string $shopId, string $groupId, string $name, string $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array;
+
+    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopNameStartsWith, string $tokenSession): array;
 }
