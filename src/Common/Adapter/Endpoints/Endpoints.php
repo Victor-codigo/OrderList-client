@@ -19,13 +19,18 @@ class Endpoints implements EndpointsInterface
     ) {
     }
 
-    private function decodeUrlName(string|null $name): string|null
+    public function decodeUrlName(string|null $name): string|null
     {
         if (null === $name) {
             return null;
         }
 
         return str_replace('-', ' ', $name);
+    }
+
+    public function encodeUrl(string $url): string
+    {
+        return str_replace(' ', '-', $url);
     }
 
     public function listOrdersGetOrders(string $groupId, string $listOrdersId, int $page, int $pageItems, string $tokenSession): array
@@ -78,5 +83,15 @@ class Endpoints implements EndpointsInterface
     public function shopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
     {
         return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $description, $image, $tokenSession);
+    }
+
+    public function shopModify(string $shopId, string $groupId, string $name, string $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array
+    {
+        return ShopsEndPoint::getInstance($this->httpClient)->shopModify($shopId, $groupId, $name, $description, $image, $imageRemove, $tokenSession);
+    }
+
+    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopNameStartsWith, string $tokenSession): array
+    {
+        return ShopsEndPoint::getInstance($this->httpClient)->shopsGetData($groupId, $shopsId, $productsId, $shopNameStartsWith, $tokenSession);
     }
 }

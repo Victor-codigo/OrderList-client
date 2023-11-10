@@ -12,7 +12,7 @@ use Common\Domain\HttpClient\Exception\UnsupportedOptionException;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 
-class ListOrdersEndpoints
+class ListOrdersEndpoints extends EndpointBase
 {
     private const GET_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
     private const GET_LIST_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';

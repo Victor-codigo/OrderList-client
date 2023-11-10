@@ -12,7 +12,7 @@ use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ProductsEndPoint
+class ProductsEndPoint extends EndpointBase
 {
     private const POST_PRODUCT_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
 

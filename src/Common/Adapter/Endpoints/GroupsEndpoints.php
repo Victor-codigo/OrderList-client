@@ -11,7 +11,7 @@ use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 
-class GroupsEndpoints
+class GroupsEndpoints extends EndpointBase
 {
     private const GET_GROUP_ID_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
 
