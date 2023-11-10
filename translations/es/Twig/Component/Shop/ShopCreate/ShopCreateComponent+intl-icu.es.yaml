@@ -22,7 +22,7 @@ product_create_button:
 
 validation:
   title: Errores
-  ok: Tienda creado
+  ok: Tienda creada
   error:
     name: |
       El nombre no es correcto.

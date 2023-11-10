@@ -29,14 +29,20 @@ class ShopCreateController extends AbstractController
     ) {
     }
 
-    public function __invoke(RequestDto $requestDto): Response
+    public function __invoke2(RequestDto $requestDto): Response
     {
         $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
 
         $validated = false;
         if ($shopCreateForm->isSubmitted() && $shopCreateForm->isValid()) {
             $validated = true;
-            $this->formValid($shopCreateForm, $requestDto->groupData['group_id'], $requestDto->tokenSession);
+            $this->formValid($shopCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+
+            if (!$shopCreateForm->hasErrors()) {
+                return $this->redirectToRoute('shop_create', [
+                    'group_name' => $this->endpoints->encodeUrl($requestDto->groupName),
+                ]);
+            }
         }
 
         return $this->renderTemplate(
