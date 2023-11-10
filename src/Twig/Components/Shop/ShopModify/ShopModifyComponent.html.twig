@@ -1,0 +1,75 @@
+<form id="{{ formName }}"
+	  name="{{ formName }}"
+	  data-controller="ShopModifyComponent"
+	  data-action="ImageAvatarComponent:imageRemoved->ShopModifyComponent#setImageAvatarAsRemoved  ImageAvatarComponent:imageRemovedUndo->ShopModifyComponent#setImageAvatarAsRemoved"
+	  class="contaniner  p-5"
+	  method="post"
+	  enctype="multipart/form-data"
+	  novalidate>
+
+	<input type="hidden"
+		   name="{{ tokenCsrfFieldName }}"
+		   value="{{ data.csrfToken }}" />
+
+	<input type="hidden"
+		   name="{{ imageRemoveFieldName }}"
+		   data-js-image-remove />
+
+	{% if lang.validationErrors %}
+	{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{% endif %}
+
+
+	<div class="mb-5 pt-5 display-1 text-center">
+		{{ lang.title }}
+	</div>
+
+	<div class="mb-5  d-flex justify-content-center">
+		{{ component('ImageAvatarComponent', { data: imageAvatarDto }) }}
+	</div>
+
+	<div class="mb-3">
+		<label for="name"
+			   class="form-label">
+			{{ lang.nameLabel }}
+		</label>
+		<input type="name"
+			   class="form-control"
+			   id="name"
+			   maxlength="50"
+			   pattern="[a-zA-Z0-9_\s]+"
+			   name="{{ nameFieldName }}"
+			   placeholder="{{ lang.namePlaceholder }}"
+			   value="{{ data.name }}"
+			   required />
+		<div class="invalid-feedback">
+			{{ lang.nameMsgInvalid }}
+		</div>
+	</div>
+
+	<div class="mb-3">
+		<label for="description"
+			   class="form-label">
+			{{ lang.descriptionLabel }}
+		</label>
+		<textarea class="form-control"
+				  id="description"
+				  name="{{ descriptionFieldName }}"
+				  maxlength="500"
+				  placeholder="{{ lang.descriptionPlaceholder }}">{{ data.description }}</textarea>
+		<div class="invalid-feedback">
+			{{ lang.descriptionMsgInvalid }}
+		</div>
+	</div>
+
+	<div class="mb-3">
+		{{ component('DropZoneComponent', { data: imageDto }) }}
+	</div>
+
+	<div class="mt-5">
+		<input type="submit"
+			   class="btn btn-primary w-100"
+			   name="{{ submitFieldName }}"
+			   value="{{ lang.shopModifyButton }}" />
+	</div>
+</form>

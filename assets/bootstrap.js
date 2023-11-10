@@ -37,6 +37,10 @@ import OrdersListItemComponent from '../src/Twig/Components/Orders/OrdersList/Li
 // PRODUCT
 import ProductCreateComponent from '../src/Twig/Components/Product/ProductCreate/ProductCreate_controller';
 
+// SHOP
+import ShopCreateComponent from '../src/Twig/Components/Shop/ShopCreate/ShopCreate_controller';
+import ShopModifyComponent from '../src/Twig/Components/Shop/ShopModify/ShopModify_controller';
+
 
 
 
@@ -80,10 +84,13 @@ app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
 app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
 app.register('GroupUserAddComponent', GroupUserAddComponent);
 
-
 // ORDERS
 app.register('OrdersListComponent', OrdersListComponent);
 app.register('OrdersListItemComponent', OrdersListItemComponent);
 
 // PRODUCT
 app.register('ProductCreateComponent', ProductCreateComponent);
+
+// SHOP
+app.register('ShopCreateComponent', ShopCreateComponent);
+app.register('ShopModifyComponent', ShopModifyComponent);
