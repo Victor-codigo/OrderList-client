@@ -23,6 +23,19 @@ class ImageAvatarComponent extends TwigComponent
 
     public function mount(ImageAvatarComponentDto $data): void
     {
-        $this->data = $data;
+        $this->data = new ImageAvatarComponentDto(
+            $this->validateImageSrc($data->imageSrc, $data->imageNoAvatar),
+            $data->imageNoAvatar,
+            $data->imageAlt
+        );
+    }
+
+    private function validateImageSrc(string|null $imageSrc, string|null $imageNoAvatar): string
+    {
+        if (null === $imageSrc) {
+            return $imageNoAvatar;
+        }
+
+        return $imageSrc;
     }
 }
