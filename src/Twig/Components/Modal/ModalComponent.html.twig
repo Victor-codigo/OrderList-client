@@ -1,11 +1,8 @@
-{# <div class="modal-dialog modal-dialog-centered"
-	 id="exampleModal"
-	 tabindex="-1"
-	 aria-labelledby="exampleModalLabel"
-	 aria-hidden="true"> #}
 <div class="modal fade"
-id="{{ data.idAttribute }}" tabindex="-1" aria-labelledby="..." aria-hidden="true"
->
+	 id="{{ data.idAttribute }}"
+	 tabindex="-1"
+	 aria-labelledby="..."
+	 aria-hidden="true">
 
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -13,32 +10,42 @@ id="{{ data.idAttribute }}" tabindex="-1" aria-labelledby="..." aria-hidden="tru
 
 			{% if data.title is not empty %}
 
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">{{ data.title }}</h1>
-					{% if data.closeButton %}
+			<div class="modal-header">
+				<h1 class="modal-title fs-5"
+					id="exampleModalLabel">{{ data.title }}</h1>
+				{% if data.closeButton %}
 
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button"
+						class="btn-close"
+						data-bs-dismiss="modal"
+						aria-label="Close"></button>
 
-					{% endif %}
-				</div>
+				{% endif %}
+			</div>
 
 			{% endif %}
 
 			<div class="modal-body">
 				{% if data.contentComponentName is empty %}
-					{{ data.content|raw }}
+				{{ data.content|raw }}
 				{% else %}
-					{{ component(data.contentComponentName, { data: data.content }) }}
+				{{ component(data.contentComponentName, { data: data.content }) }}
 				{% endif %}
 			</div>
 
 			{% if data.buttons is not empty %}
 
-				<div class="modal-footer">
-					{% for button in data.buttons %}
-						<button type="button" class="{{ button.class }}" {{ button.dismiss ? 'data-bs-dismiss="modal"' : '' }}>{{ button.text }}</button>
-					{% endfor %}
-				</div>
+			<div class="modal-footer">
+				{% for button in data.buttons %}
+				<button type="button"
+						class="{{ button.class }}"
+						{{
+						button.dismiss
+						? 'data-bs-dismiss="modal"'
+						: ''
+						}}>{{ button.text }}</button>
+				{% endfor %}
+			</div>
 
 			{% endif %}
 

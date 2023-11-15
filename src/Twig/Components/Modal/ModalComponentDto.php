@@ -8,13 +8,16 @@ use App\Twig\Components\TwigComponentDtoInterface;
 
 class ModalComponentDto implements TwigComponentDtoInterface
 {
+    /**
+     * @param ModalComponentButtonDto[] $buttons
+     * */
     public function __construct(
         public readonly string $idAttribute,
         public readonly string $title,
         public readonly bool $closeButton,
         public readonly string|null $contentComponentName,
         public readonly string|TwigComponentDtoInterface $content,
-        /** @param ModalComponentButtonDto[] $buttons */
+
         public readonly array $buttons,
     ) {
     }
