@@ -1,0 +1,15 @@
+title: List of shops
+
+shop_add:
+  label: Add
+
+list_shops_empty:
+  message: The list has not shops
+  icon:
+    alt: The list has not shops
+
+validation:
+  title: Errors
+  ok: Shops removed from the list
+  error:
+    internal_server: An error has been occurred, try it later

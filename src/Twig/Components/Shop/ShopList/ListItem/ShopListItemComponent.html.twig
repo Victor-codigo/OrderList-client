@@ -1,0 +1,80 @@
+<li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-0"
+    data-controller="ShopListItemComponent"
+    data-shop-id="{{ data.id }}"
+    data-shop-name="{{ data.name }}">
+
+    <label class="d-flex  flex-row  flex-grow-1">
+
+        <input class="form-check-input me-1"
+               type="checkbox"
+               name="{{ shopFieldName }}[]"
+               value="{{ data.id }}">
+
+        {% if data.image==null %}
+        <svg xmlns="http://www.w3.org/2000/svg"
+             fill="currentColor"
+             class="bi bi-slash-circle-fill  img-thumbnail  flex-grow-0  rounded-0  border  rounded-start  p-2  shop-list-item-image"
+             viewBox="0 0 16 16"
+             alt="{{ lang.imageShopAlt }}"
+             title="{{ lang.imageShopTitle }}">
+            <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.646-2.646a.5.5 0 0 0-.708-.708l-6 6a.5.5 0 0 0 .708.708l6-6z" />
+        </svg>
+
+        {% else %}
+        <img class="img-thumbnail  flex-grow-0  rounded-0  border  rounded-start  shop-list-item-image"
+             src="{{ data.image }}"
+             alt="{{ lang.imageShopAlt }}"
+             title="{{ lang.imageShopTitle }}"
+             data-js-shop-image>
+        {% endif %}
+
+        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2  border-top  border-bottom">
+
+            <div class="d-flex  flex-row  justify-content-between">
+
+                <p class="fs-4"
+                   data-js-shop-name>
+                    {{ data.name }}
+                </p>
+
+                <span class="fs-4  fw-lighter  fs-6">
+                    {{ data.createdOn|date("m-d-Y") }}
+                </span>
+            </div>
+
+            <ul class="list-group list-group-flush  ">
+                <li class="list-group-item  border-0  bg-transparent  ps-3  pe-3  pt-0 pb-0"
+                    data-js-shop-description>
+
+                    {{ data.description }}
+                </li>
+            </ul>
+        </div>
+    </label>
+
+    <button type="button"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-end-0  btn-outline-primary"
+            value="{{ data.id }}"
+            alt="{{ lang.modifyShopButtonAlt }}"
+            title="{{ lang.modifyShopButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.shopModifyModalIdAttribute }}"
+            data-action="ShopListItemComponent#triggerOnShopModify">
+
+        {% include 'modify-icon-blue-24x24.svg' %}
+    </button>
+
+    <button type="button"
+            data-js-remove-button
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  rounded-end  btn-outline-danger"
+            value="{{ data.id }}"
+            alt="{{ lang.removeShopButtonAlt }}"
+            title="{{ lang.removeShopButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.shopDeleteModalIdAttribute }}"
+            data-action="ShopListItemComponent#triggerOnShopRemove">
+
+        {% include 'remove-icon-red-24x24.svg' %}
+    </button>
+</li>
