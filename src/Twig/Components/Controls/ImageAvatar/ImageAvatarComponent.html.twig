@@ -1,5 +1,6 @@
 <div data-controller="ImageAvatarComponent"
      data-GroupModifyComponent-target="imageAvatar"
+     data-action="ShopModifyComponent:onAvatarSetImageEvent@window->ImageAvatarComponent#handleOnSetImageEvent"
      class="position-relative"
      style="max-width: 300px; max-height: 300px">
 
@@ -13,12 +14,12 @@
           role="button"
           data-js-button-remove>
 
-          {{ include('Components/Controls/ImageAvatar/img/remove-icon.svg') }}
+          {% include 'image_avatar/remove-icon-black-32x32.svg' %}
      </div>
      <div class="position-absolute  top-0  end-0  mt-3  me-3  d-none"
           role="button"
           data-js-button-remove-undo>
 
-          {{ include('Components/Controls/ImageAvatar/img/undo-icon.svg') }}
+          {% include 'image_avatar/undo-icon-black-32x32.svg' %}
      </div>
 </div>
