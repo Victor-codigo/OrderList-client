@@ -1,0 +1,8 @@
+title: Shop remove
+
+message_advice:
+  text: |
+    You are going to remove shop "{shop_placeholder}". Are You sure?
+
+shop_remove_button:
+  label: Remove shop

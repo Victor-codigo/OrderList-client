@@ -1,0 +1,8 @@
+title: Eliminar tienda
+
+message_advice:
+  text: |
+    Te dispones a eliminar la tienda "{shop_placeholder}". ¿Estás seguro?
+
+shop_remove_button:
+  label: Eliminar tienda
