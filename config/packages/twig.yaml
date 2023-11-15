@@ -1,6 +1,11 @@
 twig:
     default_path: "%kernel.project_dir%/src/Twig"
-    paths: ["%kernel.project_dir%/templates", "%kernel.project_dir%/src/Twig"]
+    paths:
+        [
+            "%kernel.project_dir%/templates",
+            "%kernel.project_dir%/src/Twig",
+            "%kernel.project_dir%/public/assets/images/common",
+        ]
 
 when@test:
     twig:
