@@ -8,6 +8,7 @@ use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -27,6 +28,7 @@ final class ShopCreateComponent extends TwigComponent
     public readonly string $descriptionFieldName;
     public readonly string $imageFieldName;
     public readonly string $submitFieldName;
+    public readonly TitleComponentDto $titleDto;
     public readonly DropZoneComponentDto $imageDto;
 
     public static function getComponentName(): string
@@ -46,7 +48,13 @@ final class ShopCreateComponent extends TwigComponent
         $this->data = $data;
         $this->loadTranslation();
 
+        $this->titleDto = $this->createTitleComponentDto();
         $this->imageDto = $this->createImageDropZone();
+    }
+
+    private function createTitleComponentDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function createImageDropZone(): DropZoneComponentDto
