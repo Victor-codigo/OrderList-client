@@ -35,7 +35,7 @@ class ShopsEndPoint extends EndpointBase
         return self::$instance;
     }
 
-    public function shopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
+    public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array
     {
         try {
             $response = $this->requestShopCreate($groupId, $name, $description, $image, $tokenSession);
@@ -53,7 +53,7 @@ class ShopsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestShopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): HttpClientResponseInterface
+    private function requestShopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',
@@ -110,13 +110,14 @@ class ShopsEndPoint extends EndpointBase
         );
     }
 
-    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopNameStartsWith, string $tokenSession): array
+    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): array
     {
         try {
             $response = $this->requestShopsGetData(
                 $groupId,
                 $shopsId,
                 $productsId,
+                $shopName,
                 $shopNameStartsWith,
                 $tokenSession
             );
@@ -139,12 +140,13 @@ class ShopsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestShopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopNameStartsWith, string $tokenSession): HttpClientResponseInterface
+    private function requestShopsGetData(string $groupId, array|null $shopsId, array|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): HttpClientResponseInterface
     {
         $parameters = [
             'group_id' => $groupId,
-            'shops_id' => $shopsId,
-            'products_id' => $productsId,
+            'shops_id' => null !== $shopsId ? implode(',', $shopsId) : null,
+            'products_id' => null !== $productsId ? implode(',', $productsId) : null,
+            'shop_name' => $shopName,
             'shop_name_starts_with' => $shopNameStartsWith,
         ];
 
