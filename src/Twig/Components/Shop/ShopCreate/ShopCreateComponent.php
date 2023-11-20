@@ -4,8 +4,7 @@ namespace App\Twig\Components\Shop\ShopCreate;
 
 use App\Form\Shop\ShopCreate\SHOP_CREATE_FORM_ERRORS;
 use App\Form\Shop\ShopCreate\SHOP_CREATE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
@@ -98,7 +97,7 @@ final class ShopCreateComponent extends TwigComponent
                 $this->translate('shop_create_button.label')
             )
             ->errors(
-                $this->data->validForm ? $this->createMessagesAlertComponent() : null
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
     }
@@ -126,24 +125,13 @@ final class ShopCreateComponent extends TwigComponent
         return $this->translate('validation.ok');
     }
 
-    private function createMessagesAlertComponent(): AlertComponentDto
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
     {
         $errorsLang = $this->loadErrorsTranslation($this->data->errors);
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
-
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->loadValidationOkTranslation()
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
+            array_unique($errorsLang)
         );
     }
 }
