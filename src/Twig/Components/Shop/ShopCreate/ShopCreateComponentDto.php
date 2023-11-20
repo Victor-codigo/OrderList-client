@@ -14,6 +14,7 @@ class ShopCreateComponentDto implements TwigComponentDtoInterface
         public readonly string|null $description,
         public readonly string|null $csrfToken,
         public readonly bool $validForm,
+        public readonly string $groupNameUrlEncoded
     ) {
     }
 }

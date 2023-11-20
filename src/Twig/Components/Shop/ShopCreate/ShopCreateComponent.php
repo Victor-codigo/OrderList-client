@@ -11,6 +11,7 @@ use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
+use Common\Domain\Config\Config;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -19,6 +20,8 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 final class ShopCreateComponent extends TwigComponent
 {
+    private const CLIENT_ENDPOINT_SHOP_CREATE = Config::CLIENT_ENDPOINT_SHOP_CREATE;
+
     public ShopCreateComponentLangDto $lang;
     public ShopCreateComponentDto|TwigComponentDtoInterface $data;
 
@@ -30,6 +33,7 @@ final class ShopCreateComponent extends TwigComponent
     public readonly string $submitFieldName;
     public readonly TitleComponentDto $titleDto;
     public readonly DropZoneComponentDto $imageDto;
+    public readonly string $clientEndpointShopCreate;
 
     public static function getComponentName(): string
     {
@@ -50,6 +54,7 @@ final class ShopCreateComponent extends TwigComponent
 
         $this->titleDto = $this->createTitleComponentDto();
         $this->imageDto = $this->createImageDropZone();
+        $this->clientEndpointShopCreate = str_replace('{group_name}', $data->groupNameUrlEncoded, self::CLIENT_ENDPOINT_SHOP_CREATE);
     }
 
     private function createTitleComponentDto(): TitleComponentDto
@@ -93,15 +98,15 @@ final class ShopCreateComponent extends TwigComponent
                 $this->translate('shop_create_button.label')
             )
             ->errors(
-                $this->data->validForm ? $this->loadErrorsTranslation() : null
+                $this->data->validForm ? $this->createMessagesAlertComponent() : null
             )
             ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 SHOP_CREATE_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
                 SHOP_CREATE_FORM_ERRORS::SHOP_NAME_REPEATED->value => $this->translate('validation.error.shop_name_repeated'),
@@ -112,6 +117,18 @@ final class ShopCreateComponent extends TwigComponent
                 default => $this->translate('validation.error.internal_server')
             };
         }
+
+        return $errorsLang;
+    }
+
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createMessagesAlertComponent(): AlertComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
 
         if (!empty($errorsLang)) {
             return new AlertComponentDto(
@@ -126,7 +143,7 @@ final class ShopCreateComponent extends TwigComponent
             ALERT_TYPE::SUCCESS,
             '',
             '',
-            $this->translate('validation.ok')
+            $this->loadValidationOkTranslation()
         );
     }
 }
