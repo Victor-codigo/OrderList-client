@@ -177,4 +177,9 @@ class FormSymfonyAdapter implements FormInterface
     {
         return $this->formType->getFieldsValueDefaults();
     }
+
+    public function getFormName(): string
+    {
+        return $this->form->getName();
+    }
 }

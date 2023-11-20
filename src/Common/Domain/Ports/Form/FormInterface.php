@@ -38,4 +38,6 @@ interface FormInterface
     public function setFieldData(string $fieldName, mixed $value): mixed;
 
     public function addError(string $name, mixed $value = null): static;
+
+    public function getFormName(): string;
 }
