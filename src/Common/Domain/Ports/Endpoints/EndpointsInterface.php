@@ -34,9 +34,11 @@ interface EndpointsInterface
 
     public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
 
-    public function shopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
+    public function productGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $productName, string|null $shopNameStartsWith, string $tokenSession): array;
+
+    public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array;
 
     public function shopModify(string $shopId, string $groupId, string $name, string $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array;
 
-    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopNameStartsWith, string $tokenSession): array;
+    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): array;
 }

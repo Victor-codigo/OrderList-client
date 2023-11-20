@@ -80,7 +80,12 @@ class Endpoints implements EndpointsInterface
         return ProductsEndPoint::getInstance($this->httpClient)->productCreate($groupId, $name, $description, $image, $tokenSession);
     }
 
-    public function shopCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
+    public function productGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $productName, string|null $shopNameStartsWith, string $tokenSession): array
+    {
+        return ProductsEndPoint::getInstance($this->httpClient)->productGetDta($groupId, $shopsId, $productsId, $productName, $shopNameStartsWith, $tokenSession);
+    }
+
+    public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array
     {
         return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $description, $image, $tokenSession);
     }
@@ -90,8 +95,8 @@ class Endpoints implements EndpointsInterface
         return ShopsEndPoint::getInstance($this->httpClient)->shopModify($shopId, $groupId, $name, $description, $image, $imageRemove, $tokenSession);
     }
 
-    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopNameStartsWith, string $tokenSession): array
+    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): array
     {
-        return ShopsEndPoint::getInstance($this->httpClient)->shopsGetData($groupId, $shopsId, $productsId, $shopNameStartsWith, $tokenSession);
+        return ShopsEndPoint::getInstance($this->httpClient)->shopsGetData($groupId, $shopsId, $productsId, $shopName, $shopNameStartsWith, $tokenSession);
     }
 }
