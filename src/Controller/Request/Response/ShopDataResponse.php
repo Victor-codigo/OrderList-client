@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\Request\Response;
 
+use Common\Domain\Config\Config;
+
 class ShopDataResponse
 {
     public function __construct(
         public readonly string $id,
         public readonly string $groupId,
         public readonly string $name,
-        public readonly string $description,
+        public readonly string|null $description,
         public readonly string|null $image,
-        public readonly string $createdOn,
+        public readonly \DateTimeImmutable $createdOn,
     ) {
     }
 
@@ -21,8 +23,8 @@ class ShopDataResponse
         if (!isset($data['id'])
         || !isset($data['group_id'])
         || !isset($data['name'])
-        || !isset($data['description'])
-        || (null !== $data['image'] && !isset($data['image']))
+        || !array_key_exists('description', $data)
+        || !array_key_exists('image', $data)
         || !isset($data['created_on'])) {
             throw new \InvalidArgumentException('Not all shop parameters are provided');
         }
@@ -32,8 +34,8 @@ class ShopDataResponse
             $data['group_id'],
             $data['name'],
             $data['description'],
-            $data['image'],
-            $data['created_on'],
+            null === $data['image'] ? null : Config::API_IMAGES_SHOP_PATH."/{$data['image']}",
+            \DateTimeImmutable::createFromFormat('Y-d-m H:i:s', $data['created_on']),
         );
     }
 }

@@ -5,18 +5,26 @@ declare(strict_types=1);
 namespace Common\Adapter\Events;
 
 use App\Controller\Request\RequestDto;
+use App\Controller\Request\RequestRefererDto;
 use App\Controller\Request\Response\GroupDataResponse;
+use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Twig\Components\NavigationBar\NavigationBarDto;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Events\Exceptions\RequestGroupNameException;
+use Common\Adapter\Events\Exceptions\RequestProductNameException;
 use Common\Adapter\Events\Exceptions\RequestShopNameException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\Config\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\OptionsResolver\Exception\NoConfigurationException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 class OnKernelControllerSubscriber implements EventSubscriberInterface
@@ -24,6 +32,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     public function __construct(
         private Environment $twig,
         private Endpoints $endpoints,
+        private RouterInterface $router,
     ) {
     }
 
@@ -38,6 +47,17 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $this->loadTwigGlobals();
     }
 
+    private function decodeUrlParameter(ParameterBag $request, string $parameterName): string|null
+    {
+        if (!$request->has($parameterName)) {
+            return null;
+        }
+
+        $parameterValue = $request->get($parameterName);
+
+        return str_replace([' ', '-'], ['', ' '], $parameterValue);
+    }
+
     private function loadRequestDto(Request $request): void
     {
         $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
@@ -45,22 +65,19 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
         $requestDto = new RequestDto(
             $this->loadTokenSession($request),
-            $this->loadGroupName($request->attributes),
+            $request->attributes->get('group_name'),
+            $request->attributes->get('shop_name'),
+            $request->attributes->get('product_name'),
+            $this->loadPageData($request),
+            $this->loadPageItemsData($request),
             $groupData,
-            $this->loadShopData($request->attributes, $groupData->id ?? null, $tokenSession),
-            $request
+            $this->loadShopData($request->attributes, $groupData?->id, $tokenSession),
+            $this->loadProductData($request->attributes, $groupData?->id, $tokenSession),
+            $request,
+            $this->loadRefererRouteName($request)
         );
 
         $request->attributes->set('requestDto', $requestDto);
-    }
-
-    private function decodeUrlName(string|null $name): string|null
-    {
-        if (null === $name) {
-            return null;
-        }
-
-        return str_replace('-', ' ', $name);
     }
 
     private function loadTwigGlobals(): void
@@ -72,28 +89,6 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('NavigationBarComponent', $navigationBarComponentData);
     }
 
-    private function loadGroupData(ParameterBag $attributes, string $tokenSession): GroupDataResponse|null
-    {
-        if (!$attributes->has('group_name')) {
-            return null;
-        }
-
-        $groupNameDecoded = $this->decodeUrlName($attributes->get('group_name'));
-        $groupData = $this->endpoints->groupGetDataByName($groupNameDecoded, $tokenSession);
-
-        if (!empty($groupData['errors'])) {
-            throw RequestGroupNameException::fromMessage('Could not get group data');
-        }
-
-        return new GroupDataResponse(
-            $groupData['data']['group_id'],
-            $groupData['data']['name'],
-            $groupData['data']['description'],
-            $groupData['data']['image'],
-            $groupData['data']['created_on'],
-        );
-    }
-
     private function loadTokenSession(Request $request): string|null
     {
         if (!$request->cookies->has(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME)) {
@@ -103,35 +98,117 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
     }
 
-    private function loadGroupName(ParameterBag $attributes): string|null
+    private function loadPageData(Request $request): int|null
     {
-        if (!$attributes->has('group_name')) {
+        if ($request->query->has('page')) {
+            return $request->query->getInt('page');
+        }
+
+        if ($request->attributes->has('page')) {
+            return $request->attributes->getInt('page');
+        }
+
+        return null;
+    }
+
+    private function loadPageItemsData(Request $request): int|null
+    {
+        if ($request->query->has('page_items')) {
+            return $request->query->getInt('page_items');
+        }
+
+        if ($request->attributes->has('page_items')) {
+            return $request->attributes->getInt('page_items');
+        }
+
+        return null;
+    }
+
+    private function loadGroupData(ParameterBag $attributes, string $tokenSession): GroupDataResponse|null
+    {
+        $groupNameDecoded = $this->decodeUrlParameter($attributes, 'group_name');
+
+        if (null === $groupNameDecoded) {
             return null;
         }
 
-        return $this->decodeUrlName($attributes->get('group_name'));
+        $groupData = $this->endpoints->groupGetDataByName($groupNameDecoded, $tokenSession);
+
+        if (!empty($groupData['errors'])) {
+            throw RequestGroupNameException::fromMessage('Group data not found');
+        }
+
+        return GroupDataResponse::fromArray($groupData['data']);
     }
 
     private function loadShopData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ShopDataResponse|null
     {
-        if (null === $groupId || !$attributes->has('shop_name')) {
+        if (null === $groupId) {
             return null;
         }
 
-        $shopNameDecoded = $this->decodeUrlName($attributes->get('shop_name'));
-        $shopData = $this->endpoints->shopsGetData($groupId, null, null, $shopNameDecoded, $tokenSession);
+        $shopNameDecoded = $this->decodeUrlParameter($attributes, 'shop_name');
 
-        if (!empty($shopData['errors'])) {
-            throw RequestShopNameException::fromMessage('Could not get shop data');
+        if (null === $shopNameDecoded) {
+            return null;
         }
 
-        return new ShopDataResponse(
-            $shopData['data'][0]['id'],
-            $shopData['data'][0]['group_id'],
-            $shopData['data'][0]['name'],
-            $shopData['data'][0]['description'],
-            $shopData['data'][0]['image'],
-            $shopData['data'][0]['created_on'],
-        );
+        $shopData = $this->endpoints->shopsGetData($groupId, null, null, $shopNameDecoded, null, $tokenSession);
+
+        if (!empty($shopData['errors'])) {
+            throw RequestShopNameException::fromMessage('Group data not found');
+        }
+
+        return ShopDataResponse::fromArray($shopData['data'][0]);
+    }
+
+    private function loadProductData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ProductDataResponse|null
+    {
+        if (null === $groupId) {
+            return null;
+        }
+
+        $productNameDecoded = $this->decodeUrlParameter($attributes, 'product_name');
+
+        if (null === $productNameDecoded) {
+            return null;
+        }
+
+        $productData = $this->endpoints->productGetData($groupId, null, null, $productNameDecoded, null, $tokenSession);
+
+        if (!empty($productData['errors'])) {
+            throw RequestProductNameException::fromMessage('Group data not found');
+        }
+
+        return ProductDataResponse::fromArray($productData['data'][0]);
+    }
+
+    private function loadRefererRouteName(Request $request): RequestRefererDto|null
+    {
+        if (Config::CLIENT_DOMAIN !== $request->getHost()) {
+            return null;
+        }
+
+        $urlReferer = $request->headers->get('referer');
+
+        if (empty($urlReferer)) {
+            return null;
+        }
+
+        try {
+            $requestNew = Request::create($urlReferer);
+            $routeRefererMatch = $this->router->match($requestNew->getPathInfo());
+
+            return new RequestRefererDto(
+                $routeRefererMatch['_route'],
+                array_filter(
+                    $routeRefererMatch,
+                    fn (string $key) => !in_array($key, ['_route', '_controller']),
+                    ARRAY_FILTER_USE_KEY
+                )
+            );
+        } catch (NoConfigurationException|ResourceNotFoundException|MethodNotAllowedException) {
+            return null;
+        }
     }
 }
