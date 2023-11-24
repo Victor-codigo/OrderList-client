@@ -1,24 +1,28 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="ShopRemoveComponent"
-	  data-action="ShopListItemComponent:onShopRemoveEvent@window->ShopRemoveComponent#handleOnShopRemoveEvent"
-	  class="contaniner  p-5"
+	  data-action="ShopListItemComponent:onShopRemoveEvent@window->ShopRemoveComponent#handleOnShopRemoveEvent
+	  			   ShopHomeComponent:onShopRemoveMultiEvent@window->ShopRemoveComponent#handleOnShopRemoveMultiEvent"
+	  class="contaniner p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"
+	  action="{{ data.formActionUrl|escape('html_attr') }}"
+	  {{
+	  data.removeMulti
+	  ? 'data-remove-multi'
+	  : ''
+	  }}
 	  novalidate>
 
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />
 
-	{% if lang.validationErrors.messages %}
-	{{ component('AlertComponent', { data: lang.validationErrors }) }}
-	{% endif %}
-
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	<div class="mt-5">
-		<p data-placeholder="{{ lang.messageAdvice }}"
+		<p data-placeholder="{{ lang.messageAdvice|nl2br }}"
+		   class="text-wrap text-center"
 		   data-js-message>
 
 		</p>
@@ -31,8 +35,5 @@
 			   name="{{ submitFieldName }}"
 			   value="{{ lang.shopRemoveButton }}" />
 
-		<input type="hidden"
-			   data-js-shop-id
-			   name="{{ shopIdFieldName }}" />
 	</div>
 </form>
