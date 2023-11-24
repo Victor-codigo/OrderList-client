@@ -13,6 +13,7 @@ class RequestDto
 {
     public function __construct(
         public readonly string|null $tokenSession,
+        public readonly string|null $locale,
         public readonly string|null $groupNameUrlEncoded,
         public readonly string|null $shopNameUrlEncoded,
         public readonly string|null $productNameUrlEncoded,
