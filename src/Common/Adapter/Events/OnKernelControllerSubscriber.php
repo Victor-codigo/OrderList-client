@@ -15,6 +15,7 @@ use Common\Adapter\Events\Exceptions\RequestGroupNameException;
 use Common\Adapter\Events\Exceptions\RequestProductNameException;
 use Common\Adapter\Events\Exceptions\RequestShopNameException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\CodedUrlParameter\CodedUrlParameter;
 use Common\Domain\Config\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -29,6 +30,8 @@ use Twig\Environment;
 
 class OnKernelControllerSubscriber implements EventSubscriberInterface
 {
+    use CodedUrlParameter;
+
     public function __construct(
         private Environment $twig,
         private Endpoints $endpoints,
@@ -47,17 +50,6 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $this->loadTwigGlobals();
     }
 
-    private function decodeUrlParameter(ParameterBag $request, string $parameterName): string|null
-    {
-        if (!$request->has($parameterName)) {
-            return null;
-        }
-
-        $parameterValue = $request->get($parameterName);
-
-        return str_replace([' ', '-'], ['', ' '], $parameterValue);
-    }
-
     private function loadRequestDto(Request $request): void
     {
         $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
@@ -65,6 +57,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
         $requestDto = new RequestDto(
             $this->loadTokenSession($request),
+            $this->loadLocale($request),
             $request->attributes->get('group_name'),
             $request->attributes->get('shop_name'),
             $request->attributes->get('product_name'),
@@ -96,6 +89,15 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+    }
+
+    private function loadLocale(Request $request): string|null
+    {
+        if (!$request->attributes->has('_locale')) {
+            return null;
+        }
+
+        return $request->attributes->get('_locale');
     }
 
     private function loadPageData(Request $request): int|null
@@ -147,19 +149,44 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        $shopNameDecoded = $this->decodeUrlParameter($attributes, 'shop_name');
+        $shopId = $this->loadParamShopId($attributes);
+        $shopNameDecoded = $this->loadParamShopName($attributes);
 
-        if (null === $shopNameDecoded) {
+        if (null === $shopId && null === $shopNameDecoded) {
             return null;
         }
 
-        $shopData = $this->endpoints->shopsGetData($groupId, null, null, $shopNameDecoded, null, $tokenSession);
+        $shopData = $this->endpoints->shopsGetData($groupId, $shopId, null, $shopNameDecoded, null, $tokenSession);
 
         if (!empty($shopData['errors'])) {
             throw RequestShopNameException::fromMessage('Group data not found');
         }
 
         return ShopDataResponse::fromArray($shopData['data'][0]);
+    }
+
+    private function loadParamShopId(ParameterBag $attributes): array|null
+    {
+        if (!$attributes->has('shop_id')) {
+            return null;
+        }
+
+        return [$attributes->get('shop_id')];
+    }
+
+    private function loadParamShopName(ParameterBag $attributes): string|null
+    {
+        if (!$attributes->has('shop_name')) {
+            return null;
+        }
+
+        $shopNameDecoded = $this->decodeUrlParameter($attributes, 'shop_name');
+
+        if (null === $shopNameDecoded) {
+            return null;
+        }
+
+        return $shopNameDecoded;
     }
 
     private function loadProductData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ProductDataResponse|null
