@@ -39,7 +39,7 @@ class ShopRemoveForm extends FormType
     {
         $this
             ->addField(SHOP_REMOVE_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
-            ->addField(SHOP_REMOVE_FORM_FIELDS::USER_ID, FIELD_TYPE::HIDDEN)
+            ->addField(SHOP_REMOVE_FORM_FIELDS::SHOPS_ID, FIELD_TYPE::COLLECTION)
             ->addField(SHOP_REMOVE_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT);
     }
 }
