@@ -2,7 +2,21 @@ title: Shop remove
 
 message_advice:
   text: |
-    You are going to remove shop "{shop_placeholder}". Are You sure?
+    You are going to remove shop "{shop_placeholder}".
+    Products related to this shop, will lose the relation with the shop.
+
+    Are You sure?
+  text_multi: |
+    You are going to remove shops "{shop_placeholder}".
+    All products related with this shops, will lose the relation with deleted shops.
+
+    Are You sure?
 
 shop_remove_button:
   label: Remove shop
+
+validation:
+  title: Errors
+  ok: Shop removed
+  error:
+    internal_server: An error has been occurred, try it later

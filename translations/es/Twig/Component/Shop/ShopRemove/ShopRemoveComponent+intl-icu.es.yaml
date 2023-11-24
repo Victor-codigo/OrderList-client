@@ -2,7 +2,21 @@ title: Eliminar tienda
 
 message_advice:
   text: |
-    Te dispones a eliminar la tienda "{shop_placeholder}". ¿Estás seguro?
+    Te dispones a eliminar la tienda "{shop_placeholder}".
+    Los productos relacionados con esta tienda, perderán su relación con la misma
+
+    ¿Estás seguro?
+  text_multi: |
+    Te dispones a eliminar las tiendas "{shop_placeholder}".
+    Los productos relacionados con estas tiendas, perderán la relación con las mismas.
+
+    ¿Estás seguro?
 
 shop_remove_button:
   label: Eliminar tienda
+
+validation:
+  title: Errores
+  ok: Tienda eliminada
+  error:
+    internal_server: Ocurrió un error, inténtalo más tarde

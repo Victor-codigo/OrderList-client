@@ -6,7 +6,7 @@ shop_add:
 
 shop_remove_multiple:
   label: Delete shops
-  title: Remove shop from the list
+  title: Remove selected shops from the list
 
 shop_empty:
   message: There is no shops
@@ -17,5 +17,4 @@ validation:
   title: Errors
   ok: Shops Deleted
   error:
-    empty: There is no shops to delete
     internal_server: An error has been occurred, try it later

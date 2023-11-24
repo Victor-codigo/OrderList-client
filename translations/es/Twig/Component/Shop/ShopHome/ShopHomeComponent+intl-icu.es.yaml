@@ -1,10 +1,10 @@
 title: Lista de tiendas
 
 shop_add:
-  label: Aladir tienda
+  label: Añadir tienda
 
 shop_remove_multiple:
-  label: Eliminar tienda
+  label: Elimina las tiendas seleccionadas de la lista
 
 shop_empty:
   message: No hay tiendas
@@ -15,5 +15,4 @@ validation:
   title: Errores
   ok: Tiendas eliminadas
   error:
-    empty: No hay tiendas que eliminar
     internal_server: Ocurrió un error, inténtalo más tarde
