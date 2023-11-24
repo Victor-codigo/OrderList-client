@@ -18,6 +18,7 @@ class ShopsEndPoint extends EndpointBase
     private const POST_SHOP_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
     private const PUT_SHOP_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
     private const GET_SHOP_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
+    private const DELETE_SHOP_REMOVE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
 
     private static self|null $instance = null;
 
@@ -71,7 +72,7 @@ class ShopsEndPoint extends EndpointBase
         );
     }
 
-    public function shopModify(string $shopId, string $groupId, string $name, string $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array
+    public function shopModify(string $shopId, string $groupId, string $name, string|null $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array
     {
         try {
             $response = $this->requestShopModify($shopId, $groupId, $name, $description, $image, $imageRemove, $tokenSession);
@@ -89,7 +90,7 @@ class ShopsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestShopModify(string $shopId, string $groupId, string $name, string $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
+    private function requestShopModify(string $shopId, string $groupId, string $name, string|null $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',
@@ -110,7 +111,7 @@ class ShopsEndPoint extends EndpointBase
         );
     }
 
-    public function shopsGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): array
+    public function shopsGetData(string $groupId, array|null $shopsId, array|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): array
     {
         try {
             $response = $this->requestShopsGetData(
@@ -154,6 +155,38 @@ class ShopsEndPoint extends EndpointBase
             'GET',
             self::GET_SHOP_DATA."?{$this->createQueryParameters(array_keys($parameters), array_values($parameters))}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
+        );
+    }
+
+    public function shopRemove(string $groupId, array $shopsId, string $tokenSession): array
+    {
+        try {
+            $response = $this->requestShopRemove($groupId, $shopsId, $tokenSession);
+            $responseData = $response->toArray();
+        } catch (Error400Exception|Error500Exception|NetworkException $e) {
+            $responseData = $e->getResponse()->toArray(false);
+        } finally {
+            return [
+                'data' => $responseData['data'],
+                'errors' => $responseData['errors'],
+            ];
+        }
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestShopRemove(string $groupId, array $shopsId, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'DELETE',
+            self::DELETE_SHOP_REMOVE,
+            HTTP_CLIENT_CONFIGURATION::json([
+                    'group_id' => $groupId,
+                    'shops_id' => $shopsId,
+                ],
+                $tokenSession
+            )
         );
     }
 }
