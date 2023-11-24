@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace Common\Adapter\Endpoints;
 
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
-use Common\Domain\HttpClient\Exception\DecodingException;
-use Common\Domain\HttpClient\Exception\Error400Exception;
-use Common\Domain\HttpClient\Exception\Error500Exception;
-use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -34,19 +30,17 @@ class ProductsEndPoint extends EndpointBase
         return self::$instance;
     }
 
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
     public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
     {
-        try {
-            $response = $this->requestProductCreate($groupId, $name, $description, $image, $tokenSession);
-            $responseData = $response->toArray();
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            $responseData = $e->getResponse()->toArray(false);
-        } finally {
-            return [
-                'data' => $responseData['data'],
-                'errors' => $responseData['errors'],
-            ];
-        }
+        $response = $this->requestProductCreate($groupId, $name, $description, $image, $tokenSession);
+
+        return $this->apiResponseManage($response);
     }
 
     /**
@@ -70,24 +64,22 @@ class ProductsEndPoint extends EndpointBase
         );
     }
 
-    public function productGetDta(string $groupId, array|null $productsId, array|null $shopsId, string|null $productName, string|null $productNameStartsWith, string $tokenSession): array
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function productGetData(string $groupId, array|null $productsId, array|null $shopsId, string|null $productName, string|null $productNameStartsWith, string $tokenSession): array
     {
-        try {
-            $response = $this->requestProductGetData($groupId, $productsId, $shopsId, $productName, $productNameStartsWith, $tokenSession);
-            $responseData = $response->toArray();
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            $responseData = $e->getResponse()->toArray(false);
-        } catch (DecodingException $e) {
-            $responseData = [
+        $response = $this->requestProductGetData($groupId, $productsId, $shopsId, $productName, $productNameStartsWith, $tokenSession);
+
+        return $this->apiResponseManage($response, null, null,
+            fn (array $responseDataNoContent) => [
                 'data' => [],
                 'errors' => ['product_not_found' => 'Product not found'],
-            ];
-        } finally {
-            return [
-                'data' => $responseData['data'],
-                'errors' => $responseData['errors'],
-            ];
-        }
+            ]
+        );
     }
 
     /**

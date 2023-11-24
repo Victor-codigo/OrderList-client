@@ -82,7 +82,7 @@ class Endpoints implements EndpointsInterface
 
     public function productGetData(string $groupId, string|null $shopsId, string|null $productsId, string|null $productName, string|null $shopNameStartsWith, string $tokenSession): array
     {
-        return ProductsEndPoint::getInstance($this->httpClient)->productGetDta($groupId, $shopsId, $productsId, $productName, $shopNameStartsWith, $tokenSession);
+        return ProductsEndPoint::getInstance($this->httpClient)->productGetData($groupId, $shopsId, $productsId, $productName, $shopNameStartsWith, $tokenSession);
     }
 
     public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array

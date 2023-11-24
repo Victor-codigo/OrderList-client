@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Common\Adapter\Endpoints;
 
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
-use Common\Domain\HttpClient\Exception\Error400Exception;
-use Common\Domain\HttpClient\Exception\Error500Exception;
-use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\HttpClient\Exception\UnsupportedOptionException;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
@@ -34,22 +31,24 @@ class ListOrdersEndpoints extends EndpointBase
         return self::$instance;
     }
 
+    /**
+     * @return array<{
+     *    page: int
+     *    pages_total: int,
+     *    orders: array<int, array>
+     * }>
+     */
     public function listOrdersGetOrders(string $groupId, string $listOrdersId, int $page, int $pageItems, string $tokenSession): array
     {
-        try {
-            $response = $this->requestListOrdersOrders($groupId, $listOrdersId, $page, $pageItems, $tokenSession);
-            $responseData = $response->toArray();
+        $response = $this->requestListOrdersOrders($groupId, $listOrdersId, $page, $pageItems, $tokenSession);
 
-            return $responseData['data'];
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            $responseData = $response->toArray(false);
-
+        return $this->apiResponseManage($response, function (array $responseDataError) use ($page) {
             return [
                 'page' => $page,
                 'pages_total' => 0,
                 'orders' => [],
             ];
-        }
+        });
     }
 
     /**
@@ -68,17 +67,20 @@ class ListOrdersEndpoints extends EndpointBase
         );
     }
 
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
     public function listOrdersGetData(string $groupId, string $listOrderName, string $tokenSession): array
     {
-        try {
-            $response = $this->requestListOrdersData($groupId, $listOrderName, $tokenSession);
-            $responseData = $response->toArray();
-            $listOrdersData = $responseData['data'][0];
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            $listOrdersData = [];
-        } finally {
-            return $listOrdersData;
-        }
+        $response = $this->requestListOrdersData($groupId, $listOrderName, $tokenSession);
+
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError) => [],
+            fn (array $responseDataOk) => $responseDataOk['data'][0]
+        );
     }
 
     /**
@@ -96,23 +98,16 @@ class ListOrdersEndpoints extends EndpointBase
     }
 
     /**
-     * @return array<string, array> "data" and "errors" as index
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
      */
     public function listOrdersDeleteOrders(string $groupId, string $listOrdersId, array $ordersId, string $tokenSession): array
     {
-        try {
-            $response = $this->requestRemoveOrder($groupId, $listOrdersId, $ordersId, $tokenSession);
-            $responseData = $response->toArray();
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            $responseData = $e->getResponse()->toArray(false);
-        } finally {
-            $ordersDeletedId = [
-                'data' => $responseData['data'],
-                'errors' => $responseData['errors'],
-            ];
+        $response = $this->requestRemoveOrder($groupId, $listOrdersId, $ordersId, $tokenSession);
 
-            return $ordersDeletedId;
-        }
+        return $this->apiResponseManage($response);
     }
 
     /**

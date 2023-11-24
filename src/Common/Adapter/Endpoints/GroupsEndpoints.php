@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Common\Adapter\Endpoints;
 
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
-use Common\Domain\HttpClient\Exception\Error400Exception;
-use Common\Domain\HttpClient\Exception\Error500Exception;
-use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 
@@ -31,19 +28,17 @@ class GroupsEndpoints extends EndpointBase
         return self::$instance;
     }
 
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
     public function groupGetDataByName(string $groupName, string $tokenSession): array
     {
-        try {
-            $response = $this->requestGroupData($groupName, $tokenSession);
-            $responseData = $response->toArray();
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            $responseData = $response->toArray(false);
-        } finally {
-            return [
-                'data' => $responseData['data'],
-                'errors' => $responseData['errors'],
-            ];
-        }
+        $response = $this->requestGroupData($groupName, $tokenSession);
+
+        return $this->apiResponseManage($response);
     }
 
     /**
