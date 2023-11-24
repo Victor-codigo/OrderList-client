@@ -9,10 +9,7 @@ use App\Twig\Components\TwigComponentDtoInterface;
 class ShopHomeComponentDto implements TwigComponentDtoInterface
 {
     public readonly array $shopHomeMessageValidationOk;
-    /**
-     * @param array<string, array> $shopHomeErrors
-     */
-    public readonly array $shopHomeErrors;
+
     /**
      * @param array<int, string> $shopErrorsMessage
      */
@@ -23,13 +20,11 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
     public readonly int $pagesTotal;
     public readonly string $groupNameUrlEncoded;
     public readonly string $shopNoImagePath;
-    public readonly string $shopHomeFormCsrfToken;
     public readonly string $shopCreateFormCsrfToken;
     public readonly string $shopModifyCsrfToken;
     public readonly string $shopRemoveFormCsrfToken;
     public readonly string $shopRemoveMultiFormCsrfToken;
     public readonly bool $validForm;
-    public readonly string $shopHomeFormActionUrl;
     public readonly string $shopCreateFormActionUrl;
     public readonly string $shopModifyFormActionUrlPlaceholder;
     public readonly string $shopRemoveFormActionUrl;
@@ -43,15 +38,11 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
         'group' => false,
     ];
 
-    /**
-     * @param array<string, array> $shopHomeErrors
-     */
-    public function errors(array $shopHomeErrors, array $shopHomeValidationOk, array $shopValidationErrorsMessage): self
+    public function errors(array $shopHomeValidationOk, array $shopValidationErrorsMessage): self
     {
         $this->builder['errors'] = true;
 
         $this->shopHomeMessageValidationOk = $shopHomeValidationOk;
-        $this->shopHomeErrors = $shopHomeErrors;
         $this->shopErrorsMessage = $shopValidationErrorsMessage;
 
         return $this;
@@ -78,11 +69,10 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
         return $this;
     }
 
-    public function formCsrfToken(string $shopHomeFormCsrfToken, string $shopCreateFormCsrfToken, string $shopModifyFormCsrfToken, string $shopRemoveFormCsrfToken, string $shopRemoveMultiFormCsrfToken): self
+    public function formCsrfToken(string $shopCreateFormCsrfToken, string $shopModifyFormCsrfToken, string $shopRemoveFormCsrfToken, string $shopRemoveMultiFormCsrfToken): self
     {
         $this->builder['formCsrfToken'] = true;
 
-        $this->shopHomeFormCsrfToken = $shopHomeFormCsrfToken;
         $this->shopCreateFormCsrfToken = $shopCreateFormCsrfToken;
         $this->shopModifyCsrfToken = $shopModifyFormCsrfToken;
         $this->shopRemoveFormCsrfToken = $shopRemoveFormCsrfToken;
@@ -91,12 +81,11 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
         return $this;
     }
 
-    public function form(bool $validForm, string $shopHomeFormActionUrl, string $shopCreateFormActionUrl, string $shopModifyFormActionUrlPlaceholder, string $shopRemoveFormActionUrl): self
+    public function form(bool $validForm, string $shopCreateFormActionUrl, string $shopModifyFormActionUrlPlaceholder, string $shopRemoveFormActionUrl): self
     {
         $this->builder['formValid'] = true;
 
         $this->validForm = $validForm;
-        $this->shopHomeFormActionUrl = mb_strtolower($shopHomeFormActionUrl);
         $this->shopCreateFormActionUrl = mb_strtolower($shopCreateFormActionUrl);
         $this->shopModifyFormActionUrlPlaceholder = mb_strtolower($shopModifyFormActionUrlPlaceholder);
         $this->shopRemoveFormActionUrl = mb_strtolower($shopRemoveFormActionUrl);
