@@ -10,6 +10,7 @@ class ShopListItemComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly string $componentName,
+        public readonly string $shopsIdFieldName,
         public readonly string $id,
         public readonly string $name,
         public readonly string|null $description,

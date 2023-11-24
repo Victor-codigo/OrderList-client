@@ -1,28 +1,8 @@
 <div data-controller="ShopListComponent"
-	 data-action="ShopListItemComponent:onShopRemoveEvent->ShopRemoveComponent#handleOnShopRemoveEvent
-	 			  ShopListItemComponent:onShopModifyEvent->ShopModifyComponent#handleOnShopModifyEvent">
+	 data-remove-shop-id-input-name="{{ data.shopRemoveFormInputShopIdName }}">
 
-	<form class="contaniner  p-5"
-		  id="{{ formName }}"
-		  name="{{ formName }}"
-		  method="post"
-		  enctype="multipart/form-data"
-		  accept=""
-		  novalidate>
-
-		<input type="hidden"
-			   name="{{ tokenCsrfFieldName }}"
-			   value="{{ data.csrfToken }}" />
-
-		{% if lang.validationErrors %}
-		{{ component('AlertComponent', { data: lang.validationErrors }) }}
-		{% endif %}
-
-		{{ component('ListComponent', { data: shopDto }) }}
-
-		{{ component('PaginatorComponent', { data: data.paginatorDto }) }}
-	</form>
-
+	{{ component('ListComponent', { data: shopDto }) }}
+	{{ component('PaginatorComponent', { data: data.paginatorDto }) }}
 	{{ component('ModalComponent', { data: shopRemoveModalDto }) }}
 	{{ component('ModalComponent', { data: shopModifyModalDto }) }}
 </div>

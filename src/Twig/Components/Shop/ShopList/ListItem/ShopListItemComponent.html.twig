@@ -1,35 +1,23 @@
-<li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-0"
+<li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-1"
     data-controller="ShopListItemComponent"
     data-shop-id="{{ data.id }}"
     data-shop-name="{{ data.name }}">
 
     <label class="d-flex  flex-row  flex-grow-1">
 
-        <input class="form-check-input me-1"
+        <input class="form-check-input m-2  align-self-center"
                type="checkbox"
-               name="{{ shopFieldName }}[]"
-               value="{{ data.id }}">
+               name="{{ data.shopsIdFieldName }}"
+               value="{{ data.id }}"
+               data-js-checkbox>
 
-        {% if data.image==null %}
-        <svg xmlns="http://www.w3.org/2000/svg"
-             fill="currentColor"
-             class="bi bi-slash-circle-fill  img-thumbnail  flex-grow-0  rounded-0  border  rounded-start  p-2  shop-list-item-image"
-             viewBox="0 0 16 16"
-             alt="{{ lang.imageShopAlt }}"
-             title="{{ lang.imageShopTitle }}">
-            <path
-                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.646-2.646a.5.5 0 0 0-.708-.708l-6 6a.5.5 0 0 0 .708.708l6-6z" />
-        </svg>
-
-        {% else %}
-        <img class="img-thumbnail  flex-grow-0  rounded-0  border  rounded-start  shop-list-item-image"
+        <img class="img-thumbnail  flex-grow-0  rounded-0  border  border-0  border-start  border-end  shop-list-item-image  p-0"
              src="{{ data.image }}"
              alt="{{ lang.imageShopAlt }}"
              title="{{ lang.imageShopTitle }}"
              data-js-shop-image>
-        {% endif %}
 
-        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2  border-top  border-bottom">
+        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
 
             <div class="d-flex  flex-row  justify-content-between">
 
@@ -39,7 +27,7 @@
                 </p>
 
                 <span class="fs-4  fw-lighter  fs-6">
-                    {{ data.createdOn|date("m-d-Y") }}
+                    {{ data.createdOn|format_datetime('medium', 'none', locale=app.request.locale) }}
                 </span>
             </div>
 
@@ -54,7 +42,7 @@
     </label>
 
     <button type="button"
-            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-end-0  btn-outline-primary"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
             value="{{ data.id }}"
             alt="{{ lang.modifyShopButtonAlt }}"
             title="{{ lang.modifyShopButtonTitle }}"
@@ -67,7 +55,7 @@
 
     <button type="button"
             data-js-remove-button
-            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  rounded-end  btn-outline-danger"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end  btn-outline-danger"
             value="{{ data.id }}"
             alt="{{ lang.removeShopButtonAlt }}"
             title="{{ lang.removeShopButtonTitle }}"

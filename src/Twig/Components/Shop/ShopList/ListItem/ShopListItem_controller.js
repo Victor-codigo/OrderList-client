@@ -6,14 +6,19 @@ export default class extends Controller {
         this.shopName = this.element.querySelector('[data-js-shop-name]').innerHTML.trim();
         this.shopDescription = this.element.querySelector('[data-js-shop-description]').innerHTML.trim();
         this.shopImage = this.element.querySelector('[data-js-shop-image]').src;
+
+        this.checkbox = this.element.querySelector('[data-js-checkbox]');
+        this.checkbox.addEventListener('change', this.#triggerOnShopSelected.bind(this));
     }
 
     triggerOnShopRemove() {
         this.dispatch('onShopRemoveEvent', {
             detail: {
                 content: {
-                    shopId: this.element.dataset.shopId,
-                    shopName: this.element.dataset.shopName
+                    'shops': [{
+                        'shopId': this.element.dataset.shopId,
+                        'shopName': this.element.dataset.shopName
+                    }]
                 }
             }
         });
@@ -27,6 +32,16 @@ export default class extends Controller {
                     shopName: this.shopName,
                     shopDescription: this.shopDescription,
                     shopImage: this.shopImage
+                }
+            }
+        });
+    }
+
+    #triggerOnShopSelected() {
+        this.dispatch('onShopSelectedEvent', {
+            detail: {
+                content: {
+                    shopId: this.element.dataset.shopId
                 }
             }
         });

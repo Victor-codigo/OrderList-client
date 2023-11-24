@@ -2,7 +2,6 @@
 
 namespace App\Twig\Components\Shop\ShopList\ListItem;
 
-use App\Form\Shop\ShopList\SHOP_LIST_FORM_FIELDS;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
@@ -28,8 +27,6 @@ final class ShopListItemComponent extends TwigComponent
 
     public function mount(ShopListItemComponentDto $data): void
     {
-        $this->shopFieldName = sprintf('%s[%s]', SHOP_LIST_FORM_FIELDS::FORM, SHOP_LIST_FORM_FIELDS::SHOP_SELECTED);
-
         $this->data = $data;
         $this->loadTranslation();
     }
