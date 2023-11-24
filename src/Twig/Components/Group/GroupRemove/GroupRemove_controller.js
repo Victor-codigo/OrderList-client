@@ -9,7 +9,6 @@ export default class extends Controller {
     setGroupIdToRemove({ detail: { groupId, groupName } }) {
         this.groupRemoveId.value = groupId;
 
-        console.log(groupName);
         this.setGroupNameInMessage(groupName);
     }
 
