@@ -10,7 +10,6 @@ use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
-use Common\Domain\Config\Config;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -19,8 +18,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 final class ShopCreateComponent extends TwigComponent
 {
-    private const CLIENT_ENDPOINT_SHOP_CREATE = Config::CLIENT_ENDPOINT_SHOP_CREATE;
-
     public ShopCreateComponentLangDto $lang;
     public ShopCreateComponentDto|TwigComponentDtoInterface $data;
 
@@ -32,7 +29,6 @@ final class ShopCreateComponent extends TwigComponent
     public readonly string $submitFieldName;
     public readonly TitleComponentDto $titleDto;
     public readonly DropZoneComponentDto $imageDto;
-    public readonly string $clientEndpointShopCreate;
 
     public static function getComponentName(): string
     {
@@ -53,7 +49,6 @@ final class ShopCreateComponent extends TwigComponent
 
         $this->titleDto = $this->createTitleComponentDto();
         $this->imageDto = $this->createImageDropZone();
-        $this->clientEndpointShopCreate = str_replace('{group_name}', $data->groupNameUrlEncoded, self::CLIENT_ENDPOINT_SHOP_CREATE);
     }
 
     private function createTitleComponentDto(): TitleComponentDto
