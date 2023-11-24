@@ -4,8 +4,7 @@ namespace App\Twig\Components\Shop\ShopModify;
 
 use App\Form\Shop\ShopModify\SHOP_MODIFY_FORM_ERRORS;
 use App\Form\Shop\ShopModify\SHOP_MODIFY_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
@@ -24,6 +23,7 @@ final class ShopModifyComponent extends TwigComponent
     public ShopModifyComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
+    public readonly string $formActionUrl;
     public readonly string $tokenCsrfFieldName;
     public readonly string $nameFieldName;
     public readonly string $descriptionFieldName;
@@ -82,6 +82,16 @@ final class ShopModifyComponent extends TwigComponent
         );
     }
 
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
+            array_unique($errorsLang)
+        );
+    }
+
     private function loadTranslation(): void
     {
         $this->lang = (new ShopModifyComponentLangDto())
@@ -107,15 +117,20 @@ final class ShopModifyComponent extends TwigComponent
                 $this->translate('shop_modify_button.label')
             )
             ->errors(
-                $this->data->validForm ? $this->loadErrorsTranslation() : null
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 SHOP_MODIFY_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
                 SHOP_MODIFY_FORM_ERRORS::SHOP_NAME_REPEATED->value => $this->translate('validation.error.shop_name_repeated'),
@@ -128,20 +143,6 @@ final class ShopModifyComponent extends TwigComponent
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
-
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
-        );
+        return $errorsLang;
     }
 }

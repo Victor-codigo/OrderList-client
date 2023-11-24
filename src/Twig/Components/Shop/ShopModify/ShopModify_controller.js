@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import * as form from '../../../../../assets/modules/form';
+import * as encodedUrlParameter from '../../../../../assets/modules/EncodedUrlParameter';
 
 
 export default class extends Controller {
@@ -31,8 +32,11 @@ export default class extends Controller {
     }
 
     setFormFieldValues(content) {
-
         this.shopNameTag.value = content.shopName;
+        this.element.action = this.element.dataset.actionPlaceholder.replace(
+            '{shop_name}',
+            encodedUrlParameter.encodeUrlParameter(content.shopName)
+        );
         this.shopDescriptionTag.value = content.shopDescription;
         this.triggerOnAvatarSetImageEvent(content.shopImage);
     }

@@ -5,9 +5,11 @@
 	  			   ImageAvatarComponent:imageRemovedUndo->ShopModifyComponent#setImageAvatarAsRemoved
 				   ShopListItemComponent:onShopModifyEvent@window->ShopModifyComponent#handleOnShopModifyEvent
 				   ShopModifyComponent:onAvatarSetImageEvent->ImageAvatarComponent#handleOnSetImageEvent"
-	  class="contaniner  p-5"
+	  class="contaniner  p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"
+	  data-action-placeholder="{{ data.formActionUrlPlaceholder|escape('html_attr') }}"
+	  data-js-form-modify
 	  novalidate>
 
 	<input type="hidden"
