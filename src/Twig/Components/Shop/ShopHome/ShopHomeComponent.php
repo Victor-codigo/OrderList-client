@@ -2,7 +2,6 @@
 
 namespace App\Twig\Components\Shop\ShopHome;
 
-use App\Form\Shop\ShopHome\SHOP_HOME_FORM_ERRORS;
 use App\Form\Shop\ShopRemoveMulti\SHOP_REMOVE_MULTI_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
@@ -134,7 +133,7 @@ final class ShopHomeComponent extends TwigComponent
     {
         return new AlertValidationComponentDto(
             $this->data->shopHomeMessageValidationOk,
-            $this->loadErrorsTranslation($this->data->shopHomeErrors)
+            $this->data->shopErrorsMessage
         );
     }
 
@@ -156,22 +155,6 @@ final class ShopHomeComponent extends TwigComponent
                 $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
-    }
-
-    public function loadErrorsTranslation(array $errors): array
-    {
-        $errorsLang = [];
-        foreach ($errors as $field => $error) {
-            $errorsLang[] = match ($field) {
-                SHOP_HOME_FORM_ERRORS::SHOP_NOT_FOUND->value,
-                SHOP_HOME_FORM_ERRORS::PERMISSIONS->value,
-                SHOP_HOME_FORM_ERRORS::SHOP_ID->value,
-                SHOP_HOME_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.internal_server'),
-                default => $this->translate('validation.error.internal_server')
-            };
-        }
-
-        return $errorsLang;
     }
 
     public function loadValidationOkTranslation(): string
