@@ -35,7 +35,7 @@ class ShopDataResponse
             $data['name'],
             $data['description'],
             null === $data['image'] ? null : Config::API_IMAGES_SHOP_PATH."/{$data['image']}",
-            \DateTimeImmutable::createFromFormat('Y-d-m H:i:s', $data['created_on']),
+            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['created_on']),
         );
     }
 }
