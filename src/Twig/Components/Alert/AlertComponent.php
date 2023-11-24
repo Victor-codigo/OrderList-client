@@ -41,7 +41,7 @@ class AlertComponent extends TwigComponent
         $this->cssTextColor = match ($alertType) {
             ALERT_TYPE::DANGER => 'text-light',
             ALERT_TYPE::INFO => 'text-dark',
-            ALERT_TYPE::SUCCESS => 'text-success',
+            ALERT_TYPE::SUCCESS => 'text-light',
         };
     }
 }
