@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Shop\ShopHome;
 
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 
 class ShopHomeComponentLangDto
 {
@@ -14,7 +14,7 @@ class ShopHomeComponentLangDto
     public readonly string $buttonShopRemoveMultipleLabel;
     public readonly string $buttonShopRemoveMultipleTitle;
 
-    public readonly AlertComponentDto|null $validationErrors;
+    public readonly AlertValidationComponentDto|null $validationErrors;
 
     private array $builder = [
         'title' => false,
@@ -52,7 +52,7 @@ class ShopHomeComponentLangDto
         return $this;
     }
 
-    public function errors(AlertComponentDto|null $validationErrors): self
+    public function errors(AlertValidationComponentDto|null $validationErrors): self
     {
         $this->builder['errors'] = true;
 

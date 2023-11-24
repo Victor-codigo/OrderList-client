@@ -1,67 +1,53 @@
-<div data-controller="ShopHomeComponent">
+<div data-controller="ShopHomeComponent"
+	 {#
+	 data-action="ShopListItemComponent:onShopSelectedEvent->ShopHomeComponent#handlerOnListItemSelectedEvent"
+	 #}
+	 class="contaniner">
 
-	<form id="{{ formName }}"
-		  name="{{ formName }}"
-		  class="contaniner  p-5"
-		  method="post"
-		  enctype="multipart/form-data"
-		  novalidate>
+	{{ component('TitleComponent', { data: titleDto } ) }}
 
-		<input type="hidden"
-			   name="{{ tokenCsrfFieldName }}"
-			   value="{{ data.csrfToken }}" />
+	{% if lang.validationErrors %}
+	{{ component('AlertValidationComponent', { data: alertValidationComponentDto }) }}
+	{% endif %}
 
-		{{ component('TitleComponent', { data: titleDto } ) }}
+	<div class="border  border-1  rounded-2  p-2">
 
-		{% if lang.validationErrors %}
-		{{ component('AlertComponent', { data: lang.validationErrors }) }}
-		{% endif %}
+		<div class="d-flex  flex-row  mb-3">
 
-		<div class="border  border-1  rounded-2  p-2">
+			<button type="button"
+					class="btn btn-outline-primary  flex-grow-1  rounded-0  rounded-top"
+					title="{{ lang.buttonShopAddTitle }}"
+					data-bs-toggle="modal"
+					data-bs-target="#{{ shopCreateModalDto.idAttribute }}">
 
-			<div class="d-flex  flex-row  mb-3">
+				{% include "add-icon-blue-18x18.svg" %}
 
-				<button type="button"
-						class="btn btn-outline-primary  flex-grow-1  rounded-0  rounded-top"
-						title="{{ lang.buttonShopAddTitle }}"
-						data-bs-toggle="modal"
-						data-bs-target="#{{ shopCreateModalDto.idAttribute }}">
+				<span class="align-middle">{{ lang.buttonShopAddLabel }}</span>
+			</button>
 
-					<svg xmlns="http://www.w3.org/2000/svg"
-						 width="18"
-						 height="18"
-						 fill="currentColor"
-						 class="bi bi-plus-lg"
-						 viewBox="0 0 16 16">
-						<path fill-rule="evenodd"
-							  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
-					</svg>
-
-					<span class="align-middle">{{ lang.buttonShopAddLabel }}</span>
-				</button>
+			<div id="{{ shopRemoveMultiFormName }}"
+				 data-remove-shops-id-input-name="{{ shopRemoveShopsIdFieldName }}"
+				 data-js-form-remove-many-shops
+				 novalidate>
 
 				<button class="btn btn-outline-danger  flex-grow-0  ms-1  ps-4  pe-4  rounded-0  rounded-top"
-						type="submit"
-						name="{{ shopRemoveMultipleSubmit }}">
+						type="button"
+						name="{{ shopRemoveMultipleSubmit }}"
+						title="{{ lang.buttonShopRemoveMultipleTitle }}"
+						data-bs-toggle="modal"
+						data-bs-target="#{{ shopRemoveMultiModalIdAttribute }}"
+						data-action="ShopHomeComponent#triggerOnShopRemoveMulti"
+						data-js-form-remove-many-shops-button>
 
-					<svg xmlns="http://www.w3.org/2000/svg"
-						 width="24"
-						 height="24"
-						 fill="currentColor"
-						 class="bi bi-trash"
-						 viewBox="0 0 16 16">
-						<path
-							  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-						<path
-							  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-					</svg>
-
+					{% include "remove-icon-red-24x24.svg" %}
 				</button>
 			</div>
-
-			{{ component('ShopListComponent', { data: shopListComponentDto }) }}
 		</div>
-	</form>
+
+		{{ component('ShopListComponent', { data: shopListComponentDto }) }}
+	</div>
+
 
 	{{ component('ModalComponent', { data: shopCreateModalDto }) }}
+	{{ component('ModalComponent', { data: shopRemoveMultiModalDto }) }}
 </div>
