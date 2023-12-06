@@ -1,0 +1,12 @@
+inputSearch:
+  label: Buscar por
+  placeholder: Introduce una palabra por la que buscar
+
+button:
+  label: Buscar
+
+filters:
+  startsWith: Empieza por
+  endsWith: Acaba por
+  contains: Contiene
+  equals: Igual a

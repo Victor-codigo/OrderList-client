@@ -1,0 +1,47 @@
+<section data-controller="SearchBarComponent">
+
+	<form name="{{ formName }}"
+		  class="search-bar  contaniner  p-3  d-flex flex-row  border  border-1  rounded"
+		  action="{{ data.searchFormActionUrl|escape('html_attr') }}"
+		  method="post"
+		  enctype="multipart/form-data"
+		  novalidate
+		  data-js-searchbar-form>
+
+		<label class="form-label  w-100">
+			{{ lang.searchLabel }}
+			<div class="d-flex  flex-row">
+
+				<input type="text"
+					   class="form-control  order-2  flex-grow-1  border  border-0 border-top  border-bottom rounded-0"
+					   name="{{ searchFieldName }}"
+					   placeholder="{{ lang.searchPlaceholder }}"
+					   value="{{ data.searchValue }}"
+					   data-js-value />
+
+				<select class="search-bar__filters  form-select  order-1 border rounded-0  rounded-start"
+						name="{{ searchFilterFieldName }}"
+						data-js-filter>
+
+					{% for filterName, filterLang in lang.filters %}
+
+					{% if filterName==data.searchFilter %}
+
+					<option value="{{ filterName }}"
+							selected>{{ filterLang }}</option>
+
+					{% endif %}
+					<option value="{{ filterName }}">{{ filterLang }}</option>
+
+					{% endfor %}
+				</select>
+
+				<button type="submit"
+						class="btn btn-primary  order-3  border rounded-0  rounded-end"
+						alt="{{ lang.searchButton }}">
+					{% include "search-icon-blue-24x24.svg" %}
+				</button>
+			</div>
+		</label>
+	</form>
+</section>

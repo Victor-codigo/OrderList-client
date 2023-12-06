@@ -18,6 +18,7 @@ import ImageAvatarComponent from '../src/Twig/Components/Controls/ImageAvatar/Im
 import PaginatorComponent from '../src/Twig/Components/Paginator/Paginator_Component';
 import PaginatorAjaxComponent from '../src/Twig/Components/PaginatorAjax/PaginatorAjax_Component';
 import ListComponent from '../src/Twig/Components/List/List_controller';
+import SearchBarComponent from '../src/Twig/Components/SearchBar/SearchBar_controller';
 
 // GROUP
 import GroupCreateComponent from '../src/Twig/Components/Group/GroupCreate/GroupCreate_controller';
@@ -67,6 +68,7 @@ app.register('ImageAvatarComponent', ImageAvatarComponent);
 app.register('PaginatorComponent', PaginatorComponent);
 app.register('PaginatorAjaxComponent', PaginatorAjaxComponent);
 app.register('ListComponent', ListComponent);
+app.register('SearchBarComponent', SearchBarComponent);
 
 // USER
 app.register('LoginComponent', LoginComponent);
