@@ -141,7 +141,7 @@
         ]
     },
     "symfony/ux-dropzone": {
-        "version": "v2.7.1"
+        "version": "v2.13.2"
     },
     "symfony/ux-twig-component": {
         "version": "v2.5.0"
