@@ -1,7 +1,4 @@
 <div data-controller="ShopHomeComponent"
-	 {#
-	 data-action="ShopListItemComponent:onShopSelectedEvent->ShopHomeComponent#handlerOnListItemSelectedEvent"
-	 #}
 	 class="contaniner">
 
 	{{ component('TitleComponent', { data: titleDto } ) }}
@@ -9,6 +6,8 @@
 	{% if lang.validationErrors %}
 	{{ component('AlertValidationComponent', { data: alertValidationComponentDto }) }}
 	{% endif %}
+
+	{{ component('SearchBarComponent', { data: searchBarFormDto } ) }}
 
 	<div class="border  border-1  rounded-2  p-2">
 

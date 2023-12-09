@@ -6,6 +6,7 @@ use App\Form\Shop\ShopRemoveMulti\SHOP_REMOVE_MULTI_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
+use App\Twig\Components\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponent;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
 use App\Twig\Components\Shop\ShopList\List\ShopListComponentDto;
@@ -36,6 +37,7 @@ final class ShopHomeComponent extends TwigComponent
     public readonly string $shopRemoveMultiModalIdAttribute;
 
     public readonly TitleComponentDto $titleDto;
+    public readonly SearchBarComponentDto $searchBarFormDto;
     public readonly ShopListComponentDto $shopListComponentDto;
     public readonly ModalComponentDto $shopCreateModalDto;
     public readonly ModalComponentDto $shopRemoveMultiModalDto;
@@ -57,6 +59,7 @@ final class ShopHomeComponent extends TwigComponent
         $this->data = $data;
         $this->loadTranslation();
         $this->titleDto = $this->createTitleDto();
+        $this->searchBarFormDto = $this->createSearchBarComponentDto();
         $this->shopListComponentDto = $this->createShopListComponentDto();
         $this->shopCreateModalDto = $this->createShopCreateComponentDto();
         $this->shopRemoveMultiModalDto = $this->createShopRemoveMultiComponentDto();
@@ -68,25 +71,41 @@ final class ShopHomeComponent extends TwigComponent
         return new TitleComponentDto($this->lang->title);
     }
 
+    private function createSearchBarComponentDto(): SearchBarComponentDto
+    {
+        return new SearchBarComponentDto(
+            $this->data->searchBarFilterType,
+            $this->data->searchBarFilterValue,
+            $this->data->searchBarFormActionUrl
+        );
+    }
+
     private function createShopListComponentDto(): ShopListComponentDto
     {
-        $shopListBuilder = new ShopListComponentBuilder(
-            [],
-            $this->data->shopsData,
-            $this->data->shopNoImagePath,
-            1,
-            100,
-            1,
-            false,
-            $this->data->shopModifyCsrfToken,
-            $this->data->shopRemoveFormCsrfToken,
-            $this->data->shopModifyFormActionUrlPlaceholder,
-            $this->data->shopRemoveFormActionUrl,
-            self::SHOP_REMOVE_FORM_NAME,
-            $this->data->shopNoImagePath
-        );
-
-        return $shopListBuilder->__invoke();
+        return (new ShopListComponentBuilder())
+            ->pagination(
+                $this->data->page,
+                $this->data->pageItems,
+                $this->data->pagesTotal
+            )
+            ->shopModifyForm(
+                $this->data->shopModifyCsrfToken,
+                $this->data->shopModifyFormActionUrlPlaceholder
+            )
+            ->shopRemoveForm(
+                $this->data->shopRemoveFormCsrfToken,
+                $this->data->shopRemoveFormActionUrl
+            )
+            ->shops(
+                $this->data->shopsData,
+                $this->data->shopNoImagePath,
+                self::SHOP_REMOVE_FORM_NAME
+            )
+            ->validation(
+                [],
+                false
+            )
+            ->build();
     }
 
     private function createShopCreateComponentDto(): ModalComponentDto

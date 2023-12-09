@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Twig\Components\Shop\ShopHome;
 
 use App\Twig\Components\TwigComponentDtoInterface;
+use Common\Domain\DtoBuilder\DtoBuilder;
+use Common\Domain\DtoBuilder\DtoBuilderInterface;
 
-class ShopHomeComponentDto implements TwigComponentDtoInterface
+class ShopHomeComponentDto implements TwigComponentDtoInterface, DtoBuilderInterface
 {
     public readonly array $shopHomeMessageValidationOk;
 
@@ -29,18 +31,39 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
     public readonly string $shopModifyFormActionUrlPlaceholder;
     public readonly string $shopRemoveFormActionUrl;
 
-    private array $builder = [
-        'errors' => false,
-        'pagination' => false,
-        'shops' => false,
-        'formCsrfToken' => false,
-        'formValid' => false,
-        'group' => false,
-    ];
+    public readonly string|null $searchBarFilterType;
+    public readonly string|null $searchBarFilterValue;
+    public readonly string $searchBarFormActionUrl;
+
+    private DtoBuilder $builder;
+
+    public function __construct()
+    {
+        $this->builder = new DtoBuilder([
+            'searchBar',
+            'errors',
+            'pagination',
+            'shops',
+            'formCsrfToken',
+            'formValid',
+            'group',
+        ]);
+    }
+
+    public function searchBar(string|null $searchBarFilterType, string|null $searchBarFilterValue, string $searchBarFormActionUrl): self
+    {
+        $this->builder->setMethodStatus('searchBar', true);
+
+        $this->searchBarFilterType = $searchBarFilterType;
+        $this->searchBarFilterValue = $searchBarFilterValue;
+        $this->searchBarFormActionUrl = $searchBarFormActionUrl;
+
+        return $this;
+    }
 
     public function errors(array $shopHomeValidationOk, array $shopValidationErrorsMessage): self
     {
-        $this->builder['errors'] = true;
+        $this->builder->setMethodStatus('errors', true);
 
         $this->shopHomeMessageValidationOk = $shopHomeValidationOk;
         $this->shopErrorsMessage = $shopValidationErrorsMessage;
@@ -50,7 +73,7 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
 
     public function pagination(int $page, int $pageItems, int $pagesTotal): self
     {
-        $this->builder['pagination'] = true;
+        $this->builder->setMethodStatus('pagination', true);
 
         $this->page = $page;
         $this->pageItems = $pageItems;
@@ -61,7 +84,7 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
 
     public function shops(array $shopsData, string $shopNoImagePath): self
     {
-        $this->builder['shops'] = true;
+        $this->builder->setMethodStatus('shops', true);
 
         $this->shopsData = $shopsData;
         $this->shopNoImagePath = $shopNoImagePath;
@@ -71,7 +94,7 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
 
     public function formCsrfToken(string $shopCreateFormCsrfToken, string $shopModifyFormCsrfToken, string $shopRemoveFormCsrfToken, string $shopRemoveMultiFormCsrfToken): self
     {
-        $this->builder['formCsrfToken'] = true;
+        $this->builder->setMethodStatus('formCsrfToken', true);
 
         $this->shopCreateFormCsrfToken = $shopCreateFormCsrfToken;
         $this->shopModifyCsrfToken = $shopModifyFormCsrfToken;
@@ -83,7 +106,7 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
 
     public function form(bool $validForm, string $shopCreateFormActionUrl, string $shopModifyFormActionUrlPlaceholder, string $shopRemoveFormActionUrl): self
     {
-        $this->builder['formValid'] = true;
+        $this->builder->setMethodStatus('formValid', true);
 
         $this->validForm = $validForm;
         $this->shopCreateFormActionUrl = mb_strtolower($shopCreateFormActionUrl);
@@ -95,7 +118,7 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
 
     public function group(string $groupNameUrlEncoded): self
     {
-        $this->builder['group'] = true;
+        $this->builder->setMethodStatus('group', true);
 
         $this->groupNameUrlEncoded = $groupNameUrlEncoded;
 
@@ -104,10 +127,7 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface
 
     public function build(): self
     {
-        if (count(array_filter($this->builder)) < count($this->builder)) {
-            $methodsMandatory = implode(', ', array_keys($this->builder));
-            throw new \InvalidArgumentException("Constructors: {$methodsMandatory}. Are mandatory");
-        }
+        $this->builder->validate();
 
         return $this;
     }

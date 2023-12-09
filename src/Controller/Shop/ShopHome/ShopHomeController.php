@@ -4,6 +4,8 @@ namespace App\Controller\Shop\ShopHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ShopDataResponse;
+use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
+use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
 use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
@@ -41,7 +43,15 @@ class ShopHomeController extends AbstractController
         $shopModifyForm = $this->formFactory->create(new ShopModifyForm(), $requestDto->request);
         $shopRemoveForm = $this->formFactory->create(new ShopRemoveForm(), $requestDto->request);
         $shopRemoveMultiForm = $this->formFactory->create(new ShopRemoveMultiForm(), $requestDto->request);
-        $shopsData = $this->getShopsData($requestDto->groupData->id, $requestDto->tokenSession);
+        $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
+        $shopsData = $this->getShopsData(
+            $requestDto->groupData->id,
+            $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
+            $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+            $requestDto->page,
+            $requestDto->pageItems,
+            $requestDto->tokenSession
+        );
 
         $shopHomeComponentDto = $this->createShopHomeComponentDto(
             $requestDto,
@@ -49,20 +59,35 @@ class ShopHomeController extends AbstractController
             $shopModifyForm,
             $shopRemoveForm,
             $shopRemoveMultiForm,
-            $shopsData
+            $searchBarForm,
+            $shopsData['shops'],
+            $shopsData['pages_total']
         );
 
         return $this->renderTemplate($shopHomeComponentDto);
     }
 
-    private function getShopsData(string $groupId, string $tokenSession): array
+    private function getShopsData(string $groupId, string|null $shopNameFilterType, string|null $shopNameFilterValue, int $page, int $pageItems, string $tokenSession): array
     {
-        $shopsData = $this->endpoints->shopsGetData($groupId, null, null, null, null, $tokenSession);
-
-        return array_map(
-            fn (array $shopData) => ShopDataResponse::fromArray($shopData),
-            $shopsData['data']
+        $shopsData = $this->endpoints->shopsGetData(
+            $groupId,
+            null,
+            null,
+            null,
+            $shopNameFilterType,
+            $shopNameFilterValue,
+            $page,
+            $pageItems,
+            true,
+            $tokenSession
         );
+
+        $shopsData['data']['shops'] = array_map(
+            fn (array $shopData) => ShopDataResponse::fromArray($shopData),
+            $shopsData['data']['shops']
+        );
+
+        return $shopsData['data'];
     }
 
     private function createShopHomeComponentDto(
@@ -71,7 +96,9 @@ class ShopHomeController extends AbstractController
         FormInterface $shopModifyForm,
         FormInterface $shopRemoveForm,
         FormInterface $shopRemoveMultiForm,
-        array $shopsData
+        FormInterface $searchBarForm,
+        array $shopsData,
+        int $pagesTotal,
     ): ShopHomeComponentDto {
         $shopHomeMessagesError = $this->sessionFlashBag->get(
             $requestDto->request->attributes->get('_route').Config::FLASH_BAG_FORM_NAME_SUFFIX_MESSAGE_ERROR
@@ -94,7 +121,7 @@ class ShopHomeController extends AbstractController
             ->pagination(
                 $requestDto->page,
                 $requestDto->pageItems,
-                1
+                $pagesTotal
             )
             ->shops(
                 $shopsData,
@@ -105,21 +132,25 @@ class ShopHomeController extends AbstractController
             )
             ->form(
                 !empty($shopHomeMessagesError) || !empty($shopHomeMessagesOk) ? true : false,
-                str_replace(
-                    ['{_locale}', '{group_name}'],
-                    [$requestDto->locale, $requestDto->groupNameUrlEncoded],
-                    Config::CLIENT_ENDPOINT_SHOP_CREATE
-                ),
-                str_replace(
-                    ['{_locale}', '{group_name}'],
-                    [$requestDto->locale, $requestDto->groupData->name],
-                    Config::CLIENT_ENDPOINT_SHOP_MODIFY
-                ),
-                str_replace(
-                    ['{_locale}', '{group_name}'],
-                    [$requestDto->locale, $requestDto->groupData->name],
-                    Config::CLIENT_ENDPOINT_SHOP_REMOVE
-                )
+                $this->generateUrl('shop_create', [
+                        'group_name' => $requestDto->groupNameUrlEncoded,
+                    ]),
+                $this->generateUrl('shop_modify', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                    'shop_name' => '--shop_name--',
+                ]),
+                $this->generateUrl('shop_remove', [
+                    'group_name' => $requestDto->groupData->name,
+                ])
+            )
+            ->searchBar(
+                $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
+                $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+                $this->generateUrl('shop_home', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                    'page' => $requestDto->page,
+                    'page_items' => $requestDto->pageItems,
+                ])
             )
             ->build();
     }

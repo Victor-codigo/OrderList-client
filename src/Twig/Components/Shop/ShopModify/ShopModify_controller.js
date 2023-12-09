@@ -3,6 +3,8 @@ import * as form from '../../../../../assets/modules/form';
 import * as encodedUrlParameter from '../../../../../assets/modules/EncodedUrlParameter';
 
 
+const SHOP_NAME_PLACEHOLDER = '--shop_name--';
+
 export default class extends Controller {
     connect() {
         this.shopNameTag = this.element.querySelector('[data-js-shop-name]');
@@ -34,7 +36,7 @@ export default class extends Controller {
     setFormFieldValues(content) {
         this.shopNameTag.value = content.shopName;
         this.element.action = this.element.dataset.actionPlaceholder.replace(
-            '{shop_name}',
+            SHOP_NAME_PLACEHOLDER,
             encodedUrlParameter.encodeUrlParameter(content.shopName)
         );
         this.shopDescriptionTag.value = content.shopDescription;
