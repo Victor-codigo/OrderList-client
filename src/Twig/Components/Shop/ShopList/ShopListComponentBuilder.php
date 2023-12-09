@@ -10,69 +10,126 @@ use App\Twig\Components\Shop\ShopList\ListItem\ShopListItemComponent;
 use App\Twig\Components\Shop\ShopList\ListItem\ShopListItemComponentDto;
 use App\Twig\Components\Shop\ShopList\List\ShopListComponent;
 use App\Twig\Components\Shop\ShopList\List\ShopListComponentDto;
+use Common\Domain\DtoBuilder\DtoBuilder;
 
 class ShopListComponentBuilder
 {
+    private DtoBuilder $builder;
+
+    private readonly array $errors;
     /**
-     * @param arrayShopDataResponse[] $shops
+     * @param ShopDataResponse[] $shops
      */
-    public function __construct(
-        private readonly array $errors,
-        private readonly array $shops,
-        private readonly string $imageNoShopImage,
-        private readonly int $page,
-        private readonly int $pageItems,
-        private readonly int $pagesTotal,
-        private readonly bool $validation,
-        public readonly string|null $shopModifyCsrfToken,
-        public readonly string|null $shopRemoveFormCsrfToken,
-        public readonly string $shopModifyFormActionUrlPlaceholder,
-        public readonly string $shopRemoveFormActionUrl,
-        public readonly string $listItemShopIdFieldName,
-        public readonly string $shopNoImagePath,
-    ) {
+    private readonly array $shops;
+    private readonly int $page;
+    private readonly int $pageItems;
+    private readonly int $pagesTotal;
+    private readonly bool $validation;
+    public readonly string|null $shopModifyFormCsrfToken;
+    public readonly string|null $shopRemoveFormCsrfToken;
+    public readonly string $shopModifyFormActionUrlPlaceholder;
+    public readonly string $shopRemoveFormActionUrl;
+    public readonly string $shopsIdFieldName;
+    public readonly string $shopNoImagePath;
+
+    public function __construct()
+    {
+        $this->builder = new DtoBuilder([
+            'validation',
+            'pagination',
+            'shops',
+            'shopModifyForm',
+            'shopRemoveForm',
+        ]);
     }
 
-    public function __invoke(): ShopListComponentDto
+    public function validation(array $errors, bool $validation): self
     {
+        $this->builder->setMethodStatus('validation', true);
+
+        $this->errors = $errors;
+        $this->validation = $validation;
+
+        return $this;
+    }
+
+    public function pagination(int $page, int $pageItems, int $pagesTotal): self
+    {
+        $this->builder->setMethodStatus('pagination', true);
+
+        $this->page = $page;
+        $this->pageItems = $pageItems;
+        $this->pagesTotal = $pagesTotal;
+
+        return $this;
+    }
+
+    /**
+     * @param ShopDataResponse[] $shops
+     */
+    public function shops(array $shops, string $shopNoImagePath, string $shopsIdFiledName): self
+    {
+        $this->builder->setMethodStatus('shops', true);
+
+        $this->shops = $shops;
+        $this->shopNoImagePath = $shopNoImagePath;
+        $this->shopsIdFieldName = $shopsIdFiledName;
+
+        return $this;
+    }
+
+    public function shopModifyForm(string|null $shopModifyFormCsrfToken, string $shopModifyFormActionUrlPlaceholder): self
+    {
+        $this->builder->setMethodStatus('shopModifyForm', true);
+
+        $this->shopModifyFormCsrfToken = $shopModifyFormCsrfToken;
+        $this->shopModifyFormActionUrlPlaceholder = $shopModifyFormActionUrlPlaceholder;
+
+        return $this;
+    }
+
+    public function shopRemoveForm(string|null $shopRemoveFormCsrfToken, string $shopRemoveFormActionUrl): self
+    {
+        $this->builder->setMethodStatus('shopRemoveForm', true);
+
+        $this->shopRemoveFormCsrfToken = $shopRemoveFormCsrfToken;
+        $this->shopRemoveFormActionUrl = $shopRemoveFormActionUrl;
+
+        return $this;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function build(): ShopListComponentDto
+    {
+        $this->builder->validate();
+
         $paginator = $this->createPaginatorComponentDto($this->page, $this->pageItems, $this->pagesTotal);
-        $shops = $this->createShopListItemComponentDto($this->shops);
+        $shopsListItems = $this->createShopListItemComponentDto($this->shops);
 
         return $this->createShopListComponentDto(
-            $this->errors,
             $paginator,
-            $shops,
-            $this->validation,
-            $this->shopModifyCsrfToken,
-            $this->shopRemoveFormCsrfToken,
-            $this->shopModifyFormActionUrlPlaceholder,
-            $this->shopRemoveFormActionUrl,
-            $this->shopNoImagePath
+            $shopsListItems,
         );
     }
 
-    private function createShopListComponentDto(
-        array $errors,
-        PaginatorComponentDto $paginatorDto,
-        array $shops,
-        bool $validation,
-        string $shopModifyCsrfToken,
-        string $shopDeleteCsrfToken,
-        string $shopModifyFormActionUrlPlaceholder,
-        string $shopRemoveFormActionUrl,
-        string $shopNoImagePath
-    ): ShopListComponentDto {
+    /**
+     * @param ShopListItemComponentDto[] $shopsListsItems
+     */
+    private function createShopListComponentDto(PaginatorComponentDto $paginatorDto, array $shopsListsItems): ShopListComponentDto
+    {
         return new ShopListComponentDto(
-            $errors,
-            $shops,
+            $this->errors,
+            $shopsListsItems,
             $paginatorDto,
-            $shopModifyCsrfToken,
-            $shopDeleteCsrfToken,
-            $validation,
-            $shopModifyFormActionUrlPlaceholder,
-            $shopRemoveFormActionUrl,
-            $this->listItemShopIdFieldName,
-            $shopNoImagePath,
+            $this->shopModifyFormCsrfToken,
+            $this->shopRemoveFormCsrfToken,
+            $this->validation,
+            $this->shopModifyFormActionUrlPlaceholder,
+            $this->shopRemoveFormActionUrl,
+            $this->shopsIdFieldName,
+            $this->shopNoImagePath,
         );
     }
 
@@ -84,11 +141,11 @@ class ShopListComponentBuilder
         return array_map(
             fn (ShopDataResponse $shopData) => new ShopListItemComponentDto(
                 ShopListItemComponent::getComponentName(),
-                $this->listItemShopIdFieldName,
+                $this->shopsIdFieldName,
                 $shopData->id,
                 $shopData->name,
                 $shopData->description,
-                null === $shopData->image ? $this->imageNoShopImage : $shopData->image,
+                null === $shopData->image ? $this->shopNoImagePath : $shopData->image,
                 $shopData->createdOn,
                 ShopListComponent::SHOP_MODIFY_MODAL_ID,
                 ShopListComponent::SHOP_DELETE_MODAL_ID
