@@ -24,7 +24,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class ShopHomeComponent extends TwigComponent
 {
     private const SHOP_CREATE_MODAL_ID = 'shop_create_modal';
-    private const SHOP_REMOVE_FORM_NAME = 'shop_remove_form';
     private const SHOP_REMOVE_MULTI_MODAL_ID = 'shop_remove_multi_modal';
 
     public ShopHomeComponentLangDto $lang;
@@ -98,8 +97,7 @@ final class ShopHomeComponent extends TwigComponent
             )
             ->shops(
                 $this->data->shopsData,
-                $this->data->shopNoImagePath,
-                self::SHOP_REMOVE_FORM_NAME
+                $this->data->shopNoImagePath
             )
             ->validation(
                 [],
