@@ -16,7 +16,6 @@ import ModalComponent from '../src/Twig/Components/Modal/Modal_Component';
 import DropZoneComponent from '../src/Twig/Components/Controls/DropZone/DropZone_Component';
 import ImageAvatarComponent from '../src/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
 import PaginatorComponent from '../src/Twig/Components/Paginator/Paginator_Component';
-import PaginatorAjaxComponent from '../src/Twig/Components/PaginatorAjax/PaginatorAjax_Component';
 import ListComponent from '../src/Twig/Components/List/List_controller';
 import SearchBarComponent from '../src/Twig/Components/SearchBar/SearchBar_controller';
 
@@ -66,7 +65,6 @@ app.register('ModalComponent', ModalComponent);
 app.register('DropZoneComponent', DropZoneComponent);
 app.register('ImageAvatarComponent', ImageAvatarComponent);
 app.register('PaginatorComponent', PaginatorComponent);
-app.register('PaginatorAjaxComponent', PaginatorAjaxComponent);
 app.register('ListComponent', ListComponent);
 app.register('SearchBarComponent', SearchBarComponent);
 
