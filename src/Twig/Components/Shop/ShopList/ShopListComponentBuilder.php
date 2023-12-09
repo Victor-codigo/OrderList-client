@@ -29,7 +29,6 @@ class ShopListComponentBuilder
     public readonly string|null $shopRemoveFormCsrfToken;
     public readonly string $shopModifyFormActionUrlPlaceholder;
     public readonly string $shopRemoveFormActionUrl;
-    public readonly string $shopsIdFieldName;
     public readonly string $shopNoImagePath;
 
     public function __construct()
@@ -67,13 +66,12 @@ class ShopListComponentBuilder
     /**
      * @param ShopDataResponse[] $shops
      */
-    public function shops(array $shops, string $shopNoImagePath, string $shopsIdFiledName): self
+    public function shops(array $shops, string $shopNoImagePath): self
     {
         $this->builder->setMethodStatus('shops', true);
 
         $this->shops = $shops;
         $this->shopNoImagePath = $shopNoImagePath;
-        $this->shopsIdFieldName = $shopsIdFiledName;
 
         return $this;
     }
@@ -128,7 +126,6 @@ class ShopListComponentBuilder
             $this->validation,
             $this->shopModifyFormActionUrlPlaceholder,
             $this->shopRemoveFormActionUrl,
-            $this->shopsIdFieldName,
             $this->shopNoImagePath,
         );
     }
@@ -141,7 +138,6 @@ class ShopListComponentBuilder
         return array_map(
             fn (ShopDataResponse $shopData) => new ShopListItemComponentDto(
                 ShopListItemComponent::getComponentName(),
-                $this->shopsIdFieldName,
                 $shopData->id,
                 $shopData->name,
                 $shopData->description,

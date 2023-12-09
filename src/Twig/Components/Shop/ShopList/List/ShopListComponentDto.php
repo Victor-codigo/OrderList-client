@@ -21,7 +21,6 @@ class ShopListComponentDto implements TwigComponentDtoInterface
         public readonly bool $validForm,
         public readonly string $shopModifyFormActionUrlPlaceholder,
         public readonly string $shopRemoveFormActionUrl,
-        public readonly string $shopRemoveFormInputShopIdName,
         public readonly string $shopNoImagePath,
     ) {
     }
