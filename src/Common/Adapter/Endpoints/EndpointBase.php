@@ -6,7 +6,6 @@ namespace Common\Adapter\Endpoints;
 
 use Common\Adapter\Events\Exceptions\RequestException;
 use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
-use Common\Domain\HttpClient\Exception\DecodingException;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
@@ -43,6 +42,10 @@ abstract class EndpointBase
     protected function apiResponseManage(HttpClientResponseInterface $response, callable $onResponseErrorReturnCallback = null, callable $onResponseOkReturnCallback = null, callable $onResponseNoContentReturnCallBack = null): array
     {
         try {
+            if (Response::HTTP_NO_CONTENT === $response->getStatusCode()) {
+                return $this->noContentResponseHandler($response, $onResponseNoContentReturnCallBack);
+            }
+
             $responseDataOk = $response->toArray();
 
             if (null === $onResponseOkReturnCallback) {
@@ -50,14 +53,6 @@ abstract class EndpointBase
             }
 
             return $onResponseOkReturnCallback($responseDataOk);
-        } catch (DecodingException) {
-            $responseDataErrorDecoding = $response->toArray(false);
-
-            if (null === $onResponseNoContentReturnCallBack) {
-                return $responseDataErrorDecoding;
-            }
-
-            return $onResponseNoContentReturnCallBack($responseDataErrorDecoding);
         } catch (Error400Exception|Error500Exception|NetworkException) {
             $responseDataError = $response->toArray(false);
 
@@ -77,5 +72,17 @@ abstract class EndpointBase
 
             throw RequestException::fromMessage('An error has occurred in the request. Unknown response');
         }
+    }
+
+    /**
+     * @param callable $onResponseNoContentReturnCallBack function(array $responseDataNoContent): array
+     */
+    private function noContentResponseHandler(HttpClientResponseInterface $response, callable $onResponseNoContentReturnCallBack): array
+    {
+        if (null === $onResponseNoContentReturnCallBack) {
+            return [];
+        }
+
+        return $onResponseNoContentReturnCallBack([]);
     }
 }
