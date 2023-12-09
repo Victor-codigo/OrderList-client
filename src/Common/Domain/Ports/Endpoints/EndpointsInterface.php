@@ -40,7 +40,7 @@ interface EndpointsInterface
 
     public function shopModify(string $shopId, string $groupId, string $name, string|null $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array;
 
-    public function shopsGetData(string $groupId, array|null $shopsId, array|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): array;
+    public function shopsGetData(string $groupId, array|null $shopsId, array|null $productsId, string|null $shopName, string|null $shopNameFilterType, string|null $shopNameFilterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
 
     public function shopRemove(string $groupId, array|null $shopsId, string $tokenSession): array;
 }

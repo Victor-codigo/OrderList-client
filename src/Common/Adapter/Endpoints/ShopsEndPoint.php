@@ -109,20 +109,38 @@ class ShopsEndPoint extends EndpointBase
      *    errors: array<string, mixed>
      * }>
      */
-    public function shopsGetData(string $groupId, array|null $shopsId, array|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): array
-    {
+    public function shopsGetData(
+        string $groupId,
+        array|null $shopsId,
+        array|null $productsId,
+        string|null $shopName,
+        string|null $shopNameFilterType,
+        string|null $shopNameFilterValue,
+        int $page,
+        int $pageItems,
+        bool $orderAsc,
+        string $tokenSession
+    ): array {
         $response = $this->requestShopsGetData(
             $groupId,
             $shopsId,
             $productsId,
             $shopName,
-            $shopNameStartsWith,
+            $shopNameFilterType,
+            $shopNameFilterValue,
+            $page,
+            $pageItems,
+            $orderAsc,
             $tokenSession
         );
 
         return $this->apiResponseManage($response, null, null,
             fn (array $responseDataNoContent) => [
-                'data' => [],
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 0,
+                    'shops' => [],
+                ],
                 'errors' => ['shop_not_found' => 'Shop not found'],
             ]
         );
@@ -131,14 +149,28 @@ class ShopsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestShopsGetData(string $groupId, array|null $shopsId, array|null $productsId, string|null $shopName, string|null $shopNameStartsWith, string $tokenSession): HttpClientResponseInterface
-    {
+    private function requestShopsGetData(
+        string $groupId,
+        array|null $shopsId,
+        array|null $productsId,
+        string|null $shopName,
+        string|null $shopNameFilterType,
+        string|null $shopNameFilterValue,
+        int $page,
+        int $pageItems,
+        bool $orderAsc,
+        string $tokenSession
+    ): HttpClientResponseInterface {
         $parameters = [
             'group_id' => $groupId,
             'shops_id' => null !== $shopsId ? implode(',', $shopsId) : null,
             'products_id' => null !== $productsId ? implode(',', $productsId) : null,
+            'page' => $page,
+            'page_items' => $pageItems,
             'shop_name' => $shopName,
-            'shop_name_starts_with' => $shopNameStartsWith,
+            'order_asc' => $orderAsc,
+            'shop_name_filter_type' => $shopNameFilterType,
+            'shop_name_filter_value' => $shopNameFilterValue,
         ];
 
         return $this->httpClient->request(

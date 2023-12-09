@@ -156,13 +156,24 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        $shopData = $this->endpoints->shopsGetData($groupId, $shopId, null, $shopNameDecoded, null, $tokenSession);
+        $shopData = $this->endpoints->shopsGetData(
+            $groupId,
+            $shopId,
+            null,
+            $shopNameDecoded,
+            null,
+            null,
+            1,
+            1,
+            true,
+            $tokenSession
+        );
 
         if (!empty($shopData['errors'])) {
             throw RequestShopNameException::fromMessage('Group data not found');
         }
 
-        return ShopDataResponse::fromArray($shopData['data'][0]);
+        return ShopDataResponse::fromArray($shopData['data']['shops'][0]);
     }
 
     private function loadParamShopId(ParameterBag $attributes): array|null
