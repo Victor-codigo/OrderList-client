@@ -18,7 +18,4 @@ class Config
     public const SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/shop/shop-no-image-200x200.svg';
 
     public const API_IMAGES_SHOP_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/assets/img/shops';
-
-    public const FLASH_BAG_FORM_NAME_SUFFIX_MESSAGE_OK = '-ok';
-    public const FLASH_BAG_FORM_NAME_SUFFIX_MESSAGE_ERROR = '-error';
 }

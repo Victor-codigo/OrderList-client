@@ -6,7 +6,6 @@ namespace Common\Domain\ControllerUrlRefererRedirect;
 
 use App\Controller\Request\RequestRefererDto;
 use Common\Adapter\Events\Exceptions\RequestRefererException;
-use Common\Domain\Config\Config;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,19 +19,21 @@ class ControllerUrlRefererRedirect
     ) {
     }
 
-    public function createRedirectToRoute(string $routeName, array $routeParams, array $formValidationMessagesOk, array $formValidationMessagesError): RedirectResponse
+    public function createRedirectToRoute(string $routeName, array $routeParams, array $formValidationMessagesOk, array $formValidationMessagesError, array $data): RedirectResponse
     {
         if (empty($formValidationMessagesError)) {
             array_map(
-                fn (string $messageOk) => $this->sessionFlashBag->add($routeName.Config::FLASH_BAG_FORM_NAME_SUFFIX_MESSAGE_OK, $messageOk),
+                fn (string $messageOk) => $this->sessionFlashBag->add($routeName.FLASH_BAG_TYPE_SUFFIX::MESSAGE_OK->value, $messageOk),
                 $formValidationMessagesOk
             );
         }
 
         array_map(
-            fn (string $messageError) => $this->sessionFlashBag->add($routeName.Config::FLASH_BAG_FORM_NAME_SUFFIX_MESSAGE_ERROR, $messageError),
+            fn (string $messageError) => $this->sessionFlashBag->add($routeName.FLASH_BAG_TYPE_SUFFIX::MESSAGE_ERROR->value, $messageError),
             $formValidationMessagesError
         );
+
+        $this->sessionFlashBag->add($routeName.FLASH_BAG_TYPE_SUFFIX::DATA->value, $data);
 
         return new RedirectResponse(
             $this->router->generate($routeName, $routeParams),
@@ -45,5 +46,20 @@ class ControllerUrlRefererRedirect
         if (null === $requestReferer) {
             throw RequestRefererException::fromMessage('Request referer not valid');
         }
+    }
+
+    public function getFlashBag(string $routeName, FLASH_BAG_TYPE_SUFFIX $type): array
+    {
+        $flashBagData = $this->sessionFlashBag->get($routeName.$type->value);
+
+        if (empty($flashBagData)) {
+            return [];
+        }
+
+        if (FLASH_BAG_TYPE_SUFFIX::DATA === $type) {
+            return $flashBagData[0];
+        }
+
+        return $flashBagData;
     }
 }
