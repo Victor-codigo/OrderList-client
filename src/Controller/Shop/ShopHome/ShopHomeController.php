@@ -12,11 +12,14 @@ use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentDto;
 use Common\Domain\Config\Config;
+use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
+use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,6 +29,8 @@ use Symfony\Component\Routing\Annotation\Route;
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
+        'page' => '\d+',
+        'page_items' => '\d+',
     ]
 )]
 class ShopHomeController extends AbstractController
@@ -33,7 +38,8 @@ class ShopHomeController extends AbstractController
     public function __construct(
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
-        private FlashBagInterface $sessionFlashBag
+        private FlashBagInterface $sessionFlashBag,
+        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect
     ) {
     }
 
@@ -44,10 +50,30 @@ class ShopHomeController extends AbstractController
         $shopRemoveForm = $this->formFactory->create(new ShopRemoveForm(), $requestDto->request);
         $shopRemoveMultiForm = $this->formFactory->create(new ShopRemoveMultiForm(), $requestDto->request);
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
+
+        if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
+            return $this->controllerUrlRefererRedirect->createRedirectToRoute(
+                'shop_home',
+                $requestDto->requestReferer->params,
+                [],
+                [],
+                ['searchBar' => [
+                    SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
+                    SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+                ]]
+            );
+        }
+
+        $searchBarFormFields = $this->getSearchBarFieldsValues(
+            $requestDto->request,
+            $searchBarForm,
+            $this->controllerUrlRefererRedirect->getFlashBag($requestDto->request->attributes->get('_route'), FLASH_BAG_TYPE_SUFFIX::DATA),
+        );
+
         $shopsData = $this->getShopsData(
             $requestDto->groupData->id,
-            $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
-            $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $requestDto->page,
             $requestDto->pageItems,
             $requestDto->tokenSession
@@ -59,7 +85,9 @@ class ShopHomeController extends AbstractController
             $shopModifyForm,
             $shopRemoveForm,
             $shopRemoveMultiForm,
-            $searchBarForm,
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
+            $searchBarForm->getCsrfToken(),
             $shopsData['shops'],
             $shopsData['pages_total']
         );
@@ -67,8 +95,29 @@ class ShopHomeController extends AbstractController
         return $this->renderTemplate($shopHomeComponentDto);
     }
 
-    private function getShopsData(string $groupId, string|null $shopNameFilterType, string|null $shopNameFilterValue, int $page, int $pageItems, string $tokenSession): array
+    private function getSearchBarFieldsValues(Request $request, FormInterface $searchBarForm, array $flashBagData): array
     {
+        if (!array_key_exists('searchBar', $flashBagData)) {
+            return [
+                SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
+                SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+            ];
+        }
+
+        return [
+            SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
+            SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
+        ];
+    }
+
+    private function getShopsData(
+        string $groupId,
+        string|null $shopNameFilterType,
+        string|null $shopNameFilterValue,
+        int $page,
+        int $pageItems,
+        string $tokenSession
+    ): array {
         $shopsData = $this->endpoints->shopsGetData(
             $groupId,
             null,
@@ -96,15 +145,17 @@ class ShopHomeController extends AbstractController
         FormInterface $shopModifyForm,
         FormInterface $shopRemoveForm,
         FormInterface $shopRemoveMultiForm,
-        FormInterface $searchBarForm,
+        string|null $searchBarFieldFilter,
+        string|null $searchBarFieldValue,
+        string $searchBarCsrfToken,
         array $shopsData,
         int $pagesTotal,
     ): ShopHomeComponentDto {
         $shopHomeMessagesError = $this->sessionFlashBag->get(
-            $requestDto->request->attributes->get('_route').Config::FLASH_BAG_FORM_NAME_SUFFIX_MESSAGE_ERROR
+            $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_ERROR->value
         );
         $shopHomeMessagesOk = $this->sessionFlashBag->get(
-            $requestDto->request->attributes->get('_route').Config::FLASH_BAG_FORM_NAME_SUFFIX_MESSAGE_OK
+            $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_OK->value
         );
 
         return (new ShopHomeComponentDto())
@@ -144,8 +195,9 @@ class ShopHomeController extends AbstractController
                 ])
             )
             ->searchBar(
-                $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
-                $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+                $searchBarFieldFilter,
+                $searchBarFieldValue,
+                $searchBarCsrfToken,
                 $this->generateUrl('shop_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,
