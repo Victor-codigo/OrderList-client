@@ -33,6 +33,7 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface, DtoBuilderInter
 
     public readonly string|null $searchBarFilterType;
     public readonly string|null $searchBarFilterValue;
+    public readonly string $searchBarCsrfToken;
     public readonly string $searchBarFormActionUrl;
 
     private DtoBuilder $builder;
@@ -50,12 +51,13 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface, DtoBuilderInter
         ]);
     }
 
-    public function searchBar(string|null $searchBarFilterType, string|null $searchBarFilterValue, string $searchBarFormActionUrl): self
+    public function searchBar(string|null $searchBarFilterType, string|null $searchBarFilterValue, string $searchBarCsrfToken, string $searchBarFormActionUrl): self
     {
         $this->builder->setMethodStatus('searchBar', true);
 
         $this->searchBarFilterType = $searchBarFilterType;
         $this->searchBarFilterValue = $searchBarFilterValue;
+        $this->searchBarCsrfToken = $searchBarCsrfToken;
         $this->searchBarFormActionUrl = $searchBarFormActionUrl;
 
         return $this;

@@ -75,7 +75,8 @@ final class ShopHomeComponent extends TwigComponent
         return new SearchBarComponentDto(
             $this->data->searchBarFilterType,
             $this->data->searchBarFilterValue,
-            $this->data->searchBarFormActionUrl
+            $this->data->searchBarCsrfToken,
+            $this->data->searchBarFormActionUrl,
         );
     }
 

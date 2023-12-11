@@ -14,11 +14,7 @@
 
 	{% for item in data.listItemsDto %}
 
-	<li class="list-group-item">
-
-		{{ component(data.itemComponentName, { data: item }) }}
-
-	</li>
+	{{ component(data.itemComponentName, { data: item }) }}
 
 	{% endfor %}
 

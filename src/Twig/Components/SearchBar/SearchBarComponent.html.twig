@@ -8,13 +8,17 @@
 		  novalidate
 		  data-js-searchbar-form>
 
+		<input type="hidden"
+			   name="{{ searchTokenCsrfFieldName }}"
+			   value="{{ data.searchCsrfToken }}" />
+
 		<label class="form-label  w-100">
 			{{ lang.searchLabel }}
 			<div class="d-flex  flex-row">
 
 				<input type="text"
 					   class="form-control  order-2  flex-grow-1  border  border-0 border-top  border-bottom rounded-0"
-					   name="{{ searchFieldName }}"
+					   name="{{ searchValueFieldName }}"
 					   placeholder="{{ lang.searchPlaceholder }}"
 					   value="{{ data.searchValue }}"
 					   data-js-value />
@@ -30,14 +34,17 @@
 					<option value="{{ filterName }}"
 							selected>{{ filterLang }}</option>
 
-					{% endif %}
+					{% else %}
+
 					<option value="{{ filterName }}">{{ filterLang }}</option>
+					{% endif %}
 
 					{% endfor %}
 				</select>
 
 				<button type="submit"
 						class="btn btn-primary  order-3  border rounded-0  rounded-end"
+						name="{{ searchButtonFiledName }}"
 						alt="{{ lang.searchButton }}">
 					{% include "search-icon-blue-24x24.svg" %}
 				</button>

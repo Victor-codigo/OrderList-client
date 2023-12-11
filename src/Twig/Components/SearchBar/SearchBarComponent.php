@@ -19,8 +19,10 @@ class SearchBarComponent extends TwigComponent
     public SearchBarComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
-    public readonly string $searchFieldName;
+    public readonly string $searchTokenCsrfFieldName;
+    public readonly string $searchValueFieldName;
     public readonly string $searchFilterFieldName;
+    public readonly string $searchButtonFiledName;
 
     protected static function getComponentName(): string
     {
@@ -31,8 +33,10 @@ class SearchBarComponent extends TwigComponent
     {
         $this->data = $data;
         $this->formName = SEARCHBAR_FORM_FIELDS::FORM;
-        $this->searchFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::SEARCH_VALUE);
+        $this->searchTokenCsrfFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::TOKEN);
+        $this->searchValueFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::SEARCH_VALUE);
         $this->searchFilterFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::SEARCH_FILTER);
+        $this->searchButtonFiledName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::BUTTON);
 
         $this->loadTranslation();
     }
