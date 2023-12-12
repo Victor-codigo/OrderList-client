@@ -45,7 +45,8 @@ class ShopModifyController extends AbstractController
             $requestDto->requestReferer->routeName,
             $requestDto->requestReferer->params,
             [$this->shopModifyComponent->loadValidationOkTranslation()],
-            $this->shopModifyComponent->loadErrorsTranslation($shopModifyForm->getErrors())
+            $this->shopModifyComponent->loadErrorsTranslation($shopModifyForm->getErrors()),
+            []
         );
     }
 

@@ -45,7 +45,8 @@ class ShopCreateController extends AbstractController
             $requestDto->requestReferer->routeName,
             $requestDto->requestReferer->params,
             [$this->shopCreateComponent->loadValidationOkTranslation()],
-            $this->shopCreateComponent->loadErrorsTranslation($shopCreateForm->getErrors())
+            $this->shopCreateComponent->loadErrorsTranslation($shopCreateForm->getErrors()),
+            []
         );
     }
 

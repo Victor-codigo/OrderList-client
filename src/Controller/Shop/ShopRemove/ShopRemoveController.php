@@ -46,7 +46,8 @@ class ShopRemoveController extends AbstractController
             [$this->shopRemoveComponent->loadValidationOkTranslation()],
             $this->shopRemoveComponent->loadErrorsTranslation(
                 array_merge($shopRemoveForm->getErrors(), $shopRemoveMultiForm->getErrors())
-            )
+            ),
+            []
         );
     }
 
