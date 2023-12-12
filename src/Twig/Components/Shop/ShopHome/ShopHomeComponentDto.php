@@ -35,6 +35,8 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface, DtoBuilderInter
     public readonly string|null $searchBarFilterValue;
     public readonly string $searchBarCsrfToken;
     public readonly string $searchBarFormActionUrl;
+    public readonly string $searchAutoCompleteUrl;
+    public readonly string $groupId;
 
     private DtoBuilder $builder;
 
@@ -51,14 +53,22 @@ class ShopHomeComponentDto implements TwigComponentDtoInterface, DtoBuilderInter
         ]);
     }
 
-    public function searchBar(string|null $searchBarFilterType, string|null $searchBarFilterValue, string $searchBarCsrfToken, string $searchBarFormActionUrl): self
-    {
+    public function searchBar(
+        string $groupId,
+        string|null $searchBarFilterType,
+        string|null $searchBarFilterValue,
+        string $searchBarCsrfToken,
+        string $searchAutoCompleteUrl,
+        string $searchBarFormActionUrl,
+    ): self {
         $this->builder->setMethodStatus('searchBar', true);
 
         $this->searchBarFilterType = $searchBarFilterType;
         $this->searchBarFilterValue = $searchBarFilterValue;
         $this->searchBarCsrfToken = $searchBarCsrfToken;
+        $this->searchAutoCompleteUrl = $searchAutoCompleteUrl;
         $this->searchBarFormActionUrl = $searchBarFormActionUrl;
+        $this->groupId = $groupId;
 
         return $this;
     }

@@ -1,4 +1,6 @@
-<section data-controller="SearchBarComponent">
+<section data-controller="SearchBarComponent"
+		 data-url-search-autocomplete="{{ data.searchAutoCompleteUrl|escape('html_attr') }}"
+		 data-group-id="{{ data.groupId }}">
 
 	<form name="{{ formName }}"
 		  class="search-bar  contaniner  p-3  d-flex flex-row  border  border-1  rounded"
@@ -21,7 +23,10 @@
 					   name="{{ searchValueFieldName }}"
 					   placeholder="{{ lang.searchPlaceholder }}"
 					   value="{{ data.searchValue }}"
+					   list="search-data-list"
 					   data-js-value />
+
+				<datalist id="search-data-list"> </datalist>
 
 				<select class="search-bar__filters  form-select  order-1 border rounded-0  rounded-start"
 						name="{{ searchFilterFieldName }}"

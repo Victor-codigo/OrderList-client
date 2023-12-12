@@ -195,9 +195,13 @@ class ShopHomeController extends AbstractController
                 ])
             )
             ->searchBar(
+                $requestDto->groupData->id,
                 $searchBarFieldFilter,
                 $searchBarFieldValue,
                 $searchBarCsrfToken,
+                $this->generateUrl('shop_searchbar_autocomplete', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                ]),
                 $this->generateUrl('shop_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,

@@ -5,24 +5,17 @@ namespace App\Controller\Shop\ShopList;
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
-use App\Form\SearchBar\SearchBarForm;
-use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemove\ShopRemoveForm;
-use App\Twig\Components\Shop\ShopList\List\ShopListComponentDto;
-use App\Twig\Components\Shop\ShopList\ShopListComponentBuilder;
-use Common\Domain\Config\Config;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
-use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
 #[Route(
-    path: '{_locale}/shop/{group_name}/shop-list/page-{page}-{page_items}',
-    name: 'shop_list',
+    path: '{_locale}/shop/{group_name}/shop-searchbar-autocomplete',
+    name: 'shop_searchbar_autocomplete',
     methods: ['GET'],
     requirements: [
         '_locale' => 'en|es',
@@ -38,63 +31,21 @@ class ShopListController extends AbstractController
     ) {
     }
 
-    public function __invoke(RequestDto $requestDto): Response
+    public function __invoke(RequestDto $requestDto): JsonResponse
     {
-        $shopModifyForm = $this->formFactory->create(new ShopModifyForm(), $requestDto->request);
-        $shopRemoveForm = $this->formFactory->create(new ShopRemoveForm(), $requestDto->request);
-        $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
-
         $shopsData = $this->getShopsData(
             $requestDto->groupData->id,
-            $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
-            $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+            $requestDto->request->query->get('shop_name_filter_type'),
+            $requestDto->request->query->get('shop_name_filter_value'),
             $requestDto->page,
             $requestDto->pageItems,
             $requestDto->tokenSession
         );
 
-        $shopListComponentDto = $this->createShopListComponentDto(
-            $shopModifyForm,
-            $shopRemoveForm,
-            $requestDto,
-            $shopsData['shops'],
-            $shopsData['pages_total'],
+        return $this->createResponse(
+            $requestDto->request->query->get('shop_name_filter_type', ''),
+            $shopsData
         );
-
-        return $this->createResponse($shopListComponentDto);
-    }
-
-    private function createShopListComponentDto(FormInterface $shopModifyForm, FormInterface $shopRemoveForm, RequestDto $requestDto, array $shopsData, int $pagesTotal): ShopListComponentDto
-    {
-        return (new ShopListComponentBuilder())
-            ->pagination(
-                $requestDto->page,
-                $requestDto->pageItems,
-                $pagesTotal
-            )
-            ->shopModifyForm(
-                $shopModifyForm->getCsrfToken(),
-                $this->generateUrl('shop_modify', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'shop_name' => '--shop_name--',
-                ])
-            )
-            ->shopRemoveForm(
-                $shopRemoveForm->getCsrfToken(),
-                $this->generateUrl('shop_remove', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                ])
-            )
-
-            ->shops(
-                $shopsData,
-                Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
-            )
-            ->validation(
-                [],
-                false
-            )
-            ->build();
     }
 
     /**
@@ -106,6 +57,14 @@ class ShopListController extends AbstractController
      */
     private function getShopsData(string $groupId, string|null $shopNameFilterType, string|null $shopNameFilterValue, int $page, int $pageItems, string $tokenSession): array
     {
+        if (null === $shopNameFilterValue || '' === $shopNameFilterValue) {
+            return [
+                'pages' => 1,
+                'pages_total' => 0,
+                'shops' => [],
+            ];
+        }
+
         $shopsData = $this->endpoints->shopsGetData(
             $groupId,
             null,
@@ -127,12 +86,14 @@ class ShopListController extends AbstractController
         return $shopsData['data'];
     }
 
-    private function createResponse(ShopListComponentDto $shopListComponentDto): Response
+    private function createResponse(string $searchFilter, array $shopsData): JsonResponse
     {
-        $template = $this->twig
-            ->createTemplate("{{ component('ShopListComponent', { data: shopListComponentDto }) }}")
-            ->render(['shopListComponentDto' => $shopListComponentDto]);
-
-        return new Response($template);
+        return new JsonResponse([
+            SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $searchFilter,
+            SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => array_map(
+                fn (ShopDataResponse $shopData) => $shopData->name,
+                $shopsData['shops']
+            ),
+        ]);
     }
 }
