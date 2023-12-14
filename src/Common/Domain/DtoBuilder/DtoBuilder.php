@@ -38,8 +38,12 @@ class DtoBuilder
      */
     public function validate(): void
     {
-        if (count(array_filter($this->builderMethods)) < count($this->builderMethods)) {
-            $methodsMandatory = implode(', ', array_keys($this->builderMethods));
+        $builderMethodsExecuted = array_filter($this->builderMethods);
+
+        if (count($builderMethodsExecuted) < count($this->builderMethods)) {
+            $builderMethodsNotExecuted = array_diff_key($this->builderMethods, $builderMethodsExecuted);
+            $methodsMandatory = implode(', ', array_keys($builderMethodsNotExecuted));
+
             throw new \InvalidArgumentException("Constructors: {$methodsMandatory}. Are mandatory");
         }
     }
