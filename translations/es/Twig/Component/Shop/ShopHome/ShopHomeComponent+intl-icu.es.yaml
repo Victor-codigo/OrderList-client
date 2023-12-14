@@ -1,18 +1,9 @@
 title: Lista de tiendas
 
-shop_add:
+home_section_add:
   label: Añadir tienda
+  title: Añade una tienda a la lista
 
-shop_remove_multiple:
+home_section_remove_multiple:
   label: Elimina las tiendas seleccionadas de la lista
-
-shop_empty:
-  message: No hay tiendas
-  icon:
-    alt: no hay tiendas
-
-validation:
-  title: Errores
-  ok: Tiendas eliminadas
-  error:
-    internal_server: Ocurrió un error, inténtalo más tarde
+  title: Elimina las tiendas seleccionadas de la lista

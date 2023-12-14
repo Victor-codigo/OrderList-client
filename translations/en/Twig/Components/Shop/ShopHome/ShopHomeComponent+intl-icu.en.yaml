@@ -1,20 +1,9 @@
 title: List of shops
 
-shop_add:
+home_section_add:
   label: Add shop
   title: Add a shop to the list
 
-shop_remove_multiple:
+home_section_remove_multiple:
   label: Delete shops
   title: Remove selected shops from the list
-
-shop_empty:
-  message: There is no shops
-  icon:
-    alt: There is no shops
-
-validation:
-  title: Errors
-  ok: Shops Deleted
-  error:
-    internal_server: An error has been occurred, try it later

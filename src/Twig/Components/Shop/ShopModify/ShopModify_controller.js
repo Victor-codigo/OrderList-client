@@ -34,13 +34,13 @@ export default class extends Controller {
     }
 
     setFormFieldValues(content) {
-        this.shopNameTag.value = content.shopName;
+        this.shopNameTag.value = content.name;
         this.element.action = this.element.dataset.actionPlaceholder.replace(
             SHOP_NAME_PLACEHOLDER,
-            encodedUrlParameter.encodeUrlParameter(content.shopName)
+            encodedUrlParameter.encodeUrlParameter(content.name)
         );
-        this.shopDescriptionTag.value = content.shopDescription;
-        this.triggerOnAvatarSetImageEvent(content.shopImage);
+        this.shopDescriptionTag.value = content.description;
+        this.triggerOnAvatarSetImageEvent(content.image);
     }
 
     triggerOnAvatarSetImageEvent(shopImageUrl) {

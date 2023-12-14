@@ -8,10 +8,10 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
-use App\Twig\Components\Shop\ShopHome\ShopHomeComponentDto;
-use Common\Domain\Config\Config;
+use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
+use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
+use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -19,7 +19,6 @@ use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -65,7 +64,6 @@ class ShopHomeController extends AbstractController
         }
 
         $searchBarFormFields = $this->getSearchBarFieldsValues(
-            $requestDto->request,
             $searchBarForm,
             $this->controllerUrlRefererRedirect->getFlashBag($requestDto->request->attributes->get('_route'), FLASH_BAG_TYPE_SUFFIX::DATA),
         );
@@ -95,7 +93,7 @@ class ShopHomeController extends AbstractController
         return $this->renderTemplate($shopHomeComponentDto);
     }
 
-    private function getSearchBarFieldsValues(Request $request, FormInterface $searchBarForm, array $flashBagData): array
+    private function getSearchBarFieldsValues(FormInterface $searchBarForm, array $flashBagData): array
     {
         if (!array_key_exists('searchBar', $flashBagData)) {
             return [
@@ -150,7 +148,7 @@ class ShopHomeController extends AbstractController
         string $searchBarCsrfToken,
         array $shopsData,
         int $pagesTotal,
-    ): ShopHomeComponentDto {
+    ): HomeSectionComponentDto {
         $shopHomeMessagesError = $this->sessionFlashBag->get(
             $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_ERROR->value
         );
@@ -158,41 +156,21 @@ class ShopHomeController extends AbstractController
             $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_OK->value
         );
 
-        return (new ShopHomeComponentDto())
+        return (new ShopHomeComponentBuilder())
             ->errors(
                 $shopHomeMessagesOk,
                 $shopHomeMessagesError
-            )
-            ->formCsrfToken(
-                $shopCreateForm->getCsrfToken(),
-                $shopModifyForm->getCsrfToken(),
-                $shopRemoveForm->getCsrfToken(),
-                $shopRemoveMultiForm->getCsrfToken(),
             )
             ->pagination(
                 $requestDto->page,
                 $requestDto->pageItems,
                 $pagesTotal
             )
-            ->shops(
+            ->listItems(
                 $shopsData,
-                Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
             )
-            ->group(
-                $requestDto->groupNameUrlEncoded
-            )
-            ->form(
+            ->validation(
                 !empty($shopHomeMessagesError) || !empty($shopHomeMessagesOk) ? true : false,
-                $this->generateUrl('shop_create', [
-                        'group_name' => $requestDto->groupNameUrlEncoded,
-                    ]),
-                $this->generateUrl('shop_modify', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'shop_name' => '--shop_name--',
-                ]),
-                $this->generateUrl('shop_remove', [
-                    'group_name' => $requestDto->groupData->name,
-                ])
             )
             ->searchBar(
                 $requestDto->groupData->id,
@@ -208,13 +186,43 @@ class ShopHomeController extends AbstractController
                     'page_items' => $requestDto->pageItems,
                 ])
             )
+            ->shopCreateFormModal(
+                $shopCreateForm->getCsrfToken(),
+                $this->generateUrl('shop_create', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                ]),
+            )
+            ->shopRemoveMultiFormModal(
+                $shopRemoveMultiForm->getCsrfToken(),
+                $this->generateUrl('shop_remove', [
+                    'group_name' => $requestDto->groupData->name,
+                ])
+            )
+            ->shopRemoveFormModal(
+                $shopRemoveForm->getCsrfToken(),
+                $this->generateUrl('shop_remove', [
+                    'group_name' => $requestDto->groupData->name,
+                ])
+            )
+            ->shopModifyFormModal(
+                $shopModifyForm->getCsrfToken(),
+                $this->generateUrl('shop_modify', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                    'shop_name' => '--shop_name--',
+                ]),
+            )
+            ->translationDomainNames(
+                'ShopHomeComponent',
+                'ShopHomeListComponent',
+                'ShopHomeListItemComponent',
+            )
             ->build();
     }
 
-    private function renderTemplate(ShopHomeComponentDto $shopHomeComponentDto): Response
+    private function renderTemplate(HomeSectionComponentDto $homeSectionComponent): Response
     {
         return $this->render('shop/shop_home/index.html.twig', [
-            'shopHomeComponent' => $shopHomeComponentDto,
+            'homeSectionComponent' => $homeSectionComponent,
         ]);
     }
 }

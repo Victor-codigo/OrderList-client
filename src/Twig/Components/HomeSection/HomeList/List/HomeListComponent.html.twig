@@ -1,0 +1,7 @@
+<div data-controller="HomeListComponent">
+
+	{{ component('ListComponent', { data: homeListDto }) }}
+	{{ component('PaginatorComponent', { data: data.homeListPaginatorDto }) }}
+	{{ component('ModalComponent', { data: data.homeListItemRemoveFormModalDto }) }}
+	{{ component('ModalComponent', { data: data.homeListItemModifyFormModalDto }) }}
+</div>

@@ -12,13 +12,13 @@ export default class extends Controller {
     handleOnShopRemoveEvent({ detail: { content } }) {
         if (this.element.hasAttribute('data-remove-multi')) return;
 
-        this.#loadComponentData(content.shops);
+        this.#loadComponentData(content.items);
     }
 
     handleOnShopRemoveMultiEvent({ detail: { content } }) {
         if (!this.element.hasAttribute('data-remove-multi')) return;
 
-        this.#loadComponentData(content.shops);
+        this.#loadComponentData(content.items);
     }
 
     #loadComponentData(shops) {
@@ -26,9 +26,9 @@ export default class extends Controller {
 
         this.#cleanInputShopIds();
         shops.forEach((shop) => {
-            this.#createInputShopId(shop.shopId);
+            this.#createInputShopId(shop.id);
 
-            shopNames.push(shop.shopName);
+            shopNames.push(shop.name);
         });
 
         this.#changePlaceholderShopName(shopNames.join(', '));

@@ -19,6 +19,11 @@ import PaginatorComponent from '../src/Twig/Components/Paginator/Paginator_Compo
 import ListComponent from '../src/Twig/Components/List/List_controller';
 import SearchBarComponent from '../src/Twig/Components/SearchBar/SearchBar_controller';
 
+// HOME LIST
+import HomeSectionComponent from '../src/Twig/Components/HomeSection/Home/HomeSection_controller';
+import HomeListComponent from '../src/Twig/Components/HomeSection/HomeList/List/HomeList_controller';
+import HomeListItemComponent from '../src/Twig/Components/HomeSection/HomeList/ListItem/HomeListItem_controller';
+
 // GROUP
 import GroupCreateComponent from '../src/Twig/Components/Group/GroupCreate/GroupCreate_controller';
 import GroupModifyComponent from '../src/Twig/Components/Group/GroupModify/GroupModify_controller';
@@ -40,10 +45,8 @@ import ProductCreateComponent from '../src/Twig/Components/Product/ProductCreate
 // SHOP
 import ShopCreateComponent from '../src/Twig/Components/Shop/ShopCreate/ShopCreate_controller';
 import ShopModifyComponent from '../src/Twig/Components/Shop/ShopModify/ShopModify_controller';
-import ShopListComponent from '../src/Twig/Components/Shop/ShopList/List/ShopList_controller';
-import ShopListItemComponent from '../src/Twig/Components/Shop/ShopList/ListItem/ShopListItem_controller';
 import ShopRemoveComponent from '../src/Twig/Components/Shop/ShopRemove/ShopRemoveComponent_controller';
-import shopHomeComponent from '../src/Twig/Components/Shop/ShopHome/ShopHome_controller';
+
 
 
 
@@ -67,6 +70,11 @@ app.register('ImageAvatarComponent', ImageAvatarComponent);
 app.register('PaginatorComponent', PaginatorComponent);
 app.register('ListComponent', ListComponent);
 app.register('SearchBarComponent', SearchBarComponent);
+
+// HOME LIST
+app.register('HomeSectionComponent', HomeSectionComponent);
+app.register('HomeListComponent', HomeListComponent);
+app.register('HomeListItemComponent', HomeListItemComponent);
 
 // USER
 app.register('LoginComponent', LoginComponent);
@@ -98,7 +106,5 @@ app.register('ProductCreateComponent', ProductCreateComponent);
 // SHOP
 app.register('ShopCreateComponent', ShopCreateComponent);
 app.register('ShopModifyComponent', ShopModifyComponent);
-app.register('ShopListComponent', ShopListComponent);
-app.register('ShopListItemComponent', ShopListItemComponent);
 app.register('ShopRemoveComponent', ShopRemoveComponent);
-app.register('ShopHomeComponent', shopHomeComponent);
+

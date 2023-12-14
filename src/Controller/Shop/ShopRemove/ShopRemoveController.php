@@ -3,6 +3,7 @@
 namespace App\Controller\Shop\ShopRemove;
 
 use App\Controller\Request\RequestDto;
+use App\Form\Shop\ShopRemoveMulti\SHOP_REMOVE_MULTI_FORM_FIELDS;
 use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\SHOP_REMOVE_FORM_FIELDS;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
@@ -80,7 +81,7 @@ class ShopRemoveController extends AbstractController
         $this->formValid(
             $shopRemoveMultiForm,
             $requestDto->groupData->id,
-            $shopRemoveMultiForm->getFieldData(SHOP_REMOVE_FORM_FIELDS::SHOPS_ID) ?? [],
+            $shopRemoveMultiForm->getFieldData(SHOP_REMOVE_MULTI_FORM_FIELDS::SHOPS_ID) ?? [],
             $requestDto->tokenSession
         );
 
