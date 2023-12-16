@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ShopsEndPoint extends EndpointBase
 {
-    private const POST_SHOP_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
-    private const PUT_SHOP_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
-    private const GET_SHOP_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
-    private const DELETE_SHOP_REMOVE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
+    public const POST_SHOP_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
+    public const PUT_SHOP_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
+    public const GET_SHOP_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
+    public const DELETE_SHOP_REMOVE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/shops';
 
     private static self|null $instance = null;
 
