@@ -12,9 +12,15 @@ class SearchBarComponentDto implements TwigComponentDtoInterface
         public readonly string $groupId,
         public readonly string|null $searchFilter,
         public readonly string|null $searchValue,
+        private readonly SEARCH_TYPE $searchType,
         public readonly string $searchCsrfToken,
         public readonly string $searchFormActionUrl,
         public readonly string $searchAutoCompleteUrl,
     ) {
+    }
+
+    public function searchType(): string
+    {
+        return $this->searchType->value;
     }
 }

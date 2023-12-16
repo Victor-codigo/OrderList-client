@@ -1,4 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
+import * as apiEndpoints from '../../../../assets/modules/ApiEndpoints';
+import SEARCH_FILTER from './SEARCH_FILTER';
 
 
 const SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS = 50;
@@ -38,6 +40,12 @@ export default class extends Controller {
     }
 
     async #getAutoCompleteData() {
+        if (this.valueTag.value === '') {
+            this.#updateSearchDatalist([]);
+
+            return;
+        }
+
         const parameters = {
             'group_id': this.element.dataset.groupId,
             'page': 1,
@@ -46,22 +54,9 @@ export default class extends Controller {
             'shop_name_filter_type': this.filterTag.value,
             'shop_name_filter_value': this.valueTag.value,
         }
-        const queryParameters = Object.entries(parameters)
-            .map(([name, value]) => `${name}=${value}`)
-            .join('&');
 
-        try {
-            const response = await fetch(`${this.element.dataset.urlSearchAutocomplete}?${queryParameters}`);
-
-            if (response.status === 200) {
-                const data = await response.json();
-                this.#updateSearchDatalist(data['search_value']);
-            }
-        }
-        catch (error) {
-            console.log('Error getting autocomplete data', error);
-        }
-
+        const shopsNames = await this.#getDataFromApi(parameters);
+        this.#updateSearchDatalist(shopsNames);
     }
 
     #updateSearchDatalist(data) {
@@ -77,6 +72,14 @@ export default class extends Controller {
         });
 
         searchDataListOptions.forEach((item) => this.searchDataListTag.appendChild(item));
+    }
+
+    async #getDataFromApi(parameters) {
+        switch (this.element.dataset.searchType) {
+            case SEARCH_FILTER.SHOP:
+                return await apiEndpoints.getShopsNames(parameters);
+                break;
+        }
     }
 
 }
