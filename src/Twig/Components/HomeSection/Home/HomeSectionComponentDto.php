@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Twig\Components\HomeSection\Home;
 
 use App\Twig\Components\Modal\ModalComponentDto;
+use App\Twig\Components\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -33,19 +34,12 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
 
     public readonly bool $validForm;
 
-    public readonly string|null $searchBarFilterType;
-    public readonly string|null $searchBarFilterValue;
-    public readonly string $searchBarCsrfToken;
-    public readonly string $searchBarFormActionUrl;
-    public readonly string $searchAutoCompleteUrl;
-    public readonly string $groupId;
-
+    public readonly SearchBarComponentDto $searchComponentDto;
+    public readonly RemoveMultiFormDto $removeMultiFormDto;
     public readonly ModalComponentDto $createFormModalDto;
     public readonly ModalComponentDto $modifyFormModalDto;
     public readonly ModalComponentDto $removeMultiFormModalDto;
     public readonly ModalComponentDto $removeFormModalDto;
-
-    public readonly RemoveMultiFormDto $removeMultiFormDto;
 
     private DtoBuilder $builder;
 
@@ -67,22 +61,11 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         ]);
     }
 
-    public function searchBar(
-        string $groupId,
-        string|null $searchBarFilterType,
-        string|null $searchBarFilterValue,
-        string $searchBarCsrfToken,
-        string $searchAutoCompleteUrl,
-        string $searchBarFormActionUrl,
-    ): self {
+    public function searchBar(SearchBarComponentDto $searchBarComponentDto): self
+    {
         $this->builder->setMethodStatus('searchBar', true);
 
-        $this->searchBarFilterType = $searchBarFilterType;
-        $this->searchBarFilterValue = $searchBarFilterValue;
-        $this->searchBarCsrfToken = $searchBarCsrfToken;
-        $this->searchAutoCompleteUrl = $searchAutoCompleteUrl;
-        $this->searchBarFormActionUrl = $searchBarFormActionUrl;
-        $this->groupId = $groupId;
+        $this->searchComponentDto = $searchBarComponentDto;
 
         return $this;
     }

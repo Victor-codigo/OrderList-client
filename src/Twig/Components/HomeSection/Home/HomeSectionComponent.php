@@ -40,7 +40,7 @@ final class HomeSectionComponent extends TwigComponent
         $this->removeMultiFormModalDto = $this->data->removeMultiFormModalDto;
         $this->loadTranslation();
         $this->titleDto = $this->createTitleDto();
-        $this->searchBarFormDto = $this->createSearchBarComponentDto();
+        $this->searchBarFormDto = $this->data->searchComponentDto;
         $this->listComponentDto = $this->createListComponentDto();
         $this->alertValidationComponentDto = $this->createAlertValidationComponentDto();
     }
@@ -48,18 +48,6 @@ final class HomeSectionComponent extends TwigComponent
     private function createTitleDto(): TitleComponentDto
     {
         return new TitleComponentDto($this->lang->title);
-    }
-
-    private function createSearchBarComponentDto(): SearchBarComponentDto
-    {
-        return new SearchBarComponentDto(
-            $this->data->groupId,
-            $this->data->searchBarFilterType,
-            $this->data->searchBarFilterValue,
-            $this->data->searchBarCsrfToken,
-            $this->data->searchBarFormActionUrl,
-            $this->data->searchAutoCompleteUrl
-        );
     }
 
     private function createListComponentDto(): HomeListComponentDto

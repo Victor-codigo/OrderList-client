@@ -8,10 +8,12 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
+use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
+use App\Twig\Components\SearchBar\SEARCH_TYPE;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
+use Common\Adapter\Endpoints\ShopsEndPoint;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -176,10 +178,9 @@ class ShopHomeController extends AbstractController
                 $requestDto->groupData->id,
                 $searchBarFieldFilter,
                 $searchBarFieldValue,
+                SEARCH_TYPE::SHOP,
                 $searchBarCsrfToken,
-                $this->generateUrl('shop_searchbar_autocomplete', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                ]),
+                ShopsEndPoint::GET_SHOP_DATA,
                 $this->generateUrl('shop_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,
