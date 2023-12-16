@@ -76,7 +76,7 @@ final class ShopModifyComponent extends TwigComponent
     private function createImageAvatar(): ImageAvatarComponentDto
     {
         return new ImageAvatarComponentDto(
-            $this->data->image,
+            '',
             $this->data->imageNoImage,
             $this->translate('image_avatar.alt')
         );
