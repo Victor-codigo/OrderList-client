@@ -175,7 +175,7 @@ class ShopsEndPoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_SHOP_DATA."?{$this->createQueryParameters(array_keys($parameters), array_values($parameters))}",
+            self::GET_SHOP_DATA."?{$this->createQueryParameters($parameters)}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
