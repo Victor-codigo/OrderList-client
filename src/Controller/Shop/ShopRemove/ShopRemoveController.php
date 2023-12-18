@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/shop/{group_name}/remove',
+    path: '{_locale}/{group_name}/shop/remove',
     name: 'shop_remove',
     methods: ['POST'],
     requirements: [

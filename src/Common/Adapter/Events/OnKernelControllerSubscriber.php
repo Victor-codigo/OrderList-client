@@ -14,6 +14,7 @@ use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Events\Exceptions\RequestGroupNameException;
 use Common\Adapter\Events\Exceptions\RequestProductNameException;
 use Common\Adapter\Events\Exceptions\RequestShopNameException;
+use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\CodedUrlParameter;
 use Common\Domain\Config\Config;
@@ -52,11 +53,11 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadRequestDto(Request $request): void
     {
-        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+        $tokenSession = $this->loadTokenSession($request);
         $groupData = $this->loadGroupData($request->attributes, $tokenSession);
 
         $requestDto = new RequestDto(
-            $this->loadTokenSession($request),
+            $tokenSession,
             $this->loadLocale($request),
             $request->attributes->get('group_name'),
             $request->attributes->get('shop_name'),
@@ -82,10 +83,10 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('NavigationBarComponent', $navigationBarComponentData);
     }
 
-    private function loadTokenSession(Request $request): string|null
+    private function loadTokenSession(Request $request): string
     {
         if (!$request->cookies->has(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME)) {
-            return null;
+            throw RequestUnauthorizedException::fromMessage('Token session missing');
         }
 
         return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
