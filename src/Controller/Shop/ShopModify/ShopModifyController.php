@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/shop/{group_name}/modify/{shop_name}',
+    path: '{_locale}/{group_name}/shop/modify/{shop_name}',
     name: 'shop_modify',
     methods: ['POST'],
     requirements: [

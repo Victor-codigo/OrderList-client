@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/shop/{group_name}/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/shop/page-{page}-{page_items}',
     name: 'shop_home',
     methods: ['GET', 'POST'],
     requirements: [
