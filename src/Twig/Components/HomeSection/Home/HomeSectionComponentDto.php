@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\HomeSection\Home;
 
+use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -21,7 +22,11 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
      */
     public readonly array $homeSectionMessageValidationOk;
 
-    public readonly array $listItemsData;
+    public readonly string $listItemComponentName;
+    /**
+     * @var HomeListItemComponentDto[]
+     */
+    public readonly array $listItems;
     public readonly string $listItemNoImagePath;
 
     public readonly string $translationHomeDomainName;
@@ -136,11 +141,15 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function listItems(array $listItemsData, string $listItemNoImagePath): self
+    /**
+     * @param HomeListItemComponentDto[] $listItems
+     */
+    public function listItems(string $listItemComponentName, array $listItems, string $listItemNoImagePath): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
-        $this->listItemsData = $listItemsData;
+        $this->listItemComponentName = $listItemComponentName;
+        $this->listItems = $listItems;
         $this->listItemNoImagePath = $listItemNoImagePath;
 
         return $this;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\HomeSection\HomeList\List;
 
+use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\Paginator\PaginatorComponentDto;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -15,6 +16,7 @@ class HomeListComponentDto implements TwigComponentDtoInterface
      */
     public function __construct(
         public readonly array $errors,
+        public readonly string $listItemComponentName,
         public readonly array $listItems,
         public readonly PaginatorComponentDto $homeListPaginatorDto,
         public readonly bool $validForm,

@@ -12,9 +12,6 @@ class HomeListItemComponentDto implements TwigComponentDtoInterface
         public readonly string $componentName,
         public readonly string $id,
         public readonly string $name,
-        public readonly string|null $description,
-        public readonly string|null $image,
-        public readonly \DateTimeImmutable $createdOn,
         public readonly string $modifyFormModalIdAttribute,
         public readonly string $deleteFormModalIdAttribute,
 

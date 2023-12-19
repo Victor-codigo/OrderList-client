@@ -7,8 +7,6 @@ namespace App\Twig\Components\HomeSection\HomeList\ListItem;
 class HomeListItemComponentLangDto
 {
     public function __construct(
-        public readonly string $imageItemAlt,
-        public readonly string $imageItemTitle,
         public readonly string $modifyItemButtonAlt,
         public readonly string $modifyItemButtonTitle,
         public readonly string $removeItemButtonAlt,

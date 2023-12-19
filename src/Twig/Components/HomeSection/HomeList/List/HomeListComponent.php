@@ -2,7 +2,6 @@
 
 namespace App\Twig\Components\HomeSection\HomeList\List;
 
-use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponent;
 use App\Twig\Components\List\ListComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -38,7 +37,7 @@ final class HomeListComponent extends TwigComponent
     private function createListComponentDto(): ListComponentDto
     {
         return new ListComponentDto(
-            HomeListItemComponent::getComponentName(),
+            $this->data->listItemComponentName,
             $this->data->listItems,
             self::API_DOMAIN.'/assets/img/common/list-icon.svg',
             $this->lang->homeListEmptyIconAlt,

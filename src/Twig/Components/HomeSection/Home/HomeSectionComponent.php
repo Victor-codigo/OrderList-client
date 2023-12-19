@@ -65,8 +65,9 @@ final class HomeSectionComponent extends TwigComponent
                 $this->data->removeFormModalDto
             )
             ->listItems(
-                $this->data->listItemsData,
-                $this->data->listItemNoImagePath
+                $this->data->listItemComponentName,
+                $this->data->listItems,
+                $this->data->listItemNoImagePath,
             )
             ->validation(
                 [],
@@ -74,7 +75,6 @@ final class HomeSectionComponent extends TwigComponent
             )
             ->translationDomainNames(
                 $this->data->translationHomeListDomainName,
-                $this->data->translationHomeListItemDomainName
             )
             ->build();
     }

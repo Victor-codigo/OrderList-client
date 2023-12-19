@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\HomeSection\HomeList;
 
-use App\Controller\Request\Response\ShopDataResponse;
-use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponent;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 use App\Twig\Components\HomeSection\HomeList\List\HomeListComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
@@ -17,18 +15,17 @@ class HomeListComponentBuilder
     private DtoBuilder $builder;
 
     private readonly array $errors;
+    private readonly string $listItemComponentName;
     /**
-     * @param ShopDataResponse[] $listItems
+     * @param object[] $listItems
      */
     private readonly array $listItems;
     private readonly int $page;
     private readonly int $pageItems;
     private readonly int $pagesTotal;
     private readonly bool $validation;
-    private readonly string $homeListItemNoImagePath;
 
     private readonly string $translationListDomainName;
-    private readonly string $translationListItemDomainName;
 
     private readonly ModalComponentDto $homeListItemModifyFormModalDto;
     private readonly ModalComponentDto $homeListItemRemoveFormModalDto;
@@ -66,12 +63,15 @@ class HomeListComponentBuilder
         return $this;
     }
 
-    public function listItems(array $listItems, string $homeListItemNoImagePath): self
+    /**
+     * @param HomeListItemComponentDto[] $listItems
+     */
+    public function listItems(string $listItemComponentName, array $listItems): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
+        $this->listItemComponentName = $listItemComponentName;
         $this->listItems = $listItems;
-        $this->homeListItemNoImagePath = $homeListItemNoImagePath;
 
         return $this;
     }
@@ -94,12 +94,11 @@ class HomeListComponentBuilder
         return $this;
     }
 
-    public function translationDomainNames(string $listDomainName, string $listItemDomainName): self
+    public function translationDomainNames(string $listDomainName): self
     {
         $this->builder->setMethodStatus('translationDomainNames', true);
 
         $this->translationListDomainName = $listDomainName;
-        $this->translationListItemDomainName = $listItemDomainName;
 
         return $this;
     }
@@ -112,48 +111,21 @@ class HomeListComponentBuilder
         $this->builder->validate();
 
         $paginator = $this->createPaginatorComponentDto($this->page, $this->pageItems, $this->pagesTotal);
-        $homesListItems = $this->createHomeListItemComponentDto($this->listItems);
 
-        return $this->createHomeListComponentDto(
-            $paginator,
-            $homesListItems,
-        );
+        return $this->createHomeListComponentDto($paginator);
     }
 
-    /**
-     * @param HomeListItemComponentDto[] $homesListsItems
-     */
-    private function createHomeListComponentDto(PaginatorComponentDto $paginatorDto, array $homesListsItems): HomeListComponentDto
+    private function createHomeListComponentDto(PaginatorComponentDto $paginatorDto): HomeListComponentDto
     {
         return new HomeListComponentDto(
             $this->errors,
-            $homesListsItems,
+            $this->listItemComponentName,
+            $this->listItems,
             $paginatorDto,
             $this->validation,
             $this->homeListItemRemoveFormModalDto,
             $this->homeListItemModifyFormModalDto,
             $this->translationListDomainName
-        );
-    }
-
-    /**
-     * @param HomeDataResponse[] $listItems
-     */
-    private function createHomeListItemComponentDto(array $listItems): array
-    {
-        return array_map(
-            fn (ShopDataResponse $homeData) => new HomeListItemComponentDto(
-                HomeListItemComponent::getComponentName(),
-                $homeData->id,
-                $homeData->name,
-                $homeData->description,
-                null === $homeData->image ? $this->homeListItemNoImagePath : $homeData->image,
-                $homeData->createdOn,
-                $this->homeListItemModifyFormModalDto->idAttribute,
-                $this->homeListItemRemoveFormModalDto->idAttribute,
-                $this->translationListItemDomainName
-            ),
-            $listItems
         );
     }
 
