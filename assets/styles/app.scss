@@ -7,8 +7,11 @@
 // List
 @import '/src/Twig/Components/List/ListComponent';
 
-// Home list
-@import '/src/Twig/Components/HomeSection/HomeList/ListItem/HomeListItemComponent';
+// Product list item
+@import '/src/Twig/Components/Product/ProductHome/ListItem/ProductListItemComponent.scss';
+
+// Shop list item
+@import '/src/Twig/Components/Shop/ShopHome/ListItem/ShopListItemComponent';
 
 
 // SearchBar Component

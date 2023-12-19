@@ -36,6 +36,8 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class ShopHomeController extends AbstractController
 {
+    private const SHOP_NAME_PLACEHOLDER = '--shop_name--';
+
     public function __construct(
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
@@ -209,13 +211,8 @@ class ShopHomeController extends AbstractController
                 $shopModifyForm->getCsrfToken(),
                 $this->generateUrl('shop_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
-                    'shop_name' => '--shop_name--',
+                    'shop_name' => self::SHOP_NAME_PLACEHOLDER,
                 ]),
-            )
-            ->translationDomainNames(
-                'ShopHomeComponent',
-                'ShopHomeListComponent',
-                'ShopHomeListItemComponent',
             )
             ->build();
     }

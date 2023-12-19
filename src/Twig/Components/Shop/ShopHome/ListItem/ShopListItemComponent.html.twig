@@ -1,0 +1,66 @@
+<li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-1"
+    data-controller="HomeListItemComponent"
+    data-item-id="{{ data.id }}"
+    data-item-name="{{ data.name }}">
+
+    <label class="d-flex  flex-row  flex-grow-1">
+
+        <input class="form-check-input m-2  align-self-center"
+               type="checkbox"
+               data-js-checkbox>
+
+        <img class="img-thumbnail  flex-grow-0  rounded-0  border  border-0  border-start  border-end  shop-list-item__image  p-0"
+             src="{{ data.image }}"
+             alt="{{ lang.imageItemAlt }}"
+             title="{{ lang.imageItemTitle }}"
+             data-js-item-image>
+
+        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
+
+            <div class="d-flex  flex-row  justify-content-between">
+
+                <p class="fs-4"
+                   data-js-item-name>
+                    {{ data.name }}
+                </p>
+
+                <span class="fs-4  fw-lighter  fs-6">
+                    {{ data.createdOn|format_datetime('medium', 'none', locale=app.request.locale) }}
+                </span>
+            </div>
+
+            <ul class="list-group list-group-flush  ">
+                <li class="list-group-item  border-0  bg-transparent  ps-3  pe-3  pt-0 pb-0"
+                    data-js-item-description>
+
+                    {{ data.description }}
+                </li>
+            </ul>
+        </div>
+    </label>
+
+    <button type="button"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
+            value="{{ data.id }}"
+            alt="{{ lang.modifyItemButtonAlt }}"
+            title="{{ lang.modifyItemButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
+            data-action="HomeListItemComponent#triggerOnHomeListItemModify">
+
+        {% include 'modify-icon-blue-24x24.svg' %}
+    </button>
+
+    <button type="button"
+            data-js-remove-button
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end  btn-outline-danger"
+            value="{{ data.id }}"
+            alt="{{ lang.removeItemButtonAlt }}"
+            title="{{ lang.removeItemButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
+            data-action="HomeListItemComponent#triggerOnHomeListItemRemoveEvent">
+
+        {% include 'remove-icon-red-24x24.svg' %}
+    </button>
+</li>

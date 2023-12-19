@@ -39,14 +39,16 @@ import GroupUserAddComponent from '../src/Twig/Components/Group/GroupUserAdd/Gro
 // import OrdersListComponent from '../src/Twig/Components/Orders/OrdersList/List/OrdersList_controller';
 // import OrdersListItemComponent from '../src/Twig/Components/Orders/OrdersList/ListItem/OrdersListItem_controller';
 
-// PRODUCT
-import ProductCreateComponent from '../src/Twig/Components/Product/ProductCreate/ProductCreate_controller';
-
 // SHOP
 import ShopCreateComponent from '../src/Twig/Components/Shop/ShopCreate/ShopCreate_controller';
 import ShopModifyComponent from '../src/Twig/Components/Shop/ShopModify/ShopModify_controller';
 import ShopRemoveComponent from '../src/Twig/Components/Shop/ShopRemove/ShopRemoveComponent_controller';
+import ShopListItemComponent from '../src/Twig/Components/Shop/ShopHome/ListItem/ShopListItem_controller';
 
+// PRODUCT
+import ProductCreateComponent from '../src/Twig/Components/Product/ProductCreate/ProductCreate_controller';
+import ProductModifyComponent from '../src/Twig/Components/Product/ProductModify/ProductModify_controller';
+import ProductRemoveComponent from '../src/Twig/Components/Product/ProductRemove/ProductRemoveComponent_controller';
 
 
 
@@ -100,11 +102,15 @@ app.register('GroupUserAddComponent', GroupUserAddComponent);
 // app.register('OrdersListComponent', OrdersListComponent);
 // app.register('OrdersListItemComponent', OrdersListItemComponent);
 
-// PRODUCT
-app.register('ProductCreateComponent', ProductCreateComponent);
 
 // SHOP
 app.register('ShopCreateComponent', ShopCreateComponent);
 app.register('ShopModifyComponent', ShopModifyComponent);
 app.register('ShopRemoveComponent', ShopRemoveComponent);
+app.register('ShopListItemComponent', ShopListItemComponent);
+
+// PRODUCT
+app.register('ProductCreateComponent', ProductCreateComponent);
+app.register('ProductModifyComponent', ProductModifyComponent);
+app.register('ProductRemoveComponent', ProductRemoveComponent);
 
