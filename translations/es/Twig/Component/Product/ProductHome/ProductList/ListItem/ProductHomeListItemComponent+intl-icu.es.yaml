@@ -1,0 +1,11 @@
+product_remove_button:
+  title: Elimina el producto
+  alt: Botón para eliminar el producto
+
+product_modify_button:
+  title: Modifica el producto
+  alt: Botón para modificar el producto
+
+product_image:
+  title: Imagen del producto
+  alt: Imagen del producto

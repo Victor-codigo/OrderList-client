@@ -1,0 +1,9 @@
+title: List of shops
+
+home_section_add:
+  label: Add a new product
+  title: Add a new product to the list
+
+home_section_remove_multiple:
+  label: Delete selected products
+  title: Remove selected shops from the list

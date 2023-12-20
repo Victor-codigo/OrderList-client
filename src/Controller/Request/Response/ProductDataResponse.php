@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Request\Response;
 
+use Common\Domain\Config\Config;
+
 class ProductDataResponse
 {
     public function __construct(
@@ -12,7 +14,7 @@ class ProductDataResponse
         public readonly string $name,
         public readonly string|null $description,
         public readonly string|null $image,
-        public readonly string $createdOn,
+        public readonly \DateTimeImmutable $createdOn,
     ) {
     }
 
@@ -32,8 +34,8 @@ class ProductDataResponse
             $data['group_id'],
             $data['name'],
             $data['description'],
-            $data['image'],
-            $data['created_on'],
+            null === $data['image'] ? null : Config::API_IMAGES_PRODUCTS_PATH."/{$data['image']}",
+            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['created_on']),
         );
     }
 }

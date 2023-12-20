@@ -1,0 +1,9 @@
+title: Lista de productos
+
+home_section_add:
+  label: Añade un nuevo producto
+  title: Anñade un nuevo producto a la lista de productos
+
+home_section_remove_multiple:
+  label: Elimina los productos seleccionados
+  title: Elimina los productos seleccionados de la lista

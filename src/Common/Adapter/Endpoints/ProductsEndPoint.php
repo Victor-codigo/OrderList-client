@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProductsEndPoint extends EndpointBase
 {
-    private const POST_PRODUCT_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
-    private const GET_PRODUCT_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
+    public const POST_PRODUCT_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
+    public const GET_PRODUCT_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
 
     private static self|null $instance = null;
 
@@ -70,13 +70,42 @@ class ProductsEndPoint extends EndpointBase
      *    errors: array<string, mixed>
      * }>
      */
-    public function productGetData(string $groupId, array|null $productsId, array|null $shopsId, string|null $productName, string|null $productNameStartsWith, string $tokenSession): array
-    {
-        $response = $this->requestProductGetData($groupId, $productsId, $shopsId, $productName, $productNameStartsWith, $tokenSession);
+    public function productGetData(
+        string $groupId,
+        array|null $productsId,
+        array|null $shopsId,
+        string|null $productName,
+        string|null $productNameFilterType,
+        string|null $productNameFilterValue,
+        string|null $shopNameFilterFilter,
+        string|null $shopNameFilterValue,
+        int $page,
+        int $pageItems,
+        bool $orderAsc,
+        string $tokenSession
+    ): array {
+        $response = $this->requestProductGetData(
+            $groupId,
+            $productsId,
+            $shopsId,
+            $productName,
+            $productNameFilterType,
+            $productNameFilterValue,
+            $shopNameFilterFilter,
+            $shopNameFilterValue,
+            $page,
+            $pageItems,
+            $orderAsc,
+            $tokenSession
+        );
 
         return $this->apiResponseManage($response, null, null,
             fn (array $responseDataNoContent) => [
-                'data' => [],
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 0,
+                    'products' => [],
+                ],
                 'errors' => ['product_not_found' => 'Product not found'],
             ]
         );
@@ -85,19 +114,37 @@ class ProductsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestProductGetData(string $groupId, array|null $productsId, array|null $shopsId, string|null $productName, string|null $productNameStartsWith, string $tokenSession): HttpClientResponseInterface
-    {
+    private function requestProductGetData(
+        string $groupId,
+        array|null $productsId,
+        array|null $shopsId,
+        string|null $productName,
+        string|null $productNameFilterType,
+        string|null $productNameFilterValue,
+        string|null $shopNameFilterFilter,
+        string|null $shopNameFilterValue,
+        int $page,
+        int $pageItems,
+        bool $orderAsc,
+        string $tokenSession
+    ): HttpClientResponseInterface {
         $parameters = [
             'group_id' => $groupId,
+            'page' => $page,
+            'page_items' => $pageItems,
             'products_id' => null !== $productsId ? implode(',', $productsId) : null,
             'shops_id' => null !== $shopsId ? implode(',', $shopsId) : null,
             'product_name' => $productName,
-            'product_name_starts_with' => $productNameStartsWith,
+            'order_asc' => $orderAsc,
+            'product_name_filter_type' => $productNameFilterType,
+            'product_name_filter_value' => $productNameFilterValue,
+            'shop_name_filter_type' => $shopNameFilterFilter,
+            'shop_name_filter_value' => $shopNameFilterValue,
         ];
 
         return $this->httpClient->request(
             'GET',
-            self::GET_PRODUCT_DATA."?{$this->createQueryParameters(array_keys($parameters), array_values($parameters))}",
+            self::GET_PRODUCT_DATA."?{$this->createQueryParameters($parameters)}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
