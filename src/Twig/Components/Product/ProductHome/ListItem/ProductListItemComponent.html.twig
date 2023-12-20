@@ -1,5 +1,5 @@
 <li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-1"
-    data-controller="ShopListItemComponent"
+    data-controller="ProductListItemComponent"
     data-item-id="{{ data.id }}"
     data-item-name="{{ data.name }}">
 
@@ -9,7 +9,7 @@
                type="checkbox"
                data-js-checkbox>
 
-        <img class="img-thumbnail  flex-grow-0  rounded-0  border  border-0  border-start  border-end  shop-list-item__image  p-0"
+        <img class="img-thumbnail  flex-grow-0  rounded-0  border  border-0  border-start  border-end  product-list-item__image  p-0"
              src="{{ data.image }}"
              alt="{{ lang.imageItemAlt }}"
              title="{{ lang.imageItemTitle }}"
@@ -46,7 +46,7 @@
             title="{{ lang.modifyItemButtonTitle }}"
             data-bs-toggle="modal"
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
-            data-action="ShopListItemComponent#triggerOnHomeListItemModify">
+            data-action="ProductListItemComponent#triggerOnHomeListItemModify">
 
         {% include 'modify-icon-blue-24x24.svg' %}
     </button>
@@ -59,7 +59,7 @@
             title="{{ lang.removeItemButtonTitle }}"
             data-bs-toggle="modal"
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
-            data-action="ShopListItemComponent#triggerOnHomeListItemRemoveEvent">
+            data-action="ProductListItemComponent#triggerOnHomeListItemRemoveEvent">
 
         {% include 'remove-icon-red-24x24.svg' %}
     </button>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig\Components\Product\ProductCreate;
 
 use App\Form\Product\ProductCreate\PRODUCT_CREATE_FORM_ERRORS;

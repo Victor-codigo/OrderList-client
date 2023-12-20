@@ -1,10 +1,10 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
-	  data-controller="ShopModifyComponent"
-	  data-action="ImageAvatarComponent:imageRemoved->ShopModifyComponent#setImageAvatarAsRemoved
-	  			   ImageAvatarComponent:imageRemovedUndo->ShopModifyComponent#setImageAvatarAsRemoved
-				   ShopModifyComponent:onAvatarSetImageEvent->ImageAvatarComponent#handleOnSetImageEvent
-				   ShopListItemComponent:onHomeListItemModifyEvent@window->ShopModifyComponent#handleOnShopModifyEvent"
+	  data-controller="ProductModifyComponent"
+	  data-action="ImageAvatarComponent:imageRemoved->ProductModifyComponent#setImageAvatarAsRemoved
+	  			   ImageAvatarComponent:imageRemovedUndo->ProductModifyComponent#setImageAvatarAsRemoved
+				   ProductModifyComponent:onAvatarSetImageEvent->ImageAvatarComponent#handleOnSetImageEvent
+				   HomeListItemComponent:onHomeListItemModifyEvent@window->ProductModifyComponent#handleOnProductModifyEvent"
 	  class="contaniner  p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"
@@ -44,7 +44,7 @@
 			   name="{{ nameFieldName }}"
 			   placeholder="{{ lang.namePlaceholder }}"
 			   value="{{ data.name }}"
-			   data-js-shop-name
+			   data-js-product-name
 			   required />
 		<div class="invalid-feedback">
 			{{ lang.nameMsgInvalid }}
@@ -63,7 +63,7 @@
 				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
 				  placeholder="{{ lang.descriptionPlaceholder }}"
-				  data-js-shop-description>{{ data.description }}</textarea>
+				  data-js-product-description>{{ data.description }}</textarea>
 		<div class="invalid-feedback">
 			{{ lang.descriptionMsgInvalid }}
 		</div>
@@ -77,6 +77,6 @@
 		<input type="submit"
 			   class="btn btn-primary w-100"
 			   name="{{ submitFieldName }}"
-			   value="{{ lang.shopModifyButton }}" />
+			   value="{{ lang.productModifyButton }}" />
 	</div>
 </form>
