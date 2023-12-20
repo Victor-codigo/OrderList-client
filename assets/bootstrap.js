@@ -49,6 +49,7 @@ import ShopListItemComponent from '../src/Twig/Components/Shop/ShopHome/ListItem
 import ProductCreateComponent from '../src/Twig/Components/Product/ProductCreate/ProductCreate_controller';
 import ProductModifyComponent from '../src/Twig/Components/Product/ProductModify/ProductModify_controller';
 import ProductRemoveComponent from '../src/Twig/Components/Product/ProductRemove/ProductRemoveComponent_controller';
+import ProductListItemComponent from '../src/Twig/Components/Product/ProductHome/ListItem/ProductListItem_controller';
 
 
 
@@ -113,4 +114,5 @@ app.register('ShopListItemComponent', ShopListItemComponent);
 app.register('ProductCreateComponent', ProductCreateComponent);
 app.register('ProductModifyComponent', ProductModifyComponent);
 app.register('ProductRemoveComponent', ProductRemoveComponent);
+app.register('ProductListItemComponent', ProductListItemComponent);
 

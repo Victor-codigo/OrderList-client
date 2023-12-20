@@ -6,10 +6,10 @@ namespace App\Twig\Components\Product\ProductCreate;
 
 use App\Form\Product\ProductCreate\PRODUCT_CREATE_FORM_ERRORS;
 use App\Form\Product\ProductCreate\PRODUCT_CREATE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -29,6 +29,7 @@ final class ProductCreateComponent extends TwigComponent
     public readonly string $descriptionFieldName;
     public readonly string $imageFieldName;
     public readonly string $submitFieldName;
+    public readonly TitleComponentDto $titleDto;
     public readonly DropZoneComponentDto $imageDto;
 
     public static function getComponentName(): string
@@ -48,7 +49,13 @@ final class ProductCreateComponent extends TwigComponent
         $this->data = $data;
         $this->loadTranslation();
 
+        $this->titleDto = $this->createTitleComponentDto();
         $this->imageDto = $this->createImageDropZone();
+    }
+
+    private function createTitleComponentDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function createImageDropZone(): DropZoneComponentDto
@@ -87,15 +94,18 @@ final class ProductCreateComponent extends TwigComponent
                 $this->translate('product_create_button.label')
             )
             ->errors(
-                $this->data->validForm ? $this->loadErrorsTranslation() : null
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 PRODUCT_CREATE_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
                 PRODUCT_CREATE_FORM_ERRORS::PRODUCT_NAME_REPEATED->value => $this->translate('validation.error.product_name_repeated'),
@@ -107,20 +117,21 @@ final class ProductCreateComponent extends TwigComponent
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
+        return $errorsLang;
+    }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
+            array_unique($errorsLang)
         );
     }
 }
