@@ -1,4 +1,4 @@
 home_list_empty:
-  message: La lista no contiene tiendas
+  message: No hay tiendas
   icon:
     alt: La lista no contiene tiendas

@@ -29,12 +29,12 @@ final class ShopListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new ShopListItemComponentLangDto(
-            $this->translate('item_modify_button.alt'),
-            $this->translate('item_modify_button.title'),
-            $this->translate('item_remove_button.alt'),
-            $this->translate('item_remove_button.title'),
-            $this->translate('item_image.alt'),
-            $this->translate('item_image.title'),
+            $this->translate('shop_modify_button.alt'),
+            $this->translate('shop_modify_button.title'),
+            $this->translate('shop_remove_button.alt'),
+            $this->translate('shop_remove_button.title'),
+            $this->translate('shop_image.alt'),
+            $this->translate('shop_image.title'),
         );
     }
 }

@@ -1,11 +1,11 @@
-item_remove_button:
+shop_remove_button:
   title: Elimina la tienda
   alt: Botón para eliminar la tienda
 
-item_modify_button:
+shop_modify_button:
   title: Modifica la tienda
   alt: Botón para modificar la tienda
 
-item_image:
+shop_image:
   title: Imagen de la tienda
   alt: Imagen de la tienda

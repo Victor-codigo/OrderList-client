@@ -1,10 +1,10 @@
-item_remove_button:
+shop_remove_button:
   title: Remove the shop
   alt: Button to remove the shop
-item_modify_button:
+shop_modify_button:
   title: Modify the shop
   alt: Button to modify the shop
 
-item_image:
+shop_image:
   title: Shop image
   alt: Shop image
