@@ -182,12 +182,12 @@ class ShopHomeController extends AbstractController
                 $searchBarFieldValue,
                 SEARCH_TYPE::SHOP,
                 $searchBarCsrfToken,
-                ShopsEndPoint::GET_SHOP_DATA,
                 $this->generateUrl('shop_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
-                ])
+                ]),
+                ShopsEndPoint::GET_SHOP_DATA,
             )
             ->shopCreateFormModal(
                 $shopCreateForm->getCsrfToken(),
