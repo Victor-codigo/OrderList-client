@@ -97,6 +97,9 @@ final class ShopCreateComponent extends TwigComponent
             ->build();
     }
 
+    /**
+     * @return string[]
+     */
     public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
