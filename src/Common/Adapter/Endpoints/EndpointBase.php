@@ -19,13 +19,21 @@ abstract class EndpointBase
      */
     protected function createQueryParameters(array $parametersAndValues): string
     {
-        $queryParametersValid = array_filter($parametersAndValues, fn (string|null $value) => null !== $value);
+        $queryParametersValid = $this->createFormParameters($parametersAndValues);
         $queryParametersCreated = array_map(
             fn (string $value, string $key) => "{$key}={$value}",
             array_values($queryParametersValid), array_keys($queryParametersValid)
         );
 
         return implode('&', $queryParametersCreated);
+    }
+
+    /**
+     * @param array<string, string> $parametersAndValues
+     */
+    protected function createFormParameters(array $parametersAndValues): array
+    {
+        return array_filter($parametersAndValues, fn (string|null $value) => null !== $value);
     }
 
     /**
