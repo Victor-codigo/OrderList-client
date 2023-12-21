@@ -32,8 +32,22 @@ interface EndpointsInterface
 
     public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array;
 
+    /**
+     * @throws UnsupportedOptionException
+     */
     public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
 
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function productModify(string $groupId, string $productId, string|null $shopId, string|null $name, string|null $description, float|null $price, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
     public function productGetData(string $groupId, array|null $productsId, array|null $shopsId, string|null $productName, string|null $productNameFilterType, string|null $productNameFilterValue, string|null $shopNameFilterFilter, string|null $shopNameFilterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
 
     public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array;

@@ -75,11 +75,47 @@ class Endpoints implements EndpointsInterface
         return OrdersEndpoints::getInstance($this->httpClient)->ordersDelete($groupId, $ordersId, $tokenSession);
     }
 
+    /**
+     * @throws UnsupportedOptionException
+     */
     public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
     {
         return ProductsEndPoint::getInstance($this->httpClient)->productCreate($groupId, $name, $description, $image, $tokenSession);
     }
 
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function productModify(
+        string $groupId,
+        string $productId,
+        string|null $shopId,
+        string|null $name,
+        string|null $description,
+        float|null $price,
+        UploadedFile|null $image,
+        bool $imageRemove,
+        string $tokenSession
+    ): array {
+        return ProductsEndPoint::getInstance($this->httpClient)->productModify(
+            $groupId,
+            $productId,
+            $shopId,
+            $name,
+            $description,
+            $price,
+            $image,
+            $imageRemove,
+            $tokenSession
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
     public function productGetData(
         string $groupId,
         array|null $productsId,

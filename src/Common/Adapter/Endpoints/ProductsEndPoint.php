@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class ProductsEndPoint extends EndpointBase
 {
     public const POST_PRODUCT_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
+    public const POST_PRODUCT_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
     public const GET_PRODUCT_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
 
     private static self|null $instance = null;
@@ -35,6 +36,8 @@ class ProductsEndPoint extends EndpointBase
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>
      * }>
+     *
+     * @throws UnsupportedOptionException
      */
     public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
     {
@@ -59,6 +62,42 @@ class ProductsEndPoint extends EndpointBase
                 [
                     'image' => $image,
                 ],
+                $tokenSession
+            )
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function productModify(string $groupId, string $productId, string|null $shopId, string|null $name, string|null $description, float|null $price, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array
+    {
+        $response = $this->requestProductModify($groupId, $productId, $shopId, $name, $description, $price, $image, $imageRemove, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestProductModify(string $groupId, string $productId, string|null $shopId, string|null $name, string|null $description, float|null $price, UploadedFile|null $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'POST',
+            self::POST_PRODUCT_MODIFY.'?XDEBUG_SESSION=VSCODE',
+            HTTP_CLIENT_CONFIGURATION::form($this->createFormParameters([
+                    'group_id' => $groupId,
+                    'product_id' => $productId,
+                    'shop_id' => $shopId,
+                    'name' => $name,
+                    'description' => $description,
+                    'price' => $price,
+                    'image_remove' => $imageRemove,
+                    '_method' => 'PUT',
+                ]),
+                $this->createFormParameters([
+                     'image' => $image,
+                 ]),
                 $tokenSession
             )
         );
