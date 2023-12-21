@@ -213,13 +213,26 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        $productData = $this->endpoints->productGetData($groupId, null, null, $productNameDecoded, null, $tokenSession);
+        $productData = $this->endpoints->productGetData(
+            $groupId,
+            null,
+            null,
+            $productNameDecoded,
+            null,
+            null,
+            null,
+            null,
+            1,
+            1,
+            true,
+            $tokenSession
+        );
 
         if (!empty($productData['errors'])) {
             throw RequestProductNameException::fromMessage('Group data not found');
         }
 
-        return ProductDataResponse::fromArray($productData['data'][0]);
+        return ProductDataResponse::fromArray($productData['data']['products'][0]);
     }
 
     private function loadRefererRouteName(Request $request): RequestRefererDto|null
