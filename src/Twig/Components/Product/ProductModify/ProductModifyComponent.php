@@ -135,11 +135,14 @@ final class ProductModifyComponent extends TwigComponent
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 PRODUCT_MODIFY_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
+                PRODUCT_MODIFY_FORM_ERRORS::DESCRIPTION->value => $this->translate('validation.error.description'),
                 PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_NAME_REPEATED->value => $this->translate('validation.error.product_name_repeated'),
                 PRODUCT_MODIFY_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.image'),
-                // PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_ID->value,
-                // PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_NOT_FOUND->value,
-                PRODUCT_MODIFY_FORM_ERRORS::DESCRIPTION->value,
+                PRODUCT_MODIFY_FORM_ERRORS::GROUP_ID->value,
+                PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_ID->value,
+                PRODUCT_MODIFY_FORM_ERRORS::SHOP_NOT_FOUND->value,
+                PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_NOT_FOUND->value,
+                PRODUCT_MODIFY_FORM_ERRORS::PERMISSIONS->value,
                 PRODUCT_MODIFY_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.internal_server'),
                 default => $this->translate('validation.error.internal_server')
             };

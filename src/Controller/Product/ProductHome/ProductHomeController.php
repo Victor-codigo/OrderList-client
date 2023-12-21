@@ -223,11 +223,10 @@ class ProductHomeController extends AbstractController
             )
             ->productModifyFormModal(
                 $productModifyForm->getCsrfToken(),
-                ''
-                // $this->generateUrl('product_modify', [
-                //     'group_name' => $requestDto->groupNameUrlEncoded,
-                //     'product_name' => self::PRODUCT_NAME_PLACEHOLDER,
-                // ]),
+                $this->generateUrl('product_modify', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                    'product_name' => self::PRODUCT_NAME_PLACEHOLDER,
+                ]),
             )
             ->build();
     }

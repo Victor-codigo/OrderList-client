@@ -1,0 +1,37 @@
+title: Modificar producto
+
+image_avatar:
+  alt: Imagen del producto
+
+name:
+  label: Nombre
+  placeholder: Introduce un nombre para el producto
+  msg_invalid: |
+    Introduce un nombre válido.
+    El nombre debe contener al menos un carácter y un máximo de 30.
+    Solo está permitido caracteres alfanuméricos y "_"
+
+description:
+  label: Description
+  placeholder: Introduce una descripción para el producto
+  msg_invalid: La descripción es demasiado larga
+
+image:
+  label: Imagen
+  placeholder: Sube una imagen para el producto
+
+product_modify_button:
+  label: Modifica el producto
+
+validation:
+  title: Errores
+  ok: Product Modificado
+  error:
+    name: |
+      Introduce un nombre válido.
+      El nombre debe contener al menos un carácter y un máximo de 30.
+      Solo está permitido caracteres alfanuméricos y "_"
+    description: La descripción es demasiado larga
+    product_name_repeated: Ya hay un producto con el mismo nombre
+    image: La imagen no es válida. Debe ser jpg, png, bmp
+    internal_server: Ocurrió un error, inténtalo más tarde

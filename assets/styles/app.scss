@@ -10,8 +10,15 @@
 // Product list item
 @import '/src/Twig/Components/Product/ProductHome/ListItem/ProductListItemComponent.scss';
 
+// ProductModifyComponent
+@import '/src/Twig/Components/Product/ProductModify/ProductModifyComponent';
+
+
 // Shop list item
 @import '/src/Twig/Components/Shop/ShopHome/ListItem/ShopListItemComponent';
+
+// ShopModifyComponent
+@import '/src/Twig/Components/Shop/ShopModify/ShopModifyComponent';
 
 
 // SearchBar Component

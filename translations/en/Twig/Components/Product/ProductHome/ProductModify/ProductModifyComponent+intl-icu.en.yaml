@@ -1,0 +1,37 @@
+title: Product modify
+
+image_avatar:
+  alt: Product image
+
+name:
+  label: Name
+  placeholder: Enter a product name
+  msg_invalid: |
+    Enter a valid name.
+    The name must contain at least a character and maximum 30 characters.
+    Only are allowed alphanumeric characters and "_"
+
+description:
+  label: Description
+  placeholder: Enter a description for the product
+  msg_invalid: The description is too large
+
+image:
+  label: Image
+  placeholder: Upload a file for the product
+
+product_modify_button:
+  label: Modify product
+
+validation:
+  title: Errors
+  ok: Product modified
+  error:
+    name: |
+      Enter a valid name.
+      The name must contain at least a character and maximum 30 characters.
+      Only are allowed alphanumeric characters and "_"
+    description: The description is too large
+    product_name_repeated: There is already a product with the same name
+    image: The image is not valid. It should be a jpg, png, bmp
+    internal_server: An error has been occurred, try it later

@@ -8,7 +8,7 @@ use Common\Domain\Form\FormFieldInterface;
 
 final class PRODUCT_MODIFY_FORM_FIELDS implements FormFieldInterface
 {
-    public const FORM = 'product_create_form';
+    public const FORM = 'product_modify_form';
     public const TOKEN = 'token';
     public const SUBMIT = 'submit';
     public const NAME = 'name';
