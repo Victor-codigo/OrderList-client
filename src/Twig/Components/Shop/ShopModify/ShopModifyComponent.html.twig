@@ -5,7 +5,7 @@
 	  			   ImageAvatarComponent:imageRemovedUndo->ShopModifyComponent#setImageAvatarAsRemoved
 				   ShopModifyComponent:onAvatarSetImageEvent->ImageAvatarComponent#handleOnSetImageEvent
 				   ShopListItemComponent:onHomeListItemModifyEvent@window->ShopModifyComponent#handleOnShopModifyEvent"
-	  class="contaniner  p-4  pt-0"
+	  class="contaniner  p-4  pt-0  d-flex flex-column"
 	  method="post"
 	  enctype="multipart/form-data"
 	  data-action-placeholder="{{ data.formActionUrlPlaceholder|escape('html_attr') }}"
@@ -27,7 +27,7 @@
 
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
-	<div class="mb-5  d-flex justify-content-center">
+	<div class="mb-5  align-self-center  shop-modify__image">
 		{{ component('ImageAvatarComponent', { data: imageAvatarDto }) }}
 	</div>
 
