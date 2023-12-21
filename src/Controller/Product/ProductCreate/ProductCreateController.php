@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '{_locale}/{group_name}/product/create',
     name: 'product_create',
-    methods: ['GET', 'POST'],
+    methods: ['POST'],
     requirements: [
         '_locale' => 'en|es',
     ]
