@@ -1,6 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
 
-
 export default class extends Controller {
 
     connect() {
@@ -47,6 +46,6 @@ export default class extends Controller {
     }
 
     handleOnSetImageEvent({ detail: { content } }) {
-        this.setImage(content.shopImage);
+        this.setImage(content.imageUrl);
     }
 }

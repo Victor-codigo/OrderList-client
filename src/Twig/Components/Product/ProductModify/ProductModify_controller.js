@@ -1,15 +1,17 @@
 import { Controller } from '@hotwired/stimulus';
 import * as form from '../../../../../assets/modules/form';
 import * as encodedUrlParameter from '../../../../../assets/modules/EncodedUrlParameter';
-
+import * as event from '../../../../../assets/modules/Event';
 
 const PRODUCT_NAME_PLACEHOLDER = '--product_name--';
 
 export default class extends Controller {
+
     connect() {
         this.productNameTag = this.element.querySelector('[data-js-product-name]');
         this.productDescriptionTag = this.element.querySelector('[data-js-product-description]');
         this.productAvatarTag = this.element.querySelector('[data-controller="ImageAvatarComponent"]')
+
         this.formValidate();
     }
 
@@ -44,13 +46,14 @@ export default class extends Controller {
     }
 
     triggerOnAvatarSetImageEvent(productImageUrl) {
-
-        this.dispatch('onAvatarSetImageEvent', {
+        event.dispatch(window, 'ImageAvatarComponentEventHandler', 'onAvatarSetImageEvent', {
             detail: {
                 content: {
-                    productImage: productImageUrl
+                    imageUrl: productImageUrl
                 }
             }
         });
     }
+
+
 }
