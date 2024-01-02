@@ -209,17 +209,15 @@ class ProductHomeController extends AbstractController
             )
             ->productRemoveMultiFormModal(
                 $productRemoveMultiForm->getCsrfToken(),
-                ''
-                // $this->generateUrl('product_remove', [
-                //     'group_name' => $requestDto->groupData->name,
-                // ])
+                $this->generateUrl('product_remove', [
+                    'group_name' => $requestDto->groupData->name,
+                ])
             )
             ->productRemoveFormModal(
                 $productRemoveForm->getCsrfToken(),
-                ''
-                // $this->generateUrl('product_remove', [
-                //     'group_name' => $requestDto->groupData->name,
-                // ])
+                $this->generateUrl('product_remove', [
+                    'group_name' => $requestDto->groupData->name,
+                ])
             )
             ->productModifyFormModal(
                 $productModifyForm->getCsrfToken(),
