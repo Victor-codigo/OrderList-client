@@ -2,17 +2,19 @@ title: Shop remove
 
 message_advice:
   text: |
-    You are going to remove shop "{shop_placeholder}".
+    You are going to remove shop:
+    {item_placeholder}
     Products related to this shop, will lose the relation with the shop.
 
     Are You sure?
   text_multi: |
-    You are going to remove shops "{shop_placeholder}".
-    All products related with this shops, will lose the relation with deleted shops.
+    You are going to remove shops:
+    {item_placeholder}
+    All products related with these shops, will lose the relation with deleted shops.
 
     Are You sure?
 
-shop_remove_button:
+remove_button:
   label: Remove shop
 
 validation:

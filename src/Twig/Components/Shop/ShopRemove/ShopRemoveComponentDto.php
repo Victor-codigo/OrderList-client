@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Shop\ShopRemove;
 
-use App\Twig\Components\TwigComponentDtoInterface;
+use App\Twig\Components\HomeSection\ItemRemove\ItemRemoveComponentDto;
 
-class ShopRemoveComponentDto implements TwigComponentDtoInterface
+class ShopRemoveComponentDto extends ItemRemoveComponentDto
 {
-    public function __construct(
-        public readonly array $errors,
-        public readonly string $csrfToken,
-        public readonly string $formActionUrl,
-        public readonly bool $removeMulti,
-    ) {
-    }
 }

@@ -210,6 +210,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
     private function createShopRemoveMultiComponentDto(string $shopRemoveMultiFormCsrfToken, string $shopRemoveFormActionUrl): ModalComponentDto
     {
         $homeSectionRemoveMultiComponentDto = new ShopRemoveComponentDto(
+            ShopRemoveComponent::getComponentName(),
             [],
             $shopRemoveMultiFormCsrfToken,
             mb_strtolower($shopRemoveFormActionUrl),
@@ -229,6 +230,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
     private function createShopRemoveModalDto(string $shopRemoveFormCsrfToken, string $shopRemoveFormActionUrl): ModalComponentDto
     {
         $homeModalDelete = new ShopRemoveComponentDto(
+            ShopRemoveComponent::getComponentName(),
             [],
             $shopRemoveFormCsrfToken,
             mb_strtolower($shopRemoveFormActionUrl),
