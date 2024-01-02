@@ -111,6 +111,19 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @param string[] $shopsId
+     * @param string[] $productsId
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function productRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): array
+    {
+        return ProductsEndPoint::getInstance($this->httpClient)->productRemove($groupId, $productsId, $shopsId, $tokenSession);
+    }
+
+    /**
      * @return array<{
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>

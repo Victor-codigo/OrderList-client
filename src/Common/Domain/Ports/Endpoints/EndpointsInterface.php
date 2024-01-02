@@ -43,6 +43,16 @@ interface EndpointsInterface
     public function productModify(string $groupId, string $productId, string|null $shopId, string|null $name, string|null $description, float|null $price, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array;
 
     /**
+     * @param string[] $shopsId
+     * @param string[] $productsId
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function productRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): array;
+
+    /**
      * @return array<{
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>

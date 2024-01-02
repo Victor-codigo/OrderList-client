@@ -13,6 +13,7 @@ class ProductsEndPoint extends EndpointBase
 {
     public const POST_PRODUCT_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
     public const POST_PRODUCT_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
+    public const DELETE_PRODUCT_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
     public const GET_PRODUCT_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
 
     private static self|null $instance = null;
@@ -79,12 +80,14 @@ class ProductsEndPoint extends EndpointBase
 
     /**
      * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
      */
     private function requestProductModify(string $groupId, string $productId, string|null $shopId, string|null $name, string|null $description, float|null $price, UploadedFile|null $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',
-            self::POST_PRODUCT_MODIFY.'?XDEBUG_SESSION=VSCODE',
+            self::POST_PRODUCT_MODIFY,
             HTTP_CLIENT_CONFIGURATION::form($this->createFormParameters([
                     'group_id' => $groupId,
                     'product_id' => $productId,
@@ -104,10 +107,50 @@ class ProductsEndPoint extends EndpointBase
     }
 
     /**
+     * @param string[] $shopsId
+     * @param string[] $productsId
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function productRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): array
+    {
+        $response = $this->requestProductRemove($groupId, $productsId, $shopsId, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @param string[] $shopsId
+     * @param string[] $productsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    private function requestProductRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'DELETE',
+            self::DELETE_PRODUCT_DELETE,
+            HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
+                    'group_id' => $groupId,
+                    'products_id' => $productsId,
+                    'shops_id' => $shopsId,
+                ]),
+                $tokenSession
+            )
+        );
+    }
+
+    /**
      * @return array<{
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>
      * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
      */
     public function productGetData(
         string $groupId,
