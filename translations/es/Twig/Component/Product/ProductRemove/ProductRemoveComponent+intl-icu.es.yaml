@@ -1,0 +1,24 @@
+title: Eliminar producto
+
+message_advice:
+  text: |
+    Te dispones a eliminar el producto:
+    {item_placeholder}
+    Las tiendas relacionados con este producto, perderán su relación con la misma
+
+    ¿Estás seguro?
+  text_multi: |
+    Te dispones a eliminar los productos:
+    {item_placeholder}
+    Las tiendas relacionadas con estos productos, perderán la relación con las mismas.
+
+    ¿Estás seguro?
+
+remove_button:
+  label: Eliminar producto
+
+validation:
+  title: Errores
+  ok: Producto eliminada
+  error:
+    internal_server: Ocurrió un error, inténtalo más tarde

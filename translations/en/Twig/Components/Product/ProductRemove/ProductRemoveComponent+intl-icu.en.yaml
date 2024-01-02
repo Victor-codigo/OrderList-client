@@ -1,0 +1,24 @@
+title: Product remove
+
+message_advice:
+  text: |
+    You are going to remove product:
+    {item_placeholder}
+    Shops related to this product, will lose the relation with the shop.
+
+    Are You sure?
+  text_multi: |
+    You are going to remove products:
+    {item_placeholder}
+    All shops related with these products, will lose the relation with deleted products.
+
+    Are You sure?
+
+remove_button:
+  label: Remove product
+
+validation:
+  title: Errors
+  ok: Product removed
+  error:
+    internal_server: An error has been occurred, try it later

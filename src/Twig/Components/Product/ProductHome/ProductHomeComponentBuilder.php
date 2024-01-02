@@ -38,7 +38,6 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     private readonly HomeSectionComponentDto $homeSectionComponentDto;
 
     private readonly array $listProductsData;
-    private readonly string $translationListItemDomainName;
 
     public function __construct()
     {
@@ -208,6 +207,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     private function createProductRemoveMultiComponentDto(string $productRemoveMultiFormCsrfToken, string $productRemoveFormActionUrl): ModalComponentDto
     {
         $homeSectionRemoveMultiComponentDto = new ProductRemoveComponentDto(
+            ProductRemoveComponent::getComponentName(),
             [],
             $productRemoveMultiFormCsrfToken,
             mb_strtolower($productRemoveFormActionUrl),
@@ -227,6 +227,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     private function createProductRemoveModalDto(string $productRemoveFormCsrfToken, string $productRemoveFormActionUrl): ModalComponentDto
     {
         $homeModalDelete = new ProductRemoveComponentDto(
+            ProductRemoveComponent::getComponentName(),
             [],
             $productRemoveFormCsrfToken,
             mb_strtolower($productRemoveFormActionUrl),
@@ -240,6 +241,17 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             ProductRemoveComponent::getComponentName(),
             $homeModalDelete,
             []
+        );
+    }
+
+    private function createRemoveMultiFormDto(): RemoveMultiFormDto
+    {
+        return new RemoveMultiFormDto(
+            PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM,
+            sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::TOKEN),
+            sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s][]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::PRODUCTS_ID),
+            self::PRODUCT_REMOVE_MULTI_MODAL_ID
         );
     }
 
@@ -266,17 +278,6 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createRemoveMultiFormDto(): RemoveMultiFormDto
-    {
-        return new RemoveMultiFormDto(
-            PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM,
-            sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::TOKEN),
-            sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
-            sprintf('%s[%s][]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::PRODUCTS_ID),
-            self::PRODUCT_REMOVE_MULTI_MODAL_ID
-        );
-    }
-
     private function createProductListItemsComponentsDto(): array
     {
         return array_map(
@@ -285,7 +286,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
                 $homeData->id,
                 $homeData->name,
                 self::PRODUCT_MODIFY_MODAL_ID,
-                self::PRODUCT_MODIFY_MODAL_ID,
+                self::PRODUCT_DELETE_MODAL_ID,
                 self::PRODUCT_HOME_LIST_ITEM_COMPONENT_NAME,
                 $homeData->description,
                 $homeData->image ?? Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
