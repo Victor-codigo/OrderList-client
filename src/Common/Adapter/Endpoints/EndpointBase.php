@@ -33,7 +33,7 @@ abstract class EndpointBase
      */
     protected function createFormParameters(array $parametersAndValues): array
     {
-        return array_filter($parametersAndValues, fn (string|null $value) => null !== $value);
+        return array_filter($parametersAndValues, fn (string|array|null $value) => null !== $value);
     }
 
     /**
