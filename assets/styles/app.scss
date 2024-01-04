@@ -1,5 +1,8 @@
 @import '/node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+// ShopAddComponent
+@import '/src/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddComponent';
+
 // Groups
 @import '/src/Twig/Components/Group/GroupList/ListItem/GroupListItemComponent.scss';
 

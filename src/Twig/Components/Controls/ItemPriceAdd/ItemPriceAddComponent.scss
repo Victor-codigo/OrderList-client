@@ -1,0 +1,16 @@
+.item-add-component {
+    &__item-name {
+        cursor: pointer;
+    }
+
+    &__item-remove-button {
+        svg {
+            max-width: 18px;
+            max-height: 18px;
+        }
+    }
+
+    &__item-price {
+        max-width: 75px;
+    }
+}

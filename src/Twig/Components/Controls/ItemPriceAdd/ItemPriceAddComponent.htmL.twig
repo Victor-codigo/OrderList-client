@@ -1,0 +1,69 @@
+<div class="item-add-component  d-flex  flex-column"
+     data-controller="ItemPriceAddComponent">
+
+    <div data-js-items-add-container>
+
+    </div>
+
+    <button class="btn btn-primary  rounded-0  rounded-bottom  align-self-end"
+            type="button"
+            title="{{ data.itemPriceAddButtonTitle }}"
+            alt="{{ data.itemPriceAddButtonAlt }}"
+            data-js-item-add-button>
+
+        {{ data.itemPriceAddButtonLabel }}
+    </button>
+
+    <template id="item_add_template">
+        <div class="input-group  mb-3"
+             data-js-item-container>
+
+            <label for="name"
+                   class="form-label">
+
+                {{ data.itemNameLabel }}
+            </label>
+
+            <div class="input-group">
+
+                <input type="text"
+                       class="form-control  item-add-component__item-name"
+                       maxlength="50"
+                       pattern="[a-zA-Z0-9_\s]+"
+                       id="name"
+                       name="{{ data.itemNameFieldName }}"
+                       placeholder="{{ data.itemNamePlaceholder }}"
+                       value="{{ data.itemNameFieldValue }}"
+                       required
+                       readonly
+                       data-js-item-name />
+
+                <input type="text"
+                       class="form-control  item-add-component__item-price"
+                       id="price"
+                       pattern="\d{1,5}(\.\d{1,2})?"
+                       name="{{ data.itemPriceFieldName }}"
+                       placeholder="{{ data.itemPricePlaceholder }}"
+                       value="{{ data.itemPriceFieldValue }}"
+                       required />
+
+                <span class="input-group-text"
+                      id="name">
+
+                    {{ data.itemPriceCurrencyLabel }}
+                </span>
+
+                <button class="btn btn-danger  item-add-component__item-remove-button"
+                        title="{{ data.itemRemoveAddButtonTitle }}"
+                        alt="{{ data.itemRemoveAddButtonAlt }}"
+                        data-js-item-remove-button>
+                    {% include "remove-icon-red-24x24.svg" %}
+                </button>
+            </div>
+            <div class="invalid-feedback">
+                {{ data.itemNameMsgInvalid }}
+                {{ data.itemPriceMsgInvalid }}
+            </div>
+        </div>
+    </template>
+</div>
