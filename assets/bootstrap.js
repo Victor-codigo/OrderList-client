@@ -16,7 +16,10 @@ import ModalComponent from '../src/Twig/Components/Modal/Modal_Component';
 import DropZoneComponent from '../src/Twig/Components/Controls/DropZone/DropZone_Component';
 import ImageAvatarComponent from '../src/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
 import ItemPriceAddComponent from '../src/Twig/Components/Controls/ItemPriceAdd/ItemPriceAdd_controller';
+import ListItemsComponent from '../src/Twig/Components/Controls/ListItems/ListItems_controller';
+import ListItemComponent from '../src/Twig/Components/Controls/ListItems/Item/Item_controller';
 import PaginatorComponent from '../src/Twig/Components/Paginator/Paginator_Component';
+import PaginatorJsComponent from '../src/Twig/Components/PaginatorJs/PaginatorJs_Component';
 import ListComponent from '../src/Twig/Components/List/List_controller';
 import SearchBarComponent from '../src/Twig/Components/SearchBar/SearchBar_controller';
 
@@ -47,6 +50,7 @@ import ShopRemoveComponent from '../src/Twig/Components/Shop/ShopRemove/ShopRemo
 import ShopListItemComponent from '../src/Twig/Components/Shop/ShopHome/ListItem/ShopListItem_controller';
 
 // PRODUCT
+import ProductHomeSectionComponent from '../src/Twig/Components/Product/ProductHome/Home/ProductHomeSection_controller';
 import ProductCreateComponent from '../src/Twig/Components/Product/ProductCreate/ProductCreate_controller';
 import ProductModifyComponent from '../src/Twig/Components/Product/ProductModify/ProductModify_controller';
 import ProductRemoveComponent from '../src/Twig/Components/Product/ProductRemove/ProductRemoveComponent_controller';
@@ -72,7 +76,10 @@ app.register('ModalComponent', ModalComponent);
 app.register('DropZoneComponent', DropZoneComponent);
 app.register('ImageAvatarComponent', ImageAvatarComponent);
 app.register('ItemPriceAddComponent', ItemPriceAddComponent);
+app.register('ListItemsComponent', ListItemsComponent);
+app.register('ListItemComponent', ListItemComponent);
 app.register('PaginatorComponent', PaginatorComponent);
+app.register('PaginatorJsComponent', PaginatorJsComponent);
 app.register('ListComponent', ListComponent);
 app.register('SearchBarComponent', SearchBarComponent);
 
@@ -113,6 +120,7 @@ app.register('ShopRemoveComponent', ShopRemoveComponent);
 app.register('ShopListItemComponent', ShopListItemComponent);
 
 // PRODUCT
+app.register('ProductHomeSectionComponent', ProductHomeSectionComponent);
 app.register('ProductCreateComponent', ProductCreateComponent);
 app.register('ProductModifyComponent', ProductModifyComponent);
 app.register('ProductRemoveComponent', ProductRemoveComponent);

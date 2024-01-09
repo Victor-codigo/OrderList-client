@@ -1,0 +1,17 @@
+.paginator-js {
+    &__page {
+        @extend .page-item;
+
+        cursor: pointer;
+
+        &--disabled {
+            @extend .disabled;
+
+            cursor: default;
+        }
+
+        &--active {
+            @extend .active;
+        }
+    }
+}

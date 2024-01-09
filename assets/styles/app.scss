@@ -1,4 +1,6 @@
-@import '/node_modules/bootstrap/dist/css/bootstrap.min.css';
+// @import '/node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '/node_modules/bootstrap/scss/bootstrap';
+
 
 // ShopAddComponent
 @import '/src/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddComponent';
@@ -9,6 +11,12 @@
 
 // List
 @import '/src/Twig/Components/List/ListComponent';
+
+// ListItems Item
+@import '/src/Twig/Components/Controls/ListItems/Item/ItemComponent';
+
+// PaginatorJsComponent
+@import '/src/Twig/Components/PaginatorJs/PaginatorJsComponent.scss';
 
 // Product list item
 @import '/src/Twig/Components/Product/ProductHome/ListItem/ProductListItemComponent.scss';
