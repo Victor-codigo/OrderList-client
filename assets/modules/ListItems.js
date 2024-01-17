@@ -1,4 +1,4 @@
-import * as html from './Html';
+import * as html from '/assets/modules/Html';
 
 export default class ListItems {
     /**

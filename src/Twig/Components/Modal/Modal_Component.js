@@ -1,5 +1,4 @@
 import { Controller } from '@hotwired/stimulus';
-import * as event from '../../../../assets/modules/Event';
 
 /**
  * @event ModalComponent:beforeShowed

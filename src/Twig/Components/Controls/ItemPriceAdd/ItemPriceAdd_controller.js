@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as event from '../../../../../assets/modules/Event';
+import * as event from '/assets/modules/Event';
 
 export default class extends Controller {
     connect() {

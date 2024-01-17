@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as event from '../../../../assets/modules/Event';
+import * as event from '/assets/modules/Event';
 import * as communication from '/assets/modules/ControllerCommunication';
 
 const PAGE_RANGE = 2;

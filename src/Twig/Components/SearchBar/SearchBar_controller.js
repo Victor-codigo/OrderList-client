@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
-import * as apiEndpoints from '../../../../assets/modules/ApiEndpoints';
-import SEARCH_FILTER from './SEARCH_FILTER';
+import * as apiEndpoints from '/assets/modules/ApiEndpoints';
+import SEARCH_FILTER from '/src/Twig/Components/SearchBar/SEARCH_FILTER';
 
 
 const SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS = 50;

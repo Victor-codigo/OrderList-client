@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as form from '../../../../../assets/modules/form';
+import * as form from '/assets/modules/form';
 
 /*
  * This is an example Stimulus controller!

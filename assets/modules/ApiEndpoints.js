@@ -1,4 +1,4 @@
-import * as cookies from './Cookie';
+import * as cookies from '/assets/modules/Cookie.js';
 
 const COOKIE_TOKENSESSION_NAME = 'TOKENSESSION';
 const API_VERSION = '1';

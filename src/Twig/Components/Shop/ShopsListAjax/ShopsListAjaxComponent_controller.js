@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
-import ListItems from '../../../../../assets/modules/ListItems';
-import * as event from '../../../../../assets/modules/Event';
+import ListItems from '/assets/modules/ListItems';
+import * as event from '/assets/modules/Event';
 import * as communication from '/assets/modules/ControllerCommunication';
 
 /**

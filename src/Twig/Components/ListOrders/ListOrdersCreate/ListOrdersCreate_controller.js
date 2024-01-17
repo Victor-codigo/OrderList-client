@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as form from '../../../../../assets/modules/form';
+import * as form from '/assets/modules/form';
 
 
 export default class extends Controller {
@@ -11,3 +11,4 @@ export default class extends Controller {
         form.validate(this.element);
     }
 }
+
