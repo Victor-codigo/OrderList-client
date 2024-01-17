@@ -1,0 +1,10 @@
+title: Tiendas
+
+button_back:
+  label: Volver
+
+button_create_shop:
+  label: Crear tienda
+
+shop_image:
+  title: Imagen de la tienda {shop_name}

@@ -1,0 +1,37 @@
+<div data-controller="ShopsListAjaxComponent"
+     data-action="ContentLoaderJsComponent:onShopListAjaxComponentItemSelected->ShopsListAjaxComponent#handlerShopListAjaxComponentItemSelected
+                  PaginatorContentLoaderJsComponent:onConnected->ShopsListAjaxComponent#handlerPaginatorContentLoaderJsConnected
+                  ModalComponent:beforeShowed->ShopsListAjaxComponent#handlerModalBeforeShowed"
+     data-modal-before-attribute-id="{{ data.modalBeforeAttributeId }}"
+     data-url-path-shops-images="{{ data.urlPathShopsImages }}"
+     data-url-no-shops-image="{{ data.urlNoShopsImage }}"
+     data-shop-image-title="{{ lang.shopImageTitle }}"
+     class="p-4  pt-0"
+     data-modal-component-content>
+
+
+    {{ component('TitleComponent', { data: titleDto } ) }}
+    {{ component('PaginatorContentLoaderJsComponent', { data: data.paginatorContentLoaderJsDto } ) }}
+
+    <hr class="border border-second border-1 opacity-50  mt-5">
+
+    <div class="d-flex  justify-content-end">
+        <button type="button"
+                class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+                data-bs-target="#{{ data.modalBeforeAttributeId }}"
+                data-bs-toggle="modal">
+
+            {% include "arrow-back-icon-white-24x24.svg" %}
+
+            <span>
+                {{ lang.buttonBackLabel }}
+            </span>
+        </button>
+
+        <button type="button"
+                class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end">
+
+            {{ lang.buttonCreateShopLabel }}
+        </button>
+    </div>
+</div>

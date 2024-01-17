@@ -1,0 +1,10 @@
+title: Shops
+
+button_back:
+  label: Back
+
+button_create_shop:
+  label: Crete shop
+
+shop_image:
+  title: Image of shop {shop_name}
