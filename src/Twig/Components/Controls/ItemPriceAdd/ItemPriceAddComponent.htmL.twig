@@ -24,23 +24,29 @@
                 {{ data.itemNameLabel }}
             </label>
 
-            <div class="input-group">
+            <div class="input-group"
+                 data-js-item-group>
+
+                <input type="hidden"
+                       name="{{ data.itemIdFieldName}}"
+                       value="{{ data.itemIdFieldValue }}"
+                       data-js-item-id>
 
                 <input type="text"
                        class="form-control  item-add-component__item-name"
                        maxlength="50"
                        pattern="[a-zA-Z0-9_\s]+"
-                       id="name"
                        name="{{ data.itemNameFieldName }}"
                        placeholder="{{ data.itemNamePlaceholder }}"
                        value="{{ data.itemNameFieldValue }}"
+                       data-bs-target="#{{ data.itemSelectModalIdAttribute }}"
+                       data-bs-toggle="modal"
                        required
                        readonly
                        data-js-item-name />
 
                 <input type="text"
                        class="form-control  item-add-component__item-price"
-                       id="price"
                        pattern="\d{1,5}(\.\d{1,2})?"
                        name="{{ data.itemPriceFieldName }}"
                        placeholder="{{ data.itemPricePlaceholder }}"

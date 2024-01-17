@@ -11,6 +11,9 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
 {
     private DtoBuilder $builder;
 
+    public readonly string $itemIdFieldName;
+    public readonly string|null $itemIdFieldValue;
+
     public readonly string $itemNameFieldName;
     public readonly string|null $itemNameFieldValue;
     public readonly string $itemNameLabel;
@@ -31,14 +34,28 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
     public readonly string $itemRemoveAddButtonTitle;
     public readonly string $itemRemoveAddButtonAlt;
 
+    public readonly string $itemSelectModalIdAttribute;
+
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'itemId',
             'itemName',
             'price',
             'itemPriceAddButton',
             'itemRemoveButton',
+            'itemSelectModal',
         ]);
+    }
+
+    public function itemId(string $itemIdFieldName, string|null $itemIdFieldValue): self
+    {
+        $this->builder->setMethodStatus('itemId', true);
+
+        $this->itemIdFieldName = $itemIdFieldName;
+        $this->itemIdFieldValue = $itemIdFieldValue;
+
+        return $this;
     }
 
     public function itemName(string $itemFieldName, string|null $itemNameFieldValue, string $itemNameLabel, string $itemNamePlaceholder, string $itemNameMsgInvalid): self
@@ -85,6 +102,15 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
 
         $this->itemRemoveAddButtonTitle = $itemRemoveButtonTitle;
         $this->itemRemoveAddButtonAlt = $itemRemoveButtonAlt;
+
+        return $this;
+    }
+
+    public function itemSelectModal(string $itemSelectModalIdAttribute): self
+    {
+        $this->builder->setMethodStatus('itemSelectModal', true);
+
+        $this->itemSelectModalIdAttribute = $itemSelectModalIdAttribute;
 
         return $this;
     }

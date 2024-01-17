@@ -12,9 +12,6 @@
 // List
 @import '/src/Twig/Components/List/ListComponent';
 
-// ListItems Item
-@import '/src/Twig/Components/Controls/ListItems/Item/ItemComponent';
-
 // PaginatorJsComponent
 @import '/src/Twig/Components/PaginatorJs/PaginatorJsComponent.scss';
 
@@ -34,3 +31,5 @@
 
 // SearchBar Component
 @import '/src/Twig/Components/SearchBar/SearchBarComponent';
+
+@import '/src/Twig/Components/Controls/ContentLoaderJs/ContentLoaderJsComponent.scss';

@@ -11,15 +11,6 @@ export default class extends Controller {
 
         this.#clearItemContainer();
 
-
-
-        event.addEventListenerDelegate({
-            element: this.itemPriceAddContainer,
-            elementDelegateSelector: '[data-js-item-name]',
-            eventName: 'click',
-            callbackListener: this.#openItemSelector.bind(this)
-        });
-
         event.addEventListenerDelegate({
             element: this.itemPriceAddContainer,
             elementDelegateSelector: '[data-js-item-remove-button]',
@@ -51,9 +42,5 @@ export default class extends Controller {
 
     #clearItemContainer() {
         this.itemPriceAddContainer.innerHTML = '';
-    }
-
-    #openItemSelector() {
-        alert('#openItemSelector');
     }
 }
