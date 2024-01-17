@@ -1,0 +1,12 @@
+.placeholder-content {
+    &__image {
+        height: 40px;
+        width: 40px;
+        border-radius: 2px;
+    }
+
+    &__text {
+        height: 15px;
+        border-radius: 2px;
+    }
+}
