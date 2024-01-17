@@ -56,21 +56,21 @@ export default class extends Controller {
             element: list,
             elementDelegateSelector: 'li',
             eventName: 'click',
-            callbackListener: this.handlerShopListAjaxComponentItemSelected.bind(this)
+            callbackListener: this.handleMessageShopSelected.bind(this)
         });
     }
 
-    handlerShopListAjaxComponentItemSelected(itemTag, event) {
+    handleMessageShopSelected(itemTag, event) {
         const itemData = JSON.parse(itemTag.dataset.data);
 
         this.#sendMessageShopsListShopSelected(itemData.id, itemData.name);
     }
 
-    handlerPaginatorContentLoaderJsConnected() {
+    handleMessageConnected() {
         this.#sendMessageInitializeToPaginatorContentLoaderJsComponent();
     }
 
-    handlerModalBeforeShowed({ detail: { content } }) {
+    handleMessageBeforeShowed({ detail: { content } }) {
         if (!content.showedFirstTime) {
             return;
         }

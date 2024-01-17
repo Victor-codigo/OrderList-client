@@ -47,7 +47,7 @@ export default class extends Controller {
      * @param {Object} content
      * @param {int} content.pagesTotal
      */
-    handlerPagesTotalEvent({ detail: { content } }) {
+    handleMessagePagesTotal({ detail: { content } }) {
         this.#setPagesTotal(content.pagesTotal);
         this.#updatePaginatorHtml();
     }

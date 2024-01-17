@@ -38,7 +38,7 @@ export default class extends Controller {
      * @param {Object} content
      * @param {int} content.page
      */
-    handlerPaginatorPaginatorPageChange({ detail: { content } }) {
+    handleMessagePageChange({ detail: { content } }) {
         this.#sendMessageContentChangeToContentLoaderJsComponent(content.page);
     }
 
@@ -47,7 +47,7 @@ export default class extends Controller {
      * @param {Object} content.responseManageCallback
      * @param {Object} content.postResponseManageCallback
      */
-    handlerPaginatorContentLoaderJsInitialize({ detail: { content } }) {
+    handleMessageInitialize({ detail: { content } }) {
         this.responseManageCallback = content.responseManageCallback;
         this.postResponseManageCallback = content.postResponseManageCallback;
     }

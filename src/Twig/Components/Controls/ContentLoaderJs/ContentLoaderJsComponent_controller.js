@@ -47,7 +47,7 @@ export default class extends Controller {
      * @param {function(any[])} content.responseManageCallback
      * @param {function(HTMLElement)} content.postResponseManageCallback
      */
-    async handlerContentLoaderJsChange({ detail: { content } }) {
+    async handleMessageContentChange({ detail: { content } }) {
         let queryParameters = this.endpointQueryParameters;
 
         queryParameters.page = content.page;
