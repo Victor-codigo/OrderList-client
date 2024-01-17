@@ -1,10 +1,11 @@
 import { Controller } from '@hotwired/stimulus';
 import ListItems from '../../../../../assets/modules/ListItems';
 import * as event from '../../../../../assets/modules/Event';
+import * as communication from '/assets/modules/ControllerCommunication';
 
 /**
  * @event ShopsListAjaxComponent:onShopSelected
- * @event PaginatorContentLoaderJsComponentEventHandler:onInitialize
+ * @event PaginatorContentLoaderJsComponent:onInitialize
  */
 export default class extends Controller {
     connect() {
@@ -66,7 +67,7 @@ export default class extends Controller {
     }
 
     handlerPaginatorContentLoaderJsConnected() {
-        this.#triggerSHopsListPaginatorContentLoaderInitialize();
+        this.#triggerShopsListPaginatorContentLoaderInitialize();
     }
 
     handlerModalBeforeShowed({ detail: { content } }) {
@@ -77,45 +78,31 @@ export default class extends Controller {
         this.#triggerPaginatorPaginatorPageChange(1);
     }
 
-    #triggerSHopsListPaginatorContentLoaderInitialize() {
-        event.dispatch(this.paginatorContentLoaderJsComponent, "PaginatorContentLoaderJsComponentEventHandler", "onInitialize", {
-            detail: {
-                content: {
-                    responseManageCallback: this.#responseManageCallback.bind(this),
-                    postResponseManageCallback: this.#postResponseManageCallback.bind(this)
-                }
-            }
-        });
+    #triggerShopsListPaginatorContentLoaderInitialize() {
+        communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'onInitialize', {
+            responseManageCallback: this.#responseManageCallback.bind(this),
+            postResponseManageCallback: this.#postResponseManageCallback.bind(this)
+        }
+        );
     }
 
     #triggerPaginatorPaginatorPageChange(page) {
-        event.dispatch(this.paginatorContentLoaderJsComponent, "PaginatorJsComponent", "onPageChange", {
-            detail: {
-                content: {
-                    page: page
-                }
-            }
-        });
+        communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'onPageChange', {
+            page: page
+        },
+            'PaginatorJsComponent');
     }
 
     #triggerShopsListShopSelected(shopId, shopName) {
-        event.dispatch(window, "ShopsListAjaxComponent", "onShopSelected", {
-            detail: {
-                content: {
-                    shopId: shopId,
-                    shopName: shopName
-                }
-            }
+        communication.sendMessageToNotRelatedController(this.element, 'onShopSelected', {
+            shopId: shopId,
+            shopName: shopName
         });
     }
 
     #triggerPaginatorJsPagesTotal(pagesTotal) {
-        this.paginatorJsComponent.dispatchEvent(new CustomEvent('PaginatorJsComponentEventHandler:pagesTotal', {
-            detail: {
-                content: {
-                    pagesTotal: pagesTotal
-                }
-            }
-        }));
+        communication.sendMessageToChildController(this.paginatorJsComponent, 'pagesTotal', {
+            pagesTotal: pagesTotal
+        });
     }
 }

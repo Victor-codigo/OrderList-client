@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-
+import * as communication from '/assets/modules/ControllerCommunication';
 
 export default class extends Controller {
 
@@ -60,12 +60,8 @@ export default class extends Controller {
     }
 
     triggerOnHomeSectionRemoveMulti() {
-        this.dispatch('onHomeSectionRemoveMultiEvent', {
-            detail: {
-                content: {
-                    'items': this.itemsIdSelected
-                }
-            }
+        communication.sendMessageToParentController(this.element, 'onHomeSectionRemoveMultiEvent', {
+            items: this.itemsIdSelected
         });
     }
 

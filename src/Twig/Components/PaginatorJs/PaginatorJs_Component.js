@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import * as event from '../../../../assets/modules/Event';
+import * as communication from '/assets/modules/ControllerCommunication';
 
 const PAGE_RANGE = 2;
 const PAGE_ACTIVE_STYLE_NAME = 'paginator-js__page--active';
@@ -52,12 +53,8 @@ export default class extends Controller {
     }
 
     #triggerPageChangeEvent() {
-        this.dispatch('onPageChange', {
-            detail: {
-                content: {
-                    page: this.pageCurrent
-                }
-            }
+        communication.sendMessageToParentController(this.element, 'onPageChange', {
+            page: this.pageCurrent
         });
     }
 

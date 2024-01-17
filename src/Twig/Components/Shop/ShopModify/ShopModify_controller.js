@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import * as form from '../../../../../assets/modules/form';
 import * as encodedUrlParameter from '../../../../../assets/modules/EncodedUrlParameter';
-import * as event from '../../../../../assets/modules/Event';
+import * as communication from '/assets/modules/ControllerCommunication';
 
 
 const SHOP_NAME_PLACEHOLDER = '--shop_name--';
@@ -45,13 +45,11 @@ export default class extends Controller {
     }
 
     triggerOnAvatarSetImageEvent(shopImageUrl) {
-        event.dispatch(window, 'ImageAvatarComponentEventHandler', 'onAvatarSetImageEvent', {
-            detail: {
-                content: {
-                    imageUrl: shopImageUrl
-                },
-            }
-        });
+        communication.sendMessageToNotRelatedController(this.element, 'onAvatarSetImageEvent', {
+            imageUrl: shopImageUrl
+        },
+            'ImageAvatarComponent'
+        );
     }
 
 

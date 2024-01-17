@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as event from '../../../../../../assets/modules/Event';
+import * as communication from '/assets/modules/ControllerCommunication';
 
 
 export default class extends Controller {
@@ -17,38 +17,28 @@ export default class extends Controller {
     }
 
     triggerOnHomeListItemRemoveEvent() {
-        event.dispatch(window, 'ItemRemoveComponent', 'onHomeListItemRemoveEvent', {
-            detail: {
-                content: {
-                    'items': [{
-                        'id': this.element.dataset.itemId,
-                        'name': this.element.dataset.itemName
-                    }]
-                }
-            }
-        });
+        communication.sendMessageToNotRelatedController(this.element, 'onHomeListItemRemoveEvent', {
+            items: [{
+                id: this.element.dataset.itemId,
+                name: this.element.dataset.itemName
+            }]
+        },
+            'ItemRemoveComponent'
+        );
     }
 
     triggerOnHomeListItemModify() {
-        this.dispatch('onHomeListItemModifyEvent', {
-            detail: {
-                content: {
-                    id: this.element.dataset.itemId,
-                    name: this.itemName,
-                    description: this.itemDescription,
-                    image: this.itemImage
-                }
-            }
+        communication.sendMessageToParentController(this.element, 'onHomeListItemModifyEvent', {
+            id: this.element.dataset.itemId,
+            name: this.itemName,
+            description: this.itemDescription,
+            image: this.itemImage
         });
     }
 
     #triggerOnHomeListItemSelected() {
-        this.dispatch('onHomeListItemSelectedEvent', {
-            detail: {
-                content: {
-                    id: this.element.dataset.itemId
-                }
-            }
+        communication.sendMessageToParentController(this.element, 'onHomeListItemSelectedEvent', {
+            id: this.element.dataset.itemId
         });
     }
 }
