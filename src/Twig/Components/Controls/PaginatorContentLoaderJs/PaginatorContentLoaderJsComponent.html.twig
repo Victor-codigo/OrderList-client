@@ -1,0 +1,10 @@
+<div data-controller="PaginatorContentLoaderJsComponent"
+     data-action="PaginatorJsComponent:onPageChange->PaginatorContentLoaderJsComponent#handlerPaginatorPaginatorPageChange
+                  PaginatorContentLoaderJsComponentEventHandler:onInitialize->PaginatorContentLoaderJsComponent#handlerPaginatorContentLoaderJsInitialize">
+
+     {{ component('ContentLoaderJsComponent', { data: data.contentLoaderJsDto } ) }}
+
+     <div class="mt-5">
+          {{ component('PaginatorJsComponent', { data: data.paginatorJsDto } ) }}
+     </div>
+</div>
