@@ -16,7 +16,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
     name: 'HomeSectionComponent',
     template: 'Components/HomeSection/Home/HomeSectionComponent.html.twig'
 )]
-final class HomeSectionComponent extends TwigComponent
+class HomeSectionComponent extends TwigComponent
 {
     public HomeSectionComponentLangDto $lang;
     public HomeSectionComponentDto|TwigComponentDtoInterface $data;

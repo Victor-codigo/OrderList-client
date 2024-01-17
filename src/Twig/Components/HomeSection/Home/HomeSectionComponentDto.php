@@ -45,6 +45,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
     public readonly ModalComponentDto $modifyFormModalDto;
     public readonly ModalComponentDto $removeMultiFormModalDto;
     public readonly ModalComponentDto $removeFormModalDto;
+    public readonly ModalComponentDto $shopListItemsDto;
 
     private DtoBuilder $builder;
 
@@ -57,6 +58,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
             'removeFormModal',
             'removeMultiFormModal',
             'createRemoveMultiForm',
+            'shopSelectModal',
             'errors',
             'pagination',
             'listItems',
@@ -116,6 +118,15 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         $this->builder->setMethodStatus('createRemoveMultiForm', true);
 
         $this->removeMultiFormDto = $removeMultiFormDto;
+
+        return $this;
+    }
+
+    public function shopSelectModal(ModalComponentDto $shopListItemsDto): self
+    {
+        $this->builder->setMethodStatus('shopSelectModal', true);
+
+        $this->shopListItemsDto = $shopListItemsDto;
 
         return $this;
     }
