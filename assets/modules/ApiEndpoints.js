@@ -1,5 +1,4 @@
 import * as cookies from './Cookie';
-import * as object from './Object';
 
 const COOKIE_TOKENSESSION_NAME = 'TOKENSESSION';
 const API_VERSION = '1';
@@ -8,14 +7,31 @@ const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
 
 
 /**
- * @param {*} queryParameters see api documentation
+ * @param {string} endpointName
+ * @param {Object.<string, string>} queryParameters see api documentation
+ */
+export async function executeEndPointByName(endpointName, queryParameters) {
+    const endpointsNames = {
+        'getShopsData': getShopsData,
+        'getShopsNames': getShopsNames
+    };
+
+    if (typeof endpointsNames[endpointName] === 'undefined') {
+        throw new Error('ApiEndPoint: endpoint does not exist');
+    }
+
+    return await endpointsNames[endpointName](queryParameters);
+}
+
+/**
+ * @param {object} queryParameters see api documentation
  * @returns {
  *      'page': int,
  *      'pages_total': int,
  *      'shops': array
  * }
  * @throws Error
-*/
+ */
 export async function getShopsData(queryParameters) {
     const response = await createJsonRequest(GET_SHOPS_URL, 'GET', queryParameters);
     const responseJson = await manageResponseJson(response,
@@ -34,7 +50,7 @@ export async function getShopsData(queryParameters) {
 }
 
 /**
-* @param {*} queryParameters see api documentation
+* @param {object} queryParameters see api documentation
 * @returns string[]
 * @throws Error
 */
@@ -45,6 +61,9 @@ export async function getShopsNames(queryParameters) {
 }
 
 /**
+ * @param {string} url
+ * @param {string} method
+ * @param {object} queryParameters see api documentation
  * @throws Error
  */
 async function createJsonRequest(url, method, queryParameters) {
@@ -71,8 +90,10 @@ async function createJsonRequest(url, method, queryParameters) {
 }
 
 /**
- * @param function callbackResponseNoContent function(response)
- * @param function callbackResponseNoContent function(response.errors)
+ * @param {object} response
+ * @param {function(object):object} callbackResponseNoContent function(response)
+ * @param {function(array):object} callbackRequestError function(response.errors)
+ * @returns {object}
  * @throws Error
  */
 async function manageResponseJson(response, callbackResponseNoContent, callbackRequestError) {
