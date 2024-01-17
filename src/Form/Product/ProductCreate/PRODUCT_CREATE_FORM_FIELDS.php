@@ -14,4 +14,8 @@ final class PRODUCT_CREATE_FORM_FIELDS implements FormFieldInterface
     public const NAME = 'name';
     public const DESCRIPTION = 'description';
     public const IMAGE = 'image';
+    public const SHOP_ID = 'shop_id';
+    public const SHOP_NAME = 'shop_name';
+    public const SHOP_PRICE = 'shop_price';
+    public const SHOP_SEARCH_BUTTON = 'shop_search';
 }
