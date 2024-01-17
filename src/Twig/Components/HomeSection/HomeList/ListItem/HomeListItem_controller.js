@@ -9,14 +9,14 @@ export default class extends Controller {
         this.itemImage = this.element.querySelector('[data-js-item-image]').src;
 
         this.checkbox = this.element.querySelector('[data-js-checkbox]');
-        this.checkbox.addEventListener('change', this.#triggerOnHomeListItemSelected.bind(this));
+        this.checkbox.addEventListener('change', this.#sendMessageHomeListItemSelectedToParent.bind(this));
     }
 
     disconnect() {
-        this.checkbox.removeEventListener('change', this.#triggerOnHomeListItemSelected);
+        this.checkbox.removeEventListener('change', this.#sendMessageHomeListItemSelectedToParent);
     }
 
-    triggerOnHomeListItemRemoveEvent() {
+    sendMessageHomeListItemRemoveEvent() {
         communication.sendMessageToNotRelatedController(this.element, 'onHomeListItemRemoveEvent', {
             items: [{
                 id: this.element.dataset.itemId,
@@ -27,7 +27,7 @@ export default class extends Controller {
         );
     }
 
-    triggerOnHomeListItemModify() {
+    sendMessageHomeListItemModifyToParent() {
         communication.sendMessageToParentController(this.element, 'onHomeListItemModifyEvent', {
             id: this.element.dataset.itemId,
             name: this.itemName,
@@ -36,7 +36,7 @@ export default class extends Controller {
         });
     }
 
-    #triggerOnHomeListItemSelected() {
+    #sendMessageHomeListItemSelectedToParent() {
         communication.sendMessageToParentController(this.element, 'onHomeListItemSelectedEvent', {
             id: this.element.dataset.itemId
         });

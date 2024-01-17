@@ -59,7 +59,7 @@ export default class extends Controller {
         });
     }
 
-    triggerOnHomeSectionRemoveMulti() {
+    sendMessageHomeSectionRemoveMultiToParent() {
         communication.sendMessageToParentController(this.element, 'onHomeSectionRemoveMultiEvent', {
             items: this.itemsIdSelected
         });

@@ -46,7 +46,7 @@
             title="{{ lang.modifyItemButtonTitle }}"
             data-bs-toggle="modal"
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
-            data-action="ShopListItemComponent#triggerOnHomeListItemModify">
+            data-action="ShopListItemComponent#sendMessageHomeListItemModifyToParent">
 
         {% include 'modify-icon-blue-24x24.svg' %}
     </button>
@@ -59,7 +59,7 @@
             title="{{ lang.removeItemButtonTitle }}"
             data-bs-toggle="modal"
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
-            data-action="ShopListItemComponent#triggerOnHomeListItemRemoveEvent">
+            data-action="ShopListItemComponent#sendMessageHomeListItemRemoveEvent">
 
         {% include 'remove-icon-red-24x24.svg' %}
     </button>

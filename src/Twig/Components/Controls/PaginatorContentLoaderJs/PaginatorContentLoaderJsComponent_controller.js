@@ -12,13 +12,13 @@ export default class extends Controller {
     connect() {
         this.contentLoaderJsComponent = this.element.querySelector('[data-controller="ContentLoaderJsComponent"]');
 
-        this.#triggerConnected();
+        this.#sendMessageConnectedToParent();
     }
 
     /**
      * @param {int} page
      */
-    #triggerContentChange(page) {
+    #sendMessageContentChangeToContentLoaderJsComponent(page) {
         if (typeof this.responseManageCallback == 'undefined') {
             throw new Error('PaginatorLoaderJsComponent: Not responseManagerCallback defined');
         }
@@ -30,7 +30,7 @@ export default class extends Controller {
         });
     }
 
-    #triggerConnected() {
+    #sendMessageConnectedToParent() {
         communication.sendMessageToParentController(this.element, 'onConnected');
     }
 
@@ -39,7 +39,7 @@ export default class extends Controller {
      * @param {int} content.page
      */
     handlerPaginatorPaginatorPageChange({ detail: { content } }) {
-        this.#triggerContentChange(content.page);
+        this.#sendMessageContentChangeToContentLoaderJsComponent(content.page);
     }
 
     /**

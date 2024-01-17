@@ -44,7 +44,7 @@ export default class extends Controller {
             }
         });
 
-        this.#triggerPaginatorJsPagesTotal(responseData.pages_total);
+        this.#sendMessagePagesTotalToPaginatorJsComponent(responseData.pages_total);
 
         return new ListItems({}, itemsData);
     }
@@ -63,11 +63,11 @@ export default class extends Controller {
     handlerShopListAjaxComponentItemSelected(itemTag, event) {
         const itemData = JSON.parse(itemTag.dataset.data);
 
-        this.#triggerShopsListShopSelected(itemData.id, itemData.name);
+        this.#sendMessageShopsListShopSelected(itemData.id, itemData.name);
     }
 
     handlerPaginatorContentLoaderJsConnected() {
-        this.#triggerShopsListPaginatorContentLoaderInitialize();
+        this.#sendMessageInitializeToPaginatorContentLoaderJsComponent();
     }
 
     handlerModalBeforeShowed({ detail: { content } }) {
@@ -75,10 +75,10 @@ export default class extends Controller {
             return;
         }
 
-        this.#triggerPaginatorPaginatorPageChange(1);
+        this.#sendMessagePageChangeToPaginatorJsComponent(1);
     }
 
-    #triggerShopsListPaginatorContentLoaderInitialize() {
+    #sendMessageInitializeToPaginatorContentLoaderJsComponent() {
         communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'onInitialize', {
             responseManageCallback: this.#responseManageCallback.bind(this),
             postResponseManageCallback: this.#postResponseManageCallback.bind(this)
@@ -86,21 +86,21 @@ export default class extends Controller {
         );
     }
 
-    #triggerPaginatorPaginatorPageChange(page) {
+    #sendMessagePageChangeToPaginatorJsComponent(page) {
         communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'onPageChange', {
             page: page
         },
             'PaginatorJsComponent');
     }
 
-    #triggerShopsListShopSelected(shopId, shopName) {
+    #sendMessageShopsListShopSelected(shopId, shopName) {
         communication.sendMessageToNotRelatedController(this.element, 'onShopSelected', {
             shopId: shopId,
             shopName: shopName
         });
     }
 
-    #triggerPaginatorJsPagesTotal(pagesTotal) {
+    #sendMessagePagesTotalToPaginatorJsComponent(pagesTotal) {
         communication.sendMessageToChildController(this.paginatorJsComponent, 'pagesTotal', {
             pagesTotal: pagesTotal
         });

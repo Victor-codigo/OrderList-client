@@ -52,7 +52,7 @@ export default class extends Controller {
         this.#updatePaginatorHtml();
     }
 
-    #triggerPageChangeEvent() {
+    #sendMessagePageChangeEventToParent() {
         communication.sendMessageToParentController(this.element, 'onPageChange', {
             page: this.pageCurrent
         });
@@ -85,7 +85,7 @@ export default class extends Controller {
 
         this.pageCurrent = page;
         this.#updatePaginatorHtml();
-        this.#triggerPageChangeEvent();
+        this.#sendMessagePageChangeEventToParent();
     }
 
     /**

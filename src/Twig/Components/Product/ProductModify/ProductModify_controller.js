@@ -42,10 +42,10 @@ export default class extends Controller {
             encodedUrlParameter.encodeUrlParameter(content.name)
         );
         this.productDescriptionTag.value = content.description;
-        this.triggerOnAvatarSetImageEvent(content.image);
+        this.sendMessageAvatarSetImageEventToImageAvatarComponent(content.image);
     }
 
-    triggerOnAvatarSetImageEvent(productImageUrl) {
+    sendMessageAvatarSetImageEventToImageAvatarComponent(productImageUrl) {
         communication.sendMessageToNotRelatedController(this.element, 'onAvatarSetImageEvent', {
             imageUrl: productImageUrl
         },
