@@ -1,5 +1,6 @@
-<nav class="mt-5  paginator-js"
+<nav class="paginator-js"
 	 data-controller="PaginatorJsComponent"
+	 data-action="PaginatorJsComponentEventHandler:pagesTotal->PaginatorJsComponent#handlerPagesTotalEvent"
 	 aria-label="Page navigation"
 	 data-pages-total="{{ data.pagesTotal }}"
 	 data-page-current="{{ data.pageCurrent }}"

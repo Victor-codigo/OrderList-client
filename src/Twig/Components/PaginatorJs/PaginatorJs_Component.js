@@ -11,12 +11,14 @@ const PAGE_TYPES = {
     PAGE_SEPARATOR: 'separator'
 };
 
-
+/**
+ * @event onPageChange
+ */
 export default class extends Controller {
     connect() {
         this.paginatorContainer = this.element.querySelector('[data-js-paginator-container]');
         this.pagesTags = this.element.querySelectorAll('[data-js-page],[data-js-page-previous],[data-js-page-next]');
-        this.pagesTotal = this.#getPagesTotal();
+        this.pagesTotal = parseInt(this.element.dataset.pagesTotal);
         this.pageCurrent = parseInt(this.element.dataset.pageCurrent);
         this.#updatePaginatorHtml();
 
@@ -32,12 +34,25 @@ export default class extends Controller {
         event.removeEventListenerDelegate(this.element, 'click');
     }
 
+    /**
+     * @param {HTMLElement} pageTarget
+     * @param {Event} event
+     */
     #handlePageChangeEvent(pageTarget, event) {
         this.#setPage(this.#getPageNumber(pageTarget));
     }
 
-    #dispatchPageChangeEvent() {
-        this.dispatch('paginatorPageChange', {
+    /**
+     * @param {Object} content
+     * @param {int} content.pagesTotal
+     */
+    handlerPagesTotalEvent({ detail: { content } }) {
+        this.#setPagesTotal(content.pagesTotal);
+        this.#updatePaginatorHtml();
+    }
+
+    #triggerPageChangeEvent() {
+        this.dispatch('onPageChange', {
             detail: {
                 content: {
                     page: this.pageCurrent
@@ -73,7 +88,7 @@ export default class extends Controller {
 
         this.pageCurrent = page;
         this.#updatePaginatorHtml();
-        this.#dispatchPageChangeEvent();
+        this.#triggerPageChangeEvent();
     }
 
     /**
@@ -97,10 +112,10 @@ export default class extends Controller {
     }
 
     /**
-     * @returns {int}
+     * @param {int} pagesTotal
      */
-    #getPagesTotal() {
-        return parseInt(this.element.dataset.pagesTotal);
+    #setPagesTotal(pagesTotal) {
+        this.pagesTotal = pagesTotal;
     }
 
     /**
@@ -178,7 +193,7 @@ export default class extends Controller {
             });
         }
 
-        return pages;
+        return pages.length > 1 ? pages : [];
     }
 
     /**
