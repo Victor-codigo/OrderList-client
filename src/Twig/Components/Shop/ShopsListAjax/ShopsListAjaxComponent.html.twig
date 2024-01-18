@@ -1,6 +1,7 @@
 <div data-controller="ShopsListAjaxComponent"
      data-action="PaginatorContentLoaderJsComponent:connected->ShopsListAjaxComponent#handleMessageConnected
-                  ModalComponent:beforeShowed->ShopsListAjaxComponent#handleMessageBeforeShowed"
+                  ModalComponent:beforeShowed->ShopsListAjaxComponent#handleMessageBeforeShowed
+                  ShopsListAjaxComponent:itemPriceSelected@window->ShopsListAjaxComponent#handleMessageItemPriceSelected"
      data-modal-before-attribute-id="{{ data.modalBeforeAttributeId }}"
      data-url-path-shops-images="{{ data.urlPathShopsImages }}"
      data-url-no-shops-image="{{ data.urlNoShopsImage }}"

@@ -9,40 +9,48 @@ import * as communication from '/assets/modules/ControllerCommunication';
  */
 export default class extends Controller {
     connect() {
-        this.responseManageCallback = this.#responseManageCallback.bind(this);
-        this.postResponseManageCallback = this.#postResponseManageCallback.bind(this);
         this.modalBeforeAttributeId = this.element.dataset.modalBeforeAttributeId;
         this.urlPathShopsImages = this.element.dataset.urlPathShopsImages;
         this.urlNoShopsImage = this.element.dataset.urlNoShopsImage
         this.shopImageTitle = this.element.dataset.shopImageTitle
+        this.shopsNotSelectable = [];
 
         this.paginatorContentLoaderJsComponent = this.element.querySelector('[data-controller="PaginatorContentLoaderJsComponent"]');
         this.paginatorJsComponent = this.element.querySelector('[data-controller="PaginatorJsComponent"]');
     }
 
     #responseManageCallback(responseData) {
-        const itemsData = responseData['shops'].map((shopData) => {
-            return {
-                name: shopData.name,
-                image: {
-                    title: this.shopImageTitle.replace('{shop_name}', shopData.name),
-                    alt: this.shopImageTitle.replace('{shop_name}', shopData.name),
-                    src: shopData.image === null
-                        ? this.urlNoShopsImage
-                        : `${this.urlPathShopsImages}/${shopData.image}`
-                },
-                data: {
+        const itemsData = responseData['shops']
+            .map((shopData) => {
+                const itemData = {
                     id: shopData.id,
                     name: shopData.name,
-                },
-                item: {
-                    htmlAttributes: {
-                        "data-bs-target": '#' + this.modalBeforeAttributeId,
-                        "data-bs-toggle": "modal"
-                    }
+                    image: {
+                        title: this.shopImageTitle.replace('{shop_name}', shopData.name),
+                        alt: this.shopImageTitle.replace('{shop_name}', shopData.name),
+                        src: shopData.image === null
+                            ? this.urlNoShopsImage
+                            : `${this.urlPathShopsImages}/${shopData.image}`
+                    },
+                    data: {
+                        id: shopData.id,
+                        name: shopData.name,
+                    },
+                    item: {
+                        htmlAttributes: {
+                            "data-bs-target": '#' + this.modalBeforeAttributeId,
+                            "data-bs-toggle": "modal",
+                        },
+                        cssClasses: []
+                    },
+                };
+
+                if (this.shopsNotSelectable.includes(shopData.id)) {
+                    itemData.item.cssClasses.push("disabled");
                 }
-            }
-        });
+
+                return itemData;
+            });
 
         this.#sendMessagePagesTotalToPaginatorJsComponent(responseData.pages_total);
 
@@ -70,12 +78,22 @@ export default class extends Controller {
         this.#sendMessageInitializeToPaginatorContentLoaderJsComponent();
     }
 
+    /**
+     * @param {object} content
+     * @param {bool} content.showedFirstTime
+     */
     handleMessageBeforeShowed({ detail: { content } }) {
-        if (!content.showedFirstTime) {
-            return;
-        }
-
         this.#sendMessagePageChangeToPaginatorJsComponent(1);
+    }
+
+    /**
+     * @param {object} content
+     * @param {string[]} content.id
+     * @param {string[]} content.name
+     * @param {string[]} content.itemsAdded
+     */
+    handleMessageItemPriceSelected({ detail: { content } }) {
+        this.shopsNotSelectable = content.shopsAdded.map((shopData) => shopData.id);
     }
 
     #sendMessageInitializeToPaginatorContentLoaderJsComponent() {
@@ -90,7 +108,8 @@ export default class extends Controller {
         communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'changePage', {
             page: page
         },
-            'PaginatorJsComponent');
+            'PaginatorJsComponent'
+        );
     }
 
     #sendMessageShopsListShopSelected(shopId, shopName) {

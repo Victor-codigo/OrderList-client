@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import * as event from '/assets/modules/Event';
+import * as communication from '/assets/modules/ControllerCommunication';
 
 export default class extends Controller {
     connect() {
@@ -17,6 +18,13 @@ export default class extends Controller {
             eventName: 'click',
             callbackListener: this.#handlerRemoveItemEvent.bind(this)
         });
+
+        event.addEventListenerDelegate({
+            element: this.itemPriceAddContainer,
+            elementDelegateSelector: '[data-js-item-name]',
+            eventName: 'click',
+            callbackListener: this.#sendMessageItemPriceCLickedToParent.bind(this)
+        });
     }
 
     disconnect() {
@@ -28,6 +36,31 @@ export default class extends Controller {
         const itemPriceAddTemplate = this.itemPriceAddTemplate.content.cloneNode(true);
 
         this.itemPriceAddContainer.appendChild(itemPriceAddTemplate);
+    }
+
+    /**
+     * @returns {{
+     *  id: string,
+     *  name: string,
+     *  price: float
+     * }}
+     */
+    #getItemsAddedValue() {
+        const itemGroupsAddedTag = this.element.querySelectorAll('[data-js-item-group]');
+
+        return Array.from(itemGroupsAddedTag)
+            .map((itemGroupTag) => {
+                const id = itemGroupTag.querySelector('[data-js-item-id]').value;
+                const name = itemGroupTag.querySelector('[data-js-item-name]').value;
+                const price = parseFloat(itemGroupTag.querySelector('[data-js-item-price]').value);
+
+                return {
+                    id: id === "" ? null : id,
+                    name: name,
+                    price: price
+                };
+            })
+            .filter((itemGroupTag) => itemGroupTag.id !== null);
     }
 
     #handlerRemoveItemEvent(elementTargetEvent, event) {
@@ -42,5 +75,16 @@ export default class extends Controller {
 
     #clearItemContainer() {
         this.itemPriceAddContainer.innerHTML = '';
+    }
+
+    #sendMessageItemPriceCLickedToParent(elementTargetEvent, event) {
+        const itemPriceAddContainer = elementTargetEvent.closest('[data-js-item-container]');
+        const itemsAdded = this.#getItemsAddedValue();
+
+        communication.sendMessageToParentController(this.element, 'itemPriceSelected', {
+            id: itemPriceAddContainer.querySelector('[data-js-item-id]').value,
+            name: elementTargetEvent.value,
+            itemsAdded: itemsAdded
+        });
     }
 }
