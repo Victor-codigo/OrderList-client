@@ -36,14 +36,14 @@ export function sendMessageToParentController(controllerSender, eventName, conte
 }
 
 /**
- * @param {HTMLElement} controllerSenderName
+ * @param {HTMLElement} controllerSender
  * @param {string} eventName
  * @param {object} content
  * @param {string} [changeControllerChildName]
  */
-export function sendMessageToNotRelatedController(controllerSenderName, eventName, content, changeControllerSenderName) {
+export function sendMessageToNotRelatedController(controllerSender, eventName, content, changeControllerSenderName) {
     const eventNameFull = typeof changeControllerSenderName === 'undefined'
-        ? getEventName(controllerSenderName.dataset.controller, eventName)
+        ? getEventName(controllerSender.dataset.controller, eventName)
         : getEventName(changeControllerSenderName, eventName);
 
     window.dispatchEvent(new CustomEvent(eventNameFull, {
