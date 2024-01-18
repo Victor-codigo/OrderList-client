@@ -13,7 +13,7 @@ const PAGE_TYPES = {
 };
 
 /**
- * @event onPageChange
+ * @event changePage
  */
 export default class extends Controller {
     connect() {
@@ -53,7 +53,7 @@ export default class extends Controller {
     }
 
     #sendMessagePageChangeEventToParent() {
-        communication.sendMessageToParentController(this.element, 'onPageChange', {
+        communication.sendMessageToParentController(this.element, 'changePage', {
             page: this.pageCurrent
         });
     }

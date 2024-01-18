@@ -11,7 +11,7 @@ export default class extends Controller {
     }
 
     groupRemove() {
-        this.dispatch('onGroupRemoveEvent', {
+        this.dispatch('removeGroup', {
             detail: {
                 groupId: this.groupId,
                 groupName: this.groupName

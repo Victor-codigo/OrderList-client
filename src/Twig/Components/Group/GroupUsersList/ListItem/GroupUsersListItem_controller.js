@@ -13,7 +13,7 @@ export default class extends Controller {
     }
 
     groupRemove() {
-        this.dispatch('onGroupUserRemoveEvent', {
+        this.dispatch('removeGroupUser', {
             detail: {
                 groupId: this.groupId,
                 userId: this.userId,

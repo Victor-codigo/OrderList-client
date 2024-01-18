@@ -3,8 +3,8 @@
 	  data-controller="ProductModifyComponent"
 	  data-action="ImageAvatarComponent:imageRemoved->ProductModifyComponent#setImageAvatarAsRemoved
 	  			   ImageAvatarComponent:imageRemovedUndo->ProductModifyComponent#setImageAvatarAsRemoved
-				   ProductModifyComponent:onAvatarSetImageEvent->ImageAvatarComponent#handleOnSetImageEvent
-				   ProductListItemComponent:onHomeListItemModifyEvent@window->ProductModifyComponent#handleOnProductModifyEvent"
+				   ProductModifyComponent:avatarSetImage->ImageAvatarComponent#handleMessageSetImage
+				   ProductListItemComponent:homeListItemModify@window->ProductModifyComponent#handleMessageHomeListItemModify"
 	  class="contaniner  p-4  pt-0  d-flex flex-column  justify-content-center"
 	  method="post"
 	  enctype="multipart/form-data"

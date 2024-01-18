@@ -9,13 +9,13 @@ export default class extends Controller {
         this.formRemoveItemIdFieldName = `${this.element.name}[items_id][]`;
     }
 
-    handleOnItemRemoveEvent({ detail: { content } }) {
+    handleMessageRemoveListItem({ detail: { content } }) {
         if (this.element.hasAttribute('data-remove-multi')) return;
 
         this.#loadComponentData(content.items);
     }
 
-    handleOnItemRemoveMultiEvent({ detail: { content } }) {
+    handleMessageHomeSectionRemoveMulti({ detail: { content } }) {
         if (!this.element.hasAttribute('data-remove-multi')) return;
 
         this.#loadComponentData(content.items);

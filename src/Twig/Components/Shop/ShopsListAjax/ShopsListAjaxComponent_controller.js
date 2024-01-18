@@ -4,8 +4,8 @@ import * as event from '/assets/modules/Event';
 import * as communication from '/assets/modules/ControllerCommunication';
 
 /**
- * @event ShopsListAjaxComponent:onShopSelected
- * @event PaginatorContentLoaderJsComponent:onInitialize
+ * @event ShopsListAjaxComponent:shopSelected
+ * @event PaginatorContentLoaderJsComponent:initialize
  */
 export default class extends Controller {
     connect() {
@@ -79,7 +79,7 @@ export default class extends Controller {
     }
 
     #sendMessageInitializeToPaginatorContentLoaderJsComponent() {
-        communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'onInitialize', {
+        communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'initialize', {
             responseManageCallback: this.#responseManageCallback.bind(this),
             postResponseManageCallback: this.#postResponseManageCallback.bind(this)
         }
@@ -87,14 +87,14 @@ export default class extends Controller {
     }
 
     #sendMessagePageChangeToPaginatorJsComponent(page) {
-        communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'onPageChange', {
+        communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'changePage', {
             page: page
         },
             'PaginatorJsComponent');
     }
 
     #sendMessageShopsListShopSelected(shopId, shopName) {
-        communication.sendMessageToNotRelatedController(this.element, 'onShopSelected', {
+        communication.sendMessageToNotRelatedController(this.element, 'shopSelected', {
             shopId: shopId,
             shopName: shopName
         });

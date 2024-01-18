@@ -17,7 +17,7 @@ export default class extends Controller {
     }
 
     sendMessageHomeListItemRemoveEvent() {
-        communication.sendMessageToNotRelatedController(this.element, 'onHomeListItemRemoveEvent', {
+        communication.sendMessageToNotRelatedController(this.element, 'removeHomeListItem', {
             items: [{
                 id: this.element.dataset.itemId,
                 name: this.element.dataset.itemName
@@ -28,7 +28,7 @@ export default class extends Controller {
     }
 
     sendMessageHomeListItemModifyToParent() {
-        communication.sendMessageToParentController(this.element, 'onHomeListItemModifyEvent', {
+        communication.sendMessageToParentController(this.element, 'homeListItemModify', {
             id: this.element.dataset.itemId,
             name: this.itemName,
             description: this.itemDescription,

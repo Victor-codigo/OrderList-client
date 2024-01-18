@@ -45,7 +45,7 @@ export default class extends Controller {
         this.dispatch('imageRemovedUndo', { detail: { imageRemove: false } });
     }
 
-    handleOnSetImageEvent({ detail: { content } }) {
+    handleMessageSetImage({ detail: { content } }) {
         this.setImage(content.imageUrl);
     }
 }

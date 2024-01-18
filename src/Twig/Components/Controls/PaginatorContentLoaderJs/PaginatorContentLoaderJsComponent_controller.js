@@ -2,8 +2,8 @@ import { Controller } from '@hotwired/stimulus';
 import * as communication from '/assets/modules/ControllerCommunication';
 
 /**
- * @event ContentLoaderJsComponent:onContentChange
- * @event PaginatorContentLoaderJsComponent:onConnected
+ * @event ContentLoaderJsComponent:changeContent
+ * @event PaginatorContentLoaderJsComponent:connected
  */
 export default class extends Controller {
     responseManageCallback;
@@ -23,7 +23,7 @@ export default class extends Controller {
             throw new Error('PaginatorLoaderJsComponent: Not responseManagerCallback defined');
         }
 
-        communication.sendMessageToChildController(this.contentLoaderJsComponent, 'onContentChange', {
+        communication.sendMessageToChildController(this.contentLoaderJsComponent, 'changeContent', {
             page: page,
             responseManageCallback: this.responseManageCallback,
             postResponseManageCallback: this.postResponseManageCallback,
@@ -31,14 +31,14 @@ export default class extends Controller {
     }
 
     #sendMessageConnectedToParent() {
-        communication.sendMessageToParentController(this.element, 'onConnected');
+        communication.sendMessageToParentController(this.element, 'connected');
     }
 
     /**
      * @param {Object} content
      * @param {int} content.page
      */
-    handleMessagePageChange({ detail: { content } }) {
+    handleMessageChangePage({ detail: { content } }) {
         this.#sendMessageContentChangeToContentLoaderJsComponent(content.page);
     }
 

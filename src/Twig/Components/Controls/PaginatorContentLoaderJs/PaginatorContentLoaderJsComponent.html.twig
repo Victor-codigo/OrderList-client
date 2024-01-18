@@ -1,6 +1,6 @@
 <div data-controller="PaginatorContentLoaderJsComponent"
-     data-action="PaginatorJsComponent:onPageChange->PaginatorContentLoaderJsComponent#handleMessagePageChange
-                  PaginatorContentLoaderJsComponent:onInitialize->PaginatorContentLoaderJsComponent#handleMessageInitialize">
+     data-action="PaginatorJsComponent:changePage->PaginatorContentLoaderJsComponent#handleMessageChangePage
+                  PaginatorContentLoaderJsComponent:initialize->PaginatorContentLoaderJsComponent#handleMessageInitialize">
 
      {{ component('ContentLoaderJsComponent', { data: data.contentLoaderJsDto } ) }}
 

@@ -31,7 +31,7 @@ export default class extends Controller {
         imageRemovedField.removeAttribute('value');
     }
 
-    handleOnProductModifyEvent({ detail: { content } }) {
+    handleMessageHomeListItemModify({ detail: { content } }) {
         this.setFormFieldValues(content);
     }
 
@@ -46,7 +46,7 @@ export default class extends Controller {
     }
 
     sendMessageAvatarSetImageEventToImageAvatarComponent(productImageUrl) {
-        communication.sendMessageToNotRelatedController(this.element, 'onAvatarSetImageEvent', {
+        communication.sendMessageToNotRelatedController(this.element, 'avatarSetImage', {
             imageUrl: productImageUrl
         },
             'ImageAvatarComponent'

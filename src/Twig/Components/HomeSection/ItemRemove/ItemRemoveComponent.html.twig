@@ -1,8 +1,8 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="{{ componentName }}"
-	  data-action="ItemRemoveComponent:onHomeListItemRemoveEvent@window->{{ componentName }}#handleOnItemRemoveEvent
-	  			   HomeSectionComponent:onHomeSectionRemoveMultiEvent@window->{{ componentName }}#handleOnItemRemoveMultiEvent"
+	  data-action="ItemRemoveComponent:removeHomeListItem@window->{{ componentName }}#handleMessageRemoveListItem
+	  			   HomeSectionComponent:homeSectionRemoveMulti@window->{{ componentName }}#handleMessageHomeSectionRemoveMulti"
 	  class="contaniner p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"

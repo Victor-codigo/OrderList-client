@@ -60,7 +60,7 @@ export default class extends Controller {
     }
 
     sendMessageHomeSectionRemoveMultiToParent() {
-        communication.sendMessageToParentController(this.element, 'onHomeSectionRemoveMultiEvent', {
+        communication.sendMessageToParentController(this.element, 'homeSectionRemoveMulti', {
             items: this.itemsIdSelected
         });
     }
