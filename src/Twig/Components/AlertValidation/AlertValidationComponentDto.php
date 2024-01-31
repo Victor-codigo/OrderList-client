@@ -10,7 +10,8 @@ class AlertValidationComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly array $messageValidationOk = [],
-        public readonly array $messageErrors = []
+        public readonly array $messageErrors = [],
+        public readonly bool $visible = true
     ) {
     }
 }

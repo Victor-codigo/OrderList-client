@@ -42,18 +42,20 @@ class AlertValidationComponent extends TwigComponent
             $validationOk ? ALERT_TYPE::SUCCESS : ALERT_TYPE::DANGER,
             '',
             '',
-            $validationOk ? array_unique($messageValidationOk) : array_unique($messageErrors)
+            $validationOk ? array_unique($messageValidationOk) : array_unique($messageErrors),
+            $this->data->visible
         );
     }
 
-    private function createAlertComponentDto(ALERT_TYPE $alertType, string $title, string $subtitle, array|string $messages): AlertComponentDto
+    private function createAlertComponentDto(ALERT_TYPE $alertType, string $title, string $subtitle, array|string $messages, bool $visible): AlertComponentDto
     {
         return new AlertComponentDto(
             $alertType,
             $title,
             $subtitle,
             $messages,
-            true
+            true,
+            $visible
         );
     }
 }
