@@ -25,11 +25,12 @@ export default class extends Controller {
         this.element.removeEventListener('hidden.bs.modal', this.#dispatchModalBeforeShowed);
     }
 
-    #dispatchModalBeforeShowed() {
+    #dispatchModalBeforeShowed(event) {
         this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:beforeShowed', {
             detail: {
                 content: {
-                    showedFirstTime: this.showedFirstTime
+                    showedFirstTime: this.showedFirstTime,
+                    triggerElement: event.relatedTarget
                 }
             }
         })));
