@@ -33,4 +33,4 @@ validation:
       Solo se permiten caracteres alfanuméricos y "_"
     product_name_repeated: Ya hay un tienda con el mismo nombre
     image: Imagen no válida. Debe ser del tipo jpg, png, bmp
-    internal_server: ocurrió un error, inténtalo más tarde
+    internal_server: Ocurrió un error, inténtalo más tarde

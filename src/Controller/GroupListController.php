@@ -65,7 +65,7 @@ class GroupListController extends AbstractController
     {
         return $this->httpClient->request(
             'GET',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_LIST_ENDPOINT."?page={$this->pageCurrent}&page_items=1".'&'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_LIST_ENDPOINT."?page={$this->pageCurrent}&page_items=1",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession),
         );
     }

@@ -14,7 +14,6 @@ use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +54,7 @@ class GroupUserAddController extends AbstractController
             }
 
             return $this->renderGroupCreateComponent($form, $groupData['name'], $formSubmitted);
-        } catch (Exception) {
+        } catch (\Exception) {
             if (!isset($groupData[0])) {
                 throw new NotFoundHttpException();
             }
@@ -66,7 +65,7 @@ class GroupUserAddController extends AbstractController
     {
         return $this->httpClient->request(
             'POST',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_USER_ADD_ENDPOINT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_USER_ADD_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([
                     'group_id' => $groupId,
                     'identifier_type' => 'name',
@@ -121,7 +120,7 @@ class GroupUserAddController extends AbstractController
             $formSubmitted
         );
 
-        return new response($this->renderView('group/group_user_add/index.html.twig', [
+        return new Response($this->renderView('group/group_user_add/index.html.twig', [
             'GroupUserAddComponent' => $groupUserAddComponentData,
         ]));
     }

@@ -120,7 +120,7 @@ class UserProfileController extends AbstractController
     {
         return $this->httpClient->request(
             'GET',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_GET_USER_ENDPOINT."/{$userId}?".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_GET_USER_ENDPOINT."/{$userId}?",
             HTTP_CLIENT_CONFIGURATION::json(null, $tokenSession)
         );
     }
@@ -138,7 +138,7 @@ class UserProfileController extends AbstractController
 
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_EMAIL_CHANGE_ENDPOINT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_EMAIL_CHANGE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json(
                 [
                     'email' => $formData[EMAIL_CHANGE_FORM_FIELDS::EMAIL],
@@ -155,7 +155,7 @@ class UserProfileController extends AbstractController
 
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_PASSWORD_CHANGE_ENDPOINT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_PASSWORD_CHANGE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([
                 'id' => $userId,
                 'passwordOld' => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_OLD],
@@ -173,7 +173,7 @@ class UserProfileController extends AbstractController
 
         return $this->httpClient->request(
             'POST',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_ENDPOINT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::form([
                     'name' => $formData[PROFILE_FORM_FIELDS::NICK],
                     'image_remove' => $formData[PROFILE_FORM_FIELDS::IMAGE_REMOVE],
@@ -191,7 +191,7 @@ class UserProfileController extends AbstractController
     {
         return $this->httpClient->request(
             'DELETE',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_USER_REMOVE_ENDPOINT."/{$userId}?".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_USER_REMOVE_ENDPOINT."/{$userId}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
