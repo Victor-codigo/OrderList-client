@@ -1,11 +1,16 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="ProductCreateComponent"
+	  data-action="ShopsListAjaxComponent:shopSelected@window->ProductCreateComponent#handleMessageShopSelected
+	  			   ShopCreateAjaxComponent:shopCreated@window->ProductCreateComponent#handleMessageShopSelected
+				   ItemPriceAddComponent:itemPriceSelected->ProductCreateComponent#handleMessageItemPriceSelected
+				   ModalComponent:beforeShowed->ProductCreateComponent#handleMessageBeforeShowed"
 	  class="contaniner  p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"
 	  action="{{ data.productCreateFormActionUrl|escape('html_attr') }}"
-	  novalidate>
+	  novalidate
+	  data-modal-component-content>
 
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
@@ -19,34 +24,38 @@
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	<div class="mb-3">
-		<label for="name"
-			   class="form-label">
+		<label class="form-label  w-100"
+			   for="{{ nameFieldName }}">
 			{{ lang.nameLabel }}
 		</label>
+
 		<input type="name"
 			   class="form-control"
-			   id="name"
 			   maxlength="50"
 			   pattern="[a-zA-Z0-9_\s]+"
+			   id="{{ nameFieldName }}"
 			   name="{{ nameFieldName }}"
 			   placeholder="{{ lang.namePlaceholder }}"
 			   value="{{ data.name }}"
 			   required />
+
 		<div class="invalid-feedback">
 			{{ lang.nameMsgInvalid }}
 		</div>
 	</div>
 
 	<div class="mb-3">
-		<label for="description"
-			   class="form-label">
+		<label class="form-label  w-100"
+			   for="{{ descriptionFieldName }}">
 			{{ lang.descriptionLabel }}
 		</label>
+
 		<textarea class="form-control"
-				  id="description"
+				  id="{{ descriptionFieldName }}"
 				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
 				  placeholder="{{ lang.descriptionPlaceholder }}">{{ data.description }}</textarea>
+
 		<div class="invalid-feedback">
 			{{ lang.descriptionMsgInvalid }}
 		</div>
@@ -55,6 +64,14 @@
 	<div class="mb-3">
 		{{ component('DropZoneComponent', { data: imageDto }) }}
 	</div>
+
+	<fieldset class="mt-5">
+		<legend class="mb-3  pb-1  border-bottom">
+			{{ lang.shopsTitle }}
+		</legend>
+
+		{{ component('ItemPriceAddComponent', { data: itemPriceAddDto } ) }}
+	</fieldset>
 
 	<div class="mt-5">
 		<input type="submit"

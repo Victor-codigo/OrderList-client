@@ -9,6 +9,7 @@ use App\Form\Product\ProductCreate\PRODUCT_CREATE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
+use App\Twig\Components\Controls\ItemPriceAdd\ItemPriceAddComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -31,6 +32,7 @@ final class ProductCreateComponent extends TwigComponent
     public readonly string $submitFieldName;
     public readonly TitleComponentDto $titleDto;
     public readonly DropZoneComponentDto $imageDto;
+    public readonly ItemPriceAddComponentDto $itemPriceAddDto;
 
     public static function getComponentName(): string
     {
@@ -51,6 +53,7 @@ final class ProductCreateComponent extends TwigComponent
 
         $this->titleDto = $this->createTitleComponentDto();
         $this->imageDto = $this->createImageDropZone();
+        $this->itemPriceAddDto = $this->createItemPriceAddComponentDto();
     }
 
     private function createTitleComponentDto(): TitleComponentDto
@@ -69,16 +72,61 @@ final class ProductCreateComponent extends TwigComponent
         );
     }
 
+    private function createItemPriceAddComponentDto(): ItemPriceAddComponentDto
+    {
+        return (new ItemPriceAddComponentDto())
+            ->itemId(
+                sprintf('%s[%s][]', PRODUCT_CREATE_FORM_FIELDS::FORM, PRODUCT_CREATE_FORM_FIELDS::SHOP_ID),
+                null
+            )
+            ->itemName(
+                sprintf('%s[%s][]', PRODUCT_CREATE_FORM_FIELDS::FORM, PRODUCT_CREATE_FORM_FIELDS::SHOP_NAME),
+                '',
+                $this->translate('shop_name.label'),
+                $this->translate('shop_name.placeholder'),
+                $this->translate('shop_name.msg_invalid'),
+            )
+            ->price(
+                sprintf('%s[%s][]', PRODUCT_CREATE_FORM_FIELDS::FORM, PRODUCT_CREATE_FORM_FIELDS::SHOP_PRICE),
+                null,
+                $this->translate('product_price.label'),
+                $this->translate('product_price.placeholder'),
+                $this->translate('product_price.msg_invalid'),
+                '€'
+            )
+            ->itemPriceAddButton(
+                $this->translate('shop_add_button.label'),
+                $this->translate('shop_add_button.title'),
+                $this->translate('shop_add_button.alt'),
+            )
+            ->itemRemoveButton(
+                $this->translate('shop_remove_button.title'),
+                $this->translate('shop_remove_button.alt'),
+            )
+            ->itemSelectModal(
+                $this->data->shopListSelectModalIdAttribute
+            )
+            ->build();
+    }
+
     private function loadTranslation(): void
     {
         $this->lang = (new ProductCreateComponentLangDto())
             ->title(
-                $this->translate('title')
+                $this->translate('title.main')
+            )
+            ->shopsTitle(
+                $this->translate('title.shops')
             )
             ->name(
                 $this->translate('name.label'),
                 $this->translate('name.placeholder'),
                 $this->translate('name.msg_invalid')
+            )
+            ->price(
+                $this->translate('price.label'),
+                $this->translate('price.placeholder'),
+                $this->translate('price.msg_invalid')
             )
             ->description(
                 $this->translate('description.label'),

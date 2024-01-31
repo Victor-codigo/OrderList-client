@@ -1,4 +1,6 @@
-title: Crear producto
+title:
+  main: Crear producto
+  shops: Tiendas
 
 name:
   label: Nombre
@@ -17,6 +19,24 @@ image:
   label: Imagen
   placeholder: Sube una imagen para el producto
 
+shop_name:
+  label: Tienda y precio
+  placeholder: Elige una tienda
+  msg_invalid: El nombre de la tienda no es valido
+
+product_price:
+  placeholder: Precio
+  msg_invalid: El precio introducido no es correcto
+
+shop_add_button:
+  label: Añade una tiend
+  title: Añade una tienda nueva
+  alt: Añade una tienda nueva
+
+shop_remove_button:
+  title: Remove shop
+  alt: Remove shop
+
 product_create_button:
   label: Crear producto
 
@@ -30,4 +50,4 @@ validation:
       Solo se permiten caracteres alfanuméricos y "_"
     product_name_repeated: Ya hay un producto con el mismo nombre
     image: Imagen no válida. Debe ser del tipo jpg, png, bmp
-    internal_server: ocurrió un error, inténtalo más tarde
+    internal_server: Ocurrió un error, inténtalo más tarde

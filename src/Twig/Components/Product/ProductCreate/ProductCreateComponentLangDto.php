@@ -5,14 +5,22 @@ declare(strict_types=1);
 namespace App\Twig\Components\Product\ProductCreate;
 
 use App\Twig\Components\Alert\AlertComponentDto;
+use Common\Domain\DtoBuilder\DtoBuilder;
 
 class ProductCreateComponentLangDto
 {
+    private DtoBuilder $builder;
+
     public readonly string $title;
+    public readonly string $shopsTitle;
 
     public readonly string $nameLabel;
     public readonly string $namePlaceholder;
     public readonly string $nameMsgInvalid;
+
+    public readonly string $priceLabel;
+    public readonly string $pricePlaceholder;
+    public readonly string $priceMsgInvalid;
 
     public readonly string $descriptionLabel;
     public readonly string $descriptionPlaceholder;
@@ -26,28 +34,41 @@ class ProductCreateComponentLangDto
 
     public readonly AlertComponentDto|null $validationErrors;
 
-    private array $builder = [
-        'title' => false,
-        'name' => false,
-        'description' => false,
-        'image' => false,
-        'submit' => false,
-        'errors' => false,
-        'build' => false,
-    ];
+    public function __construct()
+    {
+        $this->builder = new DtoBuilder([
+            'title',
+            'shopsTitle',
+            'name',
+            'price',
+            'description',
+            'image',
+            'submitButton',
+            'errors',
+        ]);
+    }
 
     public function title(string $title): self
     {
-        $this->builder['title'] = true;
+        $this->builder->setMethodStatus('title', true);
 
         $this->title = $title;
 
         return $this;
     }
 
+    public function shopsTitle(string $title): self
+    {
+        $this->builder->setMethodStatus('shopsTitle', true);
+
+        $this->shopsTitle = $title;
+
+        return $this;
+    }
+
     public function name(string $nameLabel, string $namePlaceholder, string $nameMsgInvalid): self
     {
-        $this->builder['name'] = true;
+        $this->builder->setMethodStatus('name', true);
 
         $this->nameLabel = $nameLabel;
         $this->namePlaceholder = $namePlaceholder;
@@ -56,9 +77,20 @@ class ProductCreateComponentLangDto
         return $this;
     }
 
+    public function price(string $priceLabel, string $pricePlaceholder, string $priceMsgInvalid): self
+    {
+        $this->builder->setMethodStatus('price', true);
+
+        $this->priceLabel = $priceLabel;
+        $this->pricePlaceholder = $pricePlaceholder;
+        $this->priceMsgInvalid = $priceMsgInvalid;
+
+        return $this;
+    }
+
     public function description(string $descriptionLabel, string $descriptionPlaceholder, string $descriptionMsgInvalid): self
     {
-        $this->builder['description'] = true;
+        $this->builder->setMethodStatus('description', true);
 
         $this->descriptionLabel = $descriptionLabel;
         $this->descriptionPlaceholder = $descriptionPlaceholder;
@@ -69,7 +101,7 @@ class ProductCreateComponentLangDto
 
     public function image(string $imageLabel, string $imagePlaceholder, string $imageMsgInvalid): self
     {
-        $this->builder['image'] = true;
+        $this->builder->setMethodStatus('image', true);
 
         $this->imageLabel = $imageLabel;
         $this->imagePlaceholder = $imagePlaceholder;
@@ -80,7 +112,7 @@ class ProductCreateComponentLangDto
 
     public function submitButton(string $productCreateButton): self
     {
-        $this->builder['submit'] = true;
+        $this->builder->setMethodStatus('submitButton', true);
 
         $this->productCreateButton = $productCreateButton;
 
@@ -89,7 +121,7 @@ class ProductCreateComponentLangDto
 
     public function errors(AlertComponentDto|null $validationErrors): self
     {
-        $this->builder['errors'] = true;
+        $this->builder->setMethodStatus('errors', true);
 
         $this->validationErrors = $validationErrors;
 
@@ -98,11 +130,7 @@ class ProductCreateComponentLangDto
 
     public function build(): self
     {
-        $this->builder['build'] = true;
-
-        if (count(array_filter($this->builder)) < count($this->builder)) {
-            throw new \InvalidArgumentException('Constructors: title, name, description, image, errors. Are mandatory');
-        }
+        $this->builder->validate();
 
         return $this;
     }
