@@ -24,7 +24,7 @@ export default class extends Controller {
     #loadComponentData(items) {
         let itemsNames = [];
 
-        this.#cleanInputItemIds();
+        this.#clearInputItemIds();
         items.forEach((item) => {
             this.#createInputItemId(item.id);
 
@@ -34,7 +34,7 @@ export default class extends Controller {
         this.#changePlaceholderItemName(itemsNames);
     }
 
-    #cleanInputItemIds() {
+    #clearInputItemIds() {
         const inputItemIds = this.element.querySelectorAll(`input[type="hidden"][name="${this.formRemoveItemIdFieldName}"]`);
 
         inputItemIds.forEach((inputItemId) => this.element.removeChild(inputItemId));
