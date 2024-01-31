@@ -20,4 +20,7 @@ class Config
 
     public const API_IMAGES_SHOP_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/assets/img/shops';
     public const API_IMAGES_PRODUCTS_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/assets/img/products';
+
+    // Maximum number of items in a modal list
+    public const MODAL_LIST_ITEMS_MAX_NUMBER = 10;
 }
