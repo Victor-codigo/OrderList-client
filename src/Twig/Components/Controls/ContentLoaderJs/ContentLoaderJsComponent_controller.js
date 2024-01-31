@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as endpoint from '/assets/modules/ApiEndpoints';
+import * as endpoint from 'App/modules/ApiEndpoints';
 
 export default class extends Controller {
     connect() {

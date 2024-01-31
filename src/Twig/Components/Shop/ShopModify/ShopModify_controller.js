@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
-import * as form from '/assets/modules/form';
-import * as encodedUrlParameter from '/assets/modules/EncodedUrlParameter';
-import * as communication from '/assets/modules/ControllerCommunication';
+import * as form from 'App/modules/form';
+import * as encodedUrlParameter from 'App/modules/EncodedUrlParameter';
+import * as communication from 'App/modules/ControllerCommunication';
 
 
 const SHOP_NAME_PLACEHOLDER = '--shop_name--';

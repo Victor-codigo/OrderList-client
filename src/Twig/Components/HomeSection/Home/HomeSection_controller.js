@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as communication from '/assets/modules/ControllerCommunication';
+import * as communication from 'App/modules/ControllerCommunication';
 
 export default class extends Controller {
 

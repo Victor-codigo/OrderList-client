@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
-import * as event from '/assets/modules/Event';
-import * as communication from '/assets/modules/ControllerCommunication';
+import * as event from 'App/modules/Event';
+import * as communication from 'App/modules/ControllerCommunication';
 
 const PAGE_RANGE = 2;
 const PAGE_ACTIVE_STYLE_NAME = 'paginator-js__page--active';

@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as apiEndpoints from '/assets/modules/ApiEndpoints';
+import * as apiEndpoints from 'App/modules/ApiEndpoints';
 import SEARCH_FILTER from '/src/Twig/Components/SearchBar/SEARCH_FILTER';
 
 
