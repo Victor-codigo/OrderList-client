@@ -1,9 +1,10 @@
-import * as cookies from '/assets/modules/Cookie.js';
+import * as fetch from 'App/modules/Fetch';
 
-const COOKIE_TOKENSESSION_NAME = 'TOKENSESSION';
 const API_VERSION = '1';
 const API_DOMAIN = 'http://orderlist.api';
+const CLIENT_DOMAIN = 'http://orderlist.client';
 const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
+const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
 
 
 /**
@@ -25,25 +26,26 @@ export async function executeEndPointByName(endpointName, queryParameters) {
 
 /**
  * @param {object} queryParameters see api documentation
- * @returns {
+ * @returns {Promise<{
  *      'page': int,
  *      'pages_total': int,
  *      'shops': array
- * }
+ * }>}
  * @throws Error
  */
 export async function getShopsData(queryParameters) {
-    const response = await createJsonRequest(GET_SHOPS_URL, 'GET', queryParameters);
-    const responseJson = await manageResponseJson(response,
+    const response = await fetch.createJsonRequest(GET_SHOPS_URL, 'GET', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
         (response) => {
             return {
-                'data': {
-                    'page': 1,
-                    'pages_total': 0,
-                    'shops': []
+                data: {
+                    page: 1,
+                    pages_total: 0,
+                    shops: []
                 }
             }
-        }
+        },
+        null
     );
 
     return responseJson.data;
@@ -61,68 +63,34 @@ export async function getShopsNames(queryParameters) {
 }
 
 /**
- * @param {string} url
- * @param {string} method
- * @param {object} queryParameters see api documentation
- * @throws Error
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} submitter
+ *
+ * @returns {Promise<import('App/modules/Fetch').ResponseDto>}
  */
-async function createJsonRequest(url, method, queryParameters) {
-    try {
-        const tokenSession = cookies.getCookie(COOKIE_TOKENSESSION_NAME);
-        const queryParametersEncoded = Object.entries(queryParameters)
-            .map(([name, value]) => `${name}=${value}`)
-            .join('&');
+export async function createShop(form, submitter) {
+    const url = POST_SHOP_URL
+        .replace('{locale}', getLocale())
+        .replace('{group_name}', getGroupName())
 
-        return await fetch(`${url}?${queryParametersEncoded}`, {
-            'credentials': 'same-origin',
-            'method': method,
-            'mode': 'cors',
-            'headers': {
-                'Content-Type': 'application/json',
-                'Authorization': `bearer ${tokenSession}`
-            },
+    form.action = url;
+    const formData = new FormData(form, submitter);
+    const response = await fetch.createFormRequest(url, 'POST', formData, {});
 
-        });
-    }
-    catch (error) {
-        throw new Error(`Response error [${error}]`);
-    }
+    return await response.json();
 }
 
 /**
- * @param {object} response
- * @param {function(object):object} callbackResponseNoContent function(response)
- * @param {function(array):object} callbackRequestError function(response.errors)
- * @returns {object}
- * @throws Error
+ * @returns {string}
  */
-async function manageResponseJson(response, callbackResponseNoContent, callbackRequestError) {
-
-    if (!response.ok) {
-        throw new Error(`Response error status ${response.status}`);
-    }
-
-    if (response.status === 204) {  // No content
-        if (callbackResponseNoContent) {
-            return callbackResponseNoContent(response);
-        }
-
-        return {};
-    }
-
-    try {
-        const responseData = await response.json();
-
-        if (responseData.errors.length > 0) {
-            if (callbackRequestError) {
-                return callbackRequestError(responseData.errors);
-            }
-
-            throw new Error('Request errors');
-        }
-
-        return responseData;
-    } catch (error) {
-        throw new Error(`Response error [${error}]`);
-    }
+function getGroupName() {
+    return window.location.pathname.split('/')[2];
 }
+
+/**
+ * @returns {string}
+ */
+function getLocale() {
+    return window.location.pathname.split('/')[1];
+}
+
