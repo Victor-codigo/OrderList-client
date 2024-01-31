@@ -16,6 +16,7 @@ import ModalComponent from '/src/Twig/Components/Modal/Modal_Component';
 import DropZoneComponent from '/src/Twig/Components/Controls/DropZone/DropZone_Component';
 import ImageAvatarComponent from '/src/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
 import ItemPriceAddComponent from '/src/Twig/Components/Controls/ItemPriceAdd/ItemPriceAdd_controller';
+import ButtonLoadingComponent from '/src/Twig/Components/Controls/ButtonLoading/ButtonLoading_controller';
 // import ListItemsComponent from '/src/Twig/Components/Controls/ListItems/ListItems_controller';
 // import ListItemComponent from '/src/Twig/Components/Controls/ListItems/Item/Item_controller';
 import PaginatorComponent from '/src/Twig/Components/Paginator/Paginator_Component';
@@ -46,6 +47,7 @@ import GroupUserAddComponent from '/src/Twig/Components/Group/GroupUserAdd/Group
 
 // SHOP
 import ShopCreateComponent from '/src/Twig/Components/Shop/ShopCreate/ShopCreate_controller';
+import ShopCreateAjaxComponent from '/src/Twig/Components/Shop/ShopCreateAjax/ShopCreateAjax_controller';
 import ShopModifyComponent from '/src/Twig/Components/Shop/ShopModify/ShopModify_controller';
 import ShopRemoveComponent from '/src/Twig/Components/Shop/ShopRemove/ShopRemoveComponent_controller';
 import PaginatorContentLoaderJsComponent from '/src/Twig/Components/Controls/PaginatorContentLoaderJs/PaginatorContentLoaderJsComponent_controller';
@@ -79,8 +81,7 @@ app.register('ModalComponent', ModalComponent);
 app.register('DropZoneComponent', DropZoneComponent);
 app.register('ImageAvatarComponent', ImageAvatarComponent);
 app.register('ItemPriceAddComponent', ItemPriceAddComponent);
-// app.register('ListItemsComponent', ListItemsComponent);
-// app.register('ListItemComponent', ListItemComponent);
+app.register('ButtonLoadingComponent', ButtonLoadingComponent);
 app.register('PaginatorComponent', PaginatorComponent);
 app.register('PaginatorJsComponent', PaginatorJsComponent);
 app.register('ListComponent', ListComponent);
@@ -119,6 +120,7 @@ app.register('GroupUserAddComponent', GroupUserAddComponent);
 
 // SHOP
 app.register('ShopCreateComponent', ShopCreateComponent);
+app.register('ShopCreateAjaxComponent', ShopCreateAjaxComponent);
 app.register('ShopModifyComponent', ShopModifyComponent);
 app.register('ShopRemoveComponent', ShopRemoveComponent);
 app.register('ShopListItemComponent', ShopListItemComponent);
