@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
-import ListItems from '/assets/modules/ListItems';
-import * as event from '/assets/modules/Event';
-import * as communication from '/assets/modules/ControllerCommunication';
+import ListItems from 'App/modules/ListItems';
+import * as event from 'App/modules/Event';
+import * as communication from 'App/modules/ControllerCommunication';
 
 /**
  * @event ShopsListAjaxComponent:shopSelected
@@ -19,6 +19,10 @@ export default class extends Controller {
         this.paginatorJsComponent = this.element.querySelector('[data-controller="PaginatorJsComponent"]');
     }
 
+    /**
+     * @param {*} responseData
+     * @returns {ListItems}
+     */
     #responseManageCallback(responseData) {
         const itemsData = responseData['shops']
             .map((shopData) => {
@@ -57,17 +61,26 @@ export default class extends Controller {
         return new ListItems({}, itemsData);
     }
 
-    #postResponseManageCallback(container) {
+    /**
+     * @param {HTMLElement} container
+     * @param {Event} eventData
+     */
+    #postResponseManageCallback(container, eventData) {
         const list = container.querySelector('ul');
 
         event.addEventListenerDelegate({
             element: list,
             elementDelegateSelector: 'li',
             eventName: 'click',
-            callbackListener: this.handleMessageShopSelected.bind(this)
+            callbackListener: this.handleMessageShopSelected.bind(this),
+            eventOptions: {}
         });
     }
 
+    /**
+     * @param {HTMLElement} itemTag
+     * @param {Event} event
+     */
     handleMessageShopSelected(itemTag, event) {
         const itemData = JSON.parse(itemTag.dataset.data);
 
@@ -79,18 +92,23 @@ export default class extends Controller {
     }
 
     /**
-     * @param {object} content
-     * @param {bool} content.showedFirstTime
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     * @param {boolean} event.detail.content.showedFirstTime
      */
     handleMessageBeforeShowed({ detail: { content } }) {
         this.#sendMessagePageChangeToPaginatorJsComponent(1);
     }
 
     /**
-     * @param {object} content
-     * @param {string[]} content.id
-     * @param {string[]} content.name
-     * @param {string[]} content.itemsAdded
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     * @param {object[]} event.detail.content.shopsAdded
+     * @param {string} event.detail.content.shopsAdded.id
+     * @param {string} event.detail.content.shopsAdded.name
+     * @param {string} event.detail.content.shopsAdded.price
      */
     handleMessageItemPriceSelected({ detail: { content } }) {
         this.shopsNotSelectable = content.shopsAdded.map((shopData) => shopData.id);
