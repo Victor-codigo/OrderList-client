@@ -22,9 +22,19 @@ export default class extends Controller {
     }
 
     /**
+     * @callback responseManageCallback
+     * @param {Object} responseData
+     */
+
+    /**
+     * @callback postResponseManageCallback
+     * @param {HTMLElement} contentLoader
+     */
+
+    /**
      * @param {Object.<string, string>} queryParameters
-     * @param {function(any[])} responseManageCallback
-     * @param {function(HTMLElement)} postResponseManageCallback
+     * @param {responseManageCallback} responseManageCallback
+     * @param {postResponseManageCallback} postResponseManageCallback
      */
     async #loadContent(queryParameters, responseManageCallback, postResponseManageCallback) {
         this.#showPlaceholder();
@@ -42,10 +52,12 @@ export default class extends Controller {
     }
 
     /**
-     * @param {Object} content
-     * @param {int} content.page
-     * @param {function(any[])} content.responseManageCallback
-     * @param {function(HTMLElement)} content.postResponseManageCallback
+     * @param {Object} event
+     * @param {Object} event.detail
+     * @param {Object} event.detail.content
+     * @param {number} event.detail.content.page
+     * @param {responseManageCallback} event.detail.content.responseManageCallback
+     * @param {postResponseManageCallback} event.detail.content.postResponseManageCallback
      */
     async handleMessageChangeContent({ detail: { content } }) {
         let queryParameters = this.endpointQueryParameters;

@@ -11,12 +11,13 @@ export default class extends Controller {
 
     connect() {
         this.contentLoaderJsComponent = this.element.querySelector('[data-controller="ContentLoaderJsComponent"]');
+        this.paginatorJsComponent = this.element.querySelector('[data-controller="PaginatorJsComponent"]');
 
         this.#sendMessageConnectedToParent();
     }
 
     /**
-     * @param {int} page
+     * @param {number} page
      */
     #sendMessageContentChangeToContentLoaderJsComponent(page) {
         if (typeof this.responseManageCallback == 'undefined') {
@@ -35,20 +36,44 @@ export default class extends Controller {
     }
 
     /**
-     * @param {Object} content
-     * @param {int} content.page
+     * @param {number} page
+     */
+    #sendMessagePageChangeToPaginatorJsComponent(page) {
+        communication.sendMessageToChildController(this.paginatorJsComponent, 'pageChange', {
+            page: page
+        });
+    }
+
+    /**
+     * @param {Object} event
+     * @param {Object} event.detail
+     * @param {Object} event.detail.content
+     * @param {number} event.detail.content.page
      */
     handleMessageChangePage({ detail: { content } }) {
         this.#sendMessageContentChangeToContentLoaderJsComponent(content.page);
     }
 
     /**
-     * @param {Object} content
-     * @param {Object} content.responseManageCallback
-     * @param {Object} content.postResponseManageCallback
+     * @param {Object} event
+     * @param {Object} event.detail
+     * @param {Object} event.detail.content
+     * @param {Object} event.detail.content.responseManageCallback
+     * @param {Object} event.detail.content.postResponseManageCallback
      */
     handleMessageInitialize({ detail: { content } }) {
         this.responseManageCallback = content.responseManageCallback;
         this.postResponseManageCallback = content.postResponseManageCallback;
+    }
+
+    /**
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     * @param {boolean} event.detail.content.showedFirstTime
+     * @param {HTMLElement} event.detail.content.triggerElement
+     */
+    handleMessageBeforeShowed({ detail: { content } }) {
+        this.#sendMessagePageChangeToPaginatorJsComponent(1);
     }
 }

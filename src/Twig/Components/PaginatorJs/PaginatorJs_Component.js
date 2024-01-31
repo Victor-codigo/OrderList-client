@@ -5,6 +5,10 @@ import * as communication from 'App/modules/ControllerCommunication';
 const PAGE_RANGE = 2;
 const PAGE_ACTIVE_STYLE_NAME = 'paginator-js__page--active';
 const PAGE_DISABLED_STYLE_NAME = 'paginator-js__page--disabled';
+
+/**
+ * @enum {string}
+ */
 const PAGE_TYPES = {
     PAGE: 'data-js-page',
     PAGE_PREVIOUS: 'data-js-page-previous',
@@ -27,39 +31,17 @@ export default class extends Controller {
             element: this.element,
             elementDelegateSelector: '[data-js-page],[data-js-page-previous],[data-js-page-next]',
             eventName: 'click',
-            callbackListener: this.#handlePageChangeEvent.bind(this)
+            callbackListener: this.#handlePageChangeEvent.bind(this),
+            eventOptions: {}
         });
     }
 
     disconnect() {
-        event.removeEventListenerDelegate(this.element, 'click');
+        event.removeEventListenerDelegate(this.element, 'click', this.#handlePageChangeEvent);
     }
 
     /**
-     * @param {HTMLElement} pageTarget
-     * @param {Event} event
-     */
-    #handlePageChangeEvent(pageTarget, event) {
-        this.#setPage(this.#getPageNumber(pageTarget));
-    }
-
-    /**
-     * @param {Object} content
-     * @param {int} content.pagesTotal
-     */
-    handleMessagePagesTotal({ detail: { content } }) {
-        this.#setPagesTotal(content.pagesTotal);
-        this.#updatePaginatorHtml();
-    }
-
-    #sendMessagePageChangeEventToParent() {
-        communication.sendMessageToParentController(this.element, 'changePage', {
-            page: this.pageCurrent
-        });
-    }
-
-    /**
-     * @param {int} page
+     * @param {number} page
      * @throws {Error}
      */
     #setPage(page) {
@@ -89,8 +71,8 @@ export default class extends Controller {
     }
 
     /**
-     * @param {HTMLLIElement} pageTag
-     * @returns {int}
+     * @param {HTMLElement} pageTag
+     * @returns {number}
      */
     #getPageNumber(pageTag) {
         if (pageTag.hasAttribute('data-js-page')) {
@@ -109,7 +91,7 @@ export default class extends Controller {
     }
 
     /**
-     * @param {int} pagesTotal
+     * @param {number} pagesTotal
      */
     #setPagesTotal(pagesTotal) {
         this.pagesTotal = pagesTotal;
@@ -195,9 +177,9 @@ export default class extends Controller {
 
     /**
      * @param {PAGE_TYPES} pageType
-     * @param {int} pageNumber
+     * @param {number} pageNumber
      * @param {string} text
-     * @param {bool} active
+     * @param {boolean} active
      *
      * @returns {HTMLLIElement}
      */
@@ -209,7 +191,7 @@ export default class extends Controller {
         pageTag.appendChild(pageLinkTag);
 
         pageType !== PAGE_TYPES.PAGE_SEPARATOR
-            ? pageTag.setAttribute(pageType, pageNumber)
+            ? pageTag.setAttribute(pageType, pageNumber.toString())
             : pageTag.classList.add(PAGE_DISABLED_STYLE_NAME);
         active
             ? pageTag.classList.add('paginator-js__page', PAGE_ACTIVE_STYLE_NAME)
@@ -238,5 +220,40 @@ export default class extends Controller {
         const pagesTags = this.#createPaginator();
 
         this.paginatorContainer.replaceChildren(...pagesTags);
+    }
+
+    /**
+     * @param {HTMLElement} pageTarget
+     * @param {Event} event
+     */
+    #handlePageChangeEvent(pageTarget, event) {
+        this.#setPage(this.#getPageNumber(pageTarget));
+    }
+
+    /**
+     * @param {Object} event
+     * @param {Object} event.detail
+     * @param {Object} event.detail.content
+     * @param {number} event.detail.content.pagesTotal
+     */
+    handleMessagePagesTotal({ detail: { content } }) {
+        this.#setPagesTotal(content.pagesTotal);
+        this.#updatePaginatorHtml();
+    }
+
+    /**
+     * @param {Object} event
+     * @param {Object} event.detail
+     * @param {Object} event.detail.content
+     * @param {number} event.detail.content.page
+     */
+    handleMessagePageChange({ detail: { content } }) {
+        this.#setPage(content.page);
+    }
+
+    #sendMessagePageChangeEventToParent() {
+        communication.sendMessageToParentController(this.element, 'changePage', {
+            page: this.pageCurrent
+        });
     }
 }

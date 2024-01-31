@@ -1,6 +1,7 @@
 <nav class="paginator-js"
 	 data-controller="PaginatorJsComponent"
-	 data-action="PaginatorJsComponent:pagesTotal->PaginatorJsComponent#handleMessagePagesTotal"
+	 data-action="PaginatorJsComponent:pagesTotal->PaginatorJsComponent#handleMessagePagesTotal
+	 			  PaginatorJsComponent:pageChange->PaginatorJsComponent#handleMessagePageChange"
 	 aria-label="Page navigation"
 	 data-pages-total="{{ data.pagesTotal }}"
 	 data-page-current="{{ data.pageCurrent }}"
