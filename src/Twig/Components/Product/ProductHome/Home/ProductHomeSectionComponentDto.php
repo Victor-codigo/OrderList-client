@@ -16,12 +16,14 @@ class ProductHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBu
 
     public readonly HomeSectionComponentDto $homeSectionComponentDto;
     public readonly ModalComponentDto $listItemsModalDto;
+    public readonly ModalComponentDto $shopCreateModalDto;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'homeSection',
             'listItemsModal',
+            'shopCreateModal',
         ]);
     }
 
@@ -39,6 +41,15 @@ class ProductHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBu
         $this->builder->setMethodStatus('listItemsModal', true);
 
         $this->listItemsModalDto = $listItemsModalDto;
+
+        return $this;
+    }
+
+    public function shopCreateModal(ModalComponentDto $shopCreateModalDto): self
+    {
+        $this->builder->setMethodStatus('shopCreateModal', true);
+
+        $this->shopCreateModalDto = $shopCreateModalDto;
 
         return $this;
     }

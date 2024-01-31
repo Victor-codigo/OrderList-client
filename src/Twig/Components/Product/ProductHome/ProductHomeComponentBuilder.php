@@ -6,11 +6,15 @@ namespace App\Twig\Components\Product\ProductHome;
 
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Form\Product\ProductRemoveMulti\PRODUCT_REMOVE_MULTI_FORM_FIELDS;
+use App\Twig\Components\Controls\ContentLoaderJs\ContentLoaderJsComponentDto;
+use App\Twig\Components\Controls\PaginatorContentLoaderJs\PaginatorContentLoaderJsComponentDto;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
 use App\Twig\Components\Modal\ModalComponentDto;
+use App\Twig\Components\PaginatorJs\PaginatorJsComponentDto;
 use App\Twig\Components\Product\ProductCreate\ProductCreateComponent;
 use App\Twig\Components\Product\ProductCreate\ProductCreateComponentDto;
+use App\Twig\Components\Product\ProductHome\Home\ProductHomeSectionComponentDto;
 use App\Twig\Components\Product\ProductHome\ListItem\ProductListItemComponent;
 use App\Twig\Components\Product\ProductHome\ListItem\ProductListItemComponentDto;
 use App\Twig\Components\Product\ProductModify\ProductModifyComponent;
@@ -19,6 +23,11 @@ use App\Twig\Components\Product\ProductRemove\ProductRemoveComponent;
 use App\Twig\Components\Product\ProductRemove\ProductRemoveComponentDto;
 use App\Twig\Components\SearchBar\SEARCH_TYPE;
 use App\Twig\Components\SearchBar\SearchBarComponentDto;
+use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponent;
+use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponentDto;
+use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
+use App\Twig\Components\Shop\ShopsListAjax\ShopsListAjaxComponent;
+use App\Twig\Components\Shop\ShopsListAjax\ShopsListAjaxComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -29,13 +38,20 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     private const PRODUCT_REMOVE_MULTI_MODAL_ID = 'product_remove_multi_modal';
     public const PRODUCT_DELETE_MODAL_ID = 'product_delete_modal';
     public const PRODUCT_MODIFY_MODAL_ID = 'product_modify_modal';
+    private const SHOP_LIST_MODAL_ID = 'shop_list_select_modal';
+    private const SHOP_CREATE_MODAL_ID = 'shop_create_modal';
 
     private const PRODUCT_HOME_COMPONENT_NAME = 'ProductHomeComponent';
     private const PRODUCT_HOME_LIST_COMPONENT_NAME = 'ProductHomeListComponent';
     private const PRODUCT_HOME_LIST_ITEM_COMPONENT_NAME = 'ProductHomeListItemComponent';
 
+    private const SHOP_LIST_PAGE_NUM_ITEMS = Config::MODAL_LIST_ITEMS_MAX_NUMBER;
+    private const SHOP_LIST_RESPONSE_INDEX_NAME = 'shops';
+
     private readonly DtoBuilder $builder;
     private readonly HomeSectionComponentDto $homeSectionComponentDto;
+    private readonly ModalComponentDto $shopsListAjaxModalDto;
+    private readonly ModalComponentDto $shopCreateModalDto;
 
     private readonly array $listProductsData;
 
@@ -46,6 +62,8 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             'productModifyFormModal',
             'productRemoveMultiModal',
             'productRemoveFormModal',
+            'shopsListModal',
+            'shopCreateModal',
             'errors',
             'pagination',
             'listItems',
@@ -53,15 +71,15 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             'searchBar',
         ]);
 
-        $this->homeSectionComponentDto = new HomeSectionComponentDto();
+        $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
     }
 
-    public function productCreateFormModal(string $productCreateFormCsrfToken, string $productCreateFormActionUrl): self
+    public function productCreateFormModal(string $productCreateFormCsrfToken, float|null $productPrice, string $productCreateFormActionUrl): self
     {
         $this->builder->setMethodStatus('productCreateModal', true);
 
         $this->homeSectionComponentDto->createFormModal(
-            $this->createProductCreateComponentDto($productCreateFormCsrfToken, $productCreateFormActionUrl)
+            $this->createProductCreateComponentDto($productCreateFormCsrfToken, $productPrice, $productCreateFormActionUrl)
         );
 
         return $this;
@@ -96,6 +114,24 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->removeFormModal(
             $this->createProductRemoveModalDto($productRemoveFormCsrfToken, $productRemoveFormActionUrl)
         );
+
+        return $this;
+    }
+
+    public function shopsListModal(string $groupId, string $urlPathToShopImages, string $urlImageShopNoImage): self
+    {
+        $this->builder->setMethodStatus('shopsListModal', true);
+
+        $this->shopsListAjaxModalDto = $this->createShopListItemsModalDto($groupId, $urlPathToShopImages, $urlImageShopNoImage);
+
+        return $this;
+    }
+
+    public function shopCreateModal(string $groupId, string $csrfToken, string $shopCreateFormActionUrl): self
+    {
+        $this->builder->setMethodStatus('shopCreateModal', true);
+
+        $this->shopCreateModalDto = $this->createShopModalDto($groupId, $csrfToken, $shopCreateFormActionUrl);
 
         return $this;
     }
@@ -162,7 +198,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function build(): HomeSectionComponentDto
+    public function build(): ProductHomeSectionComponentDto
     {
         $this->builder->validate();
 
@@ -180,18 +216,20 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
 
-        return $this->homeSectionComponentDto;
+        return $this->createProductHomeSectionComponentDto($this->shopsListAjaxModalDto, $this->shopCreateModalDto);
     }
 
-    private function createProductCreateComponentDto(string $productCreateFormCsrfToken, string $productCreateFormActionUrl): ModalComponentDto
+    private function createProductCreateComponentDto(string $productCreateFormCsrfToken, float|null $productPrice, string $productCreateFormActionUrl): ModalComponentDto
     {
         $homeSectionCreateComponentDto = new ProductCreateComponentDto(
             [],
             '',
+            $productPrice,
             '',
             $productCreateFormCsrfToken,
             false,
-            mb_strtolower($productCreateFormActionUrl)
+            mb_strtolower($productCreateFormActionUrl),
+            self::SHOP_LIST_MODAL_ID
         );
 
         return new ModalComponentDto(
@@ -294,5 +332,79 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             ),
             $this->listProductsData
         );
+    }
+
+    private function createShopListItemsModalDto(string $groupId, string $urlPathToShopImages, string $urlImageShopNoImage): ModalComponentDto
+    {
+        $pageCurrent = 1;
+        $contentLoaderJsDto = new ContentLoaderJsComponentDto(
+            'getShopsData',
+            [
+                'group_id' => $groupId,
+                'page' => $pageCurrent,
+                'page_items' => self::SHOP_LIST_PAGE_NUM_ITEMS,
+            ],
+            self::SHOP_LIST_RESPONSE_INDEX_NAME,
+        );
+        $paginatorJsDto = new PaginatorJsComponentDto($pageCurrent, 1);
+        $paginatorContentLoaderJsDto = new PaginatorContentLoaderJsComponentDto($contentLoaderJsDto, $paginatorJsDto);
+
+        $shopListAjaxComponentDto = new ShopsListAjaxComponentDto(
+            $paginatorContentLoaderJsDto,
+            self::SHOP_CREATE_MODAL_ID,
+            self::PRODUCT_CREATE_MODAL_ID,
+            $urlPathToShopImages,
+            $urlImageShopNoImage,
+        );
+
+        return new ModalComponentDto(
+            self::SHOP_LIST_MODAL_ID,
+            '',
+            false,
+            ShopsListAjaxComponent::getComponentName(),
+            $shopListAjaxComponentDto,
+            []
+        );
+    }
+
+    private function createShopModalDto(string $groupId, string $csrfToken, string $shopCreateFormActionUrl): ModalComponentDto
+    {
+        $shopCreateComponentDto = new ShopCreateComponentDto(
+            [],
+            null,
+            null,
+            $csrfToken,
+            false,
+            $shopCreateFormActionUrl,
+        );
+
+        return new ModalComponentDto(
+            self::SHOP_CREATE_MODAL_ID,
+            '',
+            false,
+            ShopCreateAjaxComponent::getComponentName(),
+            new ShopCreateAjaxComponentDto($groupId, $shopCreateComponentDto, self::SHOP_LIST_MODAL_ID),
+            []
+        );
+    }
+
+    private function createHomeSectionComponentDto(): HomeSectionComponentDto
+    {
+        return new HomeSectionComponentDto();
+    }
+
+    private function createProductHomeSectionComponentDto(ModalComponentDto $shopListItemsModalDto, ModalComponentDto $shopCreateModalDto): ProductHomeSectionComponentDto
+    {
+        return (new ProductHomeSectionComponentDto())
+            ->homeSection(
+                $this->homeSectionComponentDto
+            )
+            ->listItemsModal(
+                $shopListItemsModalDto
+            )
+            ->shopCreateModal(
+                $shopCreateModalDto
+            )
+            ->build();
     }
 }
