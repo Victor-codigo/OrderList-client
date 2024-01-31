@@ -69,6 +69,10 @@ export default class extends Controller {
         this.#removeItem(itemPriceAddContainer);
     }
 
+    handleMessageclear({ detail: { content } }) {
+        this.#clearItemContainer();
+    }
+
     #removeItem(itemPriceAddContainer) {
         this.itemPriceAddContainer.removeChild(itemPriceAddContainer);
     }

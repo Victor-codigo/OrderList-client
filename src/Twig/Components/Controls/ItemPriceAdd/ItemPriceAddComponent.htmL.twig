@@ -1,5 +1,6 @@
 <div class="item-add-component  d-flex  flex-column"
-     data-controller="ItemPriceAddComponent">
+     data-controller="ItemPriceAddComponent"
+     data-action="ItemPriceAddComponent:clear->ItemPriceAddComponent#handleMessageclear">
 
     <div data-js-items-add-container>
 
@@ -35,14 +36,12 @@
                 <input type="text"
                        class="form-control  item-add-component__item-name"
                        maxlength="50"
-                       pattern="[a-zA-Z0-9_\s]+"
                        name="{{ data.itemNameFieldName }}"
                        placeholder="{{ data.itemNamePlaceholder }}"
                        value="{{ data.itemNameFieldValue }}"
                        data-bs-target="#{{ data.itemSelectModalIdAttribute }}"
                        data-bs-toggle="modal"
                        required
-                       readonly
                        data-js-item-name />
 
                 <input type="text"
@@ -51,7 +50,6 @@
                        name="{{ data.itemPriceFieldName }}"
                        placeholder="{{ data.itemPricePlaceholder }}"
                        value="{{ data.itemPriceFieldValue }}"
-                       required
                        data-js-item-price />
 
                 <span class="input-group-text"
