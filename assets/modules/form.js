@@ -1,6 +1,11 @@
+/**
+ * @callback validationCallback
+ */
+/**
+ * @param {HTMLFormElement} form
+ * @param {validationCallback} validationCallback
+ */
 export function validate(form, validationCallback) {
-    'use strict'
-
     form.addEventListener('submit', event => {
         let formValidation = form.checkValidity();
         let validationCallbackResult = typeof validationCallback === 'function'
@@ -16,6 +21,11 @@ export function validate(form, validationCallback) {
     }, false);
 };
 
+/**
+ * @param {HTMLInputElement} password
+ * @param {HTMLInputElement} passwordRepeated
+ * @returns {boolean}
+ */
 export function validatePasswordRepeat(password, passwordRepeated) {
     'use strict'
 
