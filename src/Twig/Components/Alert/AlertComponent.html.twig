@@ -1,5 +1,8 @@
 <div class="card {{ cssType }} m-3 mx-auto"
-	 style="max-width: fit-content;">
+	 style="max-width: fit-content; {{ data.visible == true ? '' : 'display: none' }}"
+	 data-controller="AlertComponent"
+	 data-action="AlertComponent:setValidations->AlertComponent#handleMessageAddValidationErrors">
+
 	{% if data.title %}
 	<header class="card-header">
 		<h5>{{ data.title }}</h5>
@@ -13,7 +16,8 @@
 		{% endif %}
 
 		{% if data.messages is iterable %}
-		<ul class="list-group ">
+		<ul class="list-group "
+			data-js-container>
 			{% for message in data.messages %}
 			<li class="list-group-item  border border-0  bg-transparent  {{ cssTextColor }}">
 				{% if data.escapeMessage %}
@@ -35,4 +39,11 @@
 
 		{% endif %}
 	</section>
+
+	<template data-js-item-template>
+		<li class="list-group-item  border border-0  bg-transparent  {{ cssTextColor }}">
+			<p class="card-text"
+			   data-js-item-template-text></p>
+		</li>
+	</template>
 </div>

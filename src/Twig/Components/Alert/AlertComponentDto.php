@@ -13,7 +13,8 @@ class AlertComponentDto implements TwigComponentDtoInterface
         public readonly string|null $title,
         public readonly string|null $subtitle,
         public readonly array|string $messages,
-        public readonly bool $escapeMessage = true
+        public readonly bool $escapeMessage = true,
+        public readonly bool $visible = true
     ) {
     }
 }
