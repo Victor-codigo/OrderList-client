@@ -12,10 +12,12 @@ use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
 use App\Form\Product\ProductRemove\ProductRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
-use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
+use App\Form\Shop\ShopCreate\ShopCreateForm;
+use App\Twig\Components\Product\ProductHome\Home\ProductHomeSectionComponentDto;
 use App\Twig\Components\Product\ProductHome\ProductHomeComponentBuilder;
 use App\Twig\Components\SearchBar\SEARCH_TYPE;
 use Common\Adapter\Endpoints\ProductsEndPoint;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -54,6 +56,7 @@ class ProductHomeController extends AbstractController
         $productModifyForm = $this->formFactory->create(new ProductModifyForm(), $requestDto->request);
         $productRemoveForm = $this->formFactory->create(new ProductRemoveForm(), $requestDto->request);
         $productRemoveMultiForm = $this->formFactory->create(new ProductRemoveMultiForm(), $requestDto->request);
+        $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
@@ -91,6 +94,7 @@ class ProductHomeController extends AbstractController
             $productModifyForm,
             $productRemoveForm,
             $productRemoveMultiForm,
+            $shopCreateForm,
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             null,
@@ -157,6 +161,7 @@ class ProductHomeController extends AbstractController
         FormInterface $productModifyForm,
         FormInterface $productRemoveForm,
         FormInterface $productRemoveMultiForm,
+        FormInterface $shopCreateForm,
         string|null $searchBarProductFieldFilter,
         string|null $searchBarProductFieldValue,
         string|null $searchBarShopFieldFilter,
@@ -164,7 +169,7 @@ class ProductHomeController extends AbstractController
         string $searchBarCsrfToken,
         array $productsData,
         int $pagesTotal,
-    ): HomeSectionComponentDto {
+    ): ProductHomeSectionComponentDto {
         $productHomeMessagesError = $this->sessionFlashBag->get(
             $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_ERROR->value
         );
@@ -203,6 +208,7 @@ class ProductHomeController extends AbstractController
             )
             ->productCreateFormModal(
                 $productCreateForm->getCsrfToken(),
+                null,
                 $this->generateUrl('product_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
@@ -226,13 +232,25 @@ class ProductHomeController extends AbstractController
                     'product_name' => self::PRODUCT_NAME_PLACEHOLDER,
                 ]),
             )
+            ->shopsListModal(
+                $requestDto->groupData->id,
+                Config::API_IMAGES_SHOP_PATH,
+                Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
+            )
+            ->shopCreateModal(
+                $requestDto->groupData->id,
+                $shopCreateForm->getCsrfToken(),
+                $this->generateUrl('shop_create', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                ]),
+            )
             ->build();
     }
 
-    private function renderTemplate(HomeSectionComponentDto $homeSectionComponent): Response
+    private function renderTemplate(ProductHomeSectionComponentDto $productHomeSectionComponent): Response
     {
         return $this->render('product/product_home/index.html.twig', [
-            'homeSectionComponent' => $homeSectionComponent,
+            'ProductHomeSectionComponent' => $productHomeSectionComponent,
         ]);
     }
 }
