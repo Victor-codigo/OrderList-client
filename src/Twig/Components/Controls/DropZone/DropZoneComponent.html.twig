@@ -1,46 +1,51 @@
-<div id="{{ data.componentId }}">
-    <div class="mb-3">
-        <label for="dropzone_form_file"
-               class="form-label required">
-            {{ data.labelField }}
-        </label>
-        <div class="dropzone-container"
-             data-controller="symfony--ux-dropzone--dropzone">
+<div id="{{ data.componentId }}"
+     data-controller="DropZoneComponent"
+     data-action="DropZoneComponent:clear->DropZoneComponent#handleMessageclear">
 
-            <input type="file"
-                   id="dropzone_form_file"
-                   name="{{ data.formName }}[{{ data.nameField }}]"
-                   placeholder="{{ data.placeholderField }}"
-                   data-controller=""
-                   class="dropzone-input"
-                   data-symfony--ux-dropzone--dropzone-target="input"
-                   style="display: block;">
+     <div class="mb-3">
+          <label for="dropzone_form_file"
+                 class="form-label required">
+               {{ data.labelField }}
+          </label>
 
-            <div class="dropzone-placeholder"
-                 data-symfony--ux-dropzone--dropzone-target="placeholder"
-                 style="display: block;">
+          <div class="dropzone-container"
+               data-controller="symfony--ux-dropzone--dropzone"
+               data-js-symfony-ux-dropzone>
 
-                {{ include('Components/Controls/DropZone/img/icon.svg') }}
-                {{ data.placeholderField }}
-            </div>
+               <input type="file"
+                      id="dropzone_form_file"
+                      name="{{ data.formName }}[{{ data.nameField }}]"
+                      placeholder="{{ data.placeholderField }}"
+                      data-controller=""
+                      class="dropzone-input"
+                      data-symfony--ux-dropzone--dropzone-target="input"
+                      style="display: block;">
 
-            <div class="dropzone-preview"
-                 data-symfony--ux-dropzone--dropzone-target="preview"
-                 style="display: none">
-                <button class="dropzone-preview-button"
-                        type="button"
-                        data-symfony--ux-dropzone--dropzone-target="previewClearButton">
-                </button>
+               <div class="dropzone-placeholder"
+                    data-symfony--ux-dropzone--dropzone-target="placeholder"
+                    style="display: block;">
 
-                <div class="dropzone-preview-image"
-                     style="display: none; background-image: none;"
-                     data-symfony--ux-dropzone--dropzone-target="previewImage">
-                </div>
+                    {{ include('Components/Controls/DropZone/img/icon.svg') }}
+                    {{ data.placeholderField }}
+               </div>
 
-                <div data-symfony--ux-dropzone--dropzone-target="previewFilename"
-                     class="dropzone-preview-filename">
-                </div>
-            </div>
-        </div>
-    </div>
+               <div class="dropzone-preview"
+                    data-symfony--ux-dropzone--dropzone-target="preview"
+                    style="display: none">
+                    <button class="dropzone-preview-button"
+                            type="button"
+                            data-symfony--ux-dropzone--dropzone-target="previewClearButton">
+                    </button>
+
+                    <div class="dropzone-preview-image"
+                         style="display: none; background-image: none;"
+                         data-symfony--ux-dropzone--dropzone-target="previewImage">
+                    </div>
+
+                    <div data-symfony--ux-dropzone--dropzone-target="previewFilename"
+                         class="dropzone-preview-filename">
+                    </div>
+               </div>
+          </div>
+     </div>
 </div>
