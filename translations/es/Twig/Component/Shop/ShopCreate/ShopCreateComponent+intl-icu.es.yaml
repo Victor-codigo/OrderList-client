@@ -17,7 +17,7 @@ image:
   label: Imagen
   placeholder: Sube una imagen para el tienda
 
-product_create_button:
+shop_create_button:
   label: Crear tienda
 
 validation:
@@ -30,4 +30,4 @@ validation:
       Solo se permiten caracteres alfanuméricos y "_"
     product_name_repeated: Ya hay un tienda con el mismo nombre
     image: Imagen no válida. Debe ser del tipo jpg, png, bmp
-    internal_server: ocurrió un error, inténtalo más tarde
+    internal_server: Ocurrió un error, inténtalo más tarde

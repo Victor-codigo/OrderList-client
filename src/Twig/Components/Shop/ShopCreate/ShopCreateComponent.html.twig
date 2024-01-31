@@ -1,21 +1,27 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="ShopCreateComponent"
+	  data-action="ModalComponent:beforeShowed->ShopCreateComponent#handleMessageBeforeShowed"
 	  class="contaniner  p-4  pt-0"
 	  action="{{ data.shopCreateFormActionUrl|escape('html_attr') }}"
 	  method="post"
 	  enctype="multipart/form-data"
-	  novalidate>
+	  novalidate
+	  data-modal-component-content>
 
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />
 
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
+	{% block validation %}
+
 	{% if lang.validationErrors %}
 	{{ component('AlertValidationComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
-	{{ component('TitleComponent', { data: titleDto } ) }}
+	{% endblock validation %}
 
 	<div class="mb-3">
 		<label for="name"
@@ -30,7 +36,8 @@
 			   name="{{ nameFieldName }}"
 			   placeholder="{{ lang.namePlaceholder }}"
 			   value="{{ data.name }}"
-			   required />
+			   required
+			   data-js-form-name />
 		<div class="invalid-feedback">
 			{{ lang.nameMsgInvalid }}
 		</div>
@@ -45,7 +52,8 @@
 				  id="description"
 				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
-				  placeholder="{{ lang.descriptionPlaceholder }}">{{ data.description }}</textarea>
+				  placeholder="{{ lang.descriptionPlaceholder }}"
+				  data-js-form-description>{{ data.description }}</textarea>
 		<div class="invalid-feedback">
 			{{ lang.descriptionMsgInvalid }}
 		</div>
@@ -56,9 +64,14 @@
 	</div>
 
 	<div class="mt-5">
+
+		{% block buttons %}
 		<input type="submit"
 			   class="btn btn-primary w-100"
 			   name="{{ submitFieldName }}"
-			   value="{{ lang.shopCreateButton }}" />
+			   value="{{ lang.shopCreateButtonLabel }}" />
+		{% endblock buttons %}
+
 	</div>
+
 </form>

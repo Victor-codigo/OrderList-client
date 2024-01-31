@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Twig\Components\Shop\ShopCreate;
 
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use Common\Domain\DtoBuilder\DtoBuilder;
 
 class ShopCreateComponentLangDto
 {
+    protected DtoBuilder $builder;
+
     public readonly string $title;
 
     public readonly string $nameLabel;
@@ -22,32 +25,34 @@ class ShopCreateComponentLangDto
     public readonly string $imagePlaceholder;
     public readonly string $imageMsgInvalid;
 
-    public readonly string $shopCreateButton;
+    public readonly string $shopCreateButtonLabel;
 
     public readonly AlertValidationComponentDto|null $validationErrors;
 
-    private array $builder = [
-        'title' => false,
-        'name' => false,
-        'description' => false,
-        'image' => false,
-        'submit' => false,
-        'errors' => false,
-        'build' => false,
-    ];
+    public function __construct()
+    {
+        $this->builder = new DtoBuilder([
+            'title',
+            'name',
+            'description',
+            'image',
+            'submitButton',
+            'errors',
+        ]);
+    }
 
     public function title(string $title): self
     {
-        $this->builder['title'] = true;
+        $this->builder->setMethodStatus('title', true);
 
         $this->title = $title;
 
         return $this;
     }
 
-    public function name(string $nameLabel, string $namePlaceholder, string $nameMsgInvalid): self
+    public function name(string $nameLabel, string $namePlaceholder, string $nameMsgInvalid): static
     {
-        $this->builder['name'] = true;
+        $this->builder->setMethodStatus('name', true);
 
         $this->nameLabel = $nameLabel;
         $this->namePlaceholder = $namePlaceholder;
@@ -56,9 +61,9 @@ class ShopCreateComponentLangDto
         return $this;
     }
 
-    public function description(string $descriptionLabel, string $descriptionPlaceholder, string $descriptionMsgInvalid): self
+    public function description(string $descriptionLabel, string $descriptionPlaceholder, string $descriptionMsgInvalid): static
     {
-        $this->builder['description'] = true;
+        $this->builder->setMethodStatus('description', true);
 
         $this->descriptionLabel = $descriptionLabel;
         $this->descriptionPlaceholder = $descriptionPlaceholder;
@@ -67,9 +72,9 @@ class ShopCreateComponentLangDto
         return $this;
     }
 
-    public function image(string $imageLabel, string $imagePlaceholder, string $imageMsgInvalid): self
+    public function image(string $imageLabel, string $imagePlaceholder, string $imageMsgInvalid): static
     {
-        $this->builder['image'] = true;
+        $this->builder->setMethodStatus('image', true);
 
         $this->imageLabel = $imageLabel;
         $this->imagePlaceholder = $imagePlaceholder;
@@ -78,31 +83,27 @@ class ShopCreateComponentLangDto
         return $this;
     }
 
-    public function submitButton(string $shopCreateButton): self
+    public function submitButton(string $shopCreateButtonLabel): static
     {
-        $this->builder['submit'] = true;
+        $this->builder->setMethodStatus('submitButton', true);
 
-        $this->shopCreateButton = $shopCreateButton;
+        $this->shopCreateButtonLabel = $shopCreateButtonLabel;
 
         return $this;
     }
 
-    public function errors(AlertValidationComponentDto|null $validationErrors): self
+    public function errors(AlertValidationComponentDto|null $validationErrors): static
     {
-        $this->builder['errors'] = true;
+        $this->builder->setMethodStatus('errors', true);
 
         $this->validationErrors = $validationErrors;
 
         return $this;
     }
 
-    public function build(): self
+    public function build(): static
     {
-        $this->builder['build'] = true;
-
-        if (count(array_filter($this->builder)) < count($this->builder)) {
-            throw new \InvalidArgumentException('Constructors: title, name, description, image, errors. Are mandatory');
-        }
+        $this->builder->validate();
 
         return $this;
     }

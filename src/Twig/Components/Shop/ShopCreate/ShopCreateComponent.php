@@ -16,7 +16,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
     name: 'ShopCreateComponent',
     template: 'Components/Shop/ShopCreate/ShopCreateComponent.html.twig'
 )]
-final class ShopCreateComponent extends TwigComponent
+class ShopCreateComponent extends TwigComponent
 {
     public ShopCreateComponentLangDto $lang;
     public ShopCreateComponentDto|TwigComponentDtoInterface $data;
