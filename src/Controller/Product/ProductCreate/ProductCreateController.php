@@ -7,6 +7,7 @@ use App\Form\Product\ProductCreate\PRODUCT_CREATE_FORM_FIELDS;
 use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Twig\Components\Product\ProductCreate\ProductCreateComponent;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
+use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
@@ -52,11 +53,55 @@ class ProductCreateController extends AbstractController
 
     private function formValid(FormInterface $form, string $groupId, string $tokenSession): void
     {
+        try {
+            $productId = $this->createProduct($form, $groupId, $tokenSession);
+            $this->createProductShopPrice($form, $groupId, $productId, $tokenSession);
+        } catch (Error400Exception) {
+        }
+    }
+
+    /**
+     * @return string Product id
+     *
+     * @throws Error400Exception
+     */
+    private function createProduct(FormInterface $form, string $groupId, string $tokenSession): string|null
+    {
         $responseData = $this->endpoints->productCreate(
             $groupId,
             $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::NAME),
             $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::DESCRIPTION),
             $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::IMAGE),
+            $tokenSession
+        );
+
+        foreach ($responseData['errors'] as $error => $errorDescription) {
+            $form->addError($error, $errorDescription);
+        }
+
+        if (!empty($responseData['errors'])) {
+            throw new Error400Exception('Product can not be created');
+        }
+
+        return $responseData['data']['id'];
+    }
+
+    private function createProductShopPrice(FormInterface $form, string $groupId, string $productId, string $tokenSession): void
+    {
+        $shopsId = array_filter($form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_ID));
+
+        if (empty($shopsId)) {
+            return;
+        }
+
+        $prices = $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_PRICE);
+        $productsId = array_fill(0, count($shopsId), $productId);
+
+        $responseData = $this->endpoints->productShopPrice(
+            $groupId,
+            $productsId,
+            $shopsId,
+            $prices,
             $tokenSession
         );
 
