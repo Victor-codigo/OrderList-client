@@ -37,7 +37,9 @@ class OnKernelResponseSubscriber implements EventSubscriberInterface
             '/',
             HTTP_CLIENT_CONFIGURATION::CLIENT_DOMAIN,
             true,
-            false
+            false,
+            false,
+            Cookie::SAMESITE_STRICT
         );
 
         $response->headers->setCookie($tokenSessionCookie);
