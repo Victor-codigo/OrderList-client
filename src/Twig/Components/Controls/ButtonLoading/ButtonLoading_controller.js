@@ -6,13 +6,7 @@ export default class extends Controller {
         this.textButtonTag = this.element.querySelector('[data-js-button-text]')
         this.textButtonLoadingTag = this.element.querySelector('[data-js-button-text-loading]')
 
-        this.element.addEventListener('click', this.#showButtonLoading.bind(this));
-
         this.#showButton();
-    }
-
-    disconnect() {
-        this.element.removeEventListener('click', this.#showButtonLoading);
     }
 
     #showButtonLoading() {
@@ -29,5 +23,23 @@ export default class extends Controller {
         this.textButtonLoadingTag.style.display = 'none';
 
         this.textButtonTag.style.display = 'inline-block';
+    }
+
+    /**
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     */
+    handleMessageShowButton({ detail: { content } }) {
+        this.#showButton();
+    }
+
+    /**
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     */
+    handleMessageShowButtonLoading({ detail: { content } }) {
+        this.#showButtonLoading();
     }
 }

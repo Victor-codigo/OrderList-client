@@ -1,16 +1,20 @@
 <button data-controller="ButtonLoadingComponent"
+        data-action="ButtonLoadingComponent:showButton->ButtonLoadingComponent#handleMessageShowButton
+                     ButtonLoadingComponent:showButtonLoading->ButtonLoadingComponent#handleMessageShowButtonLoading"
         class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
-        type="button">
+        type="{{ data.type }}">
 
-     <span class="spinner-border spinner-border-sm"
-           aria-hidden="true"
-           data-js-spinner></span>
-     <span role="status"
-           data-js-button-text>
-          {{ data.label }}
-     </span>
-     <span role="status"
-           data-js-button-text-loading>
-          {{ data.loadingLabel }}
-     </span>
+      <span class="spinner-border spinner-border-sm"
+            aria-hidden="true"
+            data-js-spinner></span>
+
+      <span role="status"
+            data-js-button-text>
+            {{ data.label }}
+      </span>
+
+      <span role="status"
+            data-js-button-text-loading>
+            {{ data.loadingLabel }}
+      </span>
 </button>
