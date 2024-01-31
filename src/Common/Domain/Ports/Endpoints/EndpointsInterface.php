@@ -35,7 +35,7 @@ interface EndpointsInterface
     /**
      * @throws UnsupportedOptionException
      */
-    public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array;
+    public function productCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array;
 
     /**
      * @throws UnsupportedOptionException
@@ -59,6 +59,15 @@ interface EndpointsInterface
      * }>
      */
     public function productGetData(string $groupId, array|null $productsId, array|null $shopsId, string|null $productName, string|null $productNameFilterType, string|null $productNameFilterValue, string|null $shopNameFilterFilter, string|null $shopNameFilterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
+
+    /**
+     * @param string[] $productsId
+     * @param string[] $shopsId
+     * @param float[]  $prices
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function productShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array;
 
     public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array;
 

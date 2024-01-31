@@ -78,7 +78,7 @@ class Endpoints implements EndpointsInterface
     /**
      * @throws UnsupportedOptionException
      */
-    public function productCreate(string $groupId, string $name, string $description, UploadedFile|null $image, string $tokenSession): array
+    public function productCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array
     {
         return ProductsEndPoint::getInstance($this->httpClient)->productCreate($groupId, $name, $description, $image, $tokenSession);
     }
@@ -103,7 +103,6 @@ class Endpoints implements EndpointsInterface
             $shopId,
             $name,
             $description,
-            $price,
             $image,
             $imageRemove,
             $tokenSession
@@ -157,6 +156,18 @@ class Endpoints implements EndpointsInterface
             $orderAsc,
             $tokenSession
         );
+    }
+
+    /**
+     * @param string[] $productsId
+     * @param string[] $shopsId
+     * @param float[]  $prices
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function productShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array
+    {
+        return ProductsEndPoint::getInstance($this->httpClient)->productShopPrice($groupId, $productsId, $shopsId, $prices, $tokenSession);
     }
 
     public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array
