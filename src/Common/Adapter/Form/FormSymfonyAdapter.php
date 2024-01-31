@@ -164,10 +164,12 @@ class FormSymfonyAdapter implements FormInterface
     /**
      * @throws \InvalidArgumentException
      */
-    public function getFieldData(string $fieldName): mixed
+    public function getFieldData(string $fieldName, mixed $default = null): mixed
     {
         try {
-            return $this->form->get($fieldName)->getData();
+            $data = $this->form->get($fieldName)->getData();
+
+            return $data ?? $default;
         } catch (OutOfBoundsException) {
             throw new \InvalidArgumentException("The field {$fieldName} does not exist in form");
         }

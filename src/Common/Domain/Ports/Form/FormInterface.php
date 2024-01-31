@@ -30,7 +30,7 @@ interface FormInterface
     /**
      * @throws \InvalidArgumentException
      */
-    public function getFieldData(string $fieldName): mixed;
+    public function getFieldData(string $fieldName, mixed $default = null): mixed;
 
     /**
      * @throws \InvalidArgumentException

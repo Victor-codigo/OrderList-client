@@ -557,6 +557,34 @@ class FormSymfonyAdapterTest extends TestCase
     }
 
     /** @test */
+    public function itShouldReturnFormFieldDataDefault(): void
+    {
+        $this->object = $this->createFormSymfonyAdapter(false);
+        $data = [
+            FormTypeSymfony::OPTION_FORM_TYPE => 'this should be removed',
+            'formField1' => 'value1',
+            'formField2' => null,
+            'formField3' => 'value3',
+        ];
+
+        $this->form
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->form);
+
+        $this->form
+            ->expects($this->once())
+            ->method('getData')
+            ->willReturn($data['formField2']);
+
+        $this->createStubsForGetFormType();
+
+        $return = $this->object->getFieldData('formField2', 'default data');
+
+        $this->assertSame('default data', $return);
+    }
+
+    /** @test */
     public function itShouldFailReturningFormFieldDataFieldDoesNotExists(): void
     {
         $this->object = $this->createFormSymfonyAdapter(false);
