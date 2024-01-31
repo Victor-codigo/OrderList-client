@@ -1,4 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
+const path = require('path');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -55,6 +56,12 @@ Encore
         config.useBuiltIns = 'usage';
         config.corejs = '3.23';
     })
+
+    .addAliases({
+        'App/Twig': path.resolve(__dirname, 'src/Twig'),
+        'App': path.resolve(__dirname, 'assets'),
+    })
+
 
     // enables Sass/SCSS support
     .enableSassLoader()

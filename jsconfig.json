@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "ES6",
+        "target": "ES6",
+        "checkJs": true,
+        "baseUrl": "./",
+        "paths": {
+            "App/*": [
+                "assets/*"
+            ],
+            "@hotwired/stimulus": [
+                "node_modules/@hotwired/stimulus/dist/stimulus.js"
+            ],
+            "App/Twig/*": [
+                "src/Twig/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*"
+    ]
+}
