@@ -24,6 +24,15 @@ class DtoBuilder
         );
     }
 
+    public function addBuilderMethod(string $method): void
+    {
+        if (in_array($method, $this->builderMethods)) {
+            throw new \LogicException("Method [{$method}] already exists");
+        }
+
+        $this->builderMethods[$method] = false;
+    }
+
     public function setMethodStatus(string $methodName, bool $status): void
     {
         if (!array_key_exists($methodName, $this->builderMethods)) {
