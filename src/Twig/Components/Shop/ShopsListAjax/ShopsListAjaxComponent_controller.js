@@ -9,7 +9,7 @@ import * as communication from 'App/modules/ControllerCommunication';
  */
 export default class extends Controller {
     connect() {
-        this.modalBeforeAttributeId = this.element.dataset.modalBeforeAttributeId;
+        this.modalBeforeAttributeId = null;
         this.urlPathShopsImages = this.element.dataset.urlPathShopsImages;
         this.urlNoShopsImage = this.element.dataset.urlNoShopsImage
         this.shopImageTitle = this.element.dataset.shopImageTitle
@@ -17,6 +17,7 @@ export default class extends Controller {
 
         this.paginatorContentLoaderJsComponent = this.element.querySelector('[data-controller="PaginatorContentLoaderJsComponent"]');
         this.paginatorJsComponent = this.element.querySelector('[data-controller="PaginatorJsComponent"]');
+        this.backButtonTag = this.element.querySelector('[data-js-back-button]');
     }
 
     /**
@@ -78,6 +79,14 @@ export default class extends Controller {
     }
 
     /**
+     * @param {string} modalBeforeAttributeId
+     */
+    #setModalBefore(modalBeforeAttributeId) {
+        this.modalBeforeAttributeId = modalBeforeAttributeId;
+        this.backButtonTag.dataset.bsTarget = '#' + modalBeforeAttributeId;
+    }
+
+    /**
      * @param {HTMLElement} itemTag
      * @param {Event} event
      */
@@ -96,8 +105,13 @@ export default class extends Controller {
      * @param {object} event.detail
      * @param {object} event.detail.content
      * @param {boolean} event.detail.content.showedFirstTime
+     * @param {HTMLElement} event.detail.content.triggerElement
      */
     handleMessageBeforeShowed({ detail: { content } }) {
+        if (typeof content.triggerElement.dataset.modalCurrent !== 'undefined') {
+            this.#setModalBefore(content.triggerElement.dataset.modalCurrent);
+        }
+
         this.#sendMessagePageChangeToPaginatorJsComponent(1);
     }
 
