@@ -10,6 +10,7 @@ import * as communication from 'App/modules/ControllerCommunication';
 export default class extends Controller {
     connect() {
         this.modalBeforeAttributeId = null;
+        this.modalBeforeControllerEventHandler = null;
         this.urlPathShopsImages = this.element.dataset.urlPathShopsImages;
         this.urlNoShopsImage = this.element.dataset.urlNoShopsImage
         this.shopImageTitle = this.element.dataset.shopImageTitle
@@ -106,12 +107,16 @@ export default class extends Controller {
      * @param {object} event.detail.content
      * @param {boolean} event.detail.content.showedFirstTime
      * @param {HTMLElement} event.detail.content.triggerElement
+     * @param {object} event.detail.content.triggerElementData
+     * @param {string} event.detail.content.triggerElementData.modalBefore
+     * @param {string} event.detail.content.triggerElementData.controllerModalEventHandler
      */
     handleMessageBeforeShowed({ detail: { content } }) {
-        if (typeof content.triggerElement.dataset.modalCurrent !== 'undefined') {
-            this.#setModalBefore(content.triggerElement.dataset.modalCurrent);
+        if (content.triggerElementData.modalBefore !== null) {
+            this.#setModalBefore(content.triggerElementData.modalBefore);
         }
 
+        this.modalBeforeControllerEventHandler = content.triggerElementData.controllerModalEventHandler;
         this.#sendMessagePageChangeToPaginatorJsComponent(1);
     }
 
@@ -132,10 +137,12 @@ export default class extends Controller {
         communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'initialize', {
             responseManageCallback: this.#responseManageCallback.bind(this),
             postResponseManageCallback: this.#postResponseManageCallback.bind(this)
-        }
-        );
+        });
     }
 
+    /**
+     * @param {number} page
+     */
     #sendMessagePageChangeToPaginatorJsComponent(page) {
         communication.sendMessageToChildController(this.paginatorContentLoaderJsComponent, 'changePage', {
             page: page
@@ -144,13 +151,22 @@ export default class extends Controller {
         );
     }
 
+    /**
+     * @param {string} shopId
+     * @param {string} shopName
+     */
     #sendMessageShopsListShopSelected(shopId, shopName) {
         communication.sendMessageToNotRelatedController(this.element, 'shopSelected', {
             shopId: shopId,
-            shopName: shopName
-        });
+            shopName: shopName,
+        },
+            `[${this.element.dataset.controller}|>${this.modalBeforeControllerEventHandler}]`
+        );
     }
 
+    /**
+     * @param {number} pagesTotal
+     */
     #sendMessagePagesTotalToPaginatorJsComponent(pagesTotal) {
         communication.sendMessageToChildController(this.paginatorJsComponent, 'pagesTotal', {
             pagesTotal: pagesTotal
