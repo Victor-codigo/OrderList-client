@@ -1,8 +1,8 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="ProductCreateComponent"
-	  data-action="ShopsListAjaxComponent:shopSelected@window->ProductCreateComponent#handleMessageShopSelected
-	  			   ShopCreateAjaxComponent:shopCreated@window->ProductCreateComponent#handleMessageShopSelected
+	  data-action="[ShopsListAjaxComponent|>ProductCreateComponent]:shopSelected@window->ProductCreateComponent#handleMessageShopSelected
+	  			   [ShopCreateAjaxComponent|>ProductCreateComponent]:shopCreated@window->ProductCreateComponent#handleMessageShopSelected
 				   ItemPriceAddComponent:itemPriceSelected->ProductCreateComponent#handleMessageItemPriceSelected
 				   ModalComponent:beforeShowed->ProductCreateComponent#handleMessageBeforeShowed"
 	  class="contaniner  p-4  pt-0"

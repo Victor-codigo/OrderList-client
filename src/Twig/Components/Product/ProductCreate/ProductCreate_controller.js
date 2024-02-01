@@ -77,6 +77,9 @@ export default class extends Controller {
      * @param {object} event.detail.content
      * @param {boolean} event.detail.content.showedFirstTime
      * @param {HTMLElement} event.detail.content.triggerElement
+     * @param {object} event.detail.content.triggerElementData
+     * @param {string} event.detail.content.triggerElementData.modalBefore
+     * @param {string} event.detail.content.triggerElementData.controllerModalEventHandler
      */
     handleMessageBeforeShowed({ detail: { content } }) {
         if (typeof content.triggerElement === 'undefined') {

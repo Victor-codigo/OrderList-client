@@ -107,6 +107,9 @@ final class ProductCreateComponent extends TwigComponent
                 $this->data->productCreateModalIdAttribute,
                 $this->data->shopListSelectModalIdAttribute,
             )
+            ->events(
+                self::getComponentName()
+            )
             ->build();
     }
 
