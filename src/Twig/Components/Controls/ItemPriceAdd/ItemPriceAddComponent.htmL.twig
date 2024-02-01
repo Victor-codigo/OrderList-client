@@ -1,6 +1,6 @@
 <div class="item-add-component  d-flex  flex-column"
      data-controller="ItemPriceAddComponent"
-     data-action="ItemPriceAddComponent:clear->ItemPriceAddComponent#handleMessageclear">
+     data-action="ItemPriceAddComponent:clear->ItemPriceAddComponent#handleMessageClear">
 
     <div data-js-items-add-container>
 
@@ -41,6 +41,7 @@
                        value="{{ data.itemNameFieldValue }}"
                        data-bs-target="#{{ data.itemSelectModalIdAttribute }}"
                        data-bs-toggle="modal"
+                       data-modal-current="{{ data.itemCurrentModalIdAttribute }}"
                        required
                        data-js-item-name />
 

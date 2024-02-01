@@ -16,20 +16,23 @@ export default class extends Controller {
             element: this.itemPriceAddContainer,
             elementDelegateSelector: '[data-js-item-remove-button]',
             eventName: 'click',
-            callbackListener: this.#handlerRemoveItemEvent.bind(this)
+            callbackListener: this.#handlerRemoveItemEvent.bind(this),
+            eventOptions: {}
         });
 
         event.addEventListenerDelegate({
             element: this.itemPriceAddContainer,
             elementDelegateSelector: '[data-js-item-name]',
             eventName: 'click',
-            callbackListener: this.#sendMessageItemPriceCLickedToParent.bind(this)
+            callbackListener: this.#sendMessageItemPriceCLickedToParent.bind(this),
+            eventOptions: {}
         });
     }
 
     disconnect() {
         this.itemPriceAddButton.removeEventListener('click', this.#addItem);
-        event.removeEventListenerDelegate(this.itemPriceAddContainer, 'click');
+        event.removeEventListenerDelegate(this.itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
+        event.removeEventListenerDelegate(this.itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
     }
 
     #addItem() {
@@ -39,11 +42,13 @@ export default class extends Controller {
     }
 
     /**
-     * @returns {{
-     *  id: string,
-     *  name: string,
-     *  price: float
-     * }}
+     * @typedef ItemPriceAdd
+     * @property {string|null} id
+     * @property {string} name
+     * @property {number} price
+     */
+    /**
+     * @returns {ItemPriceAdd[]}
      */
     #getItemsAddedValue() {
         const itemGroupsAddedTag = this.element.querySelectorAll('[data-js-item-group]');
@@ -69,7 +74,7 @@ export default class extends Controller {
         this.#removeItem(itemPriceAddContainer);
     }
 
-    handleMessageclear({ detail: { content } }) {
+    handleMessageClear({ detail: { content } }) {
         this.#clearItemContainer();
     }
 
