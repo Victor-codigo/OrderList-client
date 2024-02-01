@@ -104,7 +104,8 @@ final class ProductCreateComponent extends TwigComponent
                 $this->translate('shop_remove_button.alt'),
             )
             ->itemSelectModal(
-                $this->data->shopListSelectModalIdAttribute
+                $this->data->productCreateModalIdAttribute,
+                $this->data->shopListSelectModalIdAttribute,
             )
             ->build();
     }
@@ -148,6 +149,8 @@ final class ProductCreateComponent extends TwigComponent
     }
 
     /**
+     * @param string[] $errors
+     *
      * @return string[]
      */
     public function loadErrorsTranslation(array $errors): array

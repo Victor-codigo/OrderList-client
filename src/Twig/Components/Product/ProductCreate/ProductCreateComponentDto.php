@@ -16,7 +16,8 @@ class ProductCreateComponentDto implements TwigComponentDtoInterface
         public readonly string|null $csrfToken,
         public readonly bool $validForm,
         public readonly string $productCreateFormActionUrl,
-        public readonly string $shopListSelectModalIdAttribute
+        public readonly string $shopListSelectModalIdAttribute,
+        public readonly string $productCreateModalIdAttribute
     ) {
     }
 }
