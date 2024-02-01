@@ -25,6 +25,9 @@ export default class extends Controller {
         this.element.removeEventListener('hidden.bs.modal', this.#dispatchModalBeforeShowed);
     }
 
+    /**
+     * @param {MouseEvent} event
+     */
     #dispatchModalBeforeShowed(event) {
         this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:beforeShowed', {
             detail: {
@@ -36,11 +39,15 @@ export default class extends Controller {
         })));
     }
 
-    #dispatchModalShowed() {
+    /**
+     * @param {MouseEvent} event
+     */
+    #dispatchModalShowed(event) {
         this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:showed', {
             detail: {
                 content: {
-                    showedFirstTime: this.showedFirstTime
+                    showedFirstTime: this.showedFirstTime,
+                    triggerElement: event.relatedTarget
                 }
             }
         })));
