@@ -11,6 +11,7 @@ export default class extends Controller {
         this.descriptionTag = this.element.querySelector('[name="shop_create_form[description]"]');
         this.imageTag = this.element.querySelector('[name="shop_create_form[image]"]');
         this.tokenTag = this.element.querySelector('[name="shop_create_form[token]"]');
+        this.backButtonTag = this.element.querySelector('[data-js-back-button]');
 
         this.formTag = this.element.querySelector('[data-controller="ShopCreateComponent"]');
         this.alertTag = this.element.querySelector('[data-controller="AlertComponent"]');
@@ -81,6 +82,13 @@ export default class extends Controller {
         return false;
     }
 
+    /**
+     * @param {string} modalBeforeAttributeId
+     */
+    #setModalBefore(modalBeforeAttributeId) {
+        this.backButtonTag.dataset.bsTarget = '#' + modalBeforeAttributeId;
+    }
+
     clear() {
         communication.sendMessageToChildController(this.buttonCreateShop, 'showButton');
     }
@@ -113,6 +121,10 @@ export default class extends Controller {
      * @param {HTMLElement} event.detail.content.triggerElement
      */
     handleMessageBeforeShowed({ detail: { content } }) {
+        if (typeof content.triggerElement.dataset.modalCurrent !== 'undefined') {
+            this.#setModalBefore(content.triggerElement.dataset.modalCurrent);
+        }
+
         this.clear();
     }
 }

@@ -12,7 +12,6 @@ class ShopCreateAjaxComponentDto implements TwigComponentDtoInterface
     public function __construct(
         public readonly string $groupId,
         public readonly ShopCreateComponentDto $shopCreateComponentDto,
-        public readonly string $modalBeforeAttributeId
     ) {
     }
 }
