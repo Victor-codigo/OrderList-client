@@ -37,6 +37,8 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
     public readonly string $itemSelectModalIdAttribute;
     public readonly string $itemCurrentModalIdAttribute;
 
+    public readonly string $controllerEventReceptor;
+
     public function __construct()
     {
         $this->builder = new DtoBuilder([
@@ -46,6 +48,7 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
             'itemPriceAddButton',
             'itemRemoveButton',
             'itemSelectModal',
+            'events',
         ]);
     }
 
@@ -113,6 +116,15 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
 
         $this->itemCurrentModalIdAttribute = $itemCurrentModalIdAttribute;
         $this->itemSelectModalIdAttribute = $itemSelectModalIdAttribute;
+
+        return $this;
+    }
+
+    public function events(string $controllerEventReceptor): self
+    {
+        $this->builder->setMethodStatus('events', true);
+
+        $this->controllerEventReceptor = $controllerEventReceptor;
 
         return $this;
     }
