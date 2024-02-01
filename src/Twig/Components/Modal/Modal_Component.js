@@ -25,6 +25,39 @@ export default class extends Controller {
         this.element.removeEventListener('hidden.bs.modal', this.#dispatchModalBeforeShowed);
     }
 
+
+    /**
+     * @param {HTMLElement|null} triggerElement
+     * @returns {{
+     *      modalBefore: string,
+     *      controllerModalEventHandler: string
+     * }}
+     */
+    #getTriggerElementData(triggerElement) {
+        let modalBefore = null;
+        let controllerModalEventHandler = null;
+
+        if (triggerElement === null) {
+            return {
+                modalBefore: null,
+                controllerModalEventHandler: null
+            };
+        }
+
+        if (typeof triggerElement.dataset.modalCurrent !== 'undefined') {
+            modalBefore = triggerElement.dataset.modalCurrent;
+        }
+
+        if (typeof triggerElement.dataset.eventControllerHandler !== 'undefined') {
+            controllerModalEventHandler = triggerElement.dataset.eventControllerHandler;
+        }
+
+        return {
+            modalBefore: modalBefore,
+            controllerModalEventHandler: controllerModalEventHandler
+        };
+    }
+
     /**
      * @param {MouseEvent} event
      */
@@ -33,7 +66,8 @@ export default class extends Controller {
             detail: {
                 content: {
                     showedFirstTime: this.showedFirstTime,
-                    triggerElement: event.relatedTarget
+                    triggerElement: event.relatedTarget,
+                    triggerElementData: this.#getTriggerElementData(event.relatedTarget)
                 }
             }
         })));
@@ -47,7 +81,8 @@ export default class extends Controller {
             detail: {
                 content: {
                     showedFirstTime: this.showedFirstTime,
-                    triggerElement: event.relatedTarget
+                    triggerElement: event.relatedTarget,
+                    triggerElementData: this.#getTriggerElementData(event.relatedTarget)
                 }
             }
         })));
