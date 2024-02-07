@@ -3,17 +3,32 @@ import * as event from 'App/modules/Event';
 import * as communication from 'App/modules/ControllerCommunication';
 
 export default class extends Controller {
-    connect() {
-        this.itemPriceAddContainer = this.element.querySelector('[data-js-items-add-container]');
-        this.itemPriceAddTemplate = this.element.querySelector('#item_add_template');
-        this.itemPriceAddButton = this.element.querySelector('[data-js-item-add-button]');
+    /**
+     * @type {HTMLElement}
+     */
+    #itemPriceAddContainer;
 
-        this.itemPriceAddButton.addEventListener('click', this.#addItem.bind(this));
+    /**
+     * @type {HTMLTemplateElement}
+     */
+    #itemPriceAddTemplate;
+
+    /**
+     * @type {HTMLButtonElement}
+     */
+    #itemPriceAddButton;
+
+    connect() {
+        this.#itemPriceAddContainer = this.element.querySelector('[data-js-items-add-container]');
+        this.#itemPriceAddTemplate = this.element.querySelector('#item_add_template');
+        this.#itemPriceAddButton = this.element.querySelector('[data-js-item-add-button]');
+
+        this.#itemPriceAddButton.addEventListener('click', this.#addItem.bind(this));
 
         this.#clearItemContainer();
 
         event.addEventListenerDelegate({
-            element: this.itemPriceAddContainer,
+            element: this.#itemPriceAddContainer,
             elementDelegateSelector: '[data-js-item-remove-button]',
             eventName: 'click',
             callbackListener: this.#handlerRemoveItemEvent.bind(this),
@@ -21,7 +36,7 @@ export default class extends Controller {
         });
 
         event.addEventListenerDelegate({
-            element: this.itemPriceAddContainer,
+            element: this.#itemPriceAddContainer,
             elementDelegateSelector: '[data-js-item-name]',
             eventName: 'click',
             callbackListener: this.#sendMessageItemPriceCLickedToParent.bind(this),
@@ -30,15 +45,15 @@ export default class extends Controller {
     }
 
     disconnect() {
-        this.itemPriceAddButton.removeEventListener('click', this.#addItem);
-        event.removeEventListenerDelegate(this.itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
-        event.removeEventListenerDelegate(this.itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
+        this.#itemPriceAddButton.removeEventListener('click', this.#addItem);
+        event.removeEventListenerDelegate(this.#itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
+        event.removeEventListenerDelegate(this.#itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
     }
 
     #addItem() {
-        const itemPriceAddTemplate = this.itemPriceAddTemplate.content.cloneNode(true);
+        const itemPriceAddTemplate = this.#itemPriceAddTemplate.content.cloneNode(true);
 
-        this.itemPriceAddContainer.appendChild(itemPriceAddTemplate);
+        this.#itemPriceAddContainer.appendChild(itemPriceAddTemplate);
     }
 
     /**
@@ -79,11 +94,11 @@ export default class extends Controller {
     }
 
     #removeItem(itemPriceAddContainer) {
-        this.itemPriceAddContainer.removeChild(itemPriceAddContainer);
+        this.#itemPriceAddContainer.removeChild(itemPriceAddContainer);
     }
 
     #clearItemContainer() {
-        this.itemPriceAddContainer.innerHTML = '';
+        this.#itemPriceAddContainer.innerHTML = '';
     }
 
     #sendMessageItemPriceCLickedToParent(elementTargetEvent, event) {
