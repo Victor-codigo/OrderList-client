@@ -2,25 +2,72 @@ import { Controller } from '@hotwired/stimulus';
 import * as apiEndpoint from 'App/modules/ApiEndpoints.js'
 import * as communication from 'App/modules/ControllerCommunication';
 import * as alertComponent from 'App/Twig/Components/Alert/AlertComponent_controller';
-import * as modal from 'App/modules/Modal';
+import ModalManager from 'App/modules/ModalManager/ModalManager';
+
+const MODAL_CHAINS = {
+    productCreateChain: {
+        name: 'productCreateChain',
+        modal: 'product_create_modal',
+    },
+    productModifyChain: {
+        name: 'productModifyChain',
+        modal: 'product_modify_modal',
+    }
+};
 
 export default class extends Controller {
+    /**
+     * @type {ModalManager}
+     */
+    #modalManager;
+
+    /**
+     * @type {HTMLButtonElement}
+     */
+    #buttonCreateShop;
+
+    /**
+     * @type {HTMLInputElement}
+     */
+    #nameTag;
+
+    /**
+     * @type {HTMLButtonElement}
+     */
+    #backButtonTag;
+
+    /**
+     * @type {HTMLFormElement}
+     */
+    #formTag;
+
+    /**
+     * @type {HTMLElement}
+     */
+    #alertTag;
+
     connect() {
-        this.buttonCreateShop = this.element.querySelector('[data-controller="ButtonLoadingComponent"]');
-        this.nameTag = this.element.querySelector('[name="shop_create_form[name]"]');
-        this.descriptionTag = this.element.querySelector('[name="shop_create_form[description]"]');
-        this.imageTag = this.element.querySelector('[name="shop_create_form[image]"]');
-        this.tokenTag = this.element.querySelector('[name="shop_create_form[token]"]');
-        this.backButtonTag = this.element.querySelector('[data-js-back-button]');
+        this.#buttonCreateShop = this.element.querySelector('[data-controller="ButtonLoadingComponent"]');
+        this.#nameTag = this.element.querySelector('[name="shop_create_form[name]"]');
+        this.#backButtonTag = this.element.querySelector('[data-js-back-button]');
 
-        this.formTag = this.element.querySelector('[data-controller="ShopCreateComponent"]');
-        this.alertTag = this.element.querySelector('[data-controller="AlertComponent"]');
+        this.#formTag = this.element.querySelector('[data-controller="ShopCreateComponent"]');
+        this.#alertTag = this.element.querySelector('[data-controller="AlertComponent"]');
 
-        this.formTag.addEventListener('submit', this.#submitFromHandler.bind(this));
+        this.#formTag.addEventListener('submit', this.#submitFromHandler.bind(this));
+        this.#backButtonTag.addEventListener('click', this.#openModalBefore.bind(this));
     }
 
     disconnect() {
-        this.formTag.removeEventListener('submit', this.#submitFromHandler);
+        this.#formTag.removeEventListener('submit', this.#submitFromHandler);
+        this.#backButtonTag.removeEventListener('click', this.#openModalBefore);
+    }
+
+    /**
+     * @param {Event} event
+     */
+    #openModalBefore(event) {
+        this.#modalManager.openModalBefore();
     }
 
     /**
@@ -29,7 +76,7 @@ export default class extends Controller {
     async #submitFromHandler(event) {
         event.preventDefault();
 
-        if (!this.formTag.checkValidity()) {
+        if (!this.#formTag.checkValidity()) {
             return;
         }
 
@@ -42,20 +89,21 @@ export default class extends Controller {
             return;
         }
 
-        this.#modalShowOnSubmitOk('product_create_modal', shopCreated, this.nameTag.value.trim());
+        this.#modalShowOnSubmitOk(shopCreated, this.#nameTag.value);
     }
 
     /**
-     * @param {string} modalAttributeId
      * @param {string} shopNewId
      * @param {string} shopNewName
      */
-    #modalShowOnSubmitOk(modalAttributeId, shopNewId, shopNewName) {
-        const modalCurrent = this.element.closest('[data-controller="ModalComponent"]');
+    #modalShowOnSubmitOk(shopNewId, shopNewName) {
+        const chainCurrentName = this.#modalManager.getChainCurrent().getName();
 
-        modal.closeCurrentAndOpenNew(modalCurrent, modalAttributeId, this.element, 'shopCreated', {
-            shopId: shopNewId,
-            shopName: shopNewName
+        this.#modalManager.openModalAlreadyOpened(MODAL_CHAINS[chainCurrentName].modal, {
+            shopId: {
+                id: shopNewId.trim(),
+                name: shopNewName.trim()
+            }
         });
     }
 
@@ -63,7 +111,7 @@ export default class extends Controller {
      * @returns {Promise<(boolean|string)>}
      */
     async #createShop() {
-        const responseData = await apiEndpoint.createShop(this.formTag, this.buttonCreateShop);
+        const responseData = await apiEndpoint.createShop(this.#formTag, this.#buttonCreateShop);
 
         if (responseData.status === 'ok') {
             this.#sendMessageToAlertComponent({
@@ -82,15 +130,8 @@ export default class extends Controller {
         return false;
     }
 
-    /**
-     * @param {string} modalBeforeAttributeId
-     */
-    #setModalBefore(modalBeforeAttributeId) {
-        this.backButtonTag.dataset.bsTarget = '#' + modalBeforeAttributeId;
-    }
-
     clear() {
-        communication.sendMessageToChildController(this.buttonCreateShop, 'showButton');
+        communication.sendMessageToChildController(this.#buttonCreateShop, 'showButton');
     }
 
     /**
@@ -99,18 +140,18 @@ export default class extends Controller {
      * @param {string[]} validations.errors
      */
     #sendMessageToAlertComponent(validations) {
-        communication.sendMessageToChildController(this.alertTag, 'setValidations', {
+        communication.sendMessageToChildController(this.#alertTag, 'setValidations', {
             validations: validations,
             type: validations.ok.length === 0 ? alertComponent.ALERT_TYPE.DANGER : alertComponent.ALERT_TYPE.SUCCESS
         });
     }
 
     #sendMessageToButtonLoadingShowButton() {
-        communication.sendMessageToChildController(this.buttonCreateShop, 'showButton');
+        communication.sendMessageToChildController(this.#buttonCreateShop, 'showButton');
     }
 
     #sendMessageToButtonLoadingShowButtonLoading() {
-        communication.sendMessageToChildController(this.buttonCreateShop, 'showButtonLoading');
+        communication.sendMessageToChildController(this.#buttonCreateShop, 'showButtonLoading');
     }
 
     /**
@@ -118,13 +159,10 @@ export default class extends Controller {
      * @param {object} event.detail
      * @param {object} event.detail.content
      * @param {boolean} event.detail.content.showedFirstTime
-     * @param {HTMLElement} event.detail.content.triggerElement
+     * @param {ModalManager} event.detail.content.modalManager
      */
     handleMessageBeforeShowed({ detail: { content } }) {
-        if (typeof content.triggerElement.dataset.modalCurrent !== 'undefined') {
-            this.#setModalBefore(content.triggerElement.dataset.modalCurrent);
-        }
-
+        this.#modalManager = content.modalManager;
         this.clear();
     }
 }
