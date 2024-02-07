@@ -18,7 +18,7 @@ class ModalComponentDto implements TwigComponentDtoInterface
         public readonly string|null $contentComponentName,
         public readonly string|TwigComponentDtoInterface $content,
 
-        public readonly array $buttons,
+        public readonly array $buttons
     ) {
     }
 }

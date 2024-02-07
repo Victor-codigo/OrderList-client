@@ -1,21 +1,31 @@
 import { Controller } from '@hotwired/stimulus';
+import BootstrapModal from 'App/modules/ModalManager/BootstrapModal';
+import ModalManager from 'App/modules/ModalManager/ModalManager';
 
 /**
- * @event ModalComponent:beforeShowed
- * @event ModalComponent:showed
- * @event ModalComponent:hided
- * @event ModalComponent:afterHided
+ * @fires ModalComponent:beforeShowed
+ * @fires ModalComponent:showed
+ * @fires ModalComponent:hided
+ * @fires ModalComponent:afterHided
  */
-export default class extends Controller {
+export default class Modal extends Controller {
+    /**
+     * @type {ModalManager}
+     */
+    static #modalManager;
+
     connect() {
         this.contentTags = this.element.querySelectorAll('[data-modal-component-content]');
         this.showedFirstTime = true;
+
+        Modal.#modalManager = new ModalManager(new BootstrapModal());
 
         this.element.addEventListener('show.bs.modal', this.#dispatchModalBeforeShowed.bind(this));
         this.element.addEventListener('shown.bs.modal', this.#dispatchModalShowed.bind(this));
         this.element.addEventListener('hide.bs.modal', this.#dispatchModalHided.bind(this));
         this.element.addEventListener('hidden.bs.modal', this.#dispatchModalAfterHided.bind(this));
-
+        this.element.addEventListener('click', this.#handleModalClosedByEscOrClickedOut.bind(this));
+        this.element.addEventListener('keydown', this.#handleModalClosedByEscOrClickedOut.bind(this));
     }
 
     disconnect() {
@@ -23,51 +33,40 @@ export default class extends Controller {
         this.element.removeEventListener('shown.bs.modal', this.#dispatchModalShowed);
         this.element.removeEventListener('hide.bs.modal', this.#dispatchModalBeforeShowed);
         this.element.removeEventListener('hidden.bs.modal', this.#dispatchModalBeforeShowed);
+        this.element.removeEventListener('click', this.#handleModalClosedByEscOrClickedOut);
+        this.element.removeEventListener('keydown', this.#handleModalClosedByEscOrClickedOut);
     }
 
-
     /**
-     * @param {HTMLElement|null} triggerElement
-     * @returns {{
-     *      modalBefore: string,
-     *      controllerModalEventHandler: string
-     * }}
+     * @param {MouseEvent|KeyboardEvent} event
      */
-    #getTriggerElementData(triggerElement) {
-        let modalBefore = null;
-        let controllerModalEventHandler = null;
-
-        if (triggerElement === null) {
-            return {
-                modalBefore: null,
-                controllerModalEventHandler: null
-            };
+    #handleModalClosedByEscOrClickedOut(event) {
+        if (event instanceof KeyboardEvent && event.key !== 'Escape') {
+            return;
         }
 
-        if (typeof triggerElement.dataset.modalCurrent !== 'undefined') {
-            modalBefore = triggerElement.dataset.modalCurrent;
+        if (event instanceof MouseEvent && event.target !== this.element) {
+            return;
         }
 
-        if (typeof triggerElement.dataset.eventControllerHandler !== 'undefined') {
-            controllerModalEventHandler = triggerElement.dataset.eventControllerHandler;
-        }
-
-        return {
-            modalBefore: modalBefore,
-            controllerModalEventHandler: controllerModalEventHandler
-        };
+        Modal.#modalManager.close();
     }
 
     /**
      * @param {MouseEvent} event
      */
     #dispatchModalBeforeShowed(event) {
+        /**
+         * @event ModalComponent:beforeShowed
+         * @type {object}
+         * @property {boolean} showedFirstTime
+         */
         this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:beforeShowed', {
             detail: {
                 content: {
                     showedFirstTime: this.showedFirstTime,
                     triggerElement: event.relatedTarget,
-                    triggerElementData: this.#getTriggerElementData(event.relatedTarget)
+                    modalManager: Modal.#modalManager
                 }
             }
         })));
@@ -82,7 +81,7 @@ export default class extends Controller {
                 content: {
                     showedFirstTime: this.showedFirstTime,
                     triggerElement: event.relatedTarget,
-                    triggerElementData: this.#getTriggerElementData(event.relatedTarget)
+                    modalManager: Modal.#modalManager
                 }
             }
         })));
@@ -90,11 +89,21 @@ export default class extends Controller {
         this.showedFirstTime = false;
     }
 
-    #dispatchModalHided() {
-        this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:hided')));
+    /**
+     * @param {Event} event
+     */
+    #dispatchModalHided(event) {
+        this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:hided')), {
+            modalManager: Modal.#modalManager
+        });
     }
 
-    #dispatchModalAfterHided() {
-        this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:afterHided')));
+    /**
+     * @param {Event} event
+     */
+    #dispatchModalAfterHided(event) {
+        this.contentTags.forEach((tag) => tag.dispatchEvent(new CustomEvent('ModalComponent:afterHided')), {
+            modalManager: Modal.#modalManager
+        });
     }
 }
