@@ -1,7 +1,6 @@
 <div data-controller="ShopsListAjaxComponent"
      data-action="PaginatorContentLoaderJsComponent:connected->ShopsListAjaxComponent#handleMessageConnected
-                  ModalComponent:beforeShowed->ShopsListAjaxComponent#handleMessageBeforeShowed
-                  ShopsListAjaxComponent:itemPriceSelected@window->ShopsListAjaxComponent#handleMessageItemPriceSelected"
+                  ModalComponent:beforeShowed->ShopsListAjaxComponent#handleMessageBeforeShowed"
      data-url-path-shops-images="{{ data.urlPathShopsImages }}"
      data-url-no-shops-image="{{ data.urlNoShopsImage }}"
      data-shop-image-title="{{ lang.shopImageTitle }}"
@@ -17,8 +16,6 @@
     <div class="d-flex  justify-content-end">
         <button type="button"
                 class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
-                data-bs-target=""
-                data-bs-toggle="modal"
                 data-js-back-button>
 
             {% include "arrow-back-icon-white-24x24.svg" %}
@@ -30,9 +27,7 @@
 
         <button type="button"
                 class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
-                data-bs-target="#{{ data.shopCreateModalAttributeId }}"
-                data-bs-toggle="modal"
-                data-modal-current="{{ data.shopListAjaxModalAttributeId }}">
+                data-js-create-shop-button>
 
             {{ lang.buttonCreateShopLabel }}
         </button>
