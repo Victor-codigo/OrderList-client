@@ -16,7 +16,9 @@ class ProductModifyComponentDto implements TwigComponentDtoInterface
         public readonly string|null $imageNoImage,
         public readonly string|null $csrfToken,
         public readonly bool $validForm,
-        public readonly string $formActionUrlPlaceholder
+        public readonly string $formActionUrlPlaceholder,
+        public readonly string $shopListSelectModalIdAttribute,
+        public readonly string $productModifyModalIdAttribute
     ) {
     }
 }

@@ -1,4 +1,6 @@
-title: Product modify
+title:
+  main: Product modify
+  shops: Shops
 
 image_avatar:
   alt: Product image
@@ -20,6 +22,24 @@ image:
   label: Image
   placeholder: Upload a file for the product
 
+shop_name:
+  label: Shop and price
+  placeholder: Choose a shop
+  msg_invalid: The shop name is wrong
+
+product_price:
+  placeholder: Price
+  msg_invalid: The price is wrong
+
+shop_add_button:
+  label: Add shop
+  title: Add a new shop
+  alt: Add a new shop
+
+shop_remove_button:
+  title: Remove shop
+  alt: Remove shop
+
 product_modify_button:
   label: Modify product
 
@@ -31,7 +51,6 @@ validation:
       Enter a valid name.
       The name must contain at least a character and maximum 30 characters.
       Only are allowed alphanumeric characters and "_"
-    description: The description is too large
     product_name_repeated: There is already a product with the same name
     image: The image is not valid. It should be a jpg, png, bmp
     internal_server: An error has been occurred, try it later

@@ -1,4 +1,6 @@
-title: Modificar producto
+title:
+  main: Modificar producto
+  shops: Tiendas
 
 image_avatar:
   alt: Imagen del producto
@@ -20,6 +22,24 @@ image:
   label: Imagen
   placeholder: Sube una imagen para el producto
 
+shop_name:
+  label: Tienda y precio
+  placeholder: Elige una tienda
+  msg_invalid: El nombre de la tienda no es valido
+
+product_price:
+  placeholder: Precio
+  msg_invalid: El precio introducido no es correcto
+
+shop_add_button:
+  label: Añade una tiend
+  title: Añade una tienda nueva
+  alt: Añade una tienda nueva
+
+shop_remove_button:
+  title: Remove shop
+  alt: Remove shop
+
 product_modify_button:
   label: Modifica el producto
 
@@ -31,7 +51,6 @@ validation:
       Introduce un nombre válido.
       El nombre debe contener al menos un carácter y un máximo de 30.
       Solo está permitido caracteres alfanuméricos y "_"
-    description: La descripción es demasiado larga
     product_name_repeated: Ya hay un producto con el mismo nombre
     image: La imagen no es válida. Debe ser jpg, png, bmp
     internal_server: Ocurrió un error, inténtalo más tarde

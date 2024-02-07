@@ -225,11 +225,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             [],
             '',
             $productPrice,
-            '',
             $productCreateFormCsrfToken,
             false,
             mb_strtolower($productCreateFormActionUrl),
-            self::SHOP_LIST_MODAL_ID
         );
 
         return new ModalComponentDto(
@@ -303,7 +301,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
             $productModifyFormCsrfToken,
             false,
-            mb_strtolower($productModifyFormActionUrlPlaceholder)
+            mb_strtolower($productModifyFormActionUrlPlaceholder),
+            self::SHOP_LIST_MODAL_ID,
+            self::PRODUCT_MODIFY_MODAL_ID
         );
 
         return new ModalComponentDto(
@@ -312,7 +312,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             false,
             ProductModifyComponent::getComponentName(),
             $homeModalModify,
-            []
+            [],
         );
     }
 
@@ -351,8 +351,6 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
 
         $shopListAjaxComponentDto = new ShopsListAjaxComponentDto(
             $paginatorContentLoaderJsDto,
-            self::SHOP_CREATE_MODAL_ID,
-            self::PRODUCT_CREATE_MODAL_ID,
             $urlPathToShopImages,
             $urlImageShopNoImage,
         );
@@ -383,7 +381,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             '',
             false,
             ShopCreateAjaxComponent::getComponentName(),
-            new ShopCreateAjaxComponentDto($groupId, $shopCreateComponentDto, self::SHOP_LIST_MODAL_ID),
+            new ShopCreateAjaxComponentDto($groupId, $shopCreateComponentDto),
             []
         );
     }

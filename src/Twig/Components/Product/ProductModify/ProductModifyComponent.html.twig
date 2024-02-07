@@ -4,12 +4,14 @@
 	  data-action="ImageAvatarComponent:imageRemoved->ProductModifyComponent#setImageAvatarAsRemoved
 	  			   ImageAvatarComponent:imageRemovedUndo->ProductModifyComponent#setImageAvatarAsRemoved
 				   ProductModifyComponent:avatarSetImage->ImageAvatarComponent#handleMessageSetImage
-				   ProductListItemComponent:homeListItemModify@window->ProductModifyComponent#handleMessageHomeListItemModify"
+				   ProductListItemComponent:homeListItemModify@window->ProductModifyComponent#handleMessageHomeListItemModify
+				   ModalComponent:beforeShowed->ProductModifyComponent#handleMessageBeforeShowed
+				   [ShopsListAjaxComponent|>ProductModifyComponent]:shopSelected@window->ProductModifyComponent#handleMessageShopSelected"
 	  class="contaniner  p-4  pt-0  d-flex flex-column  justify-content-center"
 	  method="post"
 	  enctype="multipart/form-data"
 	  data-action-placeholder="{{ data.formActionUrlPlaceholder|escape('html_attr') }}"
-	  data-js-form-modify
+	  data-modal-component-content
 	  novalidate>
 
 	<input type="hidden"
@@ -72,6 +74,14 @@
 	<div class="mb-3">
 		{{ component('DropZoneComponent', { data: imageDto }) }}
 	</div>
+
+	<fieldset class="mt-5">
+		<legend class="mb-3  pb-1  border-bottom">
+			{{ lang.shopsTitle }}
+		</legend>
+
+		{{ component('ItemPriceAddComponent', { data: itemPriceAddDto } ) }}
+	</fieldset>
 
 	<div class="mt-5">
 		<input type="submit"

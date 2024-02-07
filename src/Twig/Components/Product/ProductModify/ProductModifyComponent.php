@@ -10,6 +10,7 @@ use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
+use App\Twig\Components\Controls\ItemPriceAdd\ItemPriceAddComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -35,6 +36,7 @@ final class ProductModifyComponent extends TwigComponent
     public readonly DropZoneComponentDto $imageDto;
     public readonly ImageAvatarComponentDto $imageAvatarDto;
     public readonly TitleComponentDto $titleDto;
+    public readonly ItemPriceAddComponentDto $itemPriceAddDto;
 
     public static function getComponentName(): string
     {
@@ -57,6 +59,7 @@ final class ProductModifyComponent extends TwigComponent
         $this->titleDto = $this->createTitleComponentDto();
         $this->imageDto = $this->createImageDropZone();
         $this->imageAvatarDto = $this->createImageAvatar();
+        $this->itemPriceAddDto = $this->createItemPriceAddComponentDto();
     }
 
     private function createTitleComponentDto(): TitleComponentDto
@@ -84,6 +87,40 @@ final class ProductModifyComponent extends TwigComponent
         );
     }
 
+    private function createItemPriceAddComponentDto(): ItemPriceAddComponentDto
+    {
+        return (new ItemPriceAddComponentDto())
+            ->itemId(
+                sprintf('%s[%s][]', PRODUCT_MODIFY_FORM_FIELDS::FORM, PRODUCT_MODIFY_FORM_FIELDS::SHOP_ID),
+                null
+            )
+            ->itemName(
+                sprintf('%s[%s][]', PRODUCT_MODIFY_FORM_FIELDS::FORM, PRODUCT_MODIFY_FORM_FIELDS::SHOP_NAME),
+                '',
+                $this->translate('shop_name.label'),
+                $this->translate('shop_name.placeholder'),
+                $this->translate('shop_name.msg_invalid'),
+            )
+            ->price(
+                sprintf('%s[%s][]', PRODUCT_MODIFY_FORM_FIELDS::FORM, PRODUCT_MODIFY_FORM_FIELDS::SHOP_PRICE),
+                null,
+                $this->translate('product_price.label'),
+                $this->translate('product_price.placeholder'),
+                $this->translate('product_price.msg_invalid'),
+                '€'
+            )
+            ->itemPriceAddButton(
+                $this->translate('shop_add_button.label'),
+                $this->translate('shop_add_button.title'),
+                $this->translate('shop_add_button.alt'),
+            )
+            ->itemRemoveButton(
+                $this->translate('shop_remove_button.title'),
+                $this->translate('shop_remove_button.alt'),
+            )
+            ->build();
+    }
+
     private function createAlertValidationComponentDto(): AlertValidationComponentDto
     {
         $errorsLang = $this->loadErrorsTranslation($this->data->errors);
@@ -98,12 +135,20 @@ final class ProductModifyComponent extends TwigComponent
     {
         $this->lang = (new ProductModifyComponentLangDto())
             ->title(
-                $this->translate('title')
+                $this->translate('title.main')
+            )
+            ->shopsTitle(
+                $this->translate('title.shops')
             )
             ->name(
                 $this->translate('name.label'),
                 $this->translate('name.placeholder'),
                 $this->translate('name.msg_invalid')
+            )
+            ->price(
+                $this->translate('price.label'),
+                $this->translate('price.placeholder'),
+                $this->translate('price.msg_invalid')
             )
             ->description(
                 $this->translate('description.label'),
@@ -129,20 +174,21 @@ final class ProductModifyComponent extends TwigComponent
         return $this->translate('validation.ok');
     }
 
+    /**
+     * @param string[] $errors
+     *
+     * @return string[]
+     */
     public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 PRODUCT_MODIFY_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
-                PRODUCT_MODIFY_FORM_ERRORS::DESCRIPTION->value => $this->translate('validation.error.description'),
                 PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_NAME_REPEATED->value => $this->translate('validation.error.product_name_repeated'),
                 PRODUCT_MODIFY_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.image'),
-                PRODUCT_MODIFY_FORM_ERRORS::GROUP_ID->value,
-                PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_ID->value,
-                PRODUCT_MODIFY_FORM_ERRORS::SHOP_NOT_FOUND->value,
-                PRODUCT_MODIFY_FORM_ERRORS::PRODUCT_NOT_FOUND->value,
                 PRODUCT_MODIFY_FORM_ERRORS::PERMISSIONS->value,
+                PRODUCT_MODIFY_FORM_ERRORS::DESCRIPTION->value,
                 PRODUCT_MODIFY_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.internal_server'),
                 default => $this->translate('validation.error.internal_server')
             };
