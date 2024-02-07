@@ -103,13 +103,6 @@ final class ProductCreateComponent extends TwigComponent
                 $this->translate('shop_remove_button.title'),
                 $this->translate('shop_remove_button.alt'),
             )
-            ->itemSelectModal(
-                $this->data->productCreateModalIdAttribute,
-                $this->data->shopListSelectModalIdAttribute,
-            )
-            ->events(
-                self::getComponentName()
-            )
             ->build();
     }
 

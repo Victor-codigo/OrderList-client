@@ -1,36 +1,67 @@
 import { Controller } from '@hotwired/stimulus';
 import * as form from 'App/modules/form';
-import * as event from 'App/modules/Event';
 import * as communication from 'App/modules/ControllerCommunication';
+import ModalManager from 'App/modules/ModalManager/ModalManager';
+import * as FormItemPriceAddTrait from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddFormTrait';
 
+const MODAL_CHAINS = {
+    productCreateChain: {
+        name: 'productCreateChain',
+        modals: {
+            productCreate: 'product_create_modal',
+            shopList: 'shop_list_select_modal',
+            shopCreate: 'shop_create_modal'
+        }
+    }
+}
 
-export default class extends Controller {
+export default class ProductCreateController extends Controller {
+    /**
+     * @type {ModalManager|null}
+     */
+    #modalManager = null;
+    get modalManager() { return this.#modalManager; }
+
+    /**
+     * @type {HTMLElement}
+     */
+    #itemPriceGroupCurrent = null;
+    get itemPriceGroupCurrent() { return this.#itemPriceGroupCurrent; }
+
+    /**
+     * @type {HTMLElement}
+     */
+    #itemPriceAddComponentTag;
+
+    /**
+     * @type {HTMLElement}
+     */
+    #dropzoneComponentTag;
+
+    /**
+     * @this {ProductCreateController & FormItemPriceAddTrait}
+     */
     connect() {
-        this.itemPriceGroupCurrent = null;
-        this.itemPriceAddComponentTag = this.element.querySelector('[data-controller="ItemPriceAddComponent"]');
-        this.dropzoneComponentTag = this.element.querySelector('[data-controller="DropZoneComponent"]');
+        this.#itemPriceAddComponentTag = this.element.querySelector('[data-controller="ItemPriceAddComponent"]');
+        this.#dropzoneComponentTag = this.element.querySelector('[data-controller="DropZoneComponent"]');
 
         this.formValidate();
-
-        event.addEventListenerDelegate({
-            element: this.element,
-            elementDelegateSelector: '[data-js-item-group]',
-            eventName: 'click',
-            callbackListener: this.#setPriceGroupCurrent.bind(this),
-            eventOptions: {}
-        });
+        this.setItemPriceAddEvents();
     }
 
+    /**
+     * @this {ProductCreateController & FormItemPriceAddTrait}
+     */
     disconnect() {
-        event.removeEventListenerDelegate(this.element, 'click', this.#setPriceGroupCurrent);
+        this.removeItemPriceAddEvents();
     }
 
     /**
      * @param {HTMLElement} itemGroupTag
      * @param {Event} event
      */
-    #setPriceGroupCurrent(itemGroupTag, event) {
-        this.itemPriceGroupCurrent = itemGroupTag;
+    setPriceGroupCurrent(itemGroupTag, event) {
+        this.#itemPriceGroupCurrent = itemGroupTag;
     }
 
     formValidate() {
@@ -44,31 +75,15 @@ export default class extends Controller {
         this.#sendMessageItemPriceAddClear();
     }
 
-    /**
-     * @param {object} event
-     * @param {object} event.detail
-     * @param {object} event.detail.content
-     * @param {string} event.detail.content.shopId
-     * @param {string} event.detail.content.shopName
-     */
-    handleMessageShopSelected({ detail: { content } }) {
-        const itemPriceId = this.itemPriceGroupCurrent.querySelector('[data-js-item-id]');
-        const itemPriceName = this.itemPriceGroupCurrent.querySelector('[data-js-item-name]');
+    #setModalData() {
+        if (!this.#modalManager.modalChainExists(MODAL_CHAINS.productCreateChain.name)) {
+            this.#modalManager
+                .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.productCreate)
+                .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.shopList)
+                .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.shopCreate)
+        }
 
-        itemPriceId.value = content.shopId;
-        itemPriceName.value = content.shopName;
-    }
-
-    /**
-     * @param {object} event
-     * @param {object} event.detail
-     * @param {object} event.detail.content
-     * @param {string} event.detail.content.id
-     * @param {string} event.detail.content.name
-     * @param {string} event.detail.content.itemsAdded
-     */
-    handleMessageItemPriceSelected({ detail: { content } }) {
-        this.#sendMessageItemPriceSelectedToShopsListAjaxComponent(content.itemsAdded);
+        this.#modalManager.setModalCurrent(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.productCreate);
     }
 
     /**
@@ -77,41 +92,36 @@ export default class extends Controller {
      * @param {object} event.detail.content
      * @param {boolean} event.detail.content.showedFirstTime
      * @param {HTMLElement} event.detail.content.triggerElement
-     * @param {object} event.detail.content.triggerElementData
-     * @param {string} event.detail.content.triggerElementData.modalBefore
-     * @param {string} event.detail.content.triggerElementData.controllerModalEventHandler
+     * @param {ModalManager} event.detail.content.modalManager
+     *
+     * @this {ProductCreateController & FormItemPriceAddTrait}
      */
     handleMessageBeforeShowed({ detail: { content } }) {
-        if (typeof content.triggerElement === 'undefined') {
+        const modalBefore = content.modalManager.getModalOpenedBefore();
+        this.#modalManager = content.modalManager;
+        this.#setModalData();
+
+        if (modalBefore === null) {
+            this.#clearForm();
+
             return;
         }
 
-        if (!content.triggerElement.hasAttribute('data-js-add-item')) {
-            return;
+        const modalBeforeSharedData = this.getModalBeforeSharedData();
+
+        if (modalBeforeSharedData !== null) {
+            this.setShopCurrentData(modalBeforeSharedData.id, modalBeforeSharedData.name);
         }
 
-        this.#clearForm();
-    }
-
-    /**
-     * @param {object} shopAdded
-     * @param {string} shopAdded.id
-     * @param {string} shopAdded.name
-     * @param {string} shopAdded.price
-     */
-    #sendMessageItemPriceSelectedToShopsListAjaxComponent(shopsAdded) {
-        communication.sendMessageToNotRelatedController(this.element, 'itemPriceSelected', {
-            shopsAdded: shopsAdded
-        },
-            'ShopsListAjaxComponent'
-        );
     }
 
     #sendMessageItemPriceAddClear() {
-        communication.sendMessageToChildController(this.itemPriceAddComponentTag, 'clear');
+        communication.sendMessageToChildController(this.#itemPriceAddComponentTag, 'clear');
     }
 
     #sendMessageDropzoneClear() {
-        communication.sendMessageToChildController(this.dropzoneComponentTag, 'clear')
+        communication.sendMessageToChildController(this.#dropzoneComponentTag, 'clear')
     }
 }
+
+Object.assign(ProductCreateController.prototype, FormItemPriceAddTrait);
