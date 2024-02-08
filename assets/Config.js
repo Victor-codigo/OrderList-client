@@ -17,3 +17,21 @@ export const MODAL_CHAINS = {
         }
     }
 }
+
+/**
+ * @typedef {Object} ItemData
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {string} image
+ * @property {ItemShopData[]} shops
+ */
+
+/**
+ * @typedef {Object} ItemShopData
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {string} image
+ * @property {number} price
+ */
