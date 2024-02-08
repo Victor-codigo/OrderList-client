@@ -4,18 +4,9 @@ import * as encodedUrlParameter from 'App/modules/EncodedUrlParameter';
 import * as communication from 'App/modules/ControllerCommunication';
 import ModalManager from 'App/modules/ModalManager/ModalManager';
 import * as FormItemPriceAddTrait from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddFormTrait';
+import { MODAL_CHAINS } from 'App/Config';
 
 const PRODUCT_NAME_PLACEHOLDER = '--product_name--';
-const MODAL_CHAINS = {
-    productModifyChain: {
-        name: 'productModifyChain',
-        modals: {
-            productModify: 'product_modify_modal',
-            shopList: 'shop_list_select_modal',
-            shopCreate: 'shop_create_modal'
-        }
-    }
-};
 
 export default class ProductModifyController extends Controller {
     /**

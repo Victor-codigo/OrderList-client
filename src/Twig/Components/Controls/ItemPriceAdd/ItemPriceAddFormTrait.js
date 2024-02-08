@@ -1,15 +1,5 @@
 import * as event from 'App/modules/Event';
-
-const MODAL_CHAINS = {
-    productCreateChain: {
-        name: 'productCreateChain',
-        modals: {
-            productCreate: 'product_create_modal',
-            shopList: 'shop_list_select_modal',
-            shopCreate: 'shop_create_modal'
-        }
-    }
-}
+import { MODAL_CHAINS } from 'App/Config';
 
 export function setItemPriceAddEvents() {
     event.addEventListenerDelegate({
@@ -36,10 +26,15 @@ export function removeItemPriceAddEvents() {
 
 /**
  * @param {HTMLElement} itemNameTag
- * @param {Event} event
+ * @param {object} event
+ * @param {object} event.detail
+ * @param {object} event.detail.content
+ * @param {object} event.detail.content.chainCurrentName
  */
 export function handleItemNameClickEvent(itemNameTag, event) {
-    this.modalManager.openNewModal(MODAL_CHAINS.productCreateChain.modals.shopList);
+    const chainCurrentName = this.modalManager.getChainCurrent().getName();
+
+    this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopList);
 }
 
 /**

@@ -3,17 +3,7 @@ import * as apiEndpoint from 'App/modules/ApiEndpoints.js'
 import * as communication from 'App/modules/ControllerCommunication';
 import * as alertComponent from 'App/Twig/Components/Alert/AlertComponent_controller';
 import ModalManager from 'App/modules/ModalManager/ModalManager';
-
-const MODAL_CHAINS = {
-    productCreateChain: {
-        name: 'productCreateChain',
-        modal: 'product_create_modal',
-    },
-    productModifyChain: {
-        name: 'productModifyChain',
-        modal: 'product_modify_modal',
-    }
-};
+import { MODAL_CHAINS } from 'App/Config';
 
 export default class extends Controller {
     /**
@@ -98,8 +88,12 @@ export default class extends Controller {
      */
     #modalShowOnSubmitOk(shopNewId, shopNewName) {
         const chainCurrentName = this.#modalManager.getChainCurrent().getName();
+        const modals = {
+            [MODAL_CHAINS.productCreateChain.name]: MODAL_CHAINS.productCreateChain.modals.productCreate,
+            [MODAL_CHAINS.productModifyChain.name]: MODAL_CHAINS.productModifyChain.modals.productModify,
+        };
 
-        this.#modalManager.openModalAlreadyOpened(MODAL_CHAINS[chainCurrentName].modal, {
+        this.#modalManager.openModalAlreadyOpened(modals[chainCurrentName], {
             shopId: {
                 id: shopNewId.trim(),
                 name: shopNewName.trim()

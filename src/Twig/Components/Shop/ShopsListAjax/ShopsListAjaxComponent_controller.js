@@ -3,6 +3,7 @@ import ListItems from 'App/modules/ListItems';
 import * as event from 'App/modules/Event';
 import * as communication from 'App/modules/ControllerCommunication';
 import ModalManager from 'App/modules/ModalManager/ModalManager';
+import { MODAL_CHAINS } from 'App/Config';
 
 const LIST_ATTRIBUTE_SELECTOR = "data-js-list-shops";
 const LIST_ITEM_ATTRIBUTE_SELECTOR = "data-js-list-shops-item";
@@ -153,7 +154,9 @@ export default class extends Controller {
     }
 
     #openModalCreateShop() {
-        this.#modalManager.openNewModal('shop_create_modal');
+        const chainCurrentName = this.#modalManager.getChainCurrent().getName();
+
+        this.#modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].shopCreate);
     }
 
     handleMessageConnected() {
