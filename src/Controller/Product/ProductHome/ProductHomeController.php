@@ -6,6 +6,8 @@ namespace App\Controller\Product\ProductHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ProductDataResponse;
+use App\Controller\Request\Response\ProductShopPriceDataResponse;
+use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Form\Product\ProductModify\ProductModifyForm;
 use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
@@ -88,6 +90,9 @@ class ProductHomeController extends AbstractController
             $requestDto->tokenSession
         );
 
+        $shopsData = $this->getProductsShopsData($requestDto->groupData->id, $productsData['products'], $requestDto->tokenSession);
+        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $productsData['products'], $shopsData, $requestDto->tokenSession);
+
         $productHomeComponentDto = $this->createProductHomeComponentDto(
             $requestDto,
             $productCreateForm,
@@ -101,6 +106,8 @@ class ProductHomeController extends AbstractController
             null,
             $searchBarForm->getCsrfToken(),
             $productsData['products'],
+            $shopsData,
+            $productsShopsPricesData,
             $productsData['pages_total']
         );
 
@@ -155,6 +162,50 @@ class ProductHomeController extends AbstractController
         return $productsData['data'];
     }
 
+    private function getProductsShopsData(string $groupId, array $productsData, string $tokenSession): array
+    {
+        $productsId = array_column($productsData, 'id');
+
+        if (empty($productsId)) {
+            return [];
+        }
+
+        $shopsData = $this->endpoints->shopsGetData(
+            $groupId,
+            null,
+            $productsId,
+            null,
+            null,
+            null,
+            1,
+            100,
+            true,
+            $tokenSession
+        );
+
+        return array_map(
+            fn (array $shopData) => ShopDataResponse::fromArray($shopData),
+            $shopsData['data']['shops']
+        );
+    }
+
+    private function getProductsShopPrices(string $groupId, array $productsData, array $shopsData, string $tokenSession): array
+    {
+        $productsId = array_column($productsData, 'id');
+        $shopsId = array_column($shopsData, 'id');
+
+        if (empty($productsId) || empty($shopsId)) {
+            return [];
+        }
+
+        $productsShopPriceData = $this->endpoints->getProductShopPrice($groupId, $productsId, $shopsId, $tokenSession);
+
+        return array_map(
+            fn (array $productShopPriceData) => ProductShopPriceDataResponse::fromArray($productShopPriceData),
+            $productsShopPriceData['data']['products_shops']
+        );
+    }
+
     private function createProductHomeComponentDto(
         RequestDto $requestDto,
         FormInterface $productCreateForm,
@@ -168,6 +219,8 @@ class ProductHomeController extends AbstractController
         string|null $searchBarShopFieldValue,
         string $searchBarCsrfToken,
         array $productsData,
+        array $shopsData,
+        array $productsShopsPriceData,
         int $pagesTotal,
     ): ProductHomeSectionComponentDto {
         $productHomeMessagesError = $this->sessionFlashBag->get(
@@ -189,6 +242,8 @@ class ProductHomeController extends AbstractController
             )
             ->listItems(
                 $productsData,
+                $shopsData,
+                $productsShopsPriceData
             )
             ->validation(
                 !empty($productHomeMessagesError) || !empty($productHomeMessagesOk) ? true : false,

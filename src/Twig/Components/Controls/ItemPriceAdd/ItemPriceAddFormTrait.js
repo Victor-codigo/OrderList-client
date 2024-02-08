@@ -1,6 +1,11 @@
 import * as event from 'App/modules/Event';
 import { MODAL_CHAINS } from 'App/Config';
 
+/**
+ * @type {HTMLElement|null}
+ */
+let itemPriceGroupCurrent = null;
+
 export function setItemPriceAddEvents() {
     event.addEventListenerDelegate({
         element: this.element,
@@ -25,30 +30,25 @@ export function removeItemPriceAddEvents() {
 }
 
 /**
- * @param {HTMLElement} itemNameTag
- * @param {object} event
- * @param {object} event.detail
- * @param {object} event.detail.content
- * @param {object} event.detail.content.chainCurrentName
+ * @param {HTMLElement} itemGroupTag
+ * @param {Event} event
  */
-export function handleItemNameClickEvent(itemNameTag, event) {
-    const chainCurrentName = this.modalManager.getChainCurrent().getName();
-
-    this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopList);
+export function setPriceGroupCurrent(itemGroupTag, event) {
+    itemPriceGroupCurrent = itemGroupTag;
 }
 
 /**
- * @param {string} shopId
- * @param {string} shopName
+ * @param {string} itemId
+ * @param {string} itemName
  */
-export function setShopCurrentData(shopId, shopName) {
+export function setItemCurrentData(itemId, itemName) {
     /** @type {HTMLInputElement} */
-    const itemPriceId = this.itemPriceGroupCurrent.querySelector('[data-js-item-id]');
+    const itemPriceId = itemPriceGroupCurrent.querySelector('[data-js-item-id]');
     /** @type {HTMLInputElement} */
-    const itemPriceName = this.itemPriceGroupCurrent.querySelector('[data-js-item-name]');
+    const itemPriceName = itemPriceGroupCurrent.querySelector('[data-js-item-name]');
 
-    itemPriceId.value = shopId;
-    itemPriceName.value = shopName;
+    itemPriceId.value = itemId;
+    itemPriceName.value = itemName;
 }
 
 /**
@@ -61,9 +61,22 @@ export function getModalBeforeSharedData() {
         name: null
     };
 
-    if (typeof modalBeforeSharedData.shopId === 'undefined') {
+    if (typeof modalBeforeSharedData.itemData === 'undefined') {
         return null;
     }
 
-    return { ...returnDefault, ...modalBeforeSharedData.shopId };
+    return { ...returnDefault, ...modalBeforeSharedData.itemData };
+}
+
+/**
+ * @param {HTMLElement} itemNameTag
+ * @param {object} event
+ * @param {object} event.detail
+ * @param {object} event.detail.content
+ * @param {object} event.detail.content.chainCurrentName
+ */
+export function handleItemNameClickEvent(itemNameTag, event) {
+    const chainCurrentName = this.modalManager.getChainCurrent().getName();
+
+    this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopList);
 }

@@ -16,12 +16,6 @@ export default class ProductModifyController extends Controller {
     get modalManager() { return this.#modalManager; }
 
     /**
-     * @type {HTMLElement|null}
-     */
-    #itemPriceGroupCurrent = null;
-    get itemPriceGroupCurrent() { return this.#itemPriceGroupCurrent; }
-
-    /**
      * @type {HTMLInputElement|null}
      */
     #productNameTag;
@@ -31,6 +25,16 @@ export default class ProductModifyController extends Controller {
      */
     #productDescriptionTag;
 
+    /**
+     * @type {HTMLElement}
+     */
+    #itemAddComponentTag;
+
+    constructor(context) {
+        Object.assign(ProductModifyController.prototype, FormItemPriceAddTrait);
+
+        super(context);
+    }
 
     /**
      * @this {ProductModifyController & FormItemPriceAddTrait}
@@ -38,6 +42,7 @@ export default class ProductModifyController extends Controller {
     connect() {
         this.#productNameTag = this.element.querySelector('[data-js-product-name]');
         this.#productDescriptionTag = this.element.querySelector('[data-js-product-description]');
+        this.#itemAddComponentTag = this.element.querySelector('[data-controller="ItemPriceAddComponent"]');
 
         this.formValidate();
         this.setItemPriceAddEvents();
@@ -72,19 +77,18 @@ export default class ProductModifyController extends Controller {
     }
 
     /**
-     * @param {object} content
-     * @param {string} content.name
-     * @param {string} content.description
-     * @param {string} content.image
+     * @param {import('App/Config').ItemData} productData
      */
-    setFormFieldValues(content) {
-        this.#productNameTag.value = content.name;
+    setFormFieldValues(productData) {
+        this.#productNameTag.value = productData.name;
         this.element.action = this.element.dataset.actionPlaceholder.replace(
             PRODUCT_NAME_PLACEHOLDER,
-            encodedUrlParameter.encodeUrlParameter(content.name)
+            encodedUrlParameter.encodeUrlParameter(productData.name)
         );
-        this.#productDescriptionTag.value = content.description;
-        this.sendMessageAvatarSetImageEventToImageAvatarComponent(content.image);
+        this.#productDescriptionTag.value = productData.description;
+        this.sendMessageAvatarSetImageEventToImageAvatarComponent(productData.image);
+        this.sendMessageClearToItemsAddComponent();
+        this.sendMessageAddItemsToItemsAddComponent(productData.shops)
     }
 
     #setModalData() {
@@ -120,7 +124,7 @@ export default class ProductModifyController extends Controller {
         const modalBeforeSharedData = this.getModalBeforeSharedData();
 
         if (modalBeforeSharedData !== null) {
-            this.setShopCurrentData(modalBeforeSharedData.id, modalBeforeSharedData.name);
+            this.setItemCurrentData(modalBeforeSharedData.id, modalBeforeSharedData.name);
         }
     }
 
@@ -128,12 +132,10 @@ export default class ProductModifyController extends Controller {
      * @param {object} event
      * @param {object} event.detail
      * @param {object} event.detail.content
-     * @param {string} event.detail.content.name
-     * @param {string} event.detail.content.description
-     * @param {string} event.detail.content.image
+     * @param {object} event.detail.content.itemData
      */
     handleMessageHomeListItemModify({ detail: { content } }) {
-        this.setFormFieldValues(content);
+        this.setFormFieldValues(content.itemData);
     }
 
     /**
@@ -147,5 +149,16 @@ export default class ProductModifyController extends Controller {
         );
     }
 
+    /**
+     * @param {Array<{id: string, name: string, price: number}>} items
+     */
+    sendMessageAddItemsToItemsAddComponent(items) {
+        communication.sendMessageToChildController(this.#itemAddComponentTag, 'addItems', {
+            items: items
+        });
+    }
 
+    sendMessageClearToItemsAddComponent() {
+        communication.sendMessageToChildController(this.#itemAddComponentTag, 'clear');
+    }
 }

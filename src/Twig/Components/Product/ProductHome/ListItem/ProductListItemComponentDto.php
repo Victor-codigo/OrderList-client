@@ -8,6 +8,15 @@ use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 
 class ProductListItemComponentDto extends HomeListItemComponentDto
 {
+    /**
+     * @param array<{
+     *      id: string,
+     *      name: string,
+     *      description: string,
+     *      image: string,
+     *      price; float|null
+     * }> $shops
+     */
     public function __construct(
         public readonly string $componentName,
         public readonly string $id,
@@ -19,6 +28,8 @@ class ProductListItemComponentDto extends HomeListItemComponentDto
         public readonly string|null $description,
         public readonly string|null $image,
         public readonly \DateTimeImmutable $createdOn,
+        public readonly array $shops,
+        public readonly array $productsShopsPrice,
     ) {
     }
 }

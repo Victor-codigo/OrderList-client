@@ -1,7 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import * as communication from 'App/modules/ControllerCommunication';
 
-
 export default class extends Controller {
     connect() {
         this.itemName = this.element.querySelector('[data-js-item-name]').innerHTML.trim();
@@ -19,8 +18,8 @@ export default class extends Controller {
     sendMessageHomeListItemRemoveEvent() {
         communication.sendMessageToNotRelatedController(this.element, 'removeHomeListItem', {
             items: [{
-                id: this.element.dataset.itemId,
-                name: this.element.dataset.itemName
+                id: this.element.dataset.itemData.id,
+                name: this.element.dataset.itemData.name
             }]
         },
             'ItemRemoveComponent'
@@ -29,16 +28,13 @@ export default class extends Controller {
 
     sendMessageHomeListItemModifyToParent() {
         communication.sendMessageToParentController(this.element, 'homeListItemModify', {
-            id: this.element.dataset.itemId,
-            name: this.itemName,
-            description: this.itemDescription,
-            image: this.itemImage
+            itemData: JSON.parse(this.element.dataset.itemData)
         });
     }
 
     #sendMessageHomeListItemSelectedToParent() {
         communication.sendMessageToParentController(this.element, 'onHomeListItemSelectedEvent', {
-            id: this.element.dataset.itemId
+            id: this.element.dataset.itemData.id
         });
     }
 }

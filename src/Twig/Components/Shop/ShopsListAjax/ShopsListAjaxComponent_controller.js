@@ -146,7 +146,7 @@ export default class extends Controller {
     #openModalShopSelected(relatedTarget, event) {
         const itemData = JSON.parse(relatedTarget.dataset.data);
         this.#modalManager.openNewModal(this.#modalManager.getModalBeforeInChain().getModalId(), {
-            shopId: {
+            itemData: {
                 id: itemData.id,
                 name: itemData.name
             }

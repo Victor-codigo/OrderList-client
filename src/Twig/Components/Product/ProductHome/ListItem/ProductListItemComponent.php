@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Product\ProductHome\ListItem;
 
+use App\Controller\Request\Response\ProductShopPriceDataResponse;
+use App\Controller\Request\Response\ShopDataResponse;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponent;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentLangDto;
@@ -19,6 +21,8 @@ final class ProductListItemComponent extends HomeListItemComponent
     public HomeListItemComponentLangDto $lang;
     public ProductListItemComponentDto|TwigComponentDtoInterface $data;
 
+    public readonly string $productDataJson;
+
     public static function getComponentName(): string
     {
         return 'ProductListItemComponent';
@@ -28,6 +32,7 @@ final class ProductListItemComponent extends HomeListItemComponent
     {
         $this->data = $data;
         $this->loadTranslation();
+        $this->productDataJson = $this->parseItemDataToJson($data);
     }
 
     protected function loadTranslation(): void
@@ -41,5 +46,37 @@ final class ProductListItemComponent extends HomeListItemComponent
             $this->translate('product_image.alt'),
             $this->translate('product_image.title'),
         );
+    }
+
+    private function parseItemDataToJson(ProductListItemComponentDto $productData): string
+    {
+        $productShopsPricesDataByShopId = array_combine(
+            array_map(
+                fn (ProductShopPriceDataResponse $productShopPrice) => $productShopPrice->shopId,
+                $productData->productsShopsPrice
+            ),
+            $productData->productsShopsPrice
+        );
+
+        $productShopsData = array_map(
+            fn (ShopDataResponse $shopData) => [
+                'id' => $shopData->id,
+                'name' => $shopData->name,
+                'description' => $shopData->description,
+                'image' => $shopData->image,
+                'price' => $productShopsPricesDataByShopId[$shopData->id]->price,
+            ],
+            $productData->shops
+        );
+
+        $productDataToParse = [
+            'id' => $productData->id,
+            'name' => $productData->name,
+            'description' => $productData->description,
+            'image' => $productData->image,
+            'shops' => $productShopsData,
+        ];
+
+        return json_encode($productDataToParse, JSON_THROW_ON_ERROR);
     }
 }

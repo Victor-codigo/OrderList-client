@@ -15,18 +15,18 @@ export default class ProductCreateController extends Controller {
     /**
      * @type {HTMLElement}
      */
-    #itemPriceGroupCurrent = null;
-    get itemPriceGroupCurrent() { return this.#itemPriceGroupCurrent; }
-
-    /**
-     * @type {HTMLElement}
-     */
     #itemPriceAddComponentTag;
 
     /**
      * @type {HTMLElement}
      */
     #dropzoneComponentTag;
+
+    constructor(context) {
+        Object.assign(ProductCreateController.prototype, FormItemPriceAddTrait);
+
+        super(context);
+    }
 
     /**
      * @this {ProductCreateController & FormItemPriceAddTrait}
@@ -44,14 +44,6 @@ export default class ProductCreateController extends Controller {
      */
     disconnect() {
         this.removeItemPriceAddEvents();
-    }
-
-    /**
-     * @param {HTMLElement} itemGroupTag
-     * @param {Event} event
-     */
-    setPriceGroupCurrent(itemGroupTag, event) {
-        this.#itemPriceGroupCurrent = itemGroupTag;
     }
 
     formValidate() {
@@ -100,7 +92,7 @@ export default class ProductCreateController extends Controller {
         const modalBeforeSharedData = this.getModalBeforeSharedData();
 
         if (modalBeforeSharedData !== null) {
-            this.setShopCurrentData(modalBeforeSharedData.id, modalBeforeSharedData.name);
+            this.setItemCurrentData(modalBeforeSharedData.id, modalBeforeSharedData.name);
         }
 
     }
@@ -114,4 +106,4 @@ export default class ProductCreateController extends Controller {
     }
 }
 
-Object.assign(ProductCreateController.prototype, FormItemPriceAddTrait);
+

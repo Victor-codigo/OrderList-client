@@ -50,8 +50,33 @@ export default class extends Controller {
         event.removeEventListenerDelegate(this.#itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
     }
 
-    #addItem() {
+    /**
+     * @param {string|null} [id]
+     * @param {string|null} [name]
+     * @param {number|null} [price]
+     */
+    #addItem(id = null, name = null, price = null) {
+        /** @type {HTMLElement} */
         const itemPriceAddTemplate = this.#itemPriceAddTemplate.content.cloneNode(true);
+
+
+        if (id !== null) {
+            /** @type {HTMLInputElement} */
+            const itemIdTag = itemPriceAddTemplate.querySelector('[data-js-item-id]');
+            itemIdTag.value = id;
+        }
+
+        if (name !== null) {
+            /** @type {HTMLInputElement} */
+            const itemNameTag = itemPriceAddTemplate.querySelector('[data-js-item-name]');
+            itemNameTag.value = name;
+        }
+
+        if (price !== null) {
+            /** @type {HTMLInputElement} */
+            const itemPriceTag = itemPriceAddTemplate.querySelector('[data-js-item-price]');
+            itemPriceTag.value = price.toString();
+        }
 
         this.#itemPriceAddContainer.appendChild(itemPriceAddTemplate);
     }
@@ -83,16 +108,9 @@ export default class extends Controller {
             .filter((itemGroupTag) => itemGroupTag.id !== null);
     }
 
-    #handlerRemoveItemEvent(elementTargetEvent, event) {
-        const itemPriceAddContainer = elementTargetEvent.closest('[data-js-item-container]');
-
-        this.#removeItem(itemPriceAddContainer);
-    }
-
-    handleMessageClear({ detail: { content } }) {
-        this.#clearItemContainer();
-    }
-
+    /**
+     * @param {HTMLElement} itemPriceAddContainer
+     */
     #removeItem(itemPriceAddContainer) {
         this.#itemPriceAddContainer.removeChild(itemPriceAddContainer);
     }
@@ -101,14 +119,52 @@ export default class extends Controller {
         this.#itemPriceAddContainer.innerHTML = '';
     }
 
+    /**
+     * @param {HTMLInputElement} elementTargetEvent
+     * @param {Event} event
+     */
     #sendMessageItemPriceCLickedToParent(elementTargetEvent, event) {
+        /** @type {HTMLInputElement} */
         const itemPriceAddContainer = elementTargetEvent.closest('[data-js-item-container]');
         const itemsAdded = this.#getItemsAddedValue();
+        /** @type {HTMLInputElement} */
+        const itemId = itemPriceAddContainer.querySelector('[data-js-item-id]');
 
         communication.sendMessageToParentController(this.element, 'itemPriceSelected', {
-            id: itemPriceAddContainer.querySelector('[data-js-item-id]').value,
+            id: itemId.value,
             name: elementTargetEvent.value,
             itemsAdded: itemsAdded
         });
+    }
+
+    /**
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     */
+    handleMessageClear({ detail: { content } }) {
+        this.#clearItemContainer();
+    }
+
+    /**
+     * @param {HTMLElement} elementTargetEvent
+     * @param {Event} event
+     */
+    #handlerRemoveItemEvent(elementTargetEvent, event) {
+        /** @type {HTMLElement} */
+        const itemPriceAddContainer = elementTargetEvent.closest('[data-js-item-container]');
+
+        this.#removeItem(itemPriceAddContainer);
+    }
+
+    /**
+     *
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     * @param {Array<{id: string, name: string, price: number}>} event.detail.content.items
+     */
+    handleMessageAddItems({ detail: { content } }) {
+        content.items.forEach((item) => this.#addItem(item.id, item.name, item.price));
     }
 }

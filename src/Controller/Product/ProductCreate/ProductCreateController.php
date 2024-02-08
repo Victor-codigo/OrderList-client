@@ -97,7 +97,7 @@ class ProductCreateController extends AbstractController
         $prices = $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_PRICE);
         $productsId = array_fill(0, count($shopsId), $productId);
 
-        $responseData = $this->endpoints->productShopPrice(
+        $responseData = $this->endpoints->setProductShopPrice(
             $groupId,
             $productsId,
             $shopsId,

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Twig\Components\Product\ProductHome;
 
 use App\Controller\Request\Response\ProductDataResponse;
+use App\Controller\Request\Response\ProductShopPriceDataResponse;
+use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Product\ProductRemoveMulti\PRODUCT_REMOVE_MULTI_FORM_FIELDS;
 use App\Twig\Components\Controls\ContentLoaderJs\ContentLoaderJsComponentDto;
 use App\Twig\Components\Controls\PaginatorContentLoaderJs\PaginatorContentLoaderJsComponentDto;
@@ -54,6 +56,8 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     private readonly ModalComponentDto $shopCreateModalDto;
 
     private readonly array $listProductsData;
+    private readonly array $listShopsData;
+    private readonly array $listProductsShopPricesData;
 
     public function __construct()
     {
@@ -154,11 +158,13 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function listItems(array $listProductsData): self
+    public function listItems(array $listProductsData, array $listShopsData, array $listProductsShopsPriceData): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
         $this->listProductsData = $listProductsData;
+        $this->listShopsData = $listShopsData;
+        $this->listProductsShopPricesData = $listProductsShopsPriceData;
 
         return $this;
     }
@@ -318,19 +324,51 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
 
     private function createProductListItemsComponentsDto(): array
     {
+        $shopsIdById = array_combine(
+            array_map(
+                fn (ShopDataResponse $shopData) => $shopData->id,
+                $this->listShopsData
+            ),
+            $this->listShopsData
+        );
+
+        $thisArg = $this;
+        $productListItems = array_map(
+            function (ProductDataResponse $productData) use ($thisArg, $shopsIdById) {
+                $productShopsPriceData = array_filter(
+                    $thisArg->listProductsShopPricesData,
+                    fn (ProductShopPriceDataResponse $productsShopPrice) => $productsShopPrice->productId === $productData->id
+                );
+
+                $productShopsData = array_map(
+                    fn (ProductShopPriceDataResponse $productShopPrice) => $shopsIdById[$productShopPrice->shopId],
+                    $productShopsPriceData,
+                );
+
+                return [
+                    'productData' => $productData,
+                    'shopsData' => array_values($productShopsData),
+                    'shopsPricesData' => array_values($productShopsPriceData),
+                ];
+            },
+            $this->listProductsData
+        );
+
         return array_map(
-            fn (ProductDataResponse $homeData) => new ProductListItemComponentDto(
+            fn (array $listItemData) => new ProductListItemComponentDto(
                 ProductListItemComponent::getComponentName(),
-                $homeData->id,
-                $homeData->name,
+                $listItemData['productData']->id,
+                $listItemData['productData']->name,
                 self::PRODUCT_MODIFY_MODAL_ID,
                 self::PRODUCT_DELETE_MODAL_ID,
                 self::PRODUCT_HOME_LIST_ITEM_COMPONENT_NAME,
-                $homeData->description,
-                $homeData->image ?? Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
-                $homeData->createdOn,
+                $listItemData['productData']->description,
+                $listItemData['productData']->image ?? Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
+                $listItemData['productData']->createdOn,
+                $listItemData['shopsData'],
+                $listItemData['shopsPricesData']
             ),
-            $this->listProductsData
+            $productListItems
         );
     }
 
