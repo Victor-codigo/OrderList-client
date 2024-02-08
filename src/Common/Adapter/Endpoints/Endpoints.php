@@ -165,9 +165,24 @@ class Endpoints implements EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
-    public function productShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array
+    public function setProductShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array
     {
-        return ProductsEndPoint::getInstance($this->httpClient)->productShopPrice($groupId, $productsId, $shopsId, $prices, $tokenSession);
+        return ProductsEndPoint::getInstance($this->httpClient)->setProductShopPrice($groupId, $productsId, $shopsId, $prices, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function getProductShopPrice(string $groupId, array $productsId, array $shopsId, string $tokenSession): array
+    {
+        return ProductsEndPoint::getInstance($this->httpClient)->getProductShopPrice($groupId, $productsId, $shopsId, $tokenSession);
     }
 
     public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array

@@ -16,6 +16,7 @@ class ProductsEndPoint extends EndpointBase
     public const POST_PRODUCT_SHOP = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products/price';
     public const DELETE_PRODUCT_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
     public const GET_PRODUCT_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
+    public const GET_PRODUCT_SHOP_PRICE_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products/price';
 
     private static self|null $instance = null;
 
@@ -232,13 +233,65 @@ class ProductsEndPoint extends EndpointBase
     }
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function getProductShopPrice(string $groupId, array $productsId, array $shopsId, string $tokenSession): array
+    {
+        $response = $this->requestGetProductShopPrice($groupId, $productsId, $shopsId, $tokenSession);
+
+        return $this->apiResponseManage($response, null,
+            fn (array $responseDataOk) => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 1,
+                    'products_shops' => $responseDataOk['data'],
+                ],
+                'errors' => [],
+            ],
+            fn (array $responseDataNoContent) => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 0,
+                    'products_shops' => [],
+                ],
+                'errors' => ['product_shop_not_found' => 'Product and shop not found'],
+            ]
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestGetProductShopPrice(string $groupId, array $productsId, array $shopsId, string $tokenSession): HttpClientResponseInterface
+    {
+        $parameters = [
+            'group_id' => $groupId,
+            'products_id' => null !== $productsId ? implode(',', $productsId) : null,
+            'shops_id' => null !== $shopsId ? implode(',', $shopsId) : null,
+        ];
+
+        return $this->httpClient->request(
+            'GET',
+            self::GET_PRODUCT_SHOP_PRICE_DATA."?{$this->createQueryParameters($parameters)}",
+            HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
+        );
+    }
+
+    /**
      * @param string[] $productsId
      * @param string[] $shopsId
      * @param float[]  $prices
      *
      * @throws UnsupportedOptionException
      */
-    public function productShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array
+    public function setProductShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array
     {
         $response = $this->requestProductShopPrice($groupId, $productsId, $shopsId, $prices, $tokenSession);
 

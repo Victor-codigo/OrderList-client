@@ -61,13 +61,25 @@ interface EndpointsInterface
     public function productGetData(string $groupId, array|null $productsId, array|null $shopsId, string|null $productName, string|null $productNameFilterType, string|null $productNameFilterValue, string|null $shopNameFilterFilter, string|null $shopNameFilterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function getProductShopPrice(string $groupId, array $productsId, array $shopsId, string $tokenSession): array;
+
+    /**
      * @param string[] $productsId
      * @param string[] $shopsId
      * @param float[]  $prices
      *
      * @throws UnsupportedOptionException
      */
-    public function productShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array;
+    public function setProductShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array;
 
     public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array;
 
