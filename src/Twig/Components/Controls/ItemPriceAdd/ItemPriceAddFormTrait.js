@@ -14,19 +14,10 @@ export function setItemPriceAddEvents() {
         callbackListener: this.setPriceGroupCurrent.bind(this),
         eventOptions: {}
     });
-
-    event.addEventListenerDelegate({
-        element: this.element,
-        elementDelegateSelector: '[data-js-item-name]',
-        eventName: 'click',
-        callbackListener: this.handleItemNameClickEvent.bind(this),
-        eventOptions: {}
-    });
 }
 
 export function removeItemPriceAddEvents() {
     event.removeEventListenerDelegate(this.element, 'click', this.setPriceGroupCurrent);
-    event.removeEventListenerDelegate(this.element, 'click', this.handleItemNameClickEvent);
 }
 
 /**
@@ -52,7 +43,7 @@ export function setItemCurrentData(itemId, itemName) {
 }
 
 /**
- * @returns {{id: string|null, name: string|null}}
+ * @returns {{id: string|null, name: string|null, itemsAdded: string[]}}
  */
 export function getModalBeforeSharedData() {
     const modalBeforeSharedData = this.modalManager.getModalOpenedBeforeData();
@@ -69,14 +60,17 @@ export function getModalBeforeSharedData() {
 }
 
 /**
- * @param {HTMLElement} itemNameTag
  * @param {object} event
  * @param {object} event.detail
  * @param {object} event.detail.content
- * @param {object} event.detail.content.chainCurrentName
+ * @param {string} event.detail.content.id
+ * @param {string} event.detail.content.name
+ * @param {Array} event.detail.content.itemsAdded
  */
-export function handleItemNameClickEvent(itemNameTag, event) {
+export function handleItemNameClickEvent({ detail: { content } }) {
     const chainCurrentName = this.modalManager.getChainCurrent().getName();
 
-    this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopList);
+    this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopList, {
+        itemsNotSelectable: content.itemsAdded
+    });
 }

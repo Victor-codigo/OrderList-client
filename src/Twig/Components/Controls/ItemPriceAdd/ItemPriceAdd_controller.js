@@ -23,7 +23,7 @@ export default class extends Controller {
         this.#itemPriceAddTemplate = this.element.querySelector('#item_add_template');
         this.#itemPriceAddButton = this.element.querySelector('[data-js-item-add-button]');
 
-        this.#itemPriceAddButton.addEventListener('click', this.#addItem.bind(this));
+        this.#itemPriceAddButton.addEventListener('click', this.#handleAddItemEvent.bind(this));
 
         this.#clearItemContainer();
 
@@ -39,15 +39,15 @@ export default class extends Controller {
             element: this.#itemPriceAddContainer,
             elementDelegateSelector: '[data-js-item-name]',
             eventName: 'click',
-            callbackListener: this.#sendMessageItemPriceCLickedToParent.bind(this),
+            callbackListener: this.#sendMessageItemPriceClickedToParent.bind(this),
             eventOptions: {}
         });
     }
 
     disconnect() {
-        this.#itemPriceAddButton.removeEventListener('click', this.#addItem);
-        event.removeEventListenerDelegate(this.#itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
-        event.removeEventListenerDelegate(this.#itemPriceAddContainer, 'click', this.#sendMessageItemPriceCLickedToParent);
+        this.#itemPriceAddButton.removeEventListener('click', this.#handleAddItemEvent);
+        event.removeEventListenerDelegate(this.#itemPriceAddContainer, 'click', this.#sendMessageItemPriceClickedToParent);
+        event.removeEventListenerDelegate(this.#itemPriceAddContainer, 'click', this.#sendMessageItemPriceClickedToParent);
     }
 
     /**
@@ -123,7 +123,7 @@ export default class extends Controller {
      * @param {HTMLInputElement} elementTargetEvent
      * @param {Event} event
      */
-    #sendMessageItemPriceCLickedToParent(elementTargetEvent, event) {
+    #sendMessageItemPriceClickedToParent(elementTargetEvent, event) {
         /** @type {HTMLInputElement} */
         const itemPriceAddContainer = elementTargetEvent.closest('[data-js-item-container]');
         const itemsAdded = this.#getItemsAddedValue();
@@ -155,6 +155,13 @@ export default class extends Controller {
         const itemPriceAddContainer = elementTargetEvent.closest('[data-js-item-container]');
 
         this.#removeItem(itemPriceAddContainer);
+    }
+
+    /**
+     * @param {Event} event
+     */
+    #handleAddItemEvent(event) {
+        this.#addItem();
     }
 
     /**

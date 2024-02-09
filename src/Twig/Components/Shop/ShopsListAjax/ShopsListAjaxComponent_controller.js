@@ -35,7 +35,7 @@ export default class extends Controller {
     /**
      * @type {string[]}
      */
-    #shopsNotSelectable;
+    #shopsNotSelectable = [];
 
     /**
      * @type {HTMLElement}
@@ -61,7 +61,6 @@ export default class extends Controller {
         this.#urlPathShopsImages = this.element.dataset.urlPathShopsImages;
         this.#urlNoShopsImage = this.element.dataset.urlNoShopsImage
         this.#shopImageTitle = this.element.dataset.shopImageTitle
-        this.#shopsNotSelectable = [];
 
         this.#paginatorContentLoaderJsComponent = this.element.querySelector('[data-controller="PaginatorContentLoaderJsComponent"]');
         this.#paginatorJsComponent = this.element.querySelector('[data-controller="PaginatorJsComponent"]');
@@ -156,13 +155,28 @@ export default class extends Controller {
     #openModalCreateShop() {
         const chainCurrentName = this.#modalManager.getChainCurrent().getName();
 
-        this.#modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].shopCreate);
+        this.#modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopCreate);
+    }
+
+    #setShopsNotSelectable() {
+        const modalBefore = this.#modalManager.getModalOpenedBefore();
+
+        if (modalBefore === null) {
+            return;
+        }
+
+        const modalBeforeData = this.#modalManager.getModalOpenedBeforeData();
+
+        if (typeof modalBeforeData.itemsNotSelectable === 'undefined') {
+            return;
+        }
+
+        this.#shopsNotSelectable = modalBeforeData.itemsNotSelectable.map((shop) => shop.id);
     }
 
     handleMessageConnected() {
         this.#sendMessageInitializeToPaginatorContentLoaderJsComponent();
     }
-
 
     /**
      * @param {object} event
@@ -174,20 +188,8 @@ export default class extends Controller {
      */
     handleMessageBeforeShowed({ detail: { content } }) {
         this.#modalManager = content.modalManager;
+        this.#setShopsNotSelectable();
         this.#sendMessagePageChangeToPaginatorJsComponent(1);
-    }
-
-    /**
-     * @param {object} event
-     * @param {object} event.detail
-     * @param {object} event.detail.content
-     * @param {object[]} event.detail.content.shopsAdded
-     * @param {string} event.detail.content.shopsAdded.id
-     * @param {string} event.detail.content.shopsAdded.name
-     * @param {string} event.detail.content.shopsAdded.price
-     */
-    handleMessageItemPriceSelected({ detail: { content } }) {
-        this.shopsNotSelectable = content.shopsAdded.map((shopData) => shopData.id);
     }
 
     #sendMessageInitializeToPaginatorContentLoaderJsComponent() {
