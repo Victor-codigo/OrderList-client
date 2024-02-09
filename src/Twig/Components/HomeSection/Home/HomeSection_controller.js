@@ -30,30 +30,32 @@ export default class extends Controller {
     #itemsIdSelectedToggle(event) {
         if (event.target.tagName !== 'input' && event.target.type !== 'checkbox') return;
 
-        const listItem = event.target.closest('[data-item-id]');
+        const listItem = event.target.closest('[data-js-list-item]');
+        const listItemData = JSON.parse(listItem.dataset.itemData);
 
         if (!event.target.checked) {
-            this.itemsIdSelected = this.itemsIdSelected.filter((item) => item.id !== listItem.dataset.itemId);
+            this.itemsIdSelected = this.itemsIdSelected.filter((item) => item.id !== listItemData.id);
             this.#buttonRemoveMultiToggle();
 
             return;
         }
 
         this.itemsIdSelected.push({
-            'id': listItem.dataset.itemId,
-            'name': listItem.dataset.itemName
+            'id': listItemData.id,
+            'name': listItemData.name
         });
         this.#buttonRemoveMultiToggle();
     }
 
     #itemsIdSelectedAddAll() {
         this.listItemsCheckboxes.forEach((checkbox) => {
-            const listItem = checkbox.closest('[data-item-id]');
+            const listItem = checkbox.closest('[data-js-list-item]');
+            const listItemData = JSON.parse(listItem.dataset.itemData);
 
             if (checkbox.checked) {
                 this.itemsIdSelected.push({
-                    'id': listItem.dataset.itemId,
-                    'name': listItem.dataset.itemName
+                    'id': listItemData.id,
+                    'name': listItemData.name
                 });
             }
         });

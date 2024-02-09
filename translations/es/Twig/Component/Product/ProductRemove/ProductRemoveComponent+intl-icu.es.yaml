@@ -19,6 +19,6 @@ remove_button:
 
 validation:
   title: Errores
-  ok: Producto eliminada
+  ok: Producto eliminado
   error:
     internal_server: Ocurrió un error, inténtalo más tarde
