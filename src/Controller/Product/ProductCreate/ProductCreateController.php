@@ -88,7 +88,7 @@ class ProductCreateController extends AbstractController
 
     private function createProductShopPrice(FormInterface $form, string $groupId, string $productId, string $tokenSession): void
     {
-        $shopsId = array_filter($form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_ID));
+        $shopsId = array_filter($form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_ID, []));
 
         if (empty($shopsId)) {
             return;
@@ -99,7 +99,8 @@ class ProductCreateController extends AbstractController
 
         $responseData = $this->endpoints->setProductShopPrice(
             $groupId,
-            $productsId,
+            $productId,
+            null,
             $shopsId,
             $prices,
             $tokenSession

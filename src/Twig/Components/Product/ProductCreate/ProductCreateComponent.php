@@ -159,6 +159,11 @@ final class ProductCreateComponent extends TwigComponent
                 PRODUCT_CREATE_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.image'),
                 PRODUCT_CREATE_FORM_ERRORS::DESCRIPTION->value,
                 PRODUCT_CREATE_FORM_ERRORS::GROUP_ERROR->value,
+                PRODUCT_CREATE_FORM_ERRORS::PRODUCTS_OR_SHOPS_PRICES_NOT_EQUALS->value,
+                PRODUCT_CREATE_FORM_ERRORS::PRODUCT_ID_AND_SHOP_ID->value,
+                PRODUCT_CREATE_FORM_ERRORS::PRODUCTS_OR_SHOPS_ID->value,
+                PRODUCT_CREATE_FORM_ERRORS::SHOP_ID->value,
+                PRODUCT_CREATE_FORM_ERRORS::PRICES->value,
                 PRODUCT_CREATE_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.internal_server'),
                 default => $this->translate('validation.error.internal_server')
             };
