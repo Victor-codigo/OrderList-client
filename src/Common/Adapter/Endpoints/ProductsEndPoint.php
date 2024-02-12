@@ -285,37 +285,35 @@ class ProductsEndPoint extends EndpointBase
     }
 
     /**
-     * @param string[] $productsId
-     * @param string[] $shopsId
+     * @param string[] $productsOrShopsId
      * @param float[]  $prices
      *
      * @throws UnsupportedOptionException
      */
-    public function setProductShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): array
+    public function setProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, string $tokenSession): array
     {
-        $response = $this->requestProductShopPrice($groupId, $productsId, $shopsId, $prices, $tokenSession);
+        $response = $this->requestProductShopPrice($groupId, $productId, $shopId, $productsOrShopsId, $prices, $tokenSession);
 
         return $this->apiResponseManage($response);
     }
 
     /**
-     * @param string[] $productsId
-     * @param string[] $shopsId
-     * @param float[]  $prices
+     * @param float[] $prices
      *
      * @throws UnsupportedOptionException
      * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    private function requestProductShopPrice(string $groupId, array $productsId, array $shopsId, array $prices, string $tokenSession): HttpClientResponseInterface
+    private function requestProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'PUT',
             self::POST_PRODUCT_SHOP.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                     'group_id' => $groupId,
-                    'products_id' => $productsId,
-                    'shops_id' => $shopsId,
+                    'product_id' => $productId,
+                    'shop_id' => $shopId,
+                    'products_or_shops_id' => $productsOrShopsId,
                     'prices' => $prices,
                 ]),
                 $tokenSession
