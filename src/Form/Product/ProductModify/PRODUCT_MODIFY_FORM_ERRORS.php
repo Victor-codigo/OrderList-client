@@ -17,5 +17,12 @@ enum PRODUCT_MODIFY_FORM_ERRORS: string implements FormErrorInterface
     case PRODUCT_NAME_REPEATED = 'product_name_repeated';
     case IMAGE = 'image';
     case PERMISSIONS = 'permissions';
+
+    case PRODUCTS_OR_SHOPS_PRICES_NOT_EQUALS = 'products_or_shops_prices_not_equals';
+    case PRODUCT_ID_AND_SHOP_ID = 'product_id_and_shop_id';
+    case PRODUCTS_OR_SHOPS_ID = 'products_or_shops_id';
+    case SHOP_ID = 'shop_id';
+    case PRICES = 'prices';
+
     case INTERNAL_SERVER = 'error_internal_server';
 }

@@ -9,6 +9,7 @@ use App\Form\Product\ProductModify\PRODUCT_MODIFY_FORM_FIELDS;
 use App\Form\Product\ProductModify\ProductModifyForm;
 use App\Twig\Components\Product\ProductModify\ProductModifyComponent;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
+use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
@@ -54,6 +55,15 @@ class ProductModifyController extends AbstractController
 
     private function formValid(FormInterface $form, string $groupId, string $productId, string $tokenSession): void
     {
+        try {
+            $productId = $this->modifyProduct($form, $groupId, $productId, $tokenSession);
+            $this->modifyProductShopPrice($form, $groupId, $productId, $tokenSession);
+        } catch (Error400Exception $th) {
+        }
+    }
+
+    private function modifyProduct(FormInterface $form, string $groupId, string $productId, string $tokenSession): string|null
+    {
         $responseData = $this->endpoints->productModify(
             $groupId,
             $productId,
@@ -63,6 +73,35 @@ class ProductModifyController extends AbstractController
             null,
             $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::IMAGE),
             'true' === $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::IMAGE_REMOVE) ? true : false,
+            $tokenSession
+        );
+
+        foreach ($responseData['errors'] as $error => $errorDescription) {
+            $form->addError($error, $errorDescription);
+        }
+
+        if (!empty($responseData['errors'])) {
+            throw new Error400Exception('Product can not be modify');
+        }
+
+        return $responseData['data']['id'];
+    }
+
+    private function modifyProductShopPrice(FormInterface $form, string $groupId, string $productId, string $tokenSession): void
+    {
+        $shopsId = array_filter($form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::SHOP_ID, []));
+        $prices = [];
+
+        if (!empty($shopsId)) {
+            $prices = $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::SHOP_PRICE);
+        }
+
+        $responseData = $this->endpoints->setProductShopPrice(
+            $groupId,
+            $productId,
+            null,
+            $shopsId,
+            $prices,
             $tokenSession
         );
 
