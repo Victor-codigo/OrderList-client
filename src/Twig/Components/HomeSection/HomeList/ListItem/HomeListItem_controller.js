@@ -37,4 +37,10 @@ export default class extends Controller {
             id: this.element.dataset.itemData.id
         });
     }
+
+    sendMessageHomeListItemInfoToParent() {
+        communication.sendMessageToParentController(this.element, 'homeListItemInfo', {
+            itemData: JSON.parse(this.element.dataset.itemData)
+        });
+    }
 }

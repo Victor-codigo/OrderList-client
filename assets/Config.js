@@ -19,11 +19,21 @@ export const MODAL_CHAINS = {
 }
 
 /**
+ * @type {Intl.DateTimeFormatOptions}
+ */
+export const dateFormat = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+};
+
+/**
  * @typedef {Object} ItemData
  * @property {string} id
  * @property {string} name
  * @property {string} description
  * @property {string} image
+ * @property {string} createdOn
  * @property {ItemShopData[]} shops
  */
 

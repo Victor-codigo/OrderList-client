@@ -1,0 +1,53 @@
+<div data-controller="{{ componentName }}"
+     data-action="ProductListItemComponent:homeListItemInfo@window->ProductInfoComponent#handleMessageHomeListItemInfo">
+
+    <section class="d-flex  flex-row  p-4">
+        <div class="flex-shrink-0  d-flex  flex-column  justify-content-start">
+            <img class="img-thumbnail  me-4  mb-1  item-info__image"
+                 src=""
+                 title="{{ lang.imageTitle }}"
+                 alt="{{ lang.imageAlt }}"
+                 data-js-item-image>
+            <small class="fs-6  text-center  text-secondary  me-4">
+                {{ lang.createdOn }}
+                <br><small data-js-item-date>{ item date }</small>
+            </small>
+        </div>
+        <div class="flex-grow-1">
+            <h2 class="display-6"
+                data-js-item-title>
+                { item title }
+            </h2>
+            <hr class="solid">
+            <p class="mt-3"
+               data-js-item-description>
+                { item description }
+            </p>
+        </div>
+    </section>
+
+    <section class="p-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"
+                        class="ps-5">#</th>
+                    <th scope="col">{{ lang.itemPriceNameHeader }}</th>
+                    <th scope="col"
+                        class="pe-5">{{ lang.itemPricePriceHeader }}</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider"
+                   data-empty-message="{{ lang.shopsEmptyMessage }}"
+                   data-js-item-prices>
+
+            </tbody>
+        </table>
+    </section>
+
+    <div class="d-flex  justify-content-end  mt-5">
+        <button type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">{{ lang.closeButtonTitle }}</button>
+    </div>
+</div>
