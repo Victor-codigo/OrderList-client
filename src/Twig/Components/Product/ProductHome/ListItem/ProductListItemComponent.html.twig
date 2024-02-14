@@ -23,19 +23,7 @@
                    data-js-item-name>
                     {{ data.name }}
                 </p>
-
-                <span class="fs-4  fw-lighter  fs-6">
-                    {{ data.createdOn|format_datetime('medium', 'none', locale=app.request.locale) }}
-                </span>
             </div>
-
-            <ul class="list-group list-group-flush  ">
-                <li class="list-group-item  border-0  bg-transparent  ps-3  pe-3  pt-0 pb-0"
-                    data-js-item-description>
-
-                    {{ data.description }}
-                </li>
-            </ul>
         </div>
     </label>
 
