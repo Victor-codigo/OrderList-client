@@ -40,7 +40,7 @@ export default class extends Controller {
         const listItem = this.listErrorsItemTemplateTag.content.cloneNode(true);
         const text = listItem.querySelector('[data-js-item-template-text]');
 
-        text.innerHTML = html.htmlEscape(validation);
+        text.innerHTML = html.escape(validation);
 
         return listItem;
     }

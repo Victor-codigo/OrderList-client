@@ -1,4 +1,8 @@
-export function htmlEscape(string) {
+/**
+ * @param {string} string
+ * @returns {string}
+ */
+export function escape(string) {
     return string
         .replaceAll('&', '&amp;')
         .replaceAll('<', '&lt;')
@@ -7,7 +11,11 @@ export function htmlEscape(string) {
         .replaceAll("'", '&#039;');
 }
 
-export function htmlUnescape() {
+/**
+ * @param {string} string
+ * @returns {string}
+ */
+export function unescape(string) {
     return string
         .replaceAll('&amp;', '&')
         .replaceAll('&lt;', '<')
