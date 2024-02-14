@@ -1,7 +1,7 @@
-import * as html from '/assets/modules/Html';
-
+import * as html from 'App/modules/Html';
 export default class ListItems {
     /**
+     * @param {Object} listData
      * @param {Object} listData.htmlAttributes
      * @param {string[]} listData.cssClasses
      *
@@ -12,17 +12,17 @@ export default class ListItems {
      * @param {string} itemsData.image.src
      * @param {string} itemsData.image.title
      * @param {string} itemsData.image.alt
+     * @param {Object} itemsData.item
      * @param {Object} itemsData.item.htmlAttributes
      * @param {string[]} itemsData.item.cssClasses
-     *
-     * @returns {HTMLElement} list of items
      */
     constructor(listData, itemsData) {
         return this.#createList(listData, itemsData);
     }
 
     /**
-     * @param {Object} listData.htmlAttributes
+     * @param {object} listData
+     * @param {object} listData.htmlAttributes
      * @param {string[]} listData.cssClasses
      *
      * @param {Object[]} itemsData
@@ -32,6 +32,7 @@ export default class ListItems {
      * @param {string} itemsData.image.src
      * @param {string} itemsData.image.title
      * @param {string} itemsData.image.alt
+     * @param {Object} itemsData.item
      * @param {Object} itemsData.item.htmlAttributes
      * @param {string[]} itemsData.item.cssClasses
      *
@@ -59,8 +60,10 @@ export default class ListItems {
      * @param {string} itemsData.image.src
      * @param {string} itemsData.image.title
      * @param {string} itemsData.image.alt
+     * @param {Object} itemsData.list
      * @param {Object} itemsData.list.htmlAttributes
      * @param {string[]} itemsData.list.cssClasses
+     * @param {Object} itemsData.item
      * @param {Object} itemsData.item.htmlAttributes
      * @param {string[]} itemsData.item.cssClasses
      *
@@ -149,7 +152,7 @@ export default class ListItems {
         const listItemSpan = document.createElement('span');
 
         listItemSpan.classList.add('ms-2');
-        listItemSpan.innerHTML = html.htmlEscape(name);
+        listItemSpan.innerHTML = html.escape(name);
 
         return listItemSpan;
     }
