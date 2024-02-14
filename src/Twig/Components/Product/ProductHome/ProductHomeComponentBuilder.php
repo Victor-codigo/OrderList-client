@@ -19,6 +19,8 @@ use App\Twig\Components\Product\ProductCreate\ProductCreateComponentDto;
 use App\Twig\Components\Product\ProductHome\Home\ProductHomeSectionComponentDto;
 use App\Twig\Components\Product\ProductHome\ListItem\ProductListItemComponent;
 use App\Twig\Components\Product\ProductHome\ListItem\ProductListItemComponentDto;
+use App\Twig\Components\Product\ProductInfo\ProductInfoComponent;
+use App\Twig\Components\Product\ProductInfo\ProductInfoComponentDto;
 use App\Twig\Components\Product\ProductModify\ProductModifyComponent;
 use App\Twig\Components\Product\ProductModify\ProductModifyComponentDto;
 use App\Twig\Components\Product\ProductRemove\ProductRemoveComponent;
@@ -38,8 +40,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
 {
     private const PRODUCT_CREATE_MODAL_ID = 'product_create_modal';
     private const PRODUCT_REMOVE_MULTI_MODAL_ID = 'product_remove_multi_modal';
-    public const PRODUCT_DELETE_MODAL_ID = 'product_delete_modal';
-    public const PRODUCT_MODIFY_MODAL_ID = 'product_modify_modal';
+    private const PRODUCT_DELETE_MODAL_ID = 'product_delete_modal';
+    private const PRODUCT_MODIFY_MODAL_ID = 'product_modify_modal';
+    private const PRODUCT_INFO_MODAL_ID = 'product_info_modal';
     private const SHOP_LIST_MODAL_ID = 'shop_list_select_modal';
     private const SHOP_CREATE_MODAL_ID = 'shop_create_modal';
 
@@ -54,6 +57,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     private readonly HomeSectionComponentDto $homeSectionComponentDto;
     private readonly ModalComponentDto $shopsListAjaxModalDto;
     private readonly ModalComponentDto $shopCreateModalDto;
+    private readonly ModalComponentDto $productInfoModalDto;
 
     private readonly array $listProductsData;
     private readonly array $listShopsData;
@@ -222,7 +226,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
 
-        return $this->createProductHomeSectionComponentDto($this->shopsListAjaxModalDto, $this->shopCreateModalDto);
+        $this->productInfoModalDto = $this->createProductInfoModalDto();
+
+        return $this->createProductHomeSectionComponentDto($this->shopsListAjaxModalDto, $this->shopCreateModalDto, $this->productInfoModalDto);
     }
 
     private function createProductCreateComponentDto(string $productCreateFormCsrfToken, float|null $productPrice, string $productCreateFormActionUrl): ModalComponentDto
@@ -361,6 +367,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData['productData']->name,
                 self::PRODUCT_MODIFY_MODAL_ID,
                 self::PRODUCT_DELETE_MODAL_ID,
+                self::PRODUCT_INFO_MODAL_ID,
                 self::PRODUCT_HOME_LIST_ITEM_COMPONENT_NAME,
                 $listItemData['productData']->description,
                 $listItemData['productData']->image ?? Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
@@ -424,12 +431,28 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
+    private function createProductInfoModalDto(): ModalComponentDto
+    {
+        $productInfoComponentDto = new ProductInfoComponentDto(
+            ProductInfoComponent::getComponentName()
+        );
+
+        return new ModalComponentDto(
+            self::PRODUCT_INFO_MODAL_ID,
+            '',
+            false,
+            ProductInfoComponent::getComponentName(),
+            $productInfoComponentDto,
+            []
+        );
+    }
+
     private function createHomeSectionComponentDto(): HomeSectionComponentDto
     {
         return new HomeSectionComponentDto();
     }
 
-    private function createProductHomeSectionComponentDto(ModalComponentDto $shopListItemsModalDto, ModalComponentDto $shopCreateModalDto): ProductHomeSectionComponentDto
+    private function createProductHomeSectionComponentDto(ModalComponentDto $shopListItemsModalDto, ModalComponentDto $shopCreateModalDto, ModalComponentDto $productInfoModalDto): ProductHomeSectionComponentDto
     {
         return (new ProductHomeSectionComponentDto())
             ->homeSection(
@@ -440,6 +463,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             )
             ->shopCreateModal(
                 $shopCreateModalDto
+            )
+            ->productInfoModal(
+                $productInfoModalDto
             )
             ->build();
     }

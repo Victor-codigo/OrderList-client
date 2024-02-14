@@ -74,6 +74,7 @@ final class ProductListItemComponent extends HomeListItemComponent
             'name' => $productData->name,
             'description' => $productData->description,
             'image' => $productData->image,
+            'createdOn' => $productData->createdOn->format('Y-m-d'),
             'shops' => $productShopsData,
         ];
 

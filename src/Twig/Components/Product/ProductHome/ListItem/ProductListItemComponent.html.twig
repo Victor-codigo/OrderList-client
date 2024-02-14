@@ -45,6 +45,18 @@
             alt="{{ lang.modifyItemButtonAlt }}"
             title="{{ lang.modifyItemButtonTitle }}"
             data-bs-toggle="modal"
+            data-bs-target="#{{ data.productInfoModalIdAttribute }}"
+            data-action="ProductListItemComponent#sendMessageHomeListItemInfoToParent">
+
+        {% include 'info-icon-blue-24x24.svg' %}
+    </button>
+
+    <button type="button"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
+            value="{{ data.id }}"
+            alt="{{ lang.modifyItemButtonAlt }}"
+            title="{{ lang.modifyItemButtonTitle }}"
+            data-bs-toggle="modal"
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
             data-action="ProductListItemComponent#sendMessageHomeListItemModifyToParent">
 

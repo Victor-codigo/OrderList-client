@@ -23,6 +23,7 @@ class ProductListItemComponentDto extends HomeListItemComponentDto
         public readonly string $name,
         public readonly string $modifyFormModalIdAttribute,
         public readonly string $deleteFormModalIdAttribute,
+        public readonly string $productInfoModalIdAttribute,
         public readonly string $translationDomainName,
 
         public readonly string|null $description,
