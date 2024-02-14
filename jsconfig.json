@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "ES6",
-        "target": "ES6",
+        "target": "ES2021",
         "checkJs": true,
         "baseUrl": "./",
         "paths": {
@@ -9,7 +9,10 @@
                 "assets/*"
             ],
             "@hotwired/stimulus": [
-                "node_modules/@hotwired/stimulus/dist/stimulus.js"
+                "node_modules/@hotwired/stimulus/dist/stimulus.js",
+            ],
+            "@symfony/stimulus-bridge": [
+                "node_modules/@symfony/stimulus-bridge/dist/index.js"
             ],
             "App/Twig/*": [
                 "src/Twig/*"
