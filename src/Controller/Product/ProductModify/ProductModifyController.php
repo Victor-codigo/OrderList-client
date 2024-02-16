@@ -91,9 +91,11 @@ class ProductModifyController extends AbstractController
     {
         $shopsId = array_filter($form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::SHOP_ID, []));
         $prices = [];
+        $unitsMeasure = [];
 
         if (!empty($shopsId)) {
             $prices = $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::SHOP_PRICE);
+            $unitsMeasure = $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::SHOP_UNIT_MEASURE);
         }
 
         $responseData = $this->endpoints->setProductShopPrice(
@@ -102,6 +104,7 @@ class ProductModifyController extends AbstractController
             null,
             $shopsId,
             $prices,
+            $unitsMeasure,
             $tokenSession
         );
 

@@ -50,6 +50,7 @@ final class ProductListItemComponent extends HomeListItemComponent
 
     private function parseItemDataToJson(ProductListItemComponentDto $productData): string
     {
+        /** @var ProductShopPriceDataResponse[] $productShopsPricesDataByShopId */
         $productShopsPricesDataByShopId = array_combine(
             array_map(
                 fn (ProductShopPriceDataResponse $productShopPrice) => $productShopPrice->shopId,
@@ -65,6 +66,7 @@ final class ProductListItemComponent extends HomeListItemComponent
                 'description' => $shopData->description,
                 'image' => $shopData->image,
                 'price' => $productShopsPricesDataByShopId[$shopData->id]->price,
+                'unit' => $productShopsPricesDataByShopId[$shopData->id]->unitMeasure,
             ],
             $productData->shops
         );
