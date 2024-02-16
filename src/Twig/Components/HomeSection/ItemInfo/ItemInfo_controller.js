@@ -2,6 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import * as html from 'App/modules/Html';
 import * as url from 'App/modules/Url';
 import * as config from 'App/Config';
+import * as unitMeasure from 'App/modules/UnitMeasure';
 
 export default class extends Controller {
     /**
@@ -86,7 +87,7 @@ export default class extends Controller {
 
             numberTableCell.innerHTML = html.escape(rowCounter.toString());
             nameTableCell.innerHTML = html.escape(itemPrice.name);
-            priceTableCell.innerHTML = html.escape(itemPrice.price === null ? '' : itemPrice.price.toString() + ' €/Kg');
+            priceTableCell.innerHTML = html.escape(itemPrice.price === null ? '' : `${itemPrice.price.toString()} ${config.CURRENCY}/${unitMeasure.parseApiUnits(itemPrice.unit)}`);
 
             tableRow.replaceChildren(numberTableCell, nameTableCell, priceTableCell);
             this.#itemsPriceTag.appendChild(tableRow);

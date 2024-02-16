@@ -28,6 +28,11 @@ export const dateFormat = {
 };
 
 /**
+ * @type {string}
+ */
+export const CURRENCY = '€';
+
+/**
  * @typedef {Object} ItemData
  * @property {string} id
  * @property {string} name
