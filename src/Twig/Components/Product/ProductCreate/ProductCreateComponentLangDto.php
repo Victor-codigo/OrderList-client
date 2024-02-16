@@ -31,6 +31,7 @@ class ProductCreateComponentLangDto
     public readonly string $imageMsgInvalid;
 
     public readonly string $productCreateButton;
+    public readonly string $closeButton;
 
     public readonly AlertComponentDto|null $validationErrors;
 
@@ -43,7 +44,7 @@ class ProductCreateComponentLangDto
             'price',
             'description',
             'image',
-            'submitButton',
+            'buttons',
             'errors',
         ]);
     }
@@ -110,11 +111,12 @@ class ProductCreateComponentLangDto
         return $this;
     }
 
-    public function submitButton(string $productCreateButton): self
+    public function buttons(string $productCreateButton, string $closeButton): self
     {
-        $this->builder->setMethodStatus('submitButton', true);
+        $this->builder->setMethodStatus('buttons', true);
 
         $this->productCreateButton = $productCreateButton;
+        $this->closeButton = $closeButton;
 
         return $this;
     }

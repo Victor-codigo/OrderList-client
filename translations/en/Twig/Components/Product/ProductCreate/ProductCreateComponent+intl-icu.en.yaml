@@ -40,6 +40,9 @@ shop_remove_button:
 product_create_button:
   label: Create product
 
+close_button:
+  label: Close
+
 validation:
   title: Errors
   ok: Product created
