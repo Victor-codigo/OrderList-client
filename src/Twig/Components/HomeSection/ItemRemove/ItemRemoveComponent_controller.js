@@ -1,14 +1,30 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
+    /**
+     * @type {HTMLParagraphElement}
+     */
+    messageTag;
+    /**
+     * @type {string}
+     */
+    messagePlaceholder;
+    /**
+     * @type {string}
+     */
+    formRemoveItemIdFieldName;
+
     connect() {
         this.messageTag = this.element.querySelector('[data-js-message]');
         this.messagePlaceholder = this.messageTag.dataset.placeholder;
-        this.itemsIdTag = this.element.querySelector('[data-js-items-id]');
-        this.componentId = this.element.id;
         this.formRemoveItemIdFieldName = `${this.element.name}[items_id][]`;
     }
 
+    /**
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     */
     handleMessageRemoveListItem({ detail: { content } }) {
         if (this.element.hasAttribute('data-remove-multi')) return;
 
@@ -21,6 +37,9 @@ export default class extends Controller {
         this.#loadComponentData(content.items);
     }
 
+    /**
+     * @param {object} items
+     */
     #loadComponentData(items) {
         let itemsNames = [];
 
@@ -40,6 +59,9 @@ export default class extends Controller {
         inputItemIds.forEach((inputItemId) => this.element.removeChild(inputItemId));
     }
 
+    /**
+     * @param {string[]} itemsNames
+     */
     #changePlaceholderItemName(itemsNames) {
         const listItems = itemsNames.map((itemName) => `<li class="list-group-item  text-start  fw-bold  align-self-center  text-center  w-100">${itemName}</li>`);
         const list = `<ul class="list-group  list-group-flush  d-flex  flex-column">${listItems.join('')}</ul>`;
@@ -49,6 +71,9 @@ export default class extends Controller {
         this.messageTag.innerHTML = message;
     }
 
+    /**
+     * @param {string} itemId
+     */
     #createInputItemId(itemId) {
         const inputItemId = document.createElement('input');
 

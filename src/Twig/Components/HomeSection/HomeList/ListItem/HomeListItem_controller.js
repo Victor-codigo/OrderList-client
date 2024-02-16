@@ -13,10 +13,7 @@ export default class extends Controller {
 
     sendMessageHomeListItemRemoveEvent() {
         communication.sendMessageToNotRelatedController(this.element, 'removeHomeListItem', {
-            items: [{
-                id: this.element.dataset.itemData.id,
-                name: this.element.dataset.itemData.name
-            }]
+            items: [JSON.parse(this.element.dataset.itemData)]
         },
             'ItemRemoveComponent'
         );
