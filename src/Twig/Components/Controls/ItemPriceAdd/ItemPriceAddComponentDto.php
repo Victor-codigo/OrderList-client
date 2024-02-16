@@ -26,6 +26,7 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
     public readonly string $itemPricePlaceholder;
     public readonly string $itemPriceMsgInvalid;
     public readonly string $itemPriceCurrencyLabel;
+    public readonly string $itemPriceUnitMeasureFieldName;
 
     public readonly string $itemPriceAddButtonLabel;
     public readonly string $itemPriceAddButtonTitle;
@@ -68,7 +69,7 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
         return $this;
     }
 
-    public function price(string $itemPriceFieldName, float|null $itemPriceFieldValue, string $itemPriceLabel, string $itemPricePlaceholder, string $itemPriceMsgInvalid, string $itemPriceCurrencyLabel): self
+    public function price(string $itemPriceFieldName, float|null $itemPriceFieldValue, string $itemPriceLabel, string $itemPricePlaceholder, string $itemPriceMsgInvalid, string $itemPriceCurrencyLabel, string $itemPriceUnitMeasureFieldName): self
     {
         $this->builder->setMethodStatus('price', true);
 
@@ -78,6 +79,7 @@ class ItemPriceAddComponentDto implements TwigComponentDtoInterface
         $this->itemPricePlaceholder = $itemPricePlaceholder;
         $this->itemPriceMsgInvalid = $itemPriceMsgInvalid;
         $this->itemPriceCurrencyLabel = $itemPriceCurrencyLabel;
+        $this->itemPriceUnitMeasureFieldName = $itemPriceUnitMeasureFieldName;
 
         return $this;
     }

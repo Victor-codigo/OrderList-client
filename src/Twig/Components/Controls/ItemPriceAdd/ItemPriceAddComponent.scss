@@ -12,5 +12,10 @@
 
     &__item-price {
         max-width: 75px;
+        text-align: right;
+    }
+
+    &__item-unit {
+        max-width: 100px;
     }
 }

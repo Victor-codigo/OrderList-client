@@ -43,7 +43,7 @@
                        required
                        data-js-item-name />
 
-                <input type="text"
+                <input type=""
                        class="form-control  item-add-component__item-price"
                        pattern="\d{1,5}(\.\d{1,2})?"
                        name="{{ data.itemPriceFieldName }}"
@@ -56,6 +56,22 @@
 
                     {{ data.itemPriceCurrencyLabel }}
                 </span>
+
+                <select class="form-select  item-add-component__item-unit"
+                        name="{{ data.itemPriceUnitMeasureFieldName}}"
+                        data-js-item-unit>
+                    {% for unit in lang.unitsMeasure %}
+
+                    {% if loop.index==1 %}
+                    <option value="{{ unitsMeasureValue[loop.index0] }}"
+                            selected>
+                        {{ unit }}
+                    </option>
+                    {% else %}
+                    <option value="{{ unitsMeasureValue[loop.index0] }}"> {{ unit }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
 
                 <button class="btn btn-danger  item-add-component__item-remove-button"
                         title="{{ data.itemRemoveAddButtonTitle }}"

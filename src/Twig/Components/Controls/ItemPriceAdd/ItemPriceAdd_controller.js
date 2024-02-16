@@ -54,8 +54,9 @@ export default class extends Controller {
      * @param {string|null} [id]
      * @param {string|null} [name]
      * @param {number|null} [price]
+     * @param {string|null} [unit]
      */
-    #addItem(id = null, name = null, price = null) {
+    #addItem(id = null, name = null, price = null, unit = null) {
         /** @type {HTMLElement} */
         const itemPriceAddTemplate = this.#itemPriceAddTemplate.content.cloneNode(true);
 
@@ -76,6 +77,12 @@ export default class extends Controller {
             /** @type {HTMLInputElement} */
             const itemPriceTag = itemPriceAddTemplate.querySelector('[data-js-item-price]');
             itemPriceTag.value = price.toString();
+        }
+
+        if (unit !== null) {
+            /** @type {HTMLSelectElement} */
+            const itemUnitTag = itemPriceAddTemplate.querySelector('[data-js-item-unit]');
+            itemUnitTag.value = unit;
         }
 
         this.#itemPriceAddContainer.appendChild(itemPriceAddTemplate);
@@ -169,9 +176,9 @@ export default class extends Controller {
      * @param {object} event
      * @param {object} event.detail
      * @param {object} event.detail.content
-     * @param {Array<{id: string, name: string, price: number}>} event.detail.content.items
+     * @param {Array<{id: string, name: string, price: number, unit: string}>} event.detail.content.items
      */
     handleMessageAddItems({ detail: { content } }) {
-        content.items.forEach((item) => this.#addItem(item.id, item.name, item.price));
+        content.items.forEach((item) => this.#addItem(item.id, item.name, item.price, item.unit));
     }
 }
