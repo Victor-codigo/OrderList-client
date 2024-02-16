@@ -10,6 +10,7 @@ class ProductShopPriceDataResponse
         public readonly string $productId,
         public readonly string $shopId,
         public readonly float|null $price,
+        public readonly string $unitMeasure,
     ) {
     }
 
@@ -17,14 +18,16 @@ class ProductShopPriceDataResponse
     {
         if (!array_key_exists('product_id', $data)
         || !array_key_exists('shop_id', $data)
-        || !array_key_exists('price', $data)) {
+        || !array_key_exists('price', $data)
+        || !array_key_exists('unit', $data)) {
             throw new \InvalidArgumentException('Not all product shop parameters are provided');
         }
 
         return new self(
             $data['product_id'],
             $data['shop_id'],
-            $data['price']
+            $data['price'],
+            $data['unit']
         );
     }
 }

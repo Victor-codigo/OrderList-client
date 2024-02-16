@@ -94,15 +94,13 @@ class ProductCreateController extends AbstractController
             return;
         }
 
-        $prices = $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_PRICE);
-        $productsId = array_fill(0, count($shopsId), $productId);
-
         $responseData = $this->endpoints->setProductShopPrice(
             $groupId,
             $productId,
             null,
             $shopsId,
-            $prices,
+            $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_PRICE),
+            $form->getFieldData(PRODUCT_CREATE_FORM_FIELDS::SHOP_UNIT_MEASURE),
             $tokenSession
         );
 

@@ -44,4 +44,5 @@ export const dateFormat = {
  * @property {string} description
  * @property {string} image
  * @property {number} price
+ * @property {string} unit
  */

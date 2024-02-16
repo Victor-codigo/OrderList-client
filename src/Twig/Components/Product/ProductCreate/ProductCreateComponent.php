@@ -13,6 +13,7 @@ use App\Twig\Components\Controls\ItemPriceAdd\ItemPriceAddComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
+use Common\Domain\Config\Config;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -92,7 +93,8 @@ final class ProductCreateComponent extends TwigComponent
                 $this->translate('product_price.label'),
                 $this->translate('product_price.placeholder'),
                 $this->translate('product_price.msg_invalid'),
-                '€'
+                Config::CURRENCY,
+                sprintf('%s[%s][]', PRODUCT_CREATE_FORM_FIELDS::FORM, PRODUCT_CREATE_FORM_FIELDS::SHOP_UNIT_MEASURE)
             )
             ->itemPriceAddButton(
                 $this->translate('shop_add_button.label'),
