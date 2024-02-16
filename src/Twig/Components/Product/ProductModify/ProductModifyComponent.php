@@ -162,8 +162,9 @@ final class ProductModifyComponent extends TwigComponent
                 $this->translate('image.placeholder'),
                 $this->translate('image.msg_invalid')
             )
-            ->submitButton(
-                $this->translate('product_modify_button.label')
+            ->buttons(
+                $this->translate('product_modify_button.label'),
+                $this->translate('close_button.label')
             )
             ->errors(
                 $this->data->validForm ? $this->createAlertValidationComponentDto() : null

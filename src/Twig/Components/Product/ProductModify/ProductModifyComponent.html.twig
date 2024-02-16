@@ -83,9 +83,17 @@
 		{{ component('ItemPriceAddComponent', { data: itemPriceAddDto } ) }}
 	</fieldset>
 
-	<div class="mt-5">
+	<div class="d-flex  flex-row  mt-5">
+		<button type="button"
+				class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+				data-bs-dismiss="modal">
+
+			{% include "arrow-back-icon-white-24x24.svg" %}
+			{{ lang.closeButton }}
+		</button>
+
 		<input type="submit"
-			   class="btn btn-primary w-100"
+			   class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
 			   name="{{ submitFieldName }}"
 			   value="{{ lang.productModifyButton }}" />
 	</div>

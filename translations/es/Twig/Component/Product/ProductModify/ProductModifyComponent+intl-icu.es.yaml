@@ -43,6 +43,9 @@ shop_remove_button:
 product_modify_button:
   label: Modifica el producto
 
+close_button:
+  label: Cerrar
+
 validation:
   title: Errores
   ok: Producto Modificado
