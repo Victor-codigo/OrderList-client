@@ -290,9 +290,9 @@ class ProductsEndPoint extends EndpointBase
      *
      * @throws UnsupportedOptionException
      */
-    public function setProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, string $tokenSession): array
+    public function setProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array
     {
-        $response = $this->requestProductShopPrice($groupId, $productId, $shopId, $productsOrShopsId, $prices, $tokenSession);
+        $response = $this->requestProductShopPrice($groupId, $productId, $shopId, $productsOrShopsId, $prices, $unitsMeasure, $tokenSession);
 
         return $this->apiResponseManage($response);
     }
@@ -304,7 +304,7 @@ class ProductsEndPoint extends EndpointBase
      * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    private function requestProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, string $tokenSession): HttpClientResponseInterface
+    private function requestProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'PUT',
@@ -315,6 +315,7 @@ class ProductsEndPoint extends EndpointBase
                     'shop_id' => $shopId,
                     'products_or_shops_id' => $productsOrShopsId,
                     'prices' => $prices,
+                    'units' => $unitsMeasure,
                 ]),
                 $tokenSession
             )

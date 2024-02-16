@@ -164,9 +164,9 @@ class Endpoints implements EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
-    public function setProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, string $tokenSession): array
+    public function setProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array
     {
-        return ProductsEndPoint::getInstance($this->httpClient)->setProductShopPrice($groupId, $productId, $shopId, $productsOrShopsId, $prices, $tokenSession);
+        return ProductsEndPoint::getInstance($this->httpClient)->setProductShopPrice($groupId, $productId, $shopId, $productsOrShopsId, $prices, $unitsMeasure, $tokenSession);
     }
 
     /**
