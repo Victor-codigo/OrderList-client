@@ -23,4 +23,7 @@ class Config
 
     // Maximum number of items in a modal list
     public const MODAL_LIST_ITEMS_MAX_NUMBER = 10;
+
+    // Currency
+    public const CURRENCY = '€';
 }
