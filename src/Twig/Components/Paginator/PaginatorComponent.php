@@ -49,6 +49,7 @@ class PaginatorComponent extends TwigComponent
 
     private function getPages(int $pageCurrent, int $pagesTotal, string $pageUrl): array
     {
+        $pageCurrent = $pageCurrent > $pagesTotal ? $pagesTotal : $pageCurrent;
         $pageMin = $pageCurrent - self::PAGE_RANGE < 1 ? 1 : $pageCurrent - self::PAGE_RANGE;
         $pageMax = $pageCurrent + self::PAGE_RANGE > $pagesTotal ? $pagesTotal : $pageCurrent + self::PAGE_RANGE;
         $pages = [];

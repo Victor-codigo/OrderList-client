@@ -1,18 +1,18 @@
-<nav class="mt-5" data-controller="PaginatorComponent" aria-label="Page navigation">
+<nav data-controller="PaginatorComponent">
 
-	<ul class="pagination justify-content-center">
-		{% if data.pageCurrent > 1 %}
+	{% if pageList|length > 1 %}
 
-			<li class="page-item">
-				<a class="page-link" href="{{ data.pageCurrent == 1 ? '' : pagePreviousUrl }}">
+		<ul class="pagination justify-content-center">
+			{% if data.pageCurrent > 1 %}
 
-					{{ lang.previous }}
-				</a>
-			</li>
+				<li class="page-item">
+					<a class="page-link" href="{{ data.pageCurrent == 1 ? '' : pagePreviousUrl }}">
 
-		{% endif %}
+						{{ lang.previous }}
+					</a>
+				</li>
 
-		{% if pageList|length > 1 %}
+			{% endif %}
 
 			{% for page in pageList %}
 
@@ -36,16 +36,20 @@
 				{% endif %}
 
 			{% endfor %}
-		{% endif %}
 
-		{% if data.pageCurrent < data.pagesTotal %}
-			<li class="page-item">
-				<a class="page-link" href="{{ data.pageCurrent == data.pagesTotal ? '' : pageNextUrl }}">
+			{% if data.pageCurrent < data.pagesTotal %}
 
-					{{ lang.next }}
-				</a>
-			</li>
+				<li class="page-item">
+					<a class="page-link" href="{{ data.pageCurrent == data.pagesTotal ? '' : pageNextUrl }}">
 
-		{% endif %}
-	</ul>
+						{{ lang.next }}
+					</a>
+				</li>
+
+			{% endif %}
+
+		</ul>
+
+	{% endif %}
+
 </nav>

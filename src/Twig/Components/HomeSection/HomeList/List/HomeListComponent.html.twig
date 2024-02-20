@@ -1,7 +1,11 @@
 <div data-controller="HomeListComponent">
 
 	{{ component('ListComponent', { data: homeListDto }) }}
-	{{ component('PaginatorComponent', { data: data.homeListPaginatorDto }) }}
+
+	<div class="mt-5">
+		{{ component('PaginatorComponent', { data: data.homeListPaginatorDto }) }}
+	</div>
+
 	{{ component('ModalComponent', { data: data.homeListItemRemoveFormModalDto }) }}
 	{{ component('ModalComponent', { data: data.homeListItemModifyFormModalDto }) }}
 </div>
