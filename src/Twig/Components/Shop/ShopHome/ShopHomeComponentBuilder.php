@@ -10,7 +10,7 @@ use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
 use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\SearchBar\SEARCH_TYPE;
-use App\Twig\Components\SearchBar\SearchBarComponentDto;
+use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponent;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
 use App\Twig\Components\Shop\ShopHome\ListItem\ShopListItemComponent;

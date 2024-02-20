@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Components\SearchBar;
+namespace App\Twig\Components\HomeSection\SearchBar;
 
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Twig\Components\TwigComponent;
@@ -11,7 +11,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
     name: 'SearchBarComponent',
-    template: 'Components/SearchBar/SearchBarComponent.html.twig'
+    template: 'Components/HomeSection/SearchBar/SearchBarComponent.html.twig'
 )]
 class SearchBarComponent extends TwigComponent
 {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Twig\Components\HomeSection\Home;
 
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
+use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
-use App\Twig\Components\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;

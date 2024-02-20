@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Components\SearchBar;
+namespace App\Twig\Components\HomeSection\SearchBar;
 
 enum NAME_FILTERS: string
 {

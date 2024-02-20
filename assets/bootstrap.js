@@ -21,7 +21,7 @@ import ButtonLoadingComponent from 'App/Twig/Components/Controls/ButtonLoading/B
 import PaginatorComponent from 'App/Twig/Components/Paginator/Paginator_Component';
 import PaginatorJsComponent from 'App/Twig/Components/PaginatorJs/PaginatorJs_Component';
 import ListComponent from 'App/Twig/Components/List/List_controller';
-import SearchBarComponent from 'App/Twig/Components/SearchBar/SearchBar_controller';
+import SearchBarComponent from 'App/Twig/Components/HomeSection/SearchBar/SearchBar_controller';
 import ContentLoaderJsComponent from 'App/Twig/Components/Controls/ContentLoaderJs/ContentLoaderJsComponent_controller';
 
 // HOME LIST
