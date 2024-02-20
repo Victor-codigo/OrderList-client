@@ -9,8 +9,6 @@ export default class extends Controller {
 
         this.buttonImageRemoveUndo = this.element.querySelector('[data-js-button-remove-undo]');
         this.buttonImageRemoveUndo.addEventListener('click', this.removeImageUndo.bind(this));
-
-        this.setImage(this.image.src);
     }
 
     setImage(imageUrl) {
