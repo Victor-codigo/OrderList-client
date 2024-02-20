@@ -1,10 +1,9 @@
 <section data-controller="SearchBarComponent"
 		 data-url-search-autocomplete="{{ data.searchAutoCompleteUrl|escape('html_attr') }}"
-		 data-group-id="{{ data.groupId }}"
-		 data-search-type="{{ data.searchType }}">
+		 data-group-id="{{ data.groupId }}">
 
 	<form name="{{ formName }}"
-		  class="search-bar  contaniner  p-3  d-flex flex-row  border  border-1  rounded"
+		  class="search-bar  contaniner  p-3"
 		  action="{{ data.searchFormActionUrl|escape('html_attr') }}"
 		  method="post"
 		  enctype="multipart/form-data"
@@ -17,10 +16,52 @@
 
 		<label class="form-label  w-100">
 			{{ lang.searchLabel }}
-			<div class="d-flex  flex-row">
+
+			<div class="input-group">
+
+				<select class="form-select  search-bar__filter"
+						name="{{ sectionFilterFieldName }}"
+						data-js-section-filter>
+
+					{% for sectionFilterName, sectionFilterValue in this.sectionFilters %}
+
+					{% if sectionFilterName==data.sectionFilterValue %}
+
+					<option value="{{ sectionFilterName }}"
+							selected>
+
+						{{ sectionFilterValue }}
+					</option>
+
+					{% else %}
+
+					<option value="{{ sectionFilterName }}">{{ sectionFilterValue }}</option>
+
+					{% endif %}
+					{% endfor %}
+				</select>
+
+				<select class="form-select  search-bar__filter"
+						name="{{ nameFilterFieldName }}"
+						data-js-name-filter>
+
+					{% for nameFilterName, valueFilterLang in lang.filters %}
+
+					{% if nameFilterName==data.nameFilterValue %}
+
+					<option value="{{ nameFilterName }}"
+							selected>{{ valueFilterLang }}</option>
+
+					{% else %}
+
+					<option value="{{ nameFilterName }}">{{ valueFilterLang }}</option>
+					{% endif %}
+
+					{% endfor %}
+				</select>
 
 				<input type="text"
-					   class="form-control  order-2  flex-grow-1  border  border-0 border-top  border-bottom rounded-0"
+					   class="form-control"
 					   name="{{ searchValueFieldName }}"
 					   placeholder="{{ lang.searchPlaceholder }}"
 					   value="{{ data.searchValue }}"
@@ -29,27 +70,8 @@
 
 				<datalist id="search-data-list"> </datalist>
 
-				<select class="search-bar__filters  form-select  order-1 border rounded-0  rounded-start"
-						name="{{ searchFilterFieldName }}"
-						data-js-filter>
-
-					{% for filterName, filterLang in lang.filters %}
-
-					{% if filterName==data.searchFilter %}
-
-					<option value="{{ filterName }}"
-							selected>{{ filterLang }}</option>
-
-					{% else %}
-
-					<option value="{{ filterName }}">{{ filterLang }}</option>
-					{% endif %}
-
-					{% endfor %}
-				</select>
-
 				<button type="submit"
-						class="btn btn-primary  order-3  border rounded-0  rounded-end"
+						class="btn btn-primary  order-3"
 						name="{{ searchButtonFiledName }}"
 						alt="{{ lang.searchButton }}">
 					{% include "search-icon-blue-24x24.svg" %}

@@ -8,19 +8,18 @@ use App\Twig\Components\TwigComponentDtoInterface;
 
 class SearchBarComponentDto implements TwigComponentDtoInterface
 {
+    /**
+     * @param SECTION_FILTERS[] $sectionFilters
+     */
     public function __construct(
         public readonly string $groupId,
-        public readonly string|null $searchFilter,
         public readonly string|null $searchValue,
-        private readonly SEARCH_TYPE $searchType,
+        public readonly array $sectionFilters,
+        public readonly string|null $sectionFilterValue,
+        public readonly string|null $nameFilterValue,
         public readonly string $searchCsrfToken,
         public readonly string $searchFormActionUrl,
         public readonly string $searchAutoCompleteUrl,
     ) {
-    }
-
-    public function searchType(): string
-    {
-        return $this->searchType->value;
     }
 }

@@ -1,42 +1,72 @@
 import { Controller } from '@hotwired/stimulus';
 import * as apiEndpoints from 'App/modules/ApiEndpoints';
-import SEARCH_FILTER from 'App/Twig/Components/SearchBar/SEARCH_FILTER';
+import * as url from 'App/modules/Url';
 
 
 const SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS = 50;
 
 export default class extends Controller {
+    /**
+     * @type {number|undefined}
+     */
+    searchTimeoutId;
+
+    /**
+     * @type {HTMLFormElement}
+     */
+    searchBarFormTag;
+
+    /**
+     * @type {HTMLInputElement}
+     */
+    valueTag;
+
+    /**
+     * @type {HTMLInputElement}
+     */
+    sectionFilterTag;
+
+    /**
+     * @type {HTMLInputElement}
+     */
+    nameFilterTag;
+
+    /**
+     * @type {HTMLDataListElement}
+     */
+    searchDataListTag;
+
+    /**
+     * @type {function}
+     */
+    getDataFromApiCallback;
 
     connect() {
         this.searchTimeoutId = null;
         this.searchBarFormTag = this.element.querySelector('[data-js-searchbar-form]');
         this.valueTag = this.element.querySelector('[data-js-value]');
-        this.filterTag = this.element.querySelector('[data-js-filter]');
+        this.sectionFilterTag = this.element.querySelector('[data-js-section-filter]');
+        this.nameFilterTag = this.element.querySelector('[data-js-name-filter]');
         this.searchDataListTag = this.element.querySelector('#search-data-list');
 
         this.searchBarFormTag.addEventListener('submit', this.#onSubmitHandler.bind(this));
-        this.searchBarFormTag.addEventListener('input', this.#onSearchValueInputHandler.bind(this));
+        this.valueTag.addEventListener('input', this.#onSearchValueInputHandler.bind(this));
     }
 
     disconnect() {
         this.searchBarFormTag.removeEventListener('submit', this.#onSubmitHandler);
-        this.searchBarFormTag.removeEventListener('input', this.#onSearchValueInputHandler);
+        this.valueTag.removeEventListener('input', this.#onSearchValueInputHandler);
     }
 
-    #onSearchValueInputHandler() {
-        this.#setTimeout(300, this.#getAutoCompleteData.bind(this));
-    }
-
+    /**
+     * @param {number} delayInMs
+     * @param {function} callback
+     * @param  {...any} args
+     */
     #setTimeout(delayInMs, callback, ...args) {
         clearTimeout(this.searchTimeoutId);
 
         this.searchTimeoutId = setTimeout(() => callback(...args), delayInMs);
-    }
-
-    #onSubmitHandler() {
-        if (this.valueTag.value == '') {
-            this.filterTag.removeAttribute('name');
-        }
     }
 
     async #getAutoCompleteData() {
@@ -46,16 +76,7 @@ export default class extends Controller {
             return;
         }
 
-        const parameters = {
-            'group_id': this.element.dataset.groupId,
-            'page': 1,
-            'page_items': SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS,
-            'order_asc': true,
-            'shop_name_filter_type': this.filterTag.value,
-            'shop_name_filter_value': this.valueTag.value,
-        }
-
-        const shopsNames = await this.#getDataFromApi(parameters);
+        const shopsNames = await this.#getDataFromApi();
         this.#updateSearchDatalist(shopsNames);
     }
 
@@ -74,12 +95,44 @@ export default class extends Controller {
         searchDataListOptions.forEach((item) => this.searchDataListTag.appendChild(item));
     }
 
-    async #getDataFromApi(parameters) {
-        switch (this.element.dataset.searchType) {
-            case SEARCH_FILTER.SHOP:
+    async #getDataFromApi() {
+        let parameters = {
+            'group_id': this.element.dataset.groupId,
+            'page': 1,
+            'page_items': SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS,
+            'order_asc': true,
+        };
+
+        switch (url.getSection()) {
+            case url.SECTIONS.SHOP:
+                parameters['shop_name_filter_type'] = this.nameFilterTag.value;
+                parameters['shop_name_filter_value'] = this.valueTag.value;
+
                 return await apiEndpoints.getShopsNames(parameters);
-                break;
+            case url.SECTIONS.PRODUCT:
+                if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
+                    parameters['shop_name_filter_type'] = this.nameFilterTag.value;
+                    parameters['shop_name_filter_value'] = this.valueTag.value;
+
+                    return await apiEndpoints.getShopsNames(parameters);
+                } else {
+                    parameters['product_name_filter_type'] = this.nameFilterTag.value;
+                    parameters['product_name_filter_value'] = this.valueTag.value;
+
+                    return await apiEndpoints.getProductsNames(parameters);
+                }
+            case url.SECTIONS.ORDER:
+
         }
     }
 
+    #onSearchValueInputHandler() {
+        this.#setTimeout(300, this.#getAutoCompleteData.bind(this));
+    }
+
+    #onSubmitHandler() {
+        if (this.valueTag.value == '') {
+            this.nameFilterTag.removeAttribute('name');
+        }
+    }
 }

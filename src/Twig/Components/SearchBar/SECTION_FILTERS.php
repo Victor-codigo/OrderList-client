@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\SearchBar;
 
-enum SEARCH_TYPE: string
+enum SECTION_FILTERS: string
 {
-    case SHOP = 'shop';
     case PRODUCT = 'product';
+    case SHOP = 'shop';
     case ORDER = 'order';
 }

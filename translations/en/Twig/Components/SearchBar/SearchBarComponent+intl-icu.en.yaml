@@ -5,8 +5,13 @@ inputSearch:
 button:
   label: Search
 
-filters:
+name_filters:
   startsWith: Starts with
   endsWith: Ends with
   contains: Contains
   equals: Equals
+
+section_filters:
+  product: Product
+  shop: Shop
+  order: Order

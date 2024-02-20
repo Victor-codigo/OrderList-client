@@ -20,8 +20,10 @@ class SearchBarComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $searchTokenCsrfFieldName;
+
     public readonly string $searchValueFieldName;
-    public readonly string $searchFilterFieldName;
+    public readonly string $nameFilterFieldName;
+    public readonly string $sectionFilterFieldName;
     public readonly string $searchButtonFiledName;
 
     protected static function getComponentName(): string
@@ -35,7 +37,8 @@ class SearchBarComponent extends TwigComponent
         $this->formName = SEARCHBAR_FORM_FIELDS::FORM;
         $this->searchTokenCsrfFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::TOKEN);
         $this->searchValueFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::SEARCH_VALUE);
-        $this->searchFilterFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::SEARCH_FILTER);
+        $this->nameFilterFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::NAME_FILTER);
+        $this->sectionFilterFieldName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::SECTION_FILTER);
         $this->searchButtonFiledName = sprintf('%s[%s]', SEARCHBAR_FORM_FIELDS::FORM, SEARCHBAR_FORM_FIELDS::BUTTON);
 
         $this->loadTranslation();
@@ -49,12 +52,30 @@ class SearchBarComponent extends TwigComponent
                 $this->translate('inputSearch.placeholder'),
                 $this->translate('button.label'),
             )
-            ->filters([
-                FILTERS::STARTS_WITH->value => $this->translate('filters.startsWith'),
-                FILTERS::ENDS_WITH->value => $this->translate('filters.endsWith'),
-                FILTERS::CONTAINS->value => $this->translate('filters.contains'),
-                FILTERS::EQUALS->value => $this->translate('filters.equals'),
+            ->nameFilters([
+                NAME_FILTERS::STARTS_WITH->value => $this->translate('name_filters.startsWith'),
+                NAME_FILTERS::ENDS_WITH->value => $this->translate('name_filters.endsWith'),
+                NAME_FILTERS::CONTAINS->value => $this->translate('name_filters.contains'),
+                NAME_FILTERS::EQUALS->value => $this->translate('name_filters.equals'),
+            ])
+            ->sectionFilters([
+                SECTION_FILTERS::ORDER->value => $this->translate('section_filters.order'),
+                SECTION_FILTERS::PRODUCT->value => $this->translate('section_filters.product'),
+                SECTION_FILTERS::SHOP->value => $this->translate('section_filters.shop'),
             ])
             ->build();
+    }
+
+    public function sectionFilters(): array
+    {
+        $sectionFiltersKeys = array_keys($this->lang->sectionFilters);
+        $sectionFilters = array_map(
+            fn (string $sectionFilter, string $key) => in_array(SECTION_FILTERS::tryFrom($key), $this->data->sectionFilters) ? $sectionFilter : null,
+            array_values($this->lang->sectionFilters), $sectionFiltersKeys
+        );
+
+        $sectionFilters = array_combine($sectionFiltersKeys, $sectionFilters);
+
+        return array_filter($sectionFilters);
     }
 }

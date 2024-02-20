@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\SearchBar;
 
-enum FILTERS: string
+enum NAME_FILTERS: string
 {
     case STARTS_WITH = 'starts_with';
     case ENDS_WITH = 'ends_with';
