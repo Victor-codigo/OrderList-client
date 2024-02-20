@@ -8,10 +8,9 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
+use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
-use App\Twig\Components\SearchBar\SEARCH_TYPE;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Adapter\Endpoints\ShopsEndPoint;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
@@ -87,8 +86,8 @@ class ShopHomeController extends AbstractController
             $shopModifyForm,
             $shopRemoveForm,
             $shopRemoveMultiForm,
-            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             $searchBarForm->getCsrfToken(),
             $shopsData['shops'],
             $shopsData['pages_total']
@@ -147,8 +146,8 @@ class ShopHomeController extends AbstractController
         FormInterface $shopModifyForm,
         FormInterface $shopRemoveForm,
         FormInterface $shopRemoveMultiForm,
-        string|null $searchBarFieldFilter,
-        string|null $searchBarFieldValue,
+        string|null $searchBarSearchValue,
+        string|null $searchBarNameFilterValue,
         string $searchBarCsrfToken,
         array $shopsData,
         int $pagesTotal,
@@ -178,16 +177,15 @@ class ShopHomeController extends AbstractController
             )
             ->searchBar(
                 $requestDto->groupData->id,
-                $searchBarFieldFilter,
-                $searchBarFieldValue,
-                SEARCH_TYPE::SHOP,
+                $searchBarSearchValue,
+                $searchBarNameFilterValue,
                 $searchBarCsrfToken,
+                ShopsEndPoint::GET_SHOP_DATA,
                 $this->generateUrl('shop_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),
-                ShopsEndPoint::GET_SHOP_DATA,
             )
             ->shopCreateFormModal(
                 $shopCreateForm->getCsrfToken(),

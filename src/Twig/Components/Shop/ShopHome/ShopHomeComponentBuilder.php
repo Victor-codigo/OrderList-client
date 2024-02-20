@@ -8,9 +8,9 @@ use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Shop\ShopRemoveMulti\SHOP_REMOVE_MULTI_FORM_FIELDS;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
-use App\Twig\Components\Modal\ModalComponentDto;
-use App\Twig\Components\SearchBar\SEARCH_TYPE;
+use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
+use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponent;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
 use App\Twig\Components\Shop\ShopHome\ListItem\ShopListItemComponent;
@@ -143,9 +143,8 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
 
     public function searchBar(
         string $groupId,
-        string|null $searchBarFilterType,
-        string|null $searchBarFilterValue,
-        SEARCH_TYPE $searchType,
+        string|null $searchValue,
+        string|null $nameFilterValue,
         string $searchBarCsrfToken,
         string $searchAutoCompleteUrl,
         string $searchBarFormActionUrl,
@@ -154,12 +153,13 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
 
         $this->homeSectionComponentDto->searchBar(new SearchBarComponentDto(
             $groupId,
-            $searchBarFilterType,
-            $searchBarFilterValue,
-            $searchType,
+            $searchValue,
+            [SECTION_FILTERS::SHOP],
+            null,
+            $nameFilterValue,
             $searchBarCsrfToken,
+            $searchBarFormActionUrl,
             $searchAutoCompleteUrl,
-            $searchBarFormActionUrl
         ));
 
         return $this;
