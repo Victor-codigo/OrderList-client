@@ -17,7 +17,7 @@ use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Twig\Components\Product\ProductHome\Home\ProductHomeSectionComponentDto;
 use App\Twig\Components\Product\ProductHome\ProductHomeComponentBuilder;
-use App\Twig\Components\SearchBar\SEARCH_TYPE;
+use App\Twig\Components\SearchBar\SECTION_FILTERS;
 use Common\Adapter\Endpoints\ProductsEndPoint;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
@@ -27,6 +27,7 @@ use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -61,19 +62,7 @@ class ProductHomeController extends AbstractController
         $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
-        if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
-            return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'product_home',
-                $requestDto->requestReferer->params,
-                [],
-                [],
-                ['searchBar' => [
-                    SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
-                    SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
-                ]]
-            );
-        }
-
+        $this->searchBarForm($searchBarForm, $requestDto);
         $searchBarFormFields = $this->getSearchBarFieldsValues(
             $searchBarForm,
             $this->controllerUrlRefererRedirect->getFlashBag($requestDto->request->attributes->get('_route'), FLASH_BAG_TYPE_SUFFIX::DATA),
@@ -81,10 +70,7 @@ class ProductHomeController extends AbstractController
 
         $productsData = $this->getProductsData(
             $requestDto->groupData->id,
-            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
-            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
-            null,
-            null,
+            $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
             $requestDto->tokenSession
@@ -100,10 +86,9 @@ class ProductHomeController extends AbstractController
             $productRemoveForm,
             $productRemoveMultiForm,
             $shopCreateForm,
-            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
-            null,
-            null,
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
             $searchBarForm->getCsrfToken(),
             $productsData['products'],
             $shopsData,
@@ -114,31 +99,63 @@ class ProductHomeController extends AbstractController
         return $this->renderTemplate($productHomeComponentDto);
     }
 
+    /**
+     * @return array<{
+     *      SEARCHBAR_FORM_FIELDS::SECTION_FILTER: string,
+     *      SEARCHBAR_FORM_FIELDS::NAME_FILTER: string,
+     *      SEARCHBAR_FORM_FIELDS::SEARCH_VALUE: string
+     * }>
+     */
     private function getSearchBarFieldsValues(FormInterface $searchBarForm, array $flashBagData): array
     {
         if (!array_key_exists('searchBar', $flashBagData)) {
             return [
-                SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
+                SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SECTION_FILTER),
+                SEARCHBAR_FORM_FIELDS::NAME_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::NAME_FILTER),
                 SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
             ];
         }
 
         return [
-            SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
+            SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
+            SEARCHBAR_FORM_FIELDS::NAME_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
         ];
     }
 
-    private function getProductsData(
-        string $groupId,
-        string|null $productNameFilterType,
-        string|null $productNameFilterValue,
-        string|null $shopNameFilterType,
-        string|null $shopNameFilterValue,
-        int $page,
-        int $pageItems,
-        string $tokenSession
-    ): array {
+    private function searchBarForm(FormInterface $searchBarForm, RequestDto $requestDto): RedirectResponse|null
+    {
+        if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
+            return $this->controllerUrlRefererRedirect->createRedirectToRoute(
+                'product_home',
+                $requestDto->requestReferer->params,
+                [],
+                [],
+                ['searchBar' => [
+                    SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SECTION_FILTER),
+                    SEARCHBAR_FORM_FIELDS::NAME_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::NAME_FILTER),
+                    SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+                ]]
+            );
+        }
+
+        return null;
+    }
+
+    private function getProductsData(string $groupId, array $searchBarFormFields, int $page, int $pageItems, string $tokenSession): array
+    {
+        $productNameFilterType = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER];
+        $productNameFilterValue = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE];
+        $shopNameFilterType = null;
+        $shopNameFilterValue = null;
+
+        if (SECTION_FILTERS::SHOP->value === $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER]) {
+            $productNameFilterType = null;
+            $productNameFilterValue = null;
+            $shopNameFilterType = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER];
+            $shopNameFilterValue = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE];
+        }
+
         $productsData = $this->endpoints->productGetData(
             $groupId,
             null,
@@ -213,10 +230,9 @@ class ProductHomeController extends AbstractController
         FormInterface $productRemoveForm,
         FormInterface $productRemoveMultiForm,
         FormInterface $shopCreateForm,
-        string|null $searchBarProductFieldFilter,
-        string|null $searchBarProductFieldValue,
-        string|null $searchBarShopFieldFilter,
-        string|null $searchBarShopFieldValue,
+        string|null $searchBarSearchValue,
+        string|null $searchBarNameFilterValue,
+        string|null $searchBarSectionFilterValue,
         string $searchBarCsrfToken,
         array $productsData,
         array $shopsData,
@@ -250,16 +266,16 @@ class ProductHomeController extends AbstractController
             )
             ->searchBar(
                 $requestDto->groupData->id,
-                $searchBarProductFieldFilter,
-                $searchBarProductFieldValue,
-                SEARCH_TYPE::PRODUCT,
+                $searchBarSearchValue,
+                $searchBarSectionFilterValue,
+                $searchBarNameFilterValue,
                 $searchBarCsrfToken,
-                ProductsEndPoint::GET_PRODUCT_DATA,
                 $this->generateUrl('product_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
-                ])
+                ]),
+                ProductsEndPoint::GET_PRODUCT_DATA,
             )
             ->productCreateFormModal(
                 $productCreateForm->getCsrfToken(),

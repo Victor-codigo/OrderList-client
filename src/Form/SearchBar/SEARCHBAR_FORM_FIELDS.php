@@ -10,7 +10,8 @@ class SEARCHBAR_FORM_FIELDS implements FormErrorInterface
 {
     public const FORM = 'searchbar_form';
     public const TOKEN = 'token';
-    public const SEARCH_FILTER = 'search_filter';
+    public const SECTION_FILTER = 'section_filter';
+    public const NAME_FILTER = 'name_filter';
     public const SEARCH_VALUE = 'search_value';
     public const BUTTON = 'search';
 }

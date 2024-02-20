@@ -42,7 +42,8 @@ class SearchBarForm extends FormType
     public function formBuild(): void
     {
         $this
-            ->addField(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER, FIELD_TYPE::TEXT)
+            ->addField(SEARCHBAR_FORM_FIELDS::SECTION_FILTER, FIELD_TYPE::TEXT)
+            ->addField(SEARCHBAR_FORM_FIELDS::NAME_FILTER, FIELD_TYPE::TEXT)
             ->addField(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE, FIELD_TYPE::TEXT)
             ->addField(SEARCHBAR_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
             ->addField(SEARCHBAR_FORM_FIELDS::BUTTON, FIELD_TYPE::BUTTON);

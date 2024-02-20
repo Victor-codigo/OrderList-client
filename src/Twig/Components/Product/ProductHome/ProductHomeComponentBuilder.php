@@ -25,7 +25,7 @@ use App\Twig\Components\Product\ProductModify\ProductModifyComponent;
 use App\Twig\Components\Product\ProductModify\ProductModifyComponentDto;
 use App\Twig\Components\Product\ProductRemove\ProductRemoveComponent;
 use App\Twig\Components\Product\ProductRemove\ProductRemoveComponentDto;
-use App\Twig\Components\SearchBar\SEARCH_TYPE;
+use App\Twig\Components\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponent;
 use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponentDto;
@@ -186,9 +186,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
 
     public function searchBar(
         string $groupId,
-        string|null $searchBarFilterType,
-        string|null $searchBarFilterValue,
-        SEARCH_TYPE $searchType,
+        string|null $searchValue,
+        string|null $sectionFilterValue,
+        string|null $nameFilterValue,
         string $searchBarCsrfToken,
         string $searchAutoCompleteUrl,
         string $searchBarFormActionUrl,
@@ -197,9 +197,10 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
 
         $this->homeSectionComponentDto->searchBar(new SearchBarComponentDto(
             $groupId,
-            $searchBarFilterType,
-            $searchBarFilterValue,
-            $searchType,
+            $searchValue,
+            [SECTION_FILTERS::PRODUCT, SECTION_FILTERS::SHOP],
+            $sectionFilterValue,
+            $nameFilterValue,
             $searchBarCsrfToken,
             $searchAutoCompleteUrl,
             $searchBarFormActionUrl

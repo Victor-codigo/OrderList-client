@@ -8,8 +8,8 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
+use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\SearchBar\SEARCH_TYPE;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
@@ -61,7 +61,7 @@ class ShopHomeController extends AbstractController
                 [],
                 [],
                 ['searchBar' => [
-                    SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
+                    SEARCHBAR_FORM_FIELDS::NAME_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::NAME_FILTER),
                     SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
                 ]]
             );
@@ -74,7 +74,7 @@ class ShopHomeController extends AbstractController
 
         $shopsData = $this->getShopsData(
             $requestDto->groupData->id,
-            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $requestDto->page,
             $requestDto->pageItems,
@@ -87,7 +87,7 @@ class ShopHomeController extends AbstractController
             $shopModifyForm,
             $shopRemoveForm,
             $shopRemoveMultiForm,
-            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $searchBarForm->getCsrfToken(),
             $shopsData['shops'],
@@ -101,13 +101,13 @@ class ShopHomeController extends AbstractController
     {
         if (!array_key_exists('searchBar', $flashBagData)) {
             return [
-                SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_FILTER),
+                SEARCHBAR_FORM_FIELDS::NAME_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::NAME_FILTER),
                 SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
             ];
         }
 
         return [
-            SEARCHBAR_FORM_FIELDS::SEARCH_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SEARCH_FILTER],
+            SEARCHBAR_FORM_FIELDS::NAME_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
         ];
     }
