@@ -11,13 +11,14 @@ use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
+use Common\Domain\Response\RESPONSE_STATUS;
+use Common\Domain\Response\ResponseDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/product/create',
-    name: 'product_create',
     methods: ['POST'],
     requirements: [
         '_locale' => 'en|es',
@@ -33,30 +34,80 @@ class ProductCreateController extends AbstractController
     ) {
     }
 
-    public function __invoke(RequestDto $requestDto): Response
+    #[Route(
+        path: '{_locale}/{group_name}/product/create',
+        name: 'product_create',
+    )]
+    public function createProductHttp(RequestDto $requestDto): Response
     {
-        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
-        $productCreateForm = $this->formFactory->create(new ProductCreateForm(), $requestDto->request);
-
-        if ($productCreateForm->isSubmitted() && $productCreateForm->isValid()) {
-            $this->formValid($productCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
-        }
+        $responseData = $this->productCreateForm($requestDto);
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
             $requestDto->requestReferer->routeName,
             $requestDto->requestReferer->params,
             [$this->productCreateComponent->loadValidationOkTranslation()],
-            $this->productCreateComponent->loadErrorsTranslation($productCreateForm->getErrors()),
+            $responseData->getErrors(),
             []
         );
     }
 
-    private function formValid(FormInterface $form, string $groupId, string $tokenSession): void
+    #[Route(
+        path: 'ajax/{_locale}/{group_name}/product/create',
+        name: 'product_create_ajax',
+    )]
+    public function createProductAjax(RequestDto $requestDto): Response
+    {
+        $responseData = $this->productCreateForm($requestDto);
+
+        return new JsonResponse(
+            $responseData->toArray(),
+            RESPONSE_STATUS::OK === $responseData->getStatus() ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST
+        );
+    }
+
+    private function productCreateForm(RequestDto $requestDto): ResponseDto
+    {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+        $productCreateForm = $this->formFactory->create(new ProductCreateForm(), $requestDto->request);
+
+        if ($productCreateForm->isSubmitted() && $productCreateForm->isValid()) {
+            return $this->productCreateRequest($productCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+        }
+
+        return new ResponseDto(
+            [],
+            [],
+            'Form not allowed',
+            RESPONSE_STATUS::OK
+        );
+    }
+
+    private function productCreateRequest(FormInterface $form, string $groupId, string $tokenSession): ResponseDto
     {
         try {
             $productId = $this->createProduct($form, $groupId, $tokenSession);
             $this->createProductShopPrice($form, $groupId, $productId, $tokenSession);
+
+            $responseData = ['id' => $productId];
+            $responseStatus = RESPONSE_STATUS::OK;
+            $responseMessage = 'Product created';
+            if (!empty($form->getErrors())) {
+                $responseStatus = RESPONSE_STATUS::ERROR;
+                $responseMessage = 'Product could not be created';
+            }
         } catch (Error400Exception) {
+            $responseData = [];
+            $responseStatus = RESPONSE_STATUS::ERROR;
+            $responseMessage = 'Product could not be created';
+        } finally {
+            $responseErrors = $this->productCreateComponent->loadErrorsTranslation($form->getErrors());
+
+            return new ResponseDto(
+                $responseData,
+                $responseErrors,
+                $responseMessage,
+                $responseStatus
+            );
         }
     }
 
@@ -65,7 +116,7 @@ class ProductCreateController extends AbstractController
      *
      * @throws Error400Exception
      */
-    private function createProduct(FormInterface $form, string $groupId, string $tokenSession): string|null
+    private function createProduct(FormInterface $form, string $groupId, string $tokenSession): string
     {
         $responseData = $this->endpoints->productCreate(
             $groupId,
