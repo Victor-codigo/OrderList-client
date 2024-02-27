@@ -8,7 +8,4 @@ use App\Twig\Components\HomeSection\ItemInfo\ItemInfoComponentDto;
 
 class ProductInfoComponentDto extends ItemInfoComponentDto
 {
-    public function __construct(
-    ) {
-    }
 }
