@@ -1,0 +1,15 @@
+created_on: "Created on: "
+
+image:
+  title: Shop image
+  alt: Shop image
+
+item_price:
+  name: Product
+  price: Price/Unit
+
+products:
+  empty: "<There is no products>"
+
+close_button:
+  label: Close
