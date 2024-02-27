@@ -1,0 +1,35 @@
+<div data-controller="{{ data.componentName }}"
+     data-action="PaginatorContentLoaderJsComponent:connected->{{ data.componentName }}#handleMessageConnected
+                  ModalComponent:beforeShowed->{{ data.componentName }}#handleMessageBeforeShowed"
+     data-url-path-items-images="{{ data.urlPathItemsImages }}"
+     data-url-no-items-image="{{ data.urlNoItemsImage }}"
+     data-item-image-title="{{ lang.itemImageTitle }}"
+     class="p-4  pt-0"
+     data-modal-component-content>
+
+
+    {{ component('TitleComponent', { data: titleDto } ) }}
+    {{ component('PaginatorContentLoaderJsComponent', { data: data.paginatorContentLoaderJsDto } ) }}
+
+    <hr class="border border-second border-1 opacity-50  mt-5">
+
+    <div class="d-flex  justify-content-end">
+        <button type="button"
+                class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+                data-js-back-button>
+
+            {% include "arrow-back-icon-white-24x24.svg" %}
+
+            <span>
+                {{ lang.buttonBackLabel }}
+            </span>
+        </button>
+
+        <button type="button"
+                class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
+                data-js-create-item-button>
+
+            {{ lang.buttonCreateItemLabel }}
+        </button>
+    </div>
+</div>
