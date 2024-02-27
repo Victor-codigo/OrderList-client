@@ -50,6 +50,10 @@ export default class ProductCreateController extends Controller {
         form.validate(this.element, null);
     }
 
+    modalClose() {
+        this.modalManager.close();
+    }
+
     #clearForm() {
         this.element.reset();
         this.element.classList.remove('was-validated');
@@ -58,14 +62,16 @@ export default class ProductCreateController extends Controller {
     }
 
     #setModalData() {
-        if (!this.#modalManager.modalChainExists(MODAL_CHAINS.productCreateChain.name)) {
-            this.#modalManager
-                .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.productCreate)
-                .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.shopList)
-                .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.shopCreate)
+        if (this.modalManager.getChainCurrent() !== null
+            && this.modalManager.getChainCurrent().getName() !== MODAL_CHAINS.productCreateChain.name) {
+            return;
         }
 
-        this.#modalManager.setModalCurrent(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.productCreate);
+        this.#modalManager
+            .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.productCreate.modalId)
+            .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.shopList.modalId)
+            .addModal(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.shopCreate.modalId)
+        this.#modalManager.setModalCurrent(MODAL_CHAINS.productCreateChain.name, MODAL_CHAINS.productCreateChain.modals.productCreate.modalId);
     }
 
     /**
@@ -81,10 +87,10 @@ export default class ProductCreateController extends Controller {
     handleMessageBeforeShowed({ detail: { content } }) {
         const modalBefore = content.modalManager.getModalOpenedBefore();
         this.#modalManager = content.modalManager;
-        this.#setModalData();
+        this.#clearForm();
 
         if (modalBefore === null) {
-            this.#clearForm();
+            this.#setModalData();
 
             return;
         }
@@ -97,7 +103,27 @@ export default class ProductCreateController extends Controller {
 
     }
 
+    /**
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     * @param {string} event.detail.content.id
+     * @param {string} event.detail.content.name
+     * @param {Array} event.detail.content.itemsAdded
+     */
+    handleItemNameClickEvent({ detail: { content } }) {
+        const chainCurrentName = this.modalManager.getChainCurrent().getName();
+
+        this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.productCreate.open.shopList, {
+            itemsNotSelectable: content.itemsAdded
+        });
+    }
+
     #sendMessageItemPriceAddClear() {
+        if (this.#itemPriceAddComponentTag === null) {
+            return;
+        }
+
         communication.sendMessageToChildController(this.#itemPriceAddComponentTag, 'clear');
     }
 

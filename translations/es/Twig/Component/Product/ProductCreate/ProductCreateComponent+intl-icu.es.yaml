@@ -7,7 +7,7 @@ name:
   placeholder: Introduce el nombre del producto
   msg_invalid: |
     Introduce un nombre válido.
-    El nombre debe contener al menos, un caracter y un máximo de 30 caracteres
+    El nombre debe contener al menos, un caracter y un máximo de 30 carácteres
     Solo están permitidos caracteres alfanuméricos y "_"
 
 description:
@@ -29,7 +29,7 @@ product_price:
   msg_invalid: El precio introducido no es correcto
 
 shop_add_button:
-  label: Añade una tiend
+  label: Añade una tienda
   title: Añade una tienda nueva
   alt: Añade una tienda nueva
 
