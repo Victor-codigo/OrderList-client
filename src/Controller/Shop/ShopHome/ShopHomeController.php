@@ -3,16 +3,20 @@
 namespace App\Controller\Shop\ShopHome;
 
 use App\Controller\Request\RequestDto;
+use App\Controller\Request\Response\ProductDataResponse;
+use App\Controller\Request\Response\ProductShopPriceDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
+use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
 use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
-use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
+use App\Twig\Components\Shop\ShopHome\Home\ShopHomeSectionComponentDto;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Adapter\Endpoints\ShopsEndPoint;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -51,6 +55,7 @@ class ShopHomeController extends AbstractController
         $shopModifyForm = $this->formFactory->create(new ShopModifyForm(), $requestDto->request);
         $shopRemoveForm = $this->formFactory->create(new ShopRemoveForm(), $requestDto->request);
         $shopRemoveMultiForm = $this->formFactory->create(new ShopRemoveMultiForm(), $requestDto->request);
+        $productCreateFrom = $this->formFactory->create(new ProductCreateForm(), $requestDto->request);
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
@@ -80,16 +85,22 @@ class ShopHomeController extends AbstractController
             $requestDto->tokenSession
         );
 
+        $productsData = $this->getShopsProductsData($requestDto->groupData->id, $shopsData['shops'], $requestDto->tokenSession);
+        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $shopsData['shops'], $productsData, $requestDto->tokenSession);
+
         $shopHomeComponentDto = $this->createShopHomeComponentDto(
             $requestDto,
             $shopCreateForm,
             $shopModifyForm,
             $shopRemoveForm,
             $shopRemoveMultiForm,
+            $productCreateFrom,
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             $searchBarForm->getCsrfToken(),
             $shopsData['shops'],
+            $productsData,
+            $productsShopsPricesData,
             $shopsData['pages_total']
         );
 
@@ -140,18 +151,67 @@ class ShopHomeController extends AbstractController
         return $shopsData['data'];
     }
 
+    private function getShopsProductsData(string $groupId, array $shopData, string $tokenSession): array
+    {
+        $shopsId = array_column($shopData, 'id');
+
+        if (empty($shopsId)) {
+            return [];
+        }
+
+        $productsData = $this->endpoints->productGetData(
+            $groupId,
+            null,
+            $shopsId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            1,
+            100,
+            true,
+            $tokenSession
+        );
+
+        return array_map(
+            fn (array $productData) => ProductDataResponse::fromArray($productData),
+            $productsData['data']['products']
+        );
+    }
+
+    private function getProductsShopPrices(string $groupId, array $shopsData, array $productsData, string $tokenSession): array
+    {
+        $productsId = array_column($productsData, 'id');
+        $shopsId = array_column($shopsData, 'id');
+
+        if (empty($productsId) || empty($shopsId)) {
+            return [];
+        }
+
+        $productsShopPriceData = $this->endpoints->getProductShopPrice($groupId, $productsId, $shopsId, $tokenSession);
+
+        return array_map(
+            fn (array $productShopPriceData) => ProductShopPriceDataResponse::fromArray($productShopPriceData),
+            $productsShopPriceData['data']['products_shops']
+        );
+    }
+
     private function createShopHomeComponentDto(
         RequestDto $requestDto,
         FormInterface $shopCreateForm,
         FormInterface $shopModifyForm,
         FormInterface $shopRemoveForm,
         FormInterface $shopRemoveMultiForm,
+        FormInterface $productCreateForm,
         string|null $searchBarSearchValue,
         string|null $searchBarNameFilterValue,
         string $searchBarCsrfToken,
         array $shopsData,
+        array $productsData,
+        array $productsShopsPriceData,
         int $pagesTotal,
-    ): HomeSectionComponentDto {
+    ): ShopHomeSectionComponentDto {
         $shopHomeMessagesError = $this->sessionFlashBag->get(
             $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_ERROR->value
         );
@@ -171,6 +231,8 @@ class ShopHomeController extends AbstractController
             )
             ->listItems(
                 $shopsData,
+                $productsData,
+                $productsShopsPriceData
             )
             ->validation(
                 !empty($shopHomeMessagesError) || !empty($shopHomeMessagesOk) ? true : false,
@@ -212,13 +274,25 @@ class ShopHomeController extends AbstractController
                     'shop_name' => self::SHOP_NAME_PLACEHOLDER,
                 ]),
             )
+            ->productsListModal(
+                $requestDto->groupData->id,
+                Config::API_IMAGES_PRODUCTS_PATH,
+                Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
+            )
+            ->productCreateModal(
+                $requestDto->groupData->id,
+                $productCreateForm->getCsrfToken(),
+                $this->generateUrl('product_create', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                ])
+            )
             ->build();
     }
 
-    private function renderTemplate(HomeSectionComponentDto $homeSectionComponent): Response
+    private function renderTemplate(ShopHomeSectionComponentDto $shopHomeSectionComponent): Response
     {
         return $this->render('shop/shop_home/index.html.twig', [
-            'homeSectionComponent' => $homeSectionComponent,
+            'shopHomeSectionComponent' => $shopHomeSectionComponent,
         ]);
     }
 }
