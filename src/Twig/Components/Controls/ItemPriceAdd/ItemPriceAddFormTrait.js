@@ -58,19 +58,3 @@ export function getModalBeforeSharedData() {
 
     return { ...returnDefault, ...modalBeforeSharedData.itemData };
 }
-
-/**
- * @param {object} event
- * @param {object} event.detail
- * @param {object} event.detail.content
- * @param {string} event.detail.content.id
- * @param {string} event.detail.content.name
- * @param {Array} event.detail.content.itemsAdded
- */
-export function handleItemNameClickEvent({ detail: { content } }) {
-    const chainCurrentName = this.modalManager.getChainCurrent().getName();
-
-    this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopList, {
-        itemsNotSelectable: content.itemsAdded
-    });
-}
