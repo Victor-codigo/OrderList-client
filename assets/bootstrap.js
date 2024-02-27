@@ -17,6 +17,7 @@ import DropZoneComponent from 'App/Twig/Components/Controls/DropZone/DropZone_Co
 import ImageAvatarComponent from 'App/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
 import ItemPriceAddComponent from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAdd_controller';
 import ButtonLoadingComponent from 'App/Twig/Components/Controls/ButtonLoading/ButtonLoading_controller';
+import ItemsListAjaxComponent from 'App/Twig/Components/HomeSection/ItemsListAjax/ItemsListAjaxComponent_controller';
 
 import PaginatorComponent from 'App/Twig/Components/Paginator/Paginator_Component';
 import PaginatorJsComponent from 'App/Twig/Components/PaginatorJs/PaginatorJs_Component';
@@ -46,6 +47,7 @@ import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupU
 // import OrdersListItemComponent from 'App/Twig/Components/Orders/OrdersList/ListItem/OrdersListItem_controller';
 
 // SHOP
+import ShopHomeSectionComponent from 'App/Twig/Components/Shop/ShopHome/Home/ShopHomeSection_controller';
 import ShopCreateComponent from 'App/Twig/Components/Shop/ShopCreate/ShopCreate_controller';
 import ShopCreateAjaxComponent from 'App/Twig/Components/Shop/ShopCreateAjax/ShopCreateAjax_controller';
 import ShopModifyComponent from 'App/Twig/Components/Shop/ShopModify/ShopModify_controller';
@@ -53,15 +55,18 @@ import ShopRemoveComponent from 'App/Twig/Components/Shop/ShopRemove/ShopRemoveC
 import PaginatorContentLoaderJsComponent from 'App/Twig/Components/Controls/PaginatorContentLoaderJs/PaginatorContentLoaderJsComponent_controller';
 import ShopListItemComponent from 'App/Twig/Components/Shop/ShopHome/ListItem/ShopListItem_controller';
 import ShopsListAjaxComponent from 'App/Twig/Components/Shop/ShopsListAjax/ShopsListAjaxComponent_controller';
+import ShopInfoComponent from 'App/Twig/Components/Shop/ShopInfo/ShopInfo_controller';
+
 
 // PRODUCT
 import ProductHomeSectionComponent from 'App/Twig/Components/Product/ProductHome/Home/ProductHomeSection_controller';
 import ProductCreateComponent from 'App/Twig/Components/Product/ProductCreate/ProductCreate_controller';
+import ProductCreateAjaxComponent from 'App/Twig/Components/Product/ProductCreateAjax/ProductCreateAjax_controller';
 import ProductModifyComponent from 'App/Twig/Components/Product/ProductModify/ProductModify_controller';
 import ProductRemoveComponent from 'App/Twig/Components/Product/ProductRemove/ProductRemoveComponent_controller';
 import ProductListItemComponent from 'App/Twig/Components/Product/ProductHome/ListItem/ProductListItem_controller';
 import ProductInfoComponent from 'App/Twig/Components/Product/ProductInfo/ProductInfo_controller';
-
+import ProductsListAjaxComponent from 'App/Twig/Components/Product/ProductsListAjax/ProductsListAjaxComponent_controller';
 
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
@@ -87,6 +92,7 @@ app.register('PaginatorJsComponent', PaginatorJsComponent);
 app.register('ListComponent', ListComponent);
 app.register('SearchBarComponent', SearchBarComponent);
 app.register('ContentLoaderJsComponent', ContentLoaderJsComponent);
+app.register('ItemsListAjaxComponent', ItemsListAjaxComponent);
 
 // HOME LIST
 app.register('HomeSectionComponent', HomeSectionComponent);
@@ -120,6 +126,7 @@ app.register('GroupUserAddComponent', GroupUserAddComponent);
 
 
 // SHOP
+app.register('ShopHomeSectionComponent', ShopHomeSectionComponent);
 app.register('ShopCreateComponent', ShopCreateComponent);
 app.register('ShopCreateAjaxComponent', ShopCreateAjaxComponent);
 app.register('ShopModifyComponent', ShopModifyComponent);
@@ -127,12 +134,15 @@ app.register('ShopRemoveComponent', ShopRemoveComponent);
 app.register('ShopListItemComponent', ShopListItemComponent);
 app.register('PaginatorContentLoaderJsComponent', PaginatorContentLoaderJsComponent);
 app.register('ShopsListAjaxComponent', ShopsListAjaxComponent);
+app.register('ShopInfoComponent', ShopInfoComponent);
 
 
 // PRODUCT
 app.register('ProductHomeSectionComponent', ProductHomeSectionComponent);
 app.register('ProductCreateComponent', ProductCreateComponent);
+app.register('ProductCreateAjaxComponent', ProductCreateAjaxComponent);
 app.register('ProductModifyComponent', ProductModifyComponent);
 app.register('ProductRemoveComponent', ProductRemoveComponent);
 app.register('ProductListItemComponent', ProductListItemComponent);
 app.register('ProductInfoComponent', ProductInfoComponent);
+app.register('ProductsListAjaxComponent', ProductsListAjaxComponent);
