@@ -32,7 +32,7 @@ product_price:
   msg_invalid: El precio introducido no es correcto
 
 shop_add_button:
-  label: Añade una tiend
+  label: Añade una tienda
   title: Añade una tienda nueva
   alt: Añade una tienda nueva
 

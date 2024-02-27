@@ -59,6 +59,10 @@ export default class ProductModifyController extends Controller {
         form.validate(this.element, null);
     }
 
+    modalClose() {
+        this.modalManager.close();
+    }
+
     /**
      * @param {object} event
      * @param {object} event.detail
@@ -88,18 +92,21 @@ export default class ProductModifyController extends Controller {
         this.#productDescriptionTag.value = productData.description;
         this.sendMessageAvatarSetImageEventToImageAvatarComponent(productData.image);
         this.sendMessageClearToItemsAddComponent();
-        this.sendMessageAddItemsToItemsAddComponent(productData.shops)
+        this.sendMessageAddItemsToItemsAddComponent(productData.itemsPrices)
     }
 
     #setModalData() {
-        if (!this.#modalManager.modalChainExists(MODAL_CHAINS.productModifyChain.name)) {
-            this.#modalManager
-                .addModal(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.productModify)
-                .addModal(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.shopList)
-                .addModal(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.shopCreate)
+        if (this.modalManager.getChainCurrent() !== null
+            && this.modalManager.getChainCurrent().getName() !== MODAL_CHAINS.productModifyChain.name) {
+            return;
         }
 
-        this.#modalManager.setModalCurrent(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.productModify);
+        this.#modalManager
+            .addModal(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.productModify.modalId)
+            .addModal(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.shopList.modalId)
+            .addModal(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.shopCreate.modalId)
+
+        this.#modalManager.setModalCurrent(MODAL_CHAINS.productModifyChain.name, MODAL_CHAINS.productModifyChain.modals.productModify.modalId);
     }
 
     /**
@@ -115,9 +122,10 @@ export default class ProductModifyController extends Controller {
     handleMessageBeforeShowed({ detail: { content } }) {
         const modalBefore = content.modalManager.getModalOpenedBefore();
         this.#modalManager = content.modalManager;
-        this.#setModalData();
 
         if (modalBefore === null) {
+            this.#setModalData();
+
             return;
         }
 
@@ -136,6 +144,22 @@ export default class ProductModifyController extends Controller {
      */
     handleMessageHomeListItemModify({ detail: { content } }) {
         this.setFormFieldValues(content.itemData);
+    }
+
+    /**
+     * @param {object} event
+     * @param {object} event.detail
+     * @param {object} event.detail.content
+     * @param {string} event.detail.content.id
+     * @param {string} event.detail.content.name
+     * @param {Array} event.detail.content.itemsAdded
+     */
+    handleItemNameClickEvent({ detail: { content } }) {
+        const chainCurrentName = this.#modalManager.getChainCurrent().getName();
+
+        this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.productModify.open.shopList, {
+            itemsNotSelectable: content.itemsAdded
+        });
     }
 
     /**
