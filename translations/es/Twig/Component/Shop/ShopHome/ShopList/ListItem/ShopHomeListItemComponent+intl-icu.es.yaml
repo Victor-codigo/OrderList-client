@@ -6,6 +6,10 @@ shop_modify_button:
   title: Modifica la tienda
   alt: Botón para modificar la tienda
 
+shop_info_button:
+  title: Información de la tienda
+  alt: Botón que abre la información de la tienda
+
 shop_image:
   title: Imagen de la tienda
   alt: Imagen de la tienda

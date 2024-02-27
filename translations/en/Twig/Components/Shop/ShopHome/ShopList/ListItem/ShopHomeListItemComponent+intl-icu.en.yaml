@@ -1,9 +1,14 @@
 shop_remove_button:
   title: Remove the shop
   alt: Button to remove the shop
+
 shop_modify_button:
   title: Modify the shop
   alt: Button to modify the shop
+
+shop_info_button:
+  title: Information of the shop
+  alt: Button to open shop information
 
 shop_image:
   title: Shop image
