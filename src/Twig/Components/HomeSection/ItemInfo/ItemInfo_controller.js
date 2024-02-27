@@ -60,11 +60,11 @@ export default class extends Controller {
         this.#descriptionTag.innerHTML = html.escape(data.description === null ? '' : data.description);
         this.#dateTag.innerHTML = html.escape(this.#getDataLocale(data.createdOn));
         this.#imageTag.src = html.escape(data.image);
-        this.#setPrices(data.shops);
+        this.#setPrices(data.itemsPrices);
     }
 
     /**
-     * @param {config.ItemShopData[]} itemPrices
+     * @param {config.ItemPriceData[]} itemPrices
      */
     #setPrices(itemPrices) {
         let rowCounter = 1;
