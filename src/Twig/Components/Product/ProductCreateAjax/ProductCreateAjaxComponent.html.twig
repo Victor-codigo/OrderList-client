@@ -1,0 +1,31 @@
+<div data-controller="ProductCreateAjaxComponent"
+	 data-action="ModalComponent:beforeShowed->ProductCreateAjaxComponent#handleMessageBeforeShowed"
+	 data-group-id="{{ data.groupId }}"
+	 data-modal-component-content>
+
+	{% set langDto = lang %}
+	{% component ProductCreateComponent with { data: data.productCreateComponentDto } %}
+
+	{% block validation %}
+	{{ component('AlertValidationComponent', { data: alertValidationDto }) }}
+	{% endblock validation %}
+
+	{% block shops %} {% endblock shops %}
+
+	{% block buttons %}
+
+	<button type="button"
+			class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+			data-js-back-button>
+
+		{% include "arrow-back-icon-white-24x24.svg" %}
+		{{ langDto.backButtonLabel }}
+	</button>
+
+	{{ component('ButtonLoadingComponent', { data: productCreateButtonDto })}}
+
+	{% endblock buttons %}
+
+	{% endcomponent %}
+
+</div>
