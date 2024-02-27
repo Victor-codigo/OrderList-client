@@ -12,8 +12,8 @@ use App\Twig\Components\Controls\ContentLoaderJs\ContentLoaderJsComponentDto;
 use App\Twig\Components\Controls\PaginatorContentLoaderJs\PaginatorContentLoaderJsComponentDto;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
-use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
+use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\PaginatorJs\PaginatorJsComponentDto;
 use App\Twig\Components\Product\ProductCreate\ProductCreateComponent;
@@ -27,9 +27,9 @@ use App\Twig\Components\Product\ProductModify\ProductModifyComponent;
 use App\Twig\Components\Product\ProductModify\ProductModifyComponentDto;
 use App\Twig\Components\Product\ProductRemove\ProductRemoveComponent;
 use App\Twig\Components\Product\ProductRemove\ProductRemoveComponentDto;
-use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
 use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponent;
 use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponentDto;
+use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
 use App\Twig\Components\Shop\ShopsListAjax\ShopsListAjaxComponent;
 use App\Twig\Components\Shop\ShopsListAjax\ShopsListAjaxComponentDto;
 use Common\Domain\Config\Config;
@@ -59,8 +59,17 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     private readonly ModalComponentDto $shopCreateModalDto;
     private readonly ModalComponentDto $productInfoModalDto;
 
+    /**
+     * @var ProductDataResponse[]
+     */
     private readonly array $listProductsData;
+    /**
+     * @var ShopDataResponse[]
+     */
     private readonly array $listShopsData;
+    /**
+     * @var ProductShopPriceDataResponse[]
+     */
     private readonly array $listProductsShopPricesData;
 
     public function __construct()
@@ -144,6 +153,10 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
+    /**
+     * @param string[] $productSectionValidationOk
+     * @param string[] $productValidationErrorsMessage
+     */
     public function errors(array $productSectionValidationOk, array $productValidationErrorsMessage): self
     {
         $this->builder->setMethodStatus('errors', true);
@@ -396,6 +409,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         $paginatorContentLoaderJsDto = new PaginatorContentLoaderJsComponentDto($contentLoaderJsDto, $paginatorJsDto);
 
         $shopListAjaxComponentDto = new ShopsListAjaxComponentDto(
+            ShopsListAjaxComponent::getComponentName(),
             $paginatorContentLoaderJsDto,
             $urlPathToShopImages,
             $urlImageShopNoImage,
@@ -453,17 +467,17 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         return new HomeSectionComponentDto();
     }
 
-    private function createProductHomeSectionComponentDto(ModalComponentDto $shopListItemsModalDto, ModalComponentDto $shopCreateModalDto, ModalComponentDto $productInfoModalDto): ProductHomeSectionComponentDto
+    private function createProductHomeSectionComponentDto(ModalComponentDto $productListItemsModalDto, ModalComponentDto $productCreateModalDto, ModalComponentDto $productInfoModalDto): ProductHomeSectionComponentDto
     {
         return (new ProductHomeSectionComponentDto())
             ->homeSection(
                 $this->homeSectionComponentDto
             )
             ->listItemsModal(
-                $shopListItemsModalDto
+                $productListItemsModalDto
             )
             ->shopCreateModal(
-                $shopCreateModalDto
+                $productCreateModalDto
             )
             ->productInfoModal(
                 $productInfoModalDto
