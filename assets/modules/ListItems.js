@@ -1,5 +1,12 @@
 import * as html from 'App/modules/Html';
 export default class ListItems {
+
+    /**
+     * @type {HTMLUListElement}
+     */
+    #listTag = null;
+    get listTag() { return this.#listTag; }
+
     /**
      * @param {Object} listData
      * @param {Object} listData.htmlAttributes
@@ -17,7 +24,7 @@ export default class ListItems {
      * @param {string[]} itemsData.item.cssClasses
      */
     constructor(listData, itemsData) {
-        return this.#createList(listData, itemsData);
+        this.#listTag = this.#createList(listData, itemsData);
     }
 
     /**
@@ -36,7 +43,7 @@ export default class ListItems {
      * @param {Object} itemsData.item.htmlAttributes
      * @param {string[]} itemsData.item.cssClasses
      *
-     * @returns {HTMLElement} list of items
+     * @returns {HTMLUListElement} list of items
      */
     #createList(listData, itemsData) {
         const list = document.createElement('ul');
