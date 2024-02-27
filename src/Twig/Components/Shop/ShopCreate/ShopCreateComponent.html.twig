@@ -1,7 +1,8 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="ShopCreateComponent"
-	  data-action="ModalComponent:beforeShowed->ShopCreateComponent#handleMessageBeforeShowed"
+	  data-action="ModalComponent:beforeShowed->ShopCreateComponent#handleMessageBeforeShowed
+	  			   ItemPriceAddComponent:itemPriceSelected->ShopCreateComponent#handleItemNameClickEvent"
 	  class="contaniner  p-4  pt-0"
 	  action="{{ data.shopCreateFormActionUrl|escape('html_attr') }}"
 	  method="post"
@@ -63,13 +64,35 @@
 		{{ component('DropZoneComponent', { data: imageDto }) }}
 	</div>
 
-	<div class="mt-5">
+	{% block products %}
+
+	<fieldset class="mt-5">
+		<legend class="mb-3  pb-1  border-bottom">
+			{{ lang.productsTitle }}
+		</legend>
+
+		{{ component('ItemPriceAddComponent', { data: itemPriceAddDto } ) }}
+	</fieldset>
+
+	{% endblock products %}
+
+	<div class="d-flex  flex-row  mt-5">
 
 		{% block buttons %}
+
+		<button type="button"
+				class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+				data-action="ShopCreateComponent#modalClose">
+
+			{% include "arrow-back-icon-white-24x24.svg" %}
+			{{ lang.closeButton }}
+		</button>
+
 		<input type="submit"
-			   class="btn btn-primary w-100"
+			   class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
 			   name="{{ submitFieldName }}"
 			   value="{{ lang.shopCreateButtonLabel }}" />
+
 		{% endblock buttons %}
 
 	</div>

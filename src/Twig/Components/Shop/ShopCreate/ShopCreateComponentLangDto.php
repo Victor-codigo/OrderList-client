@@ -12,6 +12,7 @@ class ShopCreateComponentLangDto
     protected DtoBuilder $builder;
 
     public readonly string $title;
+    public readonly string $productsTitle;
 
     public readonly string $nameLabel;
     public readonly string $namePlaceholder;
@@ -26,6 +27,7 @@ class ShopCreateComponentLangDto
     public readonly string $imageMsgInvalid;
 
     public readonly string $shopCreateButtonLabel;
+    public readonly string $closeButton;
 
     public readonly AlertValidationComponentDto|null $validationErrors;
 
@@ -34,9 +36,10 @@ class ShopCreateComponentLangDto
         $this->builder = new DtoBuilder([
             'title',
             'name',
+            'shopsTitle',
             'description',
             'image',
-            'submitButton',
+            'buttons',
             'errors',
         ]);
     }
@@ -57,6 +60,15 @@ class ShopCreateComponentLangDto
         $this->nameLabel = $nameLabel;
         $this->namePlaceholder = $namePlaceholder;
         $this->nameMsgInvalid = $nameMsgInvalid;
+
+        return $this;
+    }
+
+    public function productsTitle(string $title): self
+    {
+        $this->builder->setMethodStatus('shopsTitle', true);
+
+        $this->productsTitle = $title;
 
         return $this;
     }
@@ -83,11 +95,12 @@ class ShopCreateComponentLangDto
         return $this;
     }
 
-    public function submitButton(string $shopCreateButtonLabel): static
+    public function buttons(string $shopCreateButton, string $closeButton): self
     {
-        $this->builder->setMethodStatus('submitButton', true);
+        $this->builder->setMethodStatus('buttons', true);
 
-        $this->shopCreateButtonLabel = $shopCreateButtonLabel;
+        $this->shopCreateButtonLabel = $shopCreateButton;
+        $this->closeButton = $closeButton;
 
         return $this;
     }
