@@ -14,4 +14,13 @@ export default class BootstrapModal extends ModalInterface {
         modalCurrentInstance.hide();
         modalNewInstance.show();
     }
+
+    /**
+     * @param {Modal} modal
+     */
+    close(modal) {
+        const modalInstance = bootstrap.Modal.getInstance(modal.getModalTag());
+
+        modalInstance.hide();
+    }
 }

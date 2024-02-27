@@ -8,4 +8,11 @@ export default class ModalInterface {
     closeCurrentAndOpenNew(modalCurrent, modalNew) {
         throw new Error('This method is not implemented');
     }
+
+    /**
+     * @param {Modal} modal
+     */
+    close(modal) {
+        throw new Error('This method is not implemented');
+    }
 }

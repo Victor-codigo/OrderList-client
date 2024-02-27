@@ -135,6 +135,19 @@ export default class ModalManager {
     }
 
     /**
+     * @param {Chain} chain
+     */
+    #chainRemove(chain) {
+        const chainToRemoveIndex = this.#modalChains.findIndex((chainIterator) => chainIterator.getName() === chain.getName());
+
+        if (chainToRemoveIndex === -1) {
+            return;
+        }
+
+        this.#modalChains.splice(chainToRemoveIndex, 1);
+    }
+
+    /**
      * @param {string} modalId
      * @param {string} chainName
      *
@@ -207,6 +220,12 @@ export default class ModalManager {
 
     close() {
         this.#modalChainOpened.clear();
+        this.#chainRemove(this.getChainCurrent());
+
+        if (this.getModalCurrent() !== null) {
+            this.#modalHandler.close(this.getModalCurrent());
+        }
+
         this.#modalDataShare = null;
         this.#modalCurrent = null;
     }
