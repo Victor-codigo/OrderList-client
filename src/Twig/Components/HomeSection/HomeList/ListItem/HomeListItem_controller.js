@@ -34,6 +34,8 @@ export default class extends Controller {
     sendMessageHomeListItemInfoToParent() {
         communication.sendMessageToParentController(this.element, 'homeListItemInfo', {
             itemData: JSON.parse(this.element.dataset.itemData)
-        });
+        },
+            'HomeListItemComponent'
+        );
     }
 }
