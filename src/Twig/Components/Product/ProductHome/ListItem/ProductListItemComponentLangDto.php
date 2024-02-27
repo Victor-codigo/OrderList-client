@@ -13,6 +13,8 @@ class ProductListItemComponentLangDto extends HomeListItemComponentLangDto
         public readonly string $modifyItemButtonTitle,
         public readonly string $removeItemButtonAlt,
         public readonly string $removeItemButtonTitle,
+        public readonly string $infoItemButtonAlt,
+        public readonly string $infoItemButtonTitle,
 
         public readonly string $imageItemAlt,
         public readonly string $imageItemTitle,

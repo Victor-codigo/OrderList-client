@@ -43,6 +43,8 @@ final class ProductListItemComponent extends HomeListItemComponent
             $this->translate('product_modify_button.title'),
             $this->translate('product_remove_button.alt'),
             $this->translate('product_remove_button.title'),
+            $this->translate('product_info_button.alt'),
+            $this->translate('product_info_button.title'),
             $this->translate('product_image.alt'),
             $this->translate('product_image.title'),
         );
@@ -77,7 +79,7 @@ final class ProductListItemComponent extends HomeListItemComponent
             'description' => $productData->description,
             'image' => $productData->image,
             'createdOn' => $productData->createdOn->format('Y-m-d'),
-            'shops' => $productShopsData,
+            'itemsPrices' => $productShopsData,
         ];
 
         return json_encode($productDataToParse, JSON_THROW_ON_ERROR);
