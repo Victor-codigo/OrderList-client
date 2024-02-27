@@ -7,6 +7,7 @@ const CLIENT_DOMAIN = 'http://orderlist.client';
 const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
 const GET_PRODUCTS_URL = `${API_DOMAIN}/api/v${API_VERSION}/products`;
 const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
+const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/create`;
 
 
 /**
@@ -16,7 +17,9 @@ const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
 export async function executeEndPointByName(endpointName, queryParameters) {
     const endpointsNames = {
         'getShopsData': getShopsData,
-        'getShopsNames': getShopsNames
+        'getShopsNames': getShopsNames,
+        'getProductsData': getProductsData,
+        'getProductsNames': getProductsNames,
     };
 
     if (typeof endpointsNames[endpointName] === 'undefined') {
@@ -120,3 +123,20 @@ export async function getProductsNames(queryParameters) {
     return responseData.products.map((product) => product.name);
 }
 
+/**
+ * @param {HTMLFormElement} form
+ * @param {HTMLElement} submitter
+ *
+ * @returns {Promise<import('App/modules/Fetch').ResponseDto>}
+ */
+export async function createProduct(form, submitter) {
+    const createShopUrl = POST_PRODUCT_URL
+        .replace('{locale}', url.getLocale())
+        .replace('{group_name}', url.getGroupName());
+
+    form.action = createShopUrl + '?XDEBUG_SESSION=VSCODE';
+    const formData = new FormData(form, submitter);
+    const response = await fetch.createFormRequest(createShopUrl, 'POST', formData, {});
+
+    return await response.json();
+}
