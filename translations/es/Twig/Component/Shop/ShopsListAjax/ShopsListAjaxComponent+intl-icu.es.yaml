@@ -7,4 +7,4 @@ button_create_shop:
   label: Crear tienda
 
 shop_image:
-  title: Imagen de la tienda {shop_name}
+  title: Imagen de la tienda {item_name}

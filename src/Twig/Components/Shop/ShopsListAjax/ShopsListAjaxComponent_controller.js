@@ -1,221 +1,27 @@
-import { Controller } from '@hotwired/stimulus';
+import ItemsListAjaxController from 'App/Twig/Components/HomeSection/ItemsListAjax/ItemsListAjaxComponent_controller';
 import ListItems from 'App/modules/ListItems';
-import * as event from 'App/modules/Event';
-import * as communication from 'App/modules/ControllerCommunication';
-import ModalManager from 'App/modules/ModalManager/ModalManager';
 import { MODAL_CHAINS } from 'App/Config';
 
-const LIST_ATTRIBUTE_SELECTOR = "data-js-list-shops";
-const LIST_ITEM_ATTRIBUTE_SELECTOR = "data-js-list-shops-item";
-
-/**
- * @event PaginatorContentLoaderJsComponent:initialize
- */
-export default class extends Controller {
+export default class extends ItemsListAjaxController {
     /**
-     * @type {ModalManager}
-     */
-    #modalManager;
-
-    /**
-     * @type {string}
-     */
-    #urlPathShopsImages;
-
-    /**
-     * @type {string}
-     */
-    #urlNoShopsImage;
-
-    /**
-     * @type {string}
-     */
-    #shopImageTitle;
-
-    /**
-     * @type {string[]}
-     */
-    #shopsNotSelectable = [];
-
-    /**
-     * @type {HTMLElement}
-     */
-    #paginatorContentLoaderJsComponent;
-
-    /**
-     * @type {HTMLElement}
-     */
-    #paginatorJsComponent;
-
-    /**
-     * @type {HTMLButtonElement}
-     */
-    #backButtonTag;
-
-    /**
-     * @type {HTMLButtonElement}
-     */
-    #createShopButtonTag;
-
-    connect() {
-        this.#urlPathShopsImages = this.element.dataset.urlPathShopsImages;
-        this.#urlNoShopsImage = this.element.dataset.urlNoShopsImage
-        this.#shopImageTitle = this.element.dataset.shopImageTitle
-
-        this.#paginatorContentLoaderJsComponent = this.element.querySelector('[data-controller="PaginatorContentLoaderJsComponent"]');
-        this.#paginatorJsComponent = this.element.querySelector('[data-controller="PaginatorJsComponent"]');
-        this.#backButtonTag = this.element.querySelector('[data-js-back-button]');
-        this.#createShopButtonTag = this.element.querySelector('[data-js-create-shop-button]');
-
-        this.#backButtonTag.addEventListener('click', this.#openModalBefore.bind(this));
-        this.#createShopButtonTag.addEventListener('click', this.#openModalCreateShop.bind(this))
-        event.addEventListenerDelegate({
-            element: this.element,
-            elementDelegateSelector: '[data-js-list-shops-item]',
-            eventName: 'click',
-            callbackListener: this.#openModalShopSelected.bind(this),
-            eventOptions: {}
-        });
-    }
-
-    disconnect() {
-        this.#backButtonTag.removeEventListener('click', this.#openModalBefore);
-        this.#createShopButtonTag.removeEventListener('click', this.#openModalCreateShop);
-        event.removeEventListenerDelegate(this.element, 'click', this.#openModalShopSelected);
-    }
-
-    /**
-     * @param {*} responseData
+     * @param {object} responseData
+     * @param {number} responseData.page
+     * @param {number} responseData.pages_total
+     * @param {array} responseData.items
+     * @param {array} responseData.shops
      * @returns {ListItems}
      */
-    #responseManageCallback(responseData) {
-        const itemsData = responseData['shops']
-            .map((shopData) => {
-                const itemData = {
-                    id: shopData.id,
-                    name: shopData.name,
-                    image: {
-                        title: this.#shopImageTitle.replace('{shop_name}', shopData.name),
-                        alt: this.#shopImageTitle.replace('{shop_name}', shopData.name),
-                        src: shopData.image === null
-                            ? this.#urlNoShopsImage
-                            : `${this.#urlPathShopsImages}/${shopData.image}`
-                    },
-                    data: {
-                        id: shopData.id,
-                        name: shopData.name,
-                    },
-                    item: {
-                        htmlAttributes: {
-                            [LIST_ITEM_ATTRIBUTE_SELECTOR]: ""
-                        },
-                        cssClasses: []
-                    },
-                };
-
-                if (this.#shopsNotSelectable.includes(shopData.id)) {
-                    itemData.item.cssClasses.push("disabled");
-                }
-
-                return itemData;
-            });
-
-        this.#sendMessagePagesTotalToPaginatorJsComponent(responseData.pages_total);
-
-        const listData = {
-            htmlAttributes: {
-                [LIST_ATTRIBUTE_SELECTOR]: ""
-            }
-        };
-
-        return new ListItems(listData, itemsData);
-    }
-
-    /**
-     * @param {Event} event
-     */
-    #openModalBefore(event) {
-        this.#modalManager.openModalBefore();
-    }
-
-    /**
-     * @param {HTMLElement} relatedTarget
-     * @param {Event} event
-     */
-    #openModalShopSelected(relatedTarget, event) {
-        const itemData = JSON.parse(relatedTarget.dataset.data);
-        this.#modalManager.openNewModal(this.#modalManager.getModalBeforeInChain().getModalId(), {
-            itemData: {
-                id: itemData.id,
-                name: itemData.name
-            }
+    responseManageCallback(responseData) {
+        return super.responseManageCallback({
+            page: responseData.page,
+            pages_total: responseData.pages_total,
+            items: responseData.shops
         });
     }
 
-    #openModalCreateShop() {
-        const chainCurrentName = this.#modalManager.getChainCurrent().getName();
+    openModalCreateItem() {
+        const chainCurrentName = this.modalManager.getChainCurrent().getName();
 
-        this.#modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopCreate);
-    }
-
-    #setShopsNotSelectable() {
-        const modalBefore = this.#modalManager.getModalOpenedBefore();
-
-        if (modalBefore === null) {
-            return;
-        }
-
-        const modalBeforeData = this.#modalManager.getModalOpenedBeforeData();
-
-        if (typeof modalBeforeData.itemsNotSelectable === 'undefined') {
-            return;
-        }
-
-        this.#shopsNotSelectable = modalBeforeData.itemsNotSelectable.map((shop) => shop.id);
-    }
-
-    handleMessageConnected() {
-        this.#sendMessageInitializeToPaginatorContentLoaderJsComponent();
-    }
-
-    /**
-     * @param {object} event
-     * @param {object} event.detail
-     * @param {object} event.detail.content
-     * @param {boolean} event.detail.content.showedFirstTime
-     * @param {HTMLElement} event.detail.content.triggerElement
-     * @param {ModalManager} event.detail.content.modalManager
-     */
-    handleMessageBeforeShowed({ detail: { content } }) {
-        this.#modalManager = content.modalManager;
-        this.#setShopsNotSelectable();
-        this.#sendMessagePageChangeToPaginatorJsComponent(1);
-    }
-
-    #sendMessageInitializeToPaginatorContentLoaderJsComponent() {
-        communication.sendMessageToChildController(this.#paginatorContentLoaderJsComponent, 'initialize', {
-            responseManageCallback: this.#responseManageCallback.bind(this),
-            postResponseManageCallback: () => { }
-        });
-    }
-
-    /**
-     * @param {number} page
-     */
-    #sendMessagePageChangeToPaginatorJsComponent(page) {
-        communication.sendMessageToChildController(this.#paginatorContentLoaderJsComponent, 'changePage', {
-            page: page
-        },
-            'PaginatorJsComponent'
-        );
-    }
-
-    /**
-     * @param {number} pagesTotal
-     */
-    #sendMessagePagesTotalToPaginatorJsComponent(pagesTotal) {
-        communication.sendMessageToChildController(this.#paginatorJsComponent, 'pagesTotal', {
-            pagesTotal: pagesTotal
-        });
+        this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.shopList.open.shopCreate);
     }
 }

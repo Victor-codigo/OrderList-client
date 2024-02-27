@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Shop\ShopsListAjax;
 
-class ShopsListAjaxComponentLangDto
+use App\Twig\Components\HomeSection\ItemsListAjax\ItemsListAjaxComponentLangDto;
+
+class ShopsListAjaxComponentLangDto extends ItemsListAjaxComponentLangDto
 {
-    public function __construct(
-        public readonly string $title,
-        public readonly string $shopImageTitle,
-        public readonly string $buttonBackLabel,
-        public readonly string $buttonCreateShopLabel
-    ) {
-    }
 }

@@ -4,41 +4,21 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Shop\ShopsListAjax;
 
-use App\Twig\Components\Controls\Title\TitleComponentDto;
-use App\Twig\Components\TwigComponent;
-use App\Twig\Components\TwigComponentDtoInterface;
+use App\Twig\Components\HomeSection\ItemsListAjax\ItemsListAjaxComponent;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
     name: 'ShopsListAjaxComponent',
     template: 'Components/Shop/ShopsListAjax/ShopsListAjaxComponent.html.twig'
 )]
-class ShopsListAjaxComponent extends TwigComponent
+class ShopsListAjaxComponent extends ItemsListAjaxComponent
 {
-    public ShopsListAjaxComponentLangDto $lang;
-    public ShopsListAjaxComponentDto|TwigComponentDtoInterface $data;
-
-    public readonly TitleComponentDto $titleDto;
-
     public static function getComponentName(): string
     {
         return 'ShopsListAjaxComponent';
     }
 
-    public function mount(ShopsListAjaxComponentDto $data): void
-    {
-        $this->data = $data;
-
-        $this->loadTranslation();
-        $this->titleDto = $this->createTitle();
-    }
-
-    private function createTitle(): TitleComponentDto
-    {
-        return new TitleComponentDto($this->lang->title);
-    }
-
-    private function loadTranslation(): void
+    protected function loadTranslation(): void
     {
         $this->lang = new ShopsListAjaxComponentLangDto(
             $this->translate('title'),

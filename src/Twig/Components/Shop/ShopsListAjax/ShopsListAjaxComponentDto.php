@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Shop\ShopsListAjax;
 
-use App\Twig\Components\Controls\PaginatorContentLoaderJs\PaginatorContentLoaderJsComponentDto;
-use App\Twig\Components\TwigComponentDtoInterface;
+use App\Twig\Components\HomeSection\ItemsListAjax\ItemsListAjaxComponentDto;
 
-class ShopsListAjaxComponentDto implements TwigComponentDtoInterface
+class ShopsListAjaxComponentDto extends ItemsListAjaxComponentDto
 {
-    public function __construct(
-        public readonly PaginatorContentLoaderJsComponentDto $paginatorContentLoaderJsDto,
-        public readonly string $urlPathShopsImages,
-        public readonly string $urlNoShopsImage
-    ) {
-    }
 }
