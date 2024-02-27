@@ -1,7 +1,7 @@
 <li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-1"
     data-controller="ShopListItemComponent"
-    data-item-id="{{ data.id }}"
-    data-item-name="{{ data.name }}">
+    data-item-data="{{ productDataJson }}"
+    data-js-list-item>
 
     <label class="d-flex  flex-row  flex-grow-1">
 
@@ -23,21 +23,21 @@
                    data-js-item-name>
                     {{ data.name }}
                 </p>
-
-                <span class="fs-4  fw-lighter  fs-6">
-                    {{ data.createdOn|format_datetime('medium', 'none', locale=app.request.locale) }}
-                </span>
             </div>
-
-            <ul class="list-group list-group-flush  ">
-                <li class="list-group-item  border-0  bg-transparent  ps-3  pe-3  pt-0 pb-0"
-                    data-js-item-description>
-
-                    {{ data.description }}
-                </li>
-            </ul>
         </div>
     </label>
+
+    <button type="button"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
+            value="{{ data.id }}"
+            alt="{{ lang.infoItemButtonAlt }}"
+            title="{{ lang.infoItemButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.infoFormModalIdAttribute }}"
+            data-action="ShopListItemComponent#sendMessageHomeListItemInfoToParent">
+
+        {% include 'info-icon-blue-24x24.svg' %}
+    </button>
 
     <button type="button"
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
