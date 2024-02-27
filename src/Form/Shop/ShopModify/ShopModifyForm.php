@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Shop\ShopModify;
 
+use App\Form\Shop\ShopCreate\SHOP_CREATE_FORM_FIELDS;
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormType;
 use Common\Domain\Validation\ValidationInterface;
@@ -44,6 +45,10 @@ class ShopModifyForm extends FormType
             ->addField(SHOP_MODIFY_FORM_FIELDS::NAME, FIELD_TYPE::TEXT)
             ->addField(SHOP_MODIFY_FORM_FIELDS::DESCRIPTION, FIELD_TYPE::TEXTAREA)
             ->addField(SHOP_MODIFY_FORM_FIELDS::IMAGE, FIELD_TYPE::FILE)
-            ->addField(SHOP_MODIFY_FORM_FIELDS::IMAGE_REMOVE, FIELD_TYPE::HIDDEN);
+            ->addField(SHOP_MODIFY_FORM_FIELDS::IMAGE_REMOVE, FIELD_TYPE::HIDDEN)
+            ->addField(SHOP_CREATE_FORM_FIELDS::PRODUCT_ID, FIELD_TYPE::COLLECTION)
+            ->addField(SHOP_CREATE_FORM_FIELDS::PRODUCT_NAME, FIELD_TYPE::COLLECTION)
+            ->addField(SHOP_CREATE_FORM_FIELDS::PRODUCT_PRICE, FIELD_TYPE::COLLECTION)
+            ->addField(SHOP_CREATE_FORM_FIELDS::PRODUCT_UNIT_MEASURE, FIELD_TYPE::COLLECTION);
     }
 }
