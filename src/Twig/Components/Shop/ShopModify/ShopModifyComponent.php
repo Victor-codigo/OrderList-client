@@ -8,9 +8,11 @@ use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
+use App\Twig\Components\Controls\ItemPriceAdd\ItemPriceAddComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
+use Common\Domain\Config\Config;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -21,6 +23,8 @@ final class ShopModifyComponent extends TwigComponent
 {
     public ShopModifyComponentLangDto $lang;
     public ShopModifyComponentDto|TwigComponentDtoInterface $data;
+
+    public readonly ItemPriceAddComponentDto $itemPriceAddDto;
 
     public readonly string $formName;
     public readonly string $formActionUrl;
@@ -55,6 +59,7 @@ final class ShopModifyComponent extends TwigComponent
         $this->titleDto = $this->createTitleComponentDto();
         $this->imageDto = $this->createImageDropZone();
         $this->imageAvatarDto = $this->createImageAvatar();
+        $this->itemPriceAddDto = $this->createItemPriceAddComponentDto();
     }
 
     private function createTitleComponentDto(): TitleComponentDto
@@ -71,6 +76,41 @@ final class ShopModifyComponent extends TwigComponent
             SHOP_MODIFY_FORM_FIELDS::IMAGE,
             $this->lang->imagePlaceholder
         );
+    }
+
+    private function createItemPriceAddComponentDto(): ItemPriceAddComponentDto
+    {
+        return (new ItemPriceAddComponentDto())
+            ->itemId(
+                sprintf('%s[%s][]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::PRODUCT_ID),
+                null
+            )
+            ->itemName(
+                sprintf('%s[%s][]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::PRODUCT_NAME),
+                '',
+                $this->translate('product_name.label'),
+                $this->translate('product_name.placeholder'),
+                $this->translate('product_name.msg_invalid'),
+            )
+            ->price(
+                sprintf('%s[%s][]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::PRODUCT_PRICE),
+                null,
+                $this->translate('shop_price.label'),
+                $this->translate('shop_price.placeholder'),
+                $this->translate('shop_price.msg_invalid'),
+                Config::CURRENCY,
+                sprintf('%s[%s][]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::PRODUCT_UNIT_MEASURE)
+            )
+            ->itemPriceAddButton(
+                $this->translate('product_add_button.label'),
+                $this->translate('product_add_button.title'),
+                $this->translate('product_add_button.alt'),
+            )
+            ->itemRemoveButton(
+                $this->translate('product_remove_button.title'),
+                $this->translate('product_remove_button.alt'),
+            )
+            ->build();
     }
 
     private function createImageAvatar(): ImageAvatarComponentDto
@@ -96,7 +136,10 @@ final class ShopModifyComponent extends TwigComponent
     {
         $this->lang = (new ShopModifyComponentLangDto())
             ->title(
-                $this->translate('title')
+                $this->translate('title.main')
+            )
+            ->productsTitle(
+                $this->translate('title.products')
             )
             ->name(
                 $this->translate('name.label'),
@@ -113,8 +156,9 @@ final class ShopModifyComponent extends TwigComponent
                 $this->translate('image.placeholder'),
                 $this->translate('image.msg_invalid')
             )
-            ->submitButton(
-                $this->translate('shop_modify_button.label')
+            ->buttons(
+                $this->translate('shop_modify_button.label'),
+                $this->translate('close_button.label')
             )
             ->errors(
                 $this->data->validForm ? $this->createAlertValidationComponentDto() : null

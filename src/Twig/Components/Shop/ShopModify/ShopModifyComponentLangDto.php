@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Twig\Components\Shop\ShopModify;
 
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use Common\Domain\DtoBuilder\DtoBuilder;
 
 class ShopModifyComponentLangDto
 {
+    private readonly DtoBuilder $builder;
+
     public readonly string $title;
+    public readonly string $productsTitle;
 
     public readonly string $nameLabel;
     public readonly string $namePlaceholder;
@@ -23,22 +27,26 @@ class ShopModifyComponentLangDto
     public readonly string $imageMsgInvalid;
 
     public readonly string $shopModifyButton;
+    public readonly string $closeButton;
 
     public readonly AlertValidationComponentDto|null $validationErrors;
 
-    private array $builder = [
-        'title' => false,
-        'name' => false,
-        'description' => false,
-        'image' => false,
-        'submit' => false,
-        'errors' => false,
-        'build' => false,
-    ];
+    public function __construct()
+    {
+        $this->builder = new DtoBuilder([
+            'title',
+            'name',
+            'productsTitle',
+            'description',
+            'image',
+            'buttons',
+            'errors',
+        ]);
+    }
 
     public function title(string $title): self
     {
-        $this->builder['title'] = true;
+        $this->builder->setMethodStatus('title', true);
 
         $this->title = $title;
 
@@ -47,7 +55,7 @@ class ShopModifyComponentLangDto
 
     public function name(string $nameLabel, string $namePlaceholder, string $nameMsgInvalid): self
     {
-        $this->builder['name'] = true;
+        $this->builder->setMethodStatus('name', true);
 
         $this->nameLabel = $nameLabel;
         $this->namePlaceholder = $namePlaceholder;
@@ -56,9 +64,18 @@ class ShopModifyComponentLangDto
         return $this;
     }
 
+    public function productsTitle(string $title): self
+    {
+        $this->builder->setMethodStatus('productsTitle', true);
+
+        $this->productsTitle = $title;
+
+        return $this;
+    }
+
     public function description(string $descriptionLabel, string $descriptionPlaceholder, string $descriptionMsgInvalid): self
     {
-        $this->builder['description'] = true;
+        $this->builder->setMethodStatus('description', true);
 
         $this->descriptionLabel = $descriptionLabel;
         $this->descriptionPlaceholder = $descriptionPlaceholder;
@@ -69,7 +86,7 @@ class ShopModifyComponentLangDto
 
     public function image(string $imageLabel, string $imagePlaceholder, string $imageMsgInvalid): self
     {
-        $this->builder['image'] = true;
+        $this->builder->setMethodStatus('image', true);
 
         $this->imageLabel = $imageLabel;
         $this->imagePlaceholder = $imagePlaceholder;
@@ -78,18 +95,19 @@ class ShopModifyComponentLangDto
         return $this;
     }
 
-    public function submitButton(string $shopModifyButton): self
+    public function buttons(string $shopModifyButton, string $closeButton): self
     {
-        $this->builder['submit'] = true;
+        $this->builder->setMethodStatus('buttons', true);
 
         $this->shopModifyButton = $shopModifyButton;
+        $this->closeButton = $closeButton;
 
         return $this;
     }
 
     public function errors(AlertValidationComponentDto|null $validationErrors): self
     {
-        $this->builder['errors'] = true;
+        $this->builder->setMethodStatus('errors', true);
 
         $this->validationErrors = $validationErrors;
 
@@ -98,11 +116,7 @@ class ShopModifyComponentLangDto
 
     public function build(): self
     {
-        $this->builder['build'] = true;
-
-        if (count(array_filter($this->builder)) < count($this->builder)) {
-            throw new \InvalidArgumentException('Constructors: title, name, description, image, errors. Are mandatory');
-        }
+        $this->builder->validate();
 
         return $this;
     }

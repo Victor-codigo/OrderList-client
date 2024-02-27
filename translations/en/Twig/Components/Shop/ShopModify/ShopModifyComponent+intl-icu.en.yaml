@@ -1,4 +1,6 @@
-title: Shop modify
+title:
+  main: Shop modify
+  products: Products
 
 image_avatar:
   alt: Shop image
@@ -19,6 +21,30 @@ description:
 image:
   label: Image
   placeholder: Upload a file for the shop
+
+product_name:
+  label: Product and price
+  placeholder: Choose a product
+  msg_invalid: The product name is wrong
+
+shop_price:
+  placeholder: Price
+  msg_invalid: The price is wrong
+
+product_add_button:
+  label: Add product
+  title: Add a new product
+  alt: Add a new product
+
+product_remove_button:
+  title: Remove product
+  alt: Remove product
+
+shop_create_button:
+  label: Create shop
+
+close_button:
+  label: Close
 
 shop_modify_button:
   label: Modify shop

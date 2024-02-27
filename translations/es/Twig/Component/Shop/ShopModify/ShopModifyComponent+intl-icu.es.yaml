@@ -1,4 +1,6 @@
-title: Modificar tienda
+title:
+  main: Modificar tienda
+  products: Products
 
 image_avatar:
   alt: Imagen de la tienda
@@ -19,6 +21,30 @@ description:
 image:
   label: Imagen
   placeholder: Sube una imagen para el tienda
+
+product_name:
+  label: Producto y precio
+  placeholder: Selecciona un producto
+  msg_invalid: El nombre del producto no es válido
+
+shop_price:
+  placeholder: Precio
+  msg_invalid: El precio no es válido
+
+product_add_button:
+  label: Añade un producto
+  title: Añade un producto
+  alt: Añade un producto
+
+product_remove_button:
+  title: Remove product
+  alt: Remove product
+
+shop_create_button:
+  label: Crear tienda
+
+close_button:
+  label: Cerrar
 
 product_create_button:
   label: Modificar tienda
