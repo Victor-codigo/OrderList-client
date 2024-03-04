@@ -6,6 +6,10 @@ list_orders_modify_button:
   title: Modify the shop list
   alt: Button to modify the shop list
 
+list_orders_info_button:
+  title: Show info of the shop list
+  alt: Button to show info of the shop list
+
 list_orders_image:
   title: Shop list image
   alt: Shop list image

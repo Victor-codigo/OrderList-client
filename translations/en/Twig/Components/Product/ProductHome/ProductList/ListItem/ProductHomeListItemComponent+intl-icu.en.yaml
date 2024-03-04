@@ -6,6 +6,10 @@ product_modify_button:
   title: Modify the product
   alt: Button to modify the product
 
+product_info_button:
+  title: Show info of product
+  alt: Button to show info of the product
+
 product_image:
   title: Product image
   alt: Product image

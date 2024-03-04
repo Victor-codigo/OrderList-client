@@ -32,14 +32,14 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new ListOrdersListItemComponentLangDto(
-            $this->translate('listOrders_modify_button.alt'),
-            $this->translate('listOrders_modify_button.title'),
-            $this->translate('listOrders_remove_button.alt'),
-            $this->translate('listOrders_remove_button.title'),
-            $this->translate('listOrders_info_button.alt'),
-            $this->translate('listOrders_info_button.title'),
-            $this->translate('listOrders_image.alt'),
-            $this->translate('listOrders_image.title'),
+            $this->translate('list_orders_modify_button.alt'),
+            $this->translate('list_orders_modify_button.title'),
+            $this->translate('list_orders_remove_button.alt'),
+            $this->translate('list_orders_remove_button.title'),
+            $this->translate('list_orders_info_button.alt'),
+            $this->translate('list_orders_info_button.title'),
+            $this->translate('list_orders_image.alt'),
+            $this->translate('list_orders_image.title'),
         );
     }
 

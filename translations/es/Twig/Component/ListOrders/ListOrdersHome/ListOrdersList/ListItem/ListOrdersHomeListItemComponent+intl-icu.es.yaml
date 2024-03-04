@@ -6,6 +6,10 @@ list_orders_modify_button:
   title: Modifica la lista de la compra
   alt: Botón para modificar la lista de la compra
 
+list_orders_info_button:
+  title: Muestra información de la lista de la compra
+  alt: Botón para mostrar información de la lista de la compra
+
 list_orders_image:
   title: Imagen de la lista de la compra
   alt: Imagen de la lista de la compra
