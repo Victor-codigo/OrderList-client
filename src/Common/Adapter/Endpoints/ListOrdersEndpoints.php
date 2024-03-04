@@ -11,11 +11,11 @@ use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 
 class ListOrdersEndpoints extends EndpointBase
 {
-    private const GET_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
-    private const GET_LIST_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
-    private const REMOVE_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
+    public const GET_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
+    public const GET_LIST_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
+    public const REMOVE_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
 
-    private static self|null $instance = null;
+    private static ?self $instance = null;
 
     private function __construct(
         private HttpClientInterface $httpClient
@@ -73,26 +73,71 @@ class ListOrdersEndpoints extends EndpointBase
      *    errors: array<string, mixed>
      * }>
      */
-    public function listOrdersGetData(string $groupId, string $listOrderName, string $tokenSession): array
-    {
-        $response = $this->requestListOrdersData($groupId, $listOrderName, $tokenSession);
+    public function listOrdersGetData(
+        string $groupId,
+        ?array $listOrdersId,
+        bool $orderAsc,
+        ?string $filterValue,
+        ?string $filterSection,
+        ?string $filterText,
+        int $page,
+        int $pageItems,
+        string $tokenSession
+    ): array {
+        $response = $this->requestListOrdersData(
+            $groupId,
+            $listOrdersId,
+            $orderAsc,
+            $filterValue,
+            $filterSection,
+            $filterText,
+            $page,
+            $pageItems,
+            $tokenSession
+        );
 
         return $this->apiResponseManage($response,
-            fn (array $responseDataError) => [],
-            fn (array $responseDataOk) => $responseDataOk['data'][0]
+            null,
+            null,
+            fn (array $responseDataNoContent) => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 0,
+                    'list_orders' => [],
+                ],
+                'errors' => ['list_orders_not_found' => 'List orders not found'],
+            ]
         );
     }
 
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestListOrdersData(string $groupId, string $listOrdersName, string $tokenSession): HttpClientResponseInterface
-    {
+    private function requestListOrdersData(
+        string $groupId,
+        ?array $listOrdersId,
+        bool $orderAsc,
+        ?string $filterValue,
+        ?string $filterSection,
+        ?string $filterText,
+        int $page,
+        int $pageItems,
+        string $tokenSession
+    ): HttpClientResponseInterface {
+        $parameters = [
+            'group_id' => $groupId,
+            'list_orders_id' => empty($listOrdersId) ? null : implode(',', $listOrdersId),
+            'order_asc' => $orderAsc,
+            'filter_value' => $filterValue,
+            'filter_section' => $filterSection,
+            'filter_text' => $filterText,
+            'page' => $page,
+            'page_items' => $pageItems,
+        ];
+
         return $this->httpClient->request(
             'GET',
-            self::GET_LIST_ORDERS_DATA
-                ."?group_id={$groupId}"
-                ."&list_orders_name_starts_with={$listOrdersName}",
+            self::GET_LIST_ORDERS_DATA."?{$this->createQueryParameters($parameters)}&".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }

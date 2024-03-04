@@ -38,11 +38,31 @@ class Endpoints implements EndpointsInterface
         return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersGetOrders($groupId, $listOrdersId, $page, $pageItems, $tokenSession);
     }
 
-    public function listOrdersGetData(string $groupId, string $listOrderName, string $tokenSession): array
+    public function listOrdersGetData(
+        string $groupId,
+        array|null $listOrdersId,
+        bool $orderAsc,
+        string|null $filterValue,
+        string|null $filterSection,
+        string|null $filterText,
+        int $page,
+        int $pageItems,
+        string $tokenSession
+    ): array
     {
-        $listOrderNameDecoded = $this->decodeUrlName($listOrderName);
+        $listOrderNameDecoded = $this->decodeUrlName($filterValue);
 
-        return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersGetData($groupId, $listOrderNameDecoded, $tokenSession);
+        return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersGetData(
+            $groupId,
+            $listOrdersId,
+            $orderAsc,
+            $listOrderNameDecoded,
+            $filterSection,
+            $filterText,
+            $page,
+            $pageItems,
+            $tokenSession
+        );
     }
 
     /**
