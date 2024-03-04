@@ -1,0 +1,11 @@
+list_orders_remove_button:
+  title: Elimina la lista de la compra
+  alt: Botón para eliminar la lista de la compra
+
+list_orders_modify_button:
+  title: Modifica la lista de la compra
+  alt: Botón para modificar la lista de la compra
+
+list_orders_image:
+  title: Imagen de la lista de la compra
+  alt: Imagen de la lista de la compra

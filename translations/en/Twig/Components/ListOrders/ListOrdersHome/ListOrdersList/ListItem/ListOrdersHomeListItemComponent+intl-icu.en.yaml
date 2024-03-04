@@ -1,0 +1,11 @@
+list_orders_remove_button:
+  title: Remove the shop list
+  alt: Button to remove the shop list
+
+list_orders_modify_button:
+  title: Modify the shop list
+  alt: Button to modify the shop list
+
+list_orders_image:
+  title: Shop list image
+  alt: Shop list image

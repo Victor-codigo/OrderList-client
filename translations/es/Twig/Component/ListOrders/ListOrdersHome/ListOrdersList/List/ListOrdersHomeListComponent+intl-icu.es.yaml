@@ -1,0 +1,4 @@
+home_list_empty:
+  message: No hay listas de la compra
+  icon:
+    alt: No hay listas de la compra

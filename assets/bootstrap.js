@@ -42,9 +42,9 @@ import GroupUsersListItemComponent from 'App/Twig/Components/Group/GroupUsersLis
 import GroupUserRemoveComponent from 'App/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
 import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
 
-// ORDERS
-// import OrdersListComponent from 'App/Twig/Components/Orders/OrdersList/List/OrdersList_controller';
-// import OrdersListItemComponent from 'App/Twig/Components/Orders/OrdersList/ListItem/OrdersListItem_controller';
+// LIST ORDERS
+import ListOrdersHomeSectionComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/Home/ListOrdersHomeSection_controller';
+import ListOrdersListItemComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/ListItem/ListOrdersListItem_controller';
 
 // SHOP
 import ShopHomeSectionComponent from 'App/Twig/Components/Shop/ShopHome/Home/ShopHomeSection_controller';
@@ -120,9 +120,9 @@ app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
 app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
 app.register('GroupUserAddComponent', GroupUserAddComponent);
 
-// ORDERS
-// app.register('OrdersListComponent', OrdersListComponent);
-// app.register('OrdersListItemComponent', OrdersListItemComponent);
+// LIST ORDERS
+app.register('ListOrdersHomeSectionComponent', ListOrdersHomeSectionComponent);
+app.register('ListOrdersListItemComponent', ListOrdersListItemComponent);
 
 
 // SHOP
