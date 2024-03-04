@@ -7,11 +7,13 @@ namespace Common\Adapter\Events;
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\RequestRefererDto;
 use App\Controller\Request\Response\GroupDataResponse;
+use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Twig\Components\NavigationBar\NavigationBarDto;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Events\Exceptions\RequestGroupNameException;
+use Common\Adapter\Events\Exceptions\RequestListOrdersNameException;
 use Common\Adapter\Events\Exceptions\RequestProductNameException;
 use Common\Adapter\Events\Exceptions\RequestShopNameException;
 use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
@@ -67,6 +69,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $groupData,
             $this->loadShopData($request->attributes, $groupData?->id, $tokenSession),
             $this->loadProductData($request->attributes, $groupData?->id, $tokenSession),
+            $this->loadListOrdersData($request->attributes, $groupData?->id, $tokenSession),
             $request,
             $this->loadRefererRouteName($request)
         );
@@ -233,6 +236,33 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         return ProductDataResponse::fromArray($productData['data']['products'][0]);
+    }
+
+    private function loadListOrdersData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ListOrdersDataResponse|null
+    {
+        // if (null === $groupId) {
+        //     return null;
+        // }
+
+        // $listOrdersNameDecoded = $this->decodeUrlParameter($attributes, 'list_orders_name');
+
+        // if (null === $listOrdersNameDecoded) {
+        //     return null;
+        // }
+
+        // $listOrdersData = $this->endpoints->listOrdersGetData(
+        //     $groupId,
+        //     $listOrdersNameDecoded,
+        //     $tokenSession
+        // );
+
+        // if (!empty($listOrdersData['errors'])) {
+        //     throw RequestListOrdersNameException::fromMessage('List orders not found');
+        // }
+
+        // return ListOrdersDataResponse::fromArray($listOrdersData['data']);
+
+        return null;
     }
 
     private function loadRefererRouteName(Request $request): RequestRefererDto|null

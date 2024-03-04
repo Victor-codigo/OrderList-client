@@ -27,11 +27,6 @@ class ListOrdersCreateForm extends FormType
         return LIST_ORDERS_CREATE_FORM_FIELDS::TOKEN;
     }
 
-    public function __construct(
-        private array $selectUserGroups
-    ) {
-    }
-
     public function validate(ValidationInterface $validator, array $formData): array
     {
         return [];
@@ -43,7 +38,6 @@ class ListOrdersCreateForm extends FormType
             ->addField(LIST_ORDERS_CREATE_FORM_FIELDS::NAME, FIELD_TYPE::TEXT)
             ->addField(LIST_ORDERS_CREATE_FORM_FIELDS::DESCRIPTION, FIELD_TYPE::TEXTAREA)
             ->addField(LIST_ORDERS_CREATE_FORM_FIELDS::DATE_TO_BUY, FIELD_TYPE::DATETIME)
-            ->addField(LIST_ORDERS_CREATE_FORM_FIELDS::USER_GROUP, FIELD_TYPE::CHOICE, null, $this->selectUserGroups)
             ->addField(LIST_ORDERS_CREATE_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
             ->addField(LIST_ORDERS_CREATE_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT);
     }

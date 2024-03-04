@@ -9,4 +9,5 @@ enum SECTION_FILTERS: string
     case PRODUCT = 'product';
     case SHOP = 'shop';
     case ORDER = 'order';
+    case LIST_ORDERS = 'list_orders';
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Request;
 
 use App\Controller\Request\Response\GroupDataResponse;
+use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class RequestDto
         public readonly GroupDataResponse|null $groupData,
         public readonly ShopDataResponse|null $shopData,
         public readonly ProductDataResponse|null $productData,
+        public readonly ListOrdersDataResponse|null $listOrdersData,
         public readonly Request $request,
         public readonly RequestRefererDto|null $requestReferer
     ) {
