@@ -301,7 +301,8 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
     private function createListOrdersInfoModalDto(): ModalComponentDto
     {
         $productInfoComponentDto = new ShopInfoComponentDto(
-            ShopInfoComponent::getComponentName()
+            ShopInfoComponent::getComponentName(),
+            false
         );
 
         return new ModalComponentDto(

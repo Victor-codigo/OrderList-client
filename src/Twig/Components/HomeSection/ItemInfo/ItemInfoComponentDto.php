@@ -10,6 +10,7 @@ class ItemInfoComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly string $componentName,
+        public readonly bool $itemPricesShow = true,
     ) {
     }
 }

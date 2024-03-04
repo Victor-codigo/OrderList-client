@@ -60,7 +60,10 @@ export default class extends Controller {
         this.#descriptionTag.innerHTML = html.escape(data.description === null ? '' : data.description);
         this.#dateTag.innerHTML = html.escape(this.#getDataLocale(data.createdOn));
         this.#imageTag.src = html.escape(data.image);
-        this.#setPrices(data.itemsPrices);
+
+        if (typeof data.itemsPrices !== 'undefined') {
+            this.#setPrices(data.itemsPrices);
+        }
     }
 
     /**
