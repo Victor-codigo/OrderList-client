@@ -1,0 +1,21 @@
+created_on: "Created on: "
+
+image:
+  title: Product image
+  alt: Product image
+
+description:
+  label: Description
+
+date_to_buy:
+  label: Date to buy
+
+item_price:
+  name: Shop
+  price: Price/Unit
+
+shops:
+  empty: "<There is no shops>"
+
+close_button:
+  label: Close

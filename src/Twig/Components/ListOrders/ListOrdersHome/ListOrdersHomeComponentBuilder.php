@@ -17,9 +17,9 @@ use App\Twig\Components\ListOrders\ListOrdersCreate\ListOrdersCreateComponentDto
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemComponent;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemComponentDto;
+use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponent;
+use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
-use App\Twig\Components\Shop\ShopInfo\ShopInfoComponent;
-use App\Twig\Components\Shop\ShopInfo\ShopInfoComponentDto;
 use App\Twig\Components\Shop\ShopModify\ShopModifyComponent;
 use App\Twig\Components\Shop\ShopModify\ShopModifyComponentDto;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponent;
@@ -301,16 +301,15 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
 
     private function createListOrdersInfoModalDto(): ModalComponentDto
     {
-        $productInfoComponentDto = new ShopInfoComponentDto(
-            ShopInfoComponent::getComponentName(),
-            false
+        $productInfoComponentDto = new ListOrdersInfoComponentDto(
+            ListOrdersInfoComponent::getComponentName(),
         );
 
         return new ModalComponentDto(
             self::LIST_ORDERS_INFO_MODAL_ID,
             '',
             false,
-            ShopInfoComponent::getComponentName(),
+            ListOrdersInfoComponent::getComponentName(),
             $productInfoComponentDto,
             []
         );

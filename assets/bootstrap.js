@@ -45,6 +45,7 @@ import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupU
 // LIST ORDERS
 import ListOrdersHomeSectionComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/Home/ListOrdersHomeSection_controller';
 import ListOrdersListItemComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/ListItem/ListOrdersListItem_controller';
+import ListOrdersInfoComponent from 'App/Twig/Components/ListOrders/ListOrdersInfo/ListOrdersInfo_controller';
 
 // SHOP
 import ShopHomeSectionComponent from 'App/Twig/Components/Shop/ShopHome/Home/ShopHomeSection_controller';
@@ -123,6 +124,7 @@ app.register('GroupUserAddComponent', GroupUserAddComponent);
 // LIST ORDERS
 app.register('ListOrdersHomeSectionComponent', ListOrdersHomeSectionComponent);
 app.register('ListOrdersListItemComponent', ListOrdersListItemComponent);
+app.register('ListOrdersInfoComponent', ListOrdersInfoComponent);
 
 
 // SHOP

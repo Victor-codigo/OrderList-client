@@ -51,6 +51,7 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
             'description' => $listOrdersData->description,
             'image' => $listOrdersData->image,
             'createdOn' => $listOrdersData->createdOn->format('Y-m-d'),
+            'dateToBuy' => $listOrdersData->dateToBuy?->format('Y-m-d H:i:s'),
         ];
 
         return json_encode($listOrdersDataToParse, JSON_THROW_ON_ERROR);

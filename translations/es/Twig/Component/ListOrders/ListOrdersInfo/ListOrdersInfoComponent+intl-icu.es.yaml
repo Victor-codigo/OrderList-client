@@ -1,0 +1,21 @@
+created_on: "Creado: "
+
+image:
+  title: Imagen del producto
+  alt: Imagen del producto
+
+description:
+  label: Descripción
+
+date_to_buy:
+  label: Fecha de compra
+
+item_price:
+  name: Tienda
+  price: Precio/Unidad
+
+shops:
+  empty: "<No hay tiendas>"
+
+close_button:
+  label: Cerrar

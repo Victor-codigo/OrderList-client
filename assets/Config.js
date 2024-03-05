@@ -118,12 +118,25 @@ export const dateFormat = {
 };
 
 /**
+ * @type {Intl.DateTimeFormatOptions}
+ */
+export const dateTimeFormat = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: false
+};
+
+/**
  * @type {string}
  */
 export const CURRENCY = '€';
 
 /**
  * @typedef {Object} ItemData
+ * @class
  * @property {string} id
  * @property {string} name
  * @property {string} description
@@ -140,3 +153,5 @@ export const CURRENCY = '€';
  * @property {number} price
  * @property {string} unit
  */
+
+
