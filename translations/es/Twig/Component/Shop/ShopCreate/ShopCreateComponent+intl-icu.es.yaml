@@ -7,7 +7,7 @@ name:
   placeholder: Introduce el nombre del tienda
   msg_invalid: |
     Introduce un nombre válido.
-    El nombre debe contener al menos, un caracter y un máximo de 30 caracteres
+    El nombre debe contener al menos, un carácter y un máximo de 30 caracteres
     Solo están permitidos caracteres alfanuméricos y "_"
 
 description:
@@ -49,7 +49,7 @@ validation:
   error:
     name: |
       El nombre no es correcto.
-      El nombre debe contener al menos un caracter y un máximo de 30 caracteres
+      El nombre debe contener al menos un carácter y un máximo de 30 caracteres
       Solo se permiten caracteres alfanuméricos y "_"
     product_name_repeated: Ya hay un tienda con el mismo nombre
     image: Imagen no válida. Debe ser del tipo jpg, png, bmp
