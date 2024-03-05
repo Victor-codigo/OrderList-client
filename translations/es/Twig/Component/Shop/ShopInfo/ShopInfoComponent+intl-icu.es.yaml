@@ -4,9 +4,12 @@ image:
   title: Imagen de la tienda
   alt: Imagen de la tienda
 
+description:
+  label: Descripción
+
 item_price:
   name: Producto
-  price: Precio/Unidad
+  price: Precio / Unidad
 
 products:
   empty: "<No hay productos>"
