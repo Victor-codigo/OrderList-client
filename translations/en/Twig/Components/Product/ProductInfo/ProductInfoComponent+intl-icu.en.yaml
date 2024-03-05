@@ -4,9 +4,12 @@ image:
   title: Product image
   alt: Product image
 
+description:
+  label: Description
+
 item_price:
   name: Shop
-  price: Price/Unit
+  price: Price / Unit
 
 shops:
   empty: "<There is no shops>"

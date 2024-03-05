@@ -12,7 +12,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
     name: 'ProductInfoComponent',
-    template: 'Components/HomeSection/ItemInfo/ItemInfoComponent.html.twig'
+    template: 'Components/Product/ProductInfo/ProductInfoComponent.html.twig'
 )]
 class ProductInfoComponent extends ItemInfoComponent
 {
@@ -38,6 +38,9 @@ class ProductInfoComponent extends ItemInfoComponent
                 $this->translate('image.title'),
                 $this->translate('image.alt'),
                 $this->translate('created_on'),
+            )
+            ->description(
+                $this->translate('description.label'),
             )
             ->priceHeaders(
                 $this->translate('item_price.name'),
