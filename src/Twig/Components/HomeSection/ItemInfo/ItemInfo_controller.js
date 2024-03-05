@@ -40,8 +40,9 @@ export default class extends Controller {
 
     /**
      * @param {string} date
+     * @param {Intl.DateTimeFormatOptions} dateFormat
      */
-    #getDataLocale(date) {
+    getDataLocale(date, dateFormat) {
         const locale = url.getLocale();
         let itlLocale = 'es-ES';
 
@@ -49,16 +50,16 @@ export default class extends Controller {
             itlLocale = 'en-US';
         }
 
-        return new Date(date).toLocaleDateString(itlLocale, config.dateFormat);
+        return new Date(date).toLocaleDateString(itlLocale, dateFormat);
     }
 
     /**
      * @param {config.ItemData} data
      */
-    #setItemData(data) {
+    setItemData(data) {
         this.#titleTag.innerHTML = html.escape(data.name);
         this.#descriptionTag.innerHTML = html.escape(data.description === null ? '' : data.description);
-        this.#dateTag.innerHTML = html.escape(this.#getDataLocale(data.createdOn));
+        this.#dateTag.innerHTML = html.escape(this.getDataLocale(data.createdOn, config.dateFormat));
         this.#imageTag.src = html.escape(data.image);
 
         if (typeof data.itemsPrices !== 'undefined') {
@@ -119,6 +120,6 @@ export default class extends Controller {
      * @param {config.ItemData} event.detail.content.itemData
      */
     handleMessageHomeListItemInfo({ detail: { content } }) {
-        this.#setItemData(content.itemData);
+        this.setItemData(content.itemData);
     }
 }

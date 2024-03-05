@@ -8,7 +8,7 @@ use Common\Domain\DtoBuilder\DtoBuilder;
 
 class ItemInfoComponentLangDto
 {
-    private DtoBuilder $builder;
+    protected DtoBuilder $builder;
 
     public readonly string $itemPriceNameHeader;
     public readonly string $itemPricePriceHeader;
@@ -18,6 +18,8 @@ class ItemInfoComponentLangDto
     public readonly string $imageTitle;
     public readonly string $imageAlt;
 
+    public readonly string $description;
+
     public readonly string $closeButtonTitle;
     public readonly string $shopsEmptyMessage;
 
@@ -26,12 +28,13 @@ class ItemInfoComponentLangDto
         $this->builder = new DtoBuilder([
             'priceHeaders',
             'info',
+            'description',
             'shopsEmpty',
             'buttons',
         ]);
     }
 
-    public function priceHeaders(string $itemName, string $itemPrice, string $itemUnit): self
+    public function priceHeaders(string $itemName, string $itemPrice, string $itemUnit): static
     {
         $this->builder->setMethodStatus('priceHeaders', true);
 
@@ -42,7 +45,7 @@ class ItemInfoComponentLangDto
         return $this;
     }
 
-    public function info(string $imageTitle, string $imageAlt, string $createdOn): self
+    public function info(string $imageTitle, string $imageAlt, string $createdOn): static
     {
         $this->builder->setMethodStatus('info', true);
 
@@ -53,7 +56,7 @@ class ItemInfoComponentLangDto
         return $this;
     }
 
-    public function shopsEmpty(string $shopsEmptyMessage): self
+    public function shopsEmpty(string $shopsEmptyMessage): static
     {
         $this->builder->setMethodStatus('shopsEmpty', true);
 
@@ -62,7 +65,16 @@ class ItemInfoComponentLangDto
         return $this;
     }
 
-    public function buttons(string $closeTitle): self
+    public function description(string $descriptionText): self
+    {
+        $this->builder->setMethodStatus('description', true);
+
+        $this->description = $descriptionText;
+
+        return $this;
+    }
+
+    public function buttons(string $closeTitle): static
     {
         $this->builder->setMethodStatus('buttons', true);
 
@@ -71,7 +83,7 @@ class ItemInfoComponentLangDto
         return $this;
     }
 
-    public function build(): self
+    public function build(): static
     {
         $this->builder->validate();
 

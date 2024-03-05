@@ -20,35 +20,17 @@
                 { item title }
             </h2>
             <hr class="solid">
-            <p class="mt-3"
-               data-js-item-description>
-                { item description }
-            </p>
+
+            {% block mainFirstBlock %}
+            {% endblock mainFirstBlock %}
+
+            {% block mainSecondBlock %}
+            {% endblock mainSecondBlock %}
         </div>
     </section>
 
-    {% if data.itemPricesShow %}
-
-    <section class="p-4">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col"
-                        class="ps-5">#</th>
-                    <th scope="col">{{ lang.itemPriceNameHeader }}</th>
-                    <th scope="col"
-                        class="pe-5">{{ lang.itemPricePriceHeader }}</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider"
-                   data-empty-message="{{ lang.shopsEmptyMessage }}"
-                   data-js-item-prices>
-
-            </tbody>
-        </table>
-    </section>
-
-    {% endif %}
+    {% block secondaryFirstBlock %}
+    {% endblock secondaryFirstBlock %}
 
     <div class="d-flex  justify-content-end  mt-5">
         <button type="button"

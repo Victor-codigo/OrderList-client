@@ -22,6 +22,4 @@ abstract class ItemInfoComponent extends TwigComponent
     abstract public function mount(ItemInfoComponentDto $data): void;
 
     abstract public static function getComponentName(): string;
-
-    abstract protected function loadTranslation(): void;
 }
