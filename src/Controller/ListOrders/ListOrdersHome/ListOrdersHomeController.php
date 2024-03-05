@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     path: '{_locale}/{group_name}/list-orders/page-{page}-{page_items}',
     name: 'list_orders_home',
-    methods: ['GET'],
+    methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
         'page' => '\d+',
@@ -135,7 +135,7 @@ class ListOrdersHomeController extends AbstractController
             )
             ->listOrdersCreateFormModal(
                 $listOrdersCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_create', [
+                $this->generateUrl('list_orders_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )

@@ -4,8 +4,8 @@ namespace App\Twig\Components\ListOrders\ListOrdersCreate;
 
 use App\Form\ListOrders\ListOrdersCreate\LIST_ORDERS_CREATE_FORM_ERRORS;
 use App\Form\ListOrders\ListOrdersCreate\LIST_ORDERS_CREATE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -27,6 +27,8 @@ final class ListOrdersCreateComponent extends TwigComponent
     public readonly string $userGroupsFieldName;
     public readonly string $submitFieldName;
 
+    public readonly TitleComponentDto $titleDto;
+
     public static function getComponentName(): string
     {
         return 'ListOrdersCreateComponent';
@@ -39,11 +41,17 @@ final class ListOrdersCreateComponent extends TwigComponent
         $this->nameFieldName = sprintf('%s[%s]', LIST_ORDERS_CREATE_FORM_FIELDS::FORM, LIST_ORDERS_CREATE_FORM_FIELDS::NAME);
         $this->descriptionFieldName = sprintf('%s[%s]', LIST_ORDERS_CREATE_FORM_FIELDS::FORM, LIST_ORDERS_CREATE_FORM_FIELDS::DESCRIPTION);
         $this->dateToBuyFieldName = sprintf('%s[%s]', LIST_ORDERS_CREATE_FORM_FIELDS::FORM, LIST_ORDERS_CREATE_FORM_FIELDS::DATE_TO_BUY);
-        $this->userGroupsFieldName = sprintf('%s[%s]', LIST_ORDERS_CREATE_FORM_FIELDS::FORM, LIST_ORDERS_CREATE_FORM_FIELDS::USER_GROUP);
         $this->submitFieldName = sprintf('%s[%s]', LIST_ORDERS_CREATE_FORM_FIELDS::FORM, LIST_ORDERS_CREATE_FORM_FIELDS::SUBMIT);
 
         $this->data = $data;
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleComponentDto();
+    }
+
+    private function createTitleComponentDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function loadTranslation(): void
@@ -67,46 +75,42 @@ final class ListOrdersCreateComponent extends TwigComponent
                 $this->translate('date_to_buy.placeholder'),
                 $this->translate('date_to_buy.msg_invalid')
             )
-            ->userGroups(
-                $this->translate('userGroups.label'),
-                $this->translate('userGroups.placeholder'),
-                $this->translate('userGroups.msg_invalid')
-            )
             ->submitButton(
                 $this->translate('button_list_orders_create.label')
             )
             ->errors(
-                $this->data->validForm ? $this->loadErrorsTranslation() : null
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 LIST_ORDERS_CREATE_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
                 LIST_ORDERS_CREATE_FORM_ERRORS::NAME_EXISTS->value => $this->translate('validation.error.name_exists'),
-                LIST_ORDERS_CREATE_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.group_id'),
+                LIST_ORDERS_CREATE_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.internal_server'),
                 default => $this->translate('validation.error.internal_server')
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
+        return $errorsLang;
+    }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
+            array_unique($errorsLang)
         );
     }
 }

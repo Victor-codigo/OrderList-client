@@ -95,7 +95,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
     }
 
-    private function loadLocale(Request $request): string|null
+    private function loadLocale(Request $request): ?string
     {
         if (!$request->attributes->has('_locale')) {
             return null;
@@ -104,7 +104,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return $request->attributes->get('_locale');
     }
 
-    private function loadPageData(Request $request): int|null
+    private function loadPageData(Request $request): ?int
     {
         if ($request->query->has('page')) {
             return $request->query->getInt('page');
@@ -117,7 +117,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
-    private function loadPageItemsData(Request $request): int|null
+    private function loadPageItemsData(Request $request): ?int
     {
         if ($request->query->has('page_items')) {
             return $request->query->getInt('page_items');
@@ -130,7 +130,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
-    private function loadGroupData(ParameterBag $attributes, string $tokenSession): GroupDataResponse|null
+    private function loadGroupData(ParameterBag $attributes, string $tokenSession): ?GroupDataResponse
     {
         $groupNameDecoded = $this->decodeUrlParameter($attributes, 'group_name');
 
@@ -147,7 +147,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return GroupDataResponse::fromArray($groupData['data']);
     }
 
-    private function loadShopData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ShopDataResponse|null
+    private function loadShopData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?ShopDataResponse
     {
         if (null === $groupId) {
             return null;
@@ -180,7 +180,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return ShopDataResponse::fromArray($shopData['data']['shops'][0]);
     }
 
-    private function loadParamShopId(ParameterBag $attributes): array|null
+    private function loadParamShopId(ParameterBag $attributes): ?array
     {
         if (!$attributes->has('shop_id')) {
             return null;
@@ -189,7 +189,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return [$attributes->get('shop_id')];
     }
 
-    private function loadParamShopName(ParameterBag $attributes): string|null
+    private function loadParamShopName(ParameterBag $attributes): ?string
     {
         if (!$attributes->has('shop_name')) {
             return null;
@@ -204,7 +204,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return $shopNameDecoded;
     }
 
-    private function loadProductData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ProductDataResponse|null
+    private function loadProductData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?ProductDataResponse
     {
         if (null === $groupId) {
             return null;
@@ -238,7 +238,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return ProductDataResponse::fromArray($productData['data']['products'][0]);
     }
 
-    private function loadListOrdersData(ParameterBag $attributes, string|null $groupId, string $tokenSession): ListOrdersDataResponse|null
+    private function loadListOrdersData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?ListOrdersDataResponse
     {
         // if (null === $groupId) {
         //     return null;
@@ -265,7 +265,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
-    private function loadRefererRouteName(Request $request): RequestRefererDto|null
+    private function loadRefererRouteName(Request $request): ?RequestRefererDto
     {
         if (Config::CLIENT_DOMAIN !== $request->getHost()) {
             return null;
@@ -289,7 +289,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
                     ARRAY_FILTER_USE_KEY
                 )
             );
-        } catch (NoConfigurationException|ResourceNotFoundException|MethodNotAllowedException) {
+        } catch (NoConfigurationException|ResourceNotFoundException|MethodNotAllowedException $e) {
             return null;
         }
     }

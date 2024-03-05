@@ -12,12 +12,12 @@ use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
 use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
+use App\Twig\Components\ListOrders\ListOrdersCreate\ListOrdersCreateComponent;
+use App\Twig\Components\ListOrders\ListOrdersCreate\ListOrdersCreateComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemComponent;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
-use App\Twig\Components\Shop\ShopCreate\ShopCreateComponent;
-use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponent;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponentDto;
 use App\Twig\Components\Shop\ShopModify\ShopModifyComponent;
@@ -205,10 +205,11 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
 
     private function createListOrdersCreateComponentDto(string $listOrdersCreateFormCsrfToken, string $listOrdersCreateFormActionUrl): ModalComponentDto
     {
-        $homeSectionCreateComponentDto = new ShopCreateComponentDto(
+        $homeSectionCreateComponentDto = new ListOrdersCreateComponentDto(
             [],
             '',
-            '',
+            null,
+            null,
             $listOrdersCreateFormCsrfToken,
             false,
             mb_strtolower($listOrdersCreateFormActionUrl)
@@ -218,7 +219,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
             self::LIST_ORDERS_CREATE_MODAL_ID,
             '',
             false,
-            ShopCreateComponent::getComponentName(),
+            ListOrdersCreateComponent::getComponentName(),
             $homeSectionCreateComponentDto,
             []
         );

@@ -1,8 +1,8 @@
-title: List of Orders create
+title: Create shop list
 
 name:
-  label: List orders name
-  placeholder: Enter the name of the list of orders
+  label: Name
+  placeholder: Enter the name of the shop list
   msg_invalid: |
     Enter a valid name.
     The name must contain at least a character and maximum 30 characters.
@@ -10,29 +10,24 @@ name:
 
 description:
   label: Description
-  placeholder: Enter your a description for the list of orders
+  placeholder: Enter a description for the shop list
   msg_invalid: The description is too large
 
 date_to_buy:
   label: Date to buy
-  placeholder: Enter the date the list of orders should already be purchased
+  placeholder: Enter the date the shop list should already be purchased
   msg_invalid: The date is wrong
 
-userGroups:
-  label: Group
-  placeholder: Select a group to add the list of orders
-  msg_invalid: List of orders is wrong
-
 button_list_orders_create:
-  label: Create the list of orders
+  label: Create the shop list
 
 validation:
   title: Errors
+  ok: Shop list created
   error:
     name: |
       Enter a valid name.
       The name must contain at least a character and maximum 30 characters.
       Only are allowed alphanumeric characters and "_"
-    name_exists: There are already a list with the same name
-    group_id: Select a valid group
+    name_exists: There are already a shop list with the same name
     internal_server: An error has been occurred, try it later

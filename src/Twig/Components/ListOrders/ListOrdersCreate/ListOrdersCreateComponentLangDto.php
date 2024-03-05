@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Twig\Components\ListOrders\ListOrdersCreate;
 
 use App\Twig\Components\Alert\AlertComponentDto;
+use Common\Domain\DtoBuilder\DtoBuilder;
 
 class ListOrdersCreateComponentLangDto
 {
+    private DtoBuilder $builder;
+
     public readonly string $title;
 
     public readonly string $nameLabel;
@@ -22,28 +25,25 @@ class ListOrdersCreateComponentLangDto
     public readonly string $dateToBuyPlaceholder;
     public readonly string $dateToBuyMsgInvalid;
 
-    public readonly string $userGroupsLabel;
-    public readonly string $userGroupsPlaceholder;
-    public readonly string $userGroupsMsgInvalid;
-
     public readonly string $listOrdersCreateButton;
 
-    public readonly AlertComponentDto|null $validationErrors;
+    public readonly ?AlertComponentDto $validationErrors;
 
-    private array $builder = [
-        'title' => false,
-        'name' => false,
-        'description' => false,
-        'dateToBuy' => false,
-        'userGroups' => false,
-        'submit' => false,
-        'errors' => false,
-        'build' => false,
-    ];
+    public function __construct()
+    {
+        $this->builder = new DtoBuilder([
+            'title',
+            'name',
+            'description',
+            'dateToBuy',
+            'submitButton',
+            'errors',
+        ]);
+    }
 
     public function title(string $title): self
     {
-        $this->builder['title'] = true;
+        $this->builder->setMethodStatus('title', true);
 
         $this->title = $title;
 
@@ -52,7 +52,7 @@ class ListOrdersCreateComponentLangDto
 
     public function name(string $nameLabel, string $namePlaceholder, string $nameMsgInvalid): self
     {
-        $this->builder['name'] = true;
+        $this->builder->setMethodStatus('name', true);
 
         $this->nameLabel = $nameLabel;
         $this->namePlaceholder = $namePlaceholder;
@@ -63,7 +63,7 @@ class ListOrdersCreateComponentLangDto
 
     public function description(string $descriptionLabel, string $descriptionPlaceholder, string $descriptionMsgInvalid): self
     {
-        $this->builder['description'] = true;
+        $this->builder->setMethodStatus('description', true);
 
         $this->descriptionLabel = $descriptionLabel;
         $this->descriptionPlaceholder = $descriptionPlaceholder;
@@ -74,7 +74,7 @@ class ListOrdersCreateComponentLangDto
 
     public function dateToBuy(string $dateToBuyLabel, string $dateToBuyPlaceholder, string $dateToBuyMsgInvalid): self
     {
-        $this->builder['dateToBuy'] = true;
+        $this->builder->setMethodStatus('dateToBuy', true);
 
         $this->dateToBuyLabel = $dateToBuyLabel;
         $this->dateToBuyPlaceholder = $dateToBuyPlaceholder;
@@ -83,29 +83,18 @@ class ListOrdersCreateComponentLangDto
         return $this;
     }
 
-    public function userGroups(string $userGroupsLabel, string $userGroupsPlaceholder, string $userGroupsMsgInvalid): self
-    {
-        $this->builder['userGroups'] = true;
-
-        $this->userGroupsLabel = $userGroupsLabel;
-        $this->userGroupsPlaceholder = $userGroupsPlaceholder;
-        $this->userGroupsMsgInvalid = $userGroupsMsgInvalid;
-
-        return $this;
-    }
-
     public function submitButton(string $listOrdersCreateLabel): self
     {
-        $this->builder['submit'] = true;
+        $this->builder->setMethodStatus('submitButton', true);
 
         $this->listOrdersCreateButton = $listOrdersCreateLabel;
 
         return $this;
     }
 
-    public function errors(AlertComponentDto|null $validationErrors): self
+    public function errors(?AlertComponentDto $validationErrors): self
     {
-        $this->builder['errors'] = true;
+        $this->builder->setMethodStatus('errors', true);
 
         $this->validationErrors = $validationErrors;
 
@@ -114,11 +103,7 @@ class ListOrdersCreateComponentLangDto
 
     public function build(): self
     {
-        $this->builder['build'] = true;
-
-        if (count(array_filter($this->builder)) < count($this->builder)) {
-            throw new \InvalidArgumentException('Constructors: title, name, description, dateToBuy, userGroups, errors. Are mandatory');
-        }
+        $this->builder->validate();
 
         return $this;
     }

@@ -1,22 +1,23 @@
-<form id="{{ formName }}"
+<form data-controller="ListOrdersCreateComponent"
+	  id="{{ formName }}"
 	  name="{{ formName }}"
-	  data-controller="ListOrdersCreateComponent"
-	  class="contaniner  p-5"
+	  action="{{ data.listOrdersCreateFormActionUrl }}"
+	  class="contaniner  p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"
 	  novalidate>
+
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />
 
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
 	{% if lang.validationErrors %}
+
 	{{ component('AlertComponent', { data: lang.validationErrors }) }}
+
 	{% endif %}
-
-
-	<div class="mb-5 pt-5 display-1 text-center">
-		{{ lang.title }}
-	</div>
 
 	<div class="mb-3">
 		<label for="name"
@@ -64,31 +65,6 @@
 
 		<div class="invalid-feedback">
 			{{ lang.dateToBuyMsgInvalid }}
-		</div>
-	</div>
-
-	<div class="mb-3">
-		<label for="user_group"
-			   class="form-label">
-			{{ lang.userGroupsLabel }}
-		</label>
-		<select class="form-select"
-				aria-label="{{ lang.userGroupsLabel }}"
-				id="user_group"
-				name="{{ userGroupsFieldName }}"
-				placeholder="{{ lang.userGroupsPlaceholder }}"
-				required>
-			{% for name, groupId in data.userGroups %}
-			<option {{
-					groupId==data.userGroupsSelected
-					? 'selected'
-					: 'value'
-					}}="{{ groupId }}">{{ name }}</option>
-			{% endfor %}
-		</select>
-
-		<div class="invalid-feedback">
-			{{ lang.userGroupsMsgInvalid }}
 		</div>
 	</div>
 
