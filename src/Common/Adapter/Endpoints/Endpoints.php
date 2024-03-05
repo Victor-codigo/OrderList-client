@@ -19,7 +19,7 @@ class Endpoints implements EndpointsInterface
     ) {
     }
 
-    public function decodeUrlName(string|null $name): string|null
+    public function decodeUrlName(?string $name): ?string
     {
         if (null === $name) {
             return null;
@@ -40,16 +40,15 @@ class Endpoints implements EndpointsInterface
 
     public function listOrdersGetData(
         string $groupId,
-        array|null $listOrdersId,
+        ?array $listOrdersId,
         bool $orderAsc,
-        string|null $filterValue,
-        string|null $filterSection,
-        string|null $filterText,
+        ?string $filterValue,
+        ?string $filterSection,
+        ?string $filterText,
         int $page,
         int $pageItems,
         string $tokenSession
-    ): array
-    {
+    ): array {
         $listOrderNameDecoded = $this->decodeUrlName($filterValue);
 
         return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersGetData(
@@ -63,6 +62,14 @@ class Endpoints implements EndpointsInterface
             $pageItems,
             $tokenSession
         );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function listOrdersCreate(string $groupId, string $name, ?string $description, ?\DateTime $dateToBuy, string $tokenSession): array
+    {
+        return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersCreate($groupId, $name, $description, $dateToBuy, $tokenSession);
     }
 
     /**
@@ -98,7 +105,7 @@ class Endpoints implements EndpointsInterface
     /**
      * @throws UnsupportedOptionException
      */
-    public function productCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array
+    public function productCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
     {
         return ProductsEndPoint::getInstance($this->httpClient)->productCreate($groupId, $name, $description, $image, $tokenSession);
     }
@@ -109,11 +116,11 @@ class Endpoints implements EndpointsInterface
     public function productModify(
         string $groupId,
         string $productId,
-        string|null $shopId,
-        string|null $name,
-        string|null $description,
-        float|null $price,
-        UploadedFile|null $image,
+        ?string $shopId,
+        ?string $name,
+        ?string $description,
+        ?float $price,
+        ?UploadedFile $image,
         bool $imageRemove,
         string $tokenSession
     ): array {
@@ -137,7 +144,7 @@ class Endpoints implements EndpointsInterface
      * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    public function productRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): array
+    public function productRemove(string $groupId, array $productsId, ?array $shopsId, string $tokenSession): array
     {
         return ProductsEndPoint::getInstance($this->httpClient)->productRemove($groupId, $productsId, $shopsId, $tokenSession);
     }
@@ -150,13 +157,13 @@ class Endpoints implements EndpointsInterface
      */
     public function productGetData(
         string $groupId,
-        array|null $productsId,
-        array|null $shopsId,
-        string|null $productName,
-        string|null $productNameFilterType,
-        string|null $productNameFilterValue,
-        string|null $shopNameFilterFilter,
-        string|null $shopNameFilterValue,
+        ?array $productsId,
+        ?array $shopsId,
+        ?string $productName,
+        ?string $productNameFilterType,
+        ?string $productNameFilterValue,
+        ?string $shopNameFilterFilter,
+        ?string $shopNameFilterValue,
         int $page,
         int $pageItems,
         bool $orderAsc,
@@ -184,7 +191,7 @@ class Endpoints implements EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
-    public function setProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array
+    public function setProductShopPrice(string $groupId, ?string $productId, ?string $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array
     {
         return ProductsEndPoint::getInstance($this->httpClient)->setProductShopPrice($groupId, $productId, $shopId, $productsOrShopsId, $prices, $unitsMeasure, $tokenSession);
     }
@@ -204,23 +211,23 @@ class Endpoints implements EndpointsInterface
         return ProductsEndPoint::getInstance($this->httpClient)->getProductShopPrice($groupId, $productsId, $shopsId, $tokenSession);
     }
 
-    public function shopCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array
+    public function shopCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
     {
         return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $description, $image, $tokenSession);
     }
 
-    public function shopModify(string $shopId, string $groupId, string $name, string|null $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array
+    public function shopModify(string $shopId, string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
     {
         return ShopsEndPoint::getInstance($this->httpClient)->shopModify($shopId, $groupId, $name, $description, $image, $imageRemove, $tokenSession);
     }
 
     public function shopsGetData(
         string $groupId,
-        array|null $shopsId,
-        array|null $productsId,
-        string|null $shopName,
-        string|null $shopNameFilterType,
-        string|null $shopNameFilterValue,
+        ?array $shopsId,
+        ?array $productsId,
+        ?string $shopName,
+        ?string $shopNameFilterType,
+        ?string $shopNameFilterValue,
         int $page,
         int $pageItems,
         bool $orderAsc,
@@ -240,7 +247,7 @@ class Endpoints implements EndpointsInterface
         );
     }
 
-    public function shopRemove(string $groupId, array|null $shopsId, string $tokenSession): array
+    public function shopRemove(string $groupId, ?array $shopsId, string $tokenSession): array
     {
         return ShopsEndPoint::getInstance($this->httpClient)->shopRemove($groupId, $shopsId, $tokenSession);
     }

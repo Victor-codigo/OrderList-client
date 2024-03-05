@@ -23,6 +23,18 @@ interface EndpointsInterface
     public function listOrdersGetData(string $groupId, ?array $listOrdersId, bool $orderAsc, ?string $filterValue, ?string $filterSection, ?string $filterText, int $page, int $pageItems, string $tokenSession): array;
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws RequestUnauthorizedException
+     * @throws RequestException
+     * @throws UnsupportedOptionException
+     */
+    public function listOrdersCreate(string $groupId, string $name, ?string $description, ?\DateTime $dateToBuy, string $tokenSession): array;
+
+    /**
      * @return array<string, array> "data" and "errors" as index
      */
     public function listOrdersDeleteOrders(string $groupId, string $listOrdersId, array $ordersId, string $tokenSession): array;
