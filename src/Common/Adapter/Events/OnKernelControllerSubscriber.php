@@ -10,6 +10,8 @@ use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
+use App\Twig\Components\HomeSection\SearchBar\NAME_FILTERS;
+use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\NavigationBar\NavigationBarDto;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Events\Exceptions\RequestGroupNameException;
@@ -240,29 +242,33 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadListOrdersData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?ListOrdersDataResponse
     {
-        // if (null === $groupId) {
-        //     return null;
-        // }
+        if (null === $groupId) {
+            return null;
+        }
 
-        // $listOrdersNameDecoded = $this->decodeUrlParameter($attributes, 'list_orders_name');
+        $listOrdersNameDecoded = $this->decodeUrlParameter($attributes, 'list_orders_name');
 
-        // if (null === $listOrdersNameDecoded) {
-        //     return null;
-        // }
+        if (null === $listOrdersNameDecoded) {
+            return null;
+        }
 
-        // $listOrdersData = $this->endpoints->listOrdersGetData(
-        //     $groupId,
-        //     $listOrdersNameDecoded,
-        //     $tokenSession
-        // );
+        $listOrdersData = $this->endpoints->listOrdersGetData(
+            $groupId,
+            null,
+            true,
+            $listOrdersNameDecoded,
+            SECTION_FILTERS::LIST_ORDERS->value,
+            NAME_FILTERS::EQUALS->value,
+            1,
+            1,
+            $tokenSession
+        );
 
-        // if (!empty($listOrdersData['errors'])) {
-        //     throw RequestListOrdersNameException::fromMessage('List orders not found');
-        // }
+        if (!empty($listOrdersData['errors'])) {
+            throw RequestListOrdersNameException::fromMessage('List orders not found');
+        }
 
-        // return ListOrdersDataResponse::fromArray($listOrdersData['data']);
-
-        return null;
+        return ListOrdersDataResponse::fromArray($listOrdersData['data']['list_orders'][0]);
     }
 
     private function loadRefererRouteName(Request $request): ?RequestRefererDto
