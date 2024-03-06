@@ -73,6 +73,14 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @throws UnsupportedOptionException
+     */
+    public function listOrdersModify(string $groupId, string $listOrdersId, string $name, ?string $description, ?\DateTime $dateToBuy, string $tokenSession): array
+    {
+        return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersModify($groupId, $listOrdersId, $name, $description, $dateToBuy, $tokenSession);
+    }
+
+    /**
      * @return array<string, array> "data" and "errors" as index
      */
     public function listOrdersDeleteOrders(string $groupId, string $listOrdersId, array $ordersId, string $tokenSession): array
