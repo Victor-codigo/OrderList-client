@@ -1,0 +1,33 @@
+title: Modify shop list
+
+name:
+  label: Name
+  placeholder: Enter the name of the shop list
+  msg_invalid: |
+    Enter a valid name.
+    The name must contain at least a character and maximum 30 characters.
+    Only are allowed alphanumeric characters white space and "_"
+
+description:
+  label: Description
+  placeholder: Enter a description for the shop list
+  msg_invalid: The description is too large
+
+date_to_buy:
+  label: Date to buy
+  placeholder: Enter the date the shop list should already be purchased
+  msg_invalid: The date is wrong
+
+button_list_orders_modify:
+  label: Modify the shop list
+
+validation:
+  title: Errors
+  ok: Shop list modified
+  error:
+    name: |
+      Enter a valid name.
+      The name must contain at least a character and maximum 30 characters.
+      Only are allowed alphanumeric characters and "_"
+    name_exists: There are already a shop list with the same name
+    internal_server: An error has been occurred, try it later

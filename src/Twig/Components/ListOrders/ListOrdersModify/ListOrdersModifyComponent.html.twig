@@ -1,7 +1,8 @@
-<form data-controller="ListOrdersCreateComponent"
+<form data-controller="ListOrdersModifyComponent"
+	  data-action="ListOrdersListItemComponent:homeListItemModify@window->ListOrdersModifyComponent#handleMessageHomeListItemModify"
 	  id="{{ formName }}"
 	  name="{{ formName }}"
-	  action="{{ data.listOrdersCreateFormActionUrl }}"
+	  data-action-placeholder="{{ data.listOrdersModifyFormActionUrl|escape('html_attr') }}"
 	  class="contaniner  p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"
@@ -32,7 +33,8 @@
 			   name="{{ nameFieldName }}"
 			   placeholder="{{ lang.namePlaceholder }}"
 			   value="{{ data.name }}"
-			   required />
+			   required
+			   data-js-list-orders-name />
 		<div class="invalid-feedback">
 			{{ lang.nameMsgInvalid }}
 		</div>
@@ -47,7 +49,8 @@
 				  id="description"
 				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
-				  placeholder="{{ lang.descriptionPlaceholder }}">{{ data.description }}</textarea>
+				  placeholder="{{ lang.descriptionPlaceholder }}"
+				  data-js-list-orders-description>{{ data.description }}</textarea>
 		<div class="invalid-feedback">
 			{{ lang.descriptionMsgInvalid }}
 		</div>
@@ -74,6 +77,6 @@
 		<input type="submit"
 			   class="btn btn-primary w-100"
 			   name="{{ submitFieldName }}"
-			   value="{{ lang.listOrdersCreateButton }}" />
+			   value="{{ lang.listOrdersModifyButton }}" />
 	</div>
 </form>
