@@ -7,6 +7,7 @@ namespace App\Controller\ListOrders\ListOrdersHome;
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Form\ListOrders\ListOrdersCreate\ListOrdersCreateForm;
+use App\Form\ListOrders\ListOrdersModify\ListOrdersModifyForm;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListOrdersHomeComponentBuilder;
 use Common\Adapter\Endpoints\ListOrdersEndpoints;
@@ -43,6 +44,7 @@ class ListOrdersHomeController extends AbstractController
     public function __invoke(RequestDto $requestDto): Response
     {
         $listOrdersCreateForm = $this->formFactory->create(new ListOrdersCreateForm(), $requestDto->request);
+        $listOrdersModifyForm = $this->formFactory->create(new ListOrdersModifyForm(), $requestDto->request);
         $listOrdersData = $this->listOrdersGetData(
             $requestDto->groupData->id,
             $requestDto->page,
@@ -53,6 +55,7 @@ class ListOrdersHomeController extends AbstractController
         $listOrdersHomeComponentDto = $this->createListOrdersHomeComponentDto(
             $requestDto,
             $listOrdersCreateForm,
+            $listOrdersModifyForm,
             $listOrdersData['list_orders'],
             $listOrdersData['pages_total']
         );
@@ -85,7 +88,7 @@ class ListOrdersHomeController extends AbstractController
     private function createListOrdersHomeComponentDto(
         RequestDto $requestDto,
         FormInterface $listOrdersCreateForm,
-        // FormInterface $shopModifyForm,
+        FormInterface $listOrdersModifyForm,
         // FormInterface $shopRemoveForm,
         // FormInterface $shopRemoveMultiForm,
         // FormInterface $productCreateForm,
@@ -152,10 +155,10 @@ class ListOrdersHomeController extends AbstractController
                 ])
             )
             ->listOrdersModifyFormModal(
-                $listOrdersCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_modify', [
+                $listOrdersModifyForm->getCsrfToken(),
+                $this->generateUrl('list_orders_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
-                    'shop_name' => 'shop name',
+                    'list_orders_name' => '--list_orders_name--',
                 ]),
             )
             ->build();

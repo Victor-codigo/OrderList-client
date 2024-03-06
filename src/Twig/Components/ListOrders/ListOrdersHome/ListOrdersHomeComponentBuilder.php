@@ -19,9 +19,9 @@ use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemCom
 use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponent;
 use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponentDto;
+use App\Twig\Components\ListOrders\ListOrdersModify\ListOrdersModifyComponent;
+use App\Twig\Components\ListOrders\ListOrdersModify\ListOrdersModifyComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
-use App\Twig\Components\Shop\ShopModify\ShopModifyComponent;
-use App\Twig\Components\Shop\ShopModify\ShopModifyComponentDto;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponent;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponentDto;
 use Common\Domain\Config\Config;
@@ -265,24 +265,23 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createListOrdersModifyModalDto(string $shopModifyFormCsrfToken, string $shopModifyFormActionUrlPlaceholder): ModalComponentDto
+    private function createListOrdersModifyModalDto(string $shopModifyFormCsrfToken, string $listOrdersModifyFormActionUrlPlaceholder): ModalComponentDto
     {
-        $homeModalModify = new ShopModifyComponentDto(
+        $homeModalModify = new ListOrdersModifyComponentDto(
             [],
             '{name_placeholder}',
             '{description_placeholder}',
-            '{image_placeholder}',
-            Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
+            null,
             $shopModifyFormCsrfToken,
             false,
-            mb_strtolower($shopModifyFormActionUrlPlaceholder)
+            mb_strtolower($listOrdersModifyFormActionUrlPlaceholder)
         );
 
         return new ModalComponentDto(
             self::LIST_ORDERS_MODIFY_MODAL_ID,
             '',
             false,
-            ShopModifyComponent::getComponentName(),
+            ListOrdersModifyComponent::getComponentName(),
             $homeModalModify,
             []
         );
