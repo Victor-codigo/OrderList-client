@@ -5,6 +5,7 @@ import * as url from 'App/modules/Url';
 
 const SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS = 50;
 
+
 export default class extends Controller {
     /**
      * @type {number|undefined}
@@ -96,34 +97,76 @@ export default class extends Controller {
     }
 
     async #getDataFromApi() {
-        let parameters = {
+        switch (url.getSection().replace('-', '_')) {
+            case url.SECTIONS.SHOP:
+                return this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
+            case url.SECTIONS.PRODUCT:
+                if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
+                    return this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
+                }
+
+                return this.#getProductsNames(this.nameFilterTag.value, this.valueTag.value);
+            case url.SECTIONS.LIST_ORDERS:
+                if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
+                    return this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
+                } else if (this.sectionFilterTag.value === url.SECTIONS.PRODUCT) {
+                    return this.#getProductsNames(this.nameFilterTag.value, this.valueTag.value);
+                }
+
+                return this.#getListOrdersNames(this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
+            case url.SECTIONS.ORDER:
+
+        }
+    }
+
+    #getParametersDefault() {
+        return {
             'group_id': this.element.dataset.groupId,
             'page': 1,
             'page_items': SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS,
             'order_asc': true,
         };
+    }
 
-        switch (url.getSection()) {
-            case url.SECTIONS.SHOP:
-                parameters['shop_name_filter_type'] = this.nameFilterTag.value;
-                parameters['shop_name_filter_value'] = this.valueTag.value;
+    /**
+     * @param {string} nameFilter
+     * @param {string} valueFilter
+     * @returns {Promise<string[]>}
+     */
+    #getShopsNames(nameFilter, valueFilter) {
+        let parameters = this.#getParametersDefault();
+        parameters['shop_name_filter_type'] = nameFilter;
+        parameters['shop_name_filter_value'] = valueFilter;
 
-                return await apiEndpoints.getShopsNames(parameters);
-            case url.SECTIONS.PRODUCT:
-                if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
-                    parameters['shop_name_filter_type'] = this.nameFilterTag.value;
-                    parameters['shop_name_filter_value'] = this.valueTag.value;
+        return apiEndpoints.getShopsNames(parameters);
+    }
 
-                    return await apiEndpoints.getShopsNames(parameters);
-                } else {
-                    parameters['product_name_filter_type'] = this.nameFilterTag.value;
-                    parameters['product_name_filter_value'] = this.valueTag.value;
+    /**
+     * @param {string} nameFilter
+     * @param {string} valueFilter
+     * @returns {Promise<string[]>}
+     */
+    #getProductsNames(nameFilter, valueFilter) {
+        let parameters = this.#getParametersDefault();
+        parameters['product_name_filter_type'] = this.nameFilterTag.value;
+        parameters['product_name_filter_value'] = this.valueTag.value;
 
-                    return await apiEndpoints.getProductsNames(parameters);
-                }
-            case url.SECTIONS.ORDER:
+        return apiEndpoints.getProductsNames(parameters);
+    }
 
-        }
+    /**
+     * @param {string} nameFilter
+     * @param {string} sectionFilter
+     * @param {string} valueFilter
+     * @returns {Promise<string[]>}
+     */
+    #getListOrdersNames(nameFilter, sectionFilter, valueFilter) {
+        let parameters = this.#getParametersDefault();
+        parameters['filter_text'] = nameFilter;
+        parameters['filter_section'] = sectionFilter;
+        parameters['filter_value'] = valueFilter;
+
+        return apiEndpoints.getListOrdersNames(parameters);
     }
 
     #onSearchValueInputHandler() {

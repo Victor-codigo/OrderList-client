@@ -15,3 +15,4 @@ section_filters:
   product: Product
   shop: Shop
   order: Order
+  list_orders: Shop list

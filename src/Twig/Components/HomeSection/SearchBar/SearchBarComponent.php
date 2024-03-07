@@ -60,6 +60,7 @@ class SearchBarComponent extends TwigComponent
             ])
             ->sectionFilters([
                 SECTION_FILTERS::ORDER->value => $this->translate('section_filters.order'),
+                SECTION_FILTERS::LIST_ORDERS->value => $this->translate('section_filters.list_orders'),
                 SECTION_FILTERS::PRODUCT->value => $this->translate('section_filters.product'),
                 SECTION_FILTERS::SHOP->value => $this->translate('section_filters.shop'),
             ])

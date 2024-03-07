@@ -192,9 +192,6 @@ class ListOrdersHomeController extends AbstractController
                 $searchBarSectionFilterValue,
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
-                '',
-                '',
-                '',
                 ListOrdersEndpoints::GET_LIST_ORDERS_DATA,
                 $this->generateUrl('list_orders_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,

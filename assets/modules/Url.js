@@ -16,5 +16,6 @@ export function getSection() {
 export const SECTIONS = {
     PRODUCT: 'product',
     SHOP: 'shop',
-    ORDER: 'order'
+    ORDER: 'order',
+    LIST_ORDERS: 'list_orders',
 };
