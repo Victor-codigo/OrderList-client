@@ -8,7 +8,7 @@ use Common\Domain\Form\FormFieldInterface;
 
 final class LIST_ORDERS_MODIFY_FORM_FIELDS implements FormFieldInterface
 {
-    public const FORM = 'list_orders_create_form';
+    public const FORM = 'list_orders_modify_form';
     public const GROUP_ID = 'group_id';
     public const NAME = 'name';
     public const DESCRIPTION = 'description';

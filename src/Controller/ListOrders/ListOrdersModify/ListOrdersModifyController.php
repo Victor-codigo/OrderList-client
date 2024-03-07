@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\ListOrders\LIstOrdersModify;
+namespace App\Controller\ListOrders\ListOrdersModify;
 
 use App\Controller\Request\RequestDto;
 use App\Form\ListOrders\ListOrdersModify\LIST_ORDERS_MODIFY_FORM_FIELDS;
