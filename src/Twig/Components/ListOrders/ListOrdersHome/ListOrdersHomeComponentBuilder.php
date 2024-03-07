@@ -21,9 +21,9 @@ use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponent;
 use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersModify\ListOrdersModifyComponent;
 use App\Twig\Components\ListOrders\ListOrdersModify\ListOrdersModifyComponentDto;
+use App\Twig\Components\ListOrders\ListOrdersRemove\ListOrdersRemoveComponent;
+use App\Twig\Components\ListOrders\ListOrdersRemove\ListOrdersRemoveComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
-use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponent;
-use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -160,6 +160,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
     public function searchBar(
         string $groupId,
         ?string $searchValue,
+        ?string $sectionFilterValue,
         ?string $nameFilterValue,
         string $searchBarCsrfToken,
         string $searchAutoCompleteUrl,
@@ -170,8 +171,8 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->searchBar(new SearchBarComponentDto(
             $groupId,
             $searchValue,
-            [SECTION_FILTERS::LIST_ORDERS],
-            null,
+            SECTION_FILTERS::cases(),
+            $sectionFilterValue,
             $nameFilterValue,
             $searchBarCsrfToken,
             $searchBarFormActionUrl,
@@ -227,8 +228,8 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
 
     private function createListOrdersRemoveMultiComponentDto(string $listOrdersRemoveMultiFormCsrfToken, string $listOrdersRemoveFormActionUrl): ModalComponentDto
     {
-        $homeSectionRemoveMultiComponentDto = new ShopRemoveComponentDto(
-            ShopRemoveComponent::getComponentName(),
+        $homeSectionRemoveMultiComponentDto = new ListOrdersRemoveComponentDto(
+            ListOrdersRemoveComponent::getComponentName(),
             [],
             $listOrdersRemoveMultiFormCsrfToken,
             mb_strtolower($listOrdersRemoveFormActionUrl),
@@ -239,19 +240,19 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
             self::LIST_ORDERS_REMOVE_MULTI_MODAL_ID,
             '',
             false,
-            ShopRemoveComponent::getComponentName(),
+            ListOrdersRemoveComponent::getComponentName(),
             $homeSectionRemoveMultiComponentDto,
             []
         );
     }
 
-    private function createListOrdersRemoveModalDto(string $shopRemoveFormCsrfToken, string $shopRemoveFormActionUrl): ModalComponentDto
+    private function createListOrdersRemoveModalDto(string $listOrdersRemoveFormCsrfToken, string $listOrdersRemoveFormActionUrl): ModalComponentDto
     {
-        $homeModalDelete = new ShopRemoveComponentDto(
-            ShopRemoveComponent::getComponentName(),
+        $homeModalDelete = new ListOrdersRemoveComponentDto(
+            ListOrdersRemoveComponent::getComponentName(),
             [],
-            $shopRemoveFormCsrfToken,
-            mb_strtolower($shopRemoveFormActionUrl),
+            $listOrdersRemoveFormCsrfToken,
+            mb_strtolower($listOrdersRemoveFormActionUrl),
             false
         );
 
@@ -259,7 +260,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
             self::LIST_ORDERS_DELETE_MODAL_ID,
             '',
             false,
-            ShopRemoveComponent::getComponentName(),
+            ListOrdersRemoveComponent::getComponentName(),
             $homeModalDelete,
             []
         );

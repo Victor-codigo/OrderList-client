@@ -1,0 +1,24 @@
+title: Shop list remove
+
+message_advice:
+  text: |
+    You are going to remove a shop list:
+    {item_placeholder}
+    Once shop list is removed, it can not be undone
+
+    Are You sure?
+  text_multi: |
+    You are going to remove shop lists:
+    {item_placeholder}
+    Once shop lists are removed, it can not be undone
+
+    Are You sure?
+
+remove_button:
+  label: Remove shop list
+
+validation:
+  title: Errors
+  ok: Shop list removed
+  error:
+    internal_server: An error has been occurred, try it later

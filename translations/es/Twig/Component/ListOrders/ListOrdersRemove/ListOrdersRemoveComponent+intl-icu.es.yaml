@@ -1,0 +1,24 @@
+title: Eliminar lista de la compra
+
+message_advice:
+  text: |
+    Te dispones a eliminar la lista de la compra:
+    {item_placeholder}
+    Una vez eliminada, no se podrá volver atrás.
+
+    ¿Estás seguro?
+  text_multi: |
+    Te dispones a eliminar las listas de la compra:
+    {item_placeholder}
+    Una vez eliminadas, no se podrá volver atrás.
+
+    ¿Estás seguro?
+
+remove_button:
+  label: Eliminar lista de la compra
+
+validation:
+  title: Errores
+  ok: Lista de la compra eliminada
+  error:
+    internal_server: Ocurrió un error, inténtalo más tarde

@@ -8,6 +8,10 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Form\ListOrders\ListOrdersCreate\ListOrdersCreateForm;
 use App\Form\ListOrders\ListOrdersModify\ListOrdersModifyForm;
+use App\Form\ListOrders\ListOrdersRemoveMulti\ListOrdersRemoveMultiForm;
+use App\Form\ListOrders\ListOrdersRemove\ListOrdersRemoveForm;
+use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
+use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListOrdersHomeComponentBuilder;
 use Common\Adapter\Endpoints\ListOrdersEndpoints;
@@ -18,6 +22,7 @@ use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -45,8 +50,19 @@ class ListOrdersHomeController extends AbstractController
     {
         $listOrdersCreateForm = $this->formFactory->create(new ListOrdersCreateForm(), $requestDto->request);
         $listOrdersModifyForm = $this->formFactory->create(new ListOrdersModifyForm(), $requestDto->request);
+        $listOrdersRemoveForm = $this->formFactory->create(new ListOrdersRemoveForm(), $requestDto->request);
+        $listOrdersRemoveMultiForm = $this->formFactory->create(new ListOrdersRemoveMultiForm(), $requestDto->request);
+        $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
+
+        $this->searchBarForm($searchBarForm, $requestDto);
+        $searchBarFormFields = $this->getSearchBarFieldsValues(
+            $searchBarForm,
+            $this->controllerUrlRefererRedirect->getFlashBag($requestDto->request->attributes->get('_route'), FLASH_BAG_TYPE_SUFFIX::DATA),
+        );
+
         $listOrdersData = $this->listOrdersGetData(
             $requestDto->groupData->id,
+            $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
             $requestDto->tokenSession
@@ -56,6 +72,12 @@ class ListOrdersHomeController extends AbstractController
             $requestDto,
             $listOrdersCreateForm,
             $listOrdersModifyForm,
+            $listOrdersRemoveForm,
+            $listOrdersRemoveMultiForm,
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
+            $searchBarForm->getCsrfToken(),
             $listOrdersData['list_orders'],
             $listOrdersData['pages_total']
         );
@@ -63,15 +85,58 @@ class ListOrdersHomeController extends AbstractController
         return $this->renderTemplate($listOrdersHomeComponentDto);
     }
 
-    private function listOrdersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array
+    /**
+     * @return array<{
+     *      SEARCHBAR_FORM_FIELDS::SECTION_FILTER: string,
+     *      SEARCHBAR_FORM_FIELDS::NAME_FILTER: string,
+     *      SEARCHBAR_FORM_FIELDS::SEARCH_VALUE: string
+     * }>
+     */
+    private function getSearchBarFieldsValues(FormInterface $searchBarForm, array $flashBagData): array
+    {
+        if (!array_key_exists('searchBar', $flashBagData)) {
+            return [
+                SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SECTION_FILTER),
+                SEARCHBAR_FORM_FIELDS::NAME_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::NAME_FILTER),
+                SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+            ];
+        }
+
+        return [
+            SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
+            SEARCHBAR_FORM_FIELDS::NAME_FILTER => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::NAME_FILTER],
+            SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $flashBagData['searchBar'][SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
+        ];
+    }
+
+    private function searchBarForm(FormInterface $searchBarForm, RequestDto $requestDto): ?RedirectResponse
+    {
+        if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
+            return $this->controllerUrlRefererRedirect->createRedirectToRoute(
+                'product_home',
+                $requestDto->requestReferer->params,
+                [],
+                [],
+                ['searchBar' => [
+                    SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SECTION_FILTER),
+                    SEARCHBAR_FORM_FIELDS::NAME_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::NAME_FILTER),
+                    SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE),
+                ]]
+            );
+        }
+
+        return null;
+    }
+
+    private function listOrdersGetData(string $groupId, array $searchBarFormFields, int $page, int $pageItems, string $tokenSession): array
     {
         $listOrdersData = $this->endpoints->listOrdersGetData(
             $groupId,
             [],
             true,
-            null,
-            null,
-            null,
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             $page,
             $pageItems,
             $tokenSession
@@ -79,7 +144,7 @@ class ListOrdersHomeController extends AbstractController
 
         $listOrdersData['data']['list_orders'] = array_map(
             fn (array $listOrdersData) => ListOrdersDataResponse::fromArray($listOrdersData),
-            $listOrdersData['data']['list_orders']
+            $listOrdersData['data']['list_orders'] ?? []
         );
 
         return $listOrdersData['data'];
@@ -89,12 +154,12 @@ class ListOrdersHomeController extends AbstractController
         RequestDto $requestDto,
         FormInterface $listOrdersCreateForm,
         FormInterface $listOrdersModifyForm,
-        // FormInterface $shopRemoveForm,
-        // FormInterface $shopRemoveMultiForm,
-        // FormInterface $productCreateForm,
-        // string|null $searchBarSearchValue,
-        // string|null $searchBarNameFilterValue,
-        // string $searchBarCsrfToken,
+        FormInterface $listOrdersRemoveForm,
+        FormInterface $listOrdersRemoveMultiForm,
+        ?string $searchBarSearchValue,
+        ?string $searchBarNameFilterValue,
+        ?string $searchBarSectionFilterValue,
+        string $searchBarCsrfToken,
         array $listOrdersData,
         int $pagesTotal,
     ): ListOrdersHomeSectionComponentDto {
@@ -123,14 +188,15 @@ class ListOrdersHomeController extends AbstractController
             )
             ->searchBar(
                 $requestDto->groupData->id,
-                // $searchBarSearchValue,
-                // $searchBarNameFilterValue,
-                // $searchBarCsrfToken,
+                $searchBarSearchValue,
+                $searchBarSectionFilterValue,
+                $searchBarNameFilterValue,
+                $searchBarCsrfToken,
                 '',
                 '',
                 '',
                 ListOrdersEndpoints::GET_LIST_ORDERS_DATA,
-                $this->generateUrl('shop_home', [
+                $this->generateUrl('list_orders_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
@@ -143,14 +209,14 @@ class ListOrdersHomeController extends AbstractController
                 ]),
             )
             ->listOrdersRemoveMultiFormModal(
-                $listOrdersCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_remove', [
+                $listOrdersRemoveMultiForm->getCsrfToken(),
+                $this->generateUrl('list_orders_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->listOrdersRemoveFormModal(
-                $listOrdersCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_remove', [
+                $listOrdersRemoveForm->getCsrfToken(),
+                $this->generateUrl('list_orders_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
