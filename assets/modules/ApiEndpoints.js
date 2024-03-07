@@ -6,6 +6,7 @@ const API_DOMAIN = 'http://orderlist.api';
 const CLIENT_DOMAIN = 'http://orderlist.client';
 const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
 const GET_PRODUCTS_URL = `${API_DOMAIN}/api/v${API_VERSION}/products`;
+const GET_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/list-orders`;
 const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
 const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/create`;
 
@@ -58,7 +59,7 @@ export async function getShopsData(queryParameters) {
 
 /**
 * @param {object} queryParameters see api documentation
-* @returns string[]
+* @returns {Promise<string[]>}
 * @throws Error
 */
 export async function getShopsNames(queryParameters) {
@@ -114,7 +115,7 @@ export async function getProductsData(queryParameters) {
 
 /**
 * @param {object} queryParameters see api documentation
-* @returns string[]
+* @returns {Promise<string[]>}
 * @throws Error
 */
 export async function getProductsNames(queryParameters) {
@@ -134,9 +135,41 @@ export async function createProduct(form, submitter) {
         .replace('{locale}', url.getLocale())
         .replace('{group_name}', url.getGroupName());
 
-    form.action = createShopUrl + '?XDEBUG_SESSION=VSCODE';
+    form.action = createShopUrl;
     const formData = new FormData(form, submitter);
     const response = await fetch.createFormRequest(createShopUrl, 'POST', formData, {});
 
     return await response.json();
+}
+
+export async function getListOrdersData(queryParameters) {
+    const response = await fetch.createJsonRequest(GET_LIST_ORDERS_URL, 'GET', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (response) => {
+            return {
+                data: {
+                    page: 1,
+                    pages_total: 0,
+                    listOrders: []
+                }
+            }
+        },
+        null
+    );
+
+    responseJson.data['listOrders'] = responseJson.data.list_orders;
+    delete responseJson.data.list_orders;
+
+    return responseJson.data;
+}
+
+/**
+* @param {object} queryParameters see api documentation
+* @returns {Promise<string[]>}
+* @throws Error
+*/
+export async function getListOrdersNames(queryParameters) {
+    const responseData = await getListOrdersData(queryParameters);
+
+    return responseData.listOrders.map((listOrders) => listOrders.name);
 }
