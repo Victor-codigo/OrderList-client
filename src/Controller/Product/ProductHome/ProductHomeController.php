@@ -10,8 +10,8 @@ use App\Controller\Request\Response\ProductShopPriceDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Form\Product\ProductModify\ProductModifyForm;
-use App\Form\Product\ProductRemove\ProductRemoveForm;
 use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
+use App\Form\Product\ProductRemove\ProductRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
@@ -123,7 +123,7 @@ class ProductHomeController extends AbstractController
         ];
     }
 
-    private function searchBarForm(FormInterface $searchBarForm, RequestDto $requestDto): RedirectResponse|null
+    private function searchBarForm(FormInterface $searchBarForm, RequestDto $requestDto): ?RedirectResponse
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
@@ -230,9 +230,9 @@ class ProductHomeController extends AbstractController
         FormInterface $productRemoveForm,
         FormInterface $productRemoveMultiForm,
         FormInterface $shopCreateForm,
-        string|null $searchBarSearchValue,
-        string|null $searchBarNameFilterValue,
-        string|null $searchBarSectionFilterValue,
+        ?string $searchBarSearchValue,
+        ?string $searchBarNameFilterValue,
+        ?string $searchBarSectionFilterValue,
         string $searchBarCsrfToken,
         array $productsData,
         array $shopsData,
@@ -270,12 +270,12 @@ class ProductHomeController extends AbstractController
                 $searchBarSectionFilterValue,
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
+                ProductsEndPoint::GET_PRODUCT_DATA,
                 $this->generateUrl('product_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),
-                ProductsEndPoint::GET_PRODUCT_DATA,
             )
             ->productCreateFormModal(
                 $productCreateForm->getCsrfToken(),

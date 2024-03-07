@@ -91,7 +91,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
     }
 
-    public function productCreateFormModal(string $productCreateFormCsrfToken, float|null $productPrice, string $productCreateFormActionUrl): self
+    public function productCreateFormModal(string $productCreateFormCsrfToken, ?float $productPrice, string $productCreateFormActionUrl): self
     {
         $this->builder->setMethodStatus('productCreateModal', true);
 
@@ -199,9 +199,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
 
     public function searchBar(
         string $groupId,
-        string|null $searchValue,
-        string|null $sectionFilterValue,
-        string|null $nameFilterValue,
+        ?string $searchValue,
+        ?string $sectionFilterValue,
+        ?string $nameFilterValue,
         string $searchBarCsrfToken,
         string $searchAutoCompleteUrl,
         string $searchBarFormActionUrl,
@@ -215,8 +215,8 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             $sectionFilterValue,
             $nameFilterValue,
             $searchBarCsrfToken,
+            $searchBarFormActionUrl,
             $searchAutoCompleteUrl,
-            $searchBarFormActionUrl
         ));
 
         return $this;
@@ -245,7 +245,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         return $this->createProductHomeSectionComponentDto($this->shopsListAjaxModalDto, $this->shopCreateModalDto, $this->productInfoModalDto);
     }
 
-    private function createProductCreateComponentDto(string $productCreateFormCsrfToken, float|null $productPrice, string $productCreateFormActionUrl): ModalComponentDto
+    private function createProductCreateComponentDto(string $productCreateFormCsrfToken, ?float $productPrice, string $productCreateFormActionUrl): ModalComponentDto
     {
         $homeSectionCreateComponentDto = new ProductCreateComponentDto(
             [],
