@@ -11,11 +11,12 @@ use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 
 class ListOrdersEndpoints extends EndpointBase
 {
-    public const CREATE_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
-    public const MODIFY_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
+    public const CREATE_LIST_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
+    public const MODIFY_LIST_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
+    public const REMOVE_LIST_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
+    public const REMOVE_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/orders';
     public const GET_LIST_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
     public const GET_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
-    public const REMOVE_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
 
     private static ?self $instance = null;
 
@@ -99,7 +100,14 @@ class ListOrdersEndpoints extends EndpointBase
         );
 
         return $this->apiResponseManage($response,
-            null,
+            fn (array $responseDataError) => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 0,
+                    'list_orders' => [],
+                ],
+                'errors' => ['lists_orders_not_found' => 'List orders not found'],
+            ],
             null,
             fn (array $responseDataNoContent) => [
                 'data' => [
@@ -107,7 +115,7 @@ class ListOrdersEndpoints extends EndpointBase
                     'pages_total' => 0,
                     'list_orders' => [],
                 ],
-                'errors' => ['list_orders_not_found' => 'List orders not found'],
+                'errors' => [],
             ]
         );
     }
@@ -145,32 +153,69 @@ class ListOrdersEndpoints extends EndpointBase
     }
 
     /**
+     * @param string[] $listsOrdersId
+     *
      * @return array<{
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>
      * }>
      */
-    public function listOrdersDeleteOrders(string $groupId, string $listOrdersId, array $ordersId, string $tokenSession): array
+    public function listOrdersRemove(string $groupId, array $listsOrdersId, string $tokenSession): array
     {
-        $response = $this->requestRemoveOrder($groupId, $listOrdersId, $ordersId, $tokenSession);
+        $response = $this->requestRemoveListOrders($groupId, $listsOrdersId, $tokenSession);
 
         return $this->apiResponseManage($response);
     }
 
     /**
+     * @param string[] $listsOrdersId
+     *
      * @throws UnsupportedOptionException
      */
-    private function requestRemoveOrder(string $groupId, string $listOrderId, array $ordersId, string $tokenSession): HttpClientResponseInterface
+    private function requestRemoveListOrders(string $groupId, array $listsOrdersId, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'DELETE',
+            self::REMOVE_LIST_ORDERS,
+            HTTP_CLIENT_CONFIGURATION::json([
+                    'group_id' => $groupId,
+                    'lists_orders_id' => $listsOrdersId,
+                ],
+                $tokenSession
+            ));
+    }
+
+    /**
+     * @param string[] $listsOrdersId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function listOrdersRemoveOrders(string $groupId, array $listsOrdersId, string $tokenSession): array
+    {
+        $response = $this->requestRemoveListOrdersOrders($groupId, $listsOrdersId, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @param string[] $listsOrdersId
+     *
+     * @throws UnsupportedOptionException
+     */
+    private function requestRemoveListOrdersOrders(string $groupId, array $listsOrdersId, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'DELETE',
             self::REMOVE_LIST_ORDERS_ORDERS,
             HTTP_CLIENT_CONFIGURATION::json([
-                'list_orders_id' => $listOrderId,
-                'group_id' => $groupId,
-                'orders_id' => $ordersId,
-            ], $tokenSession)
-        );
+                    'lists_orders_id' => $listsOrdersId,
+                    'group_id' => $groupId,
+                ],
+                $tokenSession
+            ));
     }
 
     /**
@@ -197,7 +242,7 @@ class ListOrdersEndpoints extends EndpointBase
     {
         return $this->httpClient->request(
             'POST',
-            self::CREATE_LIST_ORDERS_ORDERS,
+            self::CREATE_LIST_ORDERS,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                     'group_id' => $groupId,
                     'name' => $name,
@@ -233,7 +278,7 @@ class ListOrdersEndpoints extends EndpointBase
     {
         return $this->httpClient->request(
             'PUT',
-            self::CREATE_LIST_ORDERS_ORDERS,
+            self::CREATE_LIST_ORDERS,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                     'group_id' => $groupId,
                     'list_orders_id' => $listOrdersId,

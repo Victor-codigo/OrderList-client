@@ -43,9 +43,24 @@ interface EndpointsInterface
     public function listOrdersModify(string $groupId, string $listOrdersId, string $name, ?string $description, ?\DateTime $dateToBuy, string $tokenSession): array;
 
     /**
-     * @return array<string, array> "data" and "errors" as index
+     * @param string[] $listsOrdersId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
      */
-    public function listOrdersDeleteOrders(string $groupId, string $listOrdersId, array $ordersId, string $tokenSession): array;
+    public function listOrdersRemove(string $groupId, array $listsOrdersId, string $tokenSession): array;
+
+    /**
+     * @param string[] $listsOrdersId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function listOrdersRemoveOrders(string $groupId, array $listsOrdersId, string $tokenSession): array;
 
     public function groupGetDataByName(string $groupName, string $tokenSession): array;
 
