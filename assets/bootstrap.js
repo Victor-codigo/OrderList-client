@@ -50,6 +50,10 @@ import ListOrdersInfoComponent from 'App/Twig/Components/ListOrders/ListOrdersIn
 import ListOrdersModifyComponent from 'App/Twig/Components/ListOrders/ListOrdersModify/ListOrdersModify_controller';
 import ListOrdersRemoveComponent from 'App/Twig/Components/ListOrders/ListOrdersRemove/ListOrdersRemoveComponent_controller';
 
+// ORDERS
+import OrderHomeSectionComponent from 'App/Twig/Components/Order/OrderHome/Home/OrderHomeSection_controller';
+import OrderListItemComponent from 'App/Twig/Components/Order/OrderHome/ListItem/OrderListItem_controller';
+
 // SHOP
 import ShopHomeSectionComponent from 'App/Twig/Components/Shop/ShopHome/Home/ShopHomeSection_controller';
 import ShopCreateComponent from 'App/Twig/Components/Shop/ShopCreate/ShopCreate_controller';
@@ -131,6 +135,10 @@ app.register('ListOrdersCreateComponent', ListOrdersCreateComponent);
 app.register('ListOrdersInfoComponent', ListOrdersInfoComponent);
 app.register('ListOrdersModifyComponent', ListOrdersModifyComponent);
 app.register('ListOrdersRemoveComponent', ListOrdersRemoveComponent);
+
+// ORDERS
+app.register('OrderHomeSectionComponent', OrderHomeSectionComponent);
+app.register('OrderListItemComponent', OrderListItemComponent);
 
 
 // SHOP

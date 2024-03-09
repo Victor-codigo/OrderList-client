@@ -8,12 +8,13 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 
-class OrdersEndpoints extends EndpointBase
+class OrdersEndpoint extends EndpointBase
 {
     private const DELETE_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
     private const GET_ORDERS_GROUP = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders/group/{group_id}';
+    public const GET_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
 
-    private static self|null $instance = null;
+    private static ?self $instance = null;
 
     private function __construct(
         private HttpClientInterface $httpClient
@@ -64,24 +65,26 @@ class OrdersEndpoints extends EndpointBase
      *    orders: array<int, array>
      * }>
      */
-    public function ordersGroupGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array
+    public function ordersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array
     {
-        $response = $this->requestGetOrdersGroup($groupId, $page, $pageItems, $tokenSession);
+        $response = $this->requestOrdersGetData($groupId, $page, $pageItems, $tokenSession);
 
-        return $this->apiResponseManage($response,
-            fn (array $responseDataError) => [
-                'page' => $page,
-                'pages_total' => 0,
-                'orders' => [],
+        return $this->apiResponseManage($response, null, null,
+            fn (array $responseDataNoContent) => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 0,
+                    'orders' => [],
+                ],
+                'errors' => [],
             ],
-            fn (array $responseDataOk) => $responseDataOk['data']
         );
     }
 
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestGetOrdersGroup(string $groupId, int $page, int $pageItems, string $tokenSession): HttpClientResponseInterface
+    private function requestOrdersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): HttpClientResponseInterface
     {
         $urlEndpoint = str_replace('{group_id}', $groupId, self::GET_ORDERS_GROUP);
 

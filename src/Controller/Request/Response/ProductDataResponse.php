@@ -12,20 +12,20 @@ class ProductDataResponse
         public readonly string $id,
         public readonly string $groupId,
         public readonly string $name,
-        public readonly string|null $description,
-        public readonly string|null $image,
+        public readonly ?string $description,
+        public readonly ?string $image,
         public readonly \DateTimeImmutable $createdOn,
     ) {
     }
 
     public static function fromArray(array $data): self
     {
-        if (!isset($data['id'])
-        || !isset($data['group_id'])
-        || !isset($data['name'])
+        if (!array_key_exists('id', $data)
+        || !array_key_exists('group_id', $data)
+        || !array_key_exists('name', $data)
         || !array_key_exists('description', $data)
         || !array_key_exists('image', $data)
-        || !isset($data['created_on'])) {
+        || !array_key_exists('created_on', $data)) {
             throw new \InvalidArgumentException('Not all product parameters are provided');
         }
 

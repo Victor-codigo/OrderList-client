@@ -113,14 +113,14 @@ class Endpoints implements EndpointsInterface
      *                              pages_total -> int,
      *                              orders -> array of orders
      */
-    public function ordersGroupGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array
+    public function ordersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array
     {
-        return OrdersEndpoints::getInstance($this->httpClient)->ordersGroupGetData($groupId, $page, $pageItems, $tokenSession);
+        return OrdersEndpoint::getInstance($this->httpClient)->ordersGetData($groupId, $page, $pageItems, $tokenSession);
     }
 
     public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array
     {
-        return OrdersEndpoints::getInstance($this->httpClient)->ordersDelete($groupId, $ordersId, $tokenSession);
+        return OrdersEndpoint::getInstance($this->httpClient)->ordersDelete($groupId, $ordersId, $tokenSession);
     }
 
     /**

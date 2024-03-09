@@ -69,7 +69,7 @@ interface EndpointsInterface
      *                              pages_total -> int,
      *                              orders -> array of orders
      */
-    public function ordersGroupGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array;
+    public function ordersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array;
 
     public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array;
 
