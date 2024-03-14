@@ -6,6 +6,7 @@ const API_DOMAIN = 'http://orderlist.api';
 const CLIENT_DOMAIN = 'http://orderlist.client';
 const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
 const GET_PRODUCTS_URL = `${API_DOMAIN}/api/v${API_VERSION}/products`;
+const GET_PRODUCTS_SHOPS_PRICE_URL = `${API_DOMAIN}/api/v${API_VERSION}/products/price`;
 const GET_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/list-orders`;
 const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
 const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/create`;
@@ -42,7 +43,7 @@ export async function executeEndPointByName(endpointName, queryParameters) {
 export async function getShopsData(queryParameters) {
     const response = await fetch.createJsonRequest(GET_SHOPS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
-        (response) => {
+        (responseDataNoContent) => {
             return {
                 data: {
                     page: 1,
@@ -51,6 +52,7 @@ export async function getShopsData(queryParameters) {
                 }
             }
         },
+        null,
         null
     );
 
@@ -98,7 +100,7 @@ export async function createShop(form, submitter) {
 export async function getProductsData(queryParameters) {
     const response = await fetch.createJsonRequest(GET_PRODUCTS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
-        (response) => {
+        (responseDataNoContent) => {
             return {
                 data: {
                     page: 1,
@@ -107,6 +109,7 @@ export async function getProductsData(queryParameters) {
                 }
             }
         },
+        null,
         null
     );
 
@@ -142,10 +145,54 @@ export async function createProduct(form, submitter) {
     return await response.json();
 }
 
+/**
+ * @param {string} groupId
+ * @param {string[]} productsId
+ * @param {string[]} shopsId
+ *
+ * @returns {Promise<{
+*      'page': number,
+*      'pages_total': number,
+*      'products_shops_prices': object[]
+* }>}
+* @throws Error
+*/
+export async function getProductShopsPricesData(groupId, productsId, shopsId) {
+    const queryParameters = {
+        'group_id': groupId,
+        'products_id': productsId.join(','),
+        'shops': shopsId.join(',')
+    };
+    const response = await fetch.createJsonRequest(GET_PRODUCTS_SHOPS_PRICE_URL, 'GET', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (responseDataNoContent) => {
+            return {
+                data: {
+                    page: 1,
+                    pages_total: 0,
+                    products_shops_prices: []
+                }
+            }
+        },
+        null,
+        (responseDataOk) => {
+            return {
+                data: {
+                    page: 1,
+                    pages_total: 1,
+                    products_shops_prices: responseDataOk
+                }
+            }
+        }
+    );
+
+    return responseJson.data;
+}
+
 export async function getListOrdersData(queryParameters) {
     const response = await fetch.createJsonRequest(GET_LIST_ORDERS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
-        (response) => {
+        (responseDataNoContent) => {
             return {
                 data: {
                     page: 1,
@@ -154,6 +201,7 @@ export async function getListOrdersData(queryParameters) {
                 }
             }
         },
+        null,
         null
     );
 
