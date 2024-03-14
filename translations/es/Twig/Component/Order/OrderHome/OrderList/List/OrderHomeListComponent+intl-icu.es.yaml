@@ -1,0 +1,4 @@
+home_list_empty:
+  message: No hay pedidos
+  icon:
+    alt: La lista no contiene pedidos

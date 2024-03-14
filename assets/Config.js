@@ -1,3 +1,5 @@
+import * as url from 'App/modules/Url';
+
 export const MODAL_CHAINS = {
     productCreateChain: {
         name: 'productCreateChain',
@@ -106,6 +108,23 @@ export const MODAL_CHAINS = {
             }
         }
     },
+
+    orderCreateChain: {
+        name: 'orderCreateChain',
+        modals: {
+            orderCreate: {
+                name: 'order_create',
+                modalId: 'order_create_modal',
+                open: {
+                    productsListModal: 'order_product_list_select_modal'
+                }
+            },
+            orderProductList: {
+                name: 'productList',
+                modalId: 'order_product_list_select_modal',
+            }
+        }
+    },
 };
 
 /**
@@ -133,6 +152,48 @@ export const dateTimeFormat = {
  * @type {string}
  */
 export const CURRENCY = '€';
+
+export const UNIT_MEASURE = {
+    /**
+     * @param {string} unit
+     * @param {boolean} plural
+     * @returns {string}
+     */
+    translate: (unit, plural) => {
+        if (typeof UNIT_MEASURE[unit] === 'undefined') {
+            return unit;
+        }
+
+        if (unit !== UNIT_MEASURE.UNITS) {
+            return UNIT_MEASURE[unit];
+        }
+
+        const locale = url.getLocale();
+
+        if (locale === 'en') {
+            return plural ? 'Units' : 'Unit';
+        }
+
+        return plural ? 'Unidades' : 'Unidad';
+    },
+
+    UNITS: 'UNITS',
+
+    KG: 'Kg',
+    G: 'g',
+    CG: 'cg',
+
+    M: 'm',
+    DM: 'dm',
+    CM: 'cm',
+    MM: 'mm',
+
+    L: 'l',
+    DL: 'dl',
+    CL: 'dl',
+    ML: 'ml',
+};
+
 
 /**
  * @typedef {Object} ItemData

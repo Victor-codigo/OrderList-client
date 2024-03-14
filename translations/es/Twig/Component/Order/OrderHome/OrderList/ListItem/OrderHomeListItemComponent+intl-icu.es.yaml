@@ -1,0 +1,15 @@
+order_remove_button:
+  title: Elimina el pedido
+  alt: Botón para eliminar el pedido
+
+order_modify_button:
+  title: Modifica el pedido
+  alt: Botón para modificar el pedido
+
+order_info_button:
+  title: Muestra información del pedido
+  alt: Botón para mostrar información del pedido
+
+order_image:
+  title: Imagen del pedido
+  alt: Imagen del pedido

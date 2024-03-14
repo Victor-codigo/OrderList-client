@@ -13,22 +13,20 @@ use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
 use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
+use App\Twig\Components\Order\OrderCreate\OrderCreateComponent;
+use App\Twig\Components\Order\OrderCreate\OrderCreateComponentDto;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
 use App\Twig\Components\Order\OrderHome\ListItem\OrderListItemComponent;
 use App\Twig\Components\Order\OrderHome\ListItem\OrderListItemComponentDto;
+use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxComponent;
+use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxComponentDto;
 use App\Twig\Components\PaginatorJs\PaginatorJsComponentDto;
-use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponent;
-use App\Twig\Components\Shop\ShopCreateAjax\ShopCreateAjaxComponentDto;
-use App\Twig\Components\Shop\ShopCreate\ShopCreateComponent;
-use App\Twig\Components\Shop\ShopCreate\ShopCreateComponentDto;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponent;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponentDto;
 use App\Twig\Components\Shop\ShopModify\ShopModifyComponent;
 use App\Twig\Components\Shop\ShopModify\ShopModifyComponentDto;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponent;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponentDto;
-use App\Twig\Components\Shop\ShopsListAjax\ShopsListAjaxComponent;
-use App\Twig\Components\Shop\ShopsListAjax\ShopsListAjaxComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -40,20 +38,18 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private const ORDER_DELETE_MODAL_ID = 'order_delete_modal';
     private const ORDER_MODIFY_MODAL_ID = 'order_modify_modal';
     private const ORDER_INFO_MODAL_ID = 'order_info_modal';
-    private const SHOP_LIST_MODAL_ID = 'shop_list_select_modal';
-    private const SHOP_CREATE_MODAL_ID = 'shop_create_modal';
+    private const ORDER_PRODUCT_LIST_MODAL_ID = 'order_product_list_select_modal';
 
     private const ORDER_HOME_COMPONENT_NAME = 'OrderHomeComponent';
     private const ORDER_HOME_LIST_COMPONENT_NAME = 'OrderHomeListComponent';
     private const ORDER_HOME_LIST_ITEM_COMPONENT_NAME = 'OrderHomeListItemComponent';
 
-    private const SHOP_LIST_PAGE_NUM_ITEMS = Config::MODAL_LIST_ITEMS_MAX_NUMBER;
-    private const SHOP_LIST_RESPONSE_INDEX_NAME = 'shops';
+    private const ORDER_PRODUCT_LIST_PAGE_NUM_ITEMS = Config::MODAL_LIST_ITEMS_MAX_NUMBER;
+    private const ORDER_PRODUCT_LIST_RESPONSE_INDEX_NAME = 'products';
 
     private readonly DtoBuilder $builder;
     private readonly HomeSectionComponentDto $homeSectionComponentDto;
-    private readonly ModalComponentDto $shopsListAjaxModalDto;
-    private readonly ModalComponentDto $shopCreateModalDto;
+    private readonly ModalComponentDto $productsListAjaxModalDto;
     private readonly ModalComponentDto $orderInfoModalDto;
 
     /**
@@ -68,8 +64,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             'orderModifyFormModal',
             'orderRemoveMultiModal',
             'orderRemoveFormModal',
-            'shopsListModal',
-            'shopCreateModal',
+            'productsListModal',
             'errors',
             'pagination',
             'listItems',
@@ -80,12 +75,12 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
     }
 
-    public function orderCreateFormModal(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl): self
+    public function orderCreateFormModal(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId): self
     {
         $this->builder->setMethodStatus('orderCreateModal', true);
 
         $this->homeSectionComponentDto->createFormModal(
-            $this->createOrderCreateComponentDto($orderCreateFormCsrfToken, $orderPrice, $orderCreateFormActionUrl)
+            $this->createOrderCreateComponentDto($orderCreateFormCsrfToken, $orderPrice, $orderCreateFormActionUrl, $groupId)
         );
 
         return $this;
@@ -124,20 +119,11 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function shopsListModal(string $groupId, string $urlPathToShopImages, string $urlImageShopNoImage): self
+    public function productsListModal(string $groupId, string $urlPathToProductImages, string $urlImageProductNoImage): self
     {
-        $this->builder->setMethodStatus('shopsListModal', true);
+        $this->builder->setMethodStatus('productsListModal', true);
 
-        $this->shopsListAjaxModalDto = $this->createShopListItemsModalDto($groupId, $urlPathToShopImages, $urlImageShopNoImage);
-
-        return $this;
-    }
-
-    public function shopCreateModal(string $groupId, string $csrfToken, string $shopCreateFormActionUrl): self
-    {
-        $this->builder->setMethodStatus('shopCreateModal', true);
-
-        $this->shopCreateModalDto = $this->createShopModalDto($groupId, $csrfToken, $shopCreateFormActionUrl);
+        $this->productsListAjaxModalDto = $this->createProductListItemsModalDto($groupId, $urlPathToProductImages, $urlImageProductNoImage);
 
         return $this;
     }
@@ -229,25 +215,26 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
         $this->orderInfoModalDto = $this->createOrderInfoModalDto();
 
-        return $this->createOrderHomeSectionComponentDto(/* $this->shopsListAjaxModalDto, */ $this->shopCreateModalDto/* , $this->orderInfoModalDto */);
+        return $this->createOrderHomeSectionComponentDto($this->productsListAjaxModalDto/*  $this->orderInfoModalDto */);
     }
 
-    private function createOrderCreateComponentDto(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl): ModalComponentDto
+    private function createOrderCreateComponentDto(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId): ModalComponentDto
     {
-        $homeSectionCreateComponentDto = new ShopCreateComponentDto(
+        $homeSectionCreateComponentDto = new OrderCreateComponentDto(
             [],
             '',
             $orderPrice,
             $orderCreateFormCsrfToken,
             false,
             mb_strtolower($orderCreateFormActionUrl),
+            $groupId
         );
 
         return new ModalComponentDto(
             self::ORDER_CREATE_MODAL_ID,
             '',
             false,
-            ShopCreateComponent::getComponentName(),
+            OrderCreateComponent::getComponentName(),
             $homeSectionCreateComponentDto,
             []
         );
@@ -315,7 +302,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             $orderModifyFormCsrfToken,
             false,
             mb_strtolower($orderModifyFormActionUrlPlaceholder),
-            self::SHOP_LIST_MODAL_ID,
+            self::ORDER_PRODUCT_LIST_MODAL_ID,
             self::ORDER_MODIFY_MODAL_ID
         );
 
@@ -351,55 +338,34 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createShopListItemsModalDto(string $groupId, string $urlPathToShopImages, string $urlImageShopNoImage): ModalComponentDto
+    private function createProductListItemsModalDto(string $groupId, string $urlPathToProductImages, string $urlImageProductNoImage): ModalComponentDto
     {
         $pageCurrent = 1;
         $contentLoaderJsDto = new ContentLoaderJsComponentDto(
-            'getShopsData',
+            'getProductsData',
             [
                 'group_id' => $groupId,
                 'page' => $pageCurrent,
-                'page_items' => self::SHOP_LIST_PAGE_NUM_ITEMS,
+                'page_items' => self::ORDER_PRODUCT_LIST_PAGE_NUM_ITEMS,
             ],
-            self::SHOP_LIST_RESPONSE_INDEX_NAME,
+            self::ORDER_PRODUCT_LIST_RESPONSE_INDEX_NAME,
         );
         $paginatorJsDto = new PaginatorJsComponentDto($pageCurrent, 1);
         $paginatorContentLoaderJsDto = new PaginatorContentLoaderJsComponentDto($contentLoaderJsDto, $paginatorJsDto);
 
-        $shopListAjaxComponentDto = new ShopsListAjaxComponentDto(
-            ShopsListAjaxComponent::getComponentName(),
+        $orderProductListAjaxComponentDto = new OrderProductsListAjaxComponentDto(
+            OrderProductsListAjaxComponent::getComponentName(),
             $paginatorContentLoaderJsDto,
-            $urlPathToShopImages,
-            $urlImageShopNoImage,
+            $urlPathToProductImages,
+            $urlImageProductNoImage,
         );
 
         return new ModalComponentDto(
-            self::SHOP_LIST_MODAL_ID,
+            self::ORDER_PRODUCT_LIST_MODAL_ID,
             '',
             false,
-            ShopsListAjaxComponent::getComponentName(),
-            $shopListAjaxComponentDto,
-            []
-        );
-    }
-
-    private function createShopModalDto(string $groupId, string $csrfToken, string $shopCreateFormActionUrl): ModalComponentDto
-    {
-        $shopCreateComponentDto = new ShopCreateComponentDto(
-            [],
-            null,
-            null,
-            $csrfToken,
-            false,
-            $shopCreateFormActionUrl,
-        );
-
-        return new ModalComponentDto(
-            self::SHOP_CREATE_MODAL_ID,
-            '',
-            false,
-            ShopCreateAjaxComponent::getComponentName(),
-            new ShopCreateAjaxComponentDto($groupId, $shopCreateComponentDto),
+            OrderProductsListAjaxComponent::getComponentName(),
+            $orderProductListAjaxComponentDto,
             []
         );
     }
@@ -425,18 +391,15 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return new HomeSectionComponentDto();
     }
 
-    private function createOrderHomeSectionComponentDto(/* ModalComponentDto $orderListItemsModalDto,  ModalComponentDto $orderCreateModalDto , ModalComponentDto $orderInfoModalDto */): OrderHomeSectionComponentDto
+    private function createOrderHomeSectionComponentDto(ModalComponentDto $productListItemsModalDto/*   ModalComponentDto $orderInfoModalDto */): OrderHomeSectionComponentDto
     {
         return (new OrderHomeSectionComponentDto())
             ->homeSection(
                 $this->homeSectionComponentDto
             )
-            // ->listItemsModal(
-            //     $orderListItemsModalDto
-            // )
-            // ->shopCreateModal(
-            //     $orderCreateModalDto
-            // )
+            ->listItemsModal(
+                $productListItemsModalDto
+            )
             // ->orderInfoModal(
             //     $orderInfoModalDto
             // )

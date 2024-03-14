@@ -1,0 +1,9 @@
+title: List of orders
+
+home_section_add:
+  label: Add a new order
+  title: Add a new order to the list
+
+home_section_remove_multiple:
+  label: Delete selected orders
+  title: Remove selected orders from the list
