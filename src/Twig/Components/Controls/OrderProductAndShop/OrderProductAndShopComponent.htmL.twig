@@ -1,0 +1,83 @@
+<div data-controller="OrderProductAndShopComponent"
+     data-action="OrderProductAndShopComponent:setProductData->OrderProductAndShopComponent#handleMessageSetProductData
+                  OrderProductAndShopComponent:clear->OrderProductAndShopComponent#handleMessageClear"
+     class="item-add-component  d-flex  flex-column">
+
+    <div class="mb-3">
+
+        <input type="hidden"
+               name="{{ data.productIdFieldName }}"
+               data-js-product-id-select>
+
+        <label class="form-label  w-100"
+               for="order_product_name">
+            {{ lang.productLabel }}
+        </label>
+
+        <div class="d-flex  flex-row">
+            <div class="input-group">
+                <input type="text"
+                       class="form-control  rounded-0  rounded-start"
+                       id="order_product_name"
+                       placeholder="{{ lang.productPlaceholder }}"
+                       readonly
+                       {{
+                       data.productIdFieldRequired
+                       ? 'required'
+                       : ''
+                       }}
+                       data-js-product-select-name>
+
+                <button class="btn  btn-primary  rounded-0  rounded-end"
+                        type="button"
+                        title="{{ lang.productButtonTitle }}"
+                        alt="{{ lang.productButtonAlt }}"
+                        data-js-product-select-button>
+
+                    {{ lang.productButtonLabel }}
+                </button>
+
+                <div class="invalid-feedback">
+                    {{ lang.productMsgInvalid }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label"
+               for="{{ data.shopIdFieldName }}">
+            {{ lang.shopLabel }}
+        </label>
+        <span class="spinner-border spinner-border-sm  text-primary  ms-2"
+              aria-hidden="true"
+              hidden
+              data-js-spinner></span>
+
+        <div class="input-group">
+
+            <select class="form-select"
+                    id="{{ data.shopIdFieldName }}"
+                    name="{{ data.shopIdFieldName }}"
+                    {{
+                    data.shopIdFieldRequired
+                    ? 'required'
+                    : ''
+                    }}
+                    disabled
+                    data-js-shop-select>
+            </select>
+            <span class="input-group-text  w-25  justify-content-center"
+                  data-js-product-price>
+            </span>
+        </div>
+
+        <div class="invalid-feedback">
+            {{ lang.shopMsgInvalid }}
+        </div>
+
+    </div>
+
+</div>

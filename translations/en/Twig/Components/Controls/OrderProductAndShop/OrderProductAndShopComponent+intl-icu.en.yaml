@@ -1,0 +1,13 @@
+product:
+  label: Product
+  placeholder: Select a product
+  msg_error: The product selected is not valid
+
+product_button_select:
+  label: Select
+  title: Select a product
+  alt: Select a product
+
+shop:
+  label: Shop
+  msg_error: The shop selected is not valid
