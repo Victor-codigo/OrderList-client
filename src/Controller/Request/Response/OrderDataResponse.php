@@ -36,6 +36,15 @@ class OrderDataResponse
 
         $data['product']['group_id'] = $data['group_id'];
 
+        if (!empty($data['shop'])) {
+            $data['shop']['group_id'] = $data['group_id'];
+        }
+
+        if (!empty($data['productShop'])) {
+            $data['productShop']['product_id'] = $data['product']['id'];
+            $data['productShop']['shop_id'] = $data['shop']['id'];
+        }
+
         return new self(
             $data['id'],
             $data['group_id'],

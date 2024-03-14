@@ -7,6 +7,7 @@ namespace App\Controller\Order\OrderHome;
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
+use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
@@ -50,7 +51,7 @@ class OrderHomeController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
-        // $orderCreateForm = $this->formFactory->create(new OrderCreateForm(), $requestDto->request);
+        $orderCreateForm = $this->formFactory->create(new OrderCreateForm(), $requestDto->request);
         // $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
         // $orderRemoveForm = $this->formFactory->create(new OrderRemoveForm(), $requestDto->request);
         // $orderRemoveMultiForm = $this->formFactory->create(new OrderRemoveMultiForm(), $requestDto->request);
@@ -73,7 +74,7 @@ class OrderHomeController extends AbstractController
 
         $orderHomeComponentDto = $this->createOrderHomeComponentDto(
             $requestDto,
-            // $orderCreateForm,
+            $orderCreateForm,
             // $orderModifyForm,
             // $orderRemoveForm,
             // $orderRemoveMultiForm,
@@ -190,7 +191,7 @@ class OrderHomeController extends AbstractController
 
     private function createOrderHomeComponentDto(
         RequestDto $requestDto,
-        // FormInterface $orderCreateForm,
+        FormInterface $orderCreateForm,
         // FormInterface $orderModifyForm,
         // FormInterface $orderRemoveForm,
         // FormInterface $orderRemoveMultiForm,
@@ -239,11 +240,12 @@ class OrderHomeController extends AbstractController
                 ]),
             )
             ->orderCreateFormModal(
-                '',// $orderCreateForm->getCsrfToken(),
+                $orderCreateForm->getCsrfToken(),
                 null,
-                $this->generateUrl('product_create', [
+                $this->generateUrl('order_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
+                $requestDto->groupData->id
             )
             ->orderRemoveMultiFormModal(
                 '',// $orderRemoveMultiForm->getCsrfToken(),
@@ -264,17 +266,10 @@ class OrderHomeController extends AbstractController
                     'product_name' => self::ORDER_NAME_PLACEHOLDER,
                 ]),
             )
-            ->shopsListModal(
+            ->productsListModal(
                 $requestDto->groupData->id,
-                Config::API_IMAGES_SHOP_PATH,
-                Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
-            )
-            ->shopCreateModal(
-                $requestDto->groupData->id,
-                '',// $shopCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_create', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                ]),
+                Config::API_IMAGES_PRODUCTS_PATH,
+                Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
             )
             ->build();
     }
