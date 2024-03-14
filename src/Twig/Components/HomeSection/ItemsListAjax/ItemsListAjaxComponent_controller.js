@@ -71,7 +71,6 @@ export default class ItemsListAjaxController extends Controller {
         this.#createItemButtonTag = this.element.querySelector('[data-js-create-item-button]');
 
         this.#backButtonTag.addEventListener('click', this.#openModalBefore.bind(this));
-        this.#createItemButtonTag.addEventListener('click', this.openModalCreateItem.bind(this))
         event.addEventListenerDelegate({
             element: this.element,
             elementDelegateSelector: '[data-js-list-items-item]',
@@ -79,6 +78,10 @@ export default class ItemsListAjaxController extends Controller {
             callbackListener: this.#openModalItemSelected.bind(this),
             eventOptions: {}
         });
+
+        if (this.#createItemButtonTag !== null) {
+            this.#createItemButtonTag.addEventListener('click', this.openModalCreateItem.bind(this))
+        }
     }
 
     disconnect() {

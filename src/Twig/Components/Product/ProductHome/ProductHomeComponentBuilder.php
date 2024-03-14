@@ -467,14 +467,14 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         return new HomeSectionComponentDto();
     }
 
-    private function createProductHomeSectionComponentDto(ModalComponentDto $productListItemsModalDto, ModalComponentDto $productCreateModalDto, ModalComponentDto $productInfoModalDto): ProductHomeSectionComponentDto
+    private function createProductHomeSectionComponentDto(ModalComponentDto $shopListItemsModalDto, ModalComponentDto $productCreateModalDto, ModalComponentDto $productInfoModalDto): ProductHomeSectionComponentDto
     {
         return (new ProductHomeSectionComponentDto())
             ->homeSection(
                 $this->homeSectionComponentDto
             )
             ->listItemsModal(
-                $productListItemsModalDto
+                $shopListItemsModalDto
             )
             ->shopCreateModal(
                 $productCreateModalDto

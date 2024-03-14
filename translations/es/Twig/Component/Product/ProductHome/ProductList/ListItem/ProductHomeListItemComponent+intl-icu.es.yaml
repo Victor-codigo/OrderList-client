@@ -8,7 +8,7 @@ product_modify_button:
 
 product_info_button:
   title: Muestra información del producto
-  alt: Botón para mostrar información del product
+  alt: Botón para mostrar información del producto
 
 product_image:
   title: Imagen del producto

@@ -1,5 +1,4 @@
 import * as event from 'App/modules/Event';
-import { MODAL_CHAINS } from 'App/Config';
 
 /**
  * @type {HTMLElement|null}

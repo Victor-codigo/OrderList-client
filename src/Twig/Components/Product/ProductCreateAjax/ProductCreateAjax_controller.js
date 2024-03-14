@@ -66,7 +66,6 @@ export default class extends Controller {
     async #submitFromHandler(event) {
         event.preventDefault();
 
-        console.log(this.#formTag);
         if (!this.#formTag.checkValidity()) {
             return;
         }

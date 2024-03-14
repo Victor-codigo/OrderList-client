@@ -14,6 +14,9 @@
     <hr class="border border-second border-1 opacity-50  mt-5">
 
     <div class="d-flex  justify-content-end">
+
+        {% block buttons %}
+
         <button type="button"
                 class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
                 data-js-back-button>
@@ -31,5 +34,7 @@
 
             {{ lang.buttonCreateItemLabel }}
         </button>
+
+        {% endblock buttons %}
     </div>
 </div>
