@@ -1,0 +1,16 @@
+{% extends "Components/HomeSection/ItemsListAjax/ItemsListAjaxComponent.html.twig" %}
+
+{% block buttons %}
+
+<button type="button"
+        class="btn  btn-secondary  w-100"
+        data-js-back-button>
+
+    {% include "arrow-back-icon-white-24x24.svg" %}
+
+    <span>
+        {{ lang.buttonBackLabel }}
+    </span>
+</button>
+
+{% endblock buttons %}

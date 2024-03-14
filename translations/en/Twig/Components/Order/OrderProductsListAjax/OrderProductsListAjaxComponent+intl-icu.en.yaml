@@ -1,0 +1,10 @@
+title: Products
+
+button_back:
+  label: Back
+
+button_create_product:
+  label: Crete product
+
+product_image:
+  title: Image of product {item_name}
