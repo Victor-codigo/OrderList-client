@@ -1,0 +1,100 @@
+<form id="{{ formName }}"
+	  name="{{ formName }}"
+	  data-controller="OrderCreateComponent"
+	  data-action="ModalComponent:beforeShowed->OrderCreateComponent#handleMessageBeforeShowed
+	  			   OrderProductAndShopComponent:productSelected->OrderCreateComponent#handleOrderProductSelected
+				   OrderProductAndShopComponent:shopSelected->OrderCreateComponent#handleOrderShopSelected"
+	  class="contaniner  p-4  pt-0"
+	  method="post"
+	  enctype="multipart/form-data"
+	  action="{{ data.orderCreateFormActionUrl|escape('html_attr') }}"
+	  novalidate
+	  data-group-id="{{ data.groupId }}"
+	  data-modal-component-content>
+
+	<input type="hidden"
+		   name="{{ tokenCsrfFieldName }}"
+		   value="{{ data.csrfToken }}" />
+
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
+	{% block validation %}
+
+	{% if lang.validationErrors %}
+	{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{% endif %}
+
+	{% endblock validation %}
+
+	{{ component('OrderProductAndShopComponent', { data: orderProductAndShopComponentDto }) }}
+
+	<div class="mb-3">
+		<label class="form-label  w-100"
+			   for="{{ amountFieldName }}">
+			{{ lang.amountLabel }}
+		</label>
+
+		<div class="input-group">
+			<input type="text"
+				   class="form-control"
+				   id="{{ amountFieldName }}"
+				   name="{{ amountFieldName }}"
+				   placeholder="{{ lang.amountPlaceholder }}"
+				   pattern="^[+]?[1-9]+([.]\d+)?$"
+				   value="1"
+				   data-js-amount />
+			<span class="input-group-text  w-25  justify-content-center"
+				  data-js-amount-unit>
+			</span>
+
+			<div class="invalid-feedback">
+				{{ lang.amountMsgInvalid }}
+			</div>
+		</div>
+	</div>
+
+	<div class="mb-3">
+		<label class="form-label  w-100"
+			   for="{{ descriptionFieldName }}">
+			{{ lang.descriptionLabel }}
+		</label>
+
+		<textarea class="form-control"
+				  id="{{ descriptionFieldName }}"
+				  name="{{ descriptionFieldName }}"
+				  maxlength="500"
+				  placeholder="{{ lang.descriptionPlaceholder }}"></textarea>
+
+		<div class="invalid-feedback">
+			{{ lang.descriptionMsgInvalid }}
+		</div>
+	</div>
+
+	<div class="mb-3">
+		<p class="w-100  text-end  display-6">
+			<span>TOTAL:</span>
+			<span data-js-total>0</span>
+		</p>
+	</div>
+
+
+	<div class="d-flex  flex-row  mt-5">
+
+		{% block buttons %}
+
+		<button type="button"
+				class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+				data-action="OrderCreateComponent#modalClose">
+
+			{% include "arrow-back-icon-white-24x24.svg" %}
+			{{ lang.closeButton }}
+		</button>
+
+		<input type="submit"
+			   class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
+			   name="{{ submitFieldName }}"
+			   value="{{ lang.orderCreateButton }}" />
+
+		{% endblock buttons %}
+	</div>
+</form>

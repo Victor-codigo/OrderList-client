@@ -1,0 +1,26 @@
+title:
+  main: Create order
+  product: Product
+  shop: Shop
+
+description:
+  label: Description
+  placeholder: Enter a description
+  msg_invalid: The description is not invalid
+
+amount:
+  label: Amount
+  placeholder: Enter an amount of product
+  msg_invalid: The amount is not valid
+
+order_create_button:
+  label: Create the order
+
+close_button:
+  label: Close
+
+validation:
+  title: Errors
+  ok: Order created
+  error:
+    internal_server: An error has been occurred, try it later

@@ -1,0 +1,26 @@
+title:
+  main: Crear pedido
+  product: Producto
+  shop: Tienda
+
+description:
+  label: Descripción
+  placeholder: Introduce una descripción
+  msg_invalid: La descripción del pedido no es válida
+
+amount:
+  label: Cantidad de producto
+  placeholder: Introduce una cantidad de producto
+  msg_invalid: La cantidad de producto no es válida
+
+order_create_button:
+  label: Crear el pedido
+
+close_button:
+  label: Cerrar
+
+validation:
+  title: Errores
+  ok: Pedido creado
+  error:
+    internal_server: Ocurrió un error, inténtalo más tarde
