@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Adapter\Endpoints;
 
+use Common\Adapter\Endpoints\Dto\OrderDataDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
@@ -13,6 +14,7 @@ class OrdersEndpoint extends EndpointBase
     private const DELETE_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
     private const GET_ORDERS_GROUP = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders/group/{group_id}';
     public const GET_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
+    public const POST_ORDER_CRETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
 
     private static ?self $instance = null;
 
@@ -31,6 +33,8 @@ class OrdersEndpoint extends EndpointBase
     }
 
     /**
+     * @param string[] $ordersId
+     *
      * @return array<{
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>
@@ -44,6 +48,8 @@ class OrdersEndpoint extends EndpointBase
     }
 
     /**
+     * @param string[] $ordersId
+     *
      * @throws UnsupportedOptionException
      */
     private function requestDeleteOrder(string $groupId, array $ordersId, string $tokenSession): HttpClientResponseInterface
@@ -54,7 +60,53 @@ class OrdersEndpoint extends EndpointBase
             HTTP_CLIENT_CONFIGURATION::json([
                 'group_id' => $groupId,
                 'orders_id' => $ordersId,
-            ], $tokenSession)
+            ],
+                $tokenSession
+            )
+        );
+    }
+
+    /**
+     * @param OrderDataDto[] $ordersData
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function ordersCreate(string $groupId, array $ordersData, string $tokenSession): array
+    {
+        $response = $this->requestOrderCreate($groupId, $ordersData, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @param OrderDataDto[] $ordersData
+     *
+     * @throws UnsupportedOptionException
+     */
+    private function requestOrderCreate(string $groupId, array $ordersData, string $tokenSession): HttpClientResponseInterface
+    {
+        $ordersDataRequest = array_map(
+            fn (OrderDataDto $orderData) => $this->createFormParameters([
+                'product_id' => $orderData->productId,
+                'shop_id' => $orderData->shopId,
+                'description' => $orderData->description,
+                'amount' => $orderData->amount,
+            ]),
+            $ordersData
+        );
+
+        return $this->httpClient->request(
+            'POST',
+            self::POST_ORDER_CRETE,
+            HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
+                'group_id' => $groupId,
+                'orders_data' => $ordersDataRequest,
+            ]),
+                $tokenSession
+            )
         );
     }
 

@@ -124,6 +124,21 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @param OrderDataDto[] $ordersData
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function ordersCreate(string $groupId, array $ordersData, string $tokenSession): array
+    {
+        return OrdersEndpoint::getInstance($this->httpClient)->ordersCreate($groupId, $ordersData, $tokenSession);
+    }
+
+    /**
      * @throws UnsupportedOptionException
      */
     public function productCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array

@@ -74,6 +74,18 @@ interface EndpointsInterface
     public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array;
 
     /**
+     * @param OrderDataDto[] $ordersData
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function ordersCreate(string $groupId, array $ordersData, string $tokenSession): array;
+
+    /**
      * @throws UnsupportedOptionException
      */
     public function productCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
