@@ -71,10 +71,11 @@ export async function createRequest(url, queryParameters, fetchOptions) {
  * @param {object} response
  * @param {function(object):object} callbackResponseNoContent function(response)
  * @param {function(array):object} callbackRequestError function(response.errors)
+ * @param {function(array):object} callbackResponseOk function(response.data)
  * @returns {Promise<ResponseDto>}
  * @throws Error
  */
-export async function manageResponseJson(response, callbackResponseNoContent, callbackRequestError) {
+export async function manageResponseJson(response, callbackResponseNoContent, callbackRequestError, callbackResponseOk) {
 
     if (!response.ok) {
         throw new Error(`Response error status ${response.status}`);
@@ -97,6 +98,10 @@ export async function manageResponseJson(response, callbackResponseNoContent, ca
             }
 
             throw new Error('Request errors');
+        }
+
+        if (callbackResponseOk) {
+            return callbackResponseOk(responseData.data);
         }
 
         return responseData;
