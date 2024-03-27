@@ -246,7 +246,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        $listOrdersNameDecoded = $this->decodeUrlParameter($attributes, 'list_orders_name');
+        $listOrdersNameDecoded = $attributes->get('list_orders_name');
 
         if (null === $listOrdersNameDecoded) {
             return null;
