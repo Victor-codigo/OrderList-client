@@ -69,7 +69,7 @@ interface EndpointsInterface
      *                              pages_total -> int,
      *                              orders -> array of orders
      */
-    public function ordersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array;
+    public function ordersGetData(string $groupId, ?array $ordersId, ?string $listOrdersId, int $page, int $pageItems, bool $orderAsc, ?string $filterSection, ?string $filterText, ?string $filterValue, string $tokenSession): array;
 
     public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array;
 
@@ -83,7 +83,7 @@ interface EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
-    public function ordersCreate(string $groupId, array $ordersData, string $tokenSession): array;
+    public function ordersCreate(string $groupId, string $listOrdersId, array $ordersData, string $tokenSession): array;
 
     /**
      * @throws UnsupportedOptionException

@@ -74,9 +74,9 @@ class OrdersEndpoint extends EndpointBase
      *    errors: array<string, mixed>
      * }>
      */
-    public function ordersCreate(string $groupId, array $ordersData, string $tokenSession): array
+    public function ordersCreate(string $groupId, string $listOrdersId, array $ordersData, string $tokenSession): array
     {
-        $response = $this->requestOrderCreate($groupId, $ordersData, $tokenSession);
+        $response = $this->requestOrderCreate($groupId, $listOrdersId, $ordersData, $tokenSession);
 
         return $this->apiResponseManage($response);
     }
@@ -86,7 +86,7 @@ class OrdersEndpoint extends EndpointBase
      *
      * @throws UnsupportedOptionException
      */
-    private function requestOrderCreate(string $groupId, array $ordersData, string $tokenSession): HttpClientResponseInterface
+    private function requestOrderCreate(string $groupId, string $listOrdersId, array $ordersData, string $tokenSession): HttpClientResponseInterface
     {
         $ordersDataRequest = array_map(
             fn (OrderDataDto $orderData) => $this->createFormParameters([
@@ -100,9 +100,10 @@ class OrdersEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'POST',
-            self::POST_ORDER_CRETE,
+            self::POST_ORDER_CRETE.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                 'group_id' => $groupId,
+                'list_orders_id' => $listOrdersId,
                 'orders_data' => $ordersDataRequest,
             ]),
                 $tokenSession
@@ -117,9 +118,20 @@ class OrdersEndpoint extends EndpointBase
      *    orders: array<int, array>
      * }>
      */
-    public function ordersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): array
+    public function ordersGetData(string $groupId, ?array $ordersId, ?string $listOrdersId, int $page, int $pageItems, bool $orderAsc, ?string $filterSection, ?string $filterText, ?string $filterValue, string $tokenSession): array
     {
-        $response = $this->requestOrdersGetData($groupId, $page, $pageItems, $tokenSession);
+        $response = $this->requestOrdersGetData(
+            $groupId,
+            $ordersId,
+            $listOrdersId,
+            $page,
+            $pageItems,
+            $orderAsc,
+            $filterSection,
+            $filterText,
+            $filterValue,
+            $tokenSession
+        );
 
         return $this->apiResponseManage($response, null, null,
             fn (array $responseDataNoContent) => [
@@ -136,15 +148,23 @@ class OrdersEndpoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestOrdersGetData(string $groupId, int $page, int $pageItems, string $tokenSession): HttpClientResponseInterface
+    private function requestOrdersGetData(string $groupId, ?array $ordersId, ?string $listOrdersId, int $page, int $pageItems, bool $orderAsc, ?string $filterSection, ?string $filterText, ?string $filterValue, string $tokenSession): HttpClientResponseInterface
     {
-        $urlEndpoint = str_replace('{group_id}', $groupId, self::GET_ORDERS_GROUP);
+        $parameters = [
+            'group_id' => $groupId,
+            'orders_id' => $ordersId,
+            'list_orders_id' => $listOrdersId,
+            'page' => $page,
+            'page_items' => $pageItems,
+            'order_asc' => $orderAsc,
+            'filter_section' => $filterSection,
+            'filter_text' => $filterText,
+            'filter_value' => $filterValue,
+        ];
 
         return $this->httpClient->request(
             'GET',
-            $urlEndpoint
-                ."?page={$page}"
-                ."&page_items={$pageItems}",
+            self::GET_ORDERS_DATA.'?'.$this->createQueryParameters($parameters).'&'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }

@@ -147,7 +147,7 @@ class ListOrdersEndpoints extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_LIST_ORDERS_DATA."?{$this->createQueryParameters($parameters)}&".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::GET_LIST_ORDERS_DATA."?{$this->createQueryParameters($parameters)}&",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
@@ -178,9 +178,9 @@ class ListOrdersEndpoints extends EndpointBase
             'DELETE',
             self::REMOVE_LIST_ORDERS,
             HTTP_CLIENT_CONFIGURATION::json([
-                    'group_id' => $groupId,
-                    'lists_orders_id' => $listsOrdersId,
-                ],
+                'group_id' => $groupId,
+                'lists_orders_id' => $listsOrdersId,
+            ],
                 $tokenSession
             ));
     }
@@ -211,9 +211,9 @@ class ListOrdersEndpoints extends EndpointBase
             'DELETE',
             self::REMOVE_LIST_ORDERS_ORDERS,
             HTTP_CLIENT_CONFIGURATION::json([
-                    'lists_orders_id' => $listsOrdersId,
-                    'group_id' => $groupId,
-                ],
+                'lists_orders_id' => $listsOrdersId,
+                'group_id' => $groupId,
+            ],
                 $tokenSession
             ));
     }
@@ -244,11 +244,11 @@ class ListOrdersEndpoints extends EndpointBase
             'POST',
             self::CREATE_LIST_ORDERS,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
-                    'group_id' => $groupId,
-                    'name' => $name,
-                    'description' => $description,
-                    'date_to_buy' => $dateToBuy?->format('Y-m-d H:i:s'),
-                ]),
+                'group_id' => $groupId,
+                'name' => $name,
+                'description' => $description,
+                'date_to_buy' => $dateToBuy?->format('Y-m-d H:i:s'),
+            ]),
                 $tokenSession
             )
         );
@@ -280,12 +280,12 @@ class ListOrdersEndpoints extends EndpointBase
             'PUT',
             self::CREATE_LIST_ORDERS,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
-                    'group_id' => $groupId,
-                    'list_orders_id' => $listOrdersId,
-                    'name' => $name,
-                    'description' => $description,
-                    'date_to_buy' => $dateToBuy?->format('Y-m-d H:i:s'),
-                ]),
+                'group_id' => $groupId,
+                'list_orders_id' => $listOrdersId,
+                'name' => $name,
+                'description' => $description,
+                'date_to_buy' => $dateToBuy?->format('Y-m-d H:i:s'),
+            ]),
                 $tokenSession
             )
         );
