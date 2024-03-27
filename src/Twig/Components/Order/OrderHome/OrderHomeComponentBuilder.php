@@ -75,12 +75,12 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
     }
 
-    public function orderCreateFormModal(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId): self
+    public function orderCreateFormModal(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId, string $listOrdersId): self
     {
         $this->builder->setMethodStatus('orderCreateModal', true);
 
         $this->homeSectionComponentDto->createFormModal(
-            $this->createOrderCreateComponentDto($orderCreateFormCsrfToken, $orderPrice, $orderCreateFormActionUrl, $groupId)
+            $this->createOrderCreateComponentDto($orderCreateFormCsrfToken, $orderPrice, $orderCreateFormActionUrl, $groupId, $listOrdersId)
         );
 
         return $this;
@@ -150,6 +150,9 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
+    /**
+     * @param OrderDataResponse[] $listOrdersData
+     */
     public function listItems(array $listOrdersData): self
     {
         $this->builder->setMethodStatus('listItems', true);
@@ -218,7 +221,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return $this->createOrderHomeSectionComponentDto($this->productsListAjaxModalDto/*  $this->orderInfoModalDto */);
     }
 
-    private function createOrderCreateComponentDto(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId): ModalComponentDto
+    private function createOrderCreateComponentDto(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId, string $listOrdersId): ModalComponentDto
     {
         $homeSectionCreateComponentDto = new OrderCreateComponentDto(
             [],
@@ -227,7 +230,8 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             $orderCreateFormCsrfToken,
             false,
             mb_strtolower($orderCreateFormActionUrl),
-            $groupId
+            $groupId,
+            $listOrdersId
         );
 
         return new ModalComponentDto(

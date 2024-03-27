@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Order\OrderCreate\OrderCreateForm;
+use App\Form\Order\OrderModify\OrderModifyForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
@@ -28,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/order/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{list_orders_name}/orders/page-{page}-{page_items}',
     name: 'order_home',
     methods: ['GET', 'POST'],
     requirements: [
@@ -52,7 +53,7 @@ class OrderHomeController extends AbstractController
     public function __invoke(RequestDto $requestDto): Response
     {
         $orderCreateForm = $this->formFactory->create(new OrderCreateForm(), $requestDto->request);
-        // $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
+        $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
         // $orderRemoveForm = $this->formFactory->create(new OrderRemoveForm(), $requestDto->request);
         // $orderRemoveMultiForm = $this->formFactory->create(new OrderRemoveMultiForm(), $requestDto->request);
         // $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
@@ -75,7 +76,7 @@ class OrderHomeController extends AbstractController
         $orderHomeComponentDto = $this->createOrderHomeComponentDto(
             $requestDto,
             $orderCreateForm,
-            // $orderModifyForm,
+            $orderModifyForm,
             // $orderRemoveForm,
             // $orderRemoveMultiForm,
             // $shopCreateForm,
@@ -149,8 +150,14 @@ class OrderHomeController extends AbstractController
 
         $ordersData = $this->endpoints->ordersGetData(
             $groupId,
+            null,
+            null,
             $page,
             $pageItems,
+            true,
+            null,
+            null,
+            null,
             $tokenSession
         );
 
@@ -189,10 +196,13 @@ class OrderHomeController extends AbstractController
     //     );
     // }
 
+    /**
+     * @param OrderDataResponse[] $ordersData
+     */
     private function createOrderHomeComponentDto(
         RequestDto $requestDto,
         FormInterface $orderCreateForm,
-        // FormInterface $orderModifyForm,
+        FormInterface $orderModifyForm,
         // FormInterface $orderRemoveForm,
         // FormInterface $orderRemoveMultiForm,
         // FormInterface $shopCreateForm,
@@ -221,7 +231,7 @@ class OrderHomeController extends AbstractController
                 $pagesTotal
             )
             ->listItems(
-                $ordersData,
+                $ordersData
             )
             ->validation(
                 !empty($orderHomeMessagesError) || !empty($orderHomeMessagesOk) ? true : false,
@@ -245,7 +255,8 @@ class OrderHomeController extends AbstractController
                 $this->generateUrl('order_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
-                $requestDto->groupData->id
+                $requestDto->groupData->id,
+                $requestDto->listOrdersData->id
             )
             ->orderRemoveMultiFormModal(
                 '',// $orderRemoveMultiForm->getCsrfToken(),
@@ -260,10 +271,10 @@ class OrderHomeController extends AbstractController
                 ])
             )
             ->orderModifyFormModal(
-                '',// $orderModifyForm->getCsrfToken(),
-                $this->generateUrl('product_modify', [
+                $orderModifyForm->getCsrfToken(),
+                $this->generateUrl('order_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
-                    'product_name' => self::ORDER_NAME_PLACEHOLDER,
+                    'order_name' => self::ORDER_NAME_PLACEHOLDER,
                 ]),
             )
             ->productsListModal(

@@ -16,6 +16,10 @@
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />
 
+	<input type="hidden"
+		   name="{{ listOrdersIdFieldName }}"
+		   value="{{ data.listOrdersId }}" />
+
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	{% block validation %}

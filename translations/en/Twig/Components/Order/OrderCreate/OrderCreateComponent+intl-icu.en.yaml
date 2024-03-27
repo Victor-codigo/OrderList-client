@@ -23,4 +23,5 @@ validation:
   title: Errors
   ok: Order created
   error:
+    product_and_shop_repeated: List of orders, already contains the selected product with the same shop
     internal_server: An error has been occurred, try it later

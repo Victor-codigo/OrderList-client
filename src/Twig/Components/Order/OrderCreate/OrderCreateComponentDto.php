@@ -16,6 +16,7 @@ class OrderCreateComponentDto implements TwigComponentDtoInterface
         public readonly bool $validForm,
         public readonly string $orderCreateFormActionUrl,
         public readonly string $groupId,
+        public readonly string $listOrdersId,
     ) {
     }
 }

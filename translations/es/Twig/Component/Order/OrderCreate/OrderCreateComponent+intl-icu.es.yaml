@@ -23,4 +23,5 @@ validation:
   title: Errores
   ok: Pedido creado
   error:
+    product_and_shop_repeated: El pedido ya contiene el producto y la tienda seleccionadas
     internal_server: Ocurrió un error, inténtalo más tarde

@@ -49,7 +49,7 @@ class OrderCreateController extends AbstractController
             $requestDto->requestReferer->routeName,
             $requestDto->requestReferer->params,
             [$this->orderCreateComponent->loadValidationOkTranslation()],
-            $orderCreateForm->getErrors(),
+            $this->orderCreateComponent->loadErrorsTranslation($orderCreateForm->getErrors()),
             []
         );
     }
@@ -68,12 +68,15 @@ class OrderCreateController extends AbstractController
             $form->getFieldData(ORDER_CREATE_FORM_FIELDS::AMOUNT),
         );
 
-        $responseData = $this->endpoints->ordersCreate($groupId, [$orderData], $tokenSession);
+        $responseData = $this->endpoints->ordersCreate(
+            $groupId,
+            $form->getFieldData(ORDER_CREATE_FORM_FIELDS::LIST_ORDERS_ID, ''),
+            [$orderData],
+            $tokenSession
+        );
 
-        foreach ($responseData['errors'] as $orderError) {
-            foreach ($orderError as $errorName => $errorDescription) {
-                $form->addError($errorName, '');
-            }
+        foreach ($responseData['errors'] as $error => $errorDescription) {
+            $form->addError((string) $error, '');
         }
     }
 }
