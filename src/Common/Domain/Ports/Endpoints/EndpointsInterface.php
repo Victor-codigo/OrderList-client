@@ -71,7 +71,7 @@ interface EndpointsInterface
      */
     public function ordersGetData(string $groupId, ?array $ordersId, ?string $listOrdersId, int $page, int $pageItems, bool $orderAsc, ?string $filterSection, ?string $filterText, ?string $filterValue, string $tokenSession): array;
 
-    public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array;
+    public function ordersRemove(string $groupId, array $ordersId, string $tokenSession): array;
 
     /**
      * @param OrderDataDto[] $ordersData

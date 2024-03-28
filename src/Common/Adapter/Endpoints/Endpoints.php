@@ -129,9 +129,9 @@ class Endpoints implements EndpointsInterface
         );
     }
 
-    public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array
+    public function ordersRemove(string $groupId, array $ordersId, string $tokenSession): array
     {
-        return OrdersEndpoint::getInstance($this->httpClient)->ordersDelete($groupId, $ordersId, $tokenSession);
+        return OrdersEndpoint::getInstance($this->httpClient)->ordersRemove($groupId, $ordersId, $tokenSession);
     }
 
     /**
@@ -157,7 +157,7 @@ class Endpoints implements EndpointsInterface
      */
     public function orderModify(string $groupId, string $listOrdersId, string $orderId, string $productId, ?string $shopId, ?string $description, float $amount, string $tokenSession): array
     {
-        return OrdersEndpoint::getInstance($this->httpClient)->ordersModify($groupId, $listOrdersId, $orderId, $productId, $shopId, $description, $amount, $tokenSession);
+        return OrdersEndpoint::getInstance($this->httpClient)->orderModify($groupId, $listOrdersId, $orderId, $productId, $shopId, $description, $amount, $tokenSession);
     }
 
     /**

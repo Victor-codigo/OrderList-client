@@ -41,9 +41,9 @@ class OrdersEndpoint extends EndpointBase
      *    errors: array<string, mixed>
      * }>
      */
-    public function ordersDelete(string $groupId, array $ordersId, string $tokenSession): array
+    public function ordersRemove(string $groupId, array $ordersId, string $tokenSession): array
     {
-        $response = $this->requestDeleteOrder($groupId, $ordersId, $tokenSession);
+        $response = $this->requestRemoveOrder($groupId, $ordersId, $tokenSession);
 
         return $this->apiResponseManage($response);
     }
@@ -53,7 +53,7 @@ class OrdersEndpoint extends EndpointBase
      *
      * @throws UnsupportedOptionException
      */
-    private function requestDeleteOrder(string $groupId, array $ordersId, string $tokenSession): HttpClientResponseInterface
+    private function requestRemoveOrder(string $groupId, array $ordersId, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'DELETE',
