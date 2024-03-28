@@ -14,7 +14,8 @@ class OrdersEndpoint extends EndpointBase
     private const DELETE_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
     private const GET_ORDERS_GROUP = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders/group/{group_id}';
     public const GET_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
-    public const POST_ORDER_CRETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
+    public const POST_ORDER_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
+    public const PUT_ORDER_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
 
     private static ?self $instance = null;
 
@@ -100,11 +101,46 @@ class OrdersEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'POST',
-            self::POST_ORDER_CRETE.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::POST_ORDER_CREATE.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                 'group_id' => $groupId,
                 'list_orders_id' => $listOrdersId,
                 'orders_data' => $ordersDataRequest,
+            ]),
+                $tokenSession
+            )
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function orderModify(string $groupId, string $listOrdersId, string $orderId, string $productId, ?string $shopId, ?string $description, float $amount, string $tokenSession): array
+    {
+        $response = $this->requestOrderModify($groupId, $listOrdersId, $orderId, $productId, $shopId, $description, $amount, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestOrderModify(string $groupId, string $listOrdersId, string $orderId, string $productId, ?string $shopId, ?string $description, float $amount, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'PUT',
+            self::PUT_ORDER_MODIFY.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
+                'group_id' => $groupId,
+                'list_orders_id' => $listOrdersId,
+                'order_id' => $orderId,
+                'product_id' => $productId,
+                'shop_id' => $shopId,
+                'description' => $description,
+                'amount' => $amount,
             ]),
                 $tokenSession
             )

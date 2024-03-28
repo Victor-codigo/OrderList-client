@@ -150,6 +150,17 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function orderModify(string $groupId, string $listOrdersId, string $orderId, string $productId, ?string $shopId, ?string $description, float $amount, string $tokenSession): array
+    {
+        return OrdersEndpoint::getInstance($this->httpClient)->ordersModify($groupId, $listOrdersId, $orderId, $productId, $shopId, $description, $amount, $tokenSession);
+    }
+
+    /**
      * @throws UnsupportedOptionException
      */
     public function productCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array

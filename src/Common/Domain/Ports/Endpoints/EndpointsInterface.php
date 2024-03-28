@@ -86,6 +86,14 @@ interface EndpointsInterface
     public function ordersCreate(string $groupId, string $listOrdersId, array $ordersData, string $tokenSession): array;
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function orderModify(string $groupId, string $listOrdersId, string $orderId, string $productId, ?string $shopId, ?string $description, float $amount, string $tokenSession): array;
+
+    /**
      * @throws UnsupportedOptionException
      */
     public function productCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
