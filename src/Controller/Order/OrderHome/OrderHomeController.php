@@ -9,6 +9,8 @@ use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Form\Order\OrderModify\OrderModifyForm;
+use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
+use App\Form\Order\OrderRemove\OrderRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
@@ -54,8 +56,8 @@ class OrderHomeController extends AbstractController
     {
         $orderCreateForm = $this->formFactory->create(new OrderCreateForm(), $requestDto->request);
         $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
-        // $orderRemoveForm = $this->formFactory->create(new OrderRemoveForm(), $requestDto->request);
-        // $orderRemoveMultiForm = $this->formFactory->create(new OrderRemoveMultiForm(), $requestDto->request);
+        $orderRemoveForm = $this->formFactory->create(new OrderRemoveForm(), $requestDto->request);
+        $orderRemoveMultiForm = $this->formFactory->create(new OrderRemoveMultiForm(), $requestDto->request);
         // $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
         // $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
@@ -77,8 +79,8 @@ class OrderHomeController extends AbstractController
             $requestDto,
             $orderCreateForm,
             $orderModifyForm,
-            // $orderRemoveForm,
-            // $orderRemoveMultiForm,
+            $orderRemoveForm,
+            $orderRemoveMultiForm,
             // $shopCreateForm,
             // $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             // $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
@@ -203,8 +205,8 @@ class OrderHomeController extends AbstractController
         RequestDto $requestDto,
         FormInterface $orderCreateForm,
         FormInterface $orderModifyForm,
-        // FormInterface $orderRemoveForm,
-        // FormInterface $orderRemoveMultiForm,
+        FormInterface $orderRemoveForm,
+        FormInterface $orderRemoveMultiForm,
         // FormInterface $shopCreateForm,
         // ?string $searchBarSearchValue,
         // ?string $searchBarNameFilterValue,
@@ -259,14 +261,14 @@ class OrderHomeController extends AbstractController
                 $requestDto->listOrdersData->id
             )
             ->orderRemoveMultiFormModal(
-                '',// $orderRemoveMultiForm->getCsrfToken(),
-                $this->generateUrl('product_remove', [
+                $orderRemoveMultiForm->getCsrfToken(),
+                $this->generateUrl('order_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->orderRemoveFormModal(
-                '',// $orderRemoveForm->getCsrfToken(),
-                $this->generateUrl('product_remove', [
+                $orderRemoveForm->getCsrfToken(),
+                $this->generateUrl('order_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )

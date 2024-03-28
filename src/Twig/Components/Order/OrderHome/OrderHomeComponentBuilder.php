@@ -22,11 +22,11 @@ use App\Twig\Components\Order\OrderModify\OrderModifyComponent;
 use App\Twig\Components\Order\OrderModify\OrderModifyComponentDto;
 use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxComponent;
 use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxComponentDto;
+use App\Twig\Components\Order\OrderRemove\OrderRemoveComponent;
+use App\Twig\Components\Order\OrderRemove\OrderRemoveComponentDto;
 use App\Twig\Components\PaginatorJs\PaginatorJsComponentDto;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponent;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponentDto;
-use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponent;
-use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -246,8 +246,8 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
     private function createOrderRemoveMultiComponentDto(string $orderRemoveMultiFormCsrfToken, string $orderRemoveFormActionUrl): ModalComponentDto
     {
-        $homeSectionRemoveMultiComponentDto = new ShopRemoveComponentDto(
-            ShopRemoveComponent::getComponentName(),
+        $homeSectionRemoveMultiComponentDto = new OrderRemoveComponentDto(
+            OrderRemoveComponent::getComponentName(),
             [],
             $orderRemoveMultiFormCsrfToken,
             mb_strtolower($orderRemoveFormActionUrl),
@@ -258,7 +258,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             self::ORDER_REMOVE_MULTI_MODAL_ID,
             '',
             false,
-            ShopRemoveComponent::getComponentName(),
+            OrderRemoveComponent::getComponentName(),
             $homeSectionRemoveMultiComponentDto,
             []
         );
@@ -266,8 +266,8 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
     private function createOrderRemoveModalDto(string $orderRemoveFormCsrfToken, string $orderRemoveFormActionUrl): ModalComponentDto
     {
-        $homeModalDelete = new ShopRemoveComponentDto(
-            ShopRemoveComponent::getComponentName(),
+        $homeModalDelete = new OrderRemoveComponentDto(
+            OrderRemoveComponent::getComponentName(),
             [],
             $orderRemoveFormCsrfToken,
             mb_strtolower($orderRemoveFormActionUrl),
@@ -278,7 +278,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             self::ORDER_DELETE_MODAL_ID,
             '',
             false,
-            ShopRemoveComponent::getComponentName(),
+            OrderRemoveComponent::getComponentName(),
             $homeModalDelete,
             []
         );

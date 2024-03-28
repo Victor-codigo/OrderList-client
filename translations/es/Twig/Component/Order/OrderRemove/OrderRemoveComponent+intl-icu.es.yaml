@@ -1,0 +1,22 @@
+title: Eliminar pedido
+
+message_advice:
+  text: |
+    Te dispones a eliminar el pedido:
+    {item_placeholder}
+
+    ¿Estás seguro?
+  text_multi: |
+    Te dispones a eliminar los pedidos:
+    {item_placeholder}
+
+    ¿Estás seguro?
+
+remove_button:
+  label: Eliminar pedido
+
+validation:
+  title: Errores
+  ok: Pedido eliminado
+  error:
+    internal_server: Ocurrió un error, inténtalo más tarde

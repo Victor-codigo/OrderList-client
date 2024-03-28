@@ -1,0 +1,22 @@
+title: Order remove
+
+message_advice:
+  text: |
+    You are going to remove order:
+    {item_placeholder}
+
+    Are You sure?
+  text_multi: |
+    You are going to remove orders:
+    {item_placeholder}
+
+    Are You sure?
+
+remove_button:
+  label: Remove order
+
+validation:
+  title: Errors
+  ok: Order removed
+  error:
+    internal_server: An error has been occurred, try it later
