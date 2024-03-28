@@ -1,0 +1,27 @@
+title:
+  main: Modificar pedido
+  product: Producto
+  shop: Tienda
+
+description:
+  label: Descripción
+  placeholder: Introduce una descripción
+  msg_invalid: La descripción del pedido no es válida
+
+amount:
+  label: Cantidad de producto
+  placeholder: Introduce una cantidad de producto
+  msg_invalid: La cantidad de producto no es válida
+
+order_modify_button:
+  label: Modificar el pedido
+
+close_button:
+  label: Cerrar
+
+validation:
+  title: Errores
+  ok: Pedido modificado
+  error:
+    product_and_shop_repeated: El pedido ya contiene el producto y la tienda seleccionadas
+    internal_server: Ocurrió un error, inténtalo más tarde

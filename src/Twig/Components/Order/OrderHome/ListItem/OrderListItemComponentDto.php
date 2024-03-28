@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Order\OrderHome\ListItem;
 
+use App\Controller\Request\Response\ProductDataResponse;
+use App\Controller\Request\Response\ProductShopPriceDataResponse;
+use App\Controller\Request\Response\ShopDataResponse;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 
 class OrderListItemComponentDto extends HomeListItemComponentDto
@@ -28,10 +31,13 @@ class OrderListItemComponentDto extends HomeListItemComponentDto
         public readonly string $translationDomainName,
 
         public readonly ?string $description,
+        public readonly float $amount,
+        public readonly bool $bought,
         public readonly ?string $image,
         public readonly \DateTimeImmutable $createdOn,
-        public readonly array $product,
-        public readonly ?array $shop,
+        public readonly ProductDataResponse $product,
+        public readonly ?ShopDataResponse $shop,
+        public readonly ?ProductShopPriceDataResponse $productShop,
     ) {
     }
 }

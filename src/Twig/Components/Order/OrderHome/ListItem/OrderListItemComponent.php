@@ -54,8 +54,24 @@ final class OrderListItemComponent extends HomeListItemComponent
             'id' => $orderData->id,
             'name' => $orderData->name,
             'description' => $orderData->description,
+            'amount' => $orderData->amount,
+            'bought' => $orderData->bought,
             'image' => $orderData->image,
             'createdOn' => $orderData->createdOn->format('Y-m-d'),
+            'product' => [
+                'id' => $orderData->product->id,
+                'name' => $orderData->product->name,
+                'description' => $orderData->product->description,
+            ],
+            'shop' => [
+                'id' => $orderData->shop?->id,
+                'name' => $orderData->shop?->name,
+                'description' => $orderData->shop?->description,
+            ],
+            'productShop' => [
+                'price' => $orderData->productShop?->price,
+                'unit' => $orderData->productShop?->unitMeasure,
+            ],
         ];
 
         return json_encode($orderDataToParse, JSON_THROW_ON_ERROR);

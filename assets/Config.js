@@ -125,6 +125,23 @@ export const MODAL_CHAINS = {
             }
         }
     },
+
+    orderModifyChain: {
+        name: 'orderModifyChain',
+        modals: {
+            orderModify: {
+                name: 'order_modify',
+                modalId: 'order_modify_modal',
+                open: {
+                    productsListModal: 'order_product_list_select_modal'
+                }
+            },
+            orderProductList: {
+                name: 'productList',
+                modalId: 'order_product_list_select_modal',
+            }
+        }
+    },
 };
 
 /**
@@ -213,6 +230,44 @@ export const UNIT_MEASURE = {
  * @property {string} image
  * @property {number} price
  * @property {string} unit
+ */
+
+/**
+ * @typedef {object} OrderData
+ * @class
+ * @property {string} id
+ * @property {string} name
+ * @property {string|null} description
+ * @property {float} amount
+ * @property {boolean} bought
+ * @property {string} image
+ * @property {string} createdOn
+ * @property {OrderDataProduct} product
+ * @property {OrderDataShop} shop
+ * @property {OrderDataProductShop} productShop
+ */
+
+/**
+ * @typedef {object} OrderDataProduct
+ * @class
+ * @property {string} id
+ * @property {string} name
+ * @property {string|null} description
+ */
+
+/**
+ * @typedef {object} OrderDataShop
+ * @class
+ * @property {string|null} id
+ * @property {string|null} name
+ * @property {string|null} description
+ */
+
+/**
+ * @typedef {object} OrderDataProductShop
+ * @class
+ * @property {float|null} price
+ * @property {string|null} unit
  */
 
 

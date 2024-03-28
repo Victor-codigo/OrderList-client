@@ -6,6 +6,7 @@ namespace App\Controller\Request;
 
 use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ListOrdersDataResponse;
+use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,19 +14,20 @@ use Symfony\Component\HttpFoundation\Request;
 class RequestDto
 {
     public function __construct(
-        public readonly string|null $tokenSession,
-        public readonly string|null $locale,
-        public readonly string|null $groupNameUrlEncoded,
-        public readonly string|null $shopNameUrlEncoded,
-        public readonly string|null $productNameUrlEncoded,
-        public readonly int|null $page,
-        public readonly int|null $pageItems,
-        public readonly GroupDataResponse|null $groupData,
-        public readonly ShopDataResponse|null $shopData,
-        public readonly ProductDataResponse|null $productData,
-        public readonly ListOrdersDataResponse|null $listOrdersData,
+        public readonly ?string $tokenSession,
+        public readonly ?string $locale,
+        public readonly ?string $groupNameUrlEncoded,
+        public readonly ?string $shopNameUrlEncoded,
+        public readonly ?string $productNameUrlEncoded,
+        public readonly ?int $page,
+        public readonly ?int $pageItems,
+        public readonly ?GroupDataResponse $groupData,
+        public readonly ?ShopDataResponse $shopData,
+        public readonly ?ProductDataResponse $productData,
+        public readonly ?ListOrdersDataResponse $listOrdersData,
+        public readonly ?OrderDataResponse $orderData,
         public readonly Request $request,
-        public readonly RequestRefererDto|null $requestReferer
+        public readonly ?RequestRefererDto $requestReferer
     ) {
     }
 }

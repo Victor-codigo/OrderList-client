@@ -77,14 +77,15 @@ export default class extends Controller {
      * @param {string} groupId
      * @param {string} productId
      * @param {string} productName
+     * @param {string|null} shopId
      */
-    async #setProductData(groupId, productId, productName) {
+    async #setProductData(groupId, productId, productName, shopId) {
         this.#clearProductShopPriceData();
-        await this.#loadProductShops(groupId, productId);
-        await this.#loadProductShopPrice(groupId, productId, this.#shopSelectTag.value);
-
         this.#productSelectIdTag.value = productId;
         this.#productSelectNameTag.value = productName;
+        await this.#loadProductShops(groupId, productId, shopId);
+        await this.#loadProductShopPrice(groupId, productId, this.#shopSelectTag.value);
+
 
         this.#sendMessageShopSelectedTpParent();
     }
@@ -92,8 +93,9 @@ export default class extends Controller {
     /**
      * @param {string} groupId
      * @param {string} productId
+     * @param {string|null} shopIdSelected
      */
-    async #loadProductShops(groupId, productId) {
+    async #loadProductShops(groupId, productId, shopIdSelected) {
         const loadingSpinner = this.element.querySelector('[data-js-spinner]');
         loadingSpinner.hidden = false;
 
@@ -107,6 +109,10 @@ export default class extends Controller {
 
         const options = productShopsData.shops.map((shop) => {
             const option = document.createElement('option');
+
+            if (shopIdSelected === shop.id) {
+                option.selected = true;
+            }
 
             option.value = shop.id;
             option.innerHTML = html.escape(shop.name);
@@ -175,9 +181,10 @@ export default class extends Controller {
      * @param {string} event.detail.content.groupId
      * @param {string} event.detail.content.productId
      * @param {string} event.detail.content.productName
+     * @param {string} event.detail.content.shopId
      */
-    handleMessageSetProductData({ detail: { content: { groupId, productId, productName } } }) {
-        this.#setProductData(groupId, productId, productName);
+    handleMessageSetProductShopData({ detail: { content: { groupId, productId, productName, shopId } } }) {
+        this.#setProductData(groupId, productId, productName, shopId);
     }
 
     handleMessageClear() {

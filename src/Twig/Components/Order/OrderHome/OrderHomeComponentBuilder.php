@@ -18,13 +18,13 @@ use App\Twig\Components\Order\OrderCreate\OrderCreateComponentDto;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
 use App\Twig\Components\Order\OrderHome\ListItem\OrderListItemComponent;
 use App\Twig\Components\Order\OrderHome\ListItem\OrderListItemComponentDto;
+use App\Twig\Components\Order\OrderModify\OrderModifyComponent;
+use App\Twig\Components\Order\OrderModify\OrderModifyComponentDto;
 use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxComponent;
 use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxComponentDto;
 use App\Twig\Components\PaginatorJs\PaginatorJsComponentDto;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponent;
 use App\Twig\Components\Shop\ShopInfo\ShopInfoComponentDto;
-use App\Twig\Components\Shop\ShopModify\ShopModifyComponent;
-use App\Twig\Components\Shop\ShopModify\ShopModifyComponentDto;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponent;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponentDto;
 use Common\Domain\Config\Config;
@@ -86,12 +86,12 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function orderModifyFormModal(string $orderModifyFormCsrfToken, string $orderModifyFormActionUrl): self
+    public function orderModifyFormModal(string $orderModifyFormCsrfToken, string $orderModifyFormActionUrl, string $groupId, string $listOrdersId): self
     {
         $this->builder->setMethodStatus('orderModifyFormModal', true);
 
         $this->homeSectionComponentDto->modifyFormModal(
-            $this->createOrderModifyModalDto($orderModifyFormCsrfToken, $orderModifyFormActionUrl)
+            $this->createOrderModifyModalDto($orderModifyFormCsrfToken, $orderModifyFormActionUrl, $groupId, $listOrdersId)
         );
 
         return $this;
@@ -295,26 +295,24 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createOrderModifyModalDto(string $orderModifyFormCsrfToken, string $orderModifyFormActionUrlPlaceholder): ModalComponentDto
+    private function createOrderModifyModalDto(string $orderModifyFormCsrfToken, string $orderModifyFormActionUrlPlaceholder, string $groupId, string $listOrdersId): ModalComponentDto
     {
-        $homeModalModify = new ShopModifyComponentDto(
+        $homeModalModify = new OrderModifyComponentDto(
             [],
+            $groupId,
+            $listOrdersId,
             '{name_placeholder}',
             '{description_placeholder}',
-            '{image_placeholder}',
-            Config::ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
             $orderModifyFormCsrfToken,
             false,
             mb_strtolower($orderModifyFormActionUrlPlaceholder),
-            self::ORDER_PRODUCT_LIST_MODAL_ID,
-            self::ORDER_MODIFY_MODAL_ID
         );
 
         return new ModalComponentDto(
             self::ORDER_MODIFY_MODAL_ID,
             '',
             false,
-            ShopModifyComponent::getComponentName(),
+            OrderModifyComponent::getComponentName(),
             $homeModalModify,
             [],
         );
@@ -333,10 +331,13 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
                 self::ORDER_INFO_MODAL_ID,
                 self::ORDER_HOME_LIST_ITEM_COMPONENT_NAME,
                 $listItemData->description,
+                $listItemData->amount,
+                $listItemData->bought,
                 Config::ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 $listItemData->createdOn,
-                (array) $listItemData->product,
-                null
+                $listItemData->product,
+                $listItemData->shop,
+                $listItemData->productShop
             ),
             $this->listOrdersData
         );

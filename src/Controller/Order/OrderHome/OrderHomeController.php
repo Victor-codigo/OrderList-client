@@ -276,6 +276,8 @@ class OrderHomeController extends AbstractController
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'order_name' => self::ORDER_NAME_PLACEHOLDER,
                 ]),
+                $requestDto->groupData->id,
+                $requestDto->listOrdersData->id
             )
             ->productsListModal(
                 $requestDto->groupData->id,

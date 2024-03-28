@@ -1,0 +1,27 @@
+title:
+  main: Modify order
+  product: Product
+  shop: Shop
+
+description:
+  label: Description
+  placeholder: Enter a description
+  msg_invalid: The description is not invalid
+
+amount:
+  label: Amount
+  placeholder: Enter an amount of product
+  msg_invalid: The amount is not valid
+
+order_modify_button:
+  label: Modify the order
+
+close_button:
+  label: Close
+
+validation:
+  title: Errors
+  ok: Order modified
+  error:
+    product_and_shop_repeated: List of orders, already contains the selected product with the same shop
+    internal_server: An error has been occurred, try it later

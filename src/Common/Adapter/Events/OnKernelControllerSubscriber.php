@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\RequestRefererDto;
 use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ListOrdersDataResponse;
+use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Twig\Components\HomeSection\SearchBar\NAME_FILTERS;
@@ -72,6 +73,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $this->loadShopData($request->attributes, $groupData?->id, $tokenSession),
             $this->loadProductData($request->attributes, $groupData?->id, $tokenSession),
             $this->loadListOrdersData($request->attributes, $groupData?->id, $tokenSession),
+            $this->loadOrderData($request->attributes, $groupData?->id, $tokenSession),
             $request,
             $this->loadRefererRouteName($request)
         );
@@ -269,6 +271,38 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         return ListOrdersDataResponse::fromArray($listOrdersData['data']['list_orders'][0]);
+    }
+
+    private function loadOrderData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?OrderDataResponse
+    {
+        if (null === $groupId) {
+            return null;
+        }
+
+        $orderNameDecoded = $this->decodeUrlParameter($attributes, 'order_name');
+
+        if (null === $orderNameDecoded) {
+            return null;
+        }
+
+        $orderData = $this->endpoints->ordersGetData(
+            $groupId,
+            null,
+            null,
+            1,
+            1,
+            true,
+            SECTION_FILTERS::PRODUCT->value,
+            NAME_FILTERS::EQUALS->value,
+            $orderNameDecoded,
+            $tokenSession
+        );
+
+        if (!empty($orderData['errors'])) {
+            throw RequestListOrdersNameException::fromMessage('Order not found');
+        }
+
+        return OrderDataResponse::fromArray($orderData['data']['orders'][0]);
     }
 
     private function loadRefererRouteName(Request $request): ?RequestRefererDto
