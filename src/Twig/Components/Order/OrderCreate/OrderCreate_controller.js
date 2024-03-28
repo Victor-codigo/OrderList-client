@@ -5,7 +5,7 @@ import ModalManager from 'App/modules/ModalManager/ModalManager';
 import * as html from 'App/modules/Html';
 import { MODAL_CHAINS, CURRENCY, UNIT_MEASURE } from 'App/Config';
 
-export default class ProductCreateController extends Controller {
+export default class extends Controller {
     /**
      * @type {ModalManager|null}
      */
@@ -245,7 +245,8 @@ export default class ProductCreateController extends Controller {
         communication.sendMessageToChildController(this.#orderProductAndShopTag, 'setProductData', {
             groupId: groupId,
             productId: itemId,
-            productName: itemName
+            productName: itemName,
+            shopId: null
         })
     }
 
