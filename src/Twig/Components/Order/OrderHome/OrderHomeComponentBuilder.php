@@ -187,7 +187,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->searchBar(new SearchBarComponentDto(
             $groupId,
             $searchValue,
-            [SECTION_FILTERS::ORDER, SECTION_FILTERS::SHOP],
+            [SECTION_FILTERS::ORDER, SECTION_FILTERS::PRODUCT, SECTION_FILTERS::SHOP],
             $sectionFilterValue,
             $nameFilterValue,
             $searchBarCsrfToken,

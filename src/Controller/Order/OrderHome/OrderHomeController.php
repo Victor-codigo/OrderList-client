@@ -6,15 +6,12 @@ namespace App\Controller\Order\OrderHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\OrderDataResponse;
-use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Form\Order\OrderModify\OrderModifyForm;
 use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
 use App\Form\Order\OrderRemove\OrderRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
-use App\Form\Shop\ShopCreate\ShopCreateForm;
-use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
 use App\Twig\Components\Order\OrderHome\OrderHomeComponentBuilder;
 use Common\Adapter\Endpoints\OrdersEndpoint;
@@ -58,18 +55,18 @@ class OrderHomeController extends AbstractController
         $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
         $orderRemoveForm = $this->formFactory->create(new OrderRemoveForm(), $requestDto->request);
         $orderRemoveMultiForm = $this->formFactory->create(new OrderRemoveMultiForm(), $requestDto->request);
-        // $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
-        // $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
+        $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
-        // $this->searchBarForm($searchBarForm, $requestDto);
-        // $searchBarFormFields = $this->getSearchBarFieldsValues(
-        //     $searchBarForm,
-        //     $this->controllerUrlRefererRedirect->getFlashBag($requestDto->request->attributes->get('_route'), FLASH_BAG_TYPE_SUFFIX::DATA),
-        // );
+        $this->searchBarForm($searchBarForm, $requestDto);
+        $searchBarFormFields = $this->getSearchBarFieldsValues(
+            $searchBarForm,
+            $this->controllerUrlRefererRedirect->getFlashBag($requestDto->request->attributes->get('_route'), FLASH_BAG_TYPE_SUFFIX::DATA),
+        );
 
         $ordersData = $this->getOrdersData(
             $requestDto->groupData->id,
-            [],// $searchBarFormFields,
+            $requestDto->listOrdersData->id,
+            $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
             $requestDto->tokenSession
@@ -81,11 +78,10 @@ class OrderHomeController extends AbstractController
             $orderModifyForm,
             $orderRemoveForm,
             $orderRemoveMultiForm,
-            // $shopCreateForm,
-            // $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
-            // $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
-            // $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
-            // $searchBarForm->getCsrfToken(),
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
+            $searchBarForm->getCsrfToken(),
             $ordersData['orders'],
             $ordersData['pages_total']
         );
@@ -136,30 +132,18 @@ class OrderHomeController extends AbstractController
         return null;
     }
 
-    private function getOrdersData(string $groupId, array $searchBarFormFields, int $page, int $pageItems, string $tokenSession): array
+    private function getOrdersData(string $groupId, string $listOrdersId, array $searchBarFormFields, int $page, int $pageItems, string $tokenSession): array
     {
-        // $orderNameFilterType = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER];
-        // $orderNameFilterValue = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE];
-        // $shopNameFilterType = null;
-        // $shopNameFilterValue = null;
-
-        // if (SECTION_FILTERS::SHOP->value === $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER]) {
-        //     $orderNameFilterType = null;
-        //     $orderNameFilterValue = null;
-        //     $shopNameFilterType = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER];
-        //     $shopNameFilterValue = $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE];
-        // }
-
         $ordersData = $this->endpoints->ordersGetData(
             $groupId,
             null,
-            null,
+            $listOrdersId,
             $page,
             $pageItems,
             true,
-            null,
-            null,
-            null,
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
+            $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $tokenSession
         );
 
@@ -171,33 +155,6 @@ class OrderHomeController extends AbstractController
         return $ordersData['data'];
     }
 
-    // private function getOrdersShopsData(string $groupId, array $ordersData, string $tokenSession): array
-    // {
-    //     $ordersId = array_column($ordersData, 'id');
-
-    //     if (empty($ordersId)) {
-    //         return [];
-    //     }
-
-    //     $shopsData = $this->endpoints->shopsGetData(
-    //         $groupId,
-    //         null,
-    //         $productsId,
-    //         null,
-    //         null,
-    //         null,
-    //         1,
-    //         100,
-    //         true,
-    //         $tokenSession
-    //     );
-
-    //     return array_map(
-    //         fn (array $shopData) => ShopDataResponse::fromArray($shopData),
-    //         $shopsData['data']['shops']
-    //     );
-    // }
-
     /**
      * @param OrderDataResponse[] $ordersData
      */
@@ -207,11 +164,10 @@ class OrderHomeController extends AbstractController
         FormInterface $orderModifyForm,
         FormInterface $orderRemoveForm,
         FormInterface $orderRemoveMultiForm,
-        // FormInterface $shopCreateForm,
-        // ?string $searchBarSearchValue,
-        // ?string $searchBarNameFilterValue,
-        // ?string $searchBarSectionFilterValue,
-        // string $searchBarCsrfToken,
+        ?string $searchBarSearchValue,
+        ?string $searchBarNameFilterValue,
+        ?string $searchBarSectionFilterValue,
+        string $searchBarCsrfToken,
         array $ordersData,
         int $pagesTotal,
     ): OrderHomeSectionComponentDto {
@@ -240,13 +196,14 @@ class OrderHomeController extends AbstractController
             )
             ->searchBar(
                 $requestDto->groupData->id,
-                '',// $searchBarSearchValue,
-                '',// $searchBarSectionFilterValue,
-                '',// $searchBarNameFilterValue,
-                '',// $searchBarCsrfToken,
+                $searchBarSearchValue,
+                $searchBarSectionFilterValue,
+                $searchBarNameFilterValue,
+                $searchBarCsrfToken,
                 OrdersEndpoint::GET_ORDERS_DATA,
-                $this->generateUrl('product_home', [
+                $this->generateUrl('order_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
+                    'list_orders_name' => $requestDto->listOrdersData->name,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),

@@ -99,23 +99,55 @@ export default class extends Controller {
     async #getDataFromApi() {
         switch (url.getSection().replace('-', '_')) {
             case url.SECTIONS.SHOP:
-                return this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
+                return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
             case url.SECTIONS.PRODUCT:
-                if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
-                    return this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
-                }
-
-                return this.#getProductsNames(this.nameFilterTag.value, this.valueTag.value);
+                return await this.#getDataFromApiSectionProduct();
             case url.SECTIONS.LIST_ORDERS:
-                if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
-                    return this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
-                } else if (this.sectionFilterTag.value === url.SECTIONS.PRODUCT) {
-                    return this.#getProductsNames(this.nameFilterTag.value, this.valueTag.value);
-                }
+                return await this.#getDataFromApiSectionListOrders();
+            default:
+                return await this.#getDataFromApiSectionListOrders();
 
-                return this.#getListOrdersNames(this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
-            case url.SECTIONS.ORDER:
+        }
+    }
 
+    /**
+     * @returns {Promise<string[]>}
+     */
+    async #getDataFromApiSectionProduct() {
+        if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
+            return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
+        }
+
+        return await this.#getProductsNames(this.nameFilterTag.value, this.valueTag.value);
+    }
+
+    /**
+     * @returns {Promise<string[]>}
+     */
+    async #getDataFromApiSectionListOrders() {
+        console.log(url.getSubSection().replace('-', '_'));
+        if (url.getSubSection().replace('-', '_') === url.SECTIONS.ORDERS) {
+            return await this.#getDataFromApiSubSectionOrders();
+        }
+
+        if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
+            return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
+        } else if (this.sectionFilterTag.value === url.SECTIONS.PRODUCT) {
+            return await this.#getProductsNames(this.nameFilterTag.value, this.valueTag.value);
+        }
+
+        return await this.#getListOrdersNames(this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
+    }
+
+    /**
+     * @returns {Promise<string[]>}
+     */
+    async #getDataFromApiSubSectionOrders() {
+        if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
+            return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
+        } else if (this.sectionFilterTag.value === url.SECTIONS.PRODUCT
+            || this.sectionFilterTag.value === url.SECTIONS.ORDER) {
+            return await this.#getProductsNames(this.nameFilterTag.value, this.valueTag.value);
         }
     }
 
