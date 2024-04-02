@@ -65,7 +65,7 @@ class ItemInfoComponentLangDto
         return $this;
     }
 
-    public function description(string $descriptionText): self
+    public function description(string $descriptionText): static
     {
         $this->builder->setMethodStatus('description', true);
 

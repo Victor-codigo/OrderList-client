@@ -1,0 +1,123 @@
+{% extends "Components/HomeSection/ItemInfo/ItemInfoComponent.html.twig" %}
+
+{% block mainFirstBlock %}
+<h3 class="lead">{{ lang.description }}:</h3>
+<p class="mt-3"
+   data-js-item-description>
+    { item description }
+</p>
+
+<div class="d-flex  justify-content-between">
+    <h3 class="lead">{{ lang.bought }}:</h3>
+    <img class="order-info__bought-icon"
+         title="{{ lang.boughtTitle }}"
+         alt="{{ lang.boughtAlt }}"
+         data-icon-bought="{{ data.iconBoughtPath|escape('html_attr') }}"
+         data-icon-not-bought="{{ data.iconNotBoughtPath|escape('html_attr') }}"
+         data-icon-bought-title="{{ lang.boughtTitle }}"
+         data-icon-bought-not-alt="{{ lang.boughtAlt }}"
+         data-icon-not-bought-title="{{ lang.notBoughtTitle }}"
+         data-icon-not-bought-alt="{{ lang.notBoughtAlt }}"
+         data-js-item-bought>
+</div>
+
+
+<table class="table  table-borderless  mt-4  order-info__table">
+    <tbody>
+        <tr>
+            <td class="table__title">
+                <h3 class="lead">{{ lang.amount }}:</h3>
+            </td>
+            <td class="table__value"
+                data-js-item-amount>
+                { item amount }
+            </td>
+        </tr>
+        <tr>
+            <td class="table__title">
+                <h3 class="lead">{{ lang.shopPrice }}:</h3>
+            </td>
+            <td class="table__value"
+                data-js-item-shop-price>
+                { item price }
+            </td>
+        </tr>
+        <tr>
+            <td class="table__title">
+                <h3 class="lead">{{ lang.priceTotal }}:</h3>
+            </td>
+            <td class="table__value  table-group-divider"
+                data-js-item-shop-price-total>
+                { item price total }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock mainFirstBlock %}
+
+{% block secondaryFirstBlock %}
+
+<section class="p-4  pt-0">
+    <div class="accordion  accordion-flush"
+         id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h3 class="accordion-header">
+
+                <button class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#product"
+                        aria-expanded="true"
+                        aria-controls="product">
+                    <div>
+                        <div class="lead">
+                            {{ lang.productDescriptionTitle }}
+                        </div>
+                        <div data-js-item-product-name>
+
+                        </div>
+                    </div>
+                </button>
+
+            </h3>
+            <div id="product"
+                 class="accordion-collapse collapse show">
+                <div class="accordion-body"
+                     data-js-item-product-description="">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item"
+             data-js-shop-info>
+            <h3 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#shop"
+                        aria-expanded="false"
+                        aria-controls="shop">
+                    <div>
+                        <div class="lead">
+                            {{ lang.shopDescriptionTitle }}
+                        </div>
+                        <div data-js-item-shop-name>
+
+                        </div>
+                    </div>
+                </button>
+            </h3>
+            <div id="shop"
+                 class="accordion-collapse collapse">
+                <div class="accordion-body"
+                     data-js-item-shop-description="">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock secondaryFirstBlock %}

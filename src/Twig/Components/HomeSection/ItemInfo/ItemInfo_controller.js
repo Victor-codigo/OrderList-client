@@ -1,29 +1,32 @@
 import { Controller } from '@hotwired/stimulus';
 import * as html from 'App/modules/Html';
-import * as url from 'App/modules/Url';
 import * as config from 'App/Config';
-import * as unitMeasure from 'App/modules/UnitMeasure';
+import * as locale from 'App/modules/Locale';
 
 export default class extends Controller {
     /**
      * @type {HTMLHeadElement}
      */
     #titleTag;
+    get titleTag() { return this.#titleTag };
 
     /**
      * @type {HTMLSpanElement}
      */
     #dateTag;
+    get dateTag() { return this.#dateTag };
 
     /**
      * @type {HTMLParagraphElement}
      */
     #descriptionTag;
+    get descriptionTag() { return this.#descriptionTag };
 
     /**
      * @type {HTMLImageElement}
      */
     #imageTag;
+    get imageTag() { return this.#imageTag };
 
     /**
      * @type {HTMLTableSectionElement}
@@ -39,27 +42,12 @@ export default class extends Controller {
     }
 
     /**
-     * @param {string} date
-     * @param {Intl.DateTimeFormatOptions} dateFormat
-     */
-    getDataLocale(date, dateFormat) {
-        const locale = url.getLocale();
-        let itlLocale = 'es-ES';
-
-        if (locale === 'en') {
-            itlLocale = 'en-US';
-        }
-
-        return new Date(date).toLocaleDateString(itlLocale, dateFormat);
-    }
-
-    /**
      * @param {config.ItemData} data
      */
     setItemData(data) {
         this.#titleTag.innerHTML = html.escape(data.name);
         this.#descriptionTag.innerHTML = html.escape(data.description === null ? '' : data.description);
-        this.#dateTag.innerHTML = html.escape(this.getDataLocale(data.createdOn, config.dateFormat));
+        this.#dateTag.innerText = locale.formatDateToLocale(data.createdOn);
         this.#imageTag.src = html.escape(data.image);
 
         if (typeof data.itemsPrices !== 'undefined') {
@@ -91,7 +79,7 @@ export default class extends Controller {
 
             numberTableCell.innerHTML = html.escape(rowCounter.toString());
             nameTableCell.innerHTML = html.escape(itemPrice.name);
-            priceTableCell.innerHTML = html.escape(itemPrice.price === null ? '' : `${itemPrice.price.toString()} ${config.CURRENCY}/${unitMeasure.parseApiUnits(itemPrice.unit)}`);
+            priceTableCell.innerHTML = html.escape(itemPrice.price === null ? '' : locale.formatToStringLocaleCurrency(itemPrice.price));
 
             tableRow.replaceChildren(numberTableCell, nameTableCell, priceTableCell);
             this.#itemsPriceTag.appendChild(tableRow);

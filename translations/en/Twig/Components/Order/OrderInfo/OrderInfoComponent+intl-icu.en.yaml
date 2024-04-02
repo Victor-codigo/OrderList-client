@@ -1,0 +1,36 @@
+created_on: "Created on: "
+
+image:
+  title: Order image
+  alt: Order image
+
+description:
+  label: Description
+
+amount:
+  title: Amount
+
+bought:
+  label: Bought
+  bought_icon:
+    title: Order bought
+    alt: Order has been bought
+  not_bought_icon:
+    title: Order not bought
+    alt: Order has not been bought yet
+
+product:
+  description:
+    label: Product
+
+shop:
+  description:
+    label: Shop
+  price:
+    label: Price
+
+price_total:
+  label: Price total
+
+close_button:
+  label: Close

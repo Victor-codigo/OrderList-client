@@ -24,8 +24,7 @@ class OrderHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
         $this->builder = new DtoBuilder([
             'homeSection',
             'listItemsModal',
-            // 'shopCreateModal',
-            // 'orderInfoModal',
+            'orderInfoModal',
         ]);
     }
 

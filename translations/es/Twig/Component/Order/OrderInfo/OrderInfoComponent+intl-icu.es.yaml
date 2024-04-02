@@ -1,0 +1,36 @@
+created_on: "Creado: "
+
+image:
+  title: Imagen del pedido
+  alt: Imagen del pedido
+
+description:
+  label: Descripción
+
+amount:
+  title: Cantidad
+
+bought:
+  label: Comprado
+  bought_icon:
+    title: Pedido comprado
+    alt: El pedido ha sido comprado
+  not_bought_icon:
+    title: Pedido no comprado
+    alt: El pedido no ha sido comprado todavía
+
+product:
+  description:
+    label: Producto
+
+shop:
+  description:
+    label: Tienda
+  price:
+    label: Precio
+
+price_total:
+  label: Precio total
+
+close_button:
+  label: Cerrar

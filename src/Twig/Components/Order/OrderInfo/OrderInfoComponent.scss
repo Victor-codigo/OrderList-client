@@ -1,0 +1,35 @@
+.accordion-button {
+    font-size: 1.2rem;
+
+    &:not(.collapsed) {
+        background-color: transparent;
+        color: var(--bs-accordion-btn-color);
+        box-shadow: inset 0 0 0 transparent;
+    }
+
+    &:focus {
+        box-shadow: none;
+        border-color: rgba(0, 0, 0, .125);
+    }
+}
+
+.accordion-item {
+    border: 0;
+}
+
+.order-info__bought-icon {
+    height: 32px;
+    color: green;
+    margin-right: 5px;
+    cursor: help;
+}
+
+.order-info__table {
+    .table__title {
+        padding: 0;
+    }
+
+    .table__value {
+        text-align: right;
+    }
+}

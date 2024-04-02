@@ -58,6 +58,7 @@ import OrderProductAndShopComponent from 'App/Twig/Components/Controls/OrderProd
 import OrderProductsListAjaxComponent from 'App/Twig/Components/Order/OrderProductsListAjax/OrderProductsListAjaxComponent_controller';
 import OrderModifyComponent from 'App/Twig/Components/Order/OrderModify/OrderModify_controller';
 import OrderRemoveComponent from 'App/Twig/Components/Order/OrderRemove/OrderRemoveComponent_controller';
+import OrderInfoComponent from 'App/Twig/Components/Order/OrderInfo/OrderInfo_controller';
 
 // SHOP
 import ShopHomeSectionComponent from 'App/Twig/Components/Shop/ShopHome/Home/ShopHomeSection_controller';
@@ -149,6 +150,7 @@ app.register('OrderProductAndShopComponent', OrderProductAndShopComponent);
 app.register('OrderProductsListAjaxComponent', OrderProductsListAjaxComponent);
 app.register('OrderModifyComponent', OrderModifyComponent);
 app.register('OrderRemoveComponent', OrderRemoveComponent);
+app.register('OrderInfoComponent', OrderInfoComponent);
 
 // SHOP
 app.register('ShopHomeSectionComponent', ShopHomeSectionComponent);

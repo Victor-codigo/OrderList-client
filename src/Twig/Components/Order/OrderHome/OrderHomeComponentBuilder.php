@@ -18,6 +18,8 @@ use App\Twig\Components\Order\OrderCreate\OrderCreateComponentDto;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
 use App\Twig\Components\Order\OrderHome\ListItem\OrderListItemComponent;
 use App\Twig\Components\Order\OrderHome\ListItem\OrderListItemComponentDto;
+use App\Twig\Components\Order\OrderInfo\OrderInfoComponent;
+use App\Twig\Components\Order\OrderInfo\OrderInfoComponentDto;
 use App\Twig\Components\Order\OrderModify\OrderModifyComponent;
 use App\Twig\Components\Order\OrderModify\OrderModifyComponentDto;
 use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxComponent;
@@ -25,8 +27,6 @@ use App\Twig\Components\Order\OrderProductsListAjax\OrderProductsListAjaxCompone
 use App\Twig\Components\Order\OrderRemove\OrderRemoveComponent;
 use App\Twig\Components\Order\OrderRemove\OrderRemoveComponentDto;
 use App\Twig\Components\PaginatorJs\PaginatorJsComponentDto;
-use App\Twig\Components\Shop\ShopInfo\ShopInfoComponent;
-use App\Twig\Components\Shop\ShopInfo\ShopInfoComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -218,7 +218,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
         $this->orderInfoModalDto = $this->createOrderInfoModalDto();
 
-        return $this->createOrderHomeSectionComponentDto($this->productsListAjaxModalDto/*  $this->orderInfoModalDto */);
+        return $this->createOrderHomeSectionComponentDto($this->productsListAjaxModalDto, $this->orderInfoModalDto);
     }
 
     private function createOrderCreateComponentDto(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId, string $listOrdersId): ModalComponentDto
@@ -333,7 +333,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->description,
                 $listItemData->amount,
                 $listItemData->bought,
-                Config::ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
+                $listItemData->product->image ?? Config::ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 $listItemData->createdOn,
                 $listItemData->product,
                 $listItemData->shop,
@@ -377,15 +377,17 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
     private function createOrderInfoModalDto(): ModalComponentDto
     {
-        $orderInfoComponentDto = new ShopInfoComponentDto(
-            ShopInfoComponent::getComponentName()
+        $orderInfoComponentDto = new OrderInfoComponentDto(
+            OrderInfoComponent::getComponentName(),
+            Config::ORDER_BOUGHT_ICON,
+            Config::ORDER_BOUGHT_NOT_ICON,
         );
 
         return new ModalComponentDto(
             self::ORDER_INFO_MODAL_ID,
             '',
             false,
-            ShopInfoComponent::getComponentName(),
+            OrderInfoComponent::getComponentName(),
             $orderInfoComponentDto,
             []
         );
@@ -396,7 +398,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return new HomeSectionComponentDto();
     }
 
-    private function createOrderHomeSectionComponentDto(ModalComponentDto $productListItemsModalDto/*   ModalComponentDto $orderInfoModalDto */): OrderHomeSectionComponentDto
+    private function createOrderHomeSectionComponentDto(ModalComponentDto $productListItemsModalDto, ModalComponentDto $orderInfoModalDto): OrderHomeSectionComponentDto
     {
         return (new OrderHomeSectionComponentDto())
             ->homeSection(
@@ -405,9 +407,9 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             ->listItemsModal(
                 $productListItemsModalDto
             )
-            // ->orderInfoModal(
-            //     $orderInfoModalDto
-            // )
+            ->orderInfoModal(
+                $orderInfoModalDto
+            )
             ->build();
     }
 }

@@ -62,6 +62,7 @@ final class OrderListItemComponent extends HomeListItemComponent
                 'id' => $orderData->product->id,
                 'name' => $orderData->product->name,
                 'description' => $orderData->product->description,
+                'image' => $orderData->product->image,
             ],
             'shop' => [
                 'id' => $orderData->shop?->id,
