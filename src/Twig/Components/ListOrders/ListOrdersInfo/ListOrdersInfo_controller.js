@@ -1,6 +1,7 @@
 import ItemInfo from "App/Twig/Components/HomeSection/ItemInfo/ItemInfo_controller";
 import * as html from 'App/modules/Html';
 import * as config from 'App/Config';
+import * as locale from 'App/modules/Locale';
 
 /**
  * @typedef {config.ItemData} ListOrdersData
@@ -27,9 +28,9 @@ export default class extends ItemInfo {
 
         let dateToBuy = '---';
         if (data.dateToBuy !== null) {
-            dateToBuy = html.escape(this.getDataLocale(data.dateToBuy, config.dateTimeFormat));
+            dateToBuy = locale.formatDateToLocale(data.dateToBuy);
         }
 
-        this.#dateToBuyTag.innerHTML = dateToBuy;
+        this.#dateToBuyTag.innerText = dateToBuy;
     }
 }

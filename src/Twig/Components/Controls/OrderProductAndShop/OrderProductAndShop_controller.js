@@ -3,6 +3,8 @@ import * as communication from 'App/modules/ControllerCommunication';
 import * as apiEndpoint from 'App/modules/ApiEndpoints';
 import * as html from 'App/modules/Html';
 import * as config from 'App/Config';
+import * as locale from 'App/modules/Locale';
+import * as url from 'App/modules/Url';
 
 const PRODUCT_SHOPS_MAX = 100;
 
@@ -141,7 +143,7 @@ export default class extends Controller {
             this.#productPriceTag.innerHTML = '';
             this.#unit = '';
             if (productShopPriceCurrent.price !== null) {
-                this.#productPriceTag.innerHTML = html.escape(`${productShopPriceCurrent.price}${config.CURRENCY}/${config.UNIT_MEASURE.translate(productShopPriceCurrent.unit, false)}`);
+                this.#productPriceTag.innerText = locale.formatPriceCurrencyAndUnit(productShopPriceCurrent.price, productShopPriceCurrent.unit);
                 this.#unit = productShopPriceCurrent.unit
             }
 

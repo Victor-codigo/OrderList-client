@@ -2,8 +2,8 @@ import { Controller } from '@hotwired/stimulus';
 import * as form from 'App/modules/form';
 import * as communication from 'App/modules/ControllerCommunication';
 import ModalManager from 'App/modules/ModalManager/ModalManager';
-import * as html from 'App/modules/Html';
-import { MODAL_CHAINS, CURRENCY, UNIT_MEASURE } from 'App/Config';
+import * as locale from 'App/modules/Locale';
+import { MODAL_CHAINS, UNIT_MEASURE } from 'App/Config';
 
 export default class extends Controller {
     /**
@@ -123,12 +123,12 @@ export default class extends Controller {
         const totalPrice = price * amount;
 
         if (!isNaN(totalPrice) && totalPrice >= 0) {
-            this.#totalTag.innerHTML = html.escape(totalPrice.toLocaleString() + CURRENCY);
+            this.#totalTag.innerText = locale.formatToStringLocaleCurrency(totalPrice);
 
             return;
         }
 
-        this.#totalTag.innerHTML = '0' + CURRENCY;
+        this.#totalTag.innerText = locale.formatToStringLocaleCurrency(0);
     }
 
     /**
