@@ -1,3 +1,15 @@
 .order-list-item__image {
     width: 75px;
 }
+
+.order-list-item__button-bought {
+    color: lightgray;
+
+    svg {
+        height: 32px;
+    }
+}
+
+.order-list-item__button-bought--bought {
+    color: var(--bs-green);
+}

@@ -11,9 +11,23 @@ export default class extends Controller {
         this.checkbox.removeEventListener('change', this.#sendMessageHomeListItemSelectedToParent);
     }
 
+    /**
+     * @returns {object}
+     */
+    getItemData() {
+        return JSON.parse(this.element.dataset.itemData);
+    }
+
+    /**
+     * @param {object} itemData
+     */
+    setItemData(itemData) {
+        this.element.dataset.itemData = JSON.stringify(itemData);
+    }
+
     sendMessageHomeListItemRemoveEvent() {
         communication.sendMessageToNotRelatedController(this.element, 'removeHomeListItem', {
-            items: [JSON.parse(this.element.dataset.itemData)]
+            items: [this.getItemData()]
         },
             'ItemRemoveComponent'
         );

@@ -15,6 +15,8 @@ class OrderListItemComponentLangDto extends HomeListItemComponentLangDto
         public readonly string $removeItemButtonTitle,
         public readonly string $infoItemButtonAlt,
         public readonly string $infoItemButtonTitle,
+        public readonly string $boughtItemButtonTitle,
+        public readonly string $notBoughtItemButtonTitle,
 
         public readonly string $imageItemAlt,
         public readonly string $imageItemTitle,

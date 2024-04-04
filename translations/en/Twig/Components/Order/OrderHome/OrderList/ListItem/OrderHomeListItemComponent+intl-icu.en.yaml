@@ -10,6 +10,12 @@ order_info_button:
   title: Show info of the order
   alt: Button to show info of the order
 
+order_bought_button:
+  title: Order bought
+
+order_not_bought_button:
+  title: The order has not been bought yet
+
 order_image:
   title: order image
   alt: order image

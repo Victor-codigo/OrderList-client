@@ -10,6 +10,12 @@ order_info_button:
   title: Muestra información del pedido
   alt: Botón para mostrar información del pedido
 
+order_bought_button:
+  title: Pedido comprado
+
+order_not_bought_button:
+  title: El pedido no ha sido comprado todavía
+
 order_image:
   title: Imagen del pedido
   alt: Imagen del pedido

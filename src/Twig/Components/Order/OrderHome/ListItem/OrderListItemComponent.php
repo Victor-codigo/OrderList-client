@@ -43,6 +43,8 @@ final class OrderListItemComponent extends HomeListItemComponent
             $this->translate('order_remove_button.title'),
             $this->translate('order_info_button.alt'),
             $this->translate('order_info_button.title'),
+            $this->translate('order_bought_button.title'),
+            $this->translate('order_not_bought_button.title'),
             $this->translate('order_image.alt'),
             $this->translate('order_image.title'),
         );
@@ -52,6 +54,7 @@ final class OrderListItemComponent extends HomeListItemComponent
     {
         $orderDataToParse = [
             'id' => $orderData->id,
+            'groupId' => $orderData->groupId,
             'name' => $orderData->name,
             'description' => $orderData->description,
             'amount' => $orderData->amount,

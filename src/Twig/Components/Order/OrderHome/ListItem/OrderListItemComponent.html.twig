@@ -26,6 +26,18 @@
     </label>
 
     <button type="button"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary  order-list-item__button-bought"
+            value="{{ data.id }}"
+            title="{{ lang.notBoughtItemButtonTitle }}"
+            data-action="OrderListItemComponent#toggleMarkAsBought"
+            data-order-bought-title="{{ lang.boughtItemButtonTitle }}"
+            data-order-not-bought-title="{{ lang.notBoughtItemButtonTitle }}"
+            data-js-item-bought>
+
+        {% include 'order/bought-icon.svg' %}
+    </button>
+
+    <button type="button"
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
             value="{{ data.id }}"
             alt="{{ lang.infoItemButtonAlt }}"
