@@ -14,6 +14,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 class OrderHomeSectionComponent extends TwigComponent
 {
+    public OrderHomeSectionComponentLangDto $lang;
     public OrderHomeSectionComponentDto|TwigComponentDtoInterface $data;
 
     public static function getComponentName(): string
@@ -24,5 +25,15 @@ class OrderHomeSectionComponent extends TwigComponent
     public function mount(OrderHomeSectionComponentDto $data): void
     {
         $this->data = $data;
+
+        $this->loadTranslation();
+    }
+
+    private function loadTranslation(): void
+    {
+        $this->lang = new OrderHomeSectionComponentLangDto(
+            $this->translate('home_header.currentBought'),
+            $this->translate('home_header.totalBought')
+        );
     }
 }

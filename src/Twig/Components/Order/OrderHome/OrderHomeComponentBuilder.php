@@ -40,7 +40,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private const ORDER_INFO_MODAL_ID = 'order_info_modal';
     private const ORDER_PRODUCT_LIST_MODAL_ID = 'order_product_list_select_modal';
 
-    private const ORDER_HOME_COMPONENT_NAME = 'OrderHomeComponent';
+    private const ORDER_HOME_COMPONENT_NAME = 'OrderHomeSectionComponent';
     private const ORDER_HOME_LIST_COMPONENT_NAME = 'OrderHomeListComponent';
     private const ORDER_HOME_LIST_ITEM_COMPONENT_NAME = 'OrderHomeListItemComponent';
 

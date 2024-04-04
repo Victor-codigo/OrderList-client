@@ -1,5 +1,5 @@
-<div data-controller="HomeSectionComponent"
-	 class="contaniner">
+<section data-controller="HomeSectionComponent"
+		 class="contaniner">
 
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
@@ -11,38 +11,42 @@
 
 	<div class="border  border-1  rounded-2  p-2">
 
-		<div class="d-flex  flex-row  mb-3">
-
-			<button type="button"
-					class="btn btn-outline-primary  flex-grow-1  rounded-0  rounded-top"
-					title="{{ lang.buttonAddTitle }}"
-					data-bs-toggle="modal"
-					data-bs-target="#{{ createFormModalDto.idAttribute }}"
-					data-js-add-item>
-
-				{% include "add-icon-blue-18x18.svg" %}
-
-				<span class="align-middle">{{ lang.buttonAddLabel }}</span>
-			</button>
-
-			<div id="{{ data.removeMultiFormDto.formName }}"
-				 data-remove-items-id-input-name="{{ data.removeMultiFormDto.itemsIdFieldName }}"
-				 data-js-form-remove-many-items
-				 novalidate>
-
-				<button class="btn btn-outline-danger  flex-grow-0  ms-1  ps-4  pe-4  rounded-0  rounded-top"
-						type="button"
-						name="{{ data.removeMultiFormDto.submitFieldName }}"
-						title="{{ lang.buttonRemoveMultipleTitle }}"
+		<header class="mb-3">
+			<div class="d-flex  flex-row">
+				<button type="button"
+						class="btn btn-outline-primary  flex-grow-1  rounded-0  rounded-top"
+						title="{{ lang.buttonAddTitle }}"
 						data-bs-toggle="modal"
-						data-bs-target="#{{ data.removeMultiFormDto.modalIdAttribute }}"
-						data-action="HomeSectionComponent#sendMessageHomeSectionRemoveMultiToParent"
-						data-js-form-remove-many-items-button>
+						data-bs-target="#{{ createFormModalDto.idAttribute }}"
+						data-js-add-item>
 
-					{% include "remove-icon-red-24x24.svg" %}
+					{% include "add-icon-blue-18x18.svg" %}
+
+					<span class="align-middle">{{ lang.buttonAddLabel }}</span>
 				</button>
+
+				<div id="{{ data.removeMultiFormDto.formName }}"
+					 data-remove-items-id-input-name="{{ data.removeMultiFormDto.itemsIdFieldName }}"
+					 data-js-form-remove-many-items
+					 novalidate>
+
+					<button class="btn btn-outline-danger  flex-grow-0  ms-1  ps-4  pe-4  rounded-0  rounded-top"
+							type="button"
+							name="{{ data.removeMultiFormDto.submitFieldName }}"
+							title="{{ lang.buttonRemoveMultipleTitle }}"
+							data-bs-toggle="modal"
+							data-bs-target="#{{ data.removeMultiFormDto.modalIdAttribute }}"
+							data-action="HomeSectionComponent#sendMessageHomeSectionRemoveMultiToParent"
+							data-js-form-remove-many-items-button>
+
+						{% include "remove-icon-red-24x24.svg" %}
+					</button>
+				</div>
 			</div>
-		</div>
+
+			{% block headerBlock %}
+			{% endblock headerBlock %}
+		</header>
 
 		{{ component('HomeListComponent', { data: listComponentDto }) }}
 	</div>
@@ -50,4 +54,4 @@
 
 	{{ component('ModalComponent', { data: createFormModalDto }) }}
 	{{ component('ModalComponent', { data: removeMultiFormModalDto }) }}
-</div>
+</section>
