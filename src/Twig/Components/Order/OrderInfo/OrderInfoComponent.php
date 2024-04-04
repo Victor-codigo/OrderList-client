@@ -48,9 +48,7 @@ class OrderInfoComponent extends ItemInfoComponent
             ->bought(
                 $this->translate('bought.label'),
                 $this->translate('bought.bought_icon.title'),
-                $this->translate('bought.bought_icon.alt'),
                 $this->translate('bought.not_bought_icon.title'),
-                $this->translate('bought.not_bought_icon.alt'),
             )
             ->product(
                 $this->translate('product.description.label'),

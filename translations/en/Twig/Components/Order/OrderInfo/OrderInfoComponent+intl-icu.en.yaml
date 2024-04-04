@@ -14,10 +14,8 @@ bought:
   label: Bought
   bought_icon:
     title: Order bought
-    alt: Order has been bought
   not_bought_icon:
     title: Order not bought
-    alt: Order has not been bought yet
 
 product:
   description:

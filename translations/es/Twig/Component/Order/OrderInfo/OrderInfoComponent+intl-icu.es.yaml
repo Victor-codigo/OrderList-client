@@ -14,10 +14,8 @@ bought:
   label: Comprado
   bought_icon:
     title: Pedido comprado
-    alt: El pedido ha sido comprado
   not_bought_icon:
     title: Pedido no comprado
-    alt: El pedido no ha sido comprado todavía
 
 product:
   description:

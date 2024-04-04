@@ -8,10 +8,4 @@ use App\Twig\Components\HomeSection\ItemInfo\ItemInfoComponentDto;
 
 class OrderInfoComponentDto extends ItemInfoComponentDto
 {
-    public function __construct(
-        public readonly string $componentName,
-        public readonly string $iconBoughtPath,
-        public readonly string $iconNotBoughtPath,
-    ) {
-    }
 }

@@ -97,19 +97,15 @@ export default class extends ItemInfo_controller {
      * @param {boolean} bought
      */
     #setBoughtImage(bought) {
-        this.#boughtTag.classList.remove('order-bought__icon--bought');
-        this.#boughtTag.classList.remove('order-not-bought__icon--not-bought');
+        this.#boughtTag.classList.remove('order-info-bought__icon--bought');
+        this.#boughtTag.classList.remove('order-info-bought__icon--not-bought');
 
         if (bought) {
-            this.#boughtTag.classList.add('order-bought__icon--bought');
-            this.#boughtTag.src = this.#boughtTag.dataset.iconBought;
+            this.#boughtTag.classList.add('order-info-bought__icon--bought');
             this.#boughtTag.title = this.#boughtTag.dataset.iconBoughtTitle;
-            this.#boughtTag.alt = this.#boughtTag.dataset.iconBoughtAlt;
         } else {
-            this.#boughtTag.classList.add('order-not-bought__icon--not-bought');
-            this.#boughtTag.src = this.#boughtTag.dataset.iconNotBought;
+            this.#boughtTag.classList.add('order-info-bought__icon--not-bought');
             this.#boughtTag.title = this.#boughtTag.dataset.iconNotBoughtTitle;
-            this.#boughtTag.alt = this.#boughtTag.dataset.iconNotBoughtAlt;
         }
     }
 

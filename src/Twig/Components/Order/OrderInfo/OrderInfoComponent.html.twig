@@ -7,18 +7,14 @@
     { item description }
 </p>
 
-<div class="d-flex  justify-content-between">
+<div class="d-flex  justify-content-between  order-info-bought">
     <h3 class="lead">{{ lang.bought }}:</h3>
-    <img class="order-info__bought-icon"
-         title="{{ lang.boughtTitle }}"
-         alt="{{ lang.boughtAlt }}"
-         data-icon-bought="{{ data.iconBoughtPath|escape('html_attr') }}"
-         data-icon-not-bought="{{ data.iconNotBoughtPath|escape('html_attr') }}"
+    <div class="order-info-bought__icon  order-info-bought__icon--bought"
          data-icon-bought-title="{{ lang.boughtTitle }}"
-         data-icon-bought-not-alt="{{ lang.boughtAlt }}"
          data-icon-not-bought-title="{{ lang.notBoughtTitle }}"
-         data-icon-not-bought-alt="{{ lang.notBoughtAlt }}"
          data-js-item-bought>
+        {% include "order/bought-icon.svg" %}
+    </div>
 </div>
 
 

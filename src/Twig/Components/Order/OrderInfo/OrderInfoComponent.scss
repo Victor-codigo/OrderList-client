@@ -17,11 +17,25 @@
     border: 0;
 }
 
-.order-info__bought-icon {
-    height: 32px;
-    color: green;
-    margin-right: 5px;
-    cursor: help;
+.order-info-bought {
+
+    &__icon {
+        margin-right: 5px;
+        cursor: help;
+
+        svg {
+            height: 32px;
+        }
+
+        &--bought {
+            color: green;
+        }
+
+        &--not-bought {
+            color: lightgrey;
+        }
+    }
+
 }
 
 .order-info__table {

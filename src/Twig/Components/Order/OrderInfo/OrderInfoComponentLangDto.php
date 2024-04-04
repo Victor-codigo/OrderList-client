@@ -12,9 +12,7 @@ class OrderInfoComponentLangDto extends ItemInfoComponentLangDto
 
     public readonly string $bought;
     public readonly string $boughtTitle;
-    public readonly string $boughtAlt;
     public readonly string $notBoughtTitle;
-    public readonly string $notBoughtAlt;
 
     public readonly string $productDescriptionTitle;
 
@@ -43,15 +41,13 @@ class OrderInfoComponentLangDto extends ItemInfoComponentLangDto
         return $this;
     }
 
-    public function bought(string $bought, string $boughtTitle, string $boughtAlt, string $notBoughtTitle, string $notBoughtAlt): self
+    public function bought(string $bought, string $boughtTitle, string $notBoughtTitle): self
     {
         $this->builder->setMethodStatus('bought', true);
 
         $this->bought = $bought;
         $this->boughtTitle = $boughtTitle;
-        $this->boughtAlt = $boughtAlt;
         $this->notBoughtTitle = $notBoughtTitle;
-        $this->notBoughtAlt = $notBoughtAlt;
 
         return $this;
     }
