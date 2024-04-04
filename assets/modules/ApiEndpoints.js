@@ -4,10 +4,13 @@ import * as url from 'App/modules/Url';
 const API_VERSION = '1';
 const API_DOMAIN = 'http://orderlist.api';
 const CLIENT_DOMAIN = 'http://orderlist.client';
+
 const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
 const GET_PRODUCTS_URL = `${API_DOMAIN}/api/v${API_VERSION}/products`;
 const GET_PRODUCTS_SHOPS_PRICE_URL = `${API_DOMAIN}/api/v${API_VERSION}/products/price`;
 const GET_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/list-orders`;
+const PATCH_ORDER_BOUGHT = `${API_DOMAIN}/api/v${API_VERSION}/orders/bought`;
+
 const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
 const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/create`;
 
@@ -41,7 +44,7 @@ export async function executeEndPointByName(endpointName, queryParameters) {
  * @throws Error
  */
 export async function getShopsData(queryParameters) {
-    const response = await fetch.createJsonRequest(GET_SHOPS_URL, 'GET', queryParameters);
+    const response = await fetch.createQueryRequest(GET_SHOPS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
         (responseDataNoContent) => {
             return {
@@ -98,7 +101,7 @@ export async function createShop(form, submitter) {
 * @throws Error
 */
 export async function getProductsData(queryParameters) {
-    const response = await fetch.createJsonRequest(GET_PRODUCTS_URL, 'GET', queryParameters);
+    const response = await fetch.createQueryRequest(GET_PRODUCTS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
         (responseDataNoContent) => {
             return {
@@ -163,7 +166,7 @@ export async function getProductShopsPricesData(groupId, productsId, shopsId) {
         'products_id': productsId.join(','),
         'shops': shopsId.join(',')
     };
-    const response = await fetch.createJsonRequest(GET_PRODUCTS_SHOPS_PRICE_URL, 'GET', queryParameters);
+    const response = await fetch.createQueryRequest(GET_PRODUCTS_SHOPS_PRICE_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
         (responseDataNoContent) => {
             return {
@@ -190,7 +193,7 @@ export async function getProductShopsPricesData(groupId, productsId, shopsId) {
 }
 
 export async function getListOrdersData(queryParameters) {
-    const response = await fetch.createJsonRequest(GET_LIST_ORDERS_URL, 'GET', queryParameters);
+    const response = await fetch.createQueryRequest(GET_LIST_ORDERS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
         (responseDataNoContent) => {
             return {
@@ -220,4 +223,44 @@ export async function getListOrdersNames(queryParameters) {
     const responseData = await getListOrdersData(queryParameters);
 
     return responseData.listOrders.map((listOrders) => listOrders.name);
+}
+
+/**
+ * @param {string} orderId
+ * @param {string} groupId
+ * @param {boolean} bought
+ *
+ * @return {Promise<boolean>}
+ *
+ * @throws {Error}
+ */
+export async function orderBought(orderId, groupId, bought) {
+    const parameters = {
+        'order_id': orderId,
+        'group_id': groupId,
+        'bought': bought
+    };
+
+    const response = await fetch.createJsonRequest(PATCH_ORDER_BOUGHT, 'PATCH', parameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        null,
+        (responseDataError) => {
+            return {
+                data: [],
+                errors: responseDataError
+            }
+        },
+        (responseDataOk) => {
+            return {
+                data: responseDataOk,
+                errors: []
+            }
+        }
+    );
+
+    if (responseJson.errors.length > 0) {
+        throw new Error('Error marking order as bought');
+    }
+
+    return true;
 }
