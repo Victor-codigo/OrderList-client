@@ -16,8 +16,10 @@ const fetchOptionsDefault = {
  * @param {object} queryParameters see api documentation
  * @throws Error
  */
-export async function createJsonRequest(url, method, queryParameters) {
-    return await createRequest(url, queryParameters, {
+export async function createQueryRequest(url, method, queryParameters) {
+    const fetchUrl = url + objectToQueryParameters(queryParameters);
+
+    return await createRequest(fetchUrl, {
         'method': method,
         'headers': {
             'Content-Type': 'application/json',
@@ -28,12 +30,31 @@ export async function createJsonRequest(url, method, queryParameters) {
 /**
  * @param {string} url
  * @param {string} method
+ * @param {object} parameters see api documentation
+ * @throws Error
+ */
+export async function createJsonRequest(url, method, parameters) {
+    return await createRequest(url, {
+        'method': method,
+        'headers': {
+            'Content-Type': 'application/json',
+        },
+        'body': JSON.stringify(parameters)
+    });
+}
+
+/**
+ * @param {string} url
+ * @param {string} method
  * @param {object} queryParameters see api documentation
  * @param {object} bodyParameters see api documentation
+ *
  * @throws Error
  */
 export async function createFormRequest(url, method, bodyParameters, queryParameters) {
-    return await createRequest(url + '?XDEBUG_SESSION=VSCODE', queryParameters, {
+    const fetchUrl = url + objectToQueryParameters(queryParameters);
+
+    return await createRequest(fetchUrl, {
         'method': method,
         'body': bodyParameters
     });
@@ -41,16 +62,15 @@ export async function createFormRequest(url, method, bodyParameters, queryParame
 
 /**
  * @param {string} url
- * @param {object} queryParameters see api documentation
  * @param {object} fetchOptions
+ *
  * @throws Error
  */
-export async function createRequest(url, queryParameters, fetchOptions) {
+export async function createRequest(url, fetchOptions) {
     try {
-        const fetchUrl = url + objectToQueryParameters(queryParameters);
         const options = mergeFetchOptions(fetchOptionsDefault, fetchOptions);
 
-        return await fetch(fetchUrl, options);
+        return await fetch(url, options);
     }
     catch (error) {
         throw new Error(`Response error [${error}]`);
