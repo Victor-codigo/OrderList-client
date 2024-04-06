@@ -2,24 +2,6 @@ import * as config from 'App/Config';
 import * as url from 'App/modules/Url';
 
 /**
- * @param {string|null} unit
- *
- * @returns {string}
- */
-export function formatApiUnits(unit) {
-    if (null === unit) {
-        return '';
-    }
-
-    const units = {
-        "UNITS": "Unit",
-        "KG": "Kg"
-    };
-
-    return typeof units[unit] === 'undefined' ? unit.toLowerCase() : units[unit];
-}
-
-/**
  * @param {number|null} price
  *
  * @returns {string}
@@ -55,6 +37,16 @@ export function formatPriceCurrencyAndUnit(price, unit) {
 }
 
 /**
+ * @param {number} amount
+ * @param {string} unit
+ *
+ * @return {string}
+ */
+export function formatAmountAndUnit(amount, unit) {
+    return `${amount.toLocaleString(getLocaleItl(url.getLocale()))}${formatApiUnits(unit)}`
+}
+
+/**
  * @param {string} date
  *
  * @returns {string}
@@ -64,6 +56,24 @@ export function formatDateToLocale(date) {
         getLocaleItl(url.getLocale()),
         config.dateFormat
     );
+}
+
+/**
+ * @param {string|null} unit
+ *
+ * @returns {string}
+ */
+function formatApiUnits(unit) {
+    if (null === unit) {
+        return '';
+    }
+
+    const units = {
+        "UNITS": "Unit",
+        "KG": "Kg"
+    };
+
+    return typeof units[unit] === 'undefined' ? unit.toLowerCase() : units[unit];
 }
 
 /**

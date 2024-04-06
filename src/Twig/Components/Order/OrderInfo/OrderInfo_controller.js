@@ -80,7 +80,7 @@ export default class extends ItemInfo_controller {
         this.dateTag.innerText = locale.formatDateToLocale(data.createdOn);
         this.descriptionTag.innerText = data.description;
         this.#setBoughtImage(data.bought);
-        this.#amountTag.innerText = `${data.amount} ${locale.formatApiUnits(data.productShop.unit)}`;
+        this.#amountTag.innerText = locale.formatAmountAndUnit(data.amount, data.productShop.unit);
 
         this.#productNameTag.innerText = data.product.name;
         this.#productDescriptionTag.innerText = data.product.description;
