@@ -21,28 +21,6 @@ export function formatApiUnits(unit) {
 
 /**
  * @param {number|null} price
- * @param {string} unit
- *
- * @returns {string}
- */
-export function formatCurrency(price, unit) {
-    let priceFormat = '---';
-    let unitFormatted = this.formatApiUnits(unit);
-    let unitTextFormatted = '';
-
-    if (price !== null) {
-        priceFormat = price.toString();
-    }
-
-    if (unitFormatted !== '') {
-        unitTextFormatted = '/' + unitFormatted;
-    }
-
-    return `${priceFormat} ${config.CURRENCY}${unitTextFormatted}`
-}
-
-/**
- * @param {number|null} price
  *
  * @returns {string}
  */
@@ -65,7 +43,7 @@ export function formatPriceCurrencyAndUnit(price, unit) {
     let priceFormat = '---';
     let unitTextFormatted = '';
 
-    if (price === null) {
+    if (price !== null) {
         priceFormat = price.toString();
     }
 

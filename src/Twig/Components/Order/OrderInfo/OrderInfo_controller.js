@@ -87,7 +87,7 @@ export default class extends ItemInfo_controller {
 
         this.#shopNameTag.innerText = data.shop.name;
         this.#shopDescriptionTag.innerText = data.shop.description;
-        this.#shopPriceTag.innerText = locale.formatCurrency(data.productShop.price, data.productShop.unit);
+        this.#shopPriceTag.innerText = locale.formatPriceCurrencyAndUnit(data.productShop.price, data.productShop.unit);
 
         this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(this.#calculatePriceTotal(data.productShop.price, data.amount));
         this.#setShopInfo(data.shop);
