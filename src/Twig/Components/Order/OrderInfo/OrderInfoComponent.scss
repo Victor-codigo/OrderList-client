@@ -41,9 +41,11 @@
 .order-info__table {
     .table__title {
         padding: 0;
+        vertical-align: middle;
     }
 
     .table__value {
         text-align: right;
+        vertical-align: middle;
     }
 }
