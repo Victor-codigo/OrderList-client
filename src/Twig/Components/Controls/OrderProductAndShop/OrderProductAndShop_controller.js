@@ -2,9 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import * as communication from 'App/modules/ControllerCommunication';
 import * as apiEndpoint from 'App/modules/ApiEndpoints';
 import * as html from 'App/modules/Html';
-import * as config from 'App/Config';
 import * as locale from 'App/modules/Locale';
-import * as url from 'App/modules/Url';
 
 const PRODUCT_SHOPS_MAX = 100;
 
@@ -101,13 +99,17 @@ export default class extends Controller {
         const loadingSpinner = this.element.querySelector('[data-js-spinner]');
         loadingSpinner.hidden = false;
 
-        const productShopsData = await apiEndpoint.getShopsData({
-            'group_id': groupId,
-            'page': 1,
-            'page_items': PRODUCT_SHOPS_MAX,
-            'order_asc': true,
-            'products_id': productId
-        });
+        const productShopsData = await apiEndpoint.getShopsData(
+            groupId,
+            1,
+            PRODUCT_SHOPS_MAX,
+            null,
+            [productId],
+            null,
+            null,
+            null,
+            true,
+        );
 
         const options = productShopsData.shops.map((shop) => {
             const option = document.createElement('option');

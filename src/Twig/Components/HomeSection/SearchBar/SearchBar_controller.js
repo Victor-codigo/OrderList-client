@@ -153,10 +153,10 @@ export default class extends Controller {
 
     #getParametersDefault() {
         return {
-            'group_id': this.element.dataset.groupId,
-            'page': 1,
-            'page_items': SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS,
-            'order_asc': true,
+            groupId: this.element.dataset.groupId,
+            page: 1,
+            pageItems: SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS,
+            orderAsc: true,
         };
     }
 
@@ -167,10 +167,18 @@ export default class extends Controller {
      */
     #getShopsNames(nameFilter, valueFilter) {
         let parameters = this.#getParametersDefault();
-        parameters['shop_name_filter_type'] = nameFilter;
-        parameters['shop_name_filter_value'] = valueFilter;
 
-        return apiEndpoints.getShopsNames(parameters);
+        return apiEndpoints.getShopsNames(
+            parameters.groupId,
+            parameters.page,
+            parameters.pageItems,
+            null,
+            null,
+            null,
+            nameFilter,
+            valueFilter,
+            parameters.orderAsc
+        );
     }
 
     /**
@@ -180,10 +188,20 @@ export default class extends Controller {
      */
     #getProductsNames(nameFilter, valueFilter) {
         let parameters = this.#getParametersDefault();
-        parameters['product_name_filter_type'] = this.nameFilterTag.value;
-        parameters['product_name_filter_value'] = this.valueTag.value;
 
-        return apiEndpoints.getProductsNames(parameters);
+        return apiEndpoints.getProductsNames(
+            parameters.groupId,
+            parameters.page,
+            parameters.pageItems,
+            null,
+            null,
+            null,
+            nameFilter,
+            valueFilter,
+            null,
+            null,
+            parameters.orderAsc
+        );
     }
 
     /**
@@ -194,11 +212,18 @@ export default class extends Controller {
      */
     #getListOrdersNames(nameFilter, sectionFilter, valueFilter) {
         let parameters = this.#getParametersDefault();
-        parameters['filter_text'] = nameFilter;
-        parameters['filter_section'] = sectionFilter;
-        parameters['filter_value'] = valueFilter;
 
-        return apiEndpoints.getListOrdersNames(parameters);
+        return apiEndpoints.getListOrdersNames(
+            parameters.groupId,
+            parameters.page,
+            parameters.pageItems,
+            null,
+            null,
+            sectionFilter,
+            nameFilter,
+            valueFilter,
+            parameters.orderAsc
+        );
     }
 
     #onSearchValueInputHandler() {

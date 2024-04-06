@@ -137,6 +137,7 @@ export async function manageResponseJson(response, callbackResponseNoContent, ca
  */
 function objectToQueryParameters(queryParameters) {
     const queryParametersEncoded = Object.entries(queryParameters)
+        .filter(([name, value]) => value !== null)
         .map(([name, value]) => `${name}=${value}`)
         .join('&');
 

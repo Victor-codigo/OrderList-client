@@ -36,7 +36,16 @@ export async function executeEndPointByName(endpointName, queryParameters) {
 }
 
 /**
- * @param {object} queryParameters see api documentation
+ * @param {string} groupId
+ * @param {string[]|null} shopsId
+ * @param {string[]|null} productsId
+ * @param {string|null} shopName
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string|null} shopNameFilterType
+ * @param {string|null} shopNameFilterValue
+ * @param {boolean|null} orderAsc
+ *
  * @returns {Promise<{
  *      'page': int,
  *      'pages_total': int,
@@ -44,7 +53,18 @@ export async function executeEndPointByName(endpointName, queryParameters) {
  * }>}
  * @throws Error
  */
-export async function getShopsData(queryParameters) {
+export async function getShopsData(groupId, page, pageItems, shopsId = null, productsId = null, shopName = null, shopNameFilterType = null, shopNameFilterValue = null, orderAsc = true) {
+    const queryParameters = {
+        'group_id': groupId,
+        'shops_id': shopsId,
+        'products_id': productsId,
+        'shop_name': shopName,
+        'page': page,
+        'page_items': pageItems,
+        'shop_name_filter_type': shopNameFilterType,
+        'shop_name_filter_value': shopNameFilterValue,
+        'order_asc': orderAsc
+    };
     const response = await fetch.createQueryRequest(GET_SHOPS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
         (responseDataNoContent) => {
@@ -64,12 +84,31 @@ export async function getShopsData(queryParameters) {
 }
 
 /**
-* @param {object} queryParameters see api documentation
-* @returns {Promise<string[]>}
-* @throws Error
-*/
-export async function getShopsNames(queryParameters) {
-    const responseData = await getShopsData(queryParameters);
+ * @param {string} groupId
+ * @param {string[]|null} shopsId
+ * @param {string[]|null} productsId
+ * @param {string|null} shopName
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string|null} shopNameFilterType
+ * @param {string|null} shopNameFilterValue
+ * @param {boolean|null} orderAsc
+ *
+ * @returns {Promise<string[]>}
+ * @throws Error
+ */
+export async function getShopsNames(groupId, page, pageItems, shopsId = null, productsId = null, shopName = null, shopNameFilterType = null, shopNameFilterValue = null, orderAsc = true) {
+    const responseData = await getShopsData(
+        groupId,
+        page,
+        pageItems,
+        shopsId,
+        productsId,
+        shopName,
+        shopNameFilterType,
+        shopNameFilterValue,
+        orderAsc
+    );
 
     return responseData.shops.map((shop) => shop.name);
 }
@@ -93,15 +132,39 @@ export async function createShop(form, submitter) {
 }
 
 /**
- * @param {object} queryParameters see api documentation
+ * @param {string} groupId
+ * @param {string[]|null} shopsId
+ * @param {string[]|null} productsId
+ * @param {string|null} productName
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string|null} productNameFilterType
+ * @param {string|null} productNameFilterValue
+ * @param {string|null} shopNameFilterType
+ * @param {string|null} shopNameFilterValue
+ * @param {boolean|null} orderAsc
+ *
  * @returns {Promise<{
-*      'page': int,
-*      'pages_total': int,
-*      'products': array
-* }>}
-* @throws Error
-*/
-export async function getProductsData(queryParameters) {
+ *      'page': int,
+ *      'pages_total': int,
+ *      'products': array
+ * }>}
+ * @throws Error
+ */
+export async function getProductsData(groupId, page, pageItems, shopsId = null, productsId = null, productName = null, productNameFilterType = null, productNameFilterValue = null, shopNameFilterType = null, shopNameFilterValue = null, orderAsc = true) {
+    const queryParameters = {
+        'group_id': groupId,
+        'shops_id': shopsId,
+        'products_id': productsId,
+        'product_name': productName,
+        'page': page,
+        'page_items': pageItems,
+        'product_name_filter_type': productNameFilterType,
+        'product_name_filter_value': productNameFilterValue,
+        'shop_name_filter_type': shopNameFilterType,
+        'shop_name_filter_value': shopNameFilterValue,
+        'order_asc': orderAsc
+    };
     const response = await fetch.createQueryRequest(GET_PRODUCTS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
         (responseDataNoContent) => {
@@ -121,12 +184,35 @@ export async function getProductsData(queryParameters) {
 }
 
 /**
-* @param {object} queryParameters see api documentation
-* @returns {Promise<string[]>}
-* @throws Error
-*/
-export async function getProductsNames(queryParameters) {
-    const responseData = await getProductsData(queryParameters);
+ * @param {string} groupId
+ * @param {string[]|null} shopsId
+ * @param {string[]|null} productsId
+ * @param {string|null} productName
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string|null} productNameFilterType
+ * @param {string|null} productNameFilterValue
+ * @param {string|null} shopNameFilterType
+ * @param {string|null} shopNameFilterValue
+ * @param {boolean|null} orderAsc
+ *
+ * @returns {Promise<string[]>}
+ * @throws Error
+ */
+export async function getProductsNames(groupId, page, pageItems, shopsId = null, productsId = null, productName = null, productNameFilterType = null, productNameFilterValue = null, shopNameFilterType = null, shopNameFilterValue = null, orderAsc = true) {
+    const responseData = await getProductsData(
+        groupId,
+        page,
+        pageItems,
+        shopsId,
+        productsId,
+        productName,
+        productNameFilterType,
+        productNameFilterValue,
+        shopNameFilterType,
+        shopNameFilterValue,
+        orderAsc
+    );
 
     return responseData.products.map((product) => product.name);
 }
@@ -193,7 +279,32 @@ export async function getProductShopsPricesData(groupId, productsId, shopsId) {
     return responseJson.data;
 }
 
-export async function getListOrdersData(queryParameters) {
+/**
+ * @param {string} groupId
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string[]} ordersId
+ * @param {string} listOrdersId
+ * @param {string|null} filterSection
+ * @param {string|null} filterText
+ * @param {string|null} filterValue
+ * @param {boolean|null} orderAsc
+ *
+ * @returns {Promise<string[]>}
+ * @throws Error
+ */
+export async function getListOrdersData(groupId, page, pageItems, ordersId = null, listOrdersId = null, filterSection = null, filterText = null, filterValue = null, orderAsc = true) {
+    const queryParameters = {
+        'group_id': groupId,
+        'orders_id': ordersId,
+        'list_orders_id': listOrdersId,
+        'page': page,
+        'page_items': pageItems,
+        'filter_section': filterSection,
+        'filter_text': filterText,
+        'filter_value': filterValue,
+        'order_asc': orderAsc
+    };
     const response = await fetch.createQueryRequest(GET_LIST_ORDERS_URL, 'GET', queryParameters);
     const responseJson = await fetch.manageResponseJson(response,
         (responseDataNoContent) => {
@@ -216,12 +327,31 @@ export async function getListOrdersData(queryParameters) {
 }
 
 /**
-* @param {object} queryParameters see api documentation
+* @param {string} groupId
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string[]} ordersId
+ * @param {string} listOrdersId
+ * @param {string|null} filterSection
+ * @param {string|null} filterText
+ * @param {string|null} filterValue
+ * @param {boolean|null} orderAsc
+ *
 * @returns {Promise<string[]>}
 * @throws Error
 */
-export async function getListOrdersNames(queryParameters) {
-    const responseData = await getListOrdersData(queryParameters);
+export async function getListOrdersNames(groupId, page, pageItems, ordersId = null, listOrdersId = null, filterSection = null, filterText = null, filterValue = null, orderAsc = true) {
+    const responseData = await getListOrdersData(
+        groupId,
+        page,
+        pageItems,
+        ordersId,
+        listOrdersId,
+        filterSection,
+        filterText,
+        filterValue,
+        orderAsc
+    );
 
     return responseData.listOrders.map((listOrders) => listOrders.name);
 }
