@@ -14,6 +14,8 @@ class OrderHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
 {
     private DtoBuilder $builder;
 
+    public readonly string $listOrdersId;
+    public readonly string $groupId;
     public readonly HomeSectionComponentDto $homeSectionComponentDto;
     public readonly ModalComponentDto $listItemsModalDto;
     public readonly ModalComponentDto $shopCreateModalDto;
@@ -22,10 +24,21 @@ class OrderHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'listOrders',
             'homeSection',
             'listItemsModal',
             'orderInfoModal',
         ]);
+    }
+
+    public function listOrders(string $listOrdersId, string $groupId): self
+    {
+        $this->builder->setMethodStatus('listOrders', true);
+
+        $this->listOrdersId = $listOrdersId;
+        $this->groupId = $groupId;
+
+        return $this;
     }
 
     public function homeSection(HomeSectionComponentDto $homeSectionComponentDto): self

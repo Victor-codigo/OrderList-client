@@ -179,6 +179,10 @@ class OrderHomeController extends AbstractController
         );
 
         return (new OrderHomeComponentBuilder())
+            ->listOrders(
+                $requestDto->listOrdersData->id,
+                $requestDto->groupData->id
+            )
             ->errors(
                 $orderHomeMessagesOk,
                 $orderHomeMessagesError

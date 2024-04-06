@@ -56,10 +56,13 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
      * @var OrderDataResponse[]
      */
     private readonly array $listOrdersData;
+    private readonly string $listOrdersId;
+    private readonly string $groupId;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'listOrders',
             'orderCreateModal',
             'orderModifyFormModal',
             'orderRemoveMultiModal',
@@ -73,6 +76,16 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         ]);
 
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
+    }
+
+    public function listOrders(string $listOrdersId, string $groupId): self
+    {
+        $this->builder->setMethodStatus('listOrders', true);
+
+        $this->listOrdersId = $listOrdersId;
+        $this->groupId = $groupId;
+
+        return $this;
     }
 
     public function orderCreateFormModal(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId, string $listOrdersId): self
@@ -218,7 +231,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
         $this->orderInfoModalDto = $this->createOrderInfoModalDto();
 
-        return $this->createOrderHomeSectionComponentDto($this->productsListAjaxModalDto, $this->orderInfoModalDto);
+        return $this->createOrderHomeSectionComponentDto($this->listOrdersId, $this->groupId, $this->productsListAjaxModalDto, $this->orderInfoModalDto);
     }
 
     private function createOrderCreateComponentDto(string $orderCreateFormCsrfToken, ?float $orderPrice, string $orderCreateFormActionUrl, string $groupId, string $listOrdersId): ModalComponentDto
@@ -398,9 +411,13 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return new HomeSectionComponentDto();
     }
 
-    private function createOrderHomeSectionComponentDto(ModalComponentDto $productListItemsModalDto, ModalComponentDto $orderInfoModalDto): OrderHomeSectionComponentDto
+    private function createOrderHomeSectionComponentDto(string $listOrdersId, string $groupId, ModalComponentDto $productListItemsModalDto, ModalComponentDto $orderInfoModalDto): OrderHomeSectionComponentDto
     {
         return (new OrderHomeSectionComponentDto())
+            ->listOrders(
+                $listOrdersId,
+                $groupId
+            )
             ->homeSection(
                 $this->homeSectionComponentDto
             )

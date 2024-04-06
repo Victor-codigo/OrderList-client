@@ -1,6 +1,8 @@
 <div data-controller="OrderHomeSectionComponent"
      data-action="OrderListItemComponent:orderBoughtChanged->OrderHomeSectionComponent#handleMessageOrderBoughtChanged"
-     class="contaniner">
+     class="contaniner"
+     data-list-orders-id="{{ data.listOrdersId }}"
+     data-group-id="{{ data.groupId }}">
 
     {% set langExtend = lang %}
     {% component HomeSectionComponent with { data: data.homeSectionComponentDto } %}
