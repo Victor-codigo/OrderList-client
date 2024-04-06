@@ -71,6 +71,11 @@ interface EndpointsInterface
      */
     public function ordersGetData(string $groupId, ?array $ordersId, ?string $listOrdersId, int $page, int $pageItems, bool $orderAsc, ?string $filterSection, ?string $filterText, ?string $filterValue, string $tokenSession): array;
 
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function listOrdersGetPrice(?array $listOrdersId, string $groupId, string $tokenSession): array;
+
     public function ordersRemove(string $groupId, array $ordersId, string $tokenSession): array;
 
     /**

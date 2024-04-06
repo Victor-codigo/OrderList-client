@@ -9,6 +9,7 @@ const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
 const GET_PRODUCTS_URL = `${API_DOMAIN}/api/v${API_VERSION}/products`;
 const GET_PRODUCTS_SHOPS_PRICE_URL = `${API_DOMAIN}/api/v${API_VERSION}/products/price`;
 const GET_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/list-orders`;
+const GET_LIST_ORDERS_PRICE = `${API_DOMAIN}/api/v${API_VERSION}/list-orders/price`;
 const PATCH_ORDER_BOUGHT = `${API_DOMAIN}/api/v${API_VERSION}/orders/bought`;
 
 const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
@@ -246,7 +247,7 @@ export async function orderBought(orderId, groupId, bought) {
         null,
         (responseDataError) => {
             return {
-                data: [],
+                data: {},
                 errors: responseDataError
             }
         },
@@ -263,4 +264,50 @@ export async function orderBought(orderId, groupId, bought) {
     }
 
     return true;
+}
+
+/**
+ * @param {string} listOrdersId
+ * @param {string} groupId
+ *
+ * @return {Promise<{total: number, bought: number}>}
+ *
+ * @throws {Error}
+ */
+export async function getListOrdersPrice(listOrdersId, groupId) {
+    const parameters = {
+        'list_orders_id': listOrdersId,
+        'group_id': groupId,
+    };
+
+    const response = await fetch.createQueryRequest(GET_LIST_ORDERS_PRICE, 'GET', parameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (responseDataNoContent) => {
+            return {
+                data: {
+                    'total': 0,
+                    'bought': 0
+                },
+                errors: []
+            }
+        },
+        (responseDataError) => {
+            return {
+                data: {},
+                errors: responseDataError
+            }
+        },
+        (responseDataOk) => {
+            return {
+                data: responseDataOk,
+                errors: []
+            }
+        }
+    );
+
+    if (responseJson.errors.length > 0) {
+        throw new Error('Error getting list of orders price');
+    }
+
+    return responseJson.data;
 }

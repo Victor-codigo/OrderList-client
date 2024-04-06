@@ -33,11 +33,17 @@ class Endpoints implements EndpointsInterface
         return str_replace(' ', '-', $url);
     }
 
+    /**
+     * @throws UnsupportedOptionException
+     */
     public function listOrdersGetOrders(string $groupId, string $listOrdersId, int $page, int $pageItems, string $tokenSession): array
     {
         return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersGetOrders($groupId, $listOrdersId, $page, $pageItems, $tokenSession);
     }
 
+    /**
+     * @throws UnsupportedOptionException
+     */
     public function listOrdersGetData(
         string $groupId,
         ?array $listOrdersId,
@@ -62,6 +68,14 @@ class Endpoints implements EndpointsInterface
             $pageItems,
             $tokenSession
         );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function listOrdersGetPrice(?array $listOrdersId, string $groupId, string $tokenSession): array
+    {
+        return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersGetPrice($listOrdersId, $groupId, $tokenSession);
     }
 
     /**

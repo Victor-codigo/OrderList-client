@@ -17,6 +17,7 @@ class ListOrdersEndpoints extends EndpointBase
     public const REMOVE_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/orders';
     public const GET_LIST_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
     public const GET_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/order';
+    public const GET_LIST_ORDERS_PRICE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/price';
 
     private static ?self $instance = null;
 
@@ -147,7 +148,57 @@ class ListOrdersEndpoints extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_LIST_ORDERS_DATA."?{$this->createQueryParameters($parameters)}&",
+            self::GET_LIST_ORDERS_DATA."?{$this->createQueryParameters($parameters)}",
+            HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function listOrdersGetPrice(?array $listOrdersId, string $groupId, string $tokenSession): array
+    {
+        $response = $this->requestListOrdersGetPrice(
+            $listOrdersId,
+            $groupId,
+            $tokenSession
+        );
+
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError) => [
+                'data' => [
+                    'total' => 0,
+                    'bought' => 0,
+                ],
+                'errors' => $responseDataError,
+            ],
+            null,
+            fn (array $responseDataNoContent) => [
+                'data' => [
+                    'total' => 0,
+                    'bought' => 0,
+                ],
+                'errors' => [],
+            ]
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestListOrdersGetPrice(?array $listOrdersId, string $groupId, string $tokenSession): HttpClientResponseInterface
+    {
+        $parameters = [
+            'list_orders_id' => empty($listOrdersId) ? null : implode(',', $listOrdersId),
+            'group_id' => $groupId,
+        ];
+
+        return $this->httpClient->request(
+            'GET',
+            self::GET_LIST_ORDERS_PRICE."?{$this->createQueryParameters($parameters)}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
