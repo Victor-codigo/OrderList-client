@@ -79,7 +79,7 @@ export default class extends Controller {
 
             numberTableCell.innerHTML = html.escape(rowCounter.toString());
             nameTableCell.innerHTML = html.escape(itemPrice.name);
-            priceTableCell.innerHTML = html.escape(itemPrice.price === null ? '' : locale.formatToStringLocaleCurrency(itemPrice.price));
+            priceTableCell.innerHTML = html.escape(itemPrice.price === null ? '' : locale.formatPriceCurrencyAndUnit(itemPrice.price, itemPrice.unit));
 
             tableRow.replaceChildren(numberTableCell, nameTableCell, priceTableCell);
             this.#itemsPriceTag.appendChild(tableRow);
