@@ -98,6 +98,14 @@ class OrderHomeController extends AbstractController
      */
     private function getSearchBarFieldsValues(FormInterface $searchBarForm, array $flashBagData): array
     {
+        if (null === $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE)) {
+            return [
+                SEARCHBAR_FORM_FIELDS::SECTION_FILTER => null,
+                SEARCHBAR_FORM_FIELDS::NAME_FILTER => null,
+                SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => null,
+            ];
+        }
+
         if (!array_key_exists('searchBar', $flashBagData)) {
             return [
                 SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SECTION_FILTER),
@@ -146,6 +154,14 @@ class OrderHomeController extends AbstractController
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $tokenSession
         );
+
+        if (!empty($ordersData['errors'])) {
+            return [
+                'page' => 1,
+                'pages_total' => 1,
+                'orders' => [],
+            ];
+        }
 
         $ordersData['data']['orders'] = array_map(
             fn (array $orderData) => OrderDataResponse::fromArray($orderData),
@@ -207,7 +223,7 @@ class OrderHomeController extends AbstractController
                 OrdersEndpoint::GET_ORDERS_DATA,
                 $this->generateUrl('order_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
-                    'list_orders_name' => $requestDto->listOrdersData->name,
+                    'list_orders_name' => $requestDto->listOrdersUrlEncoded,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),
