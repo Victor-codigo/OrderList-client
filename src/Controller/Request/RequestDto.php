@@ -17,6 +17,7 @@ class RequestDto
         public readonly ?string $tokenSession,
         public readonly ?string $locale,
         public readonly ?string $groupNameUrlEncoded,
+        public readonly ?string $listOrdersUrlEncoded,
         public readonly ?string $shopNameUrlEncoded,
         public readonly ?string $productNameUrlEncoded,
         public readonly ?int $page,

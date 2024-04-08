@@ -65,6 +65,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $tokenSession,
             $this->loadLocale($request),
             $request->attributes->get('group_name'),
+            $request->attributes->get('list_orders_name'),
             $request->attributes->get('shop_name'),
             $request->attributes->get('product_name'),
             $this->loadPageData($request),
