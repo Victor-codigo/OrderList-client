@@ -32,16 +32,37 @@ export default class extends Controller {
      */
 
     /**
-     * @param {Object.<string, string>} queryParameters
+     * @param {string[]} queryParameters
      * @param {responseManageCallback} responseManageCallback
      * @param {postResponseManageCallback} postResponseManageCallback
      */
     async #loadContent(queryParameters, responseManageCallback, postResponseManageCallback) {
         this.#showPlaceholder();
-        const responseData = await endpoint.executeEndPointByName(this.endpointName, queryParameters);
+        const responseData = await this.#getContentData(queryParameters);
 
         this.#setContent(responseManageCallback(responseData));
         postResponseManageCallback(this.element);
+    }
+
+    /**
+     * @param {string[]} queryParameters
+     *
+     * @returns {Promise<{
+     *      'page': number,
+     *      'pages_total': number,
+     *      'shops|products': array
+     * }>}
+     */
+    async #getContentData(queryParameters) {
+        if (this.endpointName === 'getShopsData') {
+            return await endpoint.getShopsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+        } else if (this.endpointName === 'getShopsNames') {
+            return await endpoint.getShopsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+        } else if (this.endpointName === 'getProductsData') {
+            return await endpoint.getProductsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+        } else if (this.endpointName === 'getProductsNames') {
+            return await endpoint.getProductsNames(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+        }
     }
 
     /**

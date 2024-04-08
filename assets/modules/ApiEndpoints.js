@@ -17,25 +17,6 @@ const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/cr
 
 
 /**
- * @param {string} endpointName
- * @param {Object.<string, string>} queryParameters see api documentation
- */
-export async function executeEndPointByName(endpointName, queryParameters) {
-    const endpointsNames = {
-        'getShopsData': getShopsData,
-        'getShopsNames': getShopsNames,
-        'getProductsData': getProductsData,
-        'getProductsNames': getProductsNames,
-    };
-
-    if (typeof endpointsNames[endpointName] === 'undefined') {
-        throw new Error('ApiEndPoint: endpoint does not exist');
-    }
-
-    return await endpointsNames[endpointName](queryParameters);
-}
-
-/**
  * @param {string} groupId
  * @param {string[]|null} shopsId
  * @param {string[]|null} productsId
