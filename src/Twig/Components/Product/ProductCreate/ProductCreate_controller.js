@@ -87,9 +87,9 @@ export default class ProductCreateController extends Controller {
     handleMessageBeforeShowed({ detail: { content } }) {
         const modalBefore = content.modalManager.getModalOpenedBefore();
         this.#modalManager = content.modalManager;
-        this.#clearForm();
 
         if (modalBefore === null) {
+            this.#clearForm();
             this.#setModalData();
 
             return;
