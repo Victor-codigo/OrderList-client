@@ -14,6 +14,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 class ListOrdersHomeSectionComponent extends TwigComponent
 {
+    public readonly ListOrdersHomeSectionComponentLangDto $lang;
     public ListOrdersHomeSectionComponentDto|TwigComponentDtoInterface $data;
 
     public static function getComponentName(): string
@@ -24,5 +25,18 @@ class ListOrdersHomeSectionComponent extends TwigComponent
     public function mount(ListOrdersHomeSectionComponentDto $data): void
     {
         $this->data = $data;
+
+        $this->loadTranslation();
+    }
+
+    protected function loadTranslation(): void
+    {
+        $this->setTranslationDomainName('ListOrdersHomeComponent');
+        $this->lang = (new ListOrdersHomeSectionComponentLangDto())
+            ->buttonCreateFrom(
+                $this->translate('home_section_create_from.label'),
+                $this->translate('home_section_create_from.title'),
+            )
+            ->build();
     }
 }

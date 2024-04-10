@@ -13,8 +13,10 @@
 
 		<header class="mb-3">
 			<div class="d-flex  flex-row">
+				{% block headerButtonsBlock %}
+
 				<button type="button"
-						class="btn btn-outline-primary  flex-grow-1  rounded-0  rounded-top"
+						class="btn btn-outline-primary  flex-grow-1  rounded-1"
 						title="{{ lang.buttonAddTitle }}"
 						data-bs-toggle="modal"
 						data-bs-target="#{{ createFormModalDto.idAttribute }}"
@@ -25,12 +27,15 @@
 					<span class="align-middle">{{ lang.buttonAddLabel }}</span>
 				</button>
 
+				{% block headerButtonsBetweenBlock %}
+				{% endblock headerButtonsBetweenBlock %}
+
 				<div id="{{ data.removeMultiFormDto.formName }}"
 					 data-remove-items-id-input-name="{{ data.removeMultiFormDto.itemsIdFieldName }}"
 					 data-js-form-remove-many-items
 					 novalidate>
 
-					<button class="btn btn-outline-danger  flex-grow-0  ms-1  ps-4  pe-4  rounded-0  rounded-top"
+					<button class="btn btn-outline-danger  flex-grow-0  ms-1  ps-4  pe-4  rounded-1"
 							type="button"
 							name="{{ data.removeMultiFormDto.submitFieldName }}"
 							title="{{ lang.buttonRemoveMultipleTitle }}"
@@ -42,6 +47,8 @@
 						{% include "remove-icon-red-24x24.svg" %}
 					</button>
 				</div>
+
+				{% endblock headerButtonsBlock %}
 			</div>
 
 			{% block headerBlock %}
