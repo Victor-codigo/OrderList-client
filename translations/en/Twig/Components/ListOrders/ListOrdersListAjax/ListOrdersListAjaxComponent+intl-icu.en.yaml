@@ -1,0 +1,7 @@
+title: Shops list
+
+button_back:
+  label: Back
+
+list_orders_image:
+  title: Image of a shop list {item_name}

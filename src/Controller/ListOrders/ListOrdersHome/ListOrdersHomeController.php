@@ -6,6 +6,7 @@ namespace App\Controller\ListOrders\ListOrdersHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ListOrdersDataResponse;
+use App\Form\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromForm;
 use App\Form\ListOrders\ListOrdersCreate\ListOrdersCreateForm;
 use App\Form\ListOrders\ListOrdersModify\ListOrdersModifyForm;
 use App\Form\ListOrders\ListOrdersRemoveMulti\ListOrdersRemoveMultiForm;
@@ -15,6 +16,7 @@ use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListOrdersHomeComponentBuilder;
 use Common\Adapter\Endpoints\ListOrdersEndpoints;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -49,6 +51,7 @@ class ListOrdersHomeController extends AbstractController
     public function __invoke(RequestDto $requestDto): Response
     {
         $listOrdersCreateForm = $this->formFactory->create(new ListOrdersCreateForm(), $requestDto->request);
+        $listOrdersCreateFromForm = $this->formFactory->create(new ListOrdersCreateFromForm(), $requestDto->request);
         $listOrdersModifyForm = $this->formFactory->create(new ListOrdersModifyForm(), $requestDto->request);
         $listOrdersRemoveForm = $this->formFactory->create(new ListOrdersRemoveForm(), $requestDto->request);
         $listOrdersRemoveMultiForm = $this->formFactory->create(new ListOrdersRemoveMultiForm(), $requestDto->request);
@@ -71,6 +74,7 @@ class ListOrdersHomeController extends AbstractController
         $listOrdersHomeComponentDto = $this->createListOrdersHomeComponentDto(
             $requestDto,
             $listOrdersCreateForm,
+            $listOrdersCreateFromForm,
             $listOrdersModifyForm,
             $listOrdersRemoveForm,
             $listOrdersRemoveMultiForm,
@@ -153,6 +157,7 @@ class ListOrdersHomeController extends AbstractController
     private function createListOrdersHomeComponentDto(
         RequestDto $requestDto,
         FormInterface $listOrdersCreateForm,
+        FormInterface $listOrdersCreateFromForm,
         FormInterface $listOrdersModifyForm,
         FormInterface $listOrdersRemoveForm,
         FormInterface $listOrdersRemoveMultiForm,
@@ -204,6 +209,17 @@ class ListOrdersHomeController extends AbstractController
                 $this->generateUrl('list_orders_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
+            )
+            ->listOrdersCreateFromFormModal(
+                $listOrdersCreateFromForm->getCsrfToken(),
+                $this->generateUrl('list_orders_create_from', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                ]),
+            )
+            ->listOrdersListAjaxModal(
+                $requestDto->groupData->id,
+                '',
+                Config::LIST_ORDERS_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
             )
             ->listOrdersRemoveMultiFormModal(
                 $listOrdersRemoveMultiForm->getCsrfToken(),

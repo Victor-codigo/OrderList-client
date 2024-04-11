@@ -40,6 +40,16 @@ interface EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
+    public function listOrdersCreateFrom(string $groupId, string $listOrdersIdCreateFrom, string $name, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
     public function listOrdersModify(string $groupId, string $listOrdersId, string $name, ?string $description, ?\DateTime $dateToBuy, string $tokenSession): array;
 
     /**

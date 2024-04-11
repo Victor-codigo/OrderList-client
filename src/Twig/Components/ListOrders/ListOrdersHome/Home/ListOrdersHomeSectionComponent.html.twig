@@ -1,9 +1,8 @@
 <div data-controller="ListOrdersHomeSectionComponent"
      class="contaniner">
 
-    {# {{ component('HomeSectionComponent', { data: data.homeSectionComponentDto } ) }} #}
-
     {% set langExtend = lang %}
+    {% set dataExtend = data %}
     {% component HomeSectionComponent with { data: data.homeSectionComponentDto } %}
 
     {% block headerButtonsBetweenBlock %}
@@ -12,7 +11,7 @@
             class="btn btn-outline-primary  flex-grow-0  rounded-1  ms-1"
             title="{{ langExtend.buttonCreateFromTitle }}"
             data-bs-toggle="modal"
-            data-bs-target="#{{ createFormModalDto.idAttribute }}"
+            data-bs-target="#{{ dataExtend.listOrdersCreateFromModalDto.idAttribute }}"
             data-js-add-item>
 
         {% include "list_orders/list-orders-icon-create-from.svg" %}
@@ -24,5 +23,7 @@
 
     {% endcomponent %}
 
+    {{ component('ModalComponent', { data: data.listOrdersCreateFromModalDto } ) }}
+    {{ component('ModalComponent', { data: data.listOrdersListAjaxModalDto } ) }}
     {{ component('ModalComponent', { data: data.listOrdersInfoModalDto } ) }}
 </div>

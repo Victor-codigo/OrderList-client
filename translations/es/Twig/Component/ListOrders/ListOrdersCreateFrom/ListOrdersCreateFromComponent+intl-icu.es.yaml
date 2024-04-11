@@ -1,0 +1,32 @@
+title: Duplicar lista de la compra
+
+name:
+  label: Nombre
+  placeholder: Introduce un nombre para la lista de compras
+  msg_invalid: |
+    Introduce un nombre válido.
+    El nombre debe contener entre 1 y 30 caracteres
+    Solo está permitido, caracteres alfanuméricos, espacios en blanco y "_"
+
+list_orders:
+  label: lista de la compra
+  title: Selecciona una lista de la compra
+  msg_invalid: La lista seleccionada no es válida
+
+list_orders_button:
+  label: Seleccionar
+  title: Selecciona una lista de la compra
+
+button_list_orders_create_from:
+  label: Duplicar lista de la compra
+
+validation:
+  title: Errores
+  ok: Lista de la compra creada
+  error:
+    name: |
+      Introduce un nombre válido.
+      El nombre debe contener al menos un carácter y máximo 30
+      Solo se permiten caracteres alfanuméricos y "_"
+    name_exists: Ya existe una lista con el mismo nombre
+    internal_server: Ocurrió un error, inténtalo más tarde

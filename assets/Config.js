@@ -142,6 +142,23 @@ export const MODAL_CHAINS = {
             }
         }
     },
+
+    listOrdersCreateFromChain: {
+        name: 'listOrdersCreateFromChain',
+        modals: {
+            listOrdersCreateFrom: {
+                name: 'listOrdersCreateFrom',
+                modalId: 'list_orders_create_from_modal',
+                open: {
+                    listOrdersListModal: 'list_orders_list_select_modal'
+                }
+            },
+            listOrdersList: {
+                name: 'listOrdersList',
+                modalId: 'list_orders_list_select_modal',
+            }
+        }
+    },
 };
 
 /**

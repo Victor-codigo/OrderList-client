@@ -12,6 +12,7 @@ use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 class ListOrdersEndpoints extends EndpointBase
 {
     public const CREATE_LIST_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
+    public const CREATE_LIST_ORDERS_FROM = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/create-from';
     public const MODIFY_LIST_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
     public const REMOVE_LIST_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders';
     public const REMOVE_LIST_ORDERS_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/list-orders/orders';
@@ -299,6 +300,41 @@ class ListOrdersEndpoints extends EndpointBase
                 'name' => $name,
                 'description' => $description,
                 'date_to_buy' => $dateToBuy?->format('Y-m-d H:i:s'),
+            ]),
+                $tokenSession
+            )
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws RequestUnauthorizedException
+     * @throws RequestException
+     * @throws UnsupportedOptionException
+     */
+    public function listOrdersCreateFrom(string $groupId, string $listOrdersIdCreateFrom, string $name, string $tokenSession): array
+    {
+        $response = $this->requestListOrdersCreateFrom($groupId, $listOrdersIdCreateFrom, $name, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestListOrdersCreateFrom(string $groupId, string $listOrdersIdCreateFrom, string $name, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'POST',
+            self::CREATE_LIST_ORDERS_FROM,
+            HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
+                'group_id' => $groupId,
+                'list_orders_id_create_from' => $listOrdersIdCreateFrom,
+                'name' => $name,
             ]),
                 $tokenSession
             )

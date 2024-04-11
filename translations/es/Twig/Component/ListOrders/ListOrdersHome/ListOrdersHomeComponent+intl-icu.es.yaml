@@ -5,7 +5,7 @@ home_section_add:
   title: Añade una nueva lista de la compra a la lista
 
 home_section_create_from:
-  label: Crear a partir de
+  label: Duplicar
   title: Crea una lista de la compra, a partir de otra lista
 
 home_section_remove_multiple:

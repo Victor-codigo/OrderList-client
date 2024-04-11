@@ -39,14 +39,4 @@ abstract class ItemsListAjaxComponent extends TwigComponent
     {
         return new TitleComponentDto($this->lang->title);
     }
-
-    // private function loadTranslation(): void
-    // {
-    //     $this->lang = new ItemsListAjaxComponentLangDto(
-    //         $this->translate('title'),
-    //         $this->translate('shop_image.title'),
-    //         $this->translate('button_back.label'),
-    //         $this->translate('button_create_shop.label'),
-    //     );
-    // }
 }

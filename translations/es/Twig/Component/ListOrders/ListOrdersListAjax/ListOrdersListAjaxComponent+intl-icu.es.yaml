@@ -1,0 +1,7 @@
+title: Listas de la compra
+
+button_back:
+  label: Volver
+
+list_orders_image:
+  title: Imagen de la lista de la compra {item_name}

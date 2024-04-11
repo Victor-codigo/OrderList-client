@@ -271,7 +271,11 @@ export async function getProductShopsPricesData(groupId, productsId, shopsId) {
  * @param {string|null} filterValue
  * @param {boolean|null} orderAsc
  *
- * @returns {Promise<string[]>}
+ * @returns {Promise<{
+ *      'page': number,
+ *      'pages_total': number,
+ *      'list_orders': object[]
+ * }>}
  * @throws Error
  */
 export async function getListOrdersData(groupId, page, pageItems, ordersId = null, listOrdersId = null, filterSection = null, filterText = null, filterValue = null, orderAsc = true) {
@@ -293,16 +297,13 @@ export async function getListOrdersData(groupId, page, pageItems, ordersId = nul
                 data: {
                     page: 1,
                     pages_total: 0,
-                    listOrders: []
+                    list_orders: []
                 }
             }
         },
         null,
         null
     );
-
-    responseJson.data['listOrders'] = responseJson.data.list_orders;
-    delete responseJson.data.list_orders;
 
     return responseJson.data;
 }
@@ -334,7 +335,7 @@ export async function getListOrdersNames(groupId, page, pageItems, ordersId = nu
         orderAsc
     );
 
-    return responseData.listOrders.map((listOrders) => listOrders.name);
+    return responseData.list_orders.map((listOrders) => listOrders.name);
 }
 
 /**

@@ -46,9 +46,11 @@ import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupU
 import ListOrdersHomeSectionComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/Home/ListOrdersHomeSection_controller';
 import ListOrdersListItemComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/ListItem/ListOrdersListItem_controller';
 import ListOrdersCreateComponent from 'App/Twig/Components/ListOrders/ListOrdersCreate/ListOrdersCreate_controller';
+import ListOrdersCreateFromComponent from 'App/Twig/Components/ListOrders/ListOrdersCreateFrom/ListOrdersCreateFrom_controller';
 import ListOrdersInfoComponent from 'App/Twig/Components/ListOrders/ListOrdersInfo/ListOrdersInfo_controller';
 import ListOrdersModifyComponent from 'App/Twig/Components/ListOrders/ListOrdersModify/ListOrdersModify_controller';
 import ListOrdersRemoveComponent from 'App/Twig/Components/ListOrders/ListOrdersRemove/ListOrdersRemoveComponent_controller';
+import ListOrdersListAjaxComponent from 'App/Twig/Components/ListOrders/ListOrdersListAjax/ListOrdersListAjaxComponent_controller';
 
 // ORDERS
 import OrderHomeSectionComponent from 'App/Twig/Components/Order/OrderHome/Home/OrderHomeSection_controller';
@@ -138,9 +140,11 @@ app.register('GroupUserAddComponent', GroupUserAddComponent);
 app.register('ListOrdersHomeSectionComponent', ListOrdersHomeSectionComponent);
 app.register('ListOrdersListItemComponent', ListOrdersListItemComponent);
 app.register('ListOrdersCreateComponent', ListOrdersCreateComponent);
+app.register('ListOrdersCreateFromComponent', ListOrdersCreateFromComponent);
 app.register('ListOrdersInfoComponent', ListOrdersInfoComponent);
 app.register('ListOrdersModifyComponent', ListOrdersModifyComponent);
 app.register('ListOrdersRemoveComponent', ListOrdersRemoveComponent);
+app.register('ListOrdersListAjaxComponent', ListOrdersListAjaxComponent);
 
 // ORDERS
 app.register('OrderHomeSectionComponent', OrderHomeSectionComponent);

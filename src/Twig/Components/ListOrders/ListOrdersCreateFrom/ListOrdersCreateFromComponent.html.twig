@@ -1,0 +1,80 @@
+<form data-controller="ListOrdersCreateFromComponent"
+	  data-action="ModalComponent:beforeShowed->ListOrdersCreateFromComponent#handleMessageBeforeShowed"
+	  id="{{ formName }}"
+	  name="{{ formName }}"
+	  action="{{ data.listOrdersCreateFromFormActionUrl }}"
+	  class="contaniner  p-4  pt-0"
+	  method="post"
+	  enctype="multipart/form-data"
+	  novalidate
+	  data-modal-component-content>
+
+	<input type="hidden"
+		   name="{{ tokenCsrfFieldName }}"
+		   value="{{ data.csrfToken }}" />
+
+	<input type="hidden"
+		   name="{{ listOrdersCreateFromFieldName }}"
+		   data-js-list-orders-create-from />
+
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
+	{% if lang.validationErrors %}
+
+	{{ component('AlertComponent', { data: lang.validationErrors }) }}
+
+	{% endif %}
+
+	<div class="mb-3">
+		<label for="name"
+			   class="form-label">
+			{{ lang.nameLabel }}
+		</label>
+		<input type="text"
+			   class="form-control"
+			   id="name"
+			   maxlength="50"
+			   pattern="[A-Za-zÀ-ÿ0-9_\s]+"
+			   name="{{ nameFieldName }}"
+			   placeholder="{{ lang.namePlaceholder }}"
+			   required>
+		<div class="invalid-feedback">
+			{{ lang.nameMsgInvalid }}
+		</div>
+	</div>
+
+	<label class="form-label  w-100"
+		   for="order_list_orders_name">
+		{{ lang.listOrdersLabel }}
+	</label>
+	<div class="d-flex  flex-row">
+		<div class="input-group">
+			<input type="text"
+				   class="form-control  rounded-0  rounded-start"
+				   id="order_list_orders_name"
+				   placeholder="{{ lang.listOrdersPlaceholder }}"
+				   readonly
+				   required
+				   data-js-list-orders-select-name>
+
+			<button class="btn  btn-primary  rounded-0  rounded-end"
+					type="button"
+					title="{{ lang.listOrdersButtonTitle }}"
+					data-js-list-orders-select-button>
+
+				{{ lang.listOrdersButtonLabel }}
+			</button>
+
+			<div class="invalid-feedback">
+				{{ lang.listOrdersMsgInvalid }}
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-5">
+		<input type="submit"
+			   class="btn btn-primary w-100"
+			   name="{{ submitFieldName }}"
+			   value="{{ lang.listOrdersCreateFromButton }}" />
+	</div>
+</form>

@@ -50,7 +50,7 @@ export default class extends Controller {
      * @returns {Promise<{
      *      'page': number,
      *      'pages_total': number,
-     *      'shops|products': array
+     *      'shops|products|list_orders': array
      * }>}
      */
     async #getContentData(queryParameters) {
@@ -60,8 +60,8 @@ export default class extends Controller {
             return await endpoint.getShopsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
         } else if (this.endpointName === 'getProductsData') {
             return await endpoint.getProductsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
-        } else if (this.endpointName === 'getProductsNames') {
-            return await endpoint.getProductsNames(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+        } else if (this.endpointName === 'getListOrdersData') {
+            return await endpoint.getListOrdersData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
         }
     }
 

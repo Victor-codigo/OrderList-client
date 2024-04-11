@@ -79,11 +79,29 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
      * @throws UnsupportedOptionException
      */
     public function listOrdersCreate(string $groupId, string $name, ?string $description, ?\DateTime $dateToBuy, string $tokenSession): array
     {
         return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersCreate($groupId, $name, $description, $dateToBuy, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function listOrdersCreateFrom(string $groupId, string $listOrdersIdCreateFrom, string $name, string $tokenSession): array
+    {
+        return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersCreateFrom($groupId, $listOrdersIdCreateFrom, $name, $tokenSession);
     }
 
     /**

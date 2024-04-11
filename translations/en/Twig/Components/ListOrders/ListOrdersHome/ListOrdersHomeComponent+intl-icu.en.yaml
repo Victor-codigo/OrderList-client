@@ -5,7 +5,7 @@ home_section_add:
   title: Add a new shop list to the list
 
 home_section_create_from:
-  label: Create from
+  label: Duplicate
   title: Create a shop list, from another one
 
 home_section_remove_multiple:

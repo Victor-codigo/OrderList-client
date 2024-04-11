@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Twig\Components\ListOrders\ListOrdersHome;
 
 use App\Controller\Request\Response\ListOrdersDataResponse;
-use App\Controller\Request\Response\ProductDataResponse;
-use App\Controller\Request\Response\ProductShopPriceDataResponse;
 use App\Form\Shop\ShopRemoveMulti\SHOP_REMOVE_MULTI_FORM_FIELDS;
+use App\Twig\Components\Controls\ContentLoaderJs\ContentLoaderJsComponentDto;
+use App\Twig\Components\Controls\PaginatorContentLoaderJs\PaginatorContentLoaderJsComponentDto;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
 use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
+use App\Twig\Components\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromComponent;
+use App\Twig\Components\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersCreate\ListOrdersCreateComponent;
 use App\Twig\Components\ListOrders\ListOrdersCreate\ListOrdersCreateComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
@@ -19,11 +21,14 @@ use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemCom
 use App\Twig\Components\ListOrders\ListOrdersHome\ListItem\ListOrdersListItemComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponent;
 use App\Twig\Components\ListOrders\ListOrdersInfo\ListOrdersInfoComponentDto;
+use App\Twig\Components\ListOrders\ListOrdersListAjax\ListOrdersListAjaxComponent;
+use App\Twig\Components\ListOrders\ListOrdersListAjax\ListOrdersListAjaxComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersModify\ListOrdersModifyComponent;
 use App\Twig\Components\ListOrders\ListOrdersModify\ListOrdersModifyComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersRemove\ListOrdersRemoveComponent;
 use App\Twig\Components\ListOrders\ListOrdersRemove\ListOrdersRemoveComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
+use App\Twig\Components\PaginatorJs\PaginatorJsComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -31,40 +36,40 @@ use Common\Domain\DtoBuilder\DtoBuilderInterface;
 class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
 {
     private const LIST_ORDERS_CREATE_MODAL_ID = 'list_orders_create_modal';
+    private const LIST_ORDERS_CREATE_FROM_MODAL_ID = 'list_orders_create_from_modal';
     private const LIST_ORDERS_REMOVE_MULTI_MODAL_ID = 'list_orders_remove_multi_modal';
     public const LIST_ORDERS_DELETE_MODAL_ID = 'list_orders_delete_modal';
     public const LIST_ORDERS_MODIFY_MODAL_ID = 'list_orders_modify_modal';
     public const LIST_ORDERS_INFO_MODAL_ID = 'list_orders_info_modal';
+    private const LIST_ORDERS_LIST_MODAL_ID = 'list_orders_list_select_modal';
 
     private const LIST_ORDERS_HOME_COMPONENT_NAME = 'ListOrdersHomeComponent';
     private const LIST_ORDERS_HOME_LIST_COMPONENT_NAME = 'ListOrdersHomeListComponent';
     private const LIST_ORDERS_HOME_LIST_ITEM_COMPONENT_NAME = 'ListOrdersHomeListItemComponent';
 
+    private const LIST_ORDERS_LIST_PAGE_NUM_ITEMS = Config::MODAL_LIST_ITEMS_MAX_NUMBER;
+    private const LIST_ORDERS_LIST_RESPONSE_INDEX_NAME = 'list_orders';
+
     private readonly DtoBuilder $builder;
     private readonly HomeSectionComponentDto $homeSectionComponentDto;
-    private readonly ModalComponentDto $listOrdersCreateModalDto;
+    private readonly ModalComponentDto $listOrdersCreateFromModalDto;
+    private readonly ModalComponentDto $listOrdersListAjaxModalDto;
     private readonly ModalComponentDto $listOrdersInfoModalDto;
 
-    /**
-     * @var ProductDataResponse[]
-     */
-    private readonly array $listListOrdersData;
     /**
      * @var ListOrdersDataResponse[]
      */
     private readonly array $listLitOrdersData;
-    /**
-     * @var ProductShopPriceDataResponse[]
-     */
-    private readonly array $listProductsShopPricesData;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'listOrdersCreateFormModal',
+            'listOrdersCreateFromFormModal',
             'listOrdersModifyFormModal',
             'listOrdersRemoveMultiModal',
             'listOrdersRemoveFormModal',
+            'listOrdersListAjaxModal',
             'errors',
             'pagination',
             'listItems',
@@ -82,6 +87,24 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->createFormModal(
             $this->createListOrdersCreateComponentDto($listOrdersCreateFormCsrfToken, $listOrdersCreateFormActionUrl)
         );
+
+        return $this;
+    }
+
+    public function listOrdersCreateFromFormModal(string $listOrdersCreateFormCsrfToken, string $listOrdersCreateFormActionUrl): self
+    {
+        $this->builder->setMethodStatus('listOrdersCreateFromFormModal', true);
+
+        $this->listOrdersCreateFromModalDto = $this->createListOrdersCreateFromComponentDto($listOrdersCreateFormCsrfToken, $listOrdersCreateFormActionUrl);
+
+        return $this;
+    }
+
+    public function listOrdersListAjaxModal(string $groupId, string $urlPathToListOrdersImages, string $urlImageListOrdersNoImage): self
+    {
+        $this->builder->setMethodStatus('listOrdersListAjaxModal', true);
+
+        $this->listOrdersListAjaxModalDto = $this->createListOrdersListItemsModalDto($groupId, $urlPathToListOrdersImages, $urlImageListOrdersNoImage);
 
         return $this;
     }
@@ -226,6 +249,25 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
+    private function createListOrdersCreateFromComponentDto(string $listOrdersCreateFromFormCsrfToken, string $listOrdersCreateFromFormActionUrl): ModalComponentDto
+    {
+        $listOrdersCreateFromComponentDto = new ListOrdersCreateFromComponentDto(
+            [],
+            $listOrdersCreateFromFormCsrfToken,
+            false,
+            mb_strtolower($listOrdersCreateFromFormActionUrl)
+        );
+
+        return new ModalComponentDto(
+            self::LIST_ORDERS_CREATE_FROM_MODAL_ID,
+            '',
+            false,
+            ListOrdersCreateFromComponent::getComponentName(),
+            $listOrdersCreateFromComponentDto,
+            []
+        );
+    }
+
     private function createListOrdersRemoveMultiComponentDto(string $listOrdersRemoveMultiFormCsrfToken, string $listOrdersRemoveFormActionUrl): ModalComponentDto
     {
         $homeSectionRemoveMultiComponentDto = new ListOrdersRemoveComponentDto(
@@ -315,6 +357,38 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
+    private function createListOrdersListItemsModalDto(string $groupId, string $urlPathToListOrdersImages, string $urlImageListOrdersNoImage): ModalComponentDto
+    {
+        $pageCurrent = 1;
+        $contentLoaderJsDto = new ContentLoaderJsComponentDto(
+            'getListOrdersData',
+            [
+                'group_id' => $groupId,
+                'page' => $pageCurrent,
+                'page_items' => self::LIST_ORDERS_LIST_PAGE_NUM_ITEMS,
+            ],
+            self::LIST_ORDERS_LIST_RESPONSE_INDEX_NAME,
+        );
+        $paginatorJsDto = new PaginatorJsComponentDto($pageCurrent, 1);
+        $paginatorContentLoaderJsDto = new PaginatorContentLoaderJsComponentDto($contentLoaderJsDto, $paginatorJsDto);
+
+        $shopListAjaxComponentDto = new ListOrdersListAjaxComponentDto(
+            ListOrdersListAjaxComponent::getComponentName(),
+            $paginatorContentLoaderJsDto,
+            $urlPathToListOrdersImages,
+            $urlImageListOrdersNoImage,
+        );
+
+        return new ModalComponentDto(
+            self::LIST_ORDERS_LIST_MODAL_ID,
+            '',
+            false,
+            ListOrdersListAjaxComponent::getComponentName(),
+            $shopListAjaxComponentDto,
+            []
+        );
+    }
+
     private function createListOrdersListItemComponentDto(): array
     {
         return array_map(
@@ -342,6 +416,12 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         return (new ListOrdersHomeSectionComponentDto())
             ->homeSection(
                 $this->homeSectionComponentDto
+            )
+            ->listOrdersCreateFromModal(
+                $this->listOrdersCreateFromModalDto
+            )
+            ->listOrdersListAjaxModalDto(
+                $this->listOrdersListAjaxModalDto
             )
             ->listOrdersInfoModal(
                 $listOrdersInfoModalDto

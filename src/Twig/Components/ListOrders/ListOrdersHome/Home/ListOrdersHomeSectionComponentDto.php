@@ -18,11 +18,15 @@ class ListOrdersHomeSectionComponentDto implements TwigComponentDtoInterface, Dt
     public readonly ModalComponentDto $listItemsModalDto;
     public readonly ModalComponentDto $productCreateModalDto;
     public readonly ModalComponentDto $listOrdersInfoModalDto;
+    public readonly ModalComponentDto $listOrdersCreateFromModalDto;
+    public readonly ModalComponentDto $listOrdersListAjaxModalDto;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'homeSection',
+            'listOrdersCreateFromModal',
+            'listOrdersListAjaxModalDto',
             'listOrdersInfoModal',
         ]);
     }
@@ -32,6 +36,24 @@ class ListOrdersHomeSectionComponentDto implements TwigComponentDtoInterface, Dt
         $this->builder->setMethodStatus('homeSection', true);
 
         $this->homeSectionComponentDto = $homeSectionComponentDto;
+
+        return $this;
+    }
+
+    public function listOrdersCreateFromModal(ModalComponentDto $listOrdersCreateFromModalDto): self
+    {
+        $this->builder->setMethodStatus('listOrdersCreateFromModal', true);
+
+        $this->listOrdersCreateFromModalDto = $listOrdersCreateFromModalDto;
+
+        return $this;
+    }
+
+    public function listOrdersListAjaxModalDto(ModalComponentDto $listOrdersListAjaxModalDto): self
+    {
+        $this->builder->setMethodStatus('listOrdersListAjaxModalDto', true);
+
+        $this->listOrdersListAjaxModalDto = $listOrdersListAjaxModalDto;
 
         return $this;
     }
