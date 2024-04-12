@@ -5,32 +5,21 @@ declare(strict_types=1);
 namespace Common\Adapter\Endpoints;
 
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Endpoints implements EndpointsInterface
 {
+    use UrlEncoder;
+
     public const API_VERSION = 1;
     public const API_DOMAIN = HTTP_CLIENT_CONFIGURATION::API_DOMAIN;
 
     public function __construct(
         private HttpClientInterface $httpClient
     ) {
-    }
-
-    public function decodeUrlName(?string $name): ?string
-    {
-        if (null === $name) {
-            return null;
-        }
-
-        return str_replace('-', ' ', $name);
-    }
-
-    public function encodeUrl(string $url): string
-    {
-        return str_replace(' ', '-', $url);
     }
 
     /**
