@@ -12,6 +12,7 @@ class ListOrdersListItemComponentDto extends HomeListItemComponentDto
         public readonly string $componentName,
         public readonly string $id,
         public readonly string $name,
+        public readonly string $urlLinkListOrders,
         public readonly string $modifyFormModalIdAttribute,
         public readonly string $deleteFormModalIdAttribute,
         public readonly string $infoFormModalIdAttribute,

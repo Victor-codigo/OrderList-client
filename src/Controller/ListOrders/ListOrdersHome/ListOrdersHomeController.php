@@ -187,6 +187,12 @@ class ListOrdersHomeController extends AbstractController
             )
             ->listItems(
                 $listOrdersData,
+                $this->generateUrl('order_home', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                    'page' => 1,
+                    'page_items' => 100,
+                    'list_orders_name' => '--list_orders_name--',
+                ]),
             )
             ->validation(
                 !empty($shopHomeMessagesError) || !empty($shopHomeMessagesOk) ? true : false,

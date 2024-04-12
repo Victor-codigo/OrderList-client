@@ -27,6 +27,18 @@
         </div>
     </label>
 
+    <a href="{{ urlListOrders|escape('html_attr') }}"
+       class="d-flex"
+       role="button"
+       title="{{ lang.ordersLinkItemButtonTitle }}">
+
+        <button type="button"
+                class="btn  flex-grow-0  ps-5  pe-5  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary  list-orders-list__button-orders">
+
+            {% include 'list_orders/list-orders-icon-go-orders.svg' %}
+        </button>
+    </a>
+
     <button type="button"
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
             value="{{ data.id }}"

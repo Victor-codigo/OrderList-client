@@ -26,10 +26,16 @@ export default class extends HomeSectionComponent {
     async #updateListOrderBoughtPrice() {
         const listOrdersId = this.element.dataset.listOrdersId;
         const groupId = this.element.dataset.groupId;
-        const listOrdersPrice = await endpoint.getListOrdersPrice(listOrdersId, groupId);
 
-        this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(listOrdersPrice.total);
-        this.#priceBoughtTag.innerText = locale.formatToStringLocaleCurrency(listOrdersPrice.bought);
+        try {
+            const listOrdersPrice = await endpoint.getListOrdersPrice(listOrdersId, groupId);
+
+            this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(listOrdersPrice.total);
+            this.#priceBoughtTag.innerText = locale.formatToStringLocaleCurrency(listOrdersPrice.bought);
+        } catch (Error) {
+            this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(0);
+            this.#priceBoughtTag.innerText = locale.formatToStringLocaleCurrency(0);
+        }
     }
 
     /**

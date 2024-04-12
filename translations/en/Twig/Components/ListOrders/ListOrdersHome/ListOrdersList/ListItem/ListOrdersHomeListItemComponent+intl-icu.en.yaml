@@ -10,6 +10,9 @@ list_orders_info_button:
   title: Show info of the shop list
   alt: Button to show info of the shop list
 
+list_orders_link_to_orders_button:
+  title: Link to shop list orders
+
 list_orders_image:
   title: Shop list image
   alt: Shop list image

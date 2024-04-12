@@ -60,6 +60,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
      * @var ListOrdersDataResponse[]
      */
     private readonly array $listLitOrdersData;
+    private readonly string $urlListOrdersPlaceholder;
 
     public function __construct()
     {
@@ -160,11 +161,12 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function listItems(array $listListOrdersData): self
+    public function listItems(array $listListOrdersData, string $urlListOrdersPlaceholder): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
         $this->listLitOrdersData = $listListOrdersData;
+        $this->urlListOrdersPlaceholder = $urlListOrdersPlaceholder;
 
         return $this;
     }
@@ -396,6 +398,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
                 ListOrdersListItemComponent::getComponentName(),
                 $listItemData->id,
                 $listItemData->name,
+                $this->urlListOrdersPlaceholder,
                 self::LIST_ORDERS_MODIFY_MODAL_ID,
                 self::LIST_ORDERS_DELETE_MODAL_ID,
                 self::LIST_ORDERS_INFO_MODAL_ID,

@@ -6,6 +6,7 @@ namespace App\Twig\Components\ListOrders\ListOrdersHome\ListItem;
 
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponent;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
+use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -14,7 +15,12 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 final class ListOrdersListItemComponent extends HomeListItemComponent
 {
+    use UrlEncoder;
+
+    private const LIST_ORDERS_NAME_PLACEHOLDER = '--list_orders_name--';
+
     public readonly string $productDataJson;
+    public readonly string $urlListOrders;
 
     public static function getComponentName(): string
     {
@@ -25,6 +31,7 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
     {
         $this->data = $data;
         $this->loadTranslation();
+        $this->urlListOrders = $this->parseItemUrlListItemsPlaceholder($data->urlLinkListOrders, $data->name);
         $this->productDataJson = $this->parseItemDataToJson($data);
     }
 
@@ -38,6 +45,7 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
             $this->translate('list_orders_remove_button.title'),
             $this->translate('list_orders_info_button.alt'),
             $this->translate('list_orders_info_button.title'),
+            $this->translate('list_orders_link_to_orders_button.title'),
             $this->translate('list_orders_image.alt'),
             $this->translate('list_orders_image.title'),
         );
@@ -55,5 +63,12 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
         ];
 
         return json_encode($listOrdersDataToParse, JSON_THROW_ON_ERROR);
+    }
+
+    private function parseItemUrlListItemsPlaceholder(string $urlListOrdersPlaceholder, string $listOrdersName): string
+    {
+        $listOrdersNameDecoded = $this->encodeUrl($listOrdersName);
+
+        return mb_ereg_replace(self::LIST_ORDERS_NAME_PLACEHOLDER, $listOrdersNameDecoded, $urlListOrdersPlaceholder);
     }
 }
