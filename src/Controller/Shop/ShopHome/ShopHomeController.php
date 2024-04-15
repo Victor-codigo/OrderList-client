@@ -28,11 +28,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/shop/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
     name: 'shop_home',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
+        'section' => 'shop',
         'page' => '\d+',
         'page_items' => '\d+',
     ]
@@ -124,8 +125,8 @@ class ShopHomeController extends AbstractController
 
     private function getShopsData(
         string $groupId,
-        string|null $shopNameFilterType,
-        string|null $shopNameFilterValue,
+        ?string $shopNameFilterType,
+        ?string $shopNameFilterValue,
         int $page,
         int $pageItems,
         string $tokenSession
@@ -204,8 +205,8 @@ class ShopHomeController extends AbstractController
         FormInterface $shopRemoveForm,
         FormInterface $shopRemoveMultiForm,
         FormInterface $productCreateForm,
-        string|null $searchBarSearchValue,
-        string|null $searchBarNameFilterValue,
+        ?string $searchBarSearchValue,
+        ?string $searchBarNameFilterValue,
         string $searchBarCsrfToken,
         array $shopsData,
         array $productsData,
@@ -245,6 +246,7 @@ class ShopHomeController extends AbstractController
                 ShopsEndPoint::GET_SHOP_DATA,
                 $this->generateUrl('shop_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
+                    'section' => 'shop',
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),

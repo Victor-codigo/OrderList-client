@@ -32,11 +32,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/product/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
     name: 'product_home',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
+        'section' => 'product',
         'page' => '\d+',
         'page_items' => '\d+',
     ]
@@ -273,6 +274,7 @@ class ProductHomeController extends AbstractController
                 ProductsEndPoint::GET_PRODUCT_DATA,
                 $this->generateUrl('product_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
+                    'section' => 'product',
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),

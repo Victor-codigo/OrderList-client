@@ -52,11 +52,11 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     public function __invoke(ControllerEvent $event): void
     {
-        $this->loadRequestDto($event->getRequest());
-        $this->loadTwigGlobals();
+        $requestDto = $this->loadRequestDto($event->getRequest());
+        $this->loadTwigGlobals($requestDto);
     }
 
-    private function loadRequestDto(Request $request): void
+    private function loadRequestDto(Request $request): RequestDto
     {
         $tokenSession = $this->loadTokenSession($request);
         $groupData = $this->loadGroupData($request->attributes, $tokenSession);
@@ -64,6 +64,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $requestDto = new RequestDto(
             $tokenSession,
             $this->loadLocale($request),
+            $request->attributes->get('section'),
             $request->attributes->get('group_name'),
             $request->attributes->get('list_orders_name'),
             $request->attributes->get('shop_name'),
@@ -80,12 +81,19 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         );
 
         $request->attributes->set('requestDto', $requestDto);
+
+        return $requestDto;
     }
 
-    private function loadTwigGlobals(): void
+    private function loadTwigGlobals(RequestDto $requestDto): void
     {
         $navigationBarComponentData = new NavigationBarDto(
-            'OrderListTile'
+            'OrderListTile',
+            $requestDto->groupNameUrlEncoded,
+            $requestDto->sectionActiveId,
+            $requestDto->locale ?? 'en',
+            $requestDto->request->attributes->get('_route') ?? '',
+            $requestDto->request->attributes->get('_route_params') ?? [],
         );
 
         $this->twig->addGlobal('NavigationBarComponent', $navigationBarComponentData);

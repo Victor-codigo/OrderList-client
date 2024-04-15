@@ -5,6 +5,8 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
+
+
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 
@@ -12,3 +14,7 @@ import './styles/app.scss';
 import './bootstrap';
 
 import * as bootstrap from 'bootstrap';
+
+import * as themeLoader from 'App/ThemeLoader';
+
+themeLoader.load();

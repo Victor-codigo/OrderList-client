@@ -27,6 +27,9 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
         return 'ListOrdersListItemComponent';
     }
 
+    /**
+     * @param ListOrdersListItemComponentDto $data
+     */
     public function mount(HomeListItemComponentDto $data): void
     {
         $this->data = $data;

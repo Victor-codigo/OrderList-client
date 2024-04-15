@@ -1,0 +1,13 @@
+title: Order list
+
+navigation:
+  section:
+    list_orders:
+      label: Lista de pedidos
+      title: Muestra la lista de pedidos
+    products:
+      label: Productos
+      title: Muestra la lista de productos
+    shops:
+      label: Tiendas
+      title: Muestra la lista de tiendas

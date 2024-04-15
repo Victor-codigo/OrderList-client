@@ -29,11 +29,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/list-orders/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
     name: 'list_orders_home',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
+        'section' => 'list-orders',
         'page' => '\d+',
         'page_items' => '\d+',
     ]
@@ -206,6 +207,7 @@ class ListOrdersHomeController extends AbstractController
                 ListOrdersEndpoints::GET_LIST_ORDERS_DATA,
                 $this->generateUrl('list_orders_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
+                    'section' => 'list-orders',
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),

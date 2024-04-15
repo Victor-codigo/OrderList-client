@@ -1,0 +1,30 @@
+@import '/node_modules/bootstrap/scss/_functions';
+@import '/node_modules/bootstrap/scss/variables';
+
+
+
+// Then add them to your custom theme-colors map, together with any additional colors you might need
+$theme-colors: (
+    primary: $primary,
+    secondary: $secondary,
+    success: $success,
+    info: $info,
+    warning: $warning,
+    danger: $danger,
+    light: $light,
+    dark: $dark,
+    // add any additional color below
+
+);
+
+$body-bg-dark: $gray-800;
+$body-color-dark: white;
+
+// scss-docs-start form-validation-colors-dark
+$form-valid-color-dark: $green-300 ;
+$form-valid-border-color-dark: $green-300 ;
+$form-invalid-color-dark: $red-300 ;
+$form-invalid-border-color-dark: $red-300 ;
+// scss-docs-end form-validation-colors-dark
+
+@import '/node_modules/bootstrap/scss/variables-dark';

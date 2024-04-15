@@ -1,0 +1,13 @@
+title: Lista de la compra
+
+navigation:
+  section:
+    list_orders:
+      label: List orders
+      title: Shows a list of orders
+    products:
+      label: Products
+      title: Shows a list of products
+    shops:
+      label: Shops
+      title: Shows a list of shops

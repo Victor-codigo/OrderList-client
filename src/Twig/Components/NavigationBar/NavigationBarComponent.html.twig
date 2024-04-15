@@ -1,50 +1,112 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-	<div class="container-fluid">
+<nav class="navbar  navbar-dark  bg-dark  navbar-expand-md  bg-body-tertiary  fixed-top  p-0"
+	 data-controller="NavigationBarComponent"
+	 data-bs-theme="dark">
+	<div class="container-fluid  align-items-stretch  pe-0">
+
 		<a class="navbar-brand"
-		   href="#">
+		   href="#">Offcanvas navbar</a>
 
-			{{ include('Components/NavigationBar/img/website-icon.svg') }}
+		<div class="collapse navbar-collapse">
+			<ul
+				class="navbar-nav  justify-content-end flex-grow-1 pe-3  d-flex  flex-row  justify-content-center  align-items-end  navbar-expand-md">
 
-			{{ data.title }}
-		</a>
+				{% for section in sections %}
 
-		<button class="navbar-toggler"
-				type="button"
-				data-bs-toggle="offcanvas"
-				data-bs-target="#offcanvasDarkNavbar"
-				aria-controls="offcanvasDarkNavbar">
+				<li class="nav-item">
 
-			<span class="navbar-toggler-icon"></span>
-		</button>
+					<a class="nav-link {{ section.active ? 'active  p-3  ps-5  pe-5' : 'p-3' }}"
+					   title="{{ section.title }}"
+					   aria-current="page"
+					   href="{{ section.url|escape('html_attr') }}">
 
-		<div class="offcanvas offcanvas-start text-bg-dark"
+						{{ section.label }}
+					</a>
+				</li>
+
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div class="d-flex">
+
+			{% if data.locale=='es' %}
+
+			<a href="{{ languageToggleUrl }}">
+				<button class="navbar__language-switch  p-3"
+						type="button">
+					{% include "flag/english-flag.svg" %}
+				</button>
+			</a>
+
+			{% else %}
+
+			<a href="{{ languageToggleUrl }}">
+				<button class="navbar__language-switch  p-3"
+						type="button">
+					{% include "flag/spanish-flag.svg" %}
+				</button>
+
+			</a>
+
+			{% endif %}
+
+			<button class="navbar__theme-switch  p-3"
+					type="button"
+					data-js-theme-button>
+				<div hidden
+					 data-js-theme-dark>
+					{% include "theme-dark-mode-icon.svg" %}
+				</div>
+				<div hidden
+					 data-js-theme-light>
+					{% include "theme-light-mode-icon.svg" %}
+				</div>
+				<div hidden
+					 data-js-theme-auto>
+					{% include "theme-auto-mode-icon.svg" %}
+				</div>
+			</button>
+
+			<button class="navbar-toggler  border-0  rounded-0  p-2  ps-3  pe-3  navbar-toggler-button"
+					type="button"
+					data-bs-toggle="offcanvas"
+					data-bs-target="#offcanvasNavbar"
+					aria-controls="offcanvasNavbar"
+					aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
+
+		<div class="offcanvas offcanvas-start"
 			 tabindex="-1"
-			 id="offcanvasDarkNavbar"
-			 aria-labelledby="offcanvasDarkNavbarLabel">
-
+			 id="offcanvasNavbar"
+			 aria-labelledby="offcanvasNavbarLabel">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title"
-					id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
-
+					id="offcanvasNavbarLabel">Offcanvas</h5>
 				<button type="button"
-						class="btn-close btn-close-white"
+						class="btn-close"
 						data-bs-dismiss="offcanvas"
 						aria-label="Close"></button>
 			</div>
-
 			<div class="offcanvas-body">
 				<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-					{% for section in lang.sections %}
-					<li
-						class="nav-item btn btn-dark rounded-0 border-secondary border-top-0 border-bottom-0 border-start-0">
-						<a class="nav-link active"
+					{% for section in sections %}
+
+					<li class="nav-item">
+
+						<a class="nav-link {{ section.active ? 'active  p-3  ps-5  pe-5' : 'p-3' }}"
+						   title="{{ section.title }}"
 						   aria-current="page"
-						   href="#">{{ section }}</a>
+						   href="{{ section.url|escape('html_attr') }}">
+
+							{{ section.label }}
+						</a>
 					</li>
+
 					{% endfor %}
+				</ul>
 			</div>
 		</div>
-	</div>
-
 	</div>
 </nav>

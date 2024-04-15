@@ -16,6 +16,7 @@ class RequestDto
     public function __construct(
         public readonly ?string $tokenSession,
         public readonly ?string $locale,
+        public readonly ?string $sectionActiveId,
         public readonly ?string $groupNameUrlEncoded,
         public readonly ?string $listOrdersUrlEncoded,
         public readonly ?string $shopNameUrlEncoded,

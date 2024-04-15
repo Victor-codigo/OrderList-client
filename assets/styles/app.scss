@@ -1,6 +1,8 @@
-// @import '/node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import '/node_modules/bootstrap/scss/bootstrap';
+@import '/assets/styles/bootstrap';
 
+
+// Navigation bar
+@import '/src/Twig/Components/NavigationBar/NavigationBarComponent';
 
 // ShopAddComponent
 @import '/src/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddComponent';

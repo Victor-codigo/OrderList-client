@@ -11,7 +11,7 @@ import UserRemoveComponent from 'App/Twig/Components/User/UserRemove/UserRemoveC
 
 // GENERAL
 import AlertComponent from 'App/Twig/Components/Alert/AlertComponent_controller';
-import NavigationBar from 'App/Twig/Components/NavigationBar/NavigationBar_controller';
+import NavigationBarComponent from 'App/Twig/Components/NavigationBar/NavigationBar_controller';
 import ModalComponent from 'App/Twig/Components/Modal/Modal_Component';
 import DropZoneComponent from 'App/Twig/Components/Controls/DropZone/DropZone_Component';
 import ImageAvatarComponent from 'App/Twig/Components/Controls/ImageAvatar/ImageAvatar_Component';
@@ -97,7 +97,7 @@ export const app = startStimulusApp(require.context(
 
 // GENERAL
 app.register('AlertComponent', AlertComponent);
-app.register('NavigationBar', NavigationBar);
+app.register('NavigationBarComponent', NavigationBarComponent);
 app.register('ModalComponent', ModalComponent);
 app.register('DropZoneComponent', DropZoneComponent);
 app.register('ImageAvatarComponent', ImageAvatarComponent);
