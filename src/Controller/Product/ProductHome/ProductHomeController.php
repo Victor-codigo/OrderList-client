@@ -248,6 +248,9 @@ class ProductHomeController extends AbstractController
         );
 
         return (new ProductHomeComponentBuilder())
+            ->title(
+                null
+            )
             ->errors(
                 $productHomeMessagesOk,
                 $productHomeMessagesError

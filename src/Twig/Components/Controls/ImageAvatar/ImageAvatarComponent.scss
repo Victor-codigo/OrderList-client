@@ -1,0 +1,12 @@
+[data-bs-theme="dark"] {
+
+    .image-avatar {
+        width: 170px;
+
+        &__img--svg {
+            background-color: #fff0;
+            filter: invert(100);
+            border: 1px solid $gray-100;
+        }
+    }
+}

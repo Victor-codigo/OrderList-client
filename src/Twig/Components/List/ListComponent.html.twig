@@ -4,9 +4,11 @@
 	{% if data.listItemsDto is empty %}
 
 	<li class="d-flex  flex-row  justify-content-center  align-items-center  list-empty">
-		<img class="me-2"
-			 src="{{ data.listEmptyIconPath }}"
-			 alt="{{ data.listEmptyIconAlt }}">
+
+		<div class="me-2"
+			 title="{{ data.listEmptyIconAlt }}">
+			{% include "list-icon.svg" %}
+		</div>
 		<span>{{ data.listEmptyMessage }}</span>
 	</li>
 

@@ -48,11 +48,26 @@ export default class extends Controller {
         this.#titleTag.innerHTML = html.escape(data.name);
         this.#descriptionTag.innerHTML = html.escape(data.description === null ? '' : data.description);
         this.#dateTag.innerText = locale.formatDateToLocale(data.createdOn);
-        this.#imageTag.src = html.escape(data.image);
+        this.setImage(data.image, data.noImage);
 
         if (typeof data.itemsPrices !== 'undefined') {
             this.#setPrices(data.itemsPrices);
         }
+    }
+
+    /**
+     * @param {string} image
+     * @param {boolean} noImage
+     */
+    setImage(image, noImage) {
+        this.#imageTag.src = html.escape(image);
+
+        if (noImage) {
+            this.#imageTag.classList.add('item-info__image--svg');
+        } else {
+            this.#imageTag.classList.remove('item-info__image--svg');
+        }
+
     }
 
     /**

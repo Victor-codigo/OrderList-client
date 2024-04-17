@@ -39,15 +39,19 @@ class HomeSectionComponent extends TwigComponent
         $this->createFormModalDto = $this->data->createFormModalDto;
         $this->removeMultiFormModalDto = $this->data->removeMultiFormModalDto;
         $this->loadTranslation();
-        $this->titleDto = $this->createTitleDto();
+        $this->titleDto = $this->createTitleDto($this->data->title);
         $this->searchBarFormDto = $this->data->searchComponentDto;
         $this->listComponentDto = $this->createListComponentDto();
         $this->alertValidationComponentDto = $this->createAlertValidationComponentDto();
     }
 
-    private function createTitleDto(): TitleComponentDto
+    private function createTitleDto(?string $title): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        if (null === $title) {
+            return new TitleComponentDto($this->lang->title);
+        }
+
+        return new TitleComponentDto($title);
     }
 
     private function createListComponentDto(): HomeListComponentDto

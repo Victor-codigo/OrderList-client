@@ -65,6 +65,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'title',
             'listOrdersCreateFormModal',
             'listOrdersCreateFromFormModal',
             'listOrdersModifyFormModal',
@@ -79,6 +80,15 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         ]);
 
         $this->homeSectionComponentDto = new HomeSectionComponentDto();
+    }
+
+    public function title(?string $title): self
+    {
+        $this->builder->setMethodStatus('title', true);
+
+        $this->homeSectionComponentDto->title($title);
+
+        return $this;
     }
 
     public function listOrdersCreateFormModal(string $listOrdersCreateFormCsrfToken, string $listOrdersCreateFormActionUrl): self
@@ -196,7 +206,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->searchBar(new SearchBarComponentDto(
             $groupId,
             $searchValue,
-            SECTION_FILTERS::cases(),
+            [SECTION_FILTERS::LIST_ORDERS, SECTION_FILTERS::PRODUCT, SECTION_FILTERS::SHOP],
             $sectionFilterValue,
             $nameFilterValue,
             $searchBarCsrfToken,

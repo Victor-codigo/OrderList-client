@@ -34,6 +34,7 @@ class OrderListItemComponentDto extends HomeListItemComponentDto
         public readonly float $amount,
         public readonly bool $bought,
         public readonly ?string $image,
+        public readonly bool $noImage,
         public readonly \DateTimeImmutable $createdOn,
         public readonly ProductDataResponse $product,
         public readonly ?ShopDataResponse $shop,

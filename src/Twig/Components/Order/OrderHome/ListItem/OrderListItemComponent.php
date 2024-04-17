@@ -60,6 +60,7 @@ final class OrderListItemComponent extends HomeListItemComponent
             'amount' => $orderData->amount,
             'bought' => $orderData->bought,
             'image' => $orderData->image,
+            'noImage' => $orderData->noImage,
             'createdOn' => $orderData->createdOn->format('Y-m-d'),
             'product' => [
                 'id' => $orderData->product->id,

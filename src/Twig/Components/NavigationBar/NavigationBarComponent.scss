@@ -1,7 +1,7 @@
 [data-bs-theme="light"] {
     .navbar {
         .nav-link.active {
-            background-color: $body-bg;
+            background-color: $gray-100;
             color: $dark;
         }
     }
@@ -11,7 +11,7 @@
 [data-bs-theme="dark"] {
     .navbar {
         .nav-link.active {
-            background-color: $body-bg-dark;
+            background-color: $gray-850;
         }
     }
 }

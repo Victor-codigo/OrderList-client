@@ -221,6 +221,9 @@ class ShopHomeController extends AbstractController
         );
 
         return (new ShopHomeComponentBuilder())
+            ->title(
+                null
+            )
             ->errors(
                 $shopHomeMessagesOk,
                 $shopHomeMessagesError

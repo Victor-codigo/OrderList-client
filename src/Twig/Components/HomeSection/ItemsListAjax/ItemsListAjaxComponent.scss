@@ -1,1 +1,19 @@
+[data-bs-theme="dark"] {
+    .list-items__item {
+        .item__image {
 
+            &--svg {
+                filter: invert(100);
+                background-color: #fff0;
+                border: 1px solid $gray-100;
+            }
+        }
+    }
+}
+
+.list-items__item {
+    .item__image {
+        max-height: 50px;
+        max-width: 50px;
+    }
+}

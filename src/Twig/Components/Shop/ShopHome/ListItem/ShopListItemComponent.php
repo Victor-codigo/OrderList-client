@@ -73,6 +73,7 @@ final class ShopListItemComponent extends HomeListItemComponent
             'name' => $shopData->name,
             'description' => $shopData->description,
             'image' => $shopData->image,
+            'noImage' => $shopData->noImage,
             'createdOn' => $shopData->createdOn->format('Y-m-d'),
             'itemsPrices' => $productShopsData,
         ];

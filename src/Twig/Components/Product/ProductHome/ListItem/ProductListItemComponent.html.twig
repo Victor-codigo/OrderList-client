@@ -1,4 +1,4 @@
-<li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-1"
+<li class="list-group-item  list-group-item-action  d-flex  flex-row  p-0  mt-1  mb-1  border border-1"
     data-controller="ProductListItemComponent"
     data-item-data="{{ productDataJson }}"
     data-js-list-item>
@@ -9,10 +9,24 @@
                type="checkbox"
                data-js-checkbox>
 
-        <img class="img-thumbnail  flex-grow-0  rounded-0  border  border-0  border-start  border-end  product-list-item__image  p-0"
+        {% if data.noImage %}
+
+        <div class="flex-grow-0  border-0  shop-list-item__image  p-0"
+             title="{{ lang.imageItemTitle }}"
+             data-js-item-image>
+
+            {% include "product/product-no-image-200x200.svg" %}
+        </div>
+
+        {% else %}
+
+        <img class="flex-grow-0  border-0  shop-list-item__image  p-0"
              src="{{ data.image }}"
              alt="{{ lang.imageItemAlt }}"
-             title="{{ lang.imageItemTitle }}">
+             title="{{ lang.imageItemTitle }}"
+             data-js-item-image>
+
+        {% endif %}
 
         <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
 

@@ -39,7 +39,6 @@ final class HomeListComponent extends TwigComponent
         return new ListComponentDto(
             $this->data->listItemComponentName,
             $this->data->listItems,
-            self::API_DOMAIN.'/assets/img/common/list-icon.svg',
             $this->lang->homeListEmptyIconAlt,
             $this->lang->homeListEmptyMessage
         );

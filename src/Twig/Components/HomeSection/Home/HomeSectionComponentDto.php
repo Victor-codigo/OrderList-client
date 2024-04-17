@@ -13,6 +13,8 @@ use Common\Domain\DtoBuilder\DtoBuilderInterface;
 
 class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderInterface
 {
+    public readonly ?string $title;
+
     /**
      * @param string[]
      */
@@ -51,6 +53,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'title',
             'searchBar',
             'createFormModal',
             'modifyFormModal',
@@ -64,6 +67,15 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
             'group',
             'translationDomainNames',
         ]);
+    }
+
+    public function title(?string $title): self
+    {
+        $this->builder->setMethodStatus('title', true);
+
+        $this->title = $title;
+
+        return $this;
     }
 
     public function searchBar(SearchBarComponentDto $searchBarComponentDto): self

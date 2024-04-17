@@ -77,6 +77,7 @@ export default class extends ItemInfo_controller {
         console.log(data);
         this.titleTag.innerText = data.product.name;
         this.imageTag.src = data.image;
+        this.setImage(data.image, data.noImage);
         this.dateTag.innerText = locale.formatDateToLocale(data.createdOn);
         this.descriptionTag.innerText = data.description;
         this.#setBoughtImage(data.bought);

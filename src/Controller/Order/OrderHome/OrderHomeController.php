@@ -28,13 +28,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/{list_orders_name}/orders/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{list_orders_name}/{section}/page-{page}-{page_items}',
     name: 'order_home',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
         'page' => '\d+',
         'page_items' => '\d+',
+        'section' => 'orders',
     ]
 )]
 class OrderHomeController extends AbstractController
@@ -195,6 +196,17 @@ class OrderHomeController extends AbstractController
         );
 
         return (new OrderHomeComponentBuilder())
+            ->title(
+                $requestDto->listOrdersData->name
+            )
+            ->buttonBackUrl(
+                $this->generateUrl('list_orders_home', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                    'section' => 'list-orders',
+                    'page' => $requestDto->page,
+                    'page_items' => $requestDto->pageItems,
+                ]),
+            )
             ->listOrders(
                 $requestDto->listOrdersData->id,
                 $requestDto->groupData->id
@@ -224,6 +236,7 @@ class OrderHomeController extends AbstractController
                 $this->generateUrl('order_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'list_orders_name' => $requestDto->listOrdersUrlEncoded,
+                    'section' => 'orders',
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),

@@ -75,6 +75,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'title',
             'shopCreateModal',
             'shopModifyFormModal',
             'shopRemoveMultiModal',
@@ -89,6 +90,15 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
         ]);
 
         $this->homeSectionComponentDto = new HomeSectionComponentDto();
+    }
+
+    public function title(?string $title): self
+    {
+        $this->builder->setMethodStatus('title', true);
+
+        $this->homeSectionComponentDto->title($title);
+
+        return $this;
     }
 
     public function shopCreateFormModal(string $shopCreateFormCsrfToken, string $shopCreateFormActionUrl): self
@@ -198,8 +208,8 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
 
     public function searchBar(
         string $groupId,
-        string|null $searchValue,
-        string|null $nameFilterValue,
+        ?string $searchValue,
+        ?string $nameFilterValue,
         string $searchBarCsrfToken,
         string $searchAutoCompleteUrl,
         string $searchBarFormActionUrl,
@@ -396,6 +406,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
                 self::SHOP_HOME_LIST_ITEM_COMPONENT_NAME,
                 $listItemData['shopData']->description,
                 $listItemData['shopData']->image ?? Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
+                null === $listItemData['shopData']->image ? true : false,
                 $listItemData['shopData']->createdOn,
                 $listItemData['productsData'],
                 $listItemData['productsPricesData']

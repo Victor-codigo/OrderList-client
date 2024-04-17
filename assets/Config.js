@@ -236,6 +236,7 @@ export const UNIT_MEASURE = {
  * @property {string} name
  * @property {string} description
  * @property {string} image
+ * @property {boolean} noImage
  * @property {string} createdOn
  * @property {ItemPriceData[]} itemsPrices
  */

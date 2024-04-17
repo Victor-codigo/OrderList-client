@@ -78,7 +78,7 @@ export default class ListItems {
      */
     #createItem(itemData) {
         const itemContainer = this.#createItemContainer(itemData.data, itemData.item.htmlAttributes, itemData.item.cssClasses);
-        const itemImage = this.#createItemImage(itemData.image.src, itemData.image.title, itemData.image.alt);
+        const itemImage = this.#createItemImage(itemData.image.src, itemData.image.noImage, itemData.image.title, itemData.image.alt);
         const itemSpan = this.#createItemSpan(itemData.name);
 
         itemContainer.appendChild(itemImage);
@@ -122,30 +122,31 @@ export default class ListItems {
 
     /**
      * @param {string} src
+     * @param {boolean} noImage
      * @param {string} title
      * @param {string} alt
      *
      * @returns {HTMLElement}
      */
-    #createItemImage(src, title, alt) {
+    #createItemImage(src, noImage, title, alt) {
         const listItemImage = document.createElement('img');
 
         listItemImage.classList.add(
             'img-thumbnail',
             'flex-grow-0',
-            'rounded-0',
-            'border',
             'border-0',
-            'border-start',
-            'border-end',
             'item__image'
         );
-        listItemImage.style.maxHeight = '50px';
-        listItemImage.style.maxWidth = '50px';
+
+        if (noImage) {
+            listItemImage.classList.add('item__image--svg');
+        }
 
         listItemImage.src = src;
         listItemImage.title = title;
         listItemImage.alt = alt;
+
+
 
         return listItemImage;
     }

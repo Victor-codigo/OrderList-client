@@ -36,7 +36,6 @@ final class GroupListComponent extends TwigComponent
         $this->listDto = new ListComponentDto(
             'GroupListItemComponent',
             $this->data->groupList,
-            self::API_DOMAIN.'/assets/img/common/list-icon.svg',
             $this->lang->listEmptyIconAlt,
             $this->lang->listEmptyMessage
         );

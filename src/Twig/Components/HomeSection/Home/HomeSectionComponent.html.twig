@@ -1,6 +1,9 @@
 <section data-controller="HomeSectionComponent"
 		 class="contaniner">
 
+	{% block overTitle %}
+	{% endblock overTitle %}
+
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	{% if lang.validationErrors %}
@@ -9,7 +12,7 @@
 
 	{{ component('SearchBarComponent', { data: searchBarFormDto } ) }}
 
-	<div class="border  border-1  rounded-2  p-2">
+	<div class="border  border-0  p-2">
 
 		<header class="mb-3">
 			<div class="d-flex  flex-row">

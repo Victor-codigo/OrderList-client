@@ -1,8 +1,16 @@
 @import '/assets/styles/bootstrap';
 
+@import '/assets/styles/style';
+
 
 // Navigation bar
 @import '/src/Twig/Components/NavigationBar/NavigationBarComponent';
+
+// Avatar
+@import '/src/Twig/Components/Controls/ImageAvatar/ImageAvatarComponent';
+
+// ItemsListAjax
+@import '/src/Twig/Components/HomeSection/ItemsListAjax/ItemsListAjaxComponent';
 
 // ShopAddComponent
 @import '/src/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddComponent';

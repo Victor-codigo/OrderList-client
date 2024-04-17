@@ -58,10 +58,13 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private readonly array $listOrdersData;
     private readonly string $listOrdersId;
     private readonly string $groupId;
+    private readonly string $buttonBackUrl;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'title',
+            'buttonBackUrl',
             'listOrders',
             'orderCreateModal',
             'orderModifyFormModal',
@@ -76,6 +79,24 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         ]);
 
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
+    }
+
+    public function title(?string $title): self
+    {
+        $this->builder->setMethodStatus('title', true);
+
+        $this->homeSectionComponentDto->title($title);
+
+        return $this;
+    }
+
+    public function buttonBackUrl(string $url): self
+    {
+        $this->builder->setMethodStatus('buttonBackUrl', true);
+
+        $this->buttonBackUrl = $url;
+
+        return $this;
     }
 
     public function listOrders(string $listOrdersId, string $groupId): self
@@ -347,6 +368,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->amount,
                 $listItemData->bought,
                 $listItemData->product->image ?? Config::ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
+                null === $listItemData->product->image ? true : false,
                 $listItemData->createdOn,
                 $listItemData->product,
                 $listItemData->shop,
@@ -414,6 +436,9 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private function createOrderHomeSectionComponentDto(string $listOrdersId, string $groupId, ModalComponentDto $productListItemsModalDto, ModalComponentDto $orderInfoModalDto): OrderHomeSectionComponentDto
     {
         return (new OrderHomeSectionComponentDto())
+            ->buttonBack(
+                $this->buttonBackUrl
+            )
             ->listOrders(
                 $listOrdersId,
                 $groupId

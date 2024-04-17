@@ -9,6 +9,8 @@ class OrderHomeSectionComponentLangDto
     public function __construct(
         public readonly string $currentBought,
         public readonly string $totalBought,
+        public readonly string $buttonBackLabel,
+        public readonly string $buttonBackTitle,
     ) {
     }
 }

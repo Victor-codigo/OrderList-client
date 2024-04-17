@@ -210,20 +210,24 @@ export default class extends Controller {
      * @param {string} valueFilter
      * @returns {Promise<string[]>}
      */
-    #getListOrdersNames(nameFilter, sectionFilter, valueFilter) {
+    async #getListOrdersNames(nameFilter, sectionFilter, valueFilter) {
         let parameters = this.#getParametersDefault();
 
-        return apiEndpoints.getListOrdersNames(
-            parameters.groupId,
-            parameters.page,
-            parameters.pageItems,
-            null,
-            null,
-            sectionFilter,
-            nameFilter,
-            valueFilter,
-            parameters.orderAsc
-        );
+        try {
+            return await apiEndpoints.getListOrdersNames(
+                parameters.groupId,
+                parameters.page,
+                parameters.pageItems,
+                null,
+                null,
+                sectionFilter,
+                nameFilter,
+                valueFilter,
+                parameters.orderAsc
+            );
+        } catch (error) {
+            return new Promise((resolve) => []);
+        }
     }
 
     #onSearchValueInputHandler() {

@@ -33,7 +33,9 @@ class OrderHomeSectionComponent extends TwigComponent
     {
         $this->lang = new OrderHomeSectionComponentLangDto(
             $this->translate('home_header.currentBought'),
-            $this->translate('home_header.totalBought')
+            $this->translate('home_header.totalBought'),
+            $this->translate('home_section_back.label'),
+            $this->translate('home_section_back.title')
         );
     }
 }

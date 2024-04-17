@@ -4,3 +4,17 @@
         height: 120px;
     }
 }
+
+[data-bs-theme="dark"] {
+
+    .item-info__image {
+        width: 120px;
+        height: 120px;
+
+        &--svg {
+            background-color: #fff0;
+            filter: invert(100);
+            border: 1px solid $gray-100;
+        }
+    }
+}

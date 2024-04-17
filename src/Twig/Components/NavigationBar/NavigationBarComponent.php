@@ -60,7 +60,7 @@ class NavigationBarComponent extends TwigComponent
                 'page' => 1,
                 'page_items' => 100,
             ]),
-            'list-orders' === $sectionActiveId ? true : false
+            'list-orders' === $sectionActiveId || 'orders' === $sectionActiveId ? true : false
         );
     }
 

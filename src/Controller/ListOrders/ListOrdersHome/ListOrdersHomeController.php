@@ -99,6 +99,14 @@ class ListOrdersHomeController extends AbstractController
      */
     private function getSearchBarFieldsValues(FormInterface $searchBarForm, array $flashBagData): array
     {
+        if (null === $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE)) {
+            return [
+                SEARCHBAR_FORM_FIELDS::SECTION_FILTER => null,
+                SEARCHBAR_FORM_FIELDS::NAME_FILTER => null,
+                SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => null,
+            ];
+        }
+
         if (!array_key_exists('searchBar', $flashBagData)) {
             return [
                 SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SECTION_FILTER),
@@ -118,7 +126,7 @@ class ListOrdersHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'product_home',
+                'list_orders_home',
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -177,6 +185,9 @@ class ListOrdersHomeController extends AbstractController
         );
 
         return (new ListOrdersHomeComponentBuilder())
+            ->title(
+                null
+            )
             ->errors(
                 $shopHomeMessagesOk,
                 $shopHomeMessagesError
@@ -193,6 +204,7 @@ class ListOrdersHomeController extends AbstractController
                     'page' => 1,
                     'page_items' => 100,
                     'list_orders_name' => '--list_orders_name--',
+                    'section' => 'orders',
                 ]),
             )
             ->validation(
