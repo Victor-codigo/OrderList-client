@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
+
+namespace App\Controller\User\PasswordRememberChanged;
 
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
@@ -13,8 +15,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
     path: '{_locale}/user/remember/changed',
     name: 'user_password_remember_changed',
     methods: ['GET'],
-    requirements:[
-        '_locale' => 'en|es'
+    requirements: [
+        '_locale' => 'en|es',
     ]
 )]
 class UserPasswordRememberChangedController extends AbstractController

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Profile;
+namespace App\Form\User\Profile;
 
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormType;
@@ -17,7 +17,7 @@ class ProfileForm extends FormType
         return PROFILE_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }
@@ -27,11 +27,7 @@ class ProfileForm extends FormType
         return PROFILE_FORM_FIELDS::TOKEN;
     }
 
-    public function __construct()
-    {
-    }
-
-    public function validate(ValidationInterface $validatior, array $formData): array
+    public function validate(ValidationInterface $validator, array $formData): array
     {
         return [];
     }

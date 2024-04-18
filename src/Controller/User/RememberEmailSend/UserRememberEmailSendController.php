@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
+
+namespace App\Controller\User\RememberEmailSend;
 
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
@@ -14,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
     name: 'user_remember_email_send',
     methods: ['GET'],
     requirements: [
-        '_locale' => 'en|es'
+        '_locale' => 'en|es',
     ]
 )]
 class UserRememberEmailSendController extends AbstractController

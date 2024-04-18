@@ -2,25 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Login;
+namespace App\Form\User\Login;
 
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormType;
-use Common\Domain\Validation\EMAIL_TYPES;
 use Common\Domain\Validation\ValidationInterface;
 
 class LoginForm extends FormType
 {
     private const FORM_CSRF_TOKEN_ID = 'loginFormCsrfTokenId';
 
-
-
     public static function getName(): string
     {
         return LOGIN_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }
@@ -30,12 +27,7 @@ class LoginForm extends FormType
         return LOGIN_FORM_FIELDS::TOKEN;
     }
 
-    public function __construct()
-    {
-        $this->fields = new LOGIN_FORM_FIELDS();
-    }
-
-    public function validate(ValidationInterface $validatior, array $formData): array
+    public function validate(ValidationInterface $validator, array $formData): array
     {
         return [];
     }

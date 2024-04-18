@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
 
-use App\Form\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
-use App\Form\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
-use App\Form\PasswordRemember\PasswordRememberForm;
+namespace App\Controller\User\Remember;
+
+use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
+use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
+use App\Form\User\PasswordRemember\PasswordRememberForm;
 use App\Twig\Components\User\PasswordRemember\PasswordRememberDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\HttpClient\Exception\Error400Exception;

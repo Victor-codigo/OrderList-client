@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
 
-use App\Form\Login\LOGIN_FORM_ERRORS;
-use App\Form\Login\LOGIN_FORM_FIELDS;
-use App\Form\Login\LoginForm;
+namespace App\Controller\User\Login;
+
+use App\Form\User\Login\LOGIN_FORM_ERRORS;
+use App\Form\User\Login\LOGIN_FORM_FIELDS;
+use App\Form\User\Login\LoginForm;
 use App\Twig\Components\User\Login\LoginComponentDto;
 use Common\Adapter\Form\FormFactory;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
@@ -78,7 +80,7 @@ class UserLoginController extends AbstractController
         } catch (Error400Exception $e) {
             $form->addError(LOGIN_FORM_ERRORS::LOGIN->value);
             $responseHttp = $this->formNotValid($form);
-        } catch (Error500Exception|NetworkException) {
+        } catch (Error500Exception|NetworkException $e) {
             $form->addError(LOGIN_FORM_ERRORS::INTERNAL_SERVER->value);
             $responseHttp = $this->formNotValid($form);
         } finally {

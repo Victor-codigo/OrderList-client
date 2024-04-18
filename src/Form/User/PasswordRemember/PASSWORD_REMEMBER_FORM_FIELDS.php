@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\PasswordRemember;
+namespace App\Form\User\PasswordRemember;
 
 use Common\Domain\Form\FormFieldInterface;
 

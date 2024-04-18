@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
+
+namespace App\Controller\User\Profile;
 
 use App\Form\EmailChange\EMAIL_CHANGE_FORM_FIELDS;
 use App\Form\EmailChange\EmailChangeForm;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use App\Form\PasswordChange\PasswordChangeForm;
-use App\Form\Profile\PROFILE_FORM_ERRORS;
-use App\Form\Profile\PROFILE_FORM_FIELDS;
-use App\Form\Profile\ProfileForm;
 use App\Form\UserRemove\UserRemoveForm;
+use App\Form\User\Profile\PROFILE_FORM_ERRORS;
+use App\Form\User\Profile\PROFILE_FORM_FIELDS;
+use App\Form\User\Profile\ProfileForm;
 use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\User\EmailChange\EmailChangeComponentDto;
 use App\Twig\Components\User\PasswordChange\PasswordChangeComponentDto;
@@ -175,10 +177,10 @@ class UserProfileController extends AbstractController
             'POST',
             HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::form([
-                    'name' => $formData[PROFILE_FORM_FIELDS::NICK],
-                    'image_remove' => $formData[PROFILE_FORM_FIELDS::IMAGE_REMOVE],
-                    '_method' => 'PUT',
-                ],
+                'name' => $formData[PROFILE_FORM_FIELDS::NICK],
+                'image_remove' => $formData[PROFILE_FORM_FIELDS::IMAGE_REMOVE],
+                '_method' => 'PUT',
+            ],
                 [
                     'image' => $formData[PROFILE_FORM_FIELDS::IMAGE],
                 ],

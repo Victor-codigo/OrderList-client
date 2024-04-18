@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Signup;
+namespace App\Form\User\Signup;
 
 use Common\Domain\Form\FormFieldInterface;
 

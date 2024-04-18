@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
+
+namespace App\Controller\User\RegistrationComplete;
 
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
@@ -14,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
     name: 'user_register_complete',
     methods: ['GET'],
     requirements: [
-        '_locale' => 'en|es'
+        '_locale' => 'en|es',
     ]
 )]
 class UserRegistrationCompleteController extends AbstractController
@@ -27,7 +29,7 @@ class UserRegistrationCompleteController extends AbstractController
 
     public function __invoke(): Response
     {
-        $alertInfoData =new AlertComponentDto(
+        $alertInfoData = new AlertComponentDto(
             ALERT_TYPE::INFO,
             '',
             $this->translator->trans('registration_complete.title', [], 'SignupComplete'),

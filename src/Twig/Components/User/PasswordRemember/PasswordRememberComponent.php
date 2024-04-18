@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\PasswordRemember;
 
-use App\Form\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
-use App\Form\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
+use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
+use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
 use App\Twig\Components\TwigComponent;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\PasswordRemember;
+namespace App\Form\User\PasswordRemember;
 
 enum PASSWORD_REMEMBER_FORM_ERRORS: string
 {

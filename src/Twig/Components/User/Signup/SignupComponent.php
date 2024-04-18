@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\Signup;
 
-use App\Form\Signup\SIGNUP_FORM_ERRORS;
-use App\Form\Signup\SIGNUP_FORM_FIELDS;
+use App\Form\User\Signup\SIGNUP_FORM_ERRORS;
+use App\Form\User\Signup\SIGNUP_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
 use App\Twig\Components\TwigComponent;
@@ -21,11 +21,13 @@ class SignupComponent extends TwigComponent
     public SignupComponentLangDto $lang;
     public SignupComponentDto|TwigComponentDtoInterface $data;
 
+    public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
     public readonly string $emailFieldName;
     public readonly string $passwordFieldName;
     public readonly string $passwordRepeatedFieldName;
     public readonly string $nickFieldName;
+    public readonly string $submitFieldName;
 
     protected static function getComponentName(): string
     {

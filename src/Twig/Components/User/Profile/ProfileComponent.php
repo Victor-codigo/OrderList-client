@@ -6,8 +6,8 @@ namespace App\Twig\Components\User\Profile;
 
 use App\Form\EmailChange\EMAIL_CHANGE_FORM_ERRORS;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
-use App\Form\Profile\PROFILE_FORM_ERRORS;
-use App\Form\Profile\PROFILE_FORM_FIELDS;
+use App\Form\User\Profile\PROFILE_FORM_ERRORS;
+use App\Form\User\Profile\PROFILE_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
@@ -64,7 +64,7 @@ class ProfileComponent extends TwigComponent
         $this->loadTranslation();
     }
 
-    private function getImageAvatarComponentDto(string|null $imagePath): ImageAvatarComponentDto
+    private function getImageAvatarComponentDto(?string $imagePath): ImageAvatarComponentDto
     {
         return new ImageAvatarComponentDto(
             $imagePath,

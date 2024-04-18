@@ -42,11 +42,22 @@ class NavigationBarComponent extends TwigComponent
     {
         $this->data = $data;
 
-        $sections[] = $this->createSectionListOrders($this->data->sectionActiveId);
-        $sections[] = $this->createSectionProducts($this->data->sectionActiveId);
-        $sections[] = $this->createSectionShops($this->data->sectionActiveId);
+        $sections = $this->createSections($this->data);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
         $this->sections = $sections;
+    }
+
+    private function createSections(NavigationBarDto $data): array
+    {
+        if (null === $data->groupNameEncoded || null === $data->sectionActiveId) {
+            return [];
+        }
+
+        $sections[] = $this->createSectionListOrders($data->sectionActiveId);
+        $sections[] = $this->createSectionProducts($data->sectionActiveId);
+        $sections[] = $this->createSectionShops($data->sectionActiveId);
+
+        return array_filter($sections);
     }
 
     private function createSectionListOrders(?string $sectionActiveId): NavigationBarSectionDto

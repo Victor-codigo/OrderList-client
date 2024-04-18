@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
+
+namespace App\Controller\User\RememberPasswordChange;
 
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
@@ -60,7 +62,7 @@ class UserRememberPasswordChangeController extends AbstractController
             foreach ($responseData['errors'] as $error => $errorValue) {
                 $form->addError($error, $errorValue);
             }
-        } catch (Error500Exception|NetworkException) {
+        } catch (Error500Exception|NetworkException $e) {
             $form->addError(PASSWORD_CHANGE_FORM_ERRORS::INTERNAL_SERVER->value);
         } finally {
             return $responseHttp ?? $this->renderPasswordChange($form);
@@ -73,7 +75,7 @@ class UserRememberPasswordChangeController extends AbstractController
 
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_CHANGE_ENDPOINT,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_CHANGE_ENDPOINT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json([
                 'token' => $sessionToken,
                 'passwordNew' => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW],

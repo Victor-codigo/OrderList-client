@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Profile;
+namespace App\Form\User\Profile;
 
 enum PROFILE_FORM_ERRORS: string
 {

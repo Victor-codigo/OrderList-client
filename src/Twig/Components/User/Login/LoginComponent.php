@@ -2,8 +2,8 @@
 
 namespace App\Twig\Components\User\Login;
 
-use App\Form\Login\LOGIN_FORM_ERRORS;
-use App\Form\Login\LOGIN_FORM_FIELDS;
+use App\Form\User\Login\LOGIN_FORM_ERRORS;
+use App\Form\User\Login\LOGIN_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
 use App\Twig\Components\TwigComponent;

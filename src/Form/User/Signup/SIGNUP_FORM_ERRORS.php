@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Signup;
+namespace App\Form\User\Signup;
 
 enum SIGNUP_FORM_ERRORS: string
 {

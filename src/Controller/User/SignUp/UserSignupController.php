@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
 
-use App\Form\Signup\SIGNUP_FORM_ERRORS;
-use App\Form\Signup\SIGNUP_FORM_FIELDS;
-use App\Form\Signup\SignupForm;
+namespace App\Controller\User\SignUp;
+
+use App\Form\User\Signup\SIGNUP_FORM_ERRORS;
+use App\Form\User\Signup\SIGNUP_FORM_FIELDS;
+use App\Form\User\Signup\SignupForm;
 use App\Twig\Components\User\Signup\SignupComponentDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\HttpClient\Exception\Error400Exception;
@@ -53,7 +55,7 @@ class UserSignupController extends AbstractController
         try {
             $response = $this->requestSignup($form->getData(), $locale);
             $responseData = (object) $response->toArray();
-            $responseHttp = $this->redirectToRoute('user_profile', ['id' => $responseData->data['id']]);
+            $responseHttp = $this->redirectToRoute('user_register_complete');
         } catch (Error400Exception|Error500Exception $e) {
             $responseData = $e->getResponse()->toArray(false);
             foreach ($responseData['errors'] as $error => $errorValue) {
