@@ -58,7 +58,8 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadRequestDto(Request $request): RequestDto
     {
-        $tokenSession = $this->loadTokenSession($request);
+        // $tokenSession = $this->loadTokenSession($request);
+        $tokenSession = null;
         $groupData = $this->loadGroupData($request->attributes, $tokenSession);
 
         $requestDto = new RequestDto(
@@ -143,8 +144,12 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
-    private function loadGroupData(ParameterBag $attributes, string $tokenSession): ?GroupDataResponse
+    private function loadGroupData(ParameterBag $attributes, ?string $tokenSession): ?GroupDataResponse
     {
+        if (null === $tokenSession) {
+            return null;
+        }
+
         $groupNameDecoded = $this->decodeUrlParameter($attributes, 'group_name');
 
         if (null === $groupNameDecoded) {
@@ -160,8 +165,12 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return GroupDataResponse::fromArray($groupData['data']);
     }
 
-    private function loadShopData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?ShopDataResponse
+    private function loadShopData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ShopDataResponse
     {
+        if (null === $tokenSession) {
+            return null;
+        }
+
         if (null === $groupId) {
             return null;
         }
@@ -217,8 +226,12 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return $shopNameDecoded;
     }
 
-    private function loadProductData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?ProductDataResponse
+    private function loadProductData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ProductDataResponse
     {
+        if (null === $tokenSession) {
+            return null;
+        }
+
         if (null === $groupId) {
             return null;
         }
@@ -251,8 +264,12 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return ProductDataResponse::fromArray($productData['data']['products'][0]);
     }
 
-    private function loadListOrdersData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?ListOrdersDataResponse
+    private function loadListOrdersData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ListOrdersDataResponse
     {
+        if (null === $tokenSession) {
+            return null;
+        }
+
         if (null === $groupId) {
             return null;
         }
@@ -282,8 +299,12 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return ListOrdersDataResponse::fromArray($listOrdersData['data']['list_orders'][0]);
     }
 
-    private function loadOrderData(ParameterBag $attributes, ?string $groupId, string $tokenSession): ?OrderDataResponse
+    private function loadOrderData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?OrderDataResponse
     {
+        if (null === $tokenSession) {
+            return null;
+        }
+
         if (null === $groupId) {
             return null;
         }

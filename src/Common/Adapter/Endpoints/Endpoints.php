@@ -330,4 +330,12 @@ class Endpoints implements EndpointsInterface
     {
         return ShopsEndPoint::getInstance($this->httpClient)->shopRemove($groupId, $shopsId, $tokenSession);
     }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function login(string $userName, string $password): ?string
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->login($userName, $password);
+    }
 }

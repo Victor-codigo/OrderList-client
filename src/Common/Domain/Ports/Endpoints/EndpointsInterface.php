@@ -163,4 +163,9 @@ interface EndpointsInterface
     public function shopsGetData(string $groupId, ?array $shopsId, ?array $productsId, ?string $shopName, ?string $shopNameFilterType, ?string $shopNameFilterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
 
     public function shopRemove(string $groupId, ?array $shopsId, string $tokenSession): array;
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    public function login(string $userName, string $password): ?string;
 }
