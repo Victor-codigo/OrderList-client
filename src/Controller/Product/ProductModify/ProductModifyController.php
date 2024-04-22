@@ -41,7 +41,7 @@ class ProductModifyController extends AbstractController
         $productModifyForm = $this->formFactory->create(new ProductModifyForm(), $requestDto->request);
 
         if ($productModifyForm->isSubmitted() && $productModifyForm->isValid()) {
-            $this->formValid($productModifyForm, $requestDto->groupData->id, $requestDto->productData->id, $requestDto->tokenSession);
+            $this->formValid($productModifyForm, $requestDto->groupData->id, $requestDto->productData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
@@ -62,7 +62,7 @@ class ProductModifyController extends AbstractController
         }
     }
 
-    private function modifyProduct(FormInterface $form, string $groupId, string $productId, string $tokenSession): string|null
+    private function modifyProduct(FormInterface $form, string $groupId, string $productId, string $tokenSession): ?string
     {
         $responseData = $this->endpoints->productModify(
             $groupId,

@@ -71,7 +71,7 @@ class ShopCreateController extends AbstractController
         $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
 
         if ($shopCreateForm->isSubmitted() && $shopCreateForm->isValid()) {
-            return $this->shopCreateRequest($shopCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            return $this->shopCreateRequest($shopCreateForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return new ResponseDto(

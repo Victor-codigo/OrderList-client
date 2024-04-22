@@ -71,7 +71,7 @@ class ProductCreateController extends AbstractController
         $productCreateForm = $this->formFactory->create(new ProductCreateForm(), $requestDto->request);
 
         if ($productCreateForm->isSubmitted() && $productCreateForm->isValid()) {
-            return $this->productCreateRequest($productCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            return $this->productCreateRequest($productCreateForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return new ResponseDto(

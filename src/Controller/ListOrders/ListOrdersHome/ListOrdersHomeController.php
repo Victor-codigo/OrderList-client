@@ -69,7 +69,7 @@ class ListOrdersHomeController extends AbstractController
             $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         $listOrdersHomeComponentDto = $this->createListOrdersHomeComponentDto(

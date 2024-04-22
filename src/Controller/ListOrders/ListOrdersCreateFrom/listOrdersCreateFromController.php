@@ -41,7 +41,7 @@ class listOrdersCreateFromController extends AbstractController
         $listOrdersCreateForm = $this->formFactory->create(new ListOrdersCreateFromForm(), $requestDto->request);
 
         if ($listOrdersCreateForm->isSubmitted() && $listOrdersCreateForm->isValid()) {
-            $this->createListOrdersFrom($listOrdersCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            $this->createListOrdersFrom($listOrdersCreateForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(

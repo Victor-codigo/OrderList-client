@@ -66,7 +66,7 @@ class OrderRemoveController extends AbstractController
             $orderRemoveForm,
             $requestDto->groupData->id,
             $orderRemoveForm->getFieldData(ORDER_REMOVE_FORM_FIELDS::ORDERS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $orderRemoveForm;
@@ -84,7 +84,7 @@ class OrderRemoveController extends AbstractController
             $orderRemoveMultiForm,
             $requestDto->groupData->id,
             $orderRemoveMultiForm->getFieldData(ORDER_REMOVE_MULTI_FORM_FIELDS::ORDERS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $orderRemoveMultiForm;

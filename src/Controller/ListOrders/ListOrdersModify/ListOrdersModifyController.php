@@ -41,7 +41,7 @@ class ListOrdersModifyController extends AbstractController
         $listOrdersModifyForm = $this->formFactory->create(new ListOrdersModifyForm(), $requestDto->request);
 
         if ($listOrdersModifyForm->isSubmitted() && $listOrdersModifyForm->isValid()) {
-            $this->modifyListOrders($listOrdersModifyForm, $requestDto->groupData->id, $requestDto->listOrdersData->id, $requestDto->tokenSession);
+            $this->modifyListOrders($listOrdersModifyForm, $requestDto->groupData->id, $requestDto->listOrdersData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(

@@ -66,7 +66,7 @@ class ProductRemoveController extends AbstractController
             $productRemoveForm,
             $requestDto->groupData->id,
             $productRemoveForm->getFieldData(PRODUCT_REMOVE_FORM_FIELDS::PRODUCTS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $productRemoveForm;
@@ -84,7 +84,7 @@ class ProductRemoveController extends AbstractController
             $productRemoveMultiForm,
             $requestDto->groupData->id,
             $productRemoveMultiForm->getFieldData(PRODUCT_REMOVE_MULTI_FORM_FIELDS::PRODUCTS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $productRemoveMultiForm;

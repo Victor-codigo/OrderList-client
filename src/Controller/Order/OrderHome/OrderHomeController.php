@@ -70,7 +70,7 @@ class OrderHomeController extends AbstractController
             $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         $orderHomeComponentDto = $this->createOrderHomeComponentDto(

@@ -83,11 +83,11 @@ class ShopHomeController extends AbstractController
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $requestDto->page,
             $requestDto->pageItems,
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
-        $productsData = $this->getShopsProductsData($requestDto->groupData->id, $shopsData['shops'], $requestDto->tokenSession);
-        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $shopsData['shops'], $productsData, $requestDto->tokenSession);
+        $productsData = $this->getShopsProductsData($requestDto->groupData->id, $shopsData['shops'], $requestDto->getTokenSessionOrFail());
+        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $shopsData['shops'], $productsData, $requestDto->getTokenSessionOrFail());
 
         $shopHomeComponentDto = $this->createShopHomeComponentDto(
             $requestDto,

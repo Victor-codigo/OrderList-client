@@ -42,7 +42,7 @@ class OrderCreateController extends AbstractController
         $orderCreateForm = $this->formFactory->create(new OrderCreateForm(), $requestDto->request);
 
         if ($orderCreateForm->isSubmitted() && $orderCreateForm->isValid()) {
-            $this->validForm($orderCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            $this->validForm($orderCreateForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(

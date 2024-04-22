@@ -39,7 +39,7 @@ class ShopModifyController extends AbstractController
         $shopModifyForm = $this->formFactory->create(new ShopModifyForm(), $requestDto->request);
 
         if ($shopModifyForm->isSubmitted() && $shopModifyForm->isValid()) {
-            $this->formValid($shopModifyForm, $requestDto->groupData->id, $requestDto->shopData->id, $requestDto->tokenSession);
+            $this->formValid($shopModifyForm, $requestDto->groupData->id, $requestDto->shopData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
@@ -60,7 +60,7 @@ class ShopModifyController extends AbstractController
         }
     }
 
-    private function modifyShop(FormInterface $form, string $groupId, string $shopId, string $tokenSession): string|null
+    private function modifyShop(FormInterface $form, string $groupId, string $shopId, string $tokenSession): ?string
     {
         $responseData = $this->endpoints->shopModify(
             $shopId,

@@ -40,7 +40,7 @@ class OrderModifyController extends AbstractController
         $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
 
         if ($orderModifyForm->isSubmitted() && $orderModifyForm->isValid()) {
-            $this->formValid($orderModifyForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            $this->formValid($orderModifyForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(

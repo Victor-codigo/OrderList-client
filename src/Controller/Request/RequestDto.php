@@ -9,14 +9,17 @@ use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
+use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestDto
 {
     public function __construct(
-        public readonly ?string $tokenSession,
+        private readonly ?string $tokenSession,
+
         public readonly ?string $locale,
         public readonly ?string $sectionActiveId,
+        public readonly ?string $userNameUrlEncoded,
         public readonly ?string $groupNameUrlEncoded,
         public readonly ?string $listOrdersUrlEncoded,
         public readonly ?string $shopNameUrlEncoded,
@@ -31,5 +34,17 @@ class RequestDto
         public readonly Request $request,
         public readonly ?RequestRefererDto $requestReferer
     ) {
+    }
+
+    /**
+     * @throws RequestUnauthorizedException
+     */
+    public function getTokenSessionOrFail(): string
+    {
+        if (null === $this->tokenSession) {
+            throw RequestUnauthorizedException::fromMessage('Token session missing');
+        }
+
+        return $this->tokenSession;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Profile\Home;
 
+use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\UserDataResponse;
 use App\Form\EmailChange\EmailChangeForm;
 use App\Form\PasswordChange\PasswordChangeForm;
@@ -46,19 +47,17 @@ class UserProfileController extends AbstractController
     ) {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(RequestDto $requestDto): Response
     {
-        $formEmailChange = $this->formFactory->create(new EmailChangeForm(), $request);
-        $formPasswordChange = $this->formFactory->create(new PasswordChangeForm(), $request);
-        $formProfile = $this->formFactory->create(new ProfileForm(), $request);
-        $formUserRemove = $this->formFactory->create(new UserRemoveForm(), $request);
-        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
-        $userNameEncoded = $request->attributes->get('user_name');
+        $formEmailChange = $this->formFactory->create(new EmailChangeForm(), $requestDto->request);
+        $formPasswordChange = $this->formFactory->create(new PasswordChangeForm(), $requestDto->request);
+        $formProfile = $this->formFactory->create(new ProfileForm(), $requestDto->request);
+        $formUserRemove = $this->formFactory->create(new UserRemoveForm(), $requestDto->request);
 
-        $this->userData = $this->getUserData($userNameEncoded, $tokenSession);
+        $this->userData = $this->getUserData($requestDto->userNameUrlEncoded, $requestDto->getTokenSessionOrFail());
 
         return $this->renderUserProfileComponent(
-            $request,
+            $requestDto->request,
             $formProfile,
             $formEmailChange,
             $formPasswordChange,
@@ -74,10 +73,14 @@ class UserProfileController extends AbstractController
             throw new NotFoundResourceException('Profile not found');
         }
 
-        $usersData['data']['users'] = array_map(
-            fn (array $usersData) => UserDataResponse::fromArray($usersData),
-            $usersData['data']['users'] ?? []
-        );
+        try {
+            $usersData['data']['users'] = array_map(
+                fn (array $usersData) => UserDataResponse::fromArray($usersData),
+                $usersData['data']['users'] ?? []
+            );
+        } catch (\Throwable $e) {
+            throw new NotFoundResourceException('Profile not found');
+        }
 
         return $usersData['data']['users'][0];
     }

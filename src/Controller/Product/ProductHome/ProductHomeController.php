@@ -74,11 +74,11 @@ class ProductHomeController extends AbstractController
             $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
-        $shopsData = $this->getProductsShopsData($requestDto->groupData->id, $productsData['products'], $requestDto->tokenSession);
-        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $productsData['products'], $shopsData, $requestDto->tokenSession);
+        $shopsData = $this->getProductsShopsData($requestDto->groupData->id, $productsData['products'], $requestDto->getTokenSessionOrFail());
+        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $productsData['products'], $shopsData, $requestDto->getTokenSessionOrFail());
 
         $productHomeComponentDto = $this->createProductHomeComponentDto(
             $requestDto,

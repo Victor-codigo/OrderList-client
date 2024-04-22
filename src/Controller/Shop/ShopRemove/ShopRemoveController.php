@@ -64,7 +64,7 @@ class ShopRemoveController extends AbstractController
             $shopRemoveForm,
             $requestDto->groupData->id,
             $shopRemoveForm->getFieldData(SHOP_REMOVE_FORM_FIELDS::SHOPS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $shopRemoveForm;
@@ -82,7 +82,7 @@ class ShopRemoveController extends AbstractController
             $shopRemoveMultiForm,
             $requestDto->groupData->id,
             $shopRemoveMultiForm->getFieldData(SHOP_REMOVE_MULTI_FORM_FIELDS::SHOPS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $shopRemoveMultiForm;

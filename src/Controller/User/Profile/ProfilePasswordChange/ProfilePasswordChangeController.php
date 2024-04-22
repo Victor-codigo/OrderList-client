@@ -41,7 +41,7 @@ class ProfilePasswordChangeController extends AbstractController
         $profilePasswordChangeForm = $this->formFactory->create(new PasswordChangeForm(), $requestDto->request);
 
         if ($profilePasswordChangeForm->isSubmitted() && $profilePasswordChangeForm->isValid()) {
-            $this->validForm($profilePasswordChangeForm, $requestDto->tokenSession);
+            $this->validForm($profilePasswordChangeForm, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(

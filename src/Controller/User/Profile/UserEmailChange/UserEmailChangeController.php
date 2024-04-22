@@ -41,7 +41,7 @@ class UserEmailChangeController extends AbstractController
         $emailChangeForm = $this->formFactory->create(new EmailChangeForm(), $requestDto->request);
 
         if ($emailChangeForm->isSubmitted() && $emailChangeForm->isValid()) {
-            $this->validForm($emailChangeForm, $requestDto->tokenSession);
+            $this->validForm($emailChangeForm, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(

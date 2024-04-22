@@ -41,7 +41,7 @@ class ProfileRemoveController extends AbstractController
         $userRemoveComponent = $this->formFactory->create(new UserRemoveForm(), $requestDto->request);
 
         if ($userRemoveComponent->isSubmitted() && $userRemoveComponent->isValid()) {
-            $this->validForm($userRemoveComponent, $requestDto->tokenSession);
+            $this->validForm($userRemoveComponent, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->redirectToRoute('home');

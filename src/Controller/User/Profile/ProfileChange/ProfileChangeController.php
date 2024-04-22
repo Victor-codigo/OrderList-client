@@ -45,7 +45,7 @@ class ProfileChangeController extends AbstractController
 
         $success = false;
         if ($profileForm->isSubmitted() && $profileForm->isValid()) {
-            $success = $this->validForm($profileForm, $requestDto->tokenSession);
+            $success = $this->validForm($profileForm, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
