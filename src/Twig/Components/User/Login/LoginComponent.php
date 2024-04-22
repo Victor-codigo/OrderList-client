@@ -4,8 +4,7 @@ namespace App\Twig\Components\User\Login;
 
 use App\Form\User\Login\LOGIN_FORM_ERRORS;
 use App\Form\User\Login\LOGIN_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -59,14 +58,17 @@ final class LoginComponent extends TwigComponent
             $this->translate('remember_login'),
             $this->translate('password_forget'),
             $this->translate('register'),
-            $this->loadErrorsTranslation()
+            $this->data->validForm ? $this->createAlertValidationComponentDto() : null
         );
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 LOGIN_FORM_ERRORS::LOGIN->value,
                 LOGIN_FORM_ERRORS::EMAIL->value,
@@ -75,11 +77,14 @@ final class LoginComponent extends TwigComponent
             };
         }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::DANGER,
-            $this->translate('validation.title'),
-            '',
-            array_unique($errorsLang)
+        return $errorsLang;
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        return new AlertValidationComponentDto(
+            [],
+            array_unique($this->data->messagesErrors)
         );
     }
 }

@@ -25,7 +25,7 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 #[Route(
     path: '{_locale}/user/profile/{user_name}',
     name: 'user_profile',
-    methods: ['GET'],
+    methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
     ]
