@@ -166,6 +166,69 @@ interface EndpointsInterface
 
     /**
      * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
      */
-    public function login(string $userName, string $password): ?string;
+    public function userLogin(string $userName, string $password): ?string;
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array<int, array>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetData(array $usersId, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetDataByName(array $usersName, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userEmailChange(string $email, string $password, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userPasswordChange(string $userId, string $passwordOld, string $passwordNew, string $passwordNewRepeat, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userModify(string $name, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userRemove(string $userId, string $tokenSession): array;
 }

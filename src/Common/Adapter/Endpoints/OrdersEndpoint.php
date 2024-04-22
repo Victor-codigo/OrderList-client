@@ -12,7 +12,6 @@ use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 class OrdersEndpoint extends EndpointBase
 {
     private const DELETE_ORDERS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
-    private const GET_ORDERS_GROUP = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders/group/{group_id}';
     public const GET_ORDERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
     public const POST_ORDER_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';
     public const PUT_ORDER_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/orders';

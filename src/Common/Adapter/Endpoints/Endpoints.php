@@ -333,9 +333,91 @@ class Endpoints implements EndpointsInterface
 
     /**
      * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
      */
-    public function login(string $userName, string $password): ?string
+    public function userLogin(string $userName, string $password): ?string
     {
-        return UsersEndpoint::getInstance($this->httpClient)->login($userName, $password);
+        return UsersEndpoint::getInstance($this->httpClient)->userLogin($userName, $password);
+    }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetData(array $usersId, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->usersGetData($usersId, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetDataByName(array $usersName, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->usersGetDataByName($usersName, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array<int, array>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userEmailChange(string $email, string $password, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userEmailChange($email, $password, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userPasswordChange(string $userId, string $passwordOld, string $passwordNew, string $passwordNewRepeat, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userPasswordChange($userId, $passwordOld, $passwordNew, $passwordNewRepeat, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userModify(string $name, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userModify($name, $image, $imageRemove, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userRemove(string $userId, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userRemove($userId, $tokenSession);
     }
 }
