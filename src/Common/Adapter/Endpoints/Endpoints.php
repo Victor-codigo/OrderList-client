@@ -332,10 +332,14 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
-     * @throws UnsupportedOptionException
-     * @throws RequestUnauthorizedException
+     * @return array<{
+     *    data: array<{
+     *      token_session: string|null
+     *    }>
+     *    errors: array
+     * }>
      */
-    public function userLogin(string $userName, string $password): ?string
+    public function userLogin(string $userName, string $password): array
     {
         return UsersEndpoint::getInstance($this->httpClient)->userLogin($userName, $password);
     }

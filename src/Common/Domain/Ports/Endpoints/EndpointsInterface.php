@@ -165,10 +165,14 @@ interface EndpointsInterface
     public function shopRemove(string $groupId, ?array $shopsId, string $tokenSession): array;
 
     /**
-     * @throws UnsupportedOptionException
-     * @throws RequestUnauthorizedException
+     * @return array<{
+     *    data: array<{
+     *      token_session: string|null
+     *    }>
+     *    errors: array
+     * }>
      */
-    public function userLogin(string $userName, string $password): ?string;
+    public function userLogin(string $userName, string $password): array;
 
     /**
      * @return array<{

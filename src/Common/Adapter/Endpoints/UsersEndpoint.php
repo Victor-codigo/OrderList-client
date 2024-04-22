@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Adapter\Endpoints;
 
+use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Common\Domain\Cookie\Cookie;
@@ -41,26 +42,43 @@ class UsersEndpoint extends EndpointBase
     }
 
     /**
-     * @throws UnsupportedOptionException
-     * @throws RequestUnauthorizedException
+     * @return array<{
+     *    data: array<{
+     *      token_session: string|null
+     *    }>
+     *    errors: array
+     * }>
      */
-    public function userLogin(string $userName, string $password): ?string
+    public function userLogin(string $userName, string $password): array
     {
-        $response = $this->requestLogin($userName, $password);
-        $tokenSession = $this->apiResponseManage($response,
-            fn (array $responseDataError) => null,
-            fn (array $responseDataOk) => null,
-            function (array $responseDataNoContent) use ($response): ?string {
-                $headers = $response->getHeaders();
+        try {
+            $response = $this->requestLogin($userName, $password);
+            $tokenSession = $this->apiResponseManage($response,
+                fn (array $responseDataError) => null,
+                fn (array $responseDataOk) => null,
+                function (array $responseDataNoContent) use ($response): ?string {
+                    $headers = $response->getHeaders();
 
-                return $this->getCookieValue($headers['set-cookie'][0]);
-            });
+                    return $this->getCookieValue($headers['set-cookie'][0]);
+                });
 
-        if (null === $tokenSession) {
-            return null;
+            return [
+                'data' => [
+                    'token_session' => $tokenSession,
+                ],
+                'errors' => [],
+            ];
+        } catch (RequestUnauthorizedException $e) {
+            return [
+                'data' => [],
+                'errors' => ['error_login'],
+            ];
+        } catch (\Throwable $e) {
+            return [
+                'data' => [],
+                'errors' => ['internal_server_error'],
+            ];
         }
-
-        return (string) $tokenSession;
     }
 
     /**
