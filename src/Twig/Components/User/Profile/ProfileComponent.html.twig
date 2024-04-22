@@ -4,6 +4,7 @@
 	  data-action="ImageAvatarComponent:imageRemoved->ProfileComponent#setImageAvatarAsRemoved  ImageAvatarComponent:imageRemovedUndo->ProfileComponent#setImageAvatarAsRemoved"
 	  class="contaniner  p-5"
 	  method="post"
+	  action="{{ data.actionAttribute|escape('html_attr') }}"
 	  enctype="multipart/form-data"
 	  novalidate>
 
@@ -16,7 +17,7 @@
 		   data-js-image-remove />
 
 	{% if lang.validationErrors %}
-	{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{{ component('AlertValidationComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
 

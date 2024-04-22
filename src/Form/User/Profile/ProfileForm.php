@@ -40,7 +40,7 @@ class ProfileForm extends FormType
         $this
             ->addField(PROFILE_FORM_FIELDS::NICK, FIELD_TYPE::TEXT)
             ->addField(PROFILE_FORM_FIELDS::IMAGE, FIELD_TYPE::FILE)
-            ->addField(PROFILE_FORM_FIELDS::IMAGE_REMOVE, FIELD_TYPE::HIDDEN)
+            ->addField(PROFILE_FORM_FIELDS::IMAGE_REMOVE, FIELD_TYPE::CHECKBOX)
             ->addField(PROFILE_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
             ->addField(PROFILE_FORM_FIELDS::SUBMIT, FIELD_TYPE::BUTTON);
     }

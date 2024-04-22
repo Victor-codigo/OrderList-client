@@ -6,8 +6,7 @@ namespace App\Twig\Components\User\PasswordChange;
 
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -22,6 +21,7 @@ class PasswordChangeComponent extends TwigComponent
     public PasswordChangeComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $formName;
+    public readonly string $userIdFieldName;
     public readonly string $passwordOldFieldName;
     public readonly string $passwordNewFieldName;
     public readonly string $passwordNewRepeatFieldName;
@@ -38,6 +38,7 @@ class PasswordChangeComponent extends TwigComponent
         $this->data = $data;
 
         $this->formName = PASSWORD_CHANGE_FORM_FIELDS::FORM;
+        $this->userIdFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::USER_ID);
         $this->passwordOldFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_OLD);
         $this->passwordNewFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW);
         $this->passwordNewRepeatFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT);
@@ -72,15 +73,18 @@ class PasswordChangeComponent extends TwigComponent
                 $this->translate('button_password_change.label')
             )
             ->validationErrors(
-                $this->loadErrorsTranslation()
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_NEW->value => $this->translate('validation.error.password_new'),
                 PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_CHANGE->value => $this->translate('validation.error.password_change'),
@@ -91,10 +95,20 @@ class PasswordChangeComponent extends TwigComponent
             };
         }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::DANGER,
-            $this->translate('validation.title'),
-            '',
+        return $errorsLang;
+    }
+
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
             array_unique($errorsLang)
         );
     }

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\EmailChange;
 
-use App\Twig\Components\Alert\AlertComponentDto;
-use InvalidArgumentException;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 
 class EmailChangeComponentLangDto
 {
@@ -21,7 +20,7 @@ class EmailChangeComponentLangDto
 
     public readonly string $emailChangeButton;
 
-    public readonly AlertComponentDto $validationErrors;
+    public readonly ?AlertValidationComponentDto $validationErrors;
 
     private array $builder = [
         'title' => false,
@@ -29,7 +28,7 @@ class EmailChangeComponentLangDto
         'password' => false,
         'emailChangeButton' => false,
         'validationErrors' => false,
-        'build' => false
+        'build' => false,
     ];
 
     public function title(string $title): static
@@ -72,7 +71,7 @@ class EmailChangeComponentLangDto
         return $this;
     }
 
-    public function validationErrors(AlertComponentDto $validationErrors): static
+    public function validationErrors(?AlertValidationComponentDto $validationErrors): static
     {
         $this->builder['validationErrors'] = true;
 
@@ -85,10 +84,8 @@ class EmailChangeComponentLangDto
     {
         $this->builder['build'] = true;
 
-        if (count(array_filter($this->builder))<count($this->builder)) {
-            throw new InvalidArgumentException(
-                'Constructors: title, email, password, emailChangeButton, validationErrors. Are mandatory'
-            );
+        if (count(array_filter($this->builder)) < count($this->builder)) {
+            throw new \InvalidArgumentException('Constructors: title, email, password, emailChangeButton, validationErrors. Are mandatory');
         }
 
         return $this;

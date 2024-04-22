@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\PasswordChange;
 
-use App\Twig\Components\Alert\AlertComponentDto;
-use InvalidArgumentException;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 
 class PasswordChangeComponentLangDto
 {
@@ -25,7 +24,7 @@ class PasswordChangeComponentLangDto
 
     public readonly string $passwordChangeButton;
 
-    public readonly AlertComponentDto $validationErrors;
+    public readonly ?AlertValidationComponentDto $validationErrors;
 
     private array $builder = [
         'title' => false,
@@ -34,7 +33,7 @@ class PasswordChangeComponentLangDto
         'passwordNewRepeat' => false,
         'passwordChangeButton' => false,
         'validationErrors' => false,
-        'build' => false
+        'build' => false,
     ];
 
     public function title(string $title): static
@@ -88,7 +87,7 @@ class PasswordChangeComponentLangDto
         return $this;
     }
 
-    public function validationErrors(AlertComponentDto $validationErrors): static
+    public function validationErrors(?AlertValidationComponentDto $validationErrors): static
     {
         $this->builder['validationErrors'] = true;
 
@@ -101,10 +100,8 @@ class PasswordChangeComponentLangDto
     {
         $this->builder['build'] = true;
 
-        if (count(array_filter($this->builder))<count($this->builder)) {
-            throw new InvalidArgumentException(
-                'Constructors: title, passwordOld, passwordNew, passwordNewRepeat, passwordChangeButton, validationErrors. Are mandatory'
-            );
+        if (count(array_filter($this->builder)) < count($this->builder)) {
+            throw new \InvalidArgumentException('Constructors: title, passwordOld, passwordNew, passwordNewRepeat, passwordChangeButton, validationErrors. Are mandatory');
         }
 
         return $this;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\UserRemove;
 
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 
 class UserRemoveComponentLangDto
 {
@@ -12,7 +12,7 @@ class UserRemoveComponentLangDto
     public readonly string $messageAdvice;
     public readonly string $userRemoveButton;
 
-    public readonly AlertComponentDto $validationErrors;
+    public readonly ?AlertValidationComponentDto $validationErrors;
 
     private array $builder = [
         'title' => false,
@@ -48,7 +48,7 @@ class UserRemoveComponentLangDto
         return $this;
     }
 
-    public function validationErrors(AlertComponentDto $validationErrors): static
+    public function validationErrors(?AlertValidationComponentDto $validationErrors): static
     {
         $this->builder['validationErrors'] = true;
 

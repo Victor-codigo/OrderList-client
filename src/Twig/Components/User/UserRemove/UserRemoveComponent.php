@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Twig\Components\User\UserRemove;
 
 use App\Form\UserRemove\USER_REMOVE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,6 +23,7 @@ class UserRemoveComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $submitFieldName;
+    public readonly string $userIdFieldName;
     public readonly string $tokenCsrfFieldName;
 
     public static function getComponentName(): string
@@ -37,6 +37,7 @@ class UserRemoveComponent extends TwigComponent
 
         $this->formName = USER_REMOVE_FORM_FIELDS::FORM;
         $this->submitFieldName = sprintf('%s[%s]', USER_REMOVE_FORM_FIELDS::FORM, USER_REMOVE_FORM_FIELDS::SUBMIT);
+        $this->userIdFieldName = sprintf('%s[%s]', USER_REMOVE_FORM_FIELDS::FORM, USER_REMOVE_FORM_FIELDS::USER_ID);
         $this->tokenCsrfFieldName = sprintf('%s[%s]', USER_REMOVE_FORM_FIELDS::FORM, USER_REMOVE_FORM_FIELDS::TOKEN);
     }
 
@@ -60,24 +61,37 @@ class UserRemoveComponent extends TwigComponent
                 $this->translate('remove_user_button.label')
             )
             ->validationErrors(
-                $this->loadErrorsTranslation()
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
         ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 default => $this->translate('validation.error.internal_server')
             };
         }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::DANGER,
-            $this->translate('validation.title'),
-            '',
+        return $errorsLang;
+    }
+
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
             array_unique($errorsLang)
         );
     }

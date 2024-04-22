@@ -17,7 +17,7 @@ class PasswordChangeForm extends FormType
         return PASSWORD_CHANGE_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }
@@ -43,6 +43,7 @@ class PasswordChangeForm extends FormType
     {
         $this
             ->addField(PASSWORD_CHANGE_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
+            ->addField(PASSWORD_CHANGE_FORM_FIELDS::USER_ID, FIELD_TYPE::TEXT)
             ->addField(PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_OLD, FIELD_TYPE::PASSWORD)
             ->addField(PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW, FIELD_TYPE::PASSWORD)
             ->addField(PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT, FIELD_TYPE::PASSWORD)

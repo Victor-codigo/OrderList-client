@@ -58,8 +58,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadRequestDto(Request $request): RequestDto
     {
-        // $tokenSession = $this->loadTokenSession($request);
-        $tokenSession = null;
+        $tokenSession = $this->loadTokenSession($request);
         $groupData = $this->loadGroupData($request->attributes, $tokenSession);
 
         $requestDto = new RequestDto(

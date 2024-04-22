@@ -30,15 +30,6 @@ validation:
   title: Errors
   ok: Profile has been changed
   error:
-    email_change:
-      email: Email is wrong.
-      password: The password is wrong
-      password_invalid: Password is wrong. Password must contain at least 6 characters
-    password_change:
-      old: Password is wrong
-      new: The new password is wrong. Password must contain at least 6 characters
-      change: The password could not be changed
-      new_repeat: Fields Password new and Password new repeat are not equals
     profile:
       name: |
         Nick must contain at least a character and maximum 30 characters.

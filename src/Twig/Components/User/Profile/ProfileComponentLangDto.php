@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\Profile;
 
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 
 class ProfileComponentLangDto
 {
@@ -19,7 +19,7 @@ class ProfileComponentLangDto
     public string $nickPlaceholder;
     public string $nickMsgInvalid;
     // --
-    public AlertComponentDto|null $validationErrors;
+    public ?AlertValidationComponentDto $validationErrors;
     public string $saveButton;
 
     public string $userRemoveLabel;
@@ -98,7 +98,7 @@ class ProfileComponentLangDto
         return $this;
     }
 
-    public function validationErrors(AlertComponentDto|null $validationErrors): static
+    public function validationErrors(?AlertValidationComponentDto $validationErrors): static
     {
         $this->builder['validationErrors'] = true;
 

@@ -15,6 +15,7 @@ button_email_change:
 
 validation:
   title: Errores
+  ok: El email ha sido cambiado
   error:
     email: El email no es válido
     password: La constraseña no es válida

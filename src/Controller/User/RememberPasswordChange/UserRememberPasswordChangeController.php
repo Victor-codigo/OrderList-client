@@ -89,11 +89,14 @@ class UserRememberPasswordChangeController extends AbstractController
         $formData = $form->getData();
         $data = new PasswordChangeComponentDto(
             $form->getErrors(),
+            $formData[PASSWORD_CHANGE_FORM_FIELDS::USER_ID],
             $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_OLD],
             $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW],
             $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT],
             $form->getCsrfToken(),
-            false
+            false,
+            '',
+            true,
         );
 
         return $this->render('user_remember_password_change/index.html.twig', [

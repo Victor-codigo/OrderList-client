@@ -6,8 +6,7 @@ namespace App\Twig\Components\User\EmailChange;
 
 use App\Form\EmailChange\EMAIL_CHANGE_FORM_ERRORS;
 use App\Form\EmailChange\EMAIL_CHANGE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -72,15 +71,18 @@ class EmailChangeComponent extends TwigComponent
                 $this->translate('button_email_change.label')
             )
             ->validationErrors(
-                $this->loadErrorsTranslation()
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
         ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 EMAIL_CHANGE_FORM_ERRORS::EMAIL->value => $this->translate('validation.error.email'),
                 EMAIL_CHANGE_FORM_ERRORS::PASSWORD->value => $this->translate('validation.error.password'),
@@ -89,10 +91,20 @@ class EmailChangeComponent extends TwigComponent
             };
         }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::DANGER,
-            $this->translate('validation.title'),
-            '',
+        return $errorsLang;
+    }
+
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
             array_unique($errorsLang)
         );
     }

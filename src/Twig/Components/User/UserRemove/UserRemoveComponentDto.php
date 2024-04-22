@@ -11,7 +11,9 @@ class UserRemoveComponentDto implements TwigComponentDtoInterface
     public function __construct(
         public readonly array $errors,
         public readonly string $userId,
-        public readonly string $csrfToken
+        public readonly string $csrfToken,
+        public readonly string $actionAttribute,
+        public readonly bool $validForm,
     ) {
     }
 }

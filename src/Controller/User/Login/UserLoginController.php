@@ -54,7 +54,7 @@ class UserLoginController extends AbstractController
     private function formValid(FormInterface $form): Response
     {
         try {
-            $tokenSession = $this->apiEndpoints->login(
+            $tokenSession = $this->apiEndpoints->userLogin(
                 $form->getFieldData(LOGIN_FORM_FIELDS::EMAIL),
                 $form->getFieldData(LOGIN_FORM_FIELDS::PASSWORD),
             );

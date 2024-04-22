@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\Profile;
 
-use App\Form\EmailChange\EMAIL_CHANGE_FORM_ERRORS;
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
 use App\Form\User\Profile\PROFILE_FORM_ERRORS;
 use App\Form\User\Profile\PROFILE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
 use App\Twig\Components\TwigComponent;
@@ -110,26 +107,19 @@ class ProfileComponent extends TwigComponent
                 $this->translate('user_remove.placeholder'),
             )
             ->validationErrors(
-                $this->data->validForm ? $this->loadErrorsTranslation() : null
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
-                EMAIL_CHANGE_FORM_ERRORS::EMAIL->value => $this->translate('validation.error.email_change.email'),
-                EMAIL_CHANGE_FORM_ERRORS::PASSWORD->value => $this->translate('validation.error.email_change.password'),
-                EMAIL_CHANGE_FORM_ERRORS::PASSWORD_WRONG->value, => $this->translate('validation.error.email_change.password_invalid'),
-
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_OLD->value => $this->translate('validation.error.password_change.old'),
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_NEW->value => $this->translate('validation.error.password_change.new'),
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_CHANGE->value => $this->translate('validation.error.password_change.change'),
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_NEW_REPEAT,
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_REPEAT->value => $this->translate('validation.error.password_change.new_repeat'),
-
                 PROFILE_FORM_ERRORS::NAME->value => $this->translate('validation.error.profile.name'),
                 PROFILE_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.profile.image'),
 
@@ -137,20 +127,19 @@ class ProfileComponent extends TwigComponent
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
+        return $errorsLang;
+    }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        return new AlertValidationComponentDto(
+            array_unique($this->data->messageOk),
+            array_unique($this->data->messageErrors)
         );
     }
 }
