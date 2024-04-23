@@ -8,8 +8,8 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Form\Order\OrderModify\OrderModifyForm;
-use App\Form\Order\OrderRemove\OrderRemoveForm;
 use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
+use App\Form\Order\OrderRemove\OrderRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
@@ -198,14 +198,6 @@ class OrderHomeController extends AbstractController
         return (new OrderHomeComponentBuilder())
             ->title(
                 $requestDto->getListOrdersData()->name
-            )
-            ->buttonBackUrl(
-                $this->generateUrl('list_orders_home', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'section' => 'list-orders',
-                    'page' => $requestDto->page,
-                    'page_items' => $requestDto->pageItems,
-                ]),
             )
             ->listOrders(
                 $requestDto->getListOrdersData()->id,

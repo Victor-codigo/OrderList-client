@@ -58,13 +58,11 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private readonly array $listOrdersData;
     private readonly string $listOrdersId;
     private readonly string $groupId;
-    private readonly string $buttonBackUrl;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'title',
-            'buttonBackUrl',
             'listOrders',
             'orderCreateModal',
             'orderModifyFormModal',
@@ -86,15 +84,6 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         $this->builder->setMethodStatus('title', true);
 
         $this->homeSectionComponentDto->title($title);
-
-        return $this;
-    }
-
-    public function buttonBackUrl(string $url): self
-    {
-        $this->builder->setMethodStatus('buttonBackUrl', true);
-
-        $this->buttonBackUrl = $url;
 
         return $this;
     }
@@ -436,9 +425,6 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private function createOrderHomeSectionComponentDto(string $listOrdersId, string $groupId, ModalComponentDto $productListItemsModalDto, ModalComponentDto $orderInfoModalDto): OrderHomeSectionComponentDto
     {
         return (new OrderHomeSectionComponentDto())
-            ->buttonBack(
-                $this->buttonBackUrl
-            )
             ->listOrders(
                 $listOrdersId,
                 $groupId

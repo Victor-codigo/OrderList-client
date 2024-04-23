@@ -1,9 +1,6 @@
 <section data-controller="HomeSectionComponent"
 		 class="contaniner">
 
-	{% block overTitle %}
-	{% endblock overTitle %}
-
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	{% if lang.validationErrors %}

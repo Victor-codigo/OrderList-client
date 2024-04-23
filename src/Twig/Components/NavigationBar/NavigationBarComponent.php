@@ -167,7 +167,7 @@ class NavigationBarComponent extends TwigComponent
             return null;
         }
 
-        if ('user_profile' !== $routeName) {
+        if ('user_profile' !== $routeName && 'order_home' !== $routeName) {
             return null;
         }
 

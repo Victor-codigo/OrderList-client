@@ -35,7 +35,7 @@ class RequestDto
         private readonly \Closure $shopData,
         private readonly \Closure $productData,
         private readonly \Closure $listOrdersData,
-        public readonly \Closure $orderData,
+        private readonly \Closure $orderData,
         public readonly Request $request,
         public readonly ?RequestRefererDto $requestReferer
     ) {
