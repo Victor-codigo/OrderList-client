@@ -19,12 +19,14 @@ class Config
     public const PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/product/product-no-image-200x200.svg';
     public const LIST_ORDERS_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/list_orders/list-orders-no-image-200x200.svg';
     public const ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/order/order-no-image-200x200.svg';
+    public const USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/user/user-avatar-no-image.svg';
 
     public const ORDER_BOUGHT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/order/bought-icon-green-24x24.svg';
     public const ORDER_BOUGHT_NOT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/order/bought-not-icon-orange-24x24.svg';
 
     public const API_IMAGES_SHOP_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/assets/img/shops';
     public const API_IMAGES_PRODUCTS_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/assets/img/products';
+    public const API_IMAGES_USERS_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/assets/img/users';
 
     // Maximum number of items in a modal list
     public const MODAL_LIST_ITEMS_MAX_NUMBER = 10;

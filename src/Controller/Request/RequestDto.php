@@ -9,11 +9,15 @@ use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
+use App\Controller\Request\Response\UserDataResponse;
 use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestDto
 {
+    /**
+     * @param \Closure<UserDataResponse> $userSessionData
+     */
     public function __construct(
         private readonly ?string $tokenSession,
 
@@ -26,8 +30,9 @@ class RequestDto
         public readonly ?string $productNameUrlEncoded,
         public readonly ?int $page,
         public readonly ?int $pageItems,
+        private readonly \Closure $userSessionData,
         public readonly ?GroupDataResponse $groupData,
-        public readonly ?ShopDataResponse $shopData,
+        public readonly \Closure $shopData,
         public readonly ?ProductDataResponse $productData,
         public readonly ?ListOrdersDataResponse $listOrdersData,
         public readonly ?OrderDataResponse $orderData,
@@ -46,5 +51,27 @@ class RequestDto
         }
 
         return $this->tokenSession;
+    }
+
+    public function getUserSessionData(): ?UserDataResponse
+    {
+        static $userData;
+
+        if (null === $userData) {
+            $userData = ($this->userSessionData)($this->tokenSession);
+        }
+
+        return $userData;
+    }
+
+    public function getShopData(): ?ShopDataResponse
+    {
+        static $shopData;
+
+        if (null === $shopData) {
+            $shopData = ($this->getShopData())($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+        }
+
+        return $shopData;
     }
 }

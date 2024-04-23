@@ -11,6 +11,7 @@ use App\Controller\Request\Response\ListOrdersDataResponse;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
+use App\Controller\Request\Response\UserDataResponse;
 use App\Twig\Components\HomeSection\SearchBar\NAME_FILTERS;
 use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\NavigationBar\NavigationBarDto;
@@ -22,6 +23,7 @@ use Common\Adapter\Events\Exceptions\RequestShopNameException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\CodedUrlParameter;
 use Common\Domain\Config\Config;
+use Common\Domain\JwtToken\JwtToken;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,8 +73,9 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $request->attributes->get('product_name'),
             $this->loadPageData($request),
             $this->loadPageItemsData($request),
+            $this->loadUserSessionData(...),
             $groupData,
-            $this->loadShopData($request->attributes, $groupData?->id, $tokenSession),
+            $this->loadShopData(...),
             $this->loadProductData($request->attributes, $groupData?->id, $tokenSession),
             $this->loadListOrdersData($request->attributes, $groupData?->id, $tokenSession),
             $this->loadOrderData($request->attributes, $groupData?->id, $tokenSession),
@@ -89,11 +92,13 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     {
         $navigationBarComponentData = new NavigationBarDto(
             'OrderListTile',
+            $requestDto->getUserSessionData(),
             $requestDto->groupNameUrlEncoded,
             $requestDto->sectionActiveId,
             $requestDto->locale ?? 'en',
             $requestDto->request->attributes->get('_route') ?? '',
             $requestDto->request->attributes->get('_route_params') ?? [],
+            $requestDto->requestReferer
         );
 
         $this->twig->addGlobal('NavigationBarComponent', $navigationBarComponentData);
@@ -141,6 +146,22 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         return null;
+    }
+
+    private function loadUserSessionData(?string $tokenSession): UserDataResponse
+    {
+        if (null === $tokenSession) {
+            return null;
+        }
+
+        $userId = JwtToken::getUserName($tokenSession);
+        $userData = $this->endpoints->usersGetData([$userId], $tokenSession);
+
+        if (!empty($userData['errors'])) {
+            throw RequestGroupNameException::fromMessage('User data not found');
+        }
+
+        return UserDataResponse::fromArray($userData['data']['users'][0]);
     }
 
     private function loadGroupData(ParameterBag $attributes, ?string $tokenSession): ?GroupDataResponse

@@ -39,7 +39,7 @@ class ShopModifyController extends AbstractController
         $shopModifyForm = $this->formFactory->create(new ShopModifyForm(), $requestDto->request);
 
         if ($shopModifyForm->isSubmitted() && $shopModifyForm->isValid()) {
-            $this->formValid($shopModifyForm, $requestDto->groupData->id, $requestDto->shopData->id, $requestDto->getTokenSessionOrFail());
+            $this->formValid($shopModifyForm, $requestDto->groupData->id, $requestDto->getShopData()->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
