@@ -78,7 +78,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $this->loadShopData(...),
             $this->loadProductData(...),
             $this->loadListOrdersData(...),
-            $this->loadOrderData($request->attributes, $groupData?->id, $tokenSession),
+            $this->loadOrderData(...),
             $request,
             $this->loadRefererRouteName($request)
         );
