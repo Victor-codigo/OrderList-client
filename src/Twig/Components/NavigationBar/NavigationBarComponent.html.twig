@@ -3,6 +3,19 @@
 	 data-bs-theme="dark">
 	<div class="container-fluid  align-items-stretch  ps-0  pe-0">
 
+		{% if not sections is empty %}
+
+		<button class="navbar-toggler  border-0  rounded-0  p-2  ps-3  pe-3  navbar-toggler-button"
+				type="button"
+				data-bs-toggle="offcanvas"
+				data-bs-target="#offcanvasNavbar"
+				aria-controls="offcanvasNavbar"
+				aria-label="Toggle navigation">
+			{% include "list-icon.svg" %}
+		</button>
+
+		{% endif %}
+
 		{% if not backButton is null %}
 
 		<a class="navbar-back-button  p-3"
@@ -15,20 +28,7 @@
 
 		{% endif %}
 
-		{% if not sections is empty %}
-
-		<button class="navbar-toggler  border-0  rounded-0  p-2  ps-3  pe-3  navbar-toggler-button"
-				type="button"
-				data-bs-toggle="offcanvas"
-				data-bs-target="#offcanvasNavbar"
-				aria-controls="offcanvasNavbar"
-				aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		{% endif %}
-
-		<a class="navbar-brand"
+		<a class="navbar-brand  ms-auto  me-auto"
 		   href="#">Offcanvas navbar</a>
 
 		<div class="collapse navbar-collapse  align-items-end">

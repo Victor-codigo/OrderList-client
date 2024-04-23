@@ -98,6 +98,16 @@
         outline: none !important;
         box-shadow: none;
         border-right: 1px solid $gray-700 !important;
+        color: $white;
+
+        svg {
+            height: 32px;
+            width: 32px;
+        }
+
+        .navbar-toggler-icon {
+            color: $white;
+        }
 
         &:hover {
             background-color: $gray-700;
@@ -109,8 +119,8 @@
         border-right: 1px solid $gray-700 !important;
 
         svg {
-            height: 18px;
-            width: 18px;
+            height: 24px;
+            width: 24px;
         }
 
         &:hover {
