@@ -1,7 +1,17 @@
-title: Lista de la compra
+title: Orders list
 
 navigation:
+  profile:
+    title: Go to your profile
+    alt: Go to your profile
+
+  back_button:
+    title: Go back
+
   section:
+    groups:
+      label: Groups
+      title: Shows a list of groups
     list_orders:
       label: List orders
       title: Shows a list of orders

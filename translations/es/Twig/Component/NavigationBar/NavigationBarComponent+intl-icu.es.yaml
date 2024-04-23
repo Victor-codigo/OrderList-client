@@ -1,7 +1,17 @@
-title: Order list
+title: Lista de la compra
 
 navigation:
+  profile:
+    title: Ir a tú perfil
+    alt: Ir a tú perfil
+
+  back_button:
+    title: Volver
+
   section:
+    groups:
+      label: Grupos
+      title: Muestra la lista de grupos
     list_orders:
       label: Lista de pedidos
       title: Muestra la lista de pedidos

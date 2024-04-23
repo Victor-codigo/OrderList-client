@@ -26,11 +26,14 @@
         }
     }
 
-    .offcanvas-body {
-        .nav-link.active {
-            background-color: $gray-800;
-            border-bottom: 1px solid $white;
-            color: $white;
+    .offcanvas {
+
+        .offcanvas-body {
+            .nav-link.active {
+                background-color: $gray-800;
+                border-bottom: 1px solid $white;
+                color: $white;
+            }
         }
     }
 
@@ -61,13 +64,54 @@
 
         &:hover {
             color: $white;
+            background-color: $gray-700;
+        }
+    }
+
+    &__user-profile {
+        color: $white;
+        border: 0;
+        border-left: 1px solid $gray-700;
+        text-decoration: none;
+
+        .user-profile__name {
+            margin-left: 5px;
+        }
+
+        svg {
+            height: 24px;
+            width: 24px;
+        }
+
+        img {
+            height: 30px;
+            width: 30px;
+        }
+
+        &:hover {
+            color: $white;
+            background-color: $gray-700;
         }
     }
 
     .navbar-toggler-button {
         outline: none !important;
         box-shadow: none;
-        border-left: 1px solid $gray-700 !important;
+        border-right: 1px solid $gray-700 !important;
+
+        &:hover {
+            background-color: $gray-700;
+        }
+    }
+
+    .navbar-back-button {
+        color: $white;
+        border-right: 1px solid $gray-700 !important;
+
+        svg {
+            height: 18px;
+            width: 18px;
+        }
 
         &:hover {
             background-color: $gray-700;
@@ -75,9 +119,19 @@
     }
 }
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-down(md) {
     .navbar {
 
+        &__user-profile {
+            .user-profile__name {
+                display: none;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .navbar {
 
         .offcanvas {
             display: none;
