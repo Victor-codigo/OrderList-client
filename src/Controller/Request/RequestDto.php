@@ -32,9 +32,9 @@ class RequestDto
         public readonly ?int $pageItems,
         private readonly \Closure $userSessionData,
         public readonly ?GroupDataResponse $groupData,
-        public readonly \Closure $shopData,
-        public readonly \Closure $productData,
-        public readonly ?ListOrdersDataResponse $listOrdersData,
+        private readonly \Closure $shopData,
+        private readonly \Closure $productData,
+        private readonly \Closure $listOrdersData,
         public readonly ?OrderDataResponse $orderData,
         public readonly Request $request,
         public readonly ?RequestRefererDto $requestReferer
@@ -84,5 +84,16 @@ class RequestDto
         }
 
         return $productData;
+    }
+
+    public function getListOrdersData(): ?ListOrdersDataResponse
+    {
+        static $listOrdersData;
+
+        if (null === $listOrdersData) {
+            $listOrdersData = ($this->listOrdersData)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+        }
+
+        return $listOrdersData;
     }
 }

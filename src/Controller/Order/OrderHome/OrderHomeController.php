@@ -8,8 +8,8 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Form\Order\OrderModify\OrderModifyForm;
-use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
 use App\Form\Order\OrderRemove\OrderRemoveForm;
+use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
@@ -66,7 +66,7 @@ class OrderHomeController extends AbstractController
 
         $ordersData = $this->getOrdersData(
             $requestDto->groupData->id,
-            $requestDto->listOrdersData->id,
+            $requestDto->getListOrdersData()->id,
             $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
@@ -197,7 +197,7 @@ class OrderHomeController extends AbstractController
 
         return (new OrderHomeComponentBuilder())
             ->title(
-                $requestDto->listOrdersData->name
+                $requestDto->getListOrdersData()->name
             )
             ->buttonBackUrl(
                 $this->generateUrl('list_orders_home', [
@@ -208,7 +208,7 @@ class OrderHomeController extends AbstractController
                 ]),
             )
             ->listOrders(
-                $requestDto->listOrdersData->id,
+                $requestDto->getListOrdersData()->id,
                 $requestDto->groupData->id
             )
             ->errors(
@@ -248,7 +248,7 @@ class OrderHomeController extends AbstractController
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
                 $requestDto->groupData->id,
-                $requestDto->listOrdersData->id
+                $requestDto->getListOrdersData()->id
             )
             ->orderRemoveMultiFormModal(
                 $orderRemoveMultiForm->getCsrfToken(),
@@ -269,7 +269,7 @@ class OrderHomeController extends AbstractController
                     'order_name' => self::ORDER_NAME_PLACEHOLDER,
                 ]),
                 $requestDto->groupData->id,
-                $requestDto->listOrdersData->id
+                $requestDto->getListOrdersData()->id
             )
             ->productsListModal(
                 $requestDto->groupData->id,
