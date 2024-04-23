@@ -33,7 +33,7 @@ class RequestDto
         private readonly \Closure $userSessionData,
         public readonly ?GroupDataResponse $groupData,
         public readonly \Closure $shopData,
-        public readonly ?ProductDataResponse $productData,
+        public readonly \Closure $productData,
         public readonly ?ListOrdersDataResponse $listOrdersData,
         public readonly ?OrderDataResponse $orderData,
         public readonly Request $request,
@@ -69,9 +69,20 @@ class RequestDto
         static $shopData;
 
         if (null === $shopData) {
-            $shopData = ($this->getShopData())($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+            $shopData = ($this->shopData)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
         }
 
         return $shopData;
+    }
+
+    public function getProductData(): ?ProductDataResponse
+    {
+        static $productData;
+
+        if (null === $productData) {
+            $productData = ($this->productData)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+        }
+
+        return $productData;
     }
 }
