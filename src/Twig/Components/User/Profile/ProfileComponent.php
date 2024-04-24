@@ -9,6 +9,7 @@ use App\Form\User\Profile\PROFILE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -32,6 +33,7 @@ class ProfileComponent extends TwigComponent
     public readonly string $submitFieldName;
     public ImageAvatarComponentDto $imageAvatarDto;
     public DropZoneComponentDto $dropZoneDto;
+    public TitleComponentDto $titleDto;
 
     public readonly string $userRemoveFieldName;
 
@@ -55,10 +57,12 @@ class ProfileComponent extends TwigComponent
     public function mount(ProfileComponentDto $data): void
     {
         $this->data = $data;
-        $this->imageAvatarDto = $this->getImageAvatarComponentDto($data->image);
-        $this->dropZoneDto = $this->getDropZoneComponentDto();
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->getTitle($this->lang->title);
+        $this->imageAvatarDto = $this->getImageAvatarComponentDto($data->image);
+        $this->dropZoneDto = $this->getDropZoneComponentDto();
     }
 
     private function getImageAvatarComponentDto(?string $imagePath): ImageAvatarComponentDto
@@ -79,6 +83,11 @@ class ProfileComponent extends TwigComponent
             PROFILE_FORM_FIELDS::IMAGE,
             $this->translate('image.placeholder')
         );
+    }
+
+    private function getTitle(string $title): TitleComponentDto
+    {
+        return new TitleComponentDto($title);
     }
 
     private function loadTranslation(): void

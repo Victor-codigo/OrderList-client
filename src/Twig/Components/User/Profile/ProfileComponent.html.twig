@@ -16,14 +16,12 @@
 		   name="{{ imageRemoveFieldName }}"
 		   data-js-image-remove />
 
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
 	{% if lang.validationErrors %}
 	{{ component('AlertValidationComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
-
-	<div class="mb-5 pt-5 display-1 text-center">
-		{{ lang.title }}
-	</div>
 
 	<div class="mb-5  d-flex justify-content-center">
 		{{ component('ImageAvatarComponent', { data: imageAvatarDto }) }}
@@ -31,7 +29,7 @@
 
 	<div class="text-center  border-bottom d-grid gap-2">
 		<button type="button"
-				class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex"
+				class="btn  rounded-0  pt-3 pb-3  d-inline-flex  btn-open-modal"
 				data-bs-toggle="modal"
 				data-bs-target="#email_modal">
 
@@ -39,16 +37,16 @@
 
 				{{ data.email }}
 
-				<br><span class="fs-6  text-black-50">{{ lang.emailPlaceholder }}</span>
+				<br><span class="fs-6">{{ lang.emailPlaceholder }}</span>
 			</div>
 
 			{{ include('Components/User/Profile/img/arrow-right-icon.svg') }}
 		</button>
 	</div>
 
-	<div class="mb-3  text-center  border-bottom  d-grid gap-2">
+	<div class="mb-3  text-center  border-bottom  d-grid gap-2  btn-open-modal">
 		<button type="button"
-				class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex"
+				class="btn  rounded-0  pt-3 pb-3  d-inline-flex"
 				data-bs-toggle="modal"
 				data-bs-target="#password_modal">
 
@@ -56,7 +54,7 @@
 
 				{{ lang.passwordLabel }}
 
-				<br><span class="fs-6  text-black-50">{{ lang.passwordPlaceholder }}</span>
+				<br><span class="fs-6">{{ lang.passwordPlaceholder }}</span>
 			</div>
 
 			{{ include('Components/User/Profile/img/arrow-right-icon.svg') }}
@@ -97,11 +95,11 @@
 <div class="contaniner  mt-5  p-5">
 	<div class="text-center  border-bottom d-grid gap-2">
 		<button type="button"
-				class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex"
+				class="btn rounded-0  pt-3 pb-3  d-inline-flex  btn-open-modal-danger"
 				data-bs-toggle="modal"
 				data-bs-target="#user_remove_modal">
 
-			<div class="flex-grow-1  text-danger">
+			<div class="flex-grow-1">
 
 				{{ lang.userRemoveLabel }}
 

@@ -1,0 +1,35 @@
+// [data-bs-theme="light"] {
+.btn-open-modal {
+
+    &__text-info {
+        color: $gray-600;
+
+    }
+
+    &:hover {
+        color: $white;
+        background-color: $primary;
+        border-color: var(--bs-btn-hover-border-color);
+
+        &__text-info {
+            color: $white;
+        }
+    }
+}
+
+.btn-open-modal-danger {
+    color: $danger;
+
+    &:hover {
+        color: $white;
+        background-color: $danger;
+        border-color: var(--bs-btn-hover-border-color);
+    }
+}
+
+// }
+
+[data-bs-theme="dark"] {
+    .btn-open-modal {}
+
+}
