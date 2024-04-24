@@ -91,7 +91,7 @@ class UserRememberController extends AbstractController
             $form->getCsrfToken()
         );
 
-        return $this->render('user_remember/index.html.twig', [
+        return $this->render('user/user_remember/index.html.twig', [
             'PasswordRememberComponent' => $data,
         ]);
     }

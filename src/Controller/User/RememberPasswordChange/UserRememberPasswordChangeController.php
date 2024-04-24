@@ -99,7 +99,7 @@ class UserRememberPasswordChangeController extends AbstractController
             true,
         );
 
-        return $this->render('user_remember_password_change/index.html.twig', [
+        return $this->render('user/user_remember_password_change/index.html.twig', [
             'PasswordChangeComponent' => $data,
         ]);
     }

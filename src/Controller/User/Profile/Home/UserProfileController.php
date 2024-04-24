@@ -118,7 +118,7 @@ class UserProfileController extends AbstractController
                 : $this->apiUrl.$this->userData->image,
         );
 
-        return $this->render('user_profile/index.html.twig', [
+        return $this->render('user/user_profile/index.html.twig', [
             'ProfileComponent' => $profileComponentData,
         ]);
     }

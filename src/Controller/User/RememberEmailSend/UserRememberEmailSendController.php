@@ -40,7 +40,7 @@ class UserRememberEmailSendController extends AbstractController
             false
         );
 
-        return $this->render('user_remember_email_send/index.html.twig', [
+        return $this->render('user/user_remember_email_send/index.html.twig', [
             'AlertComponent' => $data,
         ]);
     }

@@ -66,7 +66,7 @@ class UserLoginHomeController extends AbstractController
             $validForm
         );
 
-        return $this->render('user_login/index.html.twig', [
+        return $this->render('user/user_login/index.html.twig', [
             'LoginComponent' => $loginComponentData,
         ]);
     }

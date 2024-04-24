@@ -116,7 +116,7 @@ class UserSignupEmailConfirmController extends AbstractController
             false
         );
 
-        return $this->render('user_signup_email_confirm/index.html.twig', [
+        return $this->render('user/user_signup_email_confirm/index.html.twig', [
             'SignupEmailConfirmation' => $data,
         ]);
     }

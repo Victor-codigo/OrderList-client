@@ -37,7 +37,7 @@ class UserRegistrationCompleteController extends AbstractController
             false
         );
 
-        return $this->render('user_registration_complete/index.html.twig', [
+        return $this->render('user/user_registration_complete/index.html.twig', [
             'AlertComponent' => $alertInfoData,
         ]);
     }

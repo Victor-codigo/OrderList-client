@@ -97,7 +97,7 @@ class UserSignupController extends AbstractController
             $form->getCsrfToken()
         );
 
-        return $this->render('user_signup/index.html.twig', [
+        return $this->render('user/user_signup/index.html.twig', [
             'SignupComponent' => $data,
         ]);
     }

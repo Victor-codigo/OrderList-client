@@ -36,7 +36,7 @@ class UserPasswordRememberChangedController extends AbstractController
             false
         );
 
-        return $this->render('user_password_remember_changed/index.html.twig', [
+        return $this->render('user/user_password_remember_changed/index.html.twig', [
             'AlertComponent' => $data,
         ]);
     }
