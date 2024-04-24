@@ -104,7 +104,7 @@ class UserLoginController extends AbstractController
             '/',
             $this->domainName,
             'https' === mb_strtolower(Config::CLIENT_PROTOCOL) ? true : false,
-            true
+            false
         );
     }
 }
