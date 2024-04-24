@@ -148,7 +148,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
-    private function loadUserSessionData(?string $tokenSession): UserDataResponse
+    private function loadUserSessionData(?string $tokenSession): ?UserDataResponse
     {
         if (null === $tokenSession) {
             return null;

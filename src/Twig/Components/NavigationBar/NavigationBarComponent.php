@@ -141,8 +141,12 @@ class NavigationBarComponent extends TwigComponent
         ]);
     }
 
-    private function createUserButton(string $routeName, UserDataResponse $userData): ?UserButtonDto
+    private function createUserButton(string $routeName, ?UserDataResponse $userData): ?UserButtonDto
     {
+        if (null === $userData) {
+            return null;
+        }
+
         if ('user_profile' === $routeName) {
             return null;
         }
