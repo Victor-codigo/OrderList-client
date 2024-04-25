@@ -72,12 +72,12 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function groupCreateFormModal(string $groupCreateFormCsrfToken, ?float $groupPrice, string $groupCreateFormActionUrl): self
+    public function groupCreateFormModal(string $groupCreateFormCsrfToken, string $groupCreateFormActionUrl): self
     {
         $this->builder->setMethodStatus('groupCreateModal', true);
 
         $this->homeSectionComponentDto->createFormModal(
-            $this->createGroupCreateComponentDto($groupCreateFormCsrfToken, $groupPrice, $groupCreateFormActionUrl)
+            $this->createGroupCreateComponentDto($groupCreateFormCsrfToken, $groupCreateFormActionUrl)
         );
 
         return $this;
@@ -206,12 +206,12 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
         return $this->createGroupHomeSectionComponentDto($this->groupInfoModalDto);
     }
 
-    private function createGroupCreateComponentDto(string $groupCreateFormCsrfToken, ?float $groupPrice, string $groupCreateFormActionUrl): ModalComponentDto
+    private function createGroupCreateComponentDto(string $groupCreateFormCsrfToken, string $groupCreateFormActionUrl): ModalComponentDto
     {
         $homeSectionCreateComponentDto = new GroupCreateComponentDto(
             [],
             '',
-            $groupPrice,
+            '',
             $groupCreateFormCsrfToken,
             false,
             mb_strtolower($groupCreateFormActionUrl),

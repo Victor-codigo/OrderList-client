@@ -237,11 +237,7 @@ class GroupHomeController extends AbstractController
             )
             ->groupCreateFormModal(
                 $groupCreateForm->getCsrfToken(),
-                null,
-                // $this->generateUrl('group_create', [
-                //     'group_name' => $requestDto->groupNameUrlEncoded,
-                // ]),
-                ''
+                $this->generateUrl('group_create'),
             )
             ->groupRemoveMultiFormModal(
                 $groupRemoveMultiForm->getCsrfToken(),
