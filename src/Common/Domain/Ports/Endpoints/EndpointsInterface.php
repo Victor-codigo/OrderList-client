@@ -86,6 +86,16 @@ interface EndpointsInterface
     public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
+
+    /**
      * @return array<string, mixed> index: page -> int,
      *                              pages_total -> int,
      *                              orders -> array of orders

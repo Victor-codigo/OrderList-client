@@ -7,11 +7,13 @@ namespace Common\Adapter\Endpoints;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class GroupsEndpoint extends EndpointBase
 {
     public const GET_GROUP_ID_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
     public const GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
+    private const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v1/groups';
 
     private static ?self $instance = null;
 
@@ -117,8 +119,46 @@ class GroupsEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}",
+            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}".'&'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
+    {
+        $response = $this->requestGroupCreate($name, $description, $image, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    private function requestGroupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): HttpClientResponseInterface
+    {
+        $files = [];
+        if (null !== $image) {
+            $files = [
+                'image' => $image,
+            ];
+        }
+
+        return $this->httpClient->request(
+            'POST',
+            self::POST_GROUP_CREATE,
+            HTTP_CLIENT_CONFIGURATION::form([
+                'name' => $name,
+                'description' => $description,
+                'type' => 'TYPE_GROUP',
+            ],
+                $files,
+                $tokenSession
+            )
         );
     }
 }
