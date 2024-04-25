@@ -126,7 +126,21 @@ class Endpoints implements EndpointsInterface
     {
         $groupNameDecoded = $this->decodeUrlName($groupName);
 
-        return GroupsEndpoints::getInstance($this->httpClient)->groupGetDataByName($groupNameDecoded, $tokenSession);
+        return GroupsEndpoint::getInstance($this->httpClient)->groupGetDataByName($groupNameDecoded, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     */
+    public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->userGroupsGetData($filterSection, $filterText, $filterValue, $page, $pageItems, $orderAsc, $tokenSession);
     }
 
     /**
