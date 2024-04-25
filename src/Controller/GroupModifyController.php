@@ -81,12 +81,12 @@ class GroupModifyController extends AbstractController
             'POST',
             HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_MODIFY_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::form([
-                    'group_id' => $formData[GROUP_MODIFY_FORM_FIELDS::GROUP_ID],
-                    'name' => $formData[GROUP_CREATE_FORM_FIELDS::NAME],
-                    'description' => $formData[GROUP_CREATE_FORM_FIELDS::DESCRIPTION],
-                    'image_remove' => $formData[GROUP_MODIFY_FORM_FIELDS::IMAGE_REMOVE],
-                    '_method' => 'PUT',
-                ],
+                'group_id' => $formData[GROUP_MODIFY_FORM_FIELDS::GROUP_ID],
+                'name' => $formData[GROUP_CREATE_FORM_FIELDS::NAME],
+                'description' => $formData[GROUP_CREATE_FORM_FIELDS::DESCRIPTION],
+                'image_remove' => $formData[GROUP_MODIFY_FORM_FIELDS::IMAGE_REMOVE],
+                '_method' => 'PUT',
+            ],
                 [
                     'image' => $formData[GROUP_CREATE_FORM_FIELDS::IMAGE],
                 ],
@@ -103,8 +103,8 @@ class GroupModifyController extends AbstractController
             'DELETE',
             HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::GROUP_REMOVE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([
-                    'group_id' => $formData[GROUP_REMOVE_FORM_FIELDS::GROUP_ID],
-                ],
+                'group_id' => $formData[GROUP_REMOVE_FORM_FIELDS::GROUPS_ID],
+            ],
                 $tokenSession
             )
         );
@@ -135,7 +135,7 @@ class GroupModifyController extends AbstractController
         }
     }
 
-    private function getGroupData(string $groupId, string $tokenSession): array|null
+    private function getGroupData(string $groupId, string $tokenSession): ?array
     {
         $response = $this->requestGroupData($groupId, $tokenSession);
         $responseData = $response->toArray();

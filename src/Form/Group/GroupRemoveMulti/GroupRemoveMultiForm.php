@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Group\GroupRemove;
+namespace App\Form\Group\GroupRemoveMulti;
 
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormType;
 use Common\Domain\Validation\ValidationInterface;
 
-class GroupRemoveForm extends FormType
+class GroupRemoveMultiForm extends FormType
 {
     private const FORM_CSRF_TOKEN_ID = 'groupRemoveCsrfTokenId';
 
     public static function getName(): string
     {
-        return GROUP_REMOVE_FORM_FIELDS::FORM;
+        return GROUP_REMOVE_MULTI_FORM_FIELDS::FORM;
     }
 
     public static function getCsrfTokenId(): ?string
@@ -24,7 +24,7 @@ class GroupRemoveForm extends FormType
 
     public static function getCsrfTokenFieldName(): string
     {
-        return GROUP_REMOVE_FORM_FIELDS::TOKEN;
+        return GROUP_REMOVE_MULTI_FORM_FIELDS::TOKEN;
     }
 
     public function validate(ValidationInterface $validator, array $formData): array
@@ -38,8 +38,8 @@ class GroupRemoveForm extends FormType
     public function formBuild(): void
     {
         $this
-            ->addField(GROUP_REMOVE_FORM_FIELDS::GROUPS_ID, FIELD_TYPE::HIDDEN)
-            ->addField(GROUP_REMOVE_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
-            ->addField(GROUP_REMOVE_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT);
+            ->addField(GROUP_REMOVE_MULTI_FORM_FIELDS::GROUPS_ID, FIELD_TYPE::HIDDEN)
+            ->addField(GROUP_REMOVE_MULTI_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
+            ->addField(GROUP_REMOVE_MULTI_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT);
     }
 }

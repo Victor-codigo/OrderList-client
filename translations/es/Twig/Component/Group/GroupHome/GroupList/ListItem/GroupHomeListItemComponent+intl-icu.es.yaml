@@ -1,0 +1,15 @@
+group_remove_button:
+  title: Elimina el grupo
+  alt: Botón para eliminar el grupo
+
+group_modify_button:
+  title: Modifica el grupo
+  alt: Botón para eliminar el grupo
+
+group_info_button:
+  title: Muestra información el grupo
+  alt: Botón para mostrar información del grupo
+
+group_image:
+  title: Imagen del grupo
+  alt: Imagen del grupo

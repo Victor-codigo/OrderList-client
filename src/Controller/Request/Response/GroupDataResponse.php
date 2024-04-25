@@ -9,9 +9,9 @@ class GroupDataResponse
     public function __construct(
         public readonly string $id,
         public readonly string $name,
-        public readonly string|null $description,
-        public readonly string|null $image,
-        public readonly string $createdOn,
+        public readonly ?string $description,
+        public readonly ?string $image,
+        public readonly \DateTimeImmutable $createdOn,
     ) {
     }
 
@@ -31,7 +31,7 @@ class GroupDataResponse
             $data['name'],
             $data['description'],
             $data['image'],
-            $data['created_on'],
+            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['created_on']),
         );
     }
 }
