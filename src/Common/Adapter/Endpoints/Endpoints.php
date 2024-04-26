@@ -170,6 +170,21 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @param string[] $groupsId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupRemove(array $groupsId, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupRemove($groupsId, $tokenSession);
+    }
+
+    /**
      * @return array<string, mixed> index: page -> int,
      *                              pages_total -> int,
      *                              orders -> array of orders

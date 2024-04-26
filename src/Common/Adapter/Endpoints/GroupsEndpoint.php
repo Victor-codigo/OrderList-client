@@ -15,6 +15,7 @@ class GroupsEndpoint extends EndpointBase
     public const GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
     private const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v1/groups';
     private const PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v1/groups/modify';
+    private const DELETE_GROUP_DELETE = Endpoints::API_DOMAIN.'/api/v1/groups';
 
     private static ?self $instance = null;
 
@@ -200,6 +201,35 @@ class GroupsEndpoint extends EndpointBase
                 $file,
                 $tokenSession
             )
+        );
+    }
+
+    /**
+     * @param string[] $groupsId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupRemove(array $groupsId, string $tokenSession): array
+    {
+        $response = $this->requestGroupRemove($groupsId, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    private function requestGroupRemove(array $groupId, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'DELETE',
+            self::DELETE_GROUP_DELETE,
+            HTTP_CLIENT_CONFIGURATION::json([
+                'groups_id' => $groupId,
+            ],
+                $tokenSession)
         );
     }
 }
