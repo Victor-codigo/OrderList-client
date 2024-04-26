@@ -10,13 +10,13 @@ class GroupModifyComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly array $errors,
-        public readonly string|null $groupId,
-        public readonly string|null $name,
-        public readonly string|null $description,
-        public readonly string|null $image,
-        public readonly string|null $imageNoAvatar,
-        public readonly string|null $groupModifyCsrfToken,
-        public readonly string|null $groupRemoveCsrfToken,
+        public readonly ?string $name,
+        public readonly ?string $description,
+        public readonly ?string $image,
+        public readonly ?string $imageNoAvatar,
+        public readonly ?string $groupModifyCsrfToken,
+        public readonly string $groupModifyFormActionAttributePlaceholder,
+        public readonly string $groupModifyFormIdAttribute,
         public readonly bool $validForm
     ) {
     }

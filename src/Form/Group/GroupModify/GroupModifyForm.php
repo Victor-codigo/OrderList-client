@@ -17,7 +17,7 @@ class GroupModifyForm extends FormType
         return GROUP_MODIFY_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }

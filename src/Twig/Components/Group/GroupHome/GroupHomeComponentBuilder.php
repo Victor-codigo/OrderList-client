@@ -83,12 +83,12 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function groupModifyFormModal(string $groupModifyFormCsrfToken, string $groupModifyFormActionUrl): self
+    public function groupModifyFormModal(string $groupModifyFormCsrfToken, string $groupModifyFormActionUrlPlaceholder): self
     {
         $this->builder->setMethodStatus('groupModifyFormModal', true);
 
         $this->homeSectionComponentDto->modifyFormModal(
-            $this->createGroupModifyModalDto($groupModifyFormCsrfToken, $groupModifyFormActionUrl)
+            $this->createGroupModifyModalDto($groupModifyFormCsrfToken, $groupModifyFormActionUrlPlaceholder)
         );
 
         return $this;
@@ -278,27 +278,26 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createGroupModifyModalDto(string $groupModifyFormCsrfToken, string $groupModifyFormActionUrlPlaceholder): ModalComponentDto
+    private function createGroupModifyModalDto(string $groupModifyFormCsrfToken, string $groupModifyFormActionUrl): ModalComponentDto
     {
-        // $homeModalModify = new GroupModifyComponentDto(
-        //     [],
-        //     '{name_placeholder}',
-        //     '{description_placeholder}',
-        //     '{image_placeholder}',
-        //     Config::GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
-        //     $groupModifyFormCsrfToken,
-        //     false,
-        //     mb_strtolower($groupModifyFormActionUrlPlaceholder),
-        //     self::SHOP_LIST_MODAL_ID,
-        //     self::GROUP_MODIFY_MODAL_ID
-        // );
+        $homeModalModify = new GroupModifyComponentDto(
+            [],
+            '{name_placeholder}',
+            '{description_placeholder}',
+            '{image_placeholder}',
+            Config::GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
+            $groupModifyFormCsrfToken,
+            mb_strtolower($groupModifyFormActionUrl),
+            self::GROUP_MODIFY_MODAL_ID,
+            false
+        );
 
         return new ModalComponentDto(
             self::GROUP_MODIFY_MODAL_ID,
             '',
             false,
             GroupModifyComponent::getComponentName(),
-            '',// $homeModalModify,
+            $homeModalModify,
             [],
         );
     }

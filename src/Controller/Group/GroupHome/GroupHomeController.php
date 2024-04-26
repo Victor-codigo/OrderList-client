@@ -39,7 +39,7 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class GroupHomeController extends AbstractController
 {
-    private const GROUP_NAME_PLACEHOLDER = '--group_name--';
+    private const GROUP_ID_PLACEHOLDER = '--group_id--';
 
     public function __construct(
         private FormFactoryInterface $formFactory,
@@ -255,11 +255,9 @@ class GroupHomeController extends AbstractController
             )
             ->groupModifyFormModal(
                 $groupModifyForm->getCsrfToken(),
-                // $this->generateUrl('group_modify', [
-                //     'group_name' => $requestDto->groupNameUrlEncoded,
-                //     'group_name' => self::GROUP_NAME_PLACEHOLDER,
-                // ]),
-                ''
+                $this->generateUrl('group_modify', [
+                    'group_id' => self::GROUP_ID_PLACEHOLDER,
+                ]),
             )
             ->build();
     }

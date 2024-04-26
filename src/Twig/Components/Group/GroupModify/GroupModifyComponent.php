@@ -4,12 +4,10 @@ namespace App\Twig\Components\Group\GroupModify;
 
 use App\Form\Group\GroupModify\GROUP_MODIFY_FORM_ERRORS;
 use App\Form\Group\GroupModify\GROUP_MODIFY_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
-use App\Twig\Components\Group\GroupRemove\GroupRemoveComponentDto;
-use App\Twig\Components\Modal\ModalComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -22,6 +20,8 @@ final class GroupModifyComponent extends TwigComponent
 {
     public GroupModifyComponentDtoLang $lang;
     public GroupModifyComponentDataDto|TwigComponentDtoInterface $data;
+
+    public readonly TitleComponentDto $titleDto;
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
@@ -48,13 +48,19 @@ final class GroupModifyComponent extends TwigComponent
         $this->imageAvatarRemoveFieldName = sprintf('%s[%s]', GROUP_MODIFY_FORM_FIELDS::FORM, GROUP_MODIFY_FORM_FIELDS::IMAGE_REMOVE);
         $this->submitFieldName = sprintf('%s[%s]', GROUP_MODIFY_FORM_FIELDS::FORM, GROUP_MODIFY_FORM_FIELDS::SUBMIT);
 
+        $this->loadTranslation($data->validForm);
+
         $this->data = new GroupModifyComponentDataDto(
             $data,
-            $this->getGroupRemoveDto($data),
+            $this->createTitle(),
             $this->getDopZoneDto(),
             $this->getImageAvatarDto($data)
         );
-        $this->loadTranslation();
+    }
+
+    private function createTitle(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function getDopZoneDto(): DropZoneComponentDto
@@ -77,25 +83,7 @@ final class GroupModifyComponent extends TwigComponent
         );
     }
 
-    private function getGroupRemoveDto(GroupModifyComponentDto $data): ModalComponentDto
-    {
-        $groupRemoveDto = new GroupRemoveComponentDto(
-            [],
-            $data->groupId,
-            $data->groupRemoveCsrfToken
-        );
-
-        return new ModalComponentDto(
-            'group_remove_modal',
-            '',
-            false,
-            'GroupRemoveComponent',
-            $groupRemoveDto,
-            []
-        );
-    }
-
-    private function loadTranslation(): void
+    private function loadTranslation(bool $validForm): void
     {
         $this->lang = new GroupModifyComponentDtoLang(
             $this->translate('title'),
@@ -107,16 +95,19 @@ final class GroupModifyComponent extends TwigComponent
             $this->translate('description.msg_invalid'),
             $this->translate('image_thumbnail.alt'),
             $this->translate('button_group_modify.label'),
-            $this->translate('group_remove.label'),
-            $this->translate('group_remove.placeholder'),
-            $this->data->groupModify->validForm ? $this->loadErrorsTranslation() : null
+            $validForm ? $this->createAlertValidationComponentDto() : null
         );
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @param string[] $errors
+     *
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->groupModify->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 GROUP_MODIFY_FORM_ERRORS::GROUP_ID->value,
                 GROUP_MODIFY_FORM_ERRORS::GROUP_NOT_FOUND->value => $this->translate('validation.error.group_not_found'),
@@ -127,20 +118,21 @@ final class GroupModifyComponent extends TwigComponent
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
+        return $errorsLang;
+    }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->groupModify->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
+            array_unique($errorsLang)
         );
     }
 }
