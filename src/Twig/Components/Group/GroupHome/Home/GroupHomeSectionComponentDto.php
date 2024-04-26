@@ -15,14 +15,13 @@ class GroupHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
     private DtoBuilder $builder;
 
     public readonly HomeSectionComponentDto $homeSectionComponentDto;
-    public readonly ModalComponentDto $listItemsModalDto;
-    public readonly ModalComponentDto $shopCreateModalDto;
-    public readonly ModalComponentDto $productInfoModalDto;
+    public readonly ModalComponentDto $groupInfoModalDto;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'homeSection',
+            'groupInfoModal',
         ]);
     }
 
@@ -31,6 +30,15 @@ class GroupHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
         $this->builder->setMethodStatus('homeSection', true);
 
         $this->homeSectionComponentDto = $homeSectionComponentDto;
+
+        return $this;
+    }
+
+    public function groupInfoModal(ModalComponentDto $productInfoModalDto): self
+    {
+        $this->builder->setMethodStatus('groupInfoModal', true);
+
+        $this->groupInfoModalDto = $productInfoModalDto;
 
         return $this;
     }

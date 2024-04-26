@@ -1,0 +1,11 @@
+created_on: "Creado: "
+
+image:
+  title: Imagen del Grupo
+  alt: Imagen del Grupo
+
+description:
+  label: Descripción
+
+close_button:
+  label: Cerrar

@@ -11,6 +11,8 @@ use App\Twig\Components\Group\GroupCreate\GroupCreateComponentDto;
 use App\Twig\Components\Group\GroupHome\Home\GroupHomeSectionComponentDto;
 use App\Twig\Components\Group\GroupHome\ListItem\GroupListItemComponent;
 use App\Twig\Components\Group\GroupHome\ListItem\GroupListItemComponentDto;
+use App\Twig\Components\Group\GroupInfo\GroupInfoComponent;
+use App\Twig\Components\Group\GroupInfo\GroupInfoComponentDto;
 use App\Twig\Components\Group\GroupModify\GroupModifyComponent;
 use App\Twig\Components\Group\GroupModify\GroupModifyComponentDto;
 use App\Twig\Components\Group\GroupRemove\GroupRemoveComponent;
@@ -325,16 +327,16 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
 
     private function createGroupInfoModalDto(): ModalComponentDto
     {
-        // $groupInfoComponentDto = new GroupInfoComponentDto(
-        //     GroupInfoComponent::getComponentName()
-        // );
+        $groupInfoComponentDto = new GroupInfoComponentDto(
+            GroupInfoComponent::getComponentName()
+        );
 
         return new ModalComponentDto(
             self::GROUP_INFO_MODAL_ID,
             '',
             false,
-            'TODO MODAL NAME TO BE SET',// GroupInfoComponent::getComponentName(),
-            '',// $groupInfoComponentDto,
+            GroupInfoComponent::getComponentName(),
+            $groupInfoComponentDto,
             []
         );
     }
@@ -350,9 +352,9 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
             ->homeSection(
                 $this->homeSectionComponentDto
             )
-            // ->groupInfoModal(
-            //     $groupInfoModalDto
-            // )
+            ->groupInfoModal(
+                $groupInfoModalDto
+            )
             ->build();
     }
 }
