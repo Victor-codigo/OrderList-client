@@ -2,13 +2,24 @@ title: Group remove
 
 message_advice:
   text: |
-    By pressing the button, the group #GROUP_NAME# and all its information will be removed from the website.
-    Once the process starts, cannot be undone. Are you sure?
+    You are going to remove group:
+    {item_placeholder}
+    Users related to this group, will be removed from the group.
 
-remove_group_button:
+    Are You sure?
+  text_multi: |
+    You are going to remove groups:
+    {item_placeholder}
+    All users related with these groups, will be removed from the group.
+
+    Are You sure?
+
+remove_button:
   label: Remove group information
 
 validation:
   title: Errors
+  ok: Groups removed
   error:
-    default: An error has been occurred, try it later
+    permissions: You have not permissions to remove these groups, you are not the administrator
+    internal_server: An error has been occurred, try it later

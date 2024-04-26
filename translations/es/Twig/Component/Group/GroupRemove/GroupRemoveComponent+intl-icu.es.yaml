@@ -2,13 +2,24 @@ title: Eliminar grupo
 
 message_advice:
   text: |
-    Al presionar el botón, el grupo #GROUP_NAME# y toda su información, serán eliminado de la página web.
-    Una vez el proceso comienza, no puede ser detenido. ¿Estás seguro?
+    Te dispones a eliminar el grupo:
+    {item_placeholder}
+    Los usuarios relacionados con este grupo, serán eliminados del grupo
 
-remove_group_button:
+    ¿Estás seguro?
+  text_multi: |
+    Te dispones a eliminar los grupos:
+    {item_placeholder}
+    Las usuarios relacionadas con estos grupos, serán borrados del grupo.
+
+    ¿Estás seguro?
+
+remove_button:
   label: Eliminar grupo
 
 validation:
   title: Errors
+  ok: Grupos eliminados
   error:
-    default: Ocurrió un error, inténtalo más tarde
+    permissions: No tienes permisos para eliminar los grupos, no eres el administrador
+    internal_server: Ocurrió un error, inténtalo más tarde

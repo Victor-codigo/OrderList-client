@@ -229,40 +229,40 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
 
     private function createGroupRemoveMultiComponentDto(string $groupRemoveMultiFormCsrfToken, string $groupRemoveFormActionUrl): ModalComponentDto
     {
-        // $homeSectionRemoveMultiComponentDto = new GroupRemoveComponentDto(
-        //     GroupRemoveComponent::getComponentName(),
-        //     [],
-        //     $groupRemoveMultiFormCsrfToken,
-        //     mb_strtolower($groupRemoveFormActionUrl),
-        //     true,
-        // );
+        $homeSectionRemoveMultiComponentDto = new GroupRemoveComponentDto(
+            GroupRemoveComponent::getComponentName(),
+            [],
+            $groupRemoveMultiFormCsrfToken,
+            mb_strtolower($groupRemoveFormActionUrl),
+            true,
+        );
 
         return new ModalComponentDto(
             self::GROUP_REMOVE_MULTI_MODAL_ID,
             '',
             false,
             GroupRemoveComponent::getComponentName(),
-            '',// $homeSectionRemoveMultiComponentDto,
+            $homeSectionRemoveMultiComponentDto,
             []
         );
     }
 
     private function createGroupRemoveModalDto(string $groupRemoveFormCsrfToken, string $groupRemoveFormActionUrl): ModalComponentDto
     {
-        // $homeModalDelete = new GroupRemoveComponentDto(
-        //     GroupRemoveComponent::getComponentName(),
-        //     [],
-        //     $groupRemoveFormCsrfToken,
-        //     mb_strtolower($groupRemoveFormActionUrl),
-        //     false
-        // );
+        $homeModalDelete = new GroupRemoveComponentDto(
+            GroupRemoveComponent::getComponentName(),
+            [],
+            $groupRemoveFormCsrfToken,
+            mb_strtolower($groupRemoveFormActionUrl),
+            false
+        );
 
         return new ModalComponentDto(
             self::GROUP_DELETE_MODAL_ID,
             '',
             false,
             GroupRemoveComponent::getComponentName(),
-            '',// $homeModalDelete,
+            $homeModalDelete,
             []
         );
     }

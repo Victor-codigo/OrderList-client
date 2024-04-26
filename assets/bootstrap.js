@@ -36,7 +36,7 @@ import GroupHomeComponent from 'App/Twig/Components/Group/GroupHome/Home/GroupHo
 import GroupListItemComponent from 'App/Twig/Components/Group/GroupHome/ListItem/GroupListItem_controller';
 import GroupCreateComponent from 'App/Twig/Components/Group/GroupCreate/GroupCreate_controller';
 import GroupModifyComponent from 'App/Twig/Components/Group/GroupModify/GroupModify_controller';
-import GroupRemoveComponent from 'App/Twig/Components/Group/GroupRemove/GroupRemove_controller';
+import GroupRemoveComponent from 'App/Twig/Components/Group/GroupRemove/GroupRemoveComponent_controller';
 import GroupListComponent from 'App/Twig/Components/Group/GroupList/List/GroupList_controller';
 import GroupUsersListComponent from 'App/Twig/Components/Group/GroupUsersList/List/GroupUsersList_controller';
 import GroupUsersListItemComponent from 'App/Twig/Components/Group/GroupUsersList/ListItem/GroupUsersListItem_controller';

@@ -241,17 +241,11 @@ class GroupHomeController extends AbstractController
             )
             ->groupRemoveMultiFormModal(
                 $groupRemoveMultiForm->getCsrfToken(),
-                // $this->generateUrl('group_remove', [
-                //     'group_name' => $requestDto->groupData->name,
-                // ])
-                ''
+                $this->generateUrl('group_remove')
             )
             ->groupRemoveFormModal(
                 $groupRemoveForm->getCsrfToken(),
-                // $this->generateUrl('group_remove', [
-                //     'group_name' => $requestDto->groupData->name,
-                // ])
-                ''
+                $this->generateUrl('group_remove')
             )
             ->groupModifyFormModal(
                 $groupModifyForm->getCsrfToken(),
