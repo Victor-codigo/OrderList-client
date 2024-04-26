@@ -10,11 +10,12 @@
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.groupCreate.csrfToken }}" />
 
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
 	{% if lang.validationErrors %}
 	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
-	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	<div class="mb-3">
 		<label for="name"
@@ -25,6 +26,7 @@
 			   class="form-control"
 			   id="name"
 			   maxlength="50"
+			   pattern="[A-Za-zÀ-ÿ0-9_\s]+"
 			   name="{{ nameFieldName }}"
 			   placeholder="{{ lang.namePlaceholder }}"
 			   value="{{ data.groupCreate.name }}"
@@ -39,8 +41,7 @@
 			   class="form-label">
 			{{ lang.descriptionLabel }}
 		</label>
-		<textarea type="descrition"
-				  class="form-control"
+		<textarea class="form-control"
 				  id="description"
 				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
