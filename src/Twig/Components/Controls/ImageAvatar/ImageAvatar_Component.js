@@ -33,21 +33,21 @@ export default class extends Controller {
         if (this.imageUrl === this.#imageTag.dataset.noAvatar) {
             this.#buttonImageRemoveTag.classList.add('d-none');
             this.#buttonImageRemoveUndoTag.classList.add('d-none');
-            this.#imageTag.classList.add('image-avatar__img--svg');
+            this.#imageTag.classList.add('image-avatar__img--svg-theme');
 
             return;
         }
 
         this.#buttonImageRemoveUndoTag.classList.add('d-none');
         this.#buttonImageRemoveTag.classList.remove('d-none');
-        this.#imageTag.classList.remove('image-avatar__img--svg');
+        this.#imageTag.classList.remove('image-avatar__img--svg-theme');
     }
 
     removeImage() {
         this.#imageTag.src = this.#imageTag.dataset.noAvatar;
         this.#buttonImageRemoveTag.classList.add('d-none');
         this.#buttonImageRemoveUndoTag.classList.remove('d-none');
-        this.#imageTag.classList.add('image-avatar__img--svg');
+        this.#imageTag.classList.add('image-avatar__img--svg-theme');
 
         this.dispatch('imageRemoved', { detail: { imageRemove: true } });
     }
@@ -56,7 +56,7 @@ export default class extends Controller {
         this.#imageTag.src = this.imageUrl;
         this.#buttonImageRemoveUndoTag.classList.add('d-none');
         this.#buttonImageRemoveTag.classList.remove('d-none');
-        this.#imageTag.classList.remove('image-avatar__img--svg');
+        this.#imageTag.classList.remove('image-avatar__img--svg-theme');
 
         this.dispatch('imageRemovedUndo', { detail: { imageRemove: false } });
     }
