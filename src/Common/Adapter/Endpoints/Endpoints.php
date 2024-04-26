@@ -157,6 +157,19 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupModify(string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupModify($groupId, $name, $description, $image, $imageRemove, $tokenSession);
+    }
+
+    /**
      * @return array<string, mixed> index: page -> int,
      *                              pages_total -> int,
      *                              orders -> array of orders

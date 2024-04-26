@@ -96,6 +96,16 @@ interface EndpointsInterface
     public function groupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
 
     /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupModify(string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
+
+    /**
      * @return array<string, mixed> index: page -> int,
      *                              pages_total -> int,
      *                              orders -> array of orders

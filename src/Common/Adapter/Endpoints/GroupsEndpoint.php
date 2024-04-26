@@ -14,6 +14,7 @@ class GroupsEndpoint extends EndpointBase
     public const GET_GROUP_ID_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
     public const GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
     private const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v1/groups';
+    private const PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v1/groups/modify';
 
     private static ?self $instance = null;
 
@@ -119,7 +120,7 @@ class GroupsEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}".'&'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
@@ -157,6 +158,46 @@ class GroupsEndpoint extends EndpointBase
                 'type' => 'TYPE_GROUP',
             ],
                 $files,
+                $tokenSession
+            )
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupModify(string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
+    {
+        $response = $this->requestGroupModify($groupId, $name, $description, $image, $imageRemove, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    private function requestGroupModify(string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
+    {
+        $file = [];
+        if (null !== $image) {
+            $file = [
+                'image' => $image,
+            ];
+        }
+
+        return $this->httpClient->request(
+            'POST',
+            self::PUT_GROUP_MODIFY,
+            HTTP_CLIENT_CONFIGURATION::form([
+                'group_id' => $groupId,
+                'name' => $name,
+                'description' => $description,
+                'image_remove' => $imageRemove,
+                '_method' => 'PUT',
+            ],
+                $file,
                 $tokenSession
             )
         );
