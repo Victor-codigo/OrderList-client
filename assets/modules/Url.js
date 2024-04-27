@@ -16,6 +16,12 @@ export function getGroupName() {
  * @returns {string}
  */
 export function getSection() {
+    const urlPath = window.location.pathname.split('/');
+
+    if (urlPath[2] == 'group') {
+        return 'group';
+    }
+
     return window.location.pathname.split('/')[3];
 }
 
@@ -32,4 +38,5 @@ export const SECTIONS = {
     ORDER: 'order',
     ORDERS: 'orders',
     LIST_ORDERS: 'list_orders',
+    GROUP: 'group'
 };

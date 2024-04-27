@@ -161,7 +161,6 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
     }
 
     public function searchBar(
-        string $groupId,
         ?string $searchValue,
         ?string $sectionFilterValue,
         ?string $nameFilterValue,
@@ -172,7 +171,7 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
         $this->builder->setMethodStatus('searchBar', true);
 
         $this->homeSectionComponentDto->searchBar(new SearchBarComponentDto(
-            $groupId,
+            '',
             $searchValue,
             [SECTION_FILTERS::GROUP],
             $sectionFilterValue,

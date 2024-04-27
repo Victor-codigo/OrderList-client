@@ -1,5 +1,6 @@
 export default {
     SHOP: 'shop',
     PRODUCT: 'product',
-    ORDER: 'order'
+    ORDER: 'order',
+    GROUP: 'group',
 }

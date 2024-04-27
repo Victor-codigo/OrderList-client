@@ -104,10 +104,19 @@ export default class extends Controller {
                 return await this.#getDataFromApiSectionProduct();
             case url.SECTIONS.LIST_ORDERS:
                 return await this.#getDataFromApiSectionListOrders();
+            case url.SECTIONS.GROUP:
+                return await this.#getDataFromApiSectionGroup();
             default:
                 return await this.#getDataFromApiSectionListOrders();
 
         }
+    }
+
+    /**
+     * @returns {Promise<string[]>}
+     */
+    async #getDataFromApiSectionGroup() {
+        return await this.#getGroupsNames(this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
     }
 
     /**
@@ -220,6 +229,29 @@ export default class extends Controller {
                 parameters.pageItems,
                 null,
                 null,
+                sectionFilter,
+                nameFilter,
+                valueFilter,
+                parameters.orderAsc
+            );
+        } catch (error) {
+            return new Promise((resolve) => []);
+        }
+    }
+
+    /**
+     * @param {string} nameFilter
+     * @param {string} sectionFilter
+     * @param {string} valueFilter
+     * @returns {Promise<string[]>}
+     */
+    async #getGroupsNames(nameFilter, sectionFilter, valueFilter) {
+        let parameters = this.#getParametersDefault();
+
+        try {
+            return await apiEndpoints.getGroupsNames(
+                parameters.page,
+                parameters.pageItems,
                 sectionFilter,
                 nameFilter,
                 valueFilter,

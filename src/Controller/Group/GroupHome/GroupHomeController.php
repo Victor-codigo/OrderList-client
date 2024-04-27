@@ -96,6 +96,14 @@ class GroupHomeController extends AbstractController
      */
     private function getSearchBarFieldsValues(FormInterface $searchBarForm, array $flashBagData): array
     {
+        if (null === $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SEARCH_VALUE)) {
+            return [
+                SEARCHBAR_FORM_FIELDS::SECTION_FILTER => null,
+                SEARCHBAR_FORM_FIELDS::NAME_FILTER => null,
+                SEARCHBAR_FORM_FIELDS::SEARCH_VALUE => null,
+            ];
+        }
+
         if (!array_key_exists('searchBar', $flashBagData)) {
             return [
                 SEARCHBAR_FORM_FIELDS::SECTION_FILTER => $searchBarForm->getFieldData(SEARCHBAR_FORM_FIELDS::SECTION_FILTER),
@@ -221,18 +229,17 @@ class GroupHomeController extends AbstractController
                 !empty($groupHomeMessagesError) || !empty($groupHomeMessagesOk) ? true : false,
             )
             ->searchBar(
-                '',// $requestDto->groupData->id,
                 $searchBarSearchValue,
                 $searchBarSectionFilterValue,
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 GroupsEndpoint::GET_USER_GROUPS_GET_DATA,
-                // $this->generateUrl('group_home', [
-                //     'group_name' => $requestDto->groupNameUrlEncoded,
-                //     'section' => 'group',
-                //     'page' => $requestDto->page,
-                //     'page_items' => $requestDto->pageItems,
-                // ]),
+                $this->generateUrl('group_home', [
+                    // 'group_name' => $requestDto->groupNameUrlEncoded,
+                    // 'section' => 'group',
+                    'page' => $requestDto->page,
+                    'page_items' => $requestDto->pageItems,
+                ]),
                 ''
             )
             ->groupCreateFormModal(

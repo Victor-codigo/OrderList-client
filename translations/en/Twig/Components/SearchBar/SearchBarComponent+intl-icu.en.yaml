@@ -16,3 +16,4 @@ section_filters:
   shop: Shop
   order: Order
   list_orders: Shop list
+  group: Group

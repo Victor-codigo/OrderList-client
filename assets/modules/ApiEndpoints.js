@@ -11,6 +11,7 @@ const GET_PRODUCTS_SHOPS_PRICE_URL = `${API_DOMAIN}/api/v${API_VERSION}/products
 const GET_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/list-orders`;
 const GET_LIST_ORDERS_PRICE = `${API_DOMAIN}/api/v${API_VERSION}/list-orders/price`;
 const PATCH_ORDER_BOUGHT = `${API_DOMAIN}/api/v${API_VERSION}/orders/bought`;
+const GET_GROUP_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user-groups`;
 
 const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
 const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/create`;
@@ -422,4 +423,70 @@ export async function getListOrdersPrice(listOrdersId, groupId) {
     }
 
     return responseJson.data;
+}
+
+/**
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string|null} filterSection
+ * @param {string|null} filterText
+ * @param {string|null} filterValue
+ * @param {boolean|null} orderAsc
+ *
+ * @returns {Promise<{
+ *      'page': int,
+ *      'pages_total': int,
+ *      'groups': array
+ * }>}
+ * @throws Error
+ */
+export async function getGroupsData(page, pageItems, filterSection = null, filterText = null, filterValue = null, orderAsc = true) {
+    const queryParameters = {
+        'page': page,
+        'page_items': pageItems,
+        'filter_section': filterSection,
+        'filter_text': filterText,
+        'filter_value': filterValue,
+        'order_asc': orderAsc
+    };
+    const response = await fetch.createQueryRequest(GET_GROUP_URL, 'GET', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (responseDataNoContent) => {
+            return {
+                data: {
+                    page: 1,
+                    pages_total: 0,
+                    products: []
+                }
+            }
+        },
+        null,
+        null
+    );
+
+    return responseJson.data;
+}
+
+/**
+ * @param {number} page
+ * @param {number} pageItems
+ * @param {string|null} filterSection
+ * @param {string|null} filterText
+ * @param {string|null} filterValue
+ * @param {boolean|null} orderAsc
+ *
+ * @returns {Promise<string[]>}
+ * @throws Error
+*/
+export async function getGroupsNames(page, pageItems, filterSection = null, filterText = null, filterValue = null, orderAsc = true) {
+    const responseData = await getGroupsData(
+        page,
+        pageItems,
+        filterSection,
+        filterText,
+        filterValue,
+        orderAsc
+    );
+
+    return responseData.groups.map((group) => group.name);
 }
