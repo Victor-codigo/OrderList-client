@@ -318,7 +318,7 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->image ?? Config::GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 null === $listItemData->image ? true : false,
                 $listItemData->createdOn,
-                $listItemData,
+                $listItemData->admin,
             ),
             $this->listGroupsData
         );

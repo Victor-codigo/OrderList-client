@@ -13,3 +13,6 @@ group_info_button:
 group_image:
   title: Imagen del grupo
   alt: Imagen del grupo
+
+admin:
+  label: Admin

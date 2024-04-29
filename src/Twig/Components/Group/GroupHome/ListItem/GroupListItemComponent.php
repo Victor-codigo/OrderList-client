@@ -45,6 +45,7 @@ final class GroupListItemComponent extends HomeListItemComponent
             $this->translate('group_info_button.title'),
             $this->translate('group_image.alt'),
             $this->translate('group_image.title'),
+            $this->translate('admin.label'),
         );
     }
 
@@ -60,6 +61,7 @@ final class GroupListItemComponent extends HomeListItemComponent
             'image' => $groupData->image,
             'noImage' => $groupData->noImage,
             'createdOn' => $groupData->createdOn->format('Y-m-d'),
+            'admin' => $groupData->admin,
         ];
 
         return json_encode($groupDataToParse, JSON_THROW_ON_ERROR);

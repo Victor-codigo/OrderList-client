@@ -18,6 +18,8 @@ class GroupListItemComponentLangDto extends HomeListItemComponentLangDto
 
         public readonly string $imageItemAlt,
         public readonly string $imageItemTitle,
+
+        public readonly string $adminLabel,
     ) {
     }
 }

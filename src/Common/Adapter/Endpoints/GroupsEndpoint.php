@@ -91,7 +91,7 @@ class GroupsEndpoint extends EndpointBase
                 'data' => [
                     'page' => 1,
                     'pages_total' => 0,
-                    'products' => [],
+                    'groups' => [],
                 ],
                 'errors' => ['group_not_found' => 'Group not found'],
             ]

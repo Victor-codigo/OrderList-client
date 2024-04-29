@@ -36,6 +36,15 @@
                     {{ data.name }}
                 </p>
             </div>
+
+            {% if data.admin %}
+
+            <span class="me-auto  badge  rounded-pill  text-bg-success">
+                {{ lang.adminLabel }}
+            </span>
+
+            {% endif %}
+
         </div>
     </label>
 

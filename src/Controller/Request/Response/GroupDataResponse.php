@@ -14,6 +14,7 @@ class GroupDataResponse
         public readonly ?string $description,
         public readonly ?string $image,
         public readonly \DateTimeImmutable $createdOn,
+        public readonly bool $admin,
     ) {
     }
 
@@ -34,6 +35,7 @@ class GroupDataResponse
             $data['description'],
             null === $data['image'] ? null : HTTP_CLIENT_CONFIGURATION::API_DOMAIN."/{$data['image']}",
             \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['created_on']),
+            $data['admin'] ?? false
         );
     }
 }

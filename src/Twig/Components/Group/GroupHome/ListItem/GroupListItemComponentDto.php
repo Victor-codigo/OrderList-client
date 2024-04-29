@@ -21,6 +21,7 @@ class GroupListItemComponentDto extends HomeListItemComponentDto
         public readonly ?string $image,
         public readonly bool $noImage,
         public readonly \DateTimeImmutable $createdOn,
+        public readonly bool $admin,
     ) {
     }
 }
