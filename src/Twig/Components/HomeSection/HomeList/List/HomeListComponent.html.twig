@@ -7,5 +7,10 @@
 	</div>
 
 	{{ component('ModalComponent', { data: data.homeListItemRemoveFormModalDto }) }}
+
+	{% if not data.homeListItemModifyFormModalDto is null %}
+
 	{{ component('ModalComponent', { data: data.homeListItemModifyFormModalDto }) }}
+
+	{% endif %}
 </section>

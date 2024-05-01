@@ -21,7 +21,7 @@ class HomeListComponentDto implements TwigComponentDtoInterface
         public readonly PaginatorComponentDto $homeListPaginatorDto,
         public readonly bool $validForm,
         public readonly ModalComponentDto $homeListItemRemoveFormModalDto,
-        public readonly ModalComponentDto $homeListItemModifyFormModalDto,
+        public readonly ?ModalComponentDto $homeListItemModifyFormModalDto,
 
         public readonly string $translationDomainName,
     ) {
