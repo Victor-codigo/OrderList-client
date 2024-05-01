@@ -13,6 +13,7 @@ class GroupsEndpoint extends EndpointBase
 {
     public const GET_GROUP_ID_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
     public const GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
+    public const GET_GROUP_USERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
     private const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v1/groups';
     private const PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v1/groups/modify';
     private const DELETE_GROUP_DELETE = Endpoints::API_DOMAIN.'/api/v1/groups';
@@ -230,6 +231,78 @@ class GroupsEndpoint extends EndpointBase
                 'groups_id' => $groupId,
             ],
                 $tokenSession)
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     */
+    public function groupGetUsersData(
+        string $groupId,
+        int $page,
+        int $pageItems,
+        ?string $filterSection,
+        ?string $filterText,
+        ?string $filterValue,
+        bool $orderAsc,
+        string $tokenSession
+    ): array {
+        $response = $this->requestGroupUsersGetData(
+            $groupId,
+            $page,
+            $pageItems,
+            $filterSection,
+            $filterText,
+            $filterValue,
+            $orderAsc,
+            $tokenSession
+        );
+
+        return $this->apiResponseManage($response, null, null,
+            fn (array $responseDataNoContent) => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 0,
+                    'groups' => [],
+                ],
+                'errors' => ['group_not_found' => 'Group not found'],
+            ]
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestGroupUsersGetData(
+        string $groupId,
+        int $page,
+        int $pageItems,
+        ?string $filterSection,
+        ?string $filterText,
+        ?string $filterValue,
+        bool $orderAsc,
+        string $tokenSession
+    ): HttpClientResponseInterface {
+        $parameters = [
+            'group_id' => $groupId,
+            'page' => $page,
+            'page_items' => $pageItems,
+            'filter_section' => $filterSection,
+            'filter_text' => $filterText,
+            'filter_value' => $filterValue,
+            'order_asc' => $orderAsc,
+        ];
+
+        return $this->httpClient->request(
+            'GET',
+            self::GET_GROUP_USERS_DATA."?{$this->createQueryParameters($parameters)}",
+            HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
 }

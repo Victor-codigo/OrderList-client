@@ -92,6 +92,17 @@ interface EndpointsInterface
      * }>
      *
      * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     */
+    public function groupGetUsersData(string $groupId, int $page, int $pageItems, ?string $filterSection, ?string $filterText, ?string $filterValue, bool $orderAsc, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
      */
     public function groupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
 
