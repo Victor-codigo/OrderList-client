@@ -11,7 +11,7 @@ class GroupUserDataResponse
         public readonly string $name,
         public readonly ?string $image,
         public readonly bool $admin,
-        public readonly \DateTimeImmutable $createdOn
+        public readonly ?\DateTimeImmutable $createdOn
     ) {
     }
 

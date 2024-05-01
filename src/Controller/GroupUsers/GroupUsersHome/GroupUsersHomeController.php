@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Group\GroupUsersHome;
+namespace App\Controller\GroupUsers\GroupUsersHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\GroupUserDataResponse;
-use App\Form\Group\GroupCreate\GroupCreateForm;
 use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
-use App\Form\Group\GroupRemove\GroupRemoveForm;
+use App\Form\Group\GroupUserAdd\GroupUserAddForm;
+use App\Form\Group\GroupUserRemove\GroupUserRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Group\GroupUsersHome\GroupUsersHomeComponentBuilder;
@@ -49,8 +49,8 @@ class GroupUsersHomeController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
-        $groupCreateForm = $this->formFactory->create(new GroupCreateForm(), $requestDto->request);
-        $groupRemoveForm = $this->formFactory->create(new GroupRemoveForm(), $requestDto->request);
+        $groupUserAddForm = $this->formFactory->create(new GroupUserAddForm(), $requestDto->request);
+        $groupUserRemoveForm = $this->formFactory->create(new GroupUserRemoveForm(), $requestDto->request);
         $groupRemoveMultiForm = $this->formFactory->create(new GroupRemoveMultiForm(), $requestDto->request);
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
@@ -70,8 +70,8 @@ class GroupUsersHomeController extends AbstractController
 
         $groupHomeComponentDto = $this->createGroupHomeComponentDto(
             $requestDto,
-            $groupCreateForm,
-            $groupRemoveForm,
+            $groupUserAddForm,
+            $groupUserRemoveForm,
             $groupRemoveMultiForm,
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
@@ -162,8 +162,8 @@ class GroupUsersHomeController extends AbstractController
 
     private function createGroupHomeComponentDto(
         RequestDto $requestDto,
-        FormInterface $groupCreateForm,
-        FormInterface $groupRemoveForm,
+        FormInterface $groupUserAddForm,
+        FormInterface $groupUserRemoveForm,
         FormInterface $groupRemoveMultiForm,
         ?string $searchBarSearchValue,
         ?string $searchBarNameFilterValue,
@@ -213,16 +213,17 @@ class GroupUsersHomeController extends AbstractController
                 ]),
                 ''
             )
-            ->groupUsersCreateFormModal(
-                $groupCreateForm->getCsrfToken(),
-                $this->generateUrl('group_create'),
+            ->groupUserAddFormModal(
+                $requestDto->groupData->id,
+                $groupUserAddForm->getCsrfToken(),
+                $this->generateUrl('group_user_Add'),
             )
             ->groupUsersRemoveMultiFormModal(
                 $groupRemoveMultiForm->getCsrfToken(),
                 $this->generateUrl('group_remove')
             )
             ->groupUsersRemoveFormModal(
-                $groupRemoveForm->getCsrfToken(),
+                $groupUserRemoveForm->getCsrfToken(),
                 $this->generateUrl('group_remove')
             )
             ->build();

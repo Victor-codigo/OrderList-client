@@ -6,6 +6,8 @@ namespace App\Twig\Components\Group\GroupUsersHome;
 
 use App\Controller\Request\Response\GroupUserDataResponse;
 use App\Form\Product\ProductRemoveMulti\PRODUCT_REMOVE_MULTI_FORM_FIELDS;
+use App\Twig\Components\Group\GroupUserAdd\GroupUserAddComponent;
+use App\Twig\Components\Group\GroupUserAdd\GroupUserAddComponentDto;
 use App\Twig\Components\Group\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
 use App\Twig\Components\Group\GroupUsersHome\ListItem\GroupUsersListItemComponent;
 use App\Twig\Components\Group\GroupUsersHome\ListItem\GroupUsersListItemComponentDto;
@@ -42,7 +44,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
     {
         $this->builder = new DtoBuilder([
             'title',
-            'groupUsersCreateModal',
+            'groupUserAddFormModal',
             'groupUsersRemoveMultiModal',
             'groupUsersRemoveFormModal',
             'errors',
@@ -64,12 +66,12 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function groupUsersCreateFormModal(string $groupUsersCreateFormCsrfToken, string $groupUsersCreateFormActionUrl): self
+    public function groupUserAddFormModal(string $groupId, string $groupUsersCreateFormCsrfToken, string $groupUsersCreateFormActionUrl): self
     {
-        $this->builder->setMethodStatus('groupUsersCreateModal', true);
+        $this->builder->setMethodStatus('groupUserAddFormModal', true);
 
         $this->homeSectionComponentDto->createFormModal(
-            $this->createGroupUsersCreateComponentDto($groupUsersCreateFormCsrfToken, $groupUsersCreateFormActionUrl)
+            $this->createGroupUserAddComponentDto($groupId, $groupUsersCreateFormCsrfToken, $groupUsersCreateFormActionUrl)
         );
 
         return $this;
@@ -188,23 +190,24 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         return $this->createGroupUsersHomeSectionComponentDto($this->groupUsersInfoModalDto);
     }
 
-    private function createGroupUsersCreateComponentDto(string $groupUsersCreateFormCsrfToken, string $groupUsersCreateFormActionUrl): ModalComponentDto
+    private function createGroupUserAddComponentDto(string $groupId, string $groupUserAddFormCsrfToken, string $groupUserAddFormActionUrl): ModalComponentDto
     {
-        // $homeSectionCreateComponentDto = new GroupUsersCreateComponentDto(
-        //     [],
-        //     '',
-        //     $groupUsersPrice,
-        //     $groupUsersCreateFormCsrfToken,
-        //     false,
-        //     mb_strtolower($groupUsersCreateFormActionUrl),
-        // );
+        $homeSectionCreateComponentDto = new GroupUserAddComponentDto(
+            [],
+            '',
+            $groupId,
+            '',
+            $groupUserAddFormCsrfToken,
+            false,
+            mb_strtolower($groupUserAddFormActionUrl),
+        );
 
         return new ModalComponentDto(
             self::GROUP_USERS_CREATE_MODAL_ID,
             '',
             false,
-            '',// GroupUsersCreateComponent::getComponentName(),
-            '',// $homeSectionCreateComponentDto,
+            GroupUserAddComponent::getComponentName(),
+            $homeSectionCreateComponentDto,
             []
         );
     }
@@ -273,7 +276,6 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->image ?? Config::USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 null === $listItemData->image ? true : false,
                 $listItemData->admin,
-                $listItemData->createdOn
             ),
             $this->listGroupUsersData
         );

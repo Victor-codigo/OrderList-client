@@ -1,19 +1,17 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="GroupCreateComponent"
-	  class="contaniner  p-5"
+	  class="contaniner  p-4 pt-0"
 	  method="post"
+	  action="{{ data.formActionAttribute|escape('html_attr') }}"
 	  enctype="multipart/form-data"
 	  novalidate>
+
+	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	{% if lang.validationErrors %}
 	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
-
-
-	<div class="mb-5 pt-5 display-1 text-center">
-		{{ lang.title }}
-	</div>
 
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"

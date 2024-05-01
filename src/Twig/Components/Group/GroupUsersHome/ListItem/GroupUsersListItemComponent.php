@@ -55,7 +55,6 @@ final class GroupUsersListItemComponent extends HomeListItemComponent
             'image' => $groupUsersData->image,
             'noImage' => $groupUsersData->noImage,
             'admin' => $groupUsersData->admin,
-            'createdOn' => $groupUsersData->createdOn->format('Y-m-d'),
         ];
 
         return json_encode($groupUsersDataToParse, JSON_THROW_ON_ERROR);

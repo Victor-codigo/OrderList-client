@@ -1,8 +1,8 @@
-title: Añadir usuario al grupo {group_name}
+title: Añade un usuario al grupo
 
 name:
   label: Nombre
-  placeholder: Introduce el nombre del grupo
+  placeholder: Introduce el nombre del usuario
   msg_invalid: |
     Introduce un nombre válido.
     El nombre debe contener al menos un carácter y un máximo de 30 caracteres.

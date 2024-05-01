@@ -4,8 +4,8 @@ namespace App\Twig\Components\Group\GroupUserAdd;
 
 use App\Form\Group\GroupUserAdd\GROUP_USER_ADD_FORM_ERRORS;
 use App\Form\Group\GroupUserAdd\GROUP_USER_ADD_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -18,6 +18,8 @@ final class GroupUserAddComponent extends TwigComponent
 {
     public GroupUserAddComponentDtoLang $lang;
     public GroupUserAddComponentDto|TwigComponentDtoInterface $data;
+
+    public readonly TitleComponentDto $titleDto;
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
@@ -40,6 +42,12 @@ final class GroupUserAddComponent extends TwigComponent
         $this->submitFieldName = sprintf('%s[%s]', GROUP_USER_ADD_FORM_FIELDS::FORM, GROUP_USER_ADD_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
+        $this->titleDto = $this->createTitle();
+    }
+
+    private function createTitle(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function loadTranslation(): void
@@ -50,14 +58,19 @@ final class GroupUserAddComponent extends TwigComponent
             $this->translate('name.placeholder'),
             $this->translate('name.msg_invalid'),
             $this->translate('button_group_user_add.label'),
-            $this->data->validForm ? $this->loadErrorsTranslation() : null
+            $this->data->validForm ? $this->createAlertValidationComponentDto() : null
         );
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @param string[] $errors
+     *
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 GROUP_USER_ADD_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.group_id'),
                 GROUP_USER_ADD_FORM_ERRORS::GROUP_NOT_FOUND->value => $this->translate('validation.error.group_not_found'),
@@ -70,20 +83,21 @@ final class GroupUserAddComponent extends TwigComponent
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
+        return $errorsLang;
+    }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
+            array_unique($errorsLang)
         );
     }
 }

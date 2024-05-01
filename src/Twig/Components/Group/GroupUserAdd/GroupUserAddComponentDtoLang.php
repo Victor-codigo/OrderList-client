@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Group\GroupUserAdd;
 
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 
 class GroupUserAddComponentDtoLang
 {
@@ -17,7 +17,7 @@ class GroupUserAddComponentDtoLang
         // --
         public readonly string $groupUserAddButton,
         // --
-        public readonly AlertComponentDto|null $validationErrors
+        public readonly ?AlertValidationComponentDto $validationErrors
     ) {
     }
 }
