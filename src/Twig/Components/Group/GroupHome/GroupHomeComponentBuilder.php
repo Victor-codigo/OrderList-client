@@ -19,8 +19,8 @@ use App\Twig\Components\Group\GroupRemove\GroupRemoveComponent;
 use App\Twig\Components\Group\GroupRemove\GroupRemoveComponentDto;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
-use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\HomeSection\SearchBar\SearchBarComponentDto;
+use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\Modal\ModalComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
@@ -351,7 +351,7 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
             ->homeSection(
                 $this->homeSectionComponentDto
             )
-            ->groupInfoModal(
+            ->groupUsersInfoModal(
                 $groupInfoModalDto
             )
             ->build();

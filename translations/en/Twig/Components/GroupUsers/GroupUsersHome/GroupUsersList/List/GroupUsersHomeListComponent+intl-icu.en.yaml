@@ -1,0 +1,4 @@
+home_list_empty:
+  message: There are not users in the group
+  icon:
+    alt: The list has not users

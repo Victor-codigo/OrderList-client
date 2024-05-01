@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Components\Group\GroupHome\Home;
+namespace App\Twig\Components\Group\GroupUsersHome\Home;
 
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
@@ -10,18 +10,18 @@ use App\Twig\Components\TwigComponentDtoInterface;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
 
-class GroupHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderInterface
+class GroupUsersHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderInterface
 {
     private DtoBuilder $builder;
 
     public readonly HomeSectionComponentDto $homeSectionComponentDto;
-    public readonly ModalComponentDto $groupInfoModalDto;
+    public readonly ModalComponentDto $groupUsersInfoModalDto;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'homeSection',
-            'groupInfoModal',
+            'groupUsersInfoModal',
         ]);
     }
 
@@ -34,11 +34,11 @@ class GroupHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
         return $this;
     }
 
-    public function groupUsersInfoModal(ModalComponentDto $productInfoModalDto): self
+    public function groupUsersInfoModal(ModalComponentDto $groupUsersInfoModalDto): self
     {
-        $this->builder->setMethodStatus('groupInfoModal', true);
+        $this->builder->setMethodStatus('groupUsersInfoModal', true);
 
-        $this->groupInfoModalDto = $productInfoModalDto;
+        $this->groupUsersInfoModalDto = $groupUsersInfoModalDto;
 
         return $this;
     }
