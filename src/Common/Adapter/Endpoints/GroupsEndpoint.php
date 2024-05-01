@@ -14,9 +14,10 @@ class GroupsEndpoint extends EndpointBase
     public const GET_GROUP_ID_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
     public const GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
     public const GET_GROUP_USERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
-    private const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v1/groups';
-    private const PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v1/groups/modify';
-    private const DELETE_GROUP_DELETE = Endpoints::API_DOMAIN.'/api/v1/groups';
+    public const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
+    public const POST_GROUP_USER_ADD = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
+    public const PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/modify';
+    public const DELETE_GROUP_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
 
     private static ?self $instance = null;
 
@@ -269,9 +270,9 @@ class GroupsEndpoint extends EndpointBase
                 'data' => [
                     'page' => 1,
                     'pages_total' => 0,
-                    'groups' => [],
+                    'users' => [],
                 ],
-                'errors' => ['group_not_found' => 'Group not found'],
+                'errors' => ['users_not_found' => 'Users not found'],
             ]
         );
     }
@@ -301,8 +302,39 @@ class GroupsEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_GROUP_USERS_DATA."?{$this->createQueryParameters($parameters)}",
+            self::GET_GROUP_USERS_DATA."?{$this->createQueryParameters($parameters)}&".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUsersAdd(string $groupId, array $usersId, bool $admin, string $tokenSession): array
+    {
+        $response = $this->requestGroupUsersAdd($groupId, $usersId, $admin, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    private function requestGroupUsersAdd(string $groupId, array $usersId, bool $admin, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'POST',
+            self::POST_GROUP_USER_ADD,
+            HTTP_CLIENT_CONFIGURATION::json([
+                'group_id' => $groupId,
+                'identifier_type' => 'name',
+                'admin' => $admin,
+                'users' => $usersId,
+            ],
+                $tokenSession
+            )
         );
     }
 }
