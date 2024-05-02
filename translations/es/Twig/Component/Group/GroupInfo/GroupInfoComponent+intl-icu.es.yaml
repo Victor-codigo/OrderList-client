@@ -4,6 +4,9 @@ image:
   title: Imagen del Grupo
   alt: Imagen del Grupo
 
+admin:
+  label: Admin
+
 description:
   label: Descripción
 

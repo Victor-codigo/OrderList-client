@@ -7,3 +7,18 @@
     { item description }
 </p>
 {% endblock mainFirstBlock %}
+
+{% block imageBelow %}
+
+<span class="m-auto  badge  rounded-pill  text-bg-success"
+      hidden
+      data-js-user-admin>
+    {{ lang.adminLabel }}
+</span>
+
+<small class="fs-6  text-center  text-secondary">
+    {{ lang.createdOn }}
+    <br><small data-js-item-date>{ item date }</small>
+</small>
+
+{% endblock imageBelow %}

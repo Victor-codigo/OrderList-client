@@ -39,17 +39,20 @@ class GroupInfoComponent extends ItemInfoComponent
                 $this->translate('image.alt'),
                 $this->translate('created_on'),
             )
+            ->admin(
+                $this->translate('admin.label')
+            )
             ->description(
                 $this->translate('description.label'),
             )
             ->priceHeaders(
-                $this->translate('item_price.name'),
-                $this->translate('item_price.price'),
-                $this->translate('item_price.unit'),
+                'No use',
+                'No use',
+                'No use',
             )
-            ->shopsEmpty(
-                $this->translate('shops.empty')
-            )
+                ->shopsEmpty(
+                    'No use',
+                )
             ->buttons(
                 $this->translate('close_button.label')
             )
