@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
     path: '{_locale}/group/user/add',
-    name: 'group_user_Add',
+    name: 'group_user_add',
     methods: ['POST'],
     requirements: [
         '_locale' => 'en|es',
