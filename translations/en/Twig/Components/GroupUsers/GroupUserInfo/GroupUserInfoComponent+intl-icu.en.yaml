@@ -1,0 +1,9 @@
+image:
+  title: User image
+  alt: User image
+
+admin:
+  label: Admin
+
+close_button:
+  label: Close

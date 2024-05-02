@@ -45,6 +45,7 @@ import GroupUsersHomeComponent from 'App/Twig/Components/Group/GroupUsersHome/Ho
 import GroupUsersListItemComponent from 'App/Twig/Components/Group/GroupUsersHome/ListItem/GroupUsersListItem_controller';
 import GroupUserRemoveComponent from 'App/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
 import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
+import GroupUserInfoComponent from 'App/Twig/Components/Group/GroupUsersInfo/GroupUserInfo_controller';
 
 // LIST ORDERS
 import ListOrdersHomeSectionComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/Home/ListOrdersHomeSection_controller';
@@ -143,6 +144,7 @@ app.register('GroupUsersHomeComponent', GroupUsersHomeComponent);
 app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
 app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
 app.register('GroupUserAddComponent', GroupUserAddComponent);
+app.register('GroupUserInfoComponent', GroupUserInfoComponent);
 
 
 // LIST ORDERS

@@ -3,17 +3,21 @@
      data-modal-component-content>
 
     <section class="d-flex  flex-row  p-4">
-        <div class="flex-shrink-0  d-flex  flex-column  justify-content-start">
-            <img class="img-thumbnail  me-4  mb-1  item-info__image "
+        <div class="flex-shrink-0  d-flex  flex-column  justify-content-start  me-4">
+            <img class="img-thumbnail  mb-1  item-info__image "
                  src=""
                  title="{{ lang.imageTitle }}"
                  alt="{{ lang.imageAlt }}"
                  data-js-item-image>
 
-            <small class="fs-6  text-center  text-secondary  me-4">
+            {% block imageBelow %}
+
+            <small class="fs-6  text-center  text-secondary">
                 {{ lang.createdOn }}
                 <br><small data-js-item-date>{ item date }</small>
             </small>
+
+            {% endblock imageBelow %}
         </div>
         <div class="flex-grow-1">
             <h2 class="display-6"

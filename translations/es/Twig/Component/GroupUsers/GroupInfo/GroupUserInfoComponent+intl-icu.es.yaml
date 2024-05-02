@@ -1,0 +1,9 @@
+image:
+  title: Imagen del usuario
+  alt: Imagen del usuario
+
+admin:
+  label: Admin
+
+close_button:
+  label: Cerrar

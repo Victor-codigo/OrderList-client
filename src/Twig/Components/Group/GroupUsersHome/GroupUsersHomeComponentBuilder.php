@@ -13,6 +13,8 @@ use App\Twig\Components\Group\GroupUserRemove\GroupUserRemoveComponentDto;
 use App\Twig\Components\Group\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
 use App\Twig\Components\Group\GroupUsersHome\ListItem\GroupUsersListItemComponent;
 use App\Twig\Components\Group\GroupUsersHome\ListItem\GroupUsersListItemComponentDto;
+use App\Twig\Components\Group\GroupUsersInfo\GroupUserInfoComponent;
+use App\Twig\Components\Group\GroupUsersInfo\GroupUserInfoComponentDto;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\HomeSection\Home\RemoveMultiFormDto;
 use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
@@ -287,16 +289,16 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
 
     private function createGroupUsersInfoModalDto(): ModalComponentDto
     {
-        // $groupUsersInfoComponentDto = new GroupUsersInfoComponentDto(
-        //     GroupUsersInfoComponent::getComponentName()
-        // );
+        $groupUsersInfoComponentDto = new GroupUserInfoComponentDto(
+            GroupUserInfoComponent::getComponentName()
+        );
 
         return new ModalComponentDto(
             self::GROUP_USERS_INFO_MODAL_ID,
             '',
             false,
-            '',// GroupUsersInfoComponent::getComponentName(),
-            '',// $groupUsersInfoComponentDto,
+            GroupUserInfoComponent::getComponentName(),
+            $groupUsersInfoComponentDto,
             []
         );
     }
