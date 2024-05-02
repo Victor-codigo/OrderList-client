@@ -4,16 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Group\GroupUserRemove;
 
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\HomeSection\ItemRemove\ItemRemoveComponentLangDto;
 
-class GroupUserRemoveComponentDtoLang
+class GroupUserRemoveComponentDtoLang extends ItemRemoveComponentLangDto
 {
-    public function __construct(
-        public readonly string $title,
-        public readonly string $messageAdvice,
-        public readonly string $userRemoveButton,
-
-        public readonly AlertComponentDto|null $validationErrors
-    ) {
-    }
 }

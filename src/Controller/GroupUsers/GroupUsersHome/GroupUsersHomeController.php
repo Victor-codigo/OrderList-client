@@ -6,8 +6,8 @@ namespace App\Controller\GroupUsers\GroupUsersHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\GroupUserDataResponse;
-use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
 use App\Form\Group\GroupUserAdd\GroupUserAddForm;
+use App\Form\Group\GroupUserRemoveMulti\GroupUserRemoveMultiForm;
 use App\Form\Group\GroupUserRemove\GroupUserRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
@@ -51,7 +51,7 @@ class GroupUsersHomeController extends AbstractController
     {
         $groupUserAddForm = $this->formFactory->create(new GroupUserAddForm(), $requestDto->request);
         $groupUserRemoveForm = $this->formFactory->create(new GroupUserRemoveForm(), $requestDto->request);
-        $groupRemoveMultiForm = $this->formFactory->create(new GroupRemoveMultiForm(), $requestDto->request);
+        $groupUserRemoveMultiForm = $this->formFactory->create(new GroupUserRemoveMultiForm(), $requestDto->request);
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
         $this->searchBarForm($searchBarForm, $requestDto);
@@ -72,7 +72,7 @@ class GroupUsersHomeController extends AbstractController
             $requestDto,
             $groupUserAddForm,
             $groupUserRemoveForm,
-            $groupRemoveMultiForm,
+            $groupUserRemoveMultiForm,
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SEARCH_VALUE],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::NAME_FILTER],
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
@@ -164,7 +164,7 @@ class GroupUsersHomeController extends AbstractController
         RequestDto $requestDto,
         FormInterface $groupUserAddForm,
         FormInterface $groupUserRemoveForm,
-        FormInterface $groupRemoveMultiForm,
+        FormInterface $groupUserRemoveMultiForm,
         ?string $searchBarSearchValue,
         ?string $searchBarNameFilterValue,
         ?string $searchBarSectionFilterValue,
@@ -216,15 +216,17 @@ class GroupUsersHomeController extends AbstractController
             ->groupUserAddFormModal(
                 $requestDto->groupData->id,
                 $groupUserAddForm->getCsrfToken(),
-                $this->generateUrl('group_user_Add'),
+                $this->generateUrl('group_user_add'),
             )
             ->groupUsersRemoveMultiFormModal(
-                $groupRemoveMultiForm->getCsrfToken(),
-                $this->generateUrl('group_remove')
+                $requestDto->groupData->id,
+                $groupUserRemoveMultiForm->getCsrfToken(),
+                $this->generateUrl('group_user_remove')
             )
             ->groupUsersRemoveFormModal(
+                $requestDto->groupData->id,
                 $groupUserRemoveForm->getCsrfToken(),
-                $this->generateUrl('group_remove')
+                $this->generateUrl('group_user_remove')
             )
             ->build();
     }

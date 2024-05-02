@@ -8,6 +8,8 @@ use App\Controller\Request\Response\GroupUserDataResponse;
 use App\Form\Product\ProductRemoveMulti\PRODUCT_REMOVE_MULTI_FORM_FIELDS;
 use App\Twig\Components\Group\GroupUserAdd\GroupUserAddComponent;
 use App\Twig\Components\Group\GroupUserAdd\GroupUserAddComponentDto;
+use App\Twig\Components\Group\GroupUserRemove\GroupUserRemoveComponent;
+use App\Twig\Components\Group\GroupUserRemove\GroupUserRemoveComponentDto;
 use App\Twig\Components\Group\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
 use App\Twig\Components\Group\GroupUsersHome\ListItem\GroupUsersListItemComponent;
 use App\Twig\Components\Group\GroupUsersHome\ListItem\GroupUsersListItemComponentDto;
@@ -77,23 +79,23 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function groupUsersRemoveMultiFormModal(string $groupUsersRemoveMultiFormCsrfToken, string $groupUsersRemoveMultiFormActionUrl): self
+    public function groupUsersRemoveMultiFormModal(string $groupId, string $groupUsersRemoveMultiFormCsrfToken, string $groupUsersRemoveMultiFormActionUrl): self
     {
         $this->builder->setMethodStatus('groupUsersRemoveMultiModal', true);
 
         $this->homeSectionComponentDto->removeMultiFormModal(
-            $this->createGroupUsersRemoveMultiComponentDto($groupUsersRemoveMultiFormCsrfToken, $groupUsersRemoveMultiFormActionUrl)
+            $this->createGroupUsersRemoveMultiComponentDto($groupId, $groupUsersRemoveMultiFormCsrfToken, $groupUsersRemoveMultiFormActionUrl)
         );
 
         return $this;
     }
 
-    public function groupUsersRemoveFormModal(string $groupUsersRemoveFormCsrfToken, string $groupUsersRemoveFormActionUrl): self
+    public function groupUsersRemoveFormModal(string $groupId, string $groupUsersRemoveFormCsrfToken, string $groupUsersRemoveFormActionUrl): self
     {
         $this->builder->setMethodStatus('groupUsersRemoveFormModal', true);
 
         $this->homeSectionComponentDto->removeFormModal(
-            $this->createGroupUsersRemoveModalDto($groupUsersRemoveFormCsrfToken, $groupUsersRemoveFormActionUrl)
+            $this->createGroupUsersRemoveModalDto($groupId, $groupUsersRemoveFormCsrfToken, $groupUsersRemoveFormActionUrl)
         );
 
         return $this;
@@ -212,42 +214,44 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createGroupUsersRemoveMultiComponentDto(string $groupUsersRemoveMultiFormCsrfToken, string $groupUsersRemoveFormActionUrl): ModalComponentDto
+    private function createGroupUsersRemoveMultiComponentDto(string $groupId, string $groupUsersRemoveMultiFormCsrfToken, string $groupUsersRemoveFormActionUrl): ModalComponentDto
     {
-        // $homeSectionRemoveMultiComponentDto = new GroupUsersRemoveComponentDto(
-        //     GroupUsersRemoveComponent::getComponentName(),
-        //     [],
-        //     $groupUsersRemoveMultiFormCsrfToken,
-        //     mb_strtolower($groupUsersRemoveFormActionUrl),
-        //     true,
-        // );
+        $homeSectionRemoveMultiComponentDto = new GroupUserRemoveComponentDto(
+            GroupUserRemoveComponent::getComponentName(),
+            [],
+            $groupId,
+            $groupUsersRemoveMultiFormCsrfToken,
+            mb_strtolower($groupUsersRemoveFormActionUrl),
+            true,
+        );
 
         return new ModalComponentDto(
             self::GROUP_USERS_REMOVE_MULTI_MODAL_ID,
             '',
             false,
-            '',// GroupUsersRemoveComponent::getComponentName(),
-            '',// $homeSectionRemoveMultiComponentDto,
+            GroupUserRemoveComponent::getComponentName(),
+            $homeSectionRemoveMultiComponentDto,
             []
         );
     }
 
-    private function createGroupUsersRemoveModalDto(string $groupUsersRemoveFormCsrfToken, string $groupUsersRemoveFormActionUrl): ModalComponentDto
+    private function createGroupUsersRemoveModalDto(string $groupId, string $groupUsersRemoveFormCsrfToken, string $groupUsersRemoveFormActionUrl): ModalComponentDto
     {
-        // $homeModalDelete = new GroupUsersRemoveComponentDto(
-        //     GroupUsersRemoveComponent::getComponentName(),
-        //     [],
-        //     $groupUsersRemoveFormCsrfToken,
-        //     mb_strtolower($groupUsersRemoveFormActionUrl),
-        //     false
-        // );
+        $homeModalDelete = new GroupUserRemoveComponentDto(
+            GroupUserRemoveComponent::getComponentName(),
+            [],
+            $groupId,
+            $groupUsersRemoveFormCsrfToken,
+            mb_strtolower($groupUsersRemoveFormActionUrl),
+            false,
+        );
 
         return new ModalComponentDto(
             self::GROUP_USERS_DELETE_MODAL_ID,
             '',
             false,
-            '',// GroupUsersRemoveComponent::getComponentName(),
-            '',// $homeModalDelete,
+            GroupUserRemoveComponent::getComponentName(),
+            $homeModalDelete,
             []
         );
     }

@@ -38,9 +38,11 @@ import GroupCreateComponent from 'App/Twig/Components/Group/GroupCreate/GroupCre
 import GroupModifyComponent from 'App/Twig/Components/Group/GroupModify/GroupModify_controller';
 import GroupRemoveComponent from 'App/Twig/Components/Group/GroupRemove/GroupRemoveComponent_controller';
 import GroupInfoComponent from 'App/Twig/Components/Group/GroupInfo/GroupInfo_controller';
-import GroupUsersHomeComponent from 'App/Twig/Components/Group/GroupUsersHome/Home/GroupUsersHomeSection_controller';
-import GroupUsersListComponent from 'App/Twig/Components/Group/GroupHome/ListItem/GroupListItem_controller';
 import GroupListComponent from 'App/Twig/Components/Group/GroupList/List/GroupList_controller';
+
+// GROUP USERS
+import GroupUsersHomeComponent from 'App/Twig/Components/Group/GroupUsersHome/Home/GroupUsersHomeSection_controller';
+import GroupUsersListItemComponent from 'App/Twig/Components/Group/GroupUsersHome/ListItem/GroupUsersListItem_controller';
 import GroupUserRemoveComponent from 'App/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
 import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
 
@@ -134,11 +136,14 @@ app.register('GroupCreateComponent', GroupCreateComponent);
 app.register('GroupModifyComponent', GroupModifyComponent);
 app.register('GroupRemoveComponent', GroupRemoveComponent);
 app.register('GroupInfoComponent', GroupInfoComponent);
-app.register('GroupUsersHomeComponent', GroupUsersHomeComponent);
-app.register('GroupUsersListComponent', GroupUsersListComponent);
 app.register('GroupListComponent', GroupListComponent);
+
+// GROUP USERS
+app.register('GroupUsersHomeComponent', GroupUsersHomeComponent);
+app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
 app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
 app.register('GroupUserAddComponent', GroupUserAddComponent);
+
 
 // LIST ORDERS
 app.register('ListOrdersHomeSectionComponent', ListOrdersHomeSectionComponent);

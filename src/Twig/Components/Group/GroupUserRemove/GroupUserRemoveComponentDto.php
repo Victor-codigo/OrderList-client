@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Group\GroupUserRemove;
 
-use App\Twig\Components\TwigComponentDtoInterface;
+use App\Twig\Components\HomeSection\ItemRemove\ItemRemoveComponentDto;
 
-class GroupUserRemoveComponentDto implements TwigComponentDtoInterface
+class GroupUserRemoveComponentDto extends ItemRemoveComponentDto
 {
     public function __construct(
+        public readonly string $componentName,
         public readonly array $errors,
         public readonly string $groupId,
-        public readonly string $userId,
-        public readonly string $csrfToken
+        public readonly string $csrfToken,
+        public readonly string $formActionUrl,
+        public readonly bool $removeMulti,
     ) {
     }
 }

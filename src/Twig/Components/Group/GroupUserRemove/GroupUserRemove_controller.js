@@ -1,21 +1,9 @@
-import { Controller } from '@hotwired/stimulus';
+import ItemRemoveController from 'App/Twig/Components/HomeSection/ItemRemove/ItemRemoveComponent_controller';
 
-export default class extends Controller {
-
+export default class extends ItemRemoveController {
     connect() {
-        this.groupRemoveId = this.element.querySelector('[data-js-group-id]');
-        this.userRemoveId = this.element.querySelector('[data-js-user-id]');
-    }
+        super.connect();
 
-    setUserIdToRemove({ detail: { groupId, userId, userName } }) {
-        this.groupRemoveId.value = groupId;
-        this.userRemoveId.value = userId;
-        this.setUserNameInMessage(userName);
-    }
-
-    setUserNameInMessage(userName) {
-        let messageParagraph = this.element.querySelector('[data-js-message]');
-
-        messageParagraph.innerHTML = messageParagraph.dataset.message.replace('#USER_REMOVE#', userName);
+        this.formRemoveItemIdFieldName = `${this.element.name}[users_id][]`;
     }
 }

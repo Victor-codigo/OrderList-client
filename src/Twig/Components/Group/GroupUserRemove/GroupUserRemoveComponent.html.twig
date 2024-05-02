@@ -1,40 +1,9 @@
-<form id="{{ formName }}"
-	  name="{{ formName }}"
-	  data-controller="GroupUserRemoveComponent"
-	  data-action="GroupUsersListItemComponent:removeGroupUser@window->GroupUserRemoveComponent#setUserIdToRemove"
-	  class="contaniner  p-5"
-	  method="post"
-	  enctype="multipart/form-data"
-	  novalidate>
+{% extends "Components/HomeSection/ItemRemove/ItemRemoveComponent.html.twig" %}
 
-	<input type="hidden"
-		   name="{{ tokenCsrfFieldName }}"
-		   value="{{ data.csrfToken }}" />
+{% block formControls %}
 
-	<input type="hidden"
-		   name="{{ groupIdFieldName }}"
-		   data-js-group-id
-		   value="{{ data.groupId }}" />
+<input type="hidden"
+       name="{{ groupIdFieldName }}"
+       value="{{ data.groupId }}" />
 
-	<input type="hidden"
-		   name="{{ userIdFieldName }}"
-		   value="{{ data.userId }}"
-		   data-js-user-id />
-
-	<div class="mb-5 pt-5 display-4 text-center">
-		{{ lang.title }}
-	</div>
-
-	<div class="mt-5">
-		<p data-js-message
-		   data-message="{{ lang.messageAdvice }}">
-		</p>
-	</div>
-
-	<div class="mt-5">
-		<input type="submit"
-			   class="btn btn-danger w-100"
-			   name="{{ submitFieldName }}"
-			   value="{{ lang.userRemoveButton }}" />
-	</div>
-</form>
+{% endblock formControls %}
