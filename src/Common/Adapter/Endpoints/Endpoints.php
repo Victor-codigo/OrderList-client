@@ -195,6 +195,19 @@ class Endpoints implements EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
+    public function groupUserRemove(string $groupId, array $usersId, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupUserRemove($groupId, $usersId, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
     public function groupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
     {
         return GroupsEndpoint::getInstance($this->httpClient)->groupCreate($name, $description, $image, $tokenSession);
