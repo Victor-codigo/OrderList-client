@@ -10,7 +10,7 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
-    name: 'GroupUsersListItemComponent',
+    name: 'GroupUsersListItemComponent_old',
     template: 'Components/Group/GroupUsersList/ListItem/GroupUsersListItemComponent.html.twig'
 )]
 final class GroupUsersListItemComponent extends TwigComponent
