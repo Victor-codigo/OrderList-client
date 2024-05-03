@@ -97,6 +97,7 @@ export default class extends Controller {
     }
 
     async #getDataFromApi() {
+        console.log(url.getSection().replace('-', '_'));
         switch (url.getSection().replace('-', '_')) {
             case url.SECTIONS.SHOP:
                 return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
@@ -106,6 +107,8 @@ export default class extends Controller {
                 return await this.#getDataFromApiSectionListOrders();
             case url.SECTIONS.GROUP:
                 return await this.#getDataFromApiSectionGroup();
+            case url.SECTIONS.GROUP_USERS:
+                return await this.#getDataFromApiSectionGroupUsers();
             default:
                 return await this.#getDataFromApiSectionListOrders();
 
@@ -117,6 +120,13 @@ export default class extends Controller {
      */
     async #getDataFromApiSectionGroup() {
         return await this.#getGroupsNames(this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
+    }
+
+    /**
+     * @returns {Promise<string[]>}
+     */
+    async #getDataFromApiSectionGroupUsers() {
+        return await this.#getGroupsUsersNames(this.element.dataset.groupId, this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
     }
 
     /**
@@ -134,7 +144,6 @@ export default class extends Controller {
      * @returns {Promise<string[]>}
      */
     async #getDataFromApiSectionListOrders() {
-        console.log(url.getSubSection().replace('-', '_'));
         if (url.getSubSection().replace('-', '_') === url.SECTIONS.ORDERS) {
             return await this.#getDataFromApiSubSectionOrders();
         }
@@ -250,6 +259,31 @@ export default class extends Controller {
 
         try {
             return await apiEndpoints.getGroupsNames(
+                parameters.page,
+                parameters.pageItems,
+                sectionFilter,
+                nameFilter,
+                valueFilter,
+                parameters.orderAsc
+            );
+        } catch (error) {
+            return new Promise((resolve) => []);
+        }
+    }
+
+    /**
+     * @param {string} groupId
+     * @param {string} nameFilter
+     * @param {string} sectionFilter
+     * @param {string} valueFilter
+     * @returns {Promise<string[]>}
+     */
+    async #getGroupsUsersNames(groupId, nameFilter, sectionFilter, valueFilter) {
+        let parameters = this.#getParametersDefault();
+
+        try {
+            return await apiEndpoints.getGroupUsersNames(
+                groupId,
                 parameters.page,
                 parameters.pageItems,
                 sectionFilter,

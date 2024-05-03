@@ -3,4 +3,5 @@ export default {
     PRODUCT: 'product',
     ORDER: 'order',
     GROUP: 'group',
+    GROUP_USERS: 'group_users'
 }

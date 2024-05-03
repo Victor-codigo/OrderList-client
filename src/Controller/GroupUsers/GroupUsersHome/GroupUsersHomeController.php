@@ -13,6 +13,7 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Group\GroupUsersHome\GroupUsersHomeComponentBuilder;
 use App\Twig\Components\Group\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
+use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use Common\Adapter\Endpoints\GroupsEndpoint;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -37,8 +38,6 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class GroupUsersHomeController extends AbstractController
 {
-    private const GROUP_ID_PLACEHOLDER = '--group_id--';
-
     public function __construct(
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
@@ -205,9 +204,9 @@ class GroupUsersHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 GroupsEndpoint::GET_USER_GROUPS_GET_DATA,
-                $this->generateUrl('group_home', [
-                    // 'group_name' => $requestDto->groupNameUrlEncoded,
-                    // 'section' => 'group',
+                $this->generateUrl('group_users_home', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
+                    'section' => SECTION_FILTERS::GROUP_USERS->value,
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),

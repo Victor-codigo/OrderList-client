@@ -17,3 +17,4 @@ section_filters:
   order: Order
   list_orders: Shop list
   group: Group
+  group_users: Users
