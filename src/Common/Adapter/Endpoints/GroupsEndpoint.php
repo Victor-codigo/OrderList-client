@@ -19,6 +19,7 @@ class GroupsEndpoint extends EndpointBase
     public const PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/modify';
     public const DELETE_GROUP_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
     public const DELETE_GROUP_USERS_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
+    public const PUT_GROUP_USER_CHANGE_GRANTS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user/role';
 
     private static ?self $instance = null;
 
@@ -365,5 +366,37 @@ class GroupsEndpoint extends EndpointBase
             ],
                 $tokenSession
             ));
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUsersChangeRole(string $groupId, array $usersId, bool $admin, string $tokenSession): array
+    {
+        $response = $this->requestGroupUsersChangeRole($groupId, $usersId, $admin, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    private function requestGroupUsersChangeRole(string $groupId, array $usersId, bool $admin, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'POST',
+            self::POST_GROUP_USER_ADD,
+            HTTP_CLIENT_CONFIGURATION::json([
+                'group_id' => $groupId,
+                'identifier_type' => 'name',
+                'admin' => $admin,
+                'users' => $usersId,
+                '_method' => 'PUT',
+            ],
+                $tokenSession
+            )
+        );
     }
 }

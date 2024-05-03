@@ -195,6 +195,19 @@ class Endpoints implements EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
+    public function groupUsersChangeRole(string $groupId, array $usersId, bool $admin, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupUsersChangeRole($groupId, $usersId, $admin, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
     public function groupUserRemove(string $groupId, array $usersId, string $tokenSession): array
     {
         return GroupsEndpoint::getInstance($this->httpClient)->groupUserRemove($groupId, $usersId, $tokenSession);

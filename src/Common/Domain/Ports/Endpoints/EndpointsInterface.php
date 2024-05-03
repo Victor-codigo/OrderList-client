@@ -114,6 +114,16 @@ interface EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
+    public function groupUsersChangeRole(string $groupId, array $usersId, bool $admin, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
     public function groupUserRemove(string $groupId, array $usersId, string $tokenSession): array;
 
     /**
