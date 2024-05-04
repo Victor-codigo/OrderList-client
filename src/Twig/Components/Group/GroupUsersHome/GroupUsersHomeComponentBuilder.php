@@ -44,15 +44,20 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
      */
     private readonly array $listGroupUsersData;
 
+    private readonly bool $userSessionAdmin;
+    private readonly string $groupId;
+
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'title',
+            'groupUserGrants',
             'groupUserAddFormModal',
             'groupUsersRemoveMultiModal',
             'groupUsersRemoveFormModal',
             'errors',
             'pagination',
+            'display',
             'listItems',
             'validation',
             'searchBar',
@@ -66,6 +71,15 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         $this->builder->setMethodStatus('title', true);
 
         $this->homeSectionComponentDto->title($title);
+
+        return $this;
+    }
+
+    public function groupUserGrants(string $groupId): self
+    {
+        $this->builder->setMethodStatus('groupUserGrants', true);
+
+        $this->groupId = $groupId;
 
         return $this;
     }
@@ -125,11 +139,21 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function listItems(array $listGroupUsersData): self
+    public function display(bool $headerButtonsHide): self
+    {
+        $this->builder->setMethodStatus('display', true);
+
+        $this->homeSectionComponentDto->display($headerButtonsHide);
+
+        return $this;
+    }
+
+    public function listItems(array $listGroupUsersData, bool $userSessionAdmin): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
         $this->listGroupUsersData = $listGroupUsersData;
+        $this->userSessionAdmin = $userSessionAdmin;
 
         return $this;
     }
@@ -185,13 +209,13 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->modifyFormModal(null);
         $this->homeSectionComponentDto->listItems(
             GroupUsersListItemComponent::getComponentName(),
-            $this->createGroupUsersListItemsComponentsDto(),
+            $this->createGroupUsersListItemsComponentsDto($this->userSessionAdmin),
             Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
 
         $this->groupUsersInfoModalDto = $this->createGroupUsersInfoModalDto();
 
-        return $this->createGroupUsersHomeSectionComponentDto($this->groupUsersInfoModalDto);
+        return $this->createGroupUsersHomeSectionComponentDto($this->groupId, $this->groupUsersInfoModalDto);
     }
 
     private function createGroupUserAddComponentDto(string $groupId, string $groupUserAddFormCsrfToken, string $groupUserAddFormActionUrl): ModalComponentDto
@@ -269,7 +293,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createGroupUsersListItemsComponentsDto(): array
+    private function createGroupUsersListItemsComponentsDto(bool $userSessionAdmin): array
     {
         return array_map(
             fn (GroupUserDataResponse $listItemData) => new GroupUsersListItemComponentDto(
@@ -282,6 +306,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->image ?? Config::USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 null === $listItemData->image ? true : false,
                 $listItemData->admin,
+                $userSessionAdmin
             ),
             $this->listGroupUsersData
         );
@@ -308,9 +333,12 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         return new HomeSectionComponentDto();
     }
 
-    private function createGroupUsersHomeSectionComponentDto(ModalComponentDto $groupUsersInfoModalDto): GroupUsersHomeSectionComponentDto
+    private function createGroupUsersHomeSectionComponentDto(string $groupId, ModalComponentDto $groupUsersInfoModalDto): GroupUsersHomeSectionComponentDto
     {
         return (new GroupUsersHomeSectionComponentDto())
+            ->groupData(
+                $groupId
+            )
             ->homeSection(
                 $this->homeSectionComponentDto
             )

@@ -168,7 +168,7 @@ class GroupUsersHomeController extends AbstractController
         ?string $searchBarNameFilterValue,
         ?string $searchBarSectionFilterValue,
         string $searchBarCsrfToken,
-        array $groupsData,
+        array $groupUsersData,
         int $pagesTotal,
     ): GroupUsersHomeSectionComponentDto {
         $groupHomeMessagesError = $this->sessionFlashBag->get(
@@ -177,10 +177,14 @@ class GroupUsersHomeController extends AbstractController
         $groupHomeMessagesOk = $this->sessionFlashBag->get(
             $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_OK->value
         );
+        $isUserSessionAdminOfTheGroup = $this->isUserSessionAdminOfTheGroup($requestDto->getUserSessionData()->id, $groupUsersData);
 
         return (new GroupUsersHomeComponentBuilder())
             ->title(
                 null
+            )
+            ->groupUserGrants(
+                $requestDto->groupData->id
             )
             ->errors(
                 $groupHomeMessagesOk,
@@ -192,7 +196,8 @@ class GroupUsersHomeController extends AbstractController
                 $pagesTotal
             )
             ->listItems(
-                $groupsData,
+                $groupUsersData,
+                $isUserSessionAdminOfTheGroup
             )
             ->validation(
                 !empty($groupHomeMessagesError) || !empty($groupHomeMessagesOk) ? true : false,
@@ -227,7 +232,31 @@ class GroupUsersHomeController extends AbstractController
                 $groupUserRemoveForm->getCsrfToken(),
                 $this->generateUrl('group_user_remove')
             )
+            ->display(
+                !$isUserSessionAdminOfTheGroup
+            )
             ->build();
+    }
+
+    /**
+     * @param GroupUserDataResponse[] $groupUsersData
+     */
+    private function isUserSessionAdminOfTheGroup(string $userSessionId, array $groupUsersData): bool
+    {
+        $groupUserDataSession = array_values(array_filter(
+            $groupUsersData,
+            fn (GroupUserDataResponse $groupUserData) => $groupUserData->id === $userSessionId
+        ));
+
+        if (empty($groupUserDataSession)) {
+            return false;
+        }
+
+        if ($groupUserDataSession[0]->admin) {
+            return true;
+        }
+
+        return false;
     }
 
     private function renderTemplate(GroupUsersHomeSectionComponentDto $groupUsersHomeSectionComponent): Response

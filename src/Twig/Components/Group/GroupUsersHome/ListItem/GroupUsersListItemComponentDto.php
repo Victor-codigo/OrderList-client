@@ -28,6 +28,7 @@ class GroupUsersListItemComponentDto extends HomeListItemComponentDto
         public readonly ?string $image,
         public readonly bool $noImage,
         public readonly bool $admin,
+        public readonly bool $userSessionAdmin,
     ) {
     }
 }

@@ -6,6 +6,13 @@ group_users_info_button:
   title: Show info of the user
   alt: Button to show info of the user
 
+group_users_grants_upgrade_button:
+  title: Upgrade user grants to administrator
+
+group_users_grants_downgrade_button:
+  title: Downgrade user grants to user
+  msg_error_last_admin: You cannot downgrade this user, at least one user must be administrator
+
 group_users_image:
   title: User image
   alt: User image

@@ -17,12 +17,24 @@ class GroupUsersHomeSectionComponentDto implements TwigComponentDtoInterface, Dt
     public readonly HomeSectionComponentDto $homeSectionComponentDto;
     public readonly ModalComponentDto $groupUsersInfoModalDto;
 
+    public readonly string $groupId;
+
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'groupData',
             'homeSection',
             'groupUsersInfoModal',
         ]);
+    }
+
+    public function groupData(string $groupId): self
+    {
+        $this->builder->setMethodStatus('groupData', true);
+
+        $this->groupId = $groupId;
+
+        return $this;
     }
 
     public function homeSection(HomeSectionComponentDto $homeSectionComponentDto): self

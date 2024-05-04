@@ -37,21 +37,48 @@
                 </p>
             </div>
 
-            {% if data.admin %}
-
-            <span class="me-auto  badge  rounded-pill  text-bg-success">
+            <span class="me-auto  badge  rounded-pill  text-bg-success"
+                  {{data.admin?'':'hidden'}}
+                  data-js-admin-badge>
                 {{ lang.adminLabel }}
             </span>
-
-            {% endif %}
 
         </div>
     </label>
 
+    {% if data.userSessionAdmin %}
+
+
+    <button type="button"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-warning  group-user-list-item__button-grants"
+            value="{{ data.id }}"
+            title="{{ lang.grantsDowngradeItemButtonTitle }}"
+            data-action="GroupUsersListItemComponent#handleGrantsDowngradeToParent"
+            {{data.admin?'':'hidden'}}
+            data-msg-error-last-admin="{{ lang.grantsDowngradeItemButtonMsgErrorLastAdmin }}"
+            data-js-button-grants-downgrade>
+
+        {% include 'user/user-grants-downgrade.svg' %}
+    </button>
+
+
+    <button type="button"
+            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-success  group-user-list-item__button-grants"
+            value="{{ data.id }}"
+            title="{{ lang.grantsUpgradeItemButtonTitle }}"
+            data-action="GroupUsersListItemComponent#handleGrantsUpgradeToParent"
+            {{data.admin?'hidden':''}}
+            data-js-button-grants-upgrade>
+
+        {% include 'user/user-grants-upgrade.svg' %}
+    </button>
+
+
+    {% endif %}
+
     <button type="button"
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
             value="{{ data.id }}"
-            alt="{{ lang.infoItemButtonAlt }}"
             title="{{ lang.infoItemButtonTitle }}"
             data-bs-toggle="modal"
             data-bs-target="#{{ data.groupUsersInfoModalIdAttribute }}"
@@ -64,7 +91,6 @@
             data-js-remove-button
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end  btn-outline-danger"
             value="{{ data.id }}"
-            alt="{{ lang.removeItemButtonAlt }}"
             title="{{ lang.removeItemButtonTitle }}"
             data-bs-toggle="modal"
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
