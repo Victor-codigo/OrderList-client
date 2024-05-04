@@ -13,6 +13,7 @@ const GET_LIST_ORDERS_PRICE = `${API_DOMAIN}/api/v${API_VERSION}/list-orders/pri
 const PATCH_ORDER_BOUGHT = `${API_DOMAIN}/api/v${API_VERSION}/orders/bought`;
 const GET_GROUP_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user-groups`;
 const GET_GROUP_USERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user`;
+const GET_GROUP_USERS_CHANGE_ROL_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user/role`;
 
 const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
 const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/create`;
@@ -563,4 +564,38 @@ export async function getGroupUsersNames(groupId, page, pageItems, filterSection
     );
 
     return responseData.users.map((group) => group.name);
+}
+
+/**
+ * @param {string} groupId
+ * @param {string[]} users
+ * @param {boolean} admin
+ *
+ * @returns {Promise<{
+ *      'page': int,
+ *      'pages_total': int,
+ *      'users': array
+ * }>}
+ *
+ * @throws Error
+ */
+export async function groupUserChangeRole(groupId, users, admin) {
+    const queryParameters = {
+        'group_id': groupId,
+        'users': users,
+        'admin': admin,
+    };
+    const response = await fetch.createJsonRequest(GET_GROUP_USERS_CHANGE_ROL_URL, 'PUT', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (responseDataNoContent) => {
+            return {
+                data: {},
+                errors: {}
+            }
+        },
+        null,
+        null
+    );
+
+    return responseJson.data;
 }
