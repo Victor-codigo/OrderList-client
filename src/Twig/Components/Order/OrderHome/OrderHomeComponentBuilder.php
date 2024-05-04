@@ -238,6 +238,9 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             $this->createOrderListItemsComponentsDto(),
             Config::ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
+        $this->homeSectionComponentDto->display(
+            false
+        );
 
         $this->orderInfoModalDto = $this->createOrderInfoModalDto();
 

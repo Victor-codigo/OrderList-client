@@ -234,6 +234,9 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
             $this->createListOrdersListItemComponentDto(),
             Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
+        $this->homeSectionComponentDto->display(
+            false
+        );
         $this->listOrdersInfoModalDto = $this->createListOrdersInfoModalDto();
 
         return $this->createListOrdersHomeSectionComponentDto($this->listOrdersInfoModalDto);

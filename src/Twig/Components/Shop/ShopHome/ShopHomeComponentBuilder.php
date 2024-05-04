@@ -247,6 +247,9 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
             $this->createShopListItemComponentDto(),
             Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
+        $this->homeSectionComponentDto->display(
+            false
+        );
         $this->shopInfoModalDto = $this->createShopInfoModalDto();
 
         return $this->createShopHomeSectionComponentDto($this->productsListAjaxModalDto, $this->productCreateModalDto, $this->shopInfoModalDto);

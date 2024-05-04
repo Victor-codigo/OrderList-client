@@ -41,6 +41,8 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
 
     public readonly bool $validForm;
 
+    public readonly bool $displayHeaderButtonsHide;
+
     public readonly SearchBarComponentDto $searchComponentDto;
     public readonly RemoveMultiFormDto $removeMultiFormDto;
     public readonly ModalComponentDto $removeMultiFormModalDto;
@@ -64,6 +66,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
             'pagination',
             'listItems',
             'validation',
+            'display',
             'group',
             'translationDomainNames',
         ]);
@@ -183,6 +186,15 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         $this->translationHomeDomainName = $homeDomainName;
         $this->translationHomeListDomainName = $homeListDomainName;
         $this->translationHomeListItemDomainName = $homeListItemDomanName;
+
+        return $this;
+    }
+
+    public function display(bool $headerButtonsHide): self
+    {
+        $this->builder->setMethodStatus('display', true);
+
+        $this->displayHeaderButtonsHide = $headerButtonsHide;
 
         return $this;
     }
