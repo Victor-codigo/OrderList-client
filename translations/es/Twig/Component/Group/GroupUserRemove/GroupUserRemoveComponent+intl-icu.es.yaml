@@ -1,9 +1,0 @@
-title: Eliminar usuario del grupo
-
-message_advice:
-  text: |
-    Al presionar el botón, el usuario #USER_REMOVE# será eliminado del grupo.
-    ¿Estás seguro?
-
-remove_group_user_button:
-  label: Eliminar usuario del grupo

@@ -6,13 +6,13 @@ namespace App\Controller\GroupUsers\GroupUsersHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\GroupUserDataResponse;
-use App\Form\Group\GroupUserAdd\GroupUserAddForm;
-use App\Form\Group\GroupUserRemoveMulti\GroupUserRemoveMultiForm;
-use App\Form\Group\GroupUserRemove\GroupUserRemoveForm;
+use App\Form\GroupUsers\GroupUsersAdd\GroupUsersAddForm;
+use App\Form\GroupUsers\GroupUsersRemoveMulti\GroupUsersRemoveMultiForm;
+use App\Form\GroupUsers\GroupUsersRemove\GroupUsersRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
-use App\Twig\Components\Group\GroupUsersHome\GroupUsersHomeComponentBuilder;
-use App\Twig\Components\Group\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
+use App\Twig\Components\GroupUsers\GroupUsersHome\GroupUsersHomeComponentBuilder;
+use App\Twig\Components\GroupUsers\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
 use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use Common\Adapter\Endpoints\GroupsEndpoint;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
@@ -48,9 +48,9 @@ class GroupUsersHomeController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
-        $groupUserAddForm = $this->formFactory->create(new GroupUserAddForm(), $requestDto->request);
-        $groupUserRemoveForm = $this->formFactory->create(new GroupUserRemoveForm(), $requestDto->request);
-        $groupUserRemoveMultiForm = $this->formFactory->create(new GroupUserRemoveMultiForm(), $requestDto->request);
+        $groupUserAddForm = $this->formFactory->create(new GroupUsersAddForm(), $requestDto->request);
+        $groupUserRemoveForm = $this->formFactory->create(new GroupUsersRemoveForm(), $requestDto->request);
+        $groupUserRemoveMultiForm = $this->formFactory->create(new GroupUsersRemoveMultiForm(), $requestDto->request);
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
         $this->searchBarForm($searchBarForm, $requestDto);
@@ -261,7 +261,7 @@ class GroupUsersHomeController extends AbstractController
 
     private function renderTemplate(GroupUsersHomeSectionComponentDto $groupUsersHomeSectionComponent): Response
     {
-        return $this->render('group/group_users_home/index.html.twig', [
+        return $this->render('group_users/group_users_home/index.html.twig', [
             'groupUsersHomeSectionComponent' => $groupUsersHomeSectionComponent,
         ]);
     }

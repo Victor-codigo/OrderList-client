@@ -41,11 +41,11 @@ import GroupInfoComponent from 'App/Twig/Components/Group/GroupInfo/GroupInfo_co
 import GroupListComponent from 'App/Twig/Components/Group/GroupList/List/GroupList_controller';
 
 // GROUP USERS
-import GroupUsersHomeComponent from 'App/Twig/Components/Group/GroupUsersHome/Home/GroupUsersHomeSection_controller';
-import GroupUsersListItemComponent from 'App/Twig/Components/Group/GroupUsersHome/ListItem/GroupUsersListItem_controller';
-import GroupUserRemoveComponent from 'App/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
-import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
-import GroupUserInfoComponent from 'App/Twig/Components/Group/GroupUsersInfo/GroupUserInfo_controller';
+import GroupUsersHomeComponent from 'App/Twig/Components/GroupUsers/GroupUsersHome/Home/GroupUsersHomeSection_controller';
+import GroupUsersListItemComponent from 'App/Twig/Components/GroupUsers/GroupUsersHome/ListItem/GroupUsersListItem_controller';
+import GroupUsersRemoveComponent from 'App/Twig/Components/GroupUsers/GroupUsersRemove/GroupUsersRemove_controller';
+import GroupUsersAddComponent from 'App/Twig/Components/GroupUsers/GroupUsersAdd/GroupUsersAdd_controller';
+import GroupUserInfoComponent from 'App/Twig/Components/GroupUsers/GroupUsersInfo/GroupUserInfo_controller';
 
 // LIST ORDERS
 import ListOrdersHomeSectionComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/Home/ListOrdersHomeSection_controller';
@@ -142,8 +142,8 @@ app.register('GroupListComponent', GroupListComponent);
 // GROUP USERS
 app.register('GroupUsersHomeComponent', GroupUsersHomeComponent);
 app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
-app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
-app.register('GroupUserAddComponent', GroupUserAddComponent);
+app.register('GroupUsersRemoveComponent', GroupUsersRemoveComponent);
+app.register('GroupUsersAddComponent', GroupUsersAddComponent);
 app.register('GroupUserInfoComponent', GroupUserInfoComponent);
 
 

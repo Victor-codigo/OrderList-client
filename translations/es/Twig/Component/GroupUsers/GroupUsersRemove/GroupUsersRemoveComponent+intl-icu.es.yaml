@@ -1,0 +1,25 @@
+title: Eliminar usuario
+
+message_advice:
+  text: |
+    Te dispones a eliminar el usuario:
+    {item_placeholder}
+
+    ¿Estás seguro?
+  text_multi: |
+    Te dispones a eliminar los usuarios:
+    {item_placeholder}
+
+    ¿Estás seguro?
+
+remove_group_user_button:
+  label: Eliminar usuario
+
+validation:
+  title: Errors
+  ok: Usuarios eliminados
+  error:
+    group_without_admin: Todos los grupos, deben tener al menos un administrador
+    group_empty: Todos los grupos, deben tener al menos un usuario
+    permissions: No tienes permisos para eliminar los usuarios, no eres el administrador
+    internal_server: Ocurrió un error, inténtalo más tarde
