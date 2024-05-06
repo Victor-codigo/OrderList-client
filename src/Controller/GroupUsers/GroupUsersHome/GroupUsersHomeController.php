@@ -197,6 +197,7 @@ class GroupUsersHomeController extends AbstractController
             )
             ->listItems(
                 $groupUsersData,
+                $requestDto->getUserSessionData()->id,
                 $isUserSessionAdminOfTheGroup
             )
             ->validation(

@@ -87,6 +87,8 @@
         {% include 'info-icon-blue-24x24.svg' %}
     </button>
 
+    {% if data.userSessionAdmin or data.userSessionId == data.id %}
+
     <button type="button"
             data-js-remove-button
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end  btn-outline-danger"
@@ -98,4 +100,7 @@
 
         {% include 'remove-icon-red-24x24.svg' %}
     </button>
+
+    {% endif %}
+
 </li>

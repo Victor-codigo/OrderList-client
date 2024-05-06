@@ -44,6 +44,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
      */
     private readonly array $listGroupUsersData;
 
+    private readonly string $userSessionId;
     private readonly bool $userSessionAdmin;
     private readonly string $groupId;
 
@@ -148,11 +149,12 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function listItems(array $listGroupUsersData, bool $userSessionAdmin): self
+    public function listItems(array $listGroupUsersData, string $userSessionId, bool $userSessionAdmin): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
         $this->listGroupUsersData = $listGroupUsersData;
+        $this->userSessionId = $userSessionId;
         $this->userSessionAdmin = $userSessionAdmin;
 
         return $this;
@@ -209,7 +211,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->modifyFormModal(null);
         $this->homeSectionComponentDto->listItems(
             GroupUsersListItemComponent::getComponentName(),
-            $this->createGroupUsersListItemsComponentsDto($this->userSessionAdmin),
+            $this->createGroupUsersListItemsComponentsDto($this->userSessionId, $this->userSessionAdmin),
             Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
 
@@ -293,7 +295,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
         );
     }
 
-    private function createGroupUsersListItemsComponentsDto(bool $userSessionAdmin): array
+    private function createGroupUsersListItemsComponentsDto(string $userSessionId, bool $userSessionAdmin): array
     {
         return array_map(
             fn (GroupUserDataResponse $listItemData) => new GroupUsersListItemComponentDto(
@@ -306,7 +308,8 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->image ?? Config::USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 null === $listItemData->image ? true : false,
                 $listItemData->admin,
-                $userSessionAdmin
+                $userSessionAdmin,
+                $userSessionId
             ),
             $this->listGroupUsersData
         );
