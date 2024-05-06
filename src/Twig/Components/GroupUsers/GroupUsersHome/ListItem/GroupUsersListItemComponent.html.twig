@@ -5,9 +5,13 @@
 
     <label class="d-flex  flex-row  flex-grow-1">
 
+        {% if data.userSessionAdmin %}
+
         <input class="form-check-input m-2  align-self-center"
                type="checkbox"
                data-js-checkbox>
+
+        {% endif %}
 
         {% if data.noImage %}
 
@@ -47,7 +51,6 @@
     </label>
 
     {% if data.userSessionAdmin %}
-
 
     <button type="button"
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-warning  group-user-list-item__button-grants"
