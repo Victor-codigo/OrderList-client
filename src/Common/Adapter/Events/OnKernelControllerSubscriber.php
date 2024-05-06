@@ -90,7 +90,14 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadTwigGlobals(RequestDto $requestDto): void
     {
-        $navigationBarComponentData = new NavigationBarDto(
+        $navigationBarDto = $this->loadNavigationBar($requestDto);
+
+        $this->twig->addGlobal('NavigationBarComponent', $navigationBarDto);
+    }
+
+    private function loadNavigationBar(RequestDto $requestDto): NavigationBarDto
+    {
+        return new NavigationBarDto(
             'OrderListTile',
             $requestDto->getUserSessionData(),
             $requestDto->groupNameUrlEncoded,
@@ -100,8 +107,6 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $requestDto->request->attributes->get('_route_params') ?? [],
             $requestDto->requestReferer
         );
-
-        $this->twig->addGlobal('NavigationBarComponent', $navigationBarComponentData);
     }
 
     private function loadTokenSession(Request $request): ?string

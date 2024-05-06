@@ -3,6 +3,17 @@
 	 data-bs-theme="dark">
 	<div class="container-fluid  align-items-stretch  ps-0  pe-0">
 
+		{% if this.hasBackButton %}
+
+		<a class="navbar-back-button  p-3"
+		   role="button"
+		   title="{{ backButtonTitle }}"
+		   data-js-back-button>
+			{% include "back-arrow.svg" %}
+		</a>
+
+		{% endif %}
+
 		{% if not sections is empty %}
 
 		<button class="navbar-toggler  border-0  rounded-0  p-2  ps-3  pe-3  navbar-toggler-button"
@@ -13,18 +24,6 @@
 				aria-label="Toggle navigation">
 			{% include "list-icon.svg" %}
 		</button>
-
-		{% endif %}
-
-		{% if not backButton is null %}
-
-		<a class="navbar-back-button  p-3"
-		   href="{{ backButton.url|escape('html_attr') }}"
-		   role="button"
-		   title="{{ backButton.title }}"
-		   data-js-user-avatar>
-			{% include "back-arrow.svg" %}
-		</a>
 
 		{% endif %}
 

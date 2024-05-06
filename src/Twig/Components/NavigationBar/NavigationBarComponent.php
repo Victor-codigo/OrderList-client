@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\NavigationBar;
 
-use App\Controller\Request\RequestRefererDto;
 use App\Controller\Request\Response\UserDataResponse;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -23,6 +22,12 @@ class NavigationBarComponent extends TwigComponent
 {
     use UrlEncoder;
 
+    private const ROUTES_WITH_BACK_BUTTON = [
+        'user_profile',
+        'group_users_home',
+        'order_home',
+    ];
+
     private readonly RouterInterface $router;
     public NavigationBarLangDto $lang;
     public NavigationBarDto|TwigComponentDtoInterface $data;
@@ -33,8 +38,9 @@ class NavigationBarComponent extends TwigComponent
     public readonly array $sections;
     public readonly string $languageToggleUrl;
 
+    public readonly string $backButtonTitle;
+
     public readonly ?UserButtonDto $userButton;
-    public readonly ?BackButtonDto $backButton;
 
     protected static function getComponentName(): string
     {
@@ -53,9 +59,14 @@ class NavigationBarComponent extends TwigComponent
 
         $sections = $this->createSections($this->data);
         $this->userButton = $this->createUserButton($this->data->routeName, $data->userData);
-        $this->backButton = $this->createBackButton($this->data->routeName, $this->data->refererRoute);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
         $this->sections = $sections;
+        $this->backButtonTitle = $this->translate('navigation.back_button.title');
+    }
+
+    public function hasBackButton(): bool
+    {
+        return in_array($this->data->routeName, self::ROUTES_WITH_BACK_BUTTON);
     }
 
     private function createSections(NavigationBarDto $data): array
@@ -79,8 +90,9 @@ class NavigationBarComponent extends TwigComponent
         return new NavigationBarSectionDto(
             $this->translate('navigation.section.groups.label'),
             $this->translate('navigation.section.groups.title'),
-            $this->router->generate('group_list', [
+            $this->router->generate('group_home', [
                 'page' => 1,
+                'page_items' => 100,
             ]),
             'groups' === $sectionActiveId ? true : false
         );
@@ -162,34 +174,6 @@ class NavigationBarComponent extends TwigComponent
                 [
                     'user_name' => $this->encodeUrl($userData->name),
                 ])
-        );
-    }
-
-    private function createBackButton(string $routeName, ?RequestRefererDto $refererRoute): ?BackButtonDto
-    {
-        if (null === $refererRoute) {
-            return null;
-        }
-
-        if ('user_profile' !== $routeName && 'order_home' !== $routeName) {
-            return null;
-        }
-
-        $session = $this->request->getSession();
-
-        if ($routeName !== $refererRoute->routeName) {
-            $session->set('backButtonRouteName', $refererRoute->routeName);
-            $session->set('backButtonRouteParams', $refererRoute->params);
-            $refererRouteNameToSet = $refererRoute->routeName;
-            $refererRouteParamsToSet = $refererRoute->params;
-        } else {
-            $refererRouteNameToSet = $session->get('backButtonRouteName');
-            $refererRouteParamsToSet = $session->get('backButtonRouteParams');
-        }
-
-        return new BackButtonDto(
-            $this->router->generate($refererRouteNameToSet, $refererRouteParamsToSet),
-            $this->translate('navigation.back_button.title')
         );
     }
 }
