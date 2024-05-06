@@ -10,6 +10,9 @@ group_info_button:
   title: Muestra información el grupo
   alt: Botón para mostrar información del grupo
 
+group_group_users_button:
+  title: Muestra los usuarios del grupo
+
 group_image:
   title: Imagen del grupo
   alt: Imagen del grupo

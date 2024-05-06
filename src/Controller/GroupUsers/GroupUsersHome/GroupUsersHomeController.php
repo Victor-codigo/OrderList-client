@@ -13,7 +13,6 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\GroupUsers\GroupUsersHome\GroupUsersHomeComponentBuilder;
 use App\Twig\Components\GroupUsers\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
-use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use Common\Adapter\Endpoints\GroupsEndpoint;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -27,13 +26,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/users/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
     name: 'group_users_home',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
         'page' => '\d+',
         'page_items' => '\d+',
+        'section' => 'users',
     ]
 )]
 class GroupUsersHomeController extends AbstractController
@@ -212,7 +212,7 @@ class GroupUsersHomeController extends AbstractController
                 GroupsEndpoint::GET_USER_GROUPS_GET_DATA,
                 $this->generateUrl('group_users_home', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
-                    'section' => SECTION_FILTERS::GROUP_USERS->value,
+                    'section' => 'users',
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),

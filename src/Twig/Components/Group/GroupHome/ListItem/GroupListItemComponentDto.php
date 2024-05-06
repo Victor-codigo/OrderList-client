@@ -12,6 +12,7 @@ class GroupListItemComponentDto extends HomeListItemComponentDto
         public readonly string $componentName,
         public readonly string $id,
         public readonly string $name,
+        public readonly string $urlLinkGroupUsers,
         public readonly string $modifyFormModalIdAttribute,
         public readonly string $deleteFormModalIdAttribute,
         public readonly string $groupInfoModalIdAttribute,

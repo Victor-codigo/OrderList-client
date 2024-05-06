@@ -15,6 +15,7 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Group\GroupHome\GroupHomeComponentBuilder;
 use App\Twig\Components\Group\GroupHome\Home\GroupHomeSectionComponentDto;
+use App\Twig\Components\Group\GroupHome\ListItem\GroupListItemComponent;
 use Common\Adapter\Endpoints\GroupsEndpoint;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -224,6 +225,12 @@ class GroupHomeController extends AbstractController
             )
             ->listItems(
                 $groupsData,
+                $this->generateUrl('group_users_home', [
+                    'group_name' => GroupListItemComponent::GROUP_USERS_NAME_PLACEHOLDER,
+                    'page' => 1,
+                    'page_items' => 100,
+                    'section' => 'users',
+                ]),
             )
             ->validation(
                 !empty($groupHomeMessagesError) || !empty($groupHomeMessagesOk) ? true : false,

@@ -8,6 +8,7 @@ use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponent;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentLangDto;
 use App\Twig\Components\TwigComponentDtoInterface;
+use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -16,10 +17,15 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 final class GroupListItemComponent extends HomeListItemComponent
 {
+    use UrlEncoder;
+
+    public const GROUP_USERS_NAME_PLACEHOLDER = '--group_users_name--';
+
     public HomeListItemComponentLangDto $lang;
     public GroupListItemComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $groupDataJson;
+    public readonly string $urlGroupUsers;
 
     public static function getComponentName(): string
     {
@@ -30,6 +36,7 @@ final class GroupListItemComponent extends HomeListItemComponent
     {
         $this->data = $data;
         $this->loadTranslation();
+        $this->urlGroupUsers = $this->parseItemUrlListItemsPlaceholder($this->data->urlLinkGroupUsers, $this->data->name);
         $this->groupDataJson = $this->parseItemDataToJson($data);
     }
 
@@ -37,12 +44,10 @@ final class GroupListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new GroupListItemComponentLangDto(
-            $this->translate('group_modify_button.alt'),
             $this->translate('group_modify_button.title'),
-            $this->translate('group_remove_button.alt'),
             $this->translate('group_remove_button.title'),
-            $this->translate('group_info_button.alt'),
             $this->translate('group_info_button.title'),
+            $this->translate('group_group_users_button.title'),
             $this->translate('group_image.alt'),
             $this->translate('group_image.title'),
             $this->translate('admin.label'),
@@ -65,5 +70,12 @@ final class GroupListItemComponent extends HomeListItemComponent
         ];
 
         return json_encode($groupDataToParse, JSON_THROW_ON_ERROR);
+    }
+
+    private function parseItemUrlListItemsPlaceholder(string $urlGroupUsersPlaceholder, string $groupUsersName): string
+    {
+        $groupUsersNameDecoded = $this->encodeUrl($groupUsersName);
+
+        return mb_ereg_replace(self::GROUP_USERS_NAME_PLACEHOLDER, $groupUsersNameDecoded, $urlGroupUsersPlaceholder);
     }
 }

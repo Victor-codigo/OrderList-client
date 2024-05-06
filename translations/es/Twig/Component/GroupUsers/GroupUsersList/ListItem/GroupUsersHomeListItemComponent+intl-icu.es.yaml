@@ -1,10 +1,8 @@
 group_users_remove_button:
   title: Quita el usuario del grupo
-  alt: Botón para quitar el usuario del grupo
 
 group_users_info_button:
   title: Muestra información del grupo
-  alt: Botón para mostrar información de usuario
 
 group_users_grants_upgrade_button:
   title: Establece este usuario como administrador del grupo

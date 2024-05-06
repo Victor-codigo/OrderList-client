@@ -46,6 +46,7 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
      * @var GroupDataResponse[]
      */
     private readonly array $listGroupsData;
+    private readonly string $urlGroupUsersPlaceholder;
 
     public function __construct()
     {
@@ -140,11 +141,12 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function listItems(array $listGroupsData): self
+    public function listItems(array $listGroupsData, string $urlGroupUsersPlaceholder): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
         $this->listGroupsData = $listGroupsData;
+        $this->urlGroupUsersPlaceholder = $urlGroupUsersPlaceholder;
 
         return $this;
     }
@@ -313,6 +315,7 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
                 GroupListItemComponent::getComponentName(),
                 $listItemData->id,
                 $listItemData->name,
+                $this->urlGroupUsersPlaceholder,
                 self::GROUP_MODIFY_MODAL_ID,
                 self::GROUP_DELETE_MODAL_ID,
                 self::GROUP_INFO_MODAL_ID,
