@@ -5,6 +5,10 @@ navigation:
     title: Ir a tú perfil
     alt: Ir a tú perfil
 
+  groups:
+    label: Grupos
+    title: Ir a tús grupos
+
   back_button:
     title: Volver
 

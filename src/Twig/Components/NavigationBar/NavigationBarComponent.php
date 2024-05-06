@@ -24,6 +24,7 @@ class NavigationBarComponent extends TwigComponent
 
     private const ROUTES_WITH_BACK_BUTTON = [
         'user_profile',
+        'group_home',
         'group_users_home',
         'order_home',
     ];
@@ -40,7 +41,8 @@ class NavigationBarComponent extends TwigComponent
 
     public readonly string $backButtonTitle;
 
-    public readonly ?UserButtonDto $userButton;
+    public readonly UserButtonDto $userButton;
+    public readonly GroupButtonDto $groupButton;
 
     protected static function getComponentName(): string
     {
@@ -58,7 +60,8 @@ class NavigationBarComponent extends TwigComponent
         $this->data = $data;
 
         $sections = $this->createSections($this->data);
-        $this->userButton = $this->createUserButton($this->data->routeName, $data->userData);
+        $this->userButton = $this->createUserButton($data->userData);
+        $this->groupButton = $this->createGroupButton($data->userData);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
         $this->sections = $sections;
         $this->backButtonTitle = $this->translate('navigation.back_button.title');
@@ -76,26 +79,12 @@ class NavigationBarComponent extends TwigComponent
         }
 
         $sections = [
-            $this->createSectionGroups($data->sectionActiveId),
             $this->createSectionListOrders($data->sectionActiveId),
             $this->createSectionProducts($data->sectionActiveId),
             $this->createSectionShops($data->sectionActiveId),
         ];
 
         return array_filter($sections);
-    }
-
-    private function createSectionGroups(?string $sectionActiveId): NavigationBarSectionDto
-    {
-        return new NavigationBarSectionDto(
-            $this->translate('navigation.section.groups.label'),
-            $this->translate('navigation.section.groups.title'),
-            $this->router->generate('group_home', [
-                'page' => 1,
-                'page_items' => 100,
-            ]),
-            'groups' === $sectionActiveId ? true : false
-        );
     }
 
     private function createSectionListOrders(?string $sectionActiveId): NavigationBarSectionDto
@@ -153,13 +142,9 @@ class NavigationBarComponent extends TwigComponent
         ]);
     }
 
-    private function createUserButton(string $routeName, ?UserDataResponse $userData): ?UserButtonDto
+    private function createUserButton(?UserDataResponse $userData): ?UserButtonDto
     {
         if (null === $userData) {
-            return null;
-        }
-
-        if ('user_profile' === $routeName) {
             return null;
         }
 
@@ -173,6 +158,23 @@ class NavigationBarComponent extends TwigComponent
             $this->router->generate('user_profile',
                 [
                     'user_name' => $this->encodeUrl($userData->name),
+                ])
+        );
+    }
+
+    private function createGroupButton(?UserDataResponse $userData): ?GroupButtonDto
+    {
+        if (null === $userData) {
+            return null;
+        }
+
+        return new GroupButtonDto(
+            $this->translate('navigation.groups.label'),
+            $this->translate('navigation.groups.title'),
+            $this->router->generate('group_home', [
+                    'section' => 'groups',
+                    'page' => 1,
+                    'page_items' => 100,
                 ])
         );
     }

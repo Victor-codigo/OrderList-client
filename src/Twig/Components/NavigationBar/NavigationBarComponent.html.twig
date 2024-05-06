@@ -93,31 +93,79 @@
 
 			{% if not userButton is null %}
 
-			<a class="navbar__user-profile  d-flex  p-3"
-			   href="{{ userButton.profileUrl|escape('html_attr') }}"
-			   role="button"
-			   title="{{ userButton.title }}"
-			   data-js-user-avatar>
+			<div class="dropdown  navbar__user-profile  d-flex">
+				<button class="navbar__user-profile  p-3  pt-1  pb-1"
+						type="button"
+						data-bs-toggle="dropdown"
+						aria-expanded="false">
 
-				{% if userButton.image is null %}
+					{% if userButton.image is null %}
 
-				<div data-js-user-avatar-image>
-					{% include "user/user-avatar-no-image.svg" %}
-				</div>
+					<div data-js-user-avatar-image>
+						{% include "user/user-avatar-no-image.svg" %}
+					</div>
 
-				{% else %}
+					{% else %}
 
-				<img src="{{ userButton.image|escape('html_attr') }}"
-					 title="{{ userButton.title }}"
-					 alt="{{ userButton.alt }}">
+					<img src="{{ userButton.image|escape('html_attr') }}"
+						 title="{{ userButton.title }}"
+						 alt="{{ userButton.alt }}">
 
-				{% endif %}
+					{% endif %}
 
-				<span class="user-profile__name">
-					{{ userButton.name }}
-				</span>
+					<span class="user-profile__name">
+						{{ userButton.name }}
+					</span>
 
-			</a>
+				</button>
+				<ul class="dropdown-menu  dropdown-menu-end">
+					<li>
+						<a class="dropdown-item navbar__user-profile  d-flex  p-3"
+						   href="{{ userButton.profileUrl|escape('html_attr') }}"
+						   role="button"
+						   title="{{ userButton.title }}"
+						   data-js-user-avatar>
+
+							{% if userButton.image is null %}
+
+							<div data-js-user-avatar-image>
+								{% include "user/user-avatar-no-image.svg" %}
+							</div>
+
+							{% else %}
+
+							<img src="{{ userButton.image|escape('html_attr') }}"
+								 title="{{ userButton.title }}"
+								 alt="{{ userButton.alt }}">
+
+							{% endif %}
+
+							<span class="user-profile__name">
+								{{ userButton.name }}
+							</span>
+
+						</a>
+					</li>
+
+					<li>
+						<a class="dropdown-item navbar__user-profile  d-flex  p-3"
+						   href="{{ groupButton.groupsUrl|escape('html_attr') }}"
+						   role="button"
+						   title="{{ groupButton.title }}"
+						   data-js-user-avatar>
+
+							<div data-js-user-avatar-image>
+								{% include "group/group-no-image.svg" %}
+							</div>
+
+							<span class="user-profile__name">
+								{{ groupButton.name }}
+							</span>
+
+						</a>
+					</li>
+				</ul>
+			</div>
 
 			{% endif %}
 		</div>

@@ -29,13 +29,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/group/page-{page}-{page_items}',
+    path: '{_locale}/{section}/page-{page}-{page_items}',
     name: 'group_home',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
         'page' => '\d+',
         'page_items' => '\d+',
+        'section' => 'groups',
     ]
 )]
 class GroupHomeController extends AbstractController
@@ -242,8 +243,7 @@ class GroupHomeController extends AbstractController
                 $searchBarCsrfToken,
                 GroupsEndpoint::GET_USER_GROUPS_GET_DATA,
                 $this->generateUrl('group_home', [
-                    // 'group_name' => $requestDto->groupNameUrlEncoded,
-                    // 'section' => 'group',
+                    'section' => 'groups',
                     'page' => $requestDto->page,
                     'page_items' => $requestDto->pageItems,
                 ]),
