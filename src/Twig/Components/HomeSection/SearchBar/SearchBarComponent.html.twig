@@ -21,6 +21,7 @@
 
 				<select class="form-select  search-bar__filter"
 						name="{{ sectionFilterFieldName }}"
+						{{this.sectionFilters|length==1?'hidden':''}}
 						data-js-section-filter>
 
 					{% for sectionFilterName, sectionFilterValue in this.sectionFilters %}
