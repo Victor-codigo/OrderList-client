@@ -29,6 +29,12 @@ class NavigationBarComponent extends TwigComponent
         'order_home',
     ];
 
+    private const ROUTES_NO_SHOW_MENU_SECTIONS = [
+        'user_profile',
+        'group_home',
+        'group_users_home',
+    ];
+
     private readonly RouterInterface $router;
     public NavigationBarLangDto $lang;
     public NavigationBarDto|TwigComponentDtoInterface $data;
@@ -75,6 +81,10 @@ class NavigationBarComponent extends TwigComponent
     private function createSections(NavigationBarDto $data): array
     {
         if (null === $data->groupNameEncoded || null === $data->sectionActiveId) {
+            return [];
+        }
+
+        if (!in_array($data->sectionActiveId, self::ROUTES_NO_SHOW_MENU_SECTIONS)) {
             return [];
         }
 
