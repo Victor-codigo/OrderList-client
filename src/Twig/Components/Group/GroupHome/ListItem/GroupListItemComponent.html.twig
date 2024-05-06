@@ -71,6 +71,8 @@
         {% include 'info-icon-blue-24x24.svg' %}
     </button>
 
+    {% if data.admin %}
+
     <button type="button"
             class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
             value="{{ data.id }}"
@@ -93,4 +95,7 @@
 
         {% include 'remove-icon-red-24x24.svg' %}
     </button>
+
+    {% endif %}
+
 </li>
