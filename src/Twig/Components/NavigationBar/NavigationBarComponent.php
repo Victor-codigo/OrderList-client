@@ -47,8 +47,8 @@ class NavigationBarComponent extends TwigComponent
 
     public readonly string $backButtonTitle;
 
-    public readonly UserButtonDto $userButton;
-    public readonly GroupButtonDto $groupButton;
+    public readonly ?UserButtonDto $userButton;
+    public readonly ?GroupButtonDto $groupButton;
 
     protected static function getComponentName(): string
     {

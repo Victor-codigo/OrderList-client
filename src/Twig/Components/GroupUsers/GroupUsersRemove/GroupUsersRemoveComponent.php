@@ -109,6 +109,11 @@ final class GroupUsersRemoveComponent extends ItemRemoveComponent
 
     public function loadValidationOkTranslation(): string
     {
-        return $this->translate('validation.ok');
+        return $this->translate('validation.ok.user_removed');
+    }
+
+    public function loadValidationRevedOwnUserOkTranslation(): string
+    {
+        return $this->translate('validation.ok.user_own_removed');
     }
 }

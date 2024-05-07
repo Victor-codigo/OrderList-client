@@ -17,7 +17,9 @@ remove_group_user_button:
 
 validation:
   title: Errors
-  ok: Users removed
+  ok:
+    user_removed: Users removed
+    user_own_removed: you have been removed from the group
   error:
     group_without_admin: All groups must have at least one administrator
     group_empty: All groups must have at least one user

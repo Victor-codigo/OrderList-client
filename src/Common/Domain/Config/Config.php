@@ -34,4 +34,9 @@ class Config
 
     // Currency
     public const CURRENCY = '€';
+
+    /**
+     * Maximum number of users per group.
+     */
+    public const GROUP_USERS_MAX = 100;
 }
