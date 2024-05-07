@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import * as apiEndpoints from 'App/modules/ApiEndpoints';
 import * as url from 'App/modules/Url';
+import Autocomplete from "App/Dependencies/bootstrap5-autocomplete/autocomplete.min";
 
 
 const SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS = 50;
@@ -33,11 +34,6 @@ export default class extends Controller {
     nameFilterTag;
 
     /**
-     * @type {HTMLDataListElement}
-     */
-    searchDataListTag;
-
-    /**
      * @type {function}
      */
     getDataFromApiCallback;
@@ -48,56 +44,40 @@ export default class extends Controller {
         this.valueTag = this.element.querySelector('[data-js-value]');
         this.sectionFilterTag = this.element.querySelector('[data-js-section-filter]');
         this.nameFilterTag = this.element.querySelector('[data-js-name-filter]');
-        this.searchDataListTag = this.element.querySelector('#search-data-list');
+
+        this.#createAutocomplete();
 
         this.searchBarFormTag.addEventListener('submit', this.#onSubmitHandler.bind(this));
-        this.valueTag.addEventListener('input', this.#onSearchValueInputHandler.bind(this));
     }
 
     disconnect() {
         this.searchBarFormTag.removeEventListener('submit', this.#onSubmitHandler);
-        this.valueTag.removeEventListener('input', this.#onSearchValueInputHandler);
+    }
+
+    #createAutocomplete() {
+        Autocomplete.init('[data-js-value]', {
+            source: this.#setTimeout(async (input, callback) => await callback(await this.#getDataFromApi()), 500),
+            fullWidth: true,
+            fixed: true,
+            preventBrowserAutocomplete: true,
+        });
     }
 
     /**
-     * @param {number} delayInMs
-     * @param {function} callback
-     * @param  {...any} args
+     * @param {Function} callback
+     * @param {number} timeout
+     * @returns {Function}
      */
-    #setTimeout(delayInMs, callback, ...args) {
-        clearTimeout(this.searchTimeoutId);
+    #setTimeout(callback, timeout = 300) {
+        let timer;
 
-        this.searchTimeoutId = setTimeout(() => callback(...args), delayInMs);
-    }
-
-    async #getAutoCompleteData() {
-        if (this.valueTag.value === '') {
-            this.#updateSearchDatalist([]);
-
-            return;
-        }
-
-        const shopsNames = await this.#getDataFromApi();
-        this.#updateSearchDatalist(shopsNames);
-    }
-
-    #updateSearchDatalist(data) {
-        this.searchDataListTag
-            .querySelectorAll('option')
-            .forEach((option) => option.remove());
-
-        const searchDataListOptions = data.map((item) => {
-            const option = document.createElement('option');
-            option.value = item;
-
-            return option;
-        });
-
-        searchDataListOptions.forEach((item) => this.searchDataListTag.appendChild(item));
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => callback.apply(this, args), timeout);
+        };
     }
 
     async #getDataFromApi() {
-        console.log(url.getSection().replace('-', '_'));
         switch (url.getSection().replace('-', '_')) {
             case url.SECTIONS.SHOP:
                 return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
@@ -294,10 +274,6 @@ export default class extends Controller {
         } catch (error) {
             return new Promise((resolve) => []);
         }
-    }
-
-    #onSearchValueInputHandler() {
-        this.#setTimeout(300, this.#getAutoCompleteData.bind(this));
     }
 
     #onSubmitHandler() {

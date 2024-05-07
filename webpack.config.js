@@ -59,6 +59,7 @@ Encore
 
     .addAliases({
         'App/Twig': path.resolve(__dirname, 'src/Twig'),
+        'App/Dependencies': path.resolve(__dirname, 'node_modules'),
         'App': path.resolve(__dirname, 'assets'),
     })
 
