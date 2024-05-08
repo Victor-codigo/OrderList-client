@@ -549,4 +549,18 @@ class Endpoints implements EndpointsInterface
     {
         return UsersEndpoint::getInstance($this->httpClient)->userRemove($userId, $tokenSession);
     }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    notifications: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array
+    {
+        return NotificationsEndPoint::getInstance($this->httpClient)->productGetData($page, $pageItems, $lang, $tokenSession);
+    }
 }

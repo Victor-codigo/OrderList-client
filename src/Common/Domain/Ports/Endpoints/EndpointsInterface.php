@@ -319,4 +319,15 @@ interface EndpointsInterface
      * @throws UnsupportedOptionException
      */
     public function userRemove(string $userId, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    notifications: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array;
 }
