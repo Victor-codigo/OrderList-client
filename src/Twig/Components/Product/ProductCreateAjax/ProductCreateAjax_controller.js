@@ -121,6 +121,7 @@ export default class extends Controller {
     }
 
     clear() {
+        this.element.querySelector('[data-controller="AlertComponent"]')?.remove();
         communication.sendMessageToChildController(this.#buttonCreateProduct, 'showButton');
     }
 
