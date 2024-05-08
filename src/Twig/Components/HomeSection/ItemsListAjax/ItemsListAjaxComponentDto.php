@@ -13,7 +13,8 @@ class ItemsListAjaxComponentDto implements TwigComponentDtoInterface
         public readonly string $componentName,
         public readonly PaginatorContentLoaderJsComponentDto $paginatorContentLoaderJsDto,
         public readonly string $urlPathItemsImages,
-        public readonly string $urlNoItemsImage
+        public readonly string $urlNoItemsImage,
+        public readonly string $urlListEmptyImage
     ) {
     }
 }

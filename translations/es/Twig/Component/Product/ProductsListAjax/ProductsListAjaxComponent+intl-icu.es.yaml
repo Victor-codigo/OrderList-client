@@ -3,6 +3,9 @@ title: Productos
 button_back:
   label: Volver
 
+list_empty:
+  label: No hay productos
+
 button_create_product:
   label: Crear producto
 

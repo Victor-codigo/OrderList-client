@@ -22,9 +22,10 @@ export default class ListItems {
      * @param {Object} itemsData.item
      * @param {Object} itemsData.item.htmlAttributes
      * @param {string[]} itemsData.item.cssClasses
+     * @param {{ text: string, image: string }} listEmptyData
      */
-    constructor(listData, itemsData) {
-        this.#listTag = this.#createList(listData, itemsData);
+    constructor(listData, itemsData, listEmptyData) {
+        this.#listTag = this.#createList(listData, itemsData, listEmptyData);
     }
 
     /**
@@ -42,21 +43,48 @@ export default class ListItems {
      * @param {Object} itemsData.item
      * @param {Object} itemsData.item.htmlAttributes
      * @param {string[]} itemsData.item.cssClasses
+     * @param {{ text: string, image: string }} listEmptyData
      *
      * @returns {HTMLUListElement} list of items
      */
-    #createList(listData, itemsData) {
+    #createList(listData, itemsData, listEmptyData) {
         const list = document.createElement('ul');
 
         listData.cssClasses ? list.classList.add(...listData.cssClasses) : null;
         listData.htmlAttributes ? Object.entries(listData.htmlAttributes).forEach((attribute) => list.setAttribute(attribute[0], attribute[1])) : null;
 
-        const items = itemsData.map((itemData) => this.#createItem(itemData));
+        let items = itemsData.map((itemData) => this.#createItem(itemData));
+
+        if (items.length == 0) {
+            items = this.#createListEmpty(listEmptyData);
+        }
 
         list.classList.add('list-group', 'list-group-flush');
         list.replaceChildren(...items);
 
         return list;
+    }
+
+    /**
+     * @param {{ text: string, image: string }} listEmptyData
+     *
+     * @returns {HTMLLIElement[]}
+     */
+    #createListEmpty(listEmptyData) {
+        const listEmptyItem = document.createElement('li');
+        const listEmptyItemText = document.createElement('span');
+        const listEmptyItemImage = document.createElement('img');
+
+        listEmptyItem.classList.add('d-flex', 'flex-row', 'justify-content-center', 'align-items-center', 'list-empty', 'pt-5');
+
+        listEmptyItemText.innerText = listEmptyData.text;
+
+        listEmptyItemImage.src = listEmptyData.image;
+        listEmptyItemImage.classList.add('image-filter-for-theme', 'me-2');
+
+        listEmptyItem.replaceChildren(listEmptyItemImage, listEmptyItemText);
+
+        return [listEmptyItem];
     }
 
     /**

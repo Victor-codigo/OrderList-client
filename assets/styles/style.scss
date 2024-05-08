@@ -58,4 +58,9 @@
         color: $gray-500 !important;
     }
 
+    .image-filter-for-theme {
+        background-color: #fff0;
+        filter: invert(100);
+    }
+
 }

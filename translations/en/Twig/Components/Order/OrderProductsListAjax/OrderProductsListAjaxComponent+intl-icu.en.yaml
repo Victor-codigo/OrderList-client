@@ -8,3 +8,6 @@ button_create_product:
 
 product_image:
   title: Image of product {item_name}
+
+list_empty:
+  label: There is no products

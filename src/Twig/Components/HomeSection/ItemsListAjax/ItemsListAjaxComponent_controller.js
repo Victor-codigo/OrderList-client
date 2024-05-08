@@ -180,7 +180,10 @@ export default class ItemsListAjaxController extends Controller {
             cssClasses: []
         };
 
-        return new ListItems(listData, itemsData);
+        return new ListItems(listData, itemsData, {
+            text: this.element.dataset.listEmptyText,
+            image: this.element.dataset.listEmptyImage,
+        });
     }
 
     handleMessageConnected() {

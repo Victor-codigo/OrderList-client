@@ -5,3 +5,6 @@ button_back:
 
 list_orders_image:
   title: Imagen de la lista de la compra {item_name}
+
+list_empty:
+  label: No hay listas de la compra

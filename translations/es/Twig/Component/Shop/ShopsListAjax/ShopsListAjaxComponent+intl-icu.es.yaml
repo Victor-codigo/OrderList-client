@@ -3,6 +3,9 @@ title: Tiendas
 button_back:
   label: Volver
 
+list_empty:
+  label: No hay tiendas
+
 button_create_shop:
   label: Crear tienda
 

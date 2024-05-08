@@ -438,6 +438,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
             $paginatorContentLoaderJsDto,
             $urlPathToShopImages,
             $urlImageShopNoImage,
+            Config::LIST_EMPTY_IMAGE
         );
 
         return new ModalComponentDto(

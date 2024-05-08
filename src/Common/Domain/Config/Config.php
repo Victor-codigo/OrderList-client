@@ -21,6 +21,7 @@ class Config
     public const ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/order/order-no-image-200x200.svg';
     public const USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/user/user-avatar-no-image.svg';
     public const GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/group/group-no-image.svg';
+    public const LIST_EMPTY_IMAGE = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/list-icon.svg';
 
     public const ORDER_BOUGHT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/order/bought-icon-green-24x24.svg';
     public const ORDER_BOUGHT_NOT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/order/bought-not-icon-orange-24x24.svg';

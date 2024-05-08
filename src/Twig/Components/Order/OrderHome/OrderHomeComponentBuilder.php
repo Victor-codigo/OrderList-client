@@ -390,6 +390,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             $paginatorContentLoaderJsDto,
             $urlPathToProductImages,
             $urlImageProductNoImage,
+            Config::LIST_EMPTY_IMAGE
         );
 
         return new ModalComponentDto(
