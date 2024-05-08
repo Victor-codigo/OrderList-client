@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\RequestRefererDto;
 use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ListOrdersDataResponse;
+use App\Controller\Request\Response\NotificationDataResponse;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
@@ -187,11 +188,19 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
         $notificationsData = $this->endpoints->notificationGetData(1, 100, $lang, $tokenSession);
 
-        if (!empty($notificationsData['errors'])) {
+        if (!empty($notificationsData['errors'])
+        && (count($notificationsData['errors']) > 1 || !array_key_exists('notification_not_found', $notificationsData['errors']))) {
             throw RequestNotificationsException::fromMessage('Notifications data not found');
         }
 
-        return $notificationsData;
+        return array_map(
+            fn (array $notificationData) => NotificationDataResponse::fromArray($notificationData),
+            $notificationsData['data']['notifications']
+        );
+
+        return empty($notificationsData['data']['notifications'])
+            ? []
+            : NotificationDataResponse::fromArray($notificationsData['data']['notifications']);
     }
 
     /**

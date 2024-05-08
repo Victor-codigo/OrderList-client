@@ -1,0 +1,17 @@
+title: Eliminar notificación
+
+message_advice:
+  text: |
+    Te dispones a eliminar la notificación
+    {item_placeholder}
+
+    ¿Estás seguro?
+
+remove_button:
+  label: Eliminar notificación
+
+validation:
+  title: Errors
+  ok: Notificación eliminada
+  error:
+    internal_server: An error has been occurred, try it later

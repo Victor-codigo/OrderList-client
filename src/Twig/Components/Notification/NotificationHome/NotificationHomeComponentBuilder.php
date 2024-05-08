@@ -10,6 +10,8 @@ use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\Notification\NotificationHome\Home\NotificationHomeSectionComponentDto;
 use App\Twig\Components\Notification\NotificationHome\ListItem\NotificationListItemComponent;
 use App\Twig\Components\Notification\NotificationHome\ListItem\NotificationListItemComponentDto;
+use App\Twig\Components\Notification\NotificationRemove\NotificationRemoveComponent;
+use App\Twig\Components\Notification\NotificationRemove\NotificationRemoveComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\DtoBuilder\DtoBuilder;
 use Common\Domain\DtoBuilder\DtoBuilderInterface;
@@ -134,20 +136,20 @@ class NotificationHomeComponentBuilder implements DtoBuilderInterface
 
     private function createNotificationRemoveModalDto(string $notificationRemoveFormCsrfToken, string $notificationRemoveFormActionUrl): ModalComponentDto
     {
-        //     $homeModalDelete = new NotificationRemoveComponentDto(
-        //         NotificationRemoveComponent::getComponentName(),
-        //         [],
-        //         $notificationRemoveFormCsrfToken,
-        //         mb_strtolower($notificationRemoveFormActionUrl),
-        //         false
-        //     );
+        $homeModalDelete = new NotificationRemoveComponentDto(
+            NotificationRemoveComponent::getComponentName(),
+            [],
+            $notificationRemoveFormCsrfToken,
+            mb_strtolower($notificationRemoveFormActionUrl),
+            false
+        );
 
         return new ModalComponentDto(
             self::NOTIFICATION_DELETE_MODAL_ID,
             '',
             false,
-            '',// NotificationRemoveComponent::getComponentName(),
-            '',// $homeModalDelete,
+            NotificationRemoveComponent::getComponentName(),
+            $homeModalDelete,
             []
         );
     }

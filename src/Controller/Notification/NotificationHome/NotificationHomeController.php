@@ -32,8 +32,6 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class NotificationHomeController extends AbstractController
 {
-    private const NOTIFICATION_NAME_PLACEHOLDER = '--notification_name--';
-
     public function __construct(
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
@@ -110,10 +108,7 @@ class NotificationHomeController extends AbstractController
             )
             ->notificationRemoveFormModal(
                 $notificationRemoveForm->getCsrfToken(),
-                '',
-                // $this->generateUrl('notification_remove', [
-                //     'group_name' => $requestDto->groupData->name,
-                // ])
+                $this->generateUrl('notification_remove')
             )
             ->build();
     }

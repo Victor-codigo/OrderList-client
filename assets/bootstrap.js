@@ -12,6 +12,7 @@ import UserRemoveComponent from 'App/Twig/Components/User/UserRemove/UserRemoveC
 // NOTIFICATION
 import NotificationHomeSectionComponent from 'App/Twig/Components/Notification/NotificationHome/Home/NotificationHomeSection_controller';
 import NotificationListItemComponent from 'App/Twig/Components/Notification/NotificationHome/ListItem/NotificationListItem_controller';
+import NotificationRemoveComponent from 'App/Twig/Components/Notification/NotificationRemove/NotificationRemoveComponent_controller';
 
 // GENERAL
 import AlertComponent from 'App/Twig/Components/Alert/AlertComponent_controller';
@@ -137,6 +138,7 @@ app.register('UserRemoveComponent', UserRemoveComponent);
 // NOTIFICATION
 app.register('NotificationHomeSectionComponent', NotificationHomeSectionComponent);
 app.register('NotificationListItemComponent', NotificationListItemComponent);
+app.register('NotificationRemoveComponent', NotificationRemoveComponent);
 
 // GROUP
 app.register('GroupHomeComponent', GroupHomeComponent);
