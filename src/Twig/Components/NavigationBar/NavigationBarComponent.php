@@ -84,7 +84,7 @@ class NavigationBarComponent extends TwigComponent
             return [];
         }
 
-        if (!in_array($data->sectionActiveId, self::ROUTES_NO_SHOW_MENU_SECTIONS)) {
+        if (in_array($data->sectionActiveId, self::ROUTES_NO_SHOW_MENU_SECTIONS)) {
             return [];
         }
 
