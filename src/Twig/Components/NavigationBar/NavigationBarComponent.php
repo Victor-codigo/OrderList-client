@@ -27,12 +27,14 @@ class NavigationBarComponent extends TwigComponent
         'group_home',
         'group_users_home',
         'order_home',
+        'notification_home',
     ];
 
     private const ROUTES_NO_SHOW_MENU_SECTIONS = [
         'user_profile',
         'group_home',
         'group_users_home',
+        'notification_home',
     ];
 
     private readonly RouterInterface $router;
@@ -44,6 +46,7 @@ class NavigationBarComponent extends TwigComponent
 
     public readonly array $sections;
     public readonly string $languageToggleUrl;
+    public readonly string $notificationUrl;
 
     public readonly string $backButtonTitle;
 
@@ -67,6 +70,7 @@ class NavigationBarComponent extends TwigComponent
 
         $sections = $this->createSections($this->data);
         $this->userButton = $this->createUserButton($data->userData);
+        $this->notificationUrl = $this->createNotificationsUrl();
         $this->groupButton = $this->createGroupButton($data->userData);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
         $this->sections = $sections;
@@ -149,6 +153,15 @@ class NavigationBarComponent extends TwigComponent
         return $this->router->generate($routeName, [
             '_locale' => 'en' === $locale ? 'es' : 'en',
             ...$routeParameters,
+        ]);
+    }
+
+    private function createNotificationsUrl(): string
+    {
+        return $this->router->generate('notification_home', [
+            'section' => 'notifications',
+            'page' => 1,
+            'page_items' => 100,
         ]);
     }
 

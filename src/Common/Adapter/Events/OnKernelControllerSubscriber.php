@@ -18,8 +18,10 @@ use App\Twig\Components\NavigationBar\NavigationBarDto;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Events\Exceptions\RequestGroupNameException;
 use Common\Adapter\Events\Exceptions\RequestListOrdersNameException;
+use Common\Adapter\Events\Exceptions\RequestNotificationsException;
 use Common\Adapter\Events\Exceptions\RequestProductNameException;
 use Common\Adapter\Events\Exceptions\RequestShopNameException;
+use Common\Adapter\Events\Exceptions\RequestUserException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\CodedUrlParameter;
 use Common\Domain\Config\Config;
@@ -74,6 +76,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $this->loadPageData($request),
             $this->loadPageItemsData($request),
             $this->loadUserSessionData(...),
+            $this->loadNotificationsData(...),
             $groupData,
             $this->loadShopData(...),
             $this->loadProductData(...),
@@ -105,6 +108,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $requestDto->locale ?? 'en',
             $requestDto->request->attributes->get('_route') ?? '',
             $requestDto->request->attributes->get('_route_params') ?? [],
+            count($requestDto->getNotificationsData()),
             $requestDto->requestReferer
         );
     }
@@ -118,10 +122,10 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
     }
 
-    private function loadLocale(Request $request): ?string
+    private function loadLocale(Request $request): string
     {
         if (!$request->attributes->has('_locale')) {
-            return null;
+            return 'en';
         }
 
         return $request->attributes->get('_locale');
@@ -153,6 +157,9 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
+    /**
+     * @throws RequestUserException
+     */
     private function loadUserSessionData(?string $tokenSession): ?UserDataResponse
     {
         if (null === $tokenSession) {
@@ -163,12 +170,33 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $userData = $this->endpoints->usersGetData([$userId], $tokenSession);
 
         if (!empty($userData['errors'])) {
-            throw RequestGroupNameException::fromMessage('User data not found');
+            throw RequestUserException::fromMessage('User data not found');
         }
 
         return UserDataResponse::fromArray($userData['data']['users'][0]);
     }
 
+    /**
+     * @throws RequestNotificationsException
+     */
+    private function loadNotificationsData(string $lang, string $tokenSession): array
+    {
+        if (null === $tokenSession) {
+            return [];
+        }
+
+        $notificationsData = $this->endpoints->notificationGetData(1, 100, $lang, $tokenSession);
+
+        if (!empty($notificationsData['errors'])) {
+            throw RequestNotificationsException::fromMessage('Notifications data not found');
+        }
+
+        return $notificationsData;
+    }
+
+    /**
+     * @throws RequestGroupNameException
+     */
     private function loadGroupData(ParameterBag $attributes, ?string $tokenSession): ?GroupDataResponse
     {
         if (null === $tokenSession) {

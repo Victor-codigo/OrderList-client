@@ -66,8 +66,7 @@
 
 			<a class="navbar__language-switch  p-3"
 			   href="{{ languageToggleUrl }}"
-			   role="button"
-			   type="button">
+			   role="button">
 
 				{% include "flag/spanish-flag.svg" %}
 			</a>
@@ -90,6 +89,26 @@
 					{% include "theme-auto-mode-icon.svg" %}
 				</div>
 			</button>
+
+
+
+			<a href="{{ notificationUrl }}"
+			   class="position-relative  navbar__language-switch  p-3"
+			   role="button">
+
+				{% if data.notificationsNewNumber > 0 %}
+
+				<span
+					  class="position-absolute  top-50  start-50  translate-middle-y  badge  rounded-pill  text-bg-danger  p-0  ps-1  pe-1">
+					{{ data.notificationsNewNumber }}
+					<span class="visually-hidden">New alerts</span>
+				</span>
+
+				{% endif %}
+
+				{% include "bell-icon.svg" %}
+			</a>
+
 
 			{% if not userButton is null %}
 

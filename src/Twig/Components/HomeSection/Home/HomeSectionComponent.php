@@ -22,9 +22,9 @@ class HomeSectionComponent extends TwigComponent
     public HomeSectionComponentDto|TwigComponentDtoInterface $data;
 
     public readonly TitleComponentDto $titleDto;
-    public readonly SearchBarComponentDto $searchBarFormDto;
-    public readonly ModalComponentDto $createFormModalDto;
-    public readonly ModalComponentDto $removeMultiFormModalDto;
+    public readonly ?SearchBarComponentDto $searchBarFormDto;
+    public readonly ?ModalComponentDto $createFormModalDto;
+    public readonly ?ModalComponentDto $removeMultiFormModalDto;
     public readonly HomeListComponentDto $listComponentDto;
     public readonly AlertValidationComponentDto $alertValidationComponentDto;
 

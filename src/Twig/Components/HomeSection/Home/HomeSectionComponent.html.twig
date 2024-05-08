@@ -7,7 +7,11 @@
 	{{ component('AlertValidationComponent', { data: alertValidationComponentDto }) }}
 	{% endif %}
 
+	{% if not searchBarFormDto is empty %}
+
 	{{ component('SearchBarComponent', { data: searchBarFormDto } ) }}
+
+	{% endif %}
 
 	<div class="border  border-0  p-2">
 
@@ -16,6 +20,8 @@
 		<header class="mb-3">
 			<div class="d-flex  flex-row">
 				{% block headerButtonsBlock %}
+
+				{% if not createFormModalDto is empty %}
 
 				<button type="button"
 						class="btn btn-primary  flex-grow-1  rounded-1"
@@ -29,8 +35,12 @@
 					<span class="align-middle">{{ lang.buttonAddLabel }}</span>
 				</button>
 
+				{% endif %}
+
 				{% block headerButtonsBetweenBlock %}
 				{% endblock headerButtonsBetweenBlock %}
+
+				{% if not data.removeMultiFormModalDto is empty %}
 
 				<div id="{{ data.removeMultiFormDto.formName }}"
 					 data-remove-items-id-input-name="{{ data.removeMultiFormDto.itemsIdFieldName }}"
@@ -50,6 +60,9 @@
 					</button>
 				</div>
 
+				{% endif %}
+
+
 				{% endblock headerButtonsBlock %}
 			</div>
 
@@ -63,6 +76,16 @@
 	</div>
 
 
+	{% if not createFormModalDto is empty %}
+
 	{{ component('ModalComponent', { data: createFormModalDto }) }}
+
+	{% endif %}
+
+	{% if not removeMultiFormModalDto is empty %}
+
 	{{ component('ModalComponent', { data: removeMultiFormModalDto }) }}
+
+	{% endif %}
+
 </section>

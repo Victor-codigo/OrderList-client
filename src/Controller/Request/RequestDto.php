@@ -6,6 +6,7 @@ namespace App\Controller\Request;
 
 use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ListOrdersDataResponse;
+use App\Controller\Request\Response\NotificationDataResponse;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class RequestDto
 {
     /**
-     * @param \Closure<UserDataResponse> $userSessionData
+     * @param \Closure<UserDataResponse> $userSessionDataCallback
      */
     public function __construct(
         private readonly ?string $tokenSession,
@@ -30,12 +31,13 @@ class RequestDto
         public readonly ?string $productNameUrlEncoded,
         public readonly ?int $page,
         public readonly ?int $pageItems,
-        private readonly \Closure $userSessionData,
+        private readonly \Closure $userSessionDataCallback,
+        private readonly \Closure $notificationsDataCallback,
         public readonly ?GroupDataResponse $groupData,
-        private readonly \Closure $shopData,
-        private readonly \Closure $productData,
-        private readonly \Closure $listOrdersData,
-        private readonly \Closure $orderData,
+        private readonly \Closure $shopDataCallback,
+        private readonly \Closure $productDataCallback,
+        private readonly \Closure $listOrdersDataCallback,
+        private readonly \Closure $orderDataCallback,
         public readonly Request $request,
         public readonly ?RequestRefererDto $requestReferer
     ) {
@@ -58,10 +60,24 @@ class RequestDto
         static $userData;
 
         if (null === $userData) {
-            $userData = ($this->userSessionData)($this->tokenSession);
+            $userData = ($this->userSessionDataCallback)($this->tokenSession);
         }
 
         return $userData;
+    }
+
+    /**
+     * @return NotificationDataResponse[]
+     */
+    public function getNotificationsData(): array
+    {
+        static $notificationsData;
+
+        if (null === $notificationsData) {
+            $notificationsData = ($this->notificationsDataCallback)($this->locale, $this->tokenSession);
+        }
+
+        return $notificationsData;
     }
 
     public function getShopData(): ?ShopDataResponse
@@ -69,7 +85,7 @@ class RequestDto
         static $shopData;
 
         if (null === $shopData) {
-            $shopData = ($this->shopData)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+            $shopData = ($this->shopDataCallback)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
         }
 
         return $shopData;
@@ -80,7 +96,7 @@ class RequestDto
         static $productData;
 
         if (null === $productData) {
-            $productData = ($this->productData)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+            $productData = ($this->productDataCallback)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
         }
 
         return $productData;
@@ -91,7 +107,7 @@ class RequestDto
         static $listOrdersData;
 
         if (null === $listOrdersData) {
-            $listOrdersData = ($this->listOrdersData)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+            $listOrdersData = ($this->listOrdersDataCallback)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
         }
 
         return $listOrdersData;
@@ -102,7 +118,7 @@ class RequestDto
         static $ordersData;
 
         if (null === $ordersData) {
-            $ordersData = ($this->orderData)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
+            $ordersData = ($this->orderDataCallback)($this->request->attributes, $this->groupData?->id, $this->tokenSession);
         }
 
         return $ordersData;

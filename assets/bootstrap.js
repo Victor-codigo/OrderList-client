@@ -9,6 +9,10 @@ import PasswordChangeComponent from 'App/Twig/Components/User/PasswordChange/Pas
 import EmailChangeComponent from 'App/Twig/Components/User/EmailChange/EmailChangeComponent_controller';
 import UserRemoveComponent from 'App/Twig/Components/User/UserRemove/UserRemoveComponent_controller';
 
+// NOTIFICATION
+import NotificationHomeSectionComponent from 'App/Twig/Components/Notification/NotificationHome/Home/NotificationHomeSection_controller';
+import NotificationListItemComponent from 'App/Twig/Components/Notification/NotificationHome/ListItem/NotificationListItem_controller';
+
 // GENERAL
 import AlertComponent from 'App/Twig/Components/Alert/AlertComponent_controller';
 import NavigationBarComponent from 'App/Twig/Components/NavigationBar/NavigationBar_controller';
@@ -129,6 +133,10 @@ app.register('PasswordRememberComponent', PasswordRememberComponent);
 app.register('PasswordChangeComponent', PasswordChangeComponent);
 app.register('EmailChangeComponent', EmailChangeComponent);
 app.register('UserRemoveComponent', UserRemoveComponent);
+
+// NOTIFICATION
+app.register('NotificationHomeSectionComponent', NotificationHomeSectionComponent);
+app.register('NotificationListItemComponent', NotificationListItemComponent);
 
 // GROUP
 app.register('GroupHomeComponent', GroupHomeComponent);

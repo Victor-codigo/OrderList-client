@@ -43,11 +43,12 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
 
     public readonly bool $displayHeaderButtonsHide;
 
-    public readonly SearchBarComponentDto $searchComponentDto;
-    public readonly RemoveMultiFormDto $removeMultiFormDto;
-    public readonly ModalComponentDto $removeMultiFormModalDto;
-    public readonly ModalComponentDto $removeFormModalDto;
-    public readonly ModalComponentDto $createFormModalDto;
+    public readonly ?SearchBarComponentDto $searchComponentDto;
+    public readonly ?RemoveMultiFormDto $removeMultiFormDto;
+
+    public readonly ?ModalComponentDto $removeMultiFormModalDto;
+    public readonly ?ModalComponentDto $removeFormModalDto;
+    public readonly ?ModalComponentDto $createFormModalDto;
     public readonly ?ModalComponentDto $modifyFormModalDto;
 
     private DtoBuilder $builder;
@@ -81,7 +82,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function searchBar(SearchBarComponentDto $searchBarComponentDto): self
+    public function searchBar(?SearchBarComponentDto $searchBarComponentDto): self
     {
         $this->builder->setMethodStatus('searchBar', true);
 
@@ -90,7 +91,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function removeMultiFormModal(ModalComponentDto $removeMultiFormModalDto): self
+    public function removeMultiFormModal(?ModalComponentDto $removeMultiFormModalDto): self
     {
         $this->builder->setMethodStatus('removeMultiFormModal', true);
 
@@ -99,7 +100,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function removeFormModal(ModalComponentDto $removeFormModalDto): self
+    public function removeFormModal(?ModalComponentDto $removeFormModalDto): self
     {
         $this->builder->setMethodStatus('removeFormModal', true);
 
@@ -108,7 +109,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function createFormModal(ModalComponentDto $createFormModalDto): self
+    public function createFormModal(?ModalComponentDto $createFormModalDto): self
     {
         $this->builder->setMethodStatus('createFormModal', true);
 

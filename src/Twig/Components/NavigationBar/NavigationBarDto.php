@@ -18,6 +18,7 @@ class NavigationBarDto implements TwigComponentDtoInterface
         public readonly string $locale,
         public readonly string $routeName,
         public readonly array $routeParameters,
+        public readonly int $notificationsNewNumber,
         public readonly ?RequestRefererDto $refererRoute,
     ) {
     }
