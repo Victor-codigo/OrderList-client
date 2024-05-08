@@ -119,7 +119,7 @@ class GroupUsersHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'group_home',
+                'group_users_home',
                 $requestDto->requestReferer->params,
                 [],
                 [],
