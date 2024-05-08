@@ -89,7 +89,7 @@ export default class extends Controller {
     #modalShowOnSubmitOk(shopNewId, shopNewName) {
         const chainCurrentName = this.#modalManager.getChainCurrent().getName();
 
-        this.#modalManager.openModalAlreadyOpened(MODAL_CHAINS[chainCurrentName].modals.productCreate.open.shopCreated, {
+        this.#modalManager.openModalAlreadyOpened(MODAL_CHAINS[chainCurrentName].modals.shopCreate.open.shopCreated, {
             itemData: {
                 id: shopNewId.trim(),
                 name: shopNewName.trim()
