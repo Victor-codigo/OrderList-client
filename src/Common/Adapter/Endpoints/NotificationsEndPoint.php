@@ -10,10 +10,10 @@ use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 
 class NotificationsEndPoint extends EndpointBase
 {
-    // public const DELETE_PRODUCT_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/notification';
+    public const DELETE_NOTIFICATION_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/notification';
     public const GET_NOTIFICATION_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/notification';
 
-    private static self|null $instance = null;
+    private static ?self $instance = null;
 
     private function __construct(
         private HttpClientInterface $httpClient
@@ -30,34 +30,29 @@ class NotificationsEndPoint extends EndpointBase
     }
 
     /**
-     * @throws UnsupportedOptionException
-     * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    // public function productRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): array
-    // {
-    //     $response = $this->requestProductRemove($groupId, $productsId, $shopsId, $tokenSession);
+    public function notificationRemove(array $notificationsId, string $tokenSession): array
+    {
+        $response = $this->requestNotificationsRemove($notificationsId, $tokenSession);
 
-    //     return $this->apiResponseManage($response);
-    // }
+        return $this->apiResponseManage($response);
+    }
 
     /**
      * @throws UnsupportedOptionException
      */
-    // private function requestProductRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): HttpClientResponseInterface
-    // {
-    //     return $this->httpClient->request(
-    //         'DELETE',
-    //         self::DELETE_PRODUCT_DELETE,
-    //         HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
-    //                 'group_id' => $groupId,
-    //                 'products_id' => $productsId,
-    //                 'shops_id' => $shopsId,
-    //             ]),
-    //             $tokenSession
-    //         )
-    //     );
-    // }
+    private function requestNotificationsRemove(array $notificationsId, string $tokenSession): HttpClientResponseInterface
+    {
+        $parameters = [
+            'notifications_id' => implode(',', $notificationsId),
+        ];
+
+        return $this->httpClient->request(
+            'DELETE',
+            self::DELETE_NOTIFICATION_DELETE."?{$this->createQueryParameters($parameters)}&XDEBUG_SESSION=VSCODE",
+            HTTP_CLIENT_CONFIGURATION::json([], $tokenSession));
+    }
 
     /**
      * @return array<{
@@ -69,9 +64,9 @@ class NotificationsEndPoint extends EndpointBase
      * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    public function productGetData(int $page, int $pageItems, string $lang, string $tokenSession): array
+    public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array
     {
-        $response = $this->requestProductGetData($page, $pageItems, $lang, $tokenSession);
+        $response = $this->requestNotificationGetData($page, $pageItems, $lang, $tokenSession);
 
         return $this->apiResponseManage($response,
             fn (array $responseDataError) => [
@@ -104,7 +99,7 @@ class NotificationsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestProductGetData(int $page, int $pageItems, string $lang, string $tokenSession): HttpClientResponseInterface
+    private function requestNotificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): HttpClientResponseInterface
     {
         $parameters = [
             'page' => $page,

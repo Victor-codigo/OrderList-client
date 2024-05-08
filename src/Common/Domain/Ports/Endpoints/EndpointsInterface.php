@@ -330,4 +330,9 @@ interface EndpointsInterface
      * @throws UnsupportedOptionException
      */
     public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array;
+
+    /**
+     * @throws RequestUnauthorizedException
+     */
+    public function notificationRemove(array $notificationsId, string $tokenSession): array;
 }

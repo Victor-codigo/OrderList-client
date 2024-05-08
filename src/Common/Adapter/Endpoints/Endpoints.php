@@ -561,6 +561,14 @@ class Endpoints implements EndpointsInterface
      */
     public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array
     {
-        return NotificationsEndPoint::getInstance($this->httpClient)->productGetData($page, $pageItems, $lang, $tokenSession);
+        return NotificationsEndPoint::getInstance($this->httpClient)->notificationGetData($page, $pageItems, $lang, $tokenSession);
+    }
+
+    /**
+     * @throws RequestUnauthorizedException
+     */
+    public function notificationRemove(array $notificationsId, string $tokenSession): array
+    {
+        return NotificationsEndPoint::getInstance($this->httpClient)->notificationRemove($notificationsId, $tokenSession);
     }
 }
