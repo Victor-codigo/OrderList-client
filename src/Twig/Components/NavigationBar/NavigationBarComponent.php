@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\NavigationBar;
 
+use App\Controller\Request\Response\NotificationDataResponse;
 use App\Controller\Request\Response\UserDataResponse;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -50,6 +51,8 @@ class NavigationBarComponent extends TwigComponent
 
     public readonly string $backButtonTitle;
 
+    public readonly int $notificationsNewNumber;
+
     public readonly ?UserButtonDto $userButton;
     public readonly ?GroupButtonDto $groupButton;
 
@@ -71,6 +74,7 @@ class NavigationBarComponent extends TwigComponent
         $sections = $this->createSections($this->data);
         $this->userButton = $this->createUserButton($data->userData);
         $this->notificationUrl = $this->createNotificationsUrl();
+        $this->notificationsNewNumber = $this->getNotificationsNewCount($this->data->notificationsData);
         $this->groupButton = $this->createGroupButton($data->userData);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
         $this->sections = $sections;
@@ -195,10 +199,23 @@ class NavigationBarComponent extends TwigComponent
             $this->translate('navigation.groups.label'),
             $this->translate('navigation.groups.title'),
             $this->router->generate('group_home', [
-                    'section' => 'groups',
-                    'page' => 1,
-                    'page_items' => 100,
-                ])
+                'section' => 'groups',
+                'page' => 1,
+                'page_items' => 100,
+            ])
         );
+    }
+
+    /**
+     * @param NotificationDataResponse[] $notificationsData
+     */
+    private function getNotificationsNewCount(array $notificationsData): int
+    {
+        $notificationsNew = array_filter(
+            $notificationsData,
+            fn (NotificationDataResponse $notificationData) => !$notificationData->viewed
+        );
+
+        return count($notificationsNew);
     }
 }

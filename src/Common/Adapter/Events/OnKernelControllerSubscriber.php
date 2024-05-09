@@ -109,7 +109,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $requestDto->locale ?? 'en',
             $requestDto->request->attributes->get('_route') ?? '',
             $requestDto->request->attributes->get('_route_params') ?? [],
-            count($requestDto->getNotificationsData()),
+            $requestDto->getNotificationsData(),
             $requestDto->requestReferer
         );
     }
