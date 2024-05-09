@@ -12,6 +12,7 @@ class NotificationsEndPoint extends EndpointBase
 {
     public const DELETE_NOTIFICATION_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/notification';
     public const GET_NOTIFICATION_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/notification';
+    public const PATCH_NOTIFICATION_MARK_AS_VIEWED = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/notification/mark-as-viewed';
 
     private static ?self $instance = null;
 
@@ -50,7 +51,7 @@ class NotificationsEndPoint extends EndpointBase
 
         return $this->httpClient->request(
             'DELETE',
-            self::DELETE_NOTIFICATION_DELETE."?{$this->createQueryParameters($parameters)}&XDEBUG_SESSION=VSCODE",
+            self::DELETE_NOTIFICATION_DELETE."?{$this->createQueryParameters($parameters)}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession));
     }
 
@@ -111,6 +112,40 @@ class NotificationsEndPoint extends EndpointBase
             'GET',
             self::GET_NOTIFICATION_DATA."?{$this->createQueryParameters($parameters)}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
+        );
+    }
+
+    /**
+     * @param string[] $notificationsId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationMarkAsViewed(array $notificationsId, string $tokenSession): array
+    {
+        $response = $this->requestNotificationsMarkAsViewed($notificationsId, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestNotificationsMarkAsViewed(array $notificationsId, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'PATCH',
+            self::PATCH_NOTIFICATION_MARK_AS_VIEWED.'?XDEBUG_SESSION=VSCODE',
+            HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
+                'notifications_id' => $notificationsId,
+                // '_method' => 'PATCH',
+            ]),
+                $tokenSession
+            )
         );
     }
 }

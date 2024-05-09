@@ -332,7 +332,16 @@ interface EndpointsInterface
     public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array;
 
     /**
+     * @param string[] $notificationsId
+     *
      * @throws RequestUnauthorizedException
      */
     public function notificationRemove(array $notificationsId, string $tokenSession): array;
+
+    /**
+     * @param string[] $notificationsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationMarkAsViewed(array $notificationsId, string $tokenSession): array;
 }

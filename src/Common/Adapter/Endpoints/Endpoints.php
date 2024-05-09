@@ -565,10 +565,22 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @param string[] $notificationsId
+     *
      * @throws RequestUnauthorizedException
      */
     public function notificationRemove(array $notificationsId, string $tokenSession): array
     {
         return NotificationsEndPoint::getInstance($this->httpClient)->notificationRemove($notificationsId, $tokenSession);
+    }
+
+    /**
+     * @param string[] $notificationsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationMarkAsViewed(array $notificationsId, string $tokenSession): array
+    {
+        return NotificationsEndPoint::getInstance($this->httpClient)->notificationMarkAsViewed($notificationsId, $tokenSession);
     }
 }
