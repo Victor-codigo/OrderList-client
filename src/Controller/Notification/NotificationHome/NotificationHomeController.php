@@ -50,6 +50,7 @@ class NotificationHomeController extends AbstractController
             $requestDto->locale,
             $requestDto->getTokenSessionOrFail()
         );
+        $this->markNotificationsAsViewed($notificationsData['notifications'], $requestDto->getTokenSessionOrFail());
 
         $notificationHomeComponentDto = $this->createNotificationHomeComponentDto(
             $requestDto,
@@ -76,6 +77,15 @@ class NotificationHomeController extends AbstractController
         );
 
         return $notificationsData['data'];
+    }
+
+    private function markNotificationsAsViewed(array $notificationsData, string $tokenSession): void
+    {
+        $notificationsId = array_map(
+            fn (NotificationDataResponse $notificationData) => $notificationData->id,
+            $notificationsData
+        );
+        $this->endpoints->notificationMarkAsViewed($notificationsId, $tokenSession);
     }
 
     private function createNotificationHomeComponentDto(RequestDto $requestDto, FormInterface $notificationRemoveForm, array $notificationsData, int $pagesTotal): NotificationHomeSectionComponentDto
