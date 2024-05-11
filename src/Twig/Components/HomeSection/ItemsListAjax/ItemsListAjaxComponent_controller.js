@@ -149,7 +149,7 @@ export default class ItemsListAjaxController extends Controller {
                         alt: this.#itemImageTitle.replace('{item_name}', itemResponseData.name),
                         src: itemResponseData.image === null || typeof itemResponseData.image === 'undefined'
                             ? this.#urlNoItemsImage
-                            : `${this.#urlPathItemsImages}/${itemResponseData.image}`,
+                            : itemResponseData.image,
                         noImage: itemResponseData.image === null || typeof itemResponseData.image === 'undefined' ? true : false
                     },
                     data: {

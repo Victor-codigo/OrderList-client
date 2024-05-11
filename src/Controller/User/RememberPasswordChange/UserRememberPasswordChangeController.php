@@ -75,7 +75,7 @@ class UserRememberPasswordChangeController extends AbstractController
 
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_CHANGE_ENDPOINT.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_CHANGE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([
                 'token' => $sessionToken,
                 'passwordNew' => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW],

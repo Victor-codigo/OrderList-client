@@ -8,7 +8,6 @@ use App\Controller\Request\Response\NotificationDataResponse;
 use App\Controller\Request\Response\UserDataResponse;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -177,9 +176,7 @@ class NavigationBarComponent extends TwigComponent
 
         return new UserButtonDto(
             $userData->name,
-            null === $userData->image
-                ? null
-                : HTTP_CLIENT_CONFIGURATION::API_DOMAIN."/{$userData->image}",
+            $userData->image,
             $this->translate('navigation.profile.title'),
             $this->translate('navigation.profile.alt'),
             $this->router->generate('user_profile',

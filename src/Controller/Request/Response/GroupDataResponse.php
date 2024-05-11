@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Request\Response;
 
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
-
 class GroupDataResponse
 {
     public function __construct(
@@ -33,7 +31,7 @@ class GroupDataResponse
             $data['group_id'],
             $data['name'],
             $data['description'],
-            null === $data['image'] ? null : HTTP_CLIENT_CONFIGURATION::API_DOMAIN."/{$data['image']}",
+            $data['image'],
             \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['created_on']),
             $data['admin'] ?? false
         );

@@ -11,7 +11,6 @@ use App\Form\PasswordChange\PasswordChangeForm;
 use App\Form\UserRemove\UserRemoveForm;
 use App\Form\User\Profile\ProfileForm;
 use Common\Adapter\Endpoints\Endpoints;
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -113,9 +112,7 @@ class UserProfileController extends AbstractController
             $formPasswordChange,
             $formUserRemove,
             $validForm,
-            null === $this->userData->image
-                ? HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PROFILE_IMAGE_NOT_SET
-                : $this->apiUrl.$this->userData->image,
+            $this->userData->image
         );
 
         return $this->render('user/user_profile/index.html.twig', [

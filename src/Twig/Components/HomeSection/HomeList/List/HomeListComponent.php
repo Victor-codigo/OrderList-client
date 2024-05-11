@@ -5,7 +5,6 @@ namespace App\Twig\Components\HomeSection\HomeList\List;
 use App\Twig\Components\List\ListComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -14,8 +13,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 final class HomeListComponent extends TwigComponent
 {
-    private const API_DOMAIN = HTTP_CLIENT_CONFIGURATION::API_DOMAIN;
-
     public HomeListComponentLangDto $lang;
     public HomeListComponentDto|TwigComponentDtoInterface $data;
     public readonly ListComponentDto $homeListDto;

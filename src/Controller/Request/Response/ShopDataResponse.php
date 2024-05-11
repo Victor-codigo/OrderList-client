@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Request\Response;
 
-use Common\Domain\Config\Config;
-
 class ShopDataResponse
 {
     public function __construct(
         public readonly string $id,
         public readonly string $groupId,
         public readonly string $name,
-        public readonly string|null $description,
-        public readonly string|null $image,
+        public readonly ?string $description,
+        public readonly ?string $image,
         public readonly \DateTimeImmutable $createdOn,
     ) {
     }
@@ -34,7 +32,7 @@ class ShopDataResponse
             $data['group_id'],
             $data['name'],
             $data['description'],
-            null === $data['image'] ? null : Config::API_IMAGES_SHOP_PATH."/{$data['image']}",
+            $data['image'],
             \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['created_on']),
         );
     }

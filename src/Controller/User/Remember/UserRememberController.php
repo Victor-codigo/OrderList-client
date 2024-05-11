@@ -31,7 +31,7 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class UserRememberController extends AbstractController
 {
-    private const PASSWORD_REMEMBER_ENDPONINT = '/api/v1/users/remember';
+    private const PASSWORD_REMEMBER_ENDPOINT = '/api/v1/users/remember';
 
     public function __construct(
         private FormFactoryInterface $formFactory,
@@ -74,7 +74,7 @@ class UserRememberController extends AbstractController
 
         return $this->httpClient->request(
             'POST',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_REMEMBER_ENDPONINT."?lang={$locale}",
+            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_REMEMBER_ENDPOINT."?lang={$locale}",
             HTTP_CLIENT_CONFIGURATION::json([
                 'email' => $formData[PASSWORD_REMEMBER_FORM_FIELDS::EMAIL],
                 'email_password_remember_url' => HTTP_CLIENT_CONFIGURATION::CLIENT_DOMAIN."/{$locale}/user/password-remember",

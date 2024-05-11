@@ -8,7 +8,6 @@ use App\Twig\Components\Alert\AlertComponentDto;
 use App\Twig\Components\List\ListComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
@@ -17,7 +16,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 )]
 final class GroupListComponent extends TwigComponent
 {
-    private const API_DOMAIN = HTTP_CLIENT_CONFIGURATION::API_DOMAIN;
     public GroupListComponentLangDto $lang;
     public GroupListComponentDto|TwigComponentDtoInterface $data;
     public readonly ListComponentDto $listDto;
@@ -56,7 +54,7 @@ final class GroupListComponent extends TwigComponent
         $errorsLang = [];
         foreach ($this->data->errors as $field => $error) {
             $errorsLang[] = match ($field) {
-                GROUP_REMOVE_FORM_ERRORS::GROUP_ID_WRONG->value => $this->translate('validation.error.group_id_wrong'),
+                GROUP_REMOVE_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.group_id_wrong'),
                 GROUP_REMOVE_FORM_ERRORS::GROUP_NOT_FOUND->value => $this->translate('validation.error.group_not_found'),
                 GROUP_REMOVE_FORM_ERRORS::PERMISSIONS->value => $this->translate('validation.error.group_permissions'),
                 default => $this->translate('validation.error.internal_server')
