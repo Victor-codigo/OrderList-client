@@ -12,6 +12,7 @@ use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
+use Common\Domain\Config\Config;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -69,7 +70,7 @@ class ProfileComponent extends TwigComponent
     {
         return new ImageAvatarComponentDto(
             $imagePath,
-            'http://orderlist.api/assets/img/common/user-avatar-no-image.svg',
+            Config::USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
             $this->translate('image.alt')
         );
     }

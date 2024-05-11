@@ -21,8 +21,9 @@ export default class extends Controller {
         this.#imageTag = this.element.querySelector('[data-js-image]');
         this.#buttonImageRemoveTag = this.element.querySelector('[data-js-button-remove]');
         this.#buttonImageRemoveTag.addEventListener('click', this.removeImage.bind(this));
-
         this.#buttonImageRemoveUndoTag = this.element.querySelector('[data-js-button-remove-undo]');
+        this.setImage(this.#imageTag.src);
+
         this.#buttonImageRemoveUndoTag.addEventListener('click', this.removeImageUndo.bind(this));
     }
 
