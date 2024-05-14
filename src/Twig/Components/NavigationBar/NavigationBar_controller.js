@@ -12,8 +12,6 @@ export default class extends Controller {
         this.#backButton();
 
         this.#darkLightModeButton.addEventListener('click', this.#toggleDarkMode.bind(this));
-
-
     }
 
     disconnect() {

@@ -1,0 +1,13 @@
+error: 403
+
+title: Forbidden
+
+description: We are sorry, but you do not have access to this page
+
+go_home_button:
+  label: Go to home page
+  title: Go to home page
+
+go_login_button:
+  label: Go to login
+  title: Go to login

@@ -1,0 +1,11 @@
+error: 500
+
+title: Internal Server Error
+
+description: |
+  Something were wrong,
+  try it later
+
+go_home_button:
+  label: Go to home page
+  title: Go to home page

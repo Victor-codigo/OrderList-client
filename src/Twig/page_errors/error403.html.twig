@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'Error403' %}
+
+{% block title %}
+Page not found
+{% endblock %}
+
+{% block navigation %}
+{% endblock %}
+
+{% block body %}
+<main class="container-fluid  min-vh-100  d-flex  flex-column  ps-0  pe-0  page-error">
+    <section class="d-flex  justify-content-center  block-above">
+        <h1 class="error-number">
+            {{ 'error'|trans(locale = _locale) }}
+        </h1>
+    </section>
+    <section class="d-flex  block-below  flex-grow-1">
+        <div class="d-flex  flex-column  justify-content-start  m-auto  mt-5  mb-5 ps-2  pe-2">
+
+            <p class="fs-1  text-center  text-primary  primary-color-dark">
+
+                {{ 'title'|trans(locale = _locale) }}
+
+            </p>
+
+            <p class="fs-4  text-center">
+                {{ 'description'|trans(locale = _locale) }}
+            </p>
+
+            <hr>
+
+            <div class="text-center  mt-4">
+                <a class="btn  btn-primary  me-2"
+                   href="{{ path('user_login_home', { '_locale': _locale } ) }}"
+                   title="{{ 'go_login_button.title'|trans(locale = _locale) }}"
+                   role="button">{{ 'go_login_button.label'|trans(locale = _locale) }}
+                </a>
+
+                <a class="btn  btn-primary"
+                   href="{{ path('home', { '_locale': _locale } ) }}"
+                   title="{{ 'go_home_button.title'|trans(locale = _locale) }}"
+                   role="button">{{ 'go_home_button.label'|trans(locale = _locale) }}
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+</main>
+{% endblock %}

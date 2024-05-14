@@ -20,11 +20,14 @@
 </head>
 
 <body class="background">
+
+	{% block navigation %}
+
 	{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
 
-	<main class="container  container-fluid  background__main-layer">
-		{% block body %}{% endblock %}
-	</main>
+	{% endblock navigation %}
+
+	{% block body %}{% endblock %}
 </body>
 
 </html>
