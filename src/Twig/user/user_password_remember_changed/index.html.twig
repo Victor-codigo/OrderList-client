@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserLoginController!
+{% block title %}
+{{ pageTitle }}
 {% endblock %}
 
 {% block body %}
-	{{ component('AlertComponent', { data: AlertComponent }) }}
+<div class="container  mt-5  pt-5">
+	<div class="row  no-gutters">
+		<div class="col col-lg-6  offset-lg-3">
+			{{ component('UserPasswordRememberChangedComponent', { data: userPasswordRememberChangedComponentDto }) }}
+		</div>
+	</div>
+</div>
 {% endblock %}
