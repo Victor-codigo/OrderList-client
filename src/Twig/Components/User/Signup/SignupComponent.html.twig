@@ -14,9 +14,7 @@
 	{% endif %}
 
 
-	<div class="mb-5 pt-5 display-1 text-center">
-		{{ lang.title }}
-	</div>
+	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	<div class="mb-3">
 		<label for="email"
@@ -85,6 +83,6 @@
 
 
 	<div class="mt-5  text-center">
-		<a href="{{ path('user_login') }}">{{ lang.loginLink }}</a>
+		<a href="{{ path('user_login_home') }}">{{ lang.loginLink }}</a>
 	</div>
 </form>

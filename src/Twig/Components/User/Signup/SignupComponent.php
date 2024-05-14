@@ -8,6 +8,7 @@ use App\Form\User\Signup\SIGNUP_FORM_ERRORS;
 use App\Form\User\Signup\SIGNUP_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -29,6 +30,8 @@ class SignupComponent extends TwigComponent
     public readonly string $nickFieldName;
     public readonly string $submitFieldName;
 
+    public readonly TitleComponentDto $titleDto;
+
     protected static function getComponentName(): string
     {
         return 'SignupComponent';
@@ -47,6 +50,13 @@ class SignupComponent extends TwigComponent
         $this->submitFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function loadTranslation(): void

@@ -12,6 +12,7 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
@@ -36,6 +37,7 @@ class UserSignupController extends AbstractController
     public function __construct(
         private FormFactoryInterface $formFactory,
         private HttpClientInterface $httpClient,
+        private GetPageTitleService $getPageTitleService
     ) {
     }
 
@@ -99,6 +101,7 @@ class UserSignupController extends AbstractController
 
         return $this->render('user/user_signup/index.html.twig', [
             'SignupComponent' => $data,
+            'pageTitle' => $this->getPageTitleService->__invoke('SignupComponent'),
         ]);
     }
 }

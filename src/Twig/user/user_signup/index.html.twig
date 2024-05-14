@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserSignUpController!
+{% block title %}
+{{ pageTitle }}
 {% endblock %}
 
 {% block body %}
-	{{ component('SignupComponent', { data: SignupComponent }) }}
+<div class="container  mt-5">
+	<div class="row  no-gutters">
+		<div class="col col-lg-6  offset-lg-3">
+			{{ component('SignupComponent', { data: SignupComponent }) }}
+		</div>
+	</div>
+</div>
 {% endblock %}
