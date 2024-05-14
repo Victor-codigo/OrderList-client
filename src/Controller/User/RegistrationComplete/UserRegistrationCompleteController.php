@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\User\RegistrationComplete;
 
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\User\RegistrationComplete\RegistrationCompleteComponentDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,16 +28,17 @@ class UserRegistrationCompleteController extends AbstractController
 
     public function __invoke(): Response
     {
-        $alertInfoData = new AlertComponentDto(
-            ALERT_TYPE::INFO,
-            '',
-            $this->translator->trans('registration_complete.title', [], 'SignupComplete'),
-            $this->translator->trans('registration_complete.msg', ['appName' => $this->domainName], 'SignupComplete'),
-            false
+        return $this->renderRegistrationCompleteComponent();
+    }
+
+    private function renderRegistrationCompleteComponent(): Response
+    {
+        $registrationCompleteComponentDto = new RegistrationCompleteComponentDto(
+            $this->domainName
         );
 
         return $this->render('user/user_registration_complete/index.html.twig', [
-            'AlertComponent' => $alertInfoData,
+            'RegistrationCompleteComponentDto' => $registrationCompleteComponentDto,
         ]);
     }
 }
