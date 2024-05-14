@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\User\RememberEmailSend;
 
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\User\UserRememberEmailSend\UserRememberEmailSendComponentDto;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(
     path: '{_locale}/user/remember/email/send',
@@ -22,26 +21,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserRememberEmailSendController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator
+        private GetPageTitleService $getPageTitleService,
+        private string $domainName
     ) {
     }
 
     public function __invoke(): Response
     {
-        $data = new AlertComponentDto(
-            ALERT_TYPE::INFO,
-            '',
-            $this->translator->trans('email_send.title', [], 'UserrememberEmailSend'),
-            $this->translator->trans(
-                'email_send.message',
-                ['urlRememberPasswordForm' => $this->generateUrl('user_remember')],
-                'UserrememberEmailSend'
-            ),
-            false
+        return $this->renderUserRememberEmailSendComponentDto();
+    }
+
+    private function renderUserRememberEmailSendComponentDto(): Response
+    {
+        $userRememberEmailSendComponentDto = new UserRememberEmailSendComponentDto(
+            $this->generateUrl('user_remember')
         );
 
         return $this->render('user/user_remember_email_send/index.html.twig', [
-            'AlertComponent' => $data,
+            'userRememberEmailSendComponentDto' => $userRememberEmailSendComponentDto,
+            'pageTitle' => $this->getPageTitleService->__invoke('UserRememberEmailSendComponent'),
         ]);
     }
 }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\User\RegistrationComplete;
 
 use App\Twig\Components\User\RegistrationComplete\RegistrationCompleteComponentDto;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(
     path: '{_locale}/user/signup/complete',
@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserRegistrationCompleteController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
+        private GetPageTitleService $getPageTitleService,
         private string $domainName
     ) {
     }
@@ -39,6 +39,7 @@ class UserRegistrationCompleteController extends AbstractController
 
         return $this->render('user/user_registration_complete/index.html.twig', [
             'RegistrationCompleteComponentDto' => $registrationCompleteComponentDto,
+            'pageTitle' => $this->getPageTitleService->__invoke('RegistrationCompleteComponent'),
         ]);
     }
 }

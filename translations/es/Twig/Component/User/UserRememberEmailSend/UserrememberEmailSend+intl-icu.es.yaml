@@ -1,9 +1,0 @@
-email_send:
-  title: Email enviado
-  message: |
-    <strong>Te hemos enviado un email</strong> a tú cuenta de email.
-    <strong>Haz click en el enlace</strong> que contiene, para cambiar tú contraseña.
-
-    El enlace, será válido durante 24 horas.
-
-    Si no has recibido el email, <a href="{urlRememberPasswordForm}">vuelve a enviar otra vez el formulario.</a>
