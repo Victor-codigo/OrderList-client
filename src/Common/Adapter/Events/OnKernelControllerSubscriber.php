@@ -180,7 +180,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     /**
      * @throws RequestNotificationsException
      */
-    private function loadNotificationsData(string $lang, string $tokenSession): array
+    private function loadNotificationsData(string $lang, ?string $tokenSession): array
     {
         if (null === $tokenSession) {
             return [];
