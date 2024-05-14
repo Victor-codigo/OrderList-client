@@ -45,14 +45,24 @@ export function getStoredTheme() {
  * @param {HTMLElement} themeDarkIconTag
  */
 export function setTheme(theme, themeAutoIconTag, themeLightIconTag, themeDarkIconTag) {
+
+
     if (theme === THEMES.AUTO) {
         document.documentElement.setAttribute('data-bs-theme', getThemeDefault());
+
+        if (!themeAutoIconTag || !themeLightIconTag || !themeDarkIconTag) {
+            return;
+        }
 
         themeLightIconTag.hidden = true;
         themeDarkIconTag.hidden = true;
         themeAutoIconTag.hidden = false;
     } else {
         document.documentElement.setAttribute('data-bs-theme', theme);
+
+        if (!themeAutoIconTag || !themeLightIconTag || !themeDarkIconTag) {
+            return;
+        }
 
         if (theme === THEMES.DARK) {
             themeLightIconTag.hidden = false;
