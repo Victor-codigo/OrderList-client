@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\PageError;
+namespace Common\Adapter\Events;
 
 use App\Kernel;
 use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
 
-class ErrorExceptionSubscriber implements EventSubscriberInterface
+class OnKernelExceptionSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {
