@@ -8,6 +8,7 @@ use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
 use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -26,9 +27,11 @@ class PasswordRememberComponent extends TwigComponent
     public readonly string $emailFieldName;
     public readonly string $submitFieldName;
 
+    public readonly TitleComponentDto $titleDto;
+
     public static function getComponentName(): string
     {
-        return 'PassowrdRememberComponent';
+        return 'PasswordRememberComponent';
     }
 
     public function mount(PasswordRememberDto $data): void
@@ -41,6 +44,13 @@ class PasswordRememberComponent extends TwigComponent
         $this->submitFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function loadTranslation(): void

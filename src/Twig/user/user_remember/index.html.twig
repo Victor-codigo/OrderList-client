@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
-{% block title %}Hello UserSignUpController!
+{% block title %}
+{{ pageTitle }}
 {% endblock %}
 {% block body %}
-	{{ component('PasswordRememberComponent', { data: PasswordRememberComponent }) }}
+<div class="container  mt-5">
+	<div class="row  no-gutters">
+		<div class="col col-lg-6  offset-lg-3">
+			{{ component('PasswordRememberComponent', { data: PasswordRememberComponent }) }}
+		</div>
+	</div>
+</div>
 {% endblock %}

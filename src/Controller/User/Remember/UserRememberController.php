@@ -12,6 +12,7 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
@@ -35,7 +36,8 @@ class UserRememberController extends AbstractController
 
     public function __construct(
         private FormFactoryInterface $formFactory,
-        private HttpClientInterface $httpClient
+        private HttpClientInterface $httpClient,
+        private GetPageTitleService $getPageTitleService
     ) {
     }
 
@@ -93,6 +95,7 @@ class UserRememberController extends AbstractController
 
         return $this->render('user/user_remember/index.html.twig', [
             'PasswordRememberComponent' => $data,
+            'pageTitle' => $this->getPageTitleService->__invoke('PasswordRememberComponent'),
         ]);
     }
 }
