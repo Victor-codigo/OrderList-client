@@ -10,6 +10,7 @@ class Config
 {
     public const CLIENT_PROTOCOL = 'http';
     public const CLIENT_DOMAIN = 'orderlist.client';
+    public const CLIENT_DOMAIN_NAME = 'Order List';
     public const CLIENT_PROTOCOL_AND_DOMAIN = self::CLIENT_PROTOCOL.'://'.self::CLIENT_DOMAIN;
     public const CLIENT_ENDPOINT_SHOP_CREATE = '/{_locale}/shop/{group_name}/create';
     public const CLIENT_ENDPOINT_SHOP_MODIFY = '/{_locale}/shop/{group_name}/modify/{shop_name}';

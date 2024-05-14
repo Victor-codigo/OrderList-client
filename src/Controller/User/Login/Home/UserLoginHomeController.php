@@ -9,6 +9,7 @@ use App\Twig\Components\User\Login\LoginComponentDto;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Form\FormFactory;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
@@ -32,6 +33,7 @@ class UserLoginHomeController extends AbstractController
         private HttpClientInterface $httpClient,
         private Endpoints $apiEndpoints,
         private FlashBagInterface $sessionFlashBag,
+        private GetPageTitleService $getPageTitleService,
         private int $cookieSessionKeepAlive,
         private string $domainName,
         private string $cookieSessionName
@@ -68,6 +70,7 @@ class UserLoginHomeController extends AbstractController
 
         return $this->render('user/user_login/index.html.twig', [
             'LoginComponent' => $loginComponentData,
+            'pageTitle' => $this->getPageTitleService->__invoke('LoginComponent'),
         ]);
     }
 }

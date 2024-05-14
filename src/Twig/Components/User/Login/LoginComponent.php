@@ -5,6 +5,7 @@ namespace App\Twig\Components\User\Login;
 use App\Form\User\Login\LOGIN_FORM_ERRORS;
 use App\Form\User\Login\LOGIN_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -25,6 +26,8 @@ final class LoginComponent extends TwigComponent
     public readonly string $rememberMeFieldName;
     public readonly string $submitFieldName;
 
+    public readonly TitleComponentDto $titleDto;
+
     public static function getComponentName(): string
     {
         return 'LoginComponent';
@@ -42,6 +45,13 @@ final class LoginComponent extends TwigComponent
         $this->submitFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function loadTranslation(): void

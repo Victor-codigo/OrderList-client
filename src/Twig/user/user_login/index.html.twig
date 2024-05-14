@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserLoginController!
+{% block title %}
+{{ pageTitle }}
 {% endblock %}
 
 {% block body %}
-	{{ component('LoginComponent', { data: LoginComponent }) }}
+<div class="container  mt-5">
+	<div class="row  no-gutters">
+		<div class="col col-lg-6  offset-lg-3">
+			{{ component('LoginComponent', { data: LoginComponent }) }}
+		</div>
+	</div>
+</div>
 {% endblock %}
