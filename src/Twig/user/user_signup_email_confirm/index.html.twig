@@ -1,7 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserSignUpController!
+{% block title %}
+{{ pageTitle }}
 {% endblock %}
 {% block body %}
-	{{ component('AlertComponent', { data: SignupEmailConfirmation }) }}
+<div class="container  mt-5  pt-5">
+	<div class="row  no-gutters">
+		<div class="col col-lg-6  offset-lg-3">
+			{{ component('RegistrationEmailConfirmationComponent', { data: registrationEmailConfirmationComponentDto })
+			}}
+		</div>
+	</div>
+</div>
 {% endblock %}

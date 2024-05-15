@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\User\SignUpEmailConfirm;
+namespace App\Controller\User\RegistrationEmailConfirm;
 
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\User\RegistrationEmailConfirmation\RegistrationEmailConfirmationComponentDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,13 +26,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
         '_locale' => 'en|es',
     ]
 )]
-class UserSignupEmailConfirmController extends AbstractController
+class UserRegistrationEmailConfirmController extends AbstractController
 {
     private const SIGNUP_CONFIRM_ENDPOINT = '/api/v1/users/confirm';
 
     public function __construct(
         private HttpClientInterface $httpClient,
         private TranslatorInterface $translator,
+        private GetPageTitleService $getPageTitleService,
         private string $domainName
     ) {
     }
@@ -44,17 +45,16 @@ class UserSignupEmailConfirmController extends AbstractController
         try {
             $response = $this->requestSignupConfirm($token);
             $responseData = $response->toArray();
-            $responseHttp = $this->renderSignupEmailConfirmationOk();
+
+            return $this->renderRegistrationEmailConfirmationComponentOk();
         } catch (Error400Exception|Error500Exception|NetworkException $e) {
             $responseData = (object) $e->getResponse()->toArray(false);
 
             if (isset($responseData->errors['email_verified'])) {
-                $responseHttp = $this->renderSignupEmailConfirmationAlreadyVerified();
+                return $this->renderRegistrationEmailConfirmationComponentAlreadyVerified();
             } else {
-                $responseHttp = $this->renderSignupEmailConfirmationFail();
+                return $this->renderRegistrationEmailConfirmationComponentFail();
             }
-        } finally {
-            return $responseHttp;
         }
     }
 
@@ -72,52 +72,50 @@ class UserSignupEmailConfirmController extends AbstractController
         );
     }
 
-    private function renderSignupEmailConfirmationOk(): Response
+    private function renderRegistrationEmailConfirmationComponentOk(): Response
     {
         $params = [
-            'loginLink' => $this->generateUrl('user_login'),
+            'loginLink' => $this->generateUrl('user_login_home'),
             'appName' => $this->domainName,
         ];
 
-        return $this->renderSignupEmailConfirmation(
-            $this->translator->trans('signup_email_confirmation.title', [], 'SignupEmailConfirmation'),
-            $this->translator->trans('signup_email_confirmation.message', $params, 'SignupEmailConfirmation')
+        return $this->renderRegistrationEmailConfirmationComponent(
+            $this->translator->trans('signup_email_confirmation.title', [], 'RegistrationEmailConfirmationComponent'),
+            $this->translator->trans('signup_email_confirmation.message', $params, 'RegistrationEmailConfirmationComponent')
         );
     }
 
-    private function renderSignupEmailConfirmationAlreadyVerified(): Response
+    private function renderRegistrationEmailConfirmationComponentAlreadyVerified(): Response
     {
         $params = [
-            'loginLink' => $this->generateUrl('user_login'),
+            'loginLink' => $this->generateUrl('user_login_home'),
             'appName' => $this->domainName,
         ];
 
-        return $this->renderSignupEmailConfirmation(
-            $this->translator->trans('signup_email_confirmation_already_verified.title', [], 'SignupEmailConfirmation'),
-            $this->translator->trans('signup_email_confirmation_already_verified.message', $params, 'SignupEmailConfirmation')
+        return $this->renderRegistrationEmailConfirmationComponent(
+            $this->translator->trans('signup_email_confirmation_already_verified.title', [], 'RegistrationEmailConfirmationComponent'),
+            $this->translator->trans('signup_email_confirmation_already_verified.message', $params, 'RegistrationEmailConfirmationComponent')
         );
     }
 
-    private function renderSignupEmailConfirmationFail(): Response
+    private function renderRegistrationEmailConfirmationComponentFail(): Response
     {
-        return $this->renderSignupEmailConfirmation(
-            $this->translator->trans('signup_email_confirmation_fail.title', [], 'SignupEmailConfirmation'),
-            $this->translator->trans('signup_email_confirmation_fail.message', [], 'SignupEmailConfirmation')
+        return $this->renderRegistrationEmailConfirmationComponent(
+            $this->translator->trans('signup_email_confirmation_fail.title', [], 'RegistrationEmailConfirmationComponent'),
+            $this->translator->trans('signup_email_confirmation_fail.message', [], 'RegistrationEmailConfirmationComponent')
         );
     }
 
-    private function renderSignupEmailConfirmation(string $title, string $message): Response
+    private function renderRegistrationEmailConfirmationComponent(string $title, string $message): Response
     {
-        $data = new AlertComponentDto(
-            ALERT_TYPE::INFO,
-            '',
+        $registrationEmailConfirmationComponent = new RegistrationEmailConfirmationComponentDto(
             $title,
             $message,
-            false
         );
 
         return $this->render('user/user_signup_email_confirm/index.html.twig', [
-            'SignupEmailConfirmation' => $data,
+            'registrationEmailConfirmationComponentDto' => $registrationEmailConfirmationComponent,
+            'pageTitle' => $this->getPageTitleService->__invoke('RegistrationEmailConfirmationComponent'),
         ]);
     }
 }
