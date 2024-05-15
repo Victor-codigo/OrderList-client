@@ -9,13 +9,14 @@ navigation:
     label: Grupos
     title: Ir a tús grupos
 
+  logout:
+    label: Cerrar sesión
+    title: Cierra la sesión actual
+
   back_button:
     title: Volver
 
   section:
-    groups:
-      label: Grupos
-      title: Muestra la lista de grupos
     list_orders:
       label: Lista de pedidos
       title: Muestra la lista de pedidos

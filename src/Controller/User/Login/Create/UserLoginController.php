@@ -37,7 +37,6 @@ class UserLoginController extends AbstractController
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private LoginComponent $loginComponent,
         private int $cookieSessionKeepAlive,
-        private string $domainName,
         private string $cookieSessionName
     ) {
     }
@@ -102,7 +101,7 @@ class UserLoginController extends AbstractController
             $tokenSession,
             $sessionExpire,
             '/',
-            $this->domainName,
+            '',
             'https' === mb_strtolower(Config::CLIENT_PROTOCOL) ? true : false,
             false
         );

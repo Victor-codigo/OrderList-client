@@ -53,7 +53,8 @@ class NavigationBarComponent extends TwigComponent
     public readonly int $notificationsNewNumber;
 
     public readonly ?UserButtonDto $userButton;
-    public readonly ?GroupButtonDto $groupButton;
+    public readonly ?MenuButtonDto $groupButton;
+    public readonly ?MenuButtonDto $logoutButton;
 
     protected static function getComponentName(): string
     {
@@ -75,6 +76,7 @@ class NavigationBarComponent extends TwigComponent
         $this->notificationUrl = $this->createNotificationsUrl();
         $this->notificationsNewNumber = $this->getNotificationsNewCount($this->data->notificationsData);
         $this->groupButton = $this->createGroupButton($data->userData);
+        $this->logoutButton = $this->createLogoutButton($data->userData);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
         $this->sections = $sections;
         $this->backButtonTitle = $this->translate('navigation.back_button.title');
@@ -186,13 +188,13 @@ class NavigationBarComponent extends TwigComponent
         );
     }
 
-    private function createGroupButton(?UserDataResponse $userData): ?GroupButtonDto
+    private function createGroupButton(?UserDataResponse $userData): ?MenuButtonDto
     {
         if (null === $userData) {
             return null;
         }
 
-        return new GroupButtonDto(
+        return new MenuButtonDto(
             $this->translate('navigation.groups.label'),
             $this->translate('navigation.groups.title'),
             $this->router->generate('group_home', [
@@ -200,6 +202,19 @@ class NavigationBarComponent extends TwigComponent
                 'page' => 1,
                 'page_items' => 100,
             ])
+        );
+    }
+
+    private function createLogoutButton(?UserDataResponse $userData): ?MenuButtonDto
+    {
+        if (null === $userData) {
+            return null;
+        }
+
+        return new MenuButtonDto(
+            $this->translate('navigation.logout.label'),
+            $this->translate('navigation.logout.title'),
+            $this->router->generate('user_logout')
         );
     }
 

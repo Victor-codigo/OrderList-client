@@ -9,13 +9,14 @@ navigation:
     label: Groups
     title: Go to your groups
 
+  logout:
+    label: Logout
+    title: Closes the current session
+
   back_button:
     title: Go back
 
   section:
-    groups:
-      label: Groups
-      title: Shows a list of groups
     list_orders:
       label: List orders
       title: Shows a list of orders

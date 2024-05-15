@@ -78,6 +78,21 @@
             margin-left: 5px;
         }
 
+        .user-profile__menu-item {
+            .menu-item__name {
+                margin-left: 5px;
+            }
+
+            .menu-item__logout {
+
+                svg {
+                    color: $red;
+                }
+            }
+        }
+
+
+
         svg {
             height: 24px;
             width: 24px;
