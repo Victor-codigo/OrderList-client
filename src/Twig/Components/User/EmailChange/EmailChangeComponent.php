@@ -7,6 +7,7 @@ namespace App\Twig\Components\User\EmailChange;
 use App\Form\EmailChange\EMAIL_CHANGE_FORM_ERRORS;
 use App\Form\EmailChange\EMAIL_CHANGE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,6 +28,8 @@ class EmailChangeComponent extends TwigComponent
     public readonly string $passwordFieldName;
     public readonly string $submitFieldName;
     public readonly string $tokenCsrfFieldName;
+
+    public readonly TitleComponentDto $titleDto;
 
     public static function getComponentName(): string
     {
@@ -49,6 +52,13 @@ class EmailChangeComponent extends TwigComponent
         $this->data = $data;
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function loadTranslation(): void

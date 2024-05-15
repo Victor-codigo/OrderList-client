@@ -7,6 +7,7 @@ namespace App\Twig\Components\User\PasswordChange;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -28,6 +29,8 @@ class PasswordChangeComponent extends TwigComponent
     public readonly string $submitFieldName;
     public readonly string $tokenCsrfFieldName;
 
+    public readonly TitleComponentDto $titleDto;
+
     public static function getComponentName(): string
     {
         return 'PasswordChangeComponent';
@@ -46,6 +49,13 @@ class PasswordChangeComponent extends TwigComponent
         $this->tokenCsrfFieldName = sprintf('%s[%s]', PASSWORD_CHANGE_FORM_FIELDS::FORM, PASSWORD_CHANGE_FORM_FIELDS::TOKEN);
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title);
     }
 
     private function loadTranslation(): void
