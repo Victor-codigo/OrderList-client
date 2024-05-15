@@ -15,7 +15,7 @@
              title="{{ lang.imageItemTitle }}"
              data-js-item-image>
 
-            {% include "shop/shop-no-image-200x200.svg" %}
+            {% include "shop/shop-no-image.svg" %}
         </div>
 
         {% else %}
@@ -49,7 +49,7 @@
             data-bs-target="#{{ data.infoFormModalIdAttribute }}"
             data-action="ShopListItemComponent#sendMessageHomeListItemInfoToParent">
 
-        {% include 'info-icon-blue-24x24.svg' %}
+        {% include 'info-icon.svg' %}
     </button>
 
     <button type="button"
@@ -61,7 +61,7 @@
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
             data-action="ShopListItemComponent#sendMessageHomeListItemModifyToParent">
 
-        {% include 'modify-icon-blue-24x24.svg' %}
+        {% include 'modify-icon.svg' %}
     </button>
 
     <button type="button"
@@ -74,6 +74,6 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="ShopListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include 'remove-icon-red-24x24.svg' %}
+        {% include 'remove-icon.svg' %}
     </button>
 </li>

@@ -68,7 +68,7 @@
             data-bs-target="#{{ data.groupInfoModalIdAttribute }}"
             data-action="GroupListItemComponent#sendMessageHomeListItemInfoToParent">
 
-        {% include 'info-icon-blue-24x24.svg' %}
+        {% include 'info-icon.svg' %}
     </button>
 
     {% if data.admin %}
@@ -81,7 +81,7 @@
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
             data-action="GroupListItemComponent#sendMessageHomeListItemModifyToParent">
 
-        {% include 'modify-icon-blue-24x24.svg' %}
+        {% include 'modify-icon.svg' %}
     </button>
 
     <button type="button"
@@ -93,7 +93,7 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="GroupListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include 'remove-icon-red-24x24.svg' %}
+        {% include 'remove-icon.svg' %}
     </button>
 
     {% endif %}
