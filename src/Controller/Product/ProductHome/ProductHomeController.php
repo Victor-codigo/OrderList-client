@@ -22,6 +22,7 @@ use Common\Adapter\Endpoints\ProductsEndPoint;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -50,7 +51,8 @@ class ProductHomeController extends AbstractController
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
-        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect
+        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
+        private GetPageTitleService $getPageTitleService,
     ) {
     }
 
@@ -327,6 +329,7 @@ class ProductHomeController extends AbstractController
     {
         return $this->render('product/product_home/index.html.twig', [
             'ProductHomeSectionComponent' => $productHomeSectionComponent,
+            'pageTitle' => $this->getPageTitleService->__invoke('ProductHomeComponent'),
         ]);
     }
 }

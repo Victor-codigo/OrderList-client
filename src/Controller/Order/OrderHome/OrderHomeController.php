@@ -18,6 +18,7 @@ use Common\Adapter\Endpoints\OrdersEndpoint;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -46,7 +47,8 @@ class OrderHomeController extends AbstractController
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
-        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect
+        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
+        private GetPageTitleService $getPageTitleService,
     ) {
     }
 
@@ -87,7 +89,7 @@ class OrderHomeController extends AbstractController
             $ordersData['pages_total']
         );
 
-        return $this->renderTemplate($orderHomeComponentDto);
+        return $this->renderTemplate($orderHomeComponentDto, $requestDto->getListOrdersData()->name);
     }
 
     /**
@@ -271,10 +273,11 @@ class OrderHomeController extends AbstractController
             ->build();
     }
 
-    private function renderTemplate(OrderHomeSectionComponentDto $orderHomeSectionComponent): Response
+    private function renderTemplate(OrderHomeSectionComponentDto $orderHomeSectionComponent, string $listName): Response
     {
         return $this->render('order/order_home/index.html.twig', [
             'OrderHomeSectionComponent' => $orderHomeSectionComponent,
+            'pageTitle' => $this->getPageTitleService->setTitleWithDomainName($listName),
         ]);
     }
 }

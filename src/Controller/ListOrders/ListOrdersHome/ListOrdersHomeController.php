@@ -19,6 +19,7 @@ use Common\Adapter\Endpoints\ListOrdersEndpoints;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -45,7 +46,8 @@ class ListOrdersHomeController extends AbstractController
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
-        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect
+        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
+        private GetPageTitleService $getPageTitleService,
     ) {
     }
 
@@ -267,6 +269,7 @@ class ListOrdersHomeController extends AbstractController
     {
         return $this->render('listOrders/list_orders_home/index.html.twig', [
             'listOrdersHomeSectionComponent' => $listOrdersHomeSectionComponent,
+            'pageTitle' => $this->getPageTitleService->__invoke('ListOrdersHomeComponent'),
         ]);
     }
 }

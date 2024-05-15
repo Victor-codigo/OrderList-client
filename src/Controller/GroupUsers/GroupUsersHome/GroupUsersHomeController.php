@@ -16,6 +16,7 @@ use App\Twig\Components\GroupUsers\GroupUsersHome\Home\GroupUsersHomeSectionComp
 use Common\Adapter\Endpoints\GroupsEndpoint;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -42,7 +43,8 @@ class GroupUsersHomeController extends AbstractController
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
-        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect
+        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
+        private GetPageTitleService $getPageTitleService
     ) {
     }
 
@@ -264,6 +266,7 @@ class GroupUsersHomeController extends AbstractController
     {
         return $this->render('group_users/group_users_home/index.html.twig', [
             'groupUsersHomeSectionComponent' => $groupUsersHomeSectionComponent,
+            'pageTitle' => $this->getPageTitleService->__invoke('GroupUsersHomeComponent'),
         ]);
     }
 }

@@ -11,6 +11,7 @@ use App\Twig\Components\Notification\NotificationHome\Home\NotificationHomeSecti
 use App\Twig\Components\Notification\NotificationHome\NotificationHomeComponentBuilder;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -36,7 +37,8 @@ class NotificationHomeController extends AbstractController
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
-        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect
+        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
+        private GetPageTitleService $getPageTitleService
     ) {
     }
 
@@ -127,6 +129,7 @@ class NotificationHomeController extends AbstractController
     {
         return $this->render('notification/notification_home/index.html.twig', [
             'NotificationHomeSectionComponent' => $notificationHomeSectionComponent,
+            'pageTitle' => $this->getPageTitleService->__invoke('NotificationHomeComponent'),
         ]);
     }
 }
