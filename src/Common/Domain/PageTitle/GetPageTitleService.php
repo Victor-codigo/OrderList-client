@@ -20,4 +20,9 @@ class GetPageTitleService
 
         return Config::CLIENT_DOMAIN_NAME." | {$pageTitle}";
     }
+
+    public function setTitleWithDomainName(string $title): string
+    {
+        return Config::CLIENT_DOMAIN_NAME." | {$title}";
+    }
 }
