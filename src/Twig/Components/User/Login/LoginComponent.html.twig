@@ -10,11 +10,11 @@
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />
 
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
 	{% if lang.validationErrors %}
 	{{ component('AlertValidationComponent', { data: lang.validationErrors }) }}
 	{% endif %}
-
-	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	<div class="mb-3">
 		<label for="email"
