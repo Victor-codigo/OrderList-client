@@ -13,6 +13,7 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
@@ -35,7 +36,8 @@ class UserRememberPasswordChangeController extends AbstractController
 
     public function __construct(
         private HttpClientInterface $httpClient,
-        private FormFactory $formFactory
+        private FormFactory $formFactory,
+        private GetPageTitleService $getPageTitleService
     ) {
     }
 
@@ -89,7 +91,7 @@ class UserRememberPasswordChangeController extends AbstractController
         $formData = $form->getData();
         $data = new PasswordChangeComponentDto(
             $form->getErrors(),
-            $formData[PASSWORD_CHANGE_FORM_FIELDS::USER_ID],
+            $formData[PASSWORD_CHANGE_FORM_FIELDS::USER_ID] ?? '',
             $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_OLD],
             $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW],
             $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT],
@@ -101,6 +103,7 @@ class UserRememberPasswordChangeController extends AbstractController
 
         return $this->render('user/user_remember_password_change/index.html.twig', [
             'PasswordChangeComponent' => $data,
+            'pageTitle' => $this->getPageTitleService->__invoke('PasswordChangeComponent'),
         ]);
     }
 }

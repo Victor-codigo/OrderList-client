@@ -12,6 +12,7 @@ use App\Form\UserRemove\UserRemoveForm;
 use App\Form\User\Profile\ProfileForm;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
@@ -42,6 +43,7 @@ class UserProfileController extends AbstractController
         private Endpoints $apiEndpoint,
         private ProfileBuilder $profileBuilder,
         private FlashBagInterface $sessionFlashBag,
+        private GetPageTitleService $getPageTitleService,
         private readonly string $apiUrl
     ) {
     }
@@ -117,6 +119,7 @@ class UserProfileController extends AbstractController
 
         return $this->render('user/user_profile/index.html.twig', [
             'ProfileComponent' => $profileComponentData,
+            'pageTitle' => $this->getPageTitleService->__invoke('ProfileComponent'),
         ]);
     }
 }

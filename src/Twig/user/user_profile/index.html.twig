@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserLoginController!
+{% block title %}
+{{ pageTitle }}
 {% endblock %}
 
 {% block body %}
-	{{ component('ProfileComponent', { data: ProfileComponent }) }}
+{{ component('ProfileComponent', { data: ProfileComponent }) }}
 {% endblock %}
