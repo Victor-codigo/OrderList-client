@@ -111,8 +111,8 @@
 
 			{% if not userButton is null %}
 
-			<div class="dropdown  navbar__user-profile  d-flex">
-				<button class="btn  btn-dark  navbar__user-profile  p-3  pt-1  pb-1"
+			<div class="dropdown  navbar__user-menu  d-flex">
+				<button class="btn  btn-dark  navbar__user-menu  p-3  pt-1  pb-1"
 						type="button"
 						data-bs-toggle="dropdown"
 						aria-expanded="false">
@@ -137,14 +137,14 @@
 
 				</button>
 				<ul class="dropdown-menu  dropdown-menu-end">
-					<li class="user-profile__menu-item">
-						<a class="dropdown-item navbar__user-profile  d-flex  p-3"
-						   href="{{ userButton.profileUrl|escape('html_attr') }}"
+					<li>
+						<a class="dropdown-item  menu-item__link  d-flex  justify-content-start  align-content-center  p-3"
+						   href="{{ profileButton.url|escape('html_attr') }}"
 						   role="button"
-						   title="{{ userButton.title }}"
+						   title="{{ profileButton.title }}"
 						   data-js-user-avatar>
 
-							{% if userButton.image is null %}
+							{% if profileButton.image is null %}
 
 							<div data-js-user-avatar-image>
 								{% include "user/user-avatar-no-image.svg" %}
@@ -152,22 +152,21 @@
 
 							{% else %}
 
-							<img src="{{ userButton.image|escape('html_attr') }}"
-								 title="{{ userButton.title }}"
-								 alt="{{ userButton.alt }}">
+							<img src="{{ profileButton.image|escape('html_attr') }}"
+								 title="{{ profileButton.title }}">
 
 							{% endif %}
 
 							<span class="align-self-center  menu-item__name">
-								{{ userButton.name }}
+								{{ profileButton.label }}
 							</span>
 
 						</a>
 					</li>
 
-					<li class="user-profile__menu-item">
-						<a class="dropdown-item navbar__user-profile  d-flex  p-3"
-						   href="{{ groupButton.groupsUrl|escape('html_attr') }}"
+					<li>
+						<a class="dropdown-item menu-item__link  d-flex  justify-content-start  align-content-center  p-3"
+						   href="{{ groupButton.url|escape('html_attr') }}"
 						   role="button"
 						   title="{{ groupButton.title }}"
 						   data-js-user-avatar>
@@ -177,15 +176,15 @@
 							</div>
 
 							<span class="align-self-center  menu-item__name">
-								{{ groupButton.name }}
+								{{ groupButton.label }}
 							</span>
 
 						</a>
 					</li>
 
-					<li class="user-profile__menu-item">
-						<a class="dropdown-item navbar__user-profile  d-flex  justify-content-center  align-content-center  p-3"
-						   href="{{ logoutButton.groupsUrl|escape('html_attr') }}"
+					<li>
+						<a class="dropdown-item menu-item__link  d-flex  justify-content-start  align-content-center  p-3"
+						   href="{{ logoutButton.url|escape('html_attr') }}"
 						   role="button"
 						   title="{{ logoutButton.title }}"
 						   data-js-user-avatar>
@@ -195,7 +194,7 @@
 							</div>
 
 							<span class="align-self-center  menu-item__name">
-								{{ logoutButton.name }}
+								{{ logoutButton.label }}
 							</span>
 
 						</a>

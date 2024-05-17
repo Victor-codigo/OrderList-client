@@ -7,9 +7,10 @@ namespace App\Twig\Components\NavigationBar;
 class MenuButtonDto
 {
     public function __construct(
-        public readonly string $name,
+        public readonly string $label,
         public readonly string $title,
-        public readonly string $groupsUrl,
+        public readonly string $url,
+        public readonly ?string $image,
     ) {
     }
 }

@@ -54,6 +54,7 @@ class NavigationBarComponent extends TwigComponent
     public readonly int $notificationsNewNumber;
 
     public readonly ?UserButtonDto $userButton;
+    public readonly ?MenuButtonDto $profileButton;
     public readonly ?MenuButtonDto $groupButton;
     public readonly ?MenuButtonDto $logoutButton;
 
@@ -76,6 +77,7 @@ class NavigationBarComponent extends TwigComponent
         $this->userButton = $this->createUserButton($data->userData);
         $this->notificationUrl = $this->createNotificationsUrl();
         $this->notificationsNewNumber = $this->getNotificationsNewCount($this->data->notificationsData);
+        $this->profileButton = $this->createProfileButton($data->userData);
         $this->groupButton = $this->createGroupButton($data->userData);
         $this->logoutButton = $this->createLogoutButton($data->userData);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
@@ -165,12 +167,25 @@ class NavigationBarComponent extends TwigComponent
         return new UserButtonDto(
             $userData->name,
             $userData->image,
+            $this->translate('navigation.user_menu.title'),
+            $this->translate('navigation.user_menu.alt'),
+        );
+    }
+
+    private function createProfileButton(?UserDataResponse $userData): ?MenuButtonDto
+    {
+        if (null === $userData) {
+            return null;
+        }
+
+        return new MenuButtonDto(
+            $this->translate('navigation.profile.label'),
             $this->translate('navigation.profile.title'),
-            $this->translate('navigation.profile.alt'),
             $this->routerSelector->generate('user_profile',
                 [
                     'user_name' => $this->encodeUrl($userData->name),
-                ])
+                ]),
+            $userData->image
         );
     }
 
@@ -187,7 +202,8 @@ class NavigationBarComponent extends TwigComponent
                 'section' => 'groups',
                 'page' => 1,
                 'page_items' => 100,
-            ])
+            ]),
+            null
         );
     }
 
@@ -200,7 +216,8 @@ class NavigationBarComponent extends TwigComponent
         return new MenuButtonDto(
             $this->translate('navigation.logout.label'),
             $this->translate('navigation.logout.title'),
-            $this->routerSelector->generate('user_logout')
+            $this->routerSelector->generate('user_logout'),
+            null
         );
     }
 

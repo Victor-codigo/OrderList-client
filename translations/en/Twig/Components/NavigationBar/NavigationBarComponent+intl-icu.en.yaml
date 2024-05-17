@@ -2,6 +2,7 @@ title: Orders list
 
 navigation:
   profile:
+    label: Profile
     title: Go to your profile
     alt: Go to your profile
 
