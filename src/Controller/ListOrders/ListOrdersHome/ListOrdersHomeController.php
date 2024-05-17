@@ -16,6 +16,7 @@ use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
 use App\Twig\Components\ListOrders\ListOrdersHome\ListOrdersHomeComponentBuilder;
 use Common\Adapter\Endpoints\ListOrdersEndpoints;
+use Common\Adapter\Router\RouterSelector;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -30,8 +31,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
-    name: 'list_orders_home',
+    path: '{_locale}/{group_type}/{group_name}/{section}/page-{page}-{page_items}',
+    name: 'list_orders_home_group',
+    methods: ['GET', 'POST'],
+    requirements: [
+        '_locale' => 'en|es',
+        'section' => 'list-orders',
+        'page' => '\d+',
+        'page_items' => '\d+',
+    ]
+)]
+#[Route(
+    path: '{_locale}/{section}/page-{page}-{page_items}',
+    name: 'list_orders_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
@@ -48,6 +60,7 @@ class ListOrdersHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
+        private RouterSelector $routerSelector
     ) {
     }
 
@@ -128,7 +141,7 @@ class ListOrdersHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'list_orders_home',
+                $this->routerSelector->getListOrdersRouteName($requestDto->groupData->type),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -201,13 +214,11 @@ class ListOrdersHomeController extends AbstractController
             )
             ->listItems(
                 $listOrdersData,
-                $this->generateUrl('order_home', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'page' => 1,
-                    'page_items' => 100,
-                    'list_orders_name' => '--list_orders_name--',
-                    'section' => 'orders',
-                ]),
+                $this->routerSelector->generateOrdersPath(
+                    $requestDto->groupData->type,
+                    $requestDto->groupNameUrlEncoded,
+                    '--list_orders_name--'
+                )
             )
             ->validation(
                 !empty($shopHomeMessagesError) || !empty($shopHomeMessagesOk) ? true : false,
@@ -219,12 +230,7 @@ class ListOrdersHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 ListOrdersEndpoints::GET_LIST_ORDERS_DATA,
-                $this->generateUrl('list_orders_home', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'section' => 'list-orders',
-                    'page' => $requestDto->page,
-                    'page_items' => $requestDto->pageItems,
-                ]),
+                $this->routerSelector->generateListOrdersPath($requestDto->groupData->type, $requestDto->groupNameUrlEncoded),
             )
             ->listOrdersCreateFormModal(
                 $listOrdersCreateForm->getCsrfToken(),

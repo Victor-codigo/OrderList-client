@@ -63,14 +63,14 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     private function loadRequestDto(Request $request): RequestDto
     {
         $tokenSession = $this->loadTokenSession($request);
-        $groupData = $this->loadGroupData($request->attributes, $tokenSession);
+        $groupData = $this->loadGroupData($request, $tokenSession);
 
         $requestDto = new RequestDto(
             $tokenSession,
             $this->loadLocale($request),
             $request->attributes->get('section'),
             $request->attributes->get('user_name'),
-            $request->attributes->get('group_name'),
+            $this->getGroupNameUrlEncoded($request, $groupData),
             $request->attributes->get('list_orders_name'),
             $request->attributes->get('shop_name'),
             $request->attributes->get('product_name'),
@@ -104,6 +104,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return new NavigationBarDto(
             'OrderListTile',
             $requestDto->getUserSessionData(),
+            $requestDto->groupData->type,
             $requestDto->groupNameUrlEncoded,
             $requestDto->sectionActiveId,
             $requestDto->locale ?? 'en',
@@ -158,6 +159,15 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
+    private function getGroupNameUrlEncoded(Request $request, GroupDataResponse $groupData): ?string
+    {
+        if ($request->attributes->has('group_type')) {
+            return $request->attributes->get('group_name');
+        }
+
+        return $this->encodeUrlParameter($groupData->name);
+    }
+
     /**
      * @throws RequestUserException
      */
@@ -206,12 +216,21 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     /**
      * @throws RequestGroupNameException
      */
-    private function loadGroupData(ParameterBag $attributes, ?string $tokenSession): ?GroupDataResponse
+    private function loadGroupData(Request $request, ?string $tokenSession): ?GroupDataResponse
     {
         if (null === $tokenSession) {
             return null;
         }
 
+        if ($request->attributes->has('group_type')) {
+            return $this->loadUserGroupDataGroup($request->attributes, $tokenSession);
+        }
+
+        return $this->loadUserGroupDataUser($tokenSession);
+    }
+
+    private function loadUserGroupDataGroup(ParameterBag $attributes, string $tokenSession): GroupDataResponse
+    {
         $groupNameDecoded = $this->decodeUrlParameter($attributes, 'group_name');
 
         if (null === $groupNameDecoded) {
@@ -225,6 +244,26 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         return GroupDataResponse::fromArray($groupData['data']);
+    }
+
+    private function loadUserGroupDataUser(string $tokenSession): GroupDataResponse
+    {
+        $groupData = $this->endpoints->userGroupsGetData(
+            null,
+            null,
+            null,
+            1,
+            1,
+            'user',
+            true,
+            $tokenSession
+        );
+
+        if (!empty($groupData['errors'])) {
+            throw RequestGroupNameException::fromMessage('Group user data not found');
+        }
+
+        return GroupDataResponse::fromArray($groupData['data']['groups'][0]);
     }
 
     private function loadShopData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ShopDataResponse

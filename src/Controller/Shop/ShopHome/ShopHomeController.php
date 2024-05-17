@@ -16,6 +16,7 @@ use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Twig\Components\Shop\ShopHome\Home\ShopHomeSectionComponentDto;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Adapter\Endpoints\ShopsEndPoint;
+use Common\Adapter\Router\RouterSelector;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -29,8 +30,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
-    name: 'shop_home',
+    path: '{_locale}/{group_type}/{group_name}/{section}/page-{page}-{page_items}',
+    name: 'shop_home_group',
+    methods: ['GET', 'POST'],
+    requirements: [
+        '_locale' => 'en|es',
+        'group_type' => 'group',
+        'section' => 'shop',
+        'page' => '\d+',
+        'page_items' => '\d+',
+    ]
+)]
+#[Route(
+    path: '{_locale}/{section}/page-{page}-{page_items}',
+    name: 'shop_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
@@ -49,6 +62,7 @@ class ShopHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
+        private RouterSelector $routerSelector
     ) {
     }
 
@@ -63,7 +77,7 @@ class ShopHomeController extends AbstractController
 
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'shop_home',
+                $this->routerSelector->getShopRouteName($requestDto->groupData->type),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -249,12 +263,7 @@ class ShopHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 ShopsEndPoint::GET_SHOP_DATA,
-                $this->generateUrl('shop_home', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'section' => 'shop',
-                    'page' => $requestDto->page,
-                    'page_items' => $requestDto->pageItems,
-                ]),
+                $this->routerSelector->generateShopPath($requestDto->groupData->type, $requestDto->groupNameUrlEncoded)
             )
             ->shopCreateFormModal(
                 $shopCreateForm->getCsrfToken(),

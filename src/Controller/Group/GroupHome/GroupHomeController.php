@@ -154,6 +154,7 @@ class GroupHomeController extends AbstractController
             $filterValue,
             $page,
             $pageItems,
+            null,
             true,
             $tokenSession
         );

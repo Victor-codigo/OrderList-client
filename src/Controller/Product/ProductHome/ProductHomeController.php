@@ -19,6 +19,7 @@ use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\Product\ProductHome\Home\ProductHomeSectionComponentDto;
 use App\Twig\Components\Product\ProductHome\ProductHomeComponentBuilder;
 use Common\Adapter\Endpoints\ProductsEndPoint;
+use Common\Adapter\Router\RouterSelector;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -33,8 +34,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
-    name: 'product_home',
+    path: '{_locale}/{group_type}/{group_name}/{section}/page-{page}-{page_items}',
+    name: 'product_home_group',
+    methods: ['GET', 'POST'],
+    requirements: [
+        '_locale' => 'en|es',
+        'section' => 'product',
+        'page' => '\d+',
+        'page_items' => '\d+',
+    ]
+)]
+#[Route(
+    path: '{_locale}/{section}/page-{page}-{page_items}',
+    name: 'product_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
@@ -53,6 +65,7 @@ class ProductHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
+        private RouterSelector $routerSelector
     ) {
     }
 
@@ -130,7 +143,7 @@ class ProductHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'product_home',
+                $this->routerSelector->getProductRouteName($requestDto->groupData->type),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -277,12 +290,7 @@ class ProductHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 ProductsEndPoint::GET_PRODUCT_DATA,
-                $this->generateUrl('product_home', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'section' => 'product',
-                    'page' => $requestDto->page,
-                    'page_items' => $requestDto->pageItems,
-                ]),
+                $this->routerSelector->generateProductPath($requestDto->groupData->type, $requestDto->groupNameUrlEncoded),
             )
             ->productCreateFormModal(
                 $productCreateForm->getCsrfToken(),

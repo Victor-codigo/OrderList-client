@@ -15,6 +15,7 @@ use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
 use App\Twig\Components\Order\OrderHome\OrderHomeComponentBuilder;
 use Common\Adapter\Endpoints\OrdersEndpoint;
+use Common\Adapter\Router\RouterSelector;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -29,8 +30,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_name}/{list_orders_name}/{section}/page-{page}-{page_items}',
-    name: 'order_home',
+    path: '{_locale}/{group_type}/{group_name}/{list_orders_name}/{section}/page-{page}-{page_items}',
+    name: 'order_home_group',
+    methods: ['GET', 'POST'],
+    requirements: [
+        '_locale' => 'en|es',
+        'page' => '\d+',
+        'page_items' => '\d+',
+        'section' => 'orders',
+    ]
+)]
+#[Route(
+    path: '{_locale}/{list_orders_name}/{section}/page-{page}-{page_items}',
+    name: 'order_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => 'en|es',
@@ -49,6 +61,7 @@ class OrderHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
+        private RouterSelector $routerSelector
     ) {
     }
 
@@ -128,7 +141,7 @@ class OrderHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'order_home',
+                $this->routerSelector->getOrdersRouteName($requestDto->groupData->type),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -227,13 +240,11 @@ class OrderHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 OrdersEndpoint::GET_ORDERS_DATA,
-                $this->generateUrl('order_home', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'list_orders_name' => $requestDto->listOrdersUrlEncoded,
-                    'section' => 'orders',
-                    'page' => $requestDto->page,
-                    'page_items' => $requestDto->pageItems,
-                ]),
+                $this->routerSelector->generateOrdersPath(
+                    $requestDto->groupData->type,
+                    $requestDto->groupNameUrlEncoded,
+                    $requestDto->listOrdersUrlEncoded
+                )
             )
             ->orderCreateFormModal(
                 $orderCreateForm->getCsrfToken(),

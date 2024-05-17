@@ -8,6 +8,7 @@ class GroupDataResponse
 {
     public function __construct(
         public readonly string $id,
+        public readonly string $type,
         public readonly string $name,
         public readonly ?string $description,
         public readonly ?string $image,
@@ -19,6 +20,7 @@ class GroupDataResponse
     public static function fromArray(array $data): self
     {
         if (!isset($data['group_id'])
+        || !isset($data['type'])
         || !isset($data['name'])
         || !array_key_exists('description', $data)
         || !array_key_exists('image', $data)
@@ -29,6 +31,7 @@ class GroupDataResponse
 
         return new self(
             $data['group_id'],
+            $data['type'],
             $data['name'],
             $data['description'],
             $data['image'],
