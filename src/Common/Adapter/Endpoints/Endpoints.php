@@ -130,6 +130,16 @@ class Endpoints implements EndpointsInterface
     }
 
     /**
+     * @param string[] $groupsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupGetDataById(array $groupsId, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupGetDataById($groupsId, $tokenSession);
+    }
+
+    /**
      * @return array<{
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>
@@ -169,9 +179,9 @@ class Endpoints implements EndpointsInterface
      * @throws UnsupportedOptionException
      * @throws RequestUnauthorizedException
      */
-    public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array
+    public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, ?string $groupType, bool $orderAsc, string $tokenSession): array
     {
-        return GroupsEndpoint::getInstance($this->httpClient)->userGroupsGetData($filterSection, $filterText, $filterValue, $page, $pageItems, $orderAsc, $tokenSession);
+        return GroupsEndpoint::getInstance($this->httpClient)->userGroupsGetData($filterSection, $filterText, $filterValue, $page, $pageItems, $groupType, $orderAsc, $tokenSession);
     }
 
     /**

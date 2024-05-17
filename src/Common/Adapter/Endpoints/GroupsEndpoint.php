@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class GroupsEndpoint extends EndpointBase
 {
-    public const GET_GROUP_ID_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
+    public const GET_GROUP_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
+    public const GET_GROUP_BY_ID = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data';
     public const GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
     public const GET_GROUP_USERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
     public const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
@@ -57,7 +58,38 @@ class GroupsEndpoint extends EndpointBase
     {
         return $this->httpClient->request(
             'GET',
-            str_replace('{group_name}', $groupName, self::GET_GROUP_ID_BY_NAME),
+            str_replace('{group_name}', $groupName, self::GET_GROUP_BY_NAME),
+            HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
+        );
+    }
+
+    /**
+     * @param string[] $groupsId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
+    public function groupGetDataById(array $groupsId, string $tokenSession): array
+    {
+        $response = $this->requestGroupDataById($groupsId, $tokenSession);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @param string[] $groupsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    private function requestGroupDataById(array $groupsId, string $tokenSession): HttpClientResponseInterface
+    {
+        $groupsIdAsCvs = implode(',', $groupsId);
+
+        return $this->httpClient->request(
+            'GET',
+            self::GET_GROUP_BY_ID."/{$groupsIdAsCvs}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
@@ -77,6 +109,7 @@ class GroupsEndpoint extends EndpointBase
         ?string $filterValue,
         int $page,
         int $pageItems,
+        ?string $groupType,
         bool $orderAsc,
         string $tokenSession
     ): array {
@@ -86,6 +119,7 @@ class GroupsEndpoint extends EndpointBase
             $filterValue,
             $page,
             $pageItems,
+            $groupType,
             $orderAsc,
             $tokenSession
         );
@@ -111,12 +145,14 @@ class GroupsEndpoint extends EndpointBase
         ?string $filterValue,
         int $page,
         int $pageItems,
+        ?string $groupType,
         bool $orderAsc,
         string $tokenSession
     ): HttpClientResponseInterface {
         $parameters = [
             'page' => $page,
             'page_items' => $pageItems,
+            'group_type' => $groupType,
             'filter_section' => $filterSection,
             'filter_text' => $filterText,
             'filter_value' => $filterValue,

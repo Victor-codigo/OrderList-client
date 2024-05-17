@@ -75,6 +75,13 @@ interface EndpointsInterface
     public function groupGetDataByName(string $groupName, string $tokenSession): array;
 
     /**
+     * @param string[] $groupsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupGetDataById(array $groupsId, string $tokenSession): array;
+
+    /**
      * @return array<{
      *    data: array<string, mixed>,
      *    errors: array<string, mixed>
@@ -83,7 +90,7 @@ interface EndpointsInterface
      * @throws UnsupportedOptionException
      * @throws RequestUnauthorizedException
      */
-    public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
+    public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, ?string $groupType, bool $orderAsc, string $tokenSession): array;
 
     /**
      * @return array<{
