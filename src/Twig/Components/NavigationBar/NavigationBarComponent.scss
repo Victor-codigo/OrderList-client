@@ -152,20 +152,8 @@
     }
 }
 
-@include media-breakpoint-down(md) {
-    .navbar {
-
-        .menu-item__link {
-            .menu-item__name {
-                display: none;
-            }
-        }
-    }
-}
-
 @include media-breakpoint-up(lg) {
     .navbar {
-
         .offcanvas {
             display: none;
         }
