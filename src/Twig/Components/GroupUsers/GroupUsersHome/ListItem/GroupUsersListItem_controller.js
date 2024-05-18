@@ -1,5 +1,6 @@
 import HomeListItemController from 'App/Twig/Components/HomeSection/HomeList/ListItem/HomeListItem_controller';
 import * as endpoint from 'App/modules/ApiEndpoints';
+import * as bootstrap from 'bootstrap';
 
 export default class extends HomeListItemController {
     /**
@@ -32,9 +33,8 @@ export default class extends HomeListItemController {
     }
 
     #userIsLastAdmin() {
-        const buttonGrantsDowngradeTag = this.element.querySelector('[data-js-button-grants-downgrade]');
-
-        alert(buttonGrantsDowngradeTag.dataset.msgErrorLastAdmin);
+        const infoModalTag = new bootstrap.Modal('#info_modal');
+        infoModalTag.show();
     }
 
     /**

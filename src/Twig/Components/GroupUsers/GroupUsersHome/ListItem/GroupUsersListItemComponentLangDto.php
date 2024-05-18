@@ -13,7 +13,6 @@ class GroupUsersListItemComponentLangDto extends HomeListItemComponentLangDto
         public readonly string $infoItemButtonTitle,
         public readonly string $grantsUpgradeItemButtonTitle,
         public readonly string $grantsDowngradeItemButtonTitle,
-        public readonly string $grantsDowngradeItemButtonMsgErrorLastAdmin,
 
         public readonly string $imageItemAlt,
         public readonly string $imageItemTitle,

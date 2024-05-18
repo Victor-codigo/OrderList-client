@@ -42,7 +42,6 @@ final class GroupUsersListItemComponent extends HomeListItemComponent
 
             $this->translate('group_users_grants_upgrade_button.title'),
             $this->translate('group_users_grants_downgrade_button.title'),
-            $this->translate('group_users_grants_downgrade_button.msg_error_last_admin'),
 
             $this->translate('group_users_image.alt'),
             $this->translate('group_users_image.title'),

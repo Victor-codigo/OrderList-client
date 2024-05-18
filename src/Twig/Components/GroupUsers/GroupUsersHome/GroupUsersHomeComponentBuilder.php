@@ -31,7 +31,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
     private const GROUP_USERS_DELETE_MODAL_ID = 'group_users_delete_modal';
     private const GROUP_USERS_INFO_MODAL_ID = 'group_users_info_modal';
 
-    private const GROUP_USERS_HOME_COMPONENT_NAME = 'GroupUsersHomeComponent';
+    private const GROUP_USERS_HOME_COMPONENT_NAME = 'GroupUsersHomeSectionComponent';
     private const GROUP_USERS_HOME_LIST_COMPONENT_NAME = 'GroupUsersHomeListComponent';
     private const GROUP_USERS_HOME_LIST_ITEM_COMPONENT_NAME = 'GroupUsersHomeListItemComponent';
 

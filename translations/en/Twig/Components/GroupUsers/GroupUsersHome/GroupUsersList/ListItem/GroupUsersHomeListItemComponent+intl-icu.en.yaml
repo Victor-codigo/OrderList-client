@@ -9,7 +9,6 @@ group_users_grants_upgrade_button:
 
 group_users_grants_downgrade_button:
   title: Downgrade user grants to user
-  msg_error_last_admin: You cannot downgrade this user, at least one user must be administrator
 
 group_users_image:
   title: User image
