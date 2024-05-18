@@ -17,6 +17,7 @@ use App\Twig\Components\Group\GroupHome\GroupHomeComponentBuilder;
 use App\Twig\Components\Group\GroupHome\Home\GroupHomeSectionComponentDto;
 use App\Twig\Components\Group\GroupHome\ListItem\GroupListItemComponent;
 use Common\Adapter\Endpoints\GroupsEndpoint;
+use Common\Adapter\Router\RouterSelector;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
@@ -49,7 +50,8 @@ class GroupHomeController extends AbstractController
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
-        private GetPageTitleService $getPageTitleService
+        private GetPageTitleService $getPageTitleService,
+        private RouterSelector $routerSelector
     ) {
     }
 
@@ -194,6 +196,9 @@ class GroupHomeController extends AbstractController
         );
     }
 
+    /**
+     * @param GroupDataResponse[] $groupsData
+     */
     private function createGroupHomeComponentDto(
         RequestDto $requestDto,
         FormInterface $groupCreateForm,
@@ -235,6 +240,18 @@ class GroupHomeController extends AbstractController
                     'page_items' => 100,
                     'section' => 'users',
                 ]),
+                $this->generateUrl('list_orders_home_group', [
+                    'group_name' => GroupListItemComponent::GROUP_USERS_NAME_PLACEHOLDER,
+                    'page' => 1,
+                    'page_items' => 100,
+                    'section' => 'list-orders',
+                    'group_type' => 'group',
+                ]),
+                $this->generateUrl('list_orders_home_no_group', [
+                    'page' => 1,
+                    'page_items' => 100,
+                    'section' => 'list-orders',
+                ])
             )
             ->validation(
                 !empty($groupHomeMessagesError) || !empty($groupHomeMessagesOk) ? true : false,

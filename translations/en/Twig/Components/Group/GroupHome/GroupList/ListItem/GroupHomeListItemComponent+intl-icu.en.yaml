@@ -1,3 +1,7 @@
+group_user:
+  label: Personal group
+  description: This is your personal group, no one can join this group. Here you can create your own shop list, products, shops etc
+
 group_remove_button:
   title: Remove the group
 
@@ -9,6 +13,9 @@ group_info_button:
 
 group_group_users_button:
   title: Show users of the group
+
+group_group_select_button:
+  title: Go to the group
 
 group_image:
   title: Group image

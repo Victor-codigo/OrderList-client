@@ -9,10 +9,13 @@ use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentLangD
 class GroupListItemComponentLangDto extends HomeListItemComponentLangDto
 {
     public function __construct(
+        public readonly string $userGroupLabel,
+        public readonly string $userGroupDescription,
         public readonly string $modifyItemButtonTitle,
         public readonly string $removeItemButtonTitle,
         public readonly string $infoItemButtonTitle,
         public readonly string $groupUsersLinkItemButtonTitle,
+        public readonly string $groupSelectLinkItemButtonTitle,
 
         public readonly string $imageItemAlt,
         public readonly string $imageItemTitle,

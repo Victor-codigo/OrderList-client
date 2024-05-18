@@ -47,6 +47,8 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
      */
     private readonly array $listGroupsData;
     private readonly string $urlGroupUsersPlaceholder;
+    private readonly string $urlGroupSelectWithGroupPlaceholder;
+    private readonly string $urlGroupSelectNoGroupPlaceholder;
 
     public function __construct()
     {
@@ -141,14 +143,32 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
-    public function listItems(array $listGroupsData, string $urlGroupUsersPlaceholder): self
+    /**
+     * @param GroupDataResponse[] $listGroupsData
+     */
+    public function listItems(array $listGroupsData, string $urlGroupUsersPlaceholder, string $urlGroupSelectWithGroupPlaceholder, string $urlGroupSelectNoGroupPlaceholder): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
-        $this->listGroupsData = $listGroupsData;
+        $this->listGroupsData = $this->filterUserGroupToTop($listGroupsData);
         $this->urlGroupUsersPlaceholder = $urlGroupUsersPlaceholder;
+        $this->urlGroupSelectWithGroupPlaceholder = $urlGroupSelectWithGroupPlaceholder;
+        $this->urlGroupSelectNoGroupPlaceholder = $urlGroupSelectNoGroupPlaceholder;
 
         return $this;
+    }
+
+    /**
+     * @param GroupDataResponse[] $listGroupsData
+     */
+    private function filterUserGroupToTop(array $listGroupsData): array
+    {
+        usort(
+            $listGroupsData,
+            fn (GroupDataResponse $groupData) => 'user' === $groupData->type ? -1 : 1
+        );
+
+        return $listGroupsData;
     }
 
     public function validation(bool $validForm): self
@@ -316,10 +336,13 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->id,
                 $listItemData->name,
                 $this->urlGroupUsersPlaceholder,
+                $this->urlGroupSelectWithGroupPlaceholder,
+                $this->urlGroupSelectNoGroupPlaceholder,
                 self::GROUP_MODIFY_MODAL_ID,
                 self::GROUP_DELETE_MODAL_ID,
                 self::GROUP_INFO_MODAL_ID,
                 self::GROUP_HOME_LIST_ITEM_COMPONENT_NAME,
+                $listItemData->type ?? 'user',
                 $listItemData->description,
                 $listItemData->image ?? Config::GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 null === $listItemData->image ? true : false,

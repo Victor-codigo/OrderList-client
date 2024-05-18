@@ -1,3 +1,7 @@
+group_user:
+  label: Grupo personal
+  description: Este es tú grupo personal, nadie más puede unirse a él. Aquí es donde puedes crear tús propias listas de la compra, productos, tiendas, etc
+
 group_remove_button:
   title: Elimina el grupo
   alt: Botón para eliminar el grupo
@@ -12,6 +16,9 @@ group_info_button:
 
 group_group_users_button:
   title: Muestra los usuarios del grupo
+
+group_group_select_button:
+  title: Ir al grupo
 
 group_image:
   title: Imagen del grupo

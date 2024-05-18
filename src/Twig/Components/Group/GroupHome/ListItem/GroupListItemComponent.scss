@@ -1,15 +1,30 @@
-.group-list-item__image {
-    width: 75px;
-
-    svg {
+.list-groups__item {
+    .group-list-item__image {
         width: 75px;
-        height: 75px;
+
+        svg {
+            width: 75px;
+            height: 75px;
+        }
+    }
+
+    .group-list-item__group-users-button {
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .group-list-item__group-select-button {
+
+        svg {
+            color: $warning;
+            width: 30px;
+            height: 30px;
+        }
     }
 }
 
-.group-list-item__group-users-button {
-    svg {
-        width: 24px;
-        height: 24px;
-    }
+.list-groups__separator {
+    list-style-type: none;
 }

@@ -21,11 +21,16 @@ final class GroupListItemComponent extends HomeListItemComponent
 
     public const GROUP_USERS_NAME_PLACEHOLDER = '--group_users_name--';
 
+    /**
+     * @var GroupListItemComponentLangDto
+     */
     public HomeListItemComponentLangDto $lang;
     public GroupListItemComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $groupDataJson;
     public readonly string $urlGroupUsers;
+    public readonly string $urlGroupSelectWithGroup;
+    public readonly string $urlGroupSelectNoGroup;
 
     public static function getComponentName(): string
     {
@@ -36,7 +41,9 @@ final class GroupListItemComponent extends HomeListItemComponent
     {
         $this->data = $data;
         $this->loadTranslation();
-        $this->urlGroupUsers = $this->parseItemUrlListItemsPlaceholder($this->data->urlLinkGroupUsers, $this->data->name);
+        $this->urlGroupUsers = $this->parseItemUrlGroupUsersPlaceholder($this->data->urlLinkGroupUsers, $this->data->name);
+        $this->urlGroupSelectWithGroup = $this->parseItemUrlGroupSelectPlaceholder($this->data->urlGroupSelectWithGroupPlaceholder, $this->data->name);
+        $this->urlGroupSelectNoGroup = $this->parseItemUrlGroupSelectPlaceholder($this->data->urlGroupSelectNoGroupPlaceholder, $this->data->name);
         $this->groupDataJson = $this->parseItemDataToJson($data);
     }
 
@@ -44,10 +51,13 @@ final class GroupListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new GroupListItemComponentLangDto(
+            $this->translate('group_user.label'),
+            $this->translate('group_user.description'),
             $this->translate('group_modify_button.title'),
             $this->translate('group_remove_button.title'),
             $this->translate('group_info_button.title'),
             $this->translate('group_group_users_button.title'),
+            $this->translate('group_group_select_button.title'),
             $this->translate('group_image.alt'),
             $this->translate('group_image.title'),
             $this->translate('admin.label'),
@@ -59,10 +69,15 @@ final class GroupListItemComponent extends HomeListItemComponent
      */
     private function parseItemDataToJson(GroupListItemComponentDto $groupData): string
     {
+        $description = $groupData->description;
+        if ('user' === $groupData->type) {
+            $description = $this->lang->userGroupDescription;
+        }
+
         $groupDataToParse = [
             'id' => $groupData->id,
-            'name' => $groupData->name,
-            'description' => $groupData->description,
+            'name' => $this->lang->userGroupLabel,
+            'description' => $description,
             'image' => $groupData->image,
             'noImage' => $groupData->noImage,
             'createdOn' => $groupData->createdOn->format('Y-m-d'),
@@ -72,10 +87,17 @@ final class GroupListItemComponent extends HomeListItemComponent
         return json_encode($groupDataToParse, JSON_THROW_ON_ERROR);
     }
 
-    private function parseItemUrlListItemsPlaceholder(string $urlGroupUsersPlaceholder, string $groupUsersName): string
+    private function parseItemUrlGroupUsersPlaceholder(string $urlGroupUsersPlaceholder, string $groupUsersName): string
     {
         $groupUsersNameDecoded = $this->encodeUrl($groupUsersName);
 
         return mb_ereg_replace(self::GROUP_USERS_NAME_PLACEHOLDER, $groupUsersNameDecoded, $urlGroupUsersPlaceholder);
+    }
+
+    private function parseItemUrlGroupSelectPlaceholder(string $urlGroupSelectPlaceholder, string $groupName): string
+    {
+        $groupSelectNameDecoded = $this->encodeUrl($groupName);
+
+        return mb_ereg_replace(self::GROUP_USERS_NAME_PLACEHOLDER, $groupSelectNameDecoded, $urlGroupSelectPlaceholder);
     }
 }
