@@ -22,6 +22,7 @@ use Common\Adapter\Events\Exceptions\RequestListOrdersNameException;
 use Common\Adapter\Events\Exceptions\RequestNotificationsException;
 use Common\Adapter\Events\Exceptions\RequestProductNameException;
 use Common\Adapter\Events\Exceptions\RequestShopNameException;
+use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
 use Common\Adapter\Events\Exceptions\RequestUserException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\CodedUrlParameter;
@@ -58,6 +59,23 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     {
         $requestDto = $this->loadRequestDto($event->getRequest());
         $this->loadTwigGlobals($requestDto);
+    }
+
+    private function userHasPermissions(string $urlPath, ?string $tokenSession): bool
+    {
+        $pattern = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/user\/(?!profile)/u';
+
+        // No need permissions
+        if (1 === preg_match($pattern, $urlPath)) {
+            return true;
+        }
+
+        // Need permissions
+        if (null === $tokenSession) {
+            return false;
+        }
+
+        return true;
     }
 
     private function loadRequestDto(Request $request): RequestDto
@@ -104,7 +122,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return new NavigationBarDto(
             'OrderListTile',
             $requestDto->getUserSessionData(),
-            $requestDto->groupData->type,
+            $requestDto->groupData?->type,
             $requestDto->groupNameUrlEncoded,
             $requestDto->sectionActiveId,
             $requestDto->locale ?? 'en',
@@ -159,10 +177,14 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return null;
     }
 
-    private function getGroupNameUrlEncoded(Request $request, GroupDataResponse $groupData): ?string
+    private function getGroupNameUrlEncoded(Request $request, ?GroupDataResponse $groupData): ?string
     {
         if ($request->attributes->has('group_type')) {
             return $request->attributes->get('group_name');
+        }
+
+        if (null === $groupData) {
+            return null;
         }
 
         return $this->encodeUrlParameter($groupData->name);
@@ -218,6 +240,10 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
      */
     private function loadGroupData(Request $request, ?string $tokenSession): ?GroupDataResponse
     {
+        if (!$this->userHasPermissions($request->getPathInfo(), $tokenSession)) {
+            throw new RequestUnauthorizedException();
+        }
+
         if (null === $tokenSession) {
             return null;
         }
