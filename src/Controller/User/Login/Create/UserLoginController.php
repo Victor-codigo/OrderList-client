@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_login_execute',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserLoginController extends AbstractController

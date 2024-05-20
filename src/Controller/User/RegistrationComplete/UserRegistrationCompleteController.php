@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\User\RegistrationComplete;
 
 use App\Twig\Components\User\RegistrationComplete\RegistrationCompleteComponentDto;
+use Common\Domain\Config\Config;
 use Common\Domain\PageTitle\GetPageTitleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_register_complete',
     methods: ['GET'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserRegistrationCompleteController extends AbstractController

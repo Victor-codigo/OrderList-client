@@ -8,8 +8,8 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Form\Order\OrderModify\OrderModifyForm;
-use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
 use App\Form\Order\OrderRemove\OrderRemoveForm;
+use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
@@ -34,7 +34,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'order_home_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'page' => '\d+',
         'page_items' => '\d+',
         'section' => 'orders',
@@ -45,7 +45,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'order_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'page' => '\d+',
         'page_items' => '\d+',
         'section' => 'orders',

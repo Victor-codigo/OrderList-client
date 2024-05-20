@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\ListOrders\ListOrdersRemove;
 
 use App\Controller\Request\RequestDto;
-use App\Form\ListOrders\ListOrdersRemoveMulti\LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS;
-use App\Form\ListOrders\ListOrdersRemoveMulti\ListOrdersRemoveMultiForm;
 use App\Form\ListOrders\ListOrdersRemove\LIST_ORDERS_REMOVE_FORM_FIELDS;
 use App\Form\ListOrders\ListOrdersRemove\ListOrdersRemoveForm;
+use App\Form\ListOrders\ListOrdersRemoveMulti\LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS;
+use App\Form\ListOrders\ListOrdersRemoveMulti\ListOrdersRemoveMultiForm;
 use App\Twig\Components\ListOrders\ListOrdersRemove\ListOrdersRemoveComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -24,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'list_orders_remove',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ListOrdersRemoveController extends AbstractController

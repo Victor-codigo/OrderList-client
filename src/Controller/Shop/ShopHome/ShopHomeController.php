@@ -11,8 +11,8 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
+use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Twig\Components\Shop\ShopHome\Home\ShopHomeSectionComponentDto;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Adapter\Endpoints\ShopsEndPoint;
@@ -34,7 +34,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'shop_home_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'group_type' => 'group',
         'section' => 'shop',
         'page' => '\d+',
@@ -46,7 +46,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'shop_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'section' => 'shop',
         'page' => '\d+',
         'page_items' => '\d+',

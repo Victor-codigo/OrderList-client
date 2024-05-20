@@ -6,6 +6,7 @@ namespace App\Controller\User\RegistrationEmailConfirm;
 
 use App\Twig\Components\User\RegistrationEmailConfirmation\RegistrationEmailConfirmationComponentDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\Config\Config;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
@@ -23,7 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
     name: 'user_signup_email_confirm',
     methods: ['GET'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserRegistrationEmailConfirmController extends AbstractController

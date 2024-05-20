@@ -3,11 +3,12 @@
 namespace App\Controller\Shop\ShopRemove;
 
 use App\Controller\Request\RequestDto;
-use App\Form\Shop\ShopRemoveMulti\SHOP_REMOVE_MULTI_FORM_FIELDS;
-use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\SHOP_REMOVE_FORM_FIELDS;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
+use App\Form\Shop\ShopRemoveMulti\SHOP_REMOVE_MULTI_FORM_FIELDS;
+use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Twig\Components\Shop\ShopRemove\ShopRemoveComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'shop_remove',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ShopRemoveController extends AbstractController

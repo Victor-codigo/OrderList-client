@@ -10,6 +10,7 @@ use App\Form\PasswordChange\PasswordChangeForm;
 use App\Twig\Components\User\PasswordChange\PasswordChangeComponentDto;
 use Common\Adapter\Form\FormFactory;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\Config\Config;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
@@ -27,7 +28,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_remember_password_change',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserRememberPasswordChangeController extends AbstractController

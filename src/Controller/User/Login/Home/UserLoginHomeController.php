@@ -8,6 +8,7 @@ use App\Form\User\Login\LoginForm;
 use App\Twig\Components\User\Login\LoginComponentDto;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Form\FormFactory;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_login_home',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserLoginHomeController extends AbstractController

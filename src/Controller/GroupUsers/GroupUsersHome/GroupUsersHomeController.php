@@ -7,13 +7,14 @@ namespace App\Controller\GroupUsers\GroupUsersHome;
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\GroupUserDataResponse;
 use App\Form\GroupUsers\GroupUsersAdd\GroupUsersAddForm;
-use App\Form\GroupUsers\GroupUsersRemoveMulti\GroupUsersRemoveMultiForm;
 use App\Form\GroupUsers\GroupUsersRemove\GroupUsersRemoveForm;
+use App\Form\GroupUsers\GroupUsersRemoveMulti\GroupUsersRemoveMultiForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\GroupUsers\GroupUsersHome\GroupUsersHomeComponentBuilder;
 use App\Twig\Components\GroupUsers\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
 use Common\Adapter\Endpoints\GroupsEndpoint;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
@@ -31,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'group_users_home',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'page' => '\d+',
         'page_items' => '\d+',
         'section' => 'users',

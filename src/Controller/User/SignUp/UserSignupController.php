@@ -9,6 +9,7 @@ use App\Form\User\Signup\SIGNUP_FORM_FIELDS;
 use App\Form\User\Signup\SignupForm;
 use App\Twig\Components\User\Signup\SignupComponentDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\Config\Config;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
@@ -27,7 +28,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_register',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserSignupController extends AbstractController

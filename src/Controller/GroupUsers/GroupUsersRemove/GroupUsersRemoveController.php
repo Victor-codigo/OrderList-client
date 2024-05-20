@@ -6,10 +6,10 @@ namespace App\Controller\GroupUsers\GroupUsersRemove;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\RequestRefererDto;
-use App\Form\GroupUsers\GroupUsersRemoveMulti\GROUP_USERS_REMOVE_MULTI_FORM_FIELDS;
-use App\Form\GroupUsers\GroupUsersRemoveMulti\GroupUsersRemoveMultiForm;
 use App\Form\GroupUsers\GroupUsersRemove\GROUP_USERS_REMOVE_FORM_FIELDS;
 use App\Form\GroupUsers\GroupUsersRemove\GroupUsersRemoveForm;
+use App\Form\GroupUsers\GroupUsersRemoveMulti\GROUP_USERS_REMOVE_MULTI_FORM_FIELDS;
+use App\Form\GroupUsers\GroupUsersRemoveMulti\GroupUsersRemoveMultiForm;
 use App\Twig\Components\GroupUsers\GroupUsersRemove\GroupUsersRemoveComponent;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'group_user_remove',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class GroupUsersRemoveController extends AbstractController

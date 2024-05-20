@@ -6,6 +6,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Shop\ShopCreate\SHOP_CREATE_FORM_FIELDS;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ShopCreateController extends AbstractController

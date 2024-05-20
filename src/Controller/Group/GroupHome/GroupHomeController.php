@@ -9,8 +9,8 @@ use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Group\GroupCreate\GroupCreateForm;
 use App\Form\Group\GroupModify\GroupModifyForm;
-use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
 use App\Form\Group\GroupRemove\GroupRemoveForm;
+use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Group\GroupHome\GroupHomeComponentBuilder;
@@ -18,6 +18,7 @@ use App\Twig\Components\Group\GroupHome\Home\GroupHomeSectionComponentDto;
 use App\Twig\Components\Group\GroupHome\ListItem\GroupListItemComponent;
 use Common\Adapter\Endpoints\GroupsEndpoint;
 use Common\Adapter\Router\RouterSelector;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
@@ -35,7 +36,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'group_home',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'page' => '\d+',
         'page_items' => '\d+',
         'section' => 'groups',

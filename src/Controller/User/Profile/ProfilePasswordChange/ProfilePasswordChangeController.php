@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use App\Form\PasswordChange\PasswordChangeForm;
 use App\Twig\Components\User\PasswordChange\PasswordChangeComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     methods: ['POST'],
     priority: 1,
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ProfilePasswordChangeController extends AbstractController

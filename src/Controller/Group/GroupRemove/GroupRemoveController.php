@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Group\GroupRemove;
 
 use App\Controller\Request\RequestDto;
-use App\Form\Group\GroupRemoveMulti\GROUP_REMOVE_MULTI_FORM_FIELDS;
-use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
 use App\Form\Group\GroupRemove\GROUP_REMOVE_FORM_FIELDS;
 use App\Form\Group\GroupRemove\GroupRemoveForm;
+use App\Form\Group\GroupRemoveMulti\GROUP_REMOVE_MULTI_FORM_FIELDS;
+use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
 use App\Twig\Components\Group\GroupRemove\GroupRemoveComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'group_remove',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class GroupRemoveController extends AbstractController

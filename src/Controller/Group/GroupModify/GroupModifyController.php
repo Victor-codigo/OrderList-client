@@ -10,6 +10,7 @@ use App\Form\Group\GroupModify\GroupModifyForm;
 use App\Twig\Components\Group\GroupModify\GroupModifyComponent;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Form\FormFactory;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Form\FormInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'group_modify',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class GroupModifyController extends AbstractController

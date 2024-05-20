@@ -9,6 +9,7 @@ use App\Form\User\Profile\PROFILE_FORM_FIELDS;
 use App\Form\User\Profile\ProfileForm;
 use App\Twig\Components\User\Profile\ProfileComponent;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     methods: ['POST'],
     priority: 1,
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ProfileChangeController extends AbstractController

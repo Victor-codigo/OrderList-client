@@ -9,6 +9,7 @@ use App\Form\Order\OrderCreate\ORDER_CREATE_FORM_FIELDS;
 use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Twig\Components\Order\OrderCreate\OrderCreateComponent;
 use Common\Adapter\Endpoints\Dto\OrderDataDto;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'order_create',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class OrderCreateController extends AbstractController

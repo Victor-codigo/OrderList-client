@@ -9,6 +9,7 @@ use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
 use App\Form\User\PasswordRemember\PasswordRememberForm;
 use App\Twig\Components\User\PasswordRemember\PasswordRememberDto;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\Config\Config;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\HttpClient\Exception\Error500Exception;
 use Common\Domain\HttpClient\Exception\NetworkException;
@@ -27,7 +28,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'user_remember',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserRememberController extends AbstractController

@@ -10,8 +10,8 @@ use App\Controller\Request\Response\ProductShopPriceDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Form\Product\ProductModify\ProductModifyForm;
-use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
 use App\Form\Product\ProductRemove\ProductRemoveForm;
+use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
@@ -38,7 +38,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'product_home_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'section' => 'product',
         'page' => '\d+',
         'page_items' => '\d+',
@@ -49,7 +49,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'product_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'section' => 'product',
         'page' => '\d+',
         'page_items' => '\d+',

@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\UserRemove\USER_REMOVE_FORM_FIELDS;
 use App\Form\UserRemove\UserRemoveForm;
 use App\Twig\Components\User\UserRemove\UserRemoveComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     methods: ['POST'],
     priority: 1,
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ProfileRemoveController extends AbstractController

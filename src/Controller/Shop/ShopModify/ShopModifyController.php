@@ -6,6 +6,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Shop\ShopModify\SHOP_MODIFY_FORM_FIELDS;
 use App\Form\Shop\ShopModify\ShopModifyForm;
 use App\Twig\Components\Shop\ShopModify\ShopModifyComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -20,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'shop_modify',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ShopModifyController extends AbstractController

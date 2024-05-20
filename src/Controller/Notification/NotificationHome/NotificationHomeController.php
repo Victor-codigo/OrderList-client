@@ -9,6 +9,7 @@ use App\Controller\Request\Response\NotificationDataResponse;
 use App\Form\Notification\NotificationRemove\NotificationRemoveForm;
 use App\Twig\Components\Notification\NotificationHome\Home\NotificationHomeSectionComponentDto;
 use App\Twig\Components\Notification\NotificationHome\NotificationHomeComponentBuilder;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
@@ -25,7 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'notification_home',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'section' => 'notifications',
         'page' => '\d+',
         'page_items' => '\d+',

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Common\Domain\Config\Config;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +14,7 @@ class HomeController extends AbstractController
         name: 'home',
         methods: ['GET'],
         requirements: [
-            '_locale' => 'en|es'
+            '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         ]
     )]
     public function index(): Response

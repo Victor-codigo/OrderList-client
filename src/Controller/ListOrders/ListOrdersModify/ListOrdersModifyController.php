@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\ListOrders\ListOrdersModify\LIST_ORDERS_MODIFY_FORM_FIELDS;
 use App\Form\ListOrders\ListOrdersModify\ListOrdersModifyForm;
 use App\Twig\Components\ListOrders\ListOrdersModify\ListOrdersModifyComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'list_orders_modify',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ListOrdersModifyController extends AbstractController

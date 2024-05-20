@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\ListOrders\ListOrdersCreateFrom\LIST_ORDERS_CREATE_FROM_FORM_FIELDS;
 use App\Form\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromForm;
 use App\Twig\Components\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'list_orders_create_from',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class listOrdersCreateFromController extends AbstractController

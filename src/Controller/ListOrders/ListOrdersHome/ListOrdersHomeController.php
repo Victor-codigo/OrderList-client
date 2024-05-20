@@ -6,11 +6,11 @@ namespace App\Controller\ListOrders\ListOrdersHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ListOrdersDataResponse;
-use App\Form\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromForm;
 use App\Form\ListOrders\ListOrdersCreate\ListOrdersCreateForm;
+use App\Form\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromForm;
 use App\Form\ListOrders\ListOrdersModify\ListOrdersModifyForm;
-use App\Form\ListOrders\ListOrdersRemoveMulti\ListOrdersRemoveMultiForm;
 use App\Form\ListOrders\ListOrdersRemove\ListOrdersRemoveForm;
+use App\Form\ListOrders\ListOrdersRemoveMulti\ListOrdersRemoveMultiForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
@@ -35,7 +35,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'list_orders_home_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'section' => 'list-orders',
         'page' => '\d+',
         'page_items' => '\d+',
@@ -46,7 +46,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'list_orders_home_no_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'section' => 'list-orders',
         'page' => '\d+',
         'page_items' => '\d+',

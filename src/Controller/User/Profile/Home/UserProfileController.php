@@ -8,9 +8,10 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\UserDataResponse;
 use App\Form\EmailChange\EmailChangeForm;
 use App\Form\PasswordChange\PasswordChangeForm;
-use App\Form\UserRemove\UserRemoveForm;
 use App\Form\User\Profile\ProfileForm;
+use App\Form\UserRemove\UserRemoveForm;
 use Common\Adapter\Endpoints\Endpoints;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
@@ -28,7 +29,7 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
     name: 'user_profile',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class UserProfileController extends AbstractController

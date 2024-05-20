@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Notification\NotificationRemove\NOTIFICATION_REMOVE_FORM_FIELDS;
 use App\Form\Notification\NotificationRemove\NotificationRemoveForm;
 use App\Twig\Components\Notification\NotificationRemove\NotificationRemoveComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'notification_remove',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class NotificationRemoveController extends AbstractController
