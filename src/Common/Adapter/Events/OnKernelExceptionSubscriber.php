@@ -68,7 +68,6 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
         }
 
         $request = $this->request->getMainRequest();
-
         $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
         $locale = $this->getLocale($request->getPathInfo());
 
@@ -76,7 +75,7 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
             $this->twig->render('page_errors/error403.html.twig', [
                 '_locale' => $locale,
                 'domainName' => Config::CLIENT_DOMAIN_NAME,
-                'error' => null === $tokenSession ? 403 : 'session',
+                'error' => null === $tokenSession ? 'forbidden' : 'session.expired',
             ])
         );
     }

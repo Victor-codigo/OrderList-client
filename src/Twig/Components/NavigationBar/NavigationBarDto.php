@@ -17,7 +17,7 @@ class NavigationBarDto implements TwigComponentDtoInterface
     public function __construct(
         public readonly string $title,
         public readonly ?UserDataResponse $userData,
-        public readonly string $groupType,
+        public readonly ?string $groupType,
         public readonly ?string $groupNameEncoded,
         public readonly ?string $sectionActiveId,
         public readonly string $locale,

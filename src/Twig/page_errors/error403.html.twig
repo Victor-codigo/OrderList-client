@@ -5,9 +5,9 @@
 {% block title %}
 
 {% if error == null %}
-{{ domainName }} | {{ title.403|trans(locale = _locale) }}
+{{ domainName }} | {{ 'title.403'|trans(locale = _locale) }}
 {% else %}
-{{ domainName }} | {{ title.session_expired|trans(locale = _locale) }}
+{{ domainName }} | {{ 'title.session_expired'|trans(locale = _locale) }}
 {% endif %}
 
 {% endblock %}
@@ -19,7 +19,7 @@
 <main class="container-fluid  min-vh-100  d-flex  flex-column  ps-0  pe-0  page-error">
     <section class="d-flex  justify-content-center  block-above">
         <h1 class="error-number">
-            {{ error|trans(locale = _locale) }}
+            {{ 'error'|trans(locale = _locale) }}
         </h1>
     </section>
     <section class="d-flex  block-below  flex-grow-1">
@@ -27,20 +27,20 @@
 
             <p class="fs-1  text-center  text-primary  primary-color-dark">
 
-                {% if error == null %}
-                {{ title.403|trans(locale = _locale) }}
+                {% if error == 'forbidden' %}
+                {{ 'title.forbidden'|trans(locale = _locale) }}
                 {% else %}
-                {{ title.session_expired|trans(locale = _locale) }}
+                {{ 'title.session_expired'|trans(locale = _locale) }}
                 {% endif %}
 
             </p>
 
             <p class="fs-4  text-center">
 
-                {% if error == null %}
-                {{ error_message.403|trans(locale = _locale) }}
+                {% if error == 'forbidden' %}
+                {{ 'error_message.forbidden'|trans(locale = _locale) }}
                 {% else %}
-                {{ error_message.session_expired|trans(locale = _locale)|raw }}
+                {{ 'error_message.session_expired'|trans(locale = _locale)|raw }}
                 {% endif %}
 
             </p>
@@ -50,14 +50,14 @@
             <div class="text-center  mt-4">
                 <a class="btn  btn-primary  me-2"
                    href="{{ path('user_login_home', { '_locale': _locale } ) }}"
-                   title="{{ go_login_button.title|trans(locale = _locale) }}"
-                   role="button">{{ go_login_button.label|trans(locale = _locale) }}
+                   title="{{ 'go_login_button.title'|trans(locale = _locale) }}"
+                   role="button">{{ 'go_login_button.label'|trans(locale = _locale) }}
                 </a>
 
                 <a class="btn  btn-primary"
                    href="{{ path('home', { '_locale': _locale } ) }}"
-                   title="{{ go_home_button.title|trans(locale = _locale) }}"
-                   role="button">{{ go_home_button.label|trans(locale = _locale) }}
+                   title="{{ 'go_home_button.title'|trans(locale = _locale) }}"
+                   role="button">{{ 'go_home_button.label'|trans(locale = _locale) }}
                 </a>
             </div>
 

@@ -1,11 +1,11 @@
 error: 403
 
 title:
-  403: Forbidden
+  forbidden: Forbidden
   session_expired: Sesión expirada
 
 error_message:
-  403: Lo sentimos, pero tienes acceso a esta página
+  forbidden: Lo sentimos, pero tienes acceso a esta página
   session_expired: |
     Parece que tú sesión ha espirado.
     <br>No te preocupes, haz login otra vez, y continua trabajando.

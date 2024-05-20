@@ -3,7 +3,7 @@
 {% trans_default_domain 'Error' %}
 
 {% block title %}
-{{ domainName }} | {{ title|trans(locale = _locale) }}
+{{ domainName }} | {{ 'title'|trans(locale = _locale) }}
 {% endblock %}
 
 {% block navigation %}
@@ -21,12 +21,12 @@
 
             <p class="fs-1  text-center  text-danger">
 
-                {{ title|trans(locale = _locale) }}
+                {{ 'title'|trans(locale = _locale) }}
 
             </p>
 
             <p class="fs-4  text-center">
-                {{ description|trans(locale = _locale) }}
+                {{ 'description'|trans(locale = _locale) }}
             </p>
 
             <hr>
@@ -34,8 +34,8 @@
             <div class="text-center  mt-4">
                 <a class="btn  btn-primary"
                    href="{{ path('home', { '_locale': _locale } ) }}"
-                   title="{{ go_home_button.title|trans(locale = _locale) }}"
-                   role="button">{{ go_home_button.label|trans(locale = _locale) }} </a>
+                   title="{{ 'go_home_button.title'|trans(locale = _locale) }}"
+                   role="button">{{ 'go_home_button.label'|trans(locale = _locale) }} </a>
             </div>
 
         </div>
