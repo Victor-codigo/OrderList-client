@@ -3,7 +3,7 @@
 {% trans_default_domain 'Error404' %}
 
 {% block title %}
-Page not found
+{{ domainName }} | {{ title|trans(locale = _locale) }}
 {% endblock %}
 
 {% block navigation %}
@@ -13,7 +13,7 @@ Page not found
 <main class="container-fluid  min-vh-100  d-flex  flex-column  ps-0  pe-0  page-error">
     <section class="d-flex  justify-content-center  block-above">
         <h1 class="error-number">
-            {{ 'error'|trans(locale = _locale) }}
+            {{ error|trans(locale = _locale) }}
         </h1>
     </section>
     <section class="d-flex  block-below  flex-grow-1  max-vh-50">
@@ -21,12 +21,12 @@ Page not found
 
             <p class="fs-1  text-center  text-primary  primary-color-dark">
 
-                {{ 'title'|trans(locale = _locale) }}
+                {{ title|trans(locale = _locale) }}
 
             </p>
 
             <p class="fs-4  text-center">
-                {{ 'description'|trans(locale = _locale) }}
+                {{ description|trans(locale = _locale) }}
             </p>
 
             <hr>
@@ -34,8 +34,8 @@ Page not found
             <div class="text-center  mt-4">
                 <a class="btn  btn-primary"
                    href="{{ path('home', { '_locale': _locale } ) }}"
-                   title="{{ 'button.title'|trans(locale = _locale) }}"
-                   role="button">{{ 'button.label'|trans(locale = _locale) }}
+                   title="{{ button.title|trans(locale = _locale) }}"
+                   role="button">{{ button.label|trans(locale = _locale) }}
                 </a>
             </div>
 

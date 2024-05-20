@@ -1,8 +1,8 @@
 error: 404
 
-title: Opps..., page not found
+title: Page not found
 
-description: The page you requested was not found
+description: Opps..., The page you requested was not found
 
 button:
   label: Go to home page

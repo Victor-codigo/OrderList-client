@@ -6,6 +6,8 @@ namespace Common\Adapter\Events;
 
 use App\Kernel;
 use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
+use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\Config\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,6 +56,7 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
         return new Response(
             $this->twig->render('page_errors/error404.html.twig', [
                 '_locale' => $locale,
+                'domainName' => Config::CLIENT_DOMAIN_NAME,
             ])
         );
     }
@@ -64,11 +67,16 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        $locale = $this->getLocale($this->request->getMainRequest()->getPathInfo());
+        $request = $this->request->getMainRequest();
+
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+        $locale = $this->getLocale($request->getPathInfo());
 
         return new Response(
             $this->twig->render('page_errors/error403.html.twig', [
                 '_locale' => $locale,
+                'domainName' => Config::CLIENT_DOMAIN_NAME,
+                'error' => null === $tokenSession ? 403 : 'session',
             ])
         );
     }
@@ -80,6 +88,7 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
         return new Response(
             $this->twig->render('page_errors/error.html.twig', [
                 '_locale' => $locale,
+                'domainName' => Config::CLIENT_DOMAIN_NAME,
             ])
         );
     }
