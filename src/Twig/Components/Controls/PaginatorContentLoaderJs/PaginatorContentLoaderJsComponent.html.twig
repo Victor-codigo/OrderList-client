@@ -1,8 +1,15 @@
 <div data-controller="PaginatorContentLoaderJsComponent"
      data-action="PaginatorJsComponent:changePage->PaginatorContentLoaderJsComponent#handleMessageChangePage
                   PaginatorContentLoaderJsComponent:initialize->PaginatorContentLoaderJsComponent#handleMessageInitialize
-                  ModalComponent:beforeShowed->PaginatorContentLoaderJsComponent#handleMessageBeforeShowed"
+                  ModalComponent:beforeShowed->PaginatorContentLoaderJsComponent#handleMessageBeforeShowed
+                  AlphanumericFilterComponent:changeLetterFilter->PaginatorContentLoaderJsComponent#handleMessageChangeLetterFilter"
      data-modal-component-content>
+
+     <div class="mb-2">
+          {{ component('AlphanumericFilterComponent' ) }}
+     </div>
+
+     <hr>
 
      {{ component('ContentLoaderJsComponent', { data: data.contentLoaderJsDto } ) }}
 

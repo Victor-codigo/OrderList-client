@@ -23,6 +23,7 @@ import ImageAvatarComponent from 'App/Twig/Components/Controls/ImageAvatar/Image
 import ItemPriceAddComponent from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAdd_controller';
 import ButtonLoadingComponent from 'App/Twig/Components/Controls/ButtonLoading/ButtonLoading_controller';
 import ItemsListAjaxComponent from 'App/Twig/Components/HomeSection/ItemsListAjax/ItemsListAjaxComponent_controller';
+import AlphanumericFilterComponent from 'App/Twig/Components/Controls/AlphanumericFilter/AlphanumericFilter_controller';
 
 import PaginatorComponent from 'App/Twig/Components/Paginator/Paginator_Component';
 import PaginatorJsComponent from 'App/Twig/Components/PaginatorJs/PaginatorJs_Component';
@@ -119,6 +120,7 @@ app.register('ListComponent', ListComponent);
 app.register('SearchBarComponent', SearchBarComponent);
 app.register('ContentLoaderJsComponent', ContentLoaderJsComponent);
 app.register('ItemsListAjaxComponent', ItemsListAjaxComponent);
+app.register('AlphanumericFilterComponent', AlphanumericFilterComponent);
 
 // HOME LIST
 app.register('HomeSectionComponent', HomeSectionComponent);
