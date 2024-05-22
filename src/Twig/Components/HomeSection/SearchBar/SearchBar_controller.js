@@ -124,7 +124,7 @@ export default class extends Controller {
      * @returns {Promise<string[]>}
      */
     async #getDataFromApiSectionListOrders() {
-        if (url.getSubSection().replace('-', '_') === url.SECTIONS.ORDERS) {
+        if (url.getSection() === url.SECTIONS.ORDERS) {
             return await this.#getDataFromApiSubSectionOrders();
         }
 

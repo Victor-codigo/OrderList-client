@@ -114,7 +114,11 @@ class NavigationBarComponent extends TwigComponent
         return new NavigationBarSectionDto(
             $this->translate('navigation.section.list_orders.label'),
             $this->translate('navigation.section.list_orders.title'),
-            $this->routerSelector->generateListOrdersPath($this->data->groupType, $this->data->groupNameEncoded),
+            $this->routerSelector->generateRouteWithDefaults('list_orders_home', [
+                'section' => 'list-orders',
+                'page' => 1,
+                'page_items' => 100,
+            ]),
             'list-orders' === $sectionActiveId || 'orders' === $sectionActiveId ? true : false
         );
     }
@@ -124,7 +128,11 @@ class NavigationBarComponent extends TwigComponent
         return new NavigationBarSectionDto(
             $this->translate('navigation.section.products.label'),
             $this->translate('navigation.section.products.title'),
-            $this->routerSelector->generateProductPath($this->data->groupType, $this->data->groupNameEncoded),
+            $this->routerSelector->generateRouteWithDefaults('product_home', [
+                'section' => 'product',
+                'page' => 1,
+                'page_items' => 100,
+            ]),
             'product' === $sectionActiveId ? true : false
         );
     }
@@ -134,7 +142,11 @@ class NavigationBarComponent extends TwigComponent
         return new NavigationBarSectionDto(
             $this->translate('navigation.section.shops.label'),
             $this->translate('navigation.section.shops.title'),
-            $this->routerSelector->generateShopPath($this->data->groupType, $this->data->groupNameEncoded),
+            $this->routerSelector->generateRouteWithDefaults('shop_home', [
+                'section' => 'shop',
+                'page' => 1,
+                'page_items' => 100,
+            ]),
             'shop' === $sectionActiveId ? true : false
         );
     }
@@ -143,7 +155,7 @@ class NavigationBarComponent extends TwigComponent
     {
         unset($routeParameters['_locale']);
 
-        return $this->routerSelector->generate($routeName, [
+        return $this->routerSelector->generateRoute($routeName, [
             '_locale' => 'en' === $locale ? 'es' : 'en',
             ...$routeParameters,
         ]);
@@ -151,7 +163,7 @@ class NavigationBarComponent extends TwigComponent
 
     private function createNotificationsUrl(): string
     {
-        return $this->routerSelector->generate('notification_home', [
+        return $this->routerSelector->generateRoute('notification_home', [
             'section' => 'notifications',
             'page' => 1,
             'page_items' => 100,
@@ -181,7 +193,7 @@ class NavigationBarComponent extends TwigComponent
         return new MenuButtonDto(
             $this->translate('navigation.profile.label'),
             $this->translate('navigation.profile.title'),
-            $this->routerSelector->generate('user_profile',
+            $this->routerSelector->generateRoute('user_profile',
                 [
                     'user_name' => $this->encodeUrl($userData->name),
                 ]),
@@ -198,7 +210,7 @@ class NavigationBarComponent extends TwigComponent
         return new MenuButtonDto(
             $this->translate('navigation.groups.label'),
             $this->translate('navigation.groups.title'),
-            $this->routerSelector->generate('group_home', [
+            $this->routerSelector->generateRoute('group_home', [
                 'section' => 'groups',
                 'page' => 1,
                 'page_items' => 100,
@@ -216,7 +228,7 @@ class NavigationBarComponent extends TwigComponent
         return new MenuButtonDto(
             $this->translate('navigation.logout.label'),
             $this->translate('navigation.logout.title'),
-            $this->routerSelector->generate('user_logout'),
+            $this->routerSelector->generateRoute('user_logout', []),
             null
         );
     }

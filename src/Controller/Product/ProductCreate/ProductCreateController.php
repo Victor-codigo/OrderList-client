@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     methods: ['POST'],
     requirements: [
         '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
+        'section' => 'product',
     ]
 )]
 class ProductCreateController extends AbstractController

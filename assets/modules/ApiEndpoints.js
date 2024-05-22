@@ -104,13 +104,8 @@ export async function getShopsNames(groupId, page, pageItems, shopsId = null, pr
  * @returns {Promise<import('App/modules/Fetch').ResponseDto>}
  */
 export async function createShop(form, submitter) {
-    const createShopUrl = POST_SHOP_URL
-        .replace('{locale}', url.getLocale())
-        .replace('{group_name}', url.getGroupName())
-
-    form.action = createShopUrl;
     const formData = new FormData(form, submitter);
-    const response = await fetch.createFormRequest(createShopUrl, 'POST', formData, {});
+    const response = await fetch.createFormRequest(form.action, 'POST', formData, {});
 
     return await response.json();
 }
@@ -208,13 +203,8 @@ export async function getProductsNames(groupId, page, pageItems, shopsId = null,
  * @returns {Promise<import('App/modules/Fetch').ResponseDto>}
  */
 export async function createProduct(form, submitter) {
-    const createShopUrl = POST_PRODUCT_URL
-        .replace('{locale}', url.getLocale())
-        .replace('{group_name}', url.getGroupName());
-
-    form.action = createShopUrl;
     const formData = new FormData(form, submitter);
-    const response = await fetch.createFormRequest(createShopUrl, 'POST', formData, {});
+    const response = await fetch.createFormRequest(form.action, 'POST', formData, {});
 
     return await response.json();
 }

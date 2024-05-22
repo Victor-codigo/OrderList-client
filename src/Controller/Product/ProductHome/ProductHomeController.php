@@ -10,8 +10,8 @@ use App\Controller\Request\Response\ProductShopPriceDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Form\Product\ProductModify\ProductModifyForm;
-use App\Form\Product\ProductRemove\ProductRemoveForm;
 use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
+use App\Form\Product\ProductRemove\ProductRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_type}/{group_name}/{section}/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
     name: 'product_home_group',
     methods: ['GET', 'POST'],
     requirements: [
@@ -143,7 +143,7 @@ class ProductHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                $this->routerSelector->getProductRouteName($requestDto->groupData->type),
+                $this->routerSelector->getRouteNameWithSuffix('product_home'),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -290,30 +290,30 @@ class ProductHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 ProductsEndPoint::GET_PRODUCT_DATA,
-                $this->routerSelector->generateProductPath($requestDto->groupData->type, $requestDto->groupNameUrlEncoded),
+                $this->routerSelector->generateRouteWithDefaults('product_home', [])
             )
             ->productCreateFormModal(
                 $productCreateForm->getCsrfToken(),
                 null,
-                $this->generateUrl('product_create', [
+                $this->routerSelector->generateRoute('product_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )
             ->productRemoveMultiFormModal(
                 $productRemoveMultiForm->getCsrfToken(),
-                $this->generateUrl('product_remove', [
+                $this->routerSelector->generateRoute('product_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->productRemoveFormModal(
                 $productRemoveForm->getCsrfToken(),
-                $this->generateUrl('product_remove', [
+                $this->routerSelector->generateRoute('product_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->productModifyFormModal(
                 $productModifyForm->getCsrfToken(),
-                $this->generateUrl('product_modify', [
+                $this->routerSelector->generateRoute('product_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'product_name' => self::PRODUCT_NAME_PLACEHOLDER,
                 ]),
@@ -326,7 +326,7 @@ class ProductHomeController extends AbstractController
             ->shopCreateModal(
                 $requestDto->groupData->id,
                 $shopCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_create', [
+                $this->routerSelector->generateRoute('shop_create_ajax', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )

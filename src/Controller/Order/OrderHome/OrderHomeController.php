@@ -8,8 +8,8 @@ use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\OrderDataResponse;
 use App\Form\Order\OrderCreate\OrderCreateForm;
 use App\Form\Order\OrderModify\OrderModifyForm;
-use App\Form\Order\OrderRemove\OrderRemoveForm;
 use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
+use App\Form\Order\OrderRemove\OrderRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Order\OrderHome\Home\OrderHomeSectionComponentDto;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_type}/{group_name}/{list_orders_name}/{section}/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{list_orders_name}/{section}/page-{page}-{page_items}',
     name: 'order_home_group',
     methods: ['GET', 'POST'],
     requirements: [
@@ -141,7 +141,7 @@ class OrderHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                $this->routerSelector->getOrdersRouteName($requestDto->groupData->type),
+                $this->routerSelector->getRouteNameWithSuffix('order_home'),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -240,16 +240,12 @@ class OrderHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 OrdersEndpoint::GET_ORDERS_DATA,
-                $this->routerSelector->generateOrdersPath(
-                    $requestDto->groupData->type,
-                    $requestDto->groupNameUrlEncoded,
-                    $requestDto->listOrdersUrlEncoded
-                )
+                $this->routerSelector->generateRouteWithDefaults('order_home', [])
             )
             ->orderCreateFormModal(
                 $orderCreateForm->getCsrfToken(),
                 null,
-                $this->generateUrl('order_create', [
+                $this->routerSelector->generateRoute('order_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
                 $requestDto->groupData->id,
@@ -257,19 +253,19 @@ class OrderHomeController extends AbstractController
             )
             ->orderRemoveMultiFormModal(
                 $orderRemoveMultiForm->getCsrfToken(),
-                $this->generateUrl('order_remove', [
+                $this->routerSelector->generateRoute('order_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->orderRemoveFormModal(
                 $orderRemoveForm->getCsrfToken(),
-                $this->generateUrl('order_remove', [
+                $this->routerSelector->generateRoute('order_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->orderModifyFormModal(
                 $orderModifyForm->getCsrfToken(),
-                $this->generateUrl('order_modify', [
+                $this->routerSelector->generateRoute('order_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'order_name' => self::ORDER_NAME_PLACEHOLDER,
                 ]),

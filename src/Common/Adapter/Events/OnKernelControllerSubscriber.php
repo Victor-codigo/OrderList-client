@@ -63,10 +63,12 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function userHasPermissions(string $urlPath, ?string $tokenSession): bool
     {
-        $pattern = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/user\/(?!profile)/u';
+        $patternUser = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/user\/(?!profile)/u';
+        $patternHome = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/home/u';
 
         // No need permissions
-        if (1 === preg_match($pattern, $urlPath)) {
+        if (1 === preg_match($patternUser, $urlPath)
+        || 1 === preg_match($patternHome, $urlPath)) {
             return true;
         }
 
@@ -248,7 +250,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        if ($request->attributes->has('group_type')) {
+        if ($request->attributes->has('group_name')) {
             return $this->loadUserGroupDataGroup($request->attributes, $tokenSession);
         }
 

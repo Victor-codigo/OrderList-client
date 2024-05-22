@@ -6,11 +6,11 @@ namespace App\Controller\ListOrders\ListOrdersHome;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\ListOrdersDataResponse;
-use App\Form\ListOrders\ListOrdersCreate\ListOrdersCreateForm;
 use App\Form\ListOrders\ListOrdersCreateFrom\ListOrdersCreateFromForm;
+use App\Form\ListOrders\ListOrdersCreate\ListOrdersCreateForm;
 use App\Form\ListOrders\ListOrdersModify\ListOrdersModifyForm;
-use App\Form\ListOrders\ListOrdersRemove\ListOrdersRemoveForm;
 use App\Form\ListOrders\ListOrdersRemoveMulti\ListOrdersRemoveMultiForm;
+use App\Form\ListOrders\ListOrdersRemove\ListOrdersRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\ListOrders\ListOrdersHome\Home\ListOrdersHomeSectionComponentDto;
@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_type}/{group_name}/{section}/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
     name: 'list_orders_home_group',
     methods: ['GET', 'POST'],
     requirements: [
@@ -141,7 +141,7 @@ class ListOrdersHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                $this->routerSelector->getListOrdersRouteName($requestDto->groupData->type),
+                $this->routerSelector->getRouteNameWithSuffix('list_orders_home'),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -214,11 +214,10 @@ class ListOrdersHomeController extends AbstractController
             )
             ->listItems(
                 $listOrdersData,
-                $this->routerSelector->generateOrdersPath(
-                    $requestDto->groupData->type,
-                    $requestDto->groupNameUrlEncoded,
-                    '--list_orders_name--'
-                )
+                $this->routerSelector->generateRouteWithDefaults('order_home', [
+                    'section' => 'orders',
+                    'list_orders_name' => '--list_orders_name--',
+                ])
             )
             ->validation(
                 !empty($shopHomeMessagesError) || !empty($shopHomeMessagesOk) ? true : false,
@@ -230,17 +229,17 @@ class ListOrdersHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 ListOrdersEndpoints::GET_LIST_ORDERS_DATA,
-                $this->routerSelector->generateListOrdersPath($requestDto->groupData->type, $requestDto->groupNameUrlEncoded),
+                $this->routerSelector->generateRouteWithDefaults('list_orders_home', []),
             )
             ->listOrdersCreateFormModal(
                 $listOrdersCreateForm->getCsrfToken(),
-                $this->generateUrl('list_orders_create', [
+                $this->routerSelector->generateRoute('list_orders_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )
             ->listOrdersCreateFromFormModal(
                 $listOrdersCreateFromForm->getCsrfToken(),
-                $this->generateUrl('list_orders_create_from', [
+                $this->routerSelector->generateRoute('list_orders_create_from', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )
@@ -251,19 +250,19 @@ class ListOrdersHomeController extends AbstractController
             )
             ->listOrdersRemoveMultiFormModal(
                 $listOrdersRemoveMultiForm->getCsrfToken(),
-                $this->generateUrl('list_orders_remove', [
+                $this->routerSelector->generateRoute('list_orders_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->listOrdersRemoveFormModal(
                 $listOrdersRemoveForm->getCsrfToken(),
-                $this->generateUrl('list_orders_remove', [
+                $this->routerSelector->generateRoute('list_orders_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->listOrdersModifyFormModal(
                 $listOrdersModifyForm->getCsrfToken(),
-                $this->generateUrl('list_orders_modify', [
+                $this->routerSelector->generateRoute('list_orders_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'list_orders_name' => '--list_orders_name--',
                 ]),

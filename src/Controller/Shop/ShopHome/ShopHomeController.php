@@ -11,8 +11,8 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
+use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Twig\Components\Shop\ShopHome\Home\ShopHomeSectionComponentDto;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Adapter\Endpoints\ShopsEndPoint;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
-    path: '{_locale}/{group_type}/{group_name}/{section}/page-{page}-{page_items}',
+    path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
     name: 'shop_home_group',
     methods: ['GET', 'POST'],
     requirements: [
@@ -77,7 +77,7 @@ class ShopHomeController extends AbstractController
 
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                $this->routerSelector->getShopRouteName($requestDto->groupData->type),
+                $this->routerSelector->getRouteNameWithSuffix('shop_home'),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -263,29 +263,29 @@ class ShopHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 ShopsEndPoint::GET_SHOP_DATA,
-                $this->routerSelector->generateShopPath($requestDto->groupData->type, $requestDto->groupNameUrlEncoded)
+                $this->routerSelector->generateRouteWithDefaults('shop_home', [])
             )
             ->shopCreateFormModal(
                 $shopCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_create', [
+                $this->routerSelector->generateRoute('shop_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )
             ->shopRemoveMultiFormModal(
                 $shopRemoveMultiForm->getCsrfToken(),
-                $this->generateUrl('shop_remove', [
+                $this->routerSelector->generateRoute('shop_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->shopRemoveFormModal(
                 $shopRemoveForm->getCsrfToken(),
-                $this->generateUrl('shop_remove', [
+                $this->routerSelector->generateRoute('shop_remove', [
                     'group_name' => $requestDto->groupData->name,
                 ])
             )
             ->shopModifyFormModal(
                 $shopModifyForm->getCsrfToken(),
-                $this->generateUrl('shop_modify', [
+                $this->routerSelector->generateRoute('shop_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'shop_name' => self::SHOP_NAME_PLACEHOLDER,
                 ]),
@@ -298,7 +298,7 @@ class ShopHomeController extends AbstractController
             ->productCreateModal(
                 $requestDto->groupData->id,
                 $productCreateForm->getCsrfToken(),
-                $this->generateUrl('product_create', [
+                $this->generateUrl('product_create_ajax', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )

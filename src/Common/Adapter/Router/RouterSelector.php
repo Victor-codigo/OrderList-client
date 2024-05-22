@@ -4,111 +4,116 @@ declare(strict_types=1);
 
 namespace Common\Adapter\Router;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RouterInterface;
 
 class RouterSelector
 {
-    public function __construct(
-        private RouterInterface $router
-    ) {
+    private RouterInterface $router;
+    private Request $request;
+    private ?string $locale;
+    private ?string $groupNameEncoded;
+    private ?string $section;
+    private ?string $listOrdersName;
+    private ?string $page;
+    private ?string $pageItems;
+
+    public function __construct(RouterInterface $router, RequestStack $requestStack)
+    {
+        $this->router = $router;
+        $this->request = $requestStack->getMainRequest();
+        $this->locale = $this->request->attributes->get('_locale');
+        $this->groupNameEncoded = $this->request->attributes->get('group_name');
+        $this->section = $this->request->attributes->get('section');
+        $this->listOrdersName = $this->request->attributes->get('list_orders_name');
+        $this->page = $this->request->attributes->get('page');
+        $this->pageItems = $this->request->attributes->get('page_items');
     }
 
-    public function generate(string $name, array $parameters = [], int $referenceType = RouterInterface::ABSOLUTE_PATH): string
+    /**
+     * Adds suffix to route name, [_no_group|_group].
+     */
+    public function getRouteNameWithSuffix(string $routeNameWithoutSuffix): string
     {
-        return $this->router->generate($name, $parameters, $referenceType);
+        return null === $this->groupNameEncoded
+            ? "{$routeNameWithoutSuffix}_no_group"
+            : "{$routeNameWithoutSuffix}_group";
     }
 
-    public function generateShopPath(?string $groupType, ?string $groupNameEncoded): string
+    /**
+     * @return array<{
+     *  '_locale': string
+     *  'group_type': string,
+     *  'group_name': string,
+     *  'section': string,
+     *  'page': string,
+     *  'page_items': string,
+     * }>
+     */
+    private function getDefaultParameters(): array
     {
-        return match ($groupType) {
-            'group' => $this->router->generate('shop_home_group', [
-                'group_type' => $groupType,
-                'group_name' => $groupNameEncoded,
-                'section' => 'shop',
-                'page' => 1,
-                'page_items' => 100,
-            ]),
-            default => $this->router->generate('shop_home_no_group', [
-                'section' => 'shop',
-                'page' => 1,
-                'page_items' => 100,
-            ])
-        };
+        $parametersDefault = [];
+
+        if (null !== $this->locale) {
+            $parametersDefault['_locale'] = $this->locale;
+        }
+
+        if (null !== $this->groupNameEncoded) {
+            $parametersDefault['group_name'] = $this->groupNameEncoded;
+        }
+
+        if (null !== $this->section) {
+            $parametersDefault['section'] = $this->section;
+        }
+
+        if (null !== $this->listOrdersName) {
+            $parametersDefault['list_orders_name'] = $this->listOrdersName;
+        }
+
+        if (null !== $this->page) {
+            $parametersDefault['page'] = 1;
+        }
+
+        if (null !== $this->pageItems) {
+            $parametersDefault['page_items'] = 100;
+        }
+
+        return $parametersDefault;
     }
 
-    public function getShopRouteName(?string $groupType): string
+    public function generateRouteWithDefaults(string $routeName, array $parameters): string
     {
-        return 'group' === $groupType ? 'shop_home_group' : 'shop_home_no_group';
+        $routeParameters = [
+            ...$this->getDefaultParameters(),
+            ...$parameters,
+        ];
+
+        return $this->generateRoute($routeName, $routeParameters);
     }
 
-    public function generateProductPath(?string $groupType, ?string $groupNameEncoded): string
+    public function generateRoute(string $routeName, array $parameters): string
     {
-        return match ($groupType) {
-            'group' => $this->router->generate('product_home_group', [
-                'group_type' => $groupType,
-                'group_name' => $groupNameEncoded,
-                'section' => 'product',
-                'page' => 1,
-                'page_items' => 100,
-            ]),
-            default => $this->router->generate('product_home_no_group', [
-                'section' => 'product',
-                'page' => 1,
-                'page_items' => 100,
-            ])
-        };
+        $routeNameToGenerate = $routeName;
+        if (!$this->routeNameExists($routeName)) {
+            $routeNameToGenerate = $this->getRouteNameWithSuffix($routeName);
+        }
+
+        return $this->router->generate($routeNameToGenerate, $parameters);
     }
 
-    public function getProductRouteName(?string $groupType): string
+    private function routeNameExists($routeName): bool
     {
-        return 'group' === $groupType ? 'product_home_group' : 'product_home_no_group';
-    }
+        try {
+            $this->router->generate($routeName);
 
-    public function generateListOrdersPath(?string $groupType, ?string $groupNameEncoded): string
-    {
-        return match ($groupType) {
-            'group' => $this->router->generate('list_orders_home_group', [
-                'group_type' => $groupType,
-                'group_name' => $groupNameEncoded,
-                'section' => 'list-orders',
-                'page' => 1,
-                'page_items' => 100,
-            ]),
-            default => $this->router->generate('list_orders_home_no_group', [
-                'section' => 'list-orders',
-                'page' => 1,
-                'page_items' => 100,
-            ])
-        };
-    }
-
-    public function getListOrdersRouteName(?string $groupType): string
-    {
-        return 'group' === $groupType ? 'list_orders_home_group' : 'list_orders_home_no_group';
-    }
-
-    public function generateOrdersPath(?string $groupType, ?string $groupNameEncoded, string $listOrdersNameEncoded): string
-    {
-        return match ($groupType) {
-            'group' => $this->router->generate('order_home_group', [
-                'group_type' => $groupType,
-                'group_name' => $groupNameEncoded,
-                'list_orders_name' => $listOrdersNameEncoded,
-                'section' => 'orders',
-                'page' => 1,
-                'page_items' => 100,
-            ]),
-            default => $this->router->generate('order_home_no_group', [
-                'list_orders_name' => $listOrdersNameEncoded,
-                'section' => 'orders',
-                'page' => 1,
-                'page_items' => 100,
-            ])
-        };
-    }
-
-    public function getOrdersRouteName(?string $groupType): string
-    {
-        return 'group' === $groupType ? 'order_home_group' : 'order_home_no_group';
+            return true;
+        } catch (RouteNotFoundException) {
+            return false;
+        } catch (MissingMandatoryParametersException) {
+            return true;
+        }
     }
 }

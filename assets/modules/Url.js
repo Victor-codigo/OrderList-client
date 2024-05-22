@@ -13,23 +13,20 @@ export function getGroupName() {
 }
 
 /**
- * @returns {string}
+ * @returns {string|null}
  */
 export function getSection() {
     const urlPath = window.location.pathname.split('/');
+    const sections = Object
+        .values(SECTIONS)
+        .map((section) => section.replace('_', '-'));
+    const sectionsFound = urlPath.filter((urlChunk) => sections.includes(urlChunk))
 
-    if (urlPath[2] == 'group') {
-        return 'group';
+    if (sectionsFound.length === 0) {
+        return null;
     }
 
-    return window.location.pathname.split('/')[3];
-}
-
-/**
- * @returns {string}
- */
-export function getSubSection() {
-    return window.location.pathname.split('/')[4];
+    return sectionsFound[0];
 }
 
 export const SECTIONS = {
