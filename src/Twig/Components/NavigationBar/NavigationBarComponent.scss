@@ -20,6 +20,10 @@
 .navbar {
     background-color: $black;
 
+    .navbar__logo {
+        height: 60px;
+    }
+
     .nav-link {
         &:hover {
             background-color: $gray-800;
@@ -69,6 +73,8 @@
     }
 
     .navbar__user-menu {
+        border-left: 1px solid $gray-700;
+
         svg {
             height: 24px;
             width: 24px;

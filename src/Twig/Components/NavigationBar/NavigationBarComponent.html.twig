@@ -1,7 +1,7 @@
 <nav class="navbar  navbar-dark  bg-dark  navbar-expand-lg  fixed-top  p-0"
 	 data-controller="NavigationBarComponent"
 	 data-bs-theme="dark">
-	<div class="container-fluid  align-items-stretch  ps-0  pe-0">
+	<div class="container-fluid  align-items-stretch  ps-0  pe-0  flex-fill">
 
 		{% if this.hasBackButton %}
 
@@ -27,11 +27,16 @@
 
 		{% endif %}
 
-		<a class="navbar-brand  ms-auto  me-auto"
-		   href="#">Offcanvas navbar</a>
+		<a class="navbar-brand  mx-auto  my-2  w-25  text-center"
+		   href="{{ path('home') }}">
+			<img class="navbar__logo  ms-2"
+				 src="/assets/images/common/logo-white.png"
+				 title="{{ data.domain }}"
+				 alt="{{ logoTitleAttribute }}">
+		</a>
 
-		<div class="collapse navbar-collapse  align-items-end">
-			<ul class="navbar-nav  flex-grow-1 pe-3  d-flex  flex-row  justify-content-center  align-items-end">
+		<div class="collapse navbar-collapse  align-items-end  justify-content-center  flex-shrink-1">
+			<ul class="navbar-nav  pe-3  d-flex  flex-row  justify-content-center  align-items-end">
 
 				{% for section in sections %}
 
@@ -54,7 +59,7 @@
 
 			{% if data.locale=='es' %}
 
-			<a class="navbar__language-switch  p-3"
+			<a class="navbar__language-switch  px-3  d-flex  flex-column  justify-content-center"
 			   href="{{ languageToggleUrl }}"
 			   role="button"
 			   type="button">
@@ -64,7 +69,7 @@
 
 			{% else %}
 
-			<a class="navbar__language-switch  p-3"
+			<a class="navbar__language-switch  px-3  d-flex  flex-column  justify-content-center"
 			   href="{{ languageToggleUrl }}"
 			   role="button">
 
@@ -93,7 +98,7 @@
 
 
 			<a href="{{ notificationUrl }}"
-			   class="position-relative  navbar__language-switch  p-3"
+			   class="position-relative  navbar__language-switch  p-3  d-flex  flex-column  justify-content-center"
 			   role="button">
 
 				{% if notificationsNewNumber > 0 %}

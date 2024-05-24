@@ -49,6 +49,7 @@ class NavigationBarComponent extends TwigComponent
     public readonly string $languageToggleUrl;
     public readonly string $notificationUrl;
 
+    public readonly string $logoTitleAttribute;
     public readonly string $backButtonTitle;
 
     public readonly int $notificationsNewNumber;
@@ -82,6 +83,7 @@ class NavigationBarComponent extends TwigComponent
         $this->logoutButton = $this->createLogoutButton($data->userData);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
         $this->sections = $sections;
+        $this->logoTitleAttribute = $this->translate('navigation.logo.title', ['domain_name' => $this->data->domainName]);
         $this->backButtonTitle = $this->translate('navigation.back_button.title');
     }
 

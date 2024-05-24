@@ -1,6 +1,9 @@
 title: Orders list
 
 navigation:
+  logo:
+    title: Ir a {domain_name}
+
   profile:
     label: Profile
     title: Go to your profile

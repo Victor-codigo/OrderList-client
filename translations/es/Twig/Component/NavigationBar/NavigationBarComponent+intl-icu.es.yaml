@@ -1,6 +1,9 @@
 title: Lista de la compra
 
 navigation:
+  logo:
+    title: Ir a {domain_name}
+
   profile:
     label: Perfil
     title: Ir a tú perfil

@@ -122,6 +122,8 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     private function loadNavigationBar(RequestDto $requestDto): NavigationBarDto
     {
         return new NavigationBarDto(
+            Config::CLIENT_DOMAIN,
+            Config::CLIENT_DOMAIN_NAME,
             'OrderListTile',
             $requestDto->getUserSessionData(),
             $requestDto->groupData?->type,

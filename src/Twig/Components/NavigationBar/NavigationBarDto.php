@@ -15,6 +15,8 @@ class NavigationBarDto implements TwigComponentDtoInterface
      * @param NotificationDataResponse[] $notificationsData
      */
     public function __construct(
+        public readonly string $domain,
+        public readonly string $domainName,
         public readonly string $title,
         public readonly ?UserDataResponse $userData,
         public readonly ?string $groupType,
