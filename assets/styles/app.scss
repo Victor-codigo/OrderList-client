@@ -3,6 +3,9 @@
 @import '/assets/styles/style';
 
 
+// Landing page
+@import '/src/Twig/Components/Home/Home/HomePageComponent';
+
 // Navigation bar
 @import '/src/Twig/Components/NavigationBar/NavigationBarComponent';
 

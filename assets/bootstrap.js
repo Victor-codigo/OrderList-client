@@ -1,5 +1,8 @@
 import { startStimulusApp } from '@symfony/stimulus-bridge';
 
+// HOME
+import HomePageComponent from 'App/Twig/Components/Home/Home/HomePage_controller';
+
 // USER
 import LoginComponent from 'App/Twig/Components/User/Login/LoginComponent_controller';
 import SignupComponent from 'App/Twig/Components/User/Signup/SignupComponent_controller';
@@ -121,6 +124,9 @@ app.register('SearchBarComponent', SearchBarComponent);
 app.register('ContentLoaderJsComponent', ContentLoaderJsComponent);
 app.register('ItemsListAjaxComponent', ItemsListAjaxComponent);
 app.register('AlphanumericFilterComponent', AlphanumericFilterComponent);
+
+// HOME
+app.register('HomePageComponent', HomePageComponent);
 
 // HOME LIST
 app.register('HomeSectionComponent', HomeSectionComponent);

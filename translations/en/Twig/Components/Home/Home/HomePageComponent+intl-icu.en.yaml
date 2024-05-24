@@ -1,0 +1,50 @@
+button:
+  language:
+    title: Change language
+
+  theme:
+    title: Change theme color
+
+  login:
+    label: Login
+    title: Go to login page
+
+  sign_up:
+    label: Sign up!
+    title: Go to sign up page
+
+  try_out:
+    label: try it out!
+    title: Try out our service now
+
+logo:
+  title: Go to {domain_name}
+
+main_info:
+  title: Create your own shop list
+  info: Welcome to <strong>{domain_name}</strong>. A tool to <strong>create and manage</strong> your <strong>shopping data</strong> on an easy way.
+
+card:
+  list_orders:
+    icon:
+      title: Create shop list
+    title: Shop list
+    description: Create and manage your own shop list
+
+  products:
+    icon:
+      title: Create products
+    title: Products
+    description: Create and manage your own shop list
+
+  shops:
+    icon:
+      title: Create shops
+    title: Shops
+    description: Create and manage your own shop list
+
+  groups:
+    icon:
+      title: Create groups
+    title: Groups
+    description: Create and manage your own shop list
