@@ -100,7 +100,7 @@ export default class extends Controller {
                 queryParameters['page_items'],
                 null,
                 null,
-                'order',
+                'list_orders',
                 'starts_with',
                 queryParameters['letter'],
                 true
