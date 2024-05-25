@@ -22,6 +22,11 @@ export default class extends Controller {
     #nameTag;
 
     /**
+     * @type {HTMLInputElement}
+     */
+    #descriptionTag;
+
+    /**
      * @type {HTMLButtonElement}
      */
     #backButtonTag;
@@ -39,6 +44,7 @@ export default class extends Controller {
     connect() {
         this.#buttonCreateShop = this.element.querySelector('[data-controller="ButtonLoadingComponent"]');
         this.#nameTag = this.element.querySelector('[name="shop_create_form[name]"]');
+        this.#descriptionTag = this.element.querySelector('[name="shop_create_form[description]"]');
         this.#backButtonTag = this.element.querySelector('[data-js-back-button]');
 
         this.#formTag = this.element.querySelector('[data-controller="ShopCreateComponent"]');
@@ -121,6 +127,8 @@ export default class extends Controller {
     }
 
     clear() {
+        this.#nameTag.value = '';
+        this.#descriptionTag.value = '';
         this.element.querySelector('[data-controller="AlertComponent"]')?.remove();
         communication.sendMessageToChildController(this.#buttonCreateShop, 'showButton');
     }
