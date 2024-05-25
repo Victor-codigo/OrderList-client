@@ -11,17 +11,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route(
+    path: '{_locale}/home',
+    name: 'home',
+    methods: ['GET'],
+    requirements: [
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
+    ]
+)]
 class HomeController extends AbstractController
 {
-    #[Route(
-        path: '{_locale}/home',
-        name: 'home',
-        methods: ['GET'],
-        requirements: [
-            '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
-        ]
-    )]
-    public function index(RequestDto $requestDto): Response
+    public function __invoke(RequestDto $requestDto): Response
     {
         $homePageComponentDto = new HomePageComponentDto(
             Config::CLIENT_DOMAIN_NAME,
@@ -29,6 +29,7 @@ class HomeController extends AbstractController
             $this->generateUrl('home', [
                 '_locale' => 'en' === $requestDto->locale ? 'es' : 'en',
             ]),
+            null === $requestDto->getTokenSessionOrFail() ? false : true
         );
 
         return $this->render('home/index.html.twig', [

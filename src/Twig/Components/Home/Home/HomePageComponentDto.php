@@ -12,6 +12,7 @@ class HomePageComponentDto implements TwigComponentDtoInterface
         public readonly string $domainName,
         public readonly string $locale,
         public readonly string $languageUrl,
+        public readonly bool $loggedIn,
     ) {
     }
 }

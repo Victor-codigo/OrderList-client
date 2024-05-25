@@ -6,7 +6,7 @@ button:
     title: Change theme color
 
   login:
-    label: Login
+    label: Log in
     title: Go to login page
 
   sign_up:
@@ -29,22 +29,24 @@ card:
     icon:
       title: Create shop list
     title: Shop list
-    description: Create and manage your own shop list
+    description: |
+      <strong>Create an edit your shop lists</strong>. Keep shop lists you made, and you will make in the future, sorted.
+      <br>Mark bought products whereas you buy them, and get it cost
 
   products:
     icon:
       title: Create products
     title: Products
-    description: Create and manage your own shop list
+    description: <strong>Create and edit your products</strong>. Set products to shops, and add them to your shop lists.
 
   shops:
     icon:
       title: Create shops
     title: Shops
-    description: Create and manage your own shop list
+    description: <strong>Create shops</strong> in witch you make shopping. Set product prices, and create your shop lists.
 
   groups:
     icon:
       title: Create groups
     title: Groups
-    description: Create and manage your own shop list
+    description: Manage your own shop lists, and create groups to <strong>share</strong> with more users.

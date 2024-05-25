@@ -1,111 +1,134 @@
-{% extends 'Components/Home/HomePageBase.html.twig' %}
 {% trans_default_domain 'HomePageComponent' %}
+<!DOCTYPE html>
+<html lang="{{ data.locale }}">
 
-{% block title %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
 
-{% endblock %}
+    {% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-{% block headJs %}
-{{ encore_entry_link_tags('app') }}
-{% endblock %}
+    {% block javascripts %}
+    {{ encore_entry_script_tags('appNotDeferred', attributes={ defer: false }) }}
+    {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 
-{% block headerNavigation %}
-<nav class="d-flex  flex-row  justify-content-between  container-lg  p-3  navigation">
-    <a class=""
-       href="{{ path('home') }}">
+</head>
 
-        <img class="navigation__logo  ms-4"
-             src="/assets/images/common/logo-white.png"
-             title="{{ 'logo.title'|trans({'%domain_name%': data.domainName}) }}"
-             alt="">
-    </a>
-    <div class="d-flex  flex-row  gap-lg-5  py-3">
-        <div class="d-flex  flex-row  align-content-center">
-            {% if data.locale=='es' %}
+<body>
+    <main data-controller="HomePageComponent">
+        <header class="header  pb-0  ps-0  pe-0  pt-2">
 
-            <a class="btn-nav  d-flex  flex-column  justify-content-center  p-3"
-               href="{{ data.languageUrl }}"
-               title="{{ 'button.language.title'|trans }}"
-               role="button"
-               type="button">
+            {% if data.loggedIn %}
 
-                {% include "flag/english-flag.svg" %}
-            </a>
+            {% include "Components/Home/Home/HomePageLoggedInComponent.html.twig" %}
 
             {% else %}
 
-            <a class="btn-nav  d-flex  flex-column  justify-content-center  p-3"
-               href="{{ data.languageUrl }}"
-               title="{{ 'button.language.title'|trans }}"
-               role="button">
-
-                {% include "flag/spanish-flag.svg" %}
-            </a>
+            {% include "Components/Home/Home/HomePageLoggedOutComponent.html.twig" %}
 
             {% endif %}
 
-            <button class="btn  btn-nav  rounded-0  p-3  "
-                    type="button"
-                    title="{{ 'button.theme.title'|trans }}"
-                    data-js-theme-button>
-                <div hidden
-                     data-js-theme-dark>
-                    {% include "theme-dark-mode-icon.svg" %}
-                </div>
-                <div hidden
-                     data-js-theme-light>
-                    {% include "theme-light-mode-icon.svg" %}
-                </div>
-                <div hidden
-                     data-js-theme-auto>
-                    {% include "theme-auto-mode-icon.svg" %}
-                </div>
-            </button>
+            <footer class="border-bottom">
+                {% include "home_page/border-bottom.svg" %}
+            </footer>
+        </header>
+        <section class="container-md  text-center  body">
+            <div class="row  justify-content-md-center">
+                <article class="body-card  col-lg-3  p-4">
+                    <div class="mb-3  body-card__icon"
+                         title="{{ 'card.list_orders.icon.title'|trans }}">
+                        {% include "list_orders/list-orders-no-image.svg" %}
+                    </div>
+                    <h2 class="text-center">
+                        {{ 'card.list_orders.title'|trans }}
+                    </h2>
+                    <p class="body-card__description">
+                        {{ 'card.list_orders.description'|trans|raw }}
+                    </p>
+                </article>
 
-        </div>
-        <div class="d-flex  flex-row  align-items-center  justify-content-between">
+                <article class="body-card  col-lg-3  p-4">
+                    <div class="mb-3  body-card__icon"
+                         title="{{ 'card.products.icon.title'|trans }}">
+                        {% include "product/product-no-image.svg" %}
+                    </div>
+                    <h2 class="text-center">
+                        {{ 'card.products.title'|trans }}
+                    </h2>
+                    <p class="body-card__description">
+                        {{ 'card.products.description'|trans|raw }}
+                    </p>
+                </article>
 
-            <a class="login-and-signup  link-light  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover  px-3"
-               href="{{ path('user_login_home') }}"
-               title="{{ 'button.login.title'|trans }}">
-                {{ 'button.login.label'|trans }}
+                <article class="body-card  col-lg-3  p-4">
+                    <div class="mb-3  body-card__icon"
+                         title="{{ 'card.shops.icon.title'|trans }}">
+                        {% include "shop/shop-no-image.svg" %}
+                    </div>
+                    <h2 class="text-center">
+                        {{ 'card.shops.title'|trans }}
+                    </h2>
+                    <p class="body-card__description">
+                        {{ 'card.shops.description'|trans|raw }}
+                    </p>
+                </article>
+
+                <article class="body-card  col-lg-3  p-4">
+                    <div class="mb-3  body-card__icon"
+                         title="{{ 'card.groups.icon.title'|trans }}">
+                        {% include "group/group-no-image.svg" %}
+                    </div>
+                    <h2 class="text-center">
+                        {{ 'card.groups.title'|trans }}
+                    </h2>
+                    <p class="body-card__description">
+                        {{ 'card.groups.description'|trans|raw }}
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-dark  text-center  text-light  p-3">
+        <p class="m-0"
+           xmlns:cc="http://creativecommons.org/ns#">
+            <a class="link-info  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover"
+               rel="cc:attributionURL"
+               href="https://github.com/Victor-codigo">
+                {{ data.domainName }}
             </a>
+            is licensed under
+            <a class="link-info  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover"
+               href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1"
+               target="_blank"
+               rel="license noopener noreferrer"
+               style="display:inline-block;">
 
-            <a class="login-and-signup  link-light  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover  px-3"
-               href="{{ path('user_login_home') }}"
-               title="{{ 'button.sign_up.title'|trans }}">
-                {{ 'button.sign_up.label'|trans }}
+                <img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+                     src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"
+                     alt="">
+                CC 4.0
+                <img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+                     src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"
+                     alt="">
+                BY
+                <img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+                     src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"
+                     alt="">
+                NC
+                <img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+                     src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1"
+                     alt="">
+                ND
             </a>
+        </p>
+</body>
 
-        </div>
-    </div>
-</nav>
-{% endblock %}
-
-
-{% block headerContent %}
-<section class="container  px-5    text-light  content">
-    <div class="row gx-5 align-items-center">
-        <div class="col-lg-6">
-            <h1 class="fs-1">
-                {{ 'main_info.title'|trans }}
-            </h1>
-            <p class="fs-5  mb-5">
-                {{ 'main_info.info'|trans({'%domain_name%': data.domainName})|raw }}
-            </p>
-            <button type="button"
-                    class="btn btn-warning  fs-5  p-2  px-4  btn-try-it-out"
-                    title="{{ 'button.try_out.title'|trans }}">
-                {{ 'button.try_out.label'|trans }}
-            </button>
-
-        </div>
-        <div class="col-lg-6">
-            <img class="image-main"
-                 src="/assets/images/common/home/image-header.png"
-                 title=""
-                 alt="">
-        </div>
-    </div>
-</section>
-{% endblock %}
+</html>

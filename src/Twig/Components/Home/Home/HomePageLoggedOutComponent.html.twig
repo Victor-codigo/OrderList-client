@@ -1,0 +1,106 @@
+{% trans_default_domain 'HomePageComponent' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block headJs %}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block headerContent %}
+<nav class="d-flex  flex-row  justify-content-between  container-lg  p-3  navigation">
+    <a href="{{ path('home') }}">
+
+        <img class="navigation__logo  ms-4"
+             src="/assets/images/common/logo-white.png"
+             title="{{ 'logo.title'|trans({'%domain_name%': data.domainName}) }}"
+             alt="{{ 'logo.title'|trans({'%domain_name%': data.domainName}) }}">
+    </a>
+    <div class="d-flex  flex-row  gap-lg-5  py-3">
+        <div class="d-flex  flex-row  align-content-center">
+            {% if data.locale=='es' %}
+
+            <a class="btn-nav  d-flex  flex-column  justify-content-center  p-3"
+               href="{{ data.languageUrl }}"
+               title="{{ 'button.language.title'|trans }}"
+               role="button"
+               type="button">
+
+                {% include "flag/english-flag.svg" %}
+            </a>
+
+            {% else %}
+
+            <a class="btn-nav  d-flex  flex-column  justify-content-center  p-3"
+               href="{{ data.languageUrl }}"
+               title="{{ 'button.language.title'|trans }}"
+               role="button">
+
+                {% include "flag/spanish-flag.svg" %}
+            </a>
+
+            {% endif %}
+
+            <button class="btn  btn-nav  rounded-0  p-3  "
+                    type="button"
+                    title="{{ 'button.theme.title'|trans }}"
+                    data-js-theme-button>
+                <div hidden
+                     data-js-theme-dark>
+                    {% include "theme-dark-mode-icon.svg" %}
+                </div>
+                <div hidden
+                     data-js-theme-light>
+                    {% include "theme-light-mode-icon.svg" %}
+                </div>
+                <div hidden
+                     data-js-theme-auto>
+                    {% include "theme-auto-mode-icon.svg" %}
+                </div>
+            </button>
+
+        </div>
+        <div class="d-flex  flex-row  align-items-center  justify-content-between">
+
+            <a class="login-and-signup  link-light  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover  px-3"
+               href="{{ path('user_login_home') }}"
+               title="{{ 'button.login.title'|trans }}">
+                {{ 'button.login.label'|trans }}
+            </a>
+
+            <a class="login-and-signup  link-light  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover  px-3"
+               href="{{ path('user_register') }}"
+               title="{{ 'button.sign_up.title'|trans }}">
+                {{ 'button.sign_up.label'|trans }}
+            </a>
+
+        </div>
+    </div>
+</nav>
+
+<section class="container  px-5    text-light  content">
+    <div class="row gx-5 align-items-center">
+        <div class="col-lg-6">
+            <h1 class="fs-1">
+                {{ 'main_info.title'|trans }}
+            </h1>
+            <p class="fs-5  mb-5">
+                {{ 'main_info.info'|trans({'%domain_name%': data.domainName})|raw }}
+            </p>
+            <button type="button"
+                    class="btn btn-warning  fs-5  p-2  px-4  btn-try-it-out"
+                    title="{{ 'button.try_out.title'|trans }}">
+                {{ 'button.try_out.label'|trans }}
+            </button>
+
+        </div>
+        <div class="col-lg-6">
+            <img class="image-main"
+                 src="/assets/images/common/home/image-header.png"
+                 title="{{ 'main_info.title'|trans }}"
+                 alt="{{ 'main_info.title'|trans }}">
+        </div>
+    </div>
+</section>
+{% endblock %}
