@@ -6,6 +6,7 @@ namespace App\Controller\Home\Home;
 
 use App\Controller\Request\RequestDto;
 use App\Twig\Components\Home\Home\HomePageComponentDto;
+use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
 use Common\Adapter\Router\RouterSelector;
 use Common\Domain\Config\Config;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,7 @@ class HomeController extends AbstractController
         ];
 
         $groupNameEncodedSuffix = '_no_group';
-        if (array_key_exists('group_name', $requestDto->requestReferer->params)) {
+        if (null !== $requestDto->requestReferer && array_key_exists('group_name', $requestDto->requestReferer->params)) {
             $urlParams['group_name'] = $requestDto->requestReferer->params['group_name'];
             $groupNameEncodedSuffix = '_group';
         }
@@ -46,7 +47,7 @@ class HomeController extends AbstractController
             $this->generateUrl('home', [
                 '_locale' => 'en' === $requestDto->locale ? 'es' : 'en',
             ]),
-            null === $requestDto->getTokenSessionOrFail() ? false : true,
+            $this->isUserLoggedIn($requestDto),
             $this->generateUrl('list_orders_home'.$groupNameEncodedSuffix, [
                 'section' => 'list-orders',
                 ...$urlParams,
@@ -64,5 +65,16 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'homePageComponentDto' => $homePageComponentDto,
         ]);
+    }
+
+    private function isUserLoggedIn(RequestDto $requestDto): bool
+    {
+        try {
+            $requestDto->getTokenSessionOrFail();
+
+            return true;
+        } catch (RequestUnauthorizedException $th) {
+            return false;
+        }
     }
 }
