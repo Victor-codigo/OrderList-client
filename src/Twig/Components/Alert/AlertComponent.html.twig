@@ -1,29 +1,29 @@
-<div class="card {{ cssType }} m-3 mx-auto"
-	 style="max-width: fit-content; {{ data.visible == true ? '' : 'display: none' }}"
+<div class="alert  {{ cssType }} m-3 mx-auto  w-75  border-5  border-top-0  border-end-0  border-bottom-0  rounded-0"
+	 role="alert"
 	 data-controller="AlertComponent"
 	 data-action="AlertComponent:setValidations->AlertComponent#handleMessageAddValidationErrors">
 
-	{% if data.title %}
-	<header class="card-header">
-		<h5>{{ data.title }}</h5>
-	</header>
-	{% endif %}
-	<section class="card-body">
-		{% if data.subtitle %}
-		<h5 class="card-title">
-			{{ data.subtitle }}
-		</h5>
-		{% endif %}
+	<section class="d-flex  flex-row  align-items-start">
+		<div class="alert__icon  pt-2  ps-3">
+			{% if cssType == 'alert-danger' %}
+			{% include "error-icon.svg" %}
+			{% elseif cssType == 'alert-light' %}
+			{% include "info-icon.svg" %}
+			{% elseif cssType == 'alert-success' %}
+			{% include "ok-icon.svg" %}
+			{% endif %}
+		</div>
 
 		{% if data.messages is iterable %}
-		<ul class="list-group "
+
+		<ul class="list-group"
 			data-js-container>
 			{% for message in data.messages %}
-			<li class="list-group-item  border border-0  bg-transparent  {{ cssTextColor }}">
+			<li class="list-group-item  border border-0  bg-transparent  d-flex  flex-row">
 				{% if data.escapeMessage %}
-				<p class="card-text">{{ message|nl2br }}</p>
+				{{ message|nl2br }}
 				{% else %}
-				<p class="card-text">{{ message|raw|nl2br }}</p>
+				{{ message|raw|nl2br }}
 				{% endif %}
 			</li>
 			{% endfor %}
@@ -32,16 +32,16 @@
 		{% else %}
 
 		{% if data.escapeMessage %}
-		<p class="card-text">{{ data.messages|nl2br }}</p>
+		{{ data.messages|nl2br }}
 		{% else %}
-		<p class="card-text">{{ data.messages|raw|nl2br }}</p>
+		{{ data.messages|raw|nl2br }}
 		{% endif %}
 
 		{% endif %}
 	</section>
 
 	<template data-js-item-template>
-		<li class="list-group-item  border border-0  bg-transparent  {{ cssTextColor }}">
+		<li class="list-group-item  border border-0  bg-transparent">
 			<p class="card-text"
 			   data-js-item-template-text></p>
 		</li>
