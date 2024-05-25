@@ -23,6 +23,10 @@ logo:
 main_info:
   title: Create your own shop list
   info: Welcome to <strong>{domain_name}</strong>. A tool to <strong>create and manage</strong> your <strong>shopping data</strong> on an easy way.
+  section:
+    order_list: Shop lists
+    products: Products
+    shops: Shops
 
 card:
   list_orders:

@@ -76,10 +76,10 @@
         <nav class="col-lg-5  d-flex  justify-content-lg-end  justify-content-sm-center">
             <ul class="list-group  list-nav-section">
                 <li
-                    class="list-group-item  bg-transparent  py-0  border-0  d-flex  justify-content-end  list-nav-section__item">
+                    class="list-group-item  bg-transparent  py-0  border-0  rounded-1  d-flex  justify-content-end  list-nav-section__item">
                     <a class="link-light  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover  fs-4  px-3  py-3  rounded-1"
-                       href="">
-                        List shop
+                       href="{{ data.orderListHomeUrl|escape('html_attr') }}">
+                        {{ 'main_info.section.order_list'|trans }}
 
                         {% include "list_orders/list-orders-no-image.svg" %}
                     </a>
@@ -87,8 +87,8 @@
                 <li
                     class="list-group-item  bg-transparent  py-0  border-0  rounded-1  d-flex  justify-content-end  list-nav-section__item">
                     <a class="link-light  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover  fs-4  px-3  py-3  rounded-1"
-                       href="">
-                        Products
+                       href="{{ data.productsHomeUrl|escape('html_attr') }}">
+                        {{ 'main_info.section.products'|trans }}
 
                         {% include "product/product-no-image.svg" %}
                     </a>
@@ -96,8 +96,8 @@
                 <li
                     class="list-group-item  bg-transparent  py-0  border-0  rounded-1  d-flex  justify-content-end  list-nav-section__item">
                     <a class="link-light  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover  fs-4  px-3  py-3  rounded-1"
-                       href="">
-                        Shops
+                       href="{{ data.shopsHomeUrl|escape('html_attr') }}">
+                        {{ 'main_info.section.shops'|trans }}
 
                         {% include "shop/shop-no-image.svg" %}
                     </a>
