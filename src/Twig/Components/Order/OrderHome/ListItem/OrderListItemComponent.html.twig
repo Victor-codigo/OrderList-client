@@ -3,7 +3,7 @@
     data-item-data="{{ orderDataJson }}"
     data-js-list-item>
 
-    <label class="d-flex  flex-row  flex-grow-1">
+    <label class="d-flex  flex-row  flex-grow-1  align-items-center">
 
         <input class="form-check-input m-2  align-self-center"
                type="checkbox"
@@ -28,15 +28,9 @@
 
         {% endif %}
 
-        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
-
-            <div class="d-flex  flex-row  justify-content-between">
-
-                <p class="fs-5">
-                    {{ data.name }}
-                </p>
-            </div>
-        </div>
+        <p class="fs-5  my-4  mx-2">
+            {{ data.name }}
+        </p>
     </label>
 
     <button type="button"

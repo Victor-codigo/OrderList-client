@@ -3,7 +3,7 @@
     data-item-data="{{ productDataJson }}"
     data-js-list-item>
 
-    <label class="d-flex  flex-row  flex-grow-1">
+    <label class="d-flex  flex-row  flex-grow-1  align-items-center">
 
         <input class="form-check-input m-2  align-self-center"
                type="checkbox"
@@ -16,16 +16,10 @@
             {% include "list_orders/list-orders-no-image.svg" %}
         </div>
 
-        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
-
-            <div class="d-flex  flex-row  justify-content-between">
-
-                <p class="fs-5"
-                   data-js-item-name>
-                    {{ data.name }}
-                </p>
-            </div>
-        </div>
+        <p class="fs-5  my-4  mx-2"
+           data-js-item-name>
+            {{ data.name }}
+        </p>
     </label>
 
     <a href="{{ urlListOrders|escape('html_attr') }}"
