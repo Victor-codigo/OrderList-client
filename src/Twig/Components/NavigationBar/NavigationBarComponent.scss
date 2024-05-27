@@ -18,7 +18,7 @@
 
 
 .navbar {
-    background-color: $black;
+    background-color: $navigationBarColor !important;
 
     .navbar__logo {
         height: 60px;
@@ -44,7 +44,8 @@
     .navbar__theme-switch {
         color: $white;
         border: 0;
-        border-left: 1px solid $gray-700;
+        border-left: 1px solid $blue-500;
+        background-color: transparent;
 
         svg {
             height: 18px;
@@ -53,13 +54,15 @@
 
         &:hover {
             color: $white;
+            background-color: $blue-400;
         }
     }
 
     .navbar__language-switch {
         color: $white;
         border: 0;
-        border-left: 1px solid $gray-700;
+        border-left: 1px solid $blue-500 !important;
+        background-color: transparent;
 
         svg {
             height: 18px;
@@ -68,12 +71,20 @@
 
         &:hover {
             color: $white;
-            background-color: $gray-700;
+            background-color: $blue-400;
         }
     }
 
     .navbar__user-menu {
-        border-left: 1px solid $gray-700;
+        border: 0;
+        border-left: 1px solid $blue-500;
+        background-color: transparent;
+
+        &:hover {
+            color: $white;
+            border-left: 1px solid $blue-500 !important;
+            background-color: $blue-400;
+        }
 
         svg {
             height: 24px;
@@ -86,47 +97,52 @@
         }
     }
 
-    .menu-item__link {
-        color: $white;
-        border: 0;
-        border-left: 1px solid $gray-700;
-        text-decoration: none;
+    .user-menu {
+        background-color: $navigationBarColor;
 
-        .user-profile__name {
-            margin-left: 5px;
-        }
+        .menu-item__link {
+            color: $white;
+            border: 0;
+            border-color: $navigationBarColor;
+            background-color: $navigationBarColor;
+            text-decoration: none;
 
-        .menu-item__name {
-            margin-left: 5px;
-        }
+            .user-profile__name {
+                margin-left: 5px;
+            }
 
-        .menu-item__logout {
+            .menu-item__name {
+                margin-left: 5px;
+            }
+
+            .menu-item__logout {
+
+                svg {
+                    color: $red;
+                }
+            }
 
             svg {
-                color: $red;
+                height: 24px;
+                width: 24px;
             }
-        }
 
-        svg {
-            height: 24px;
-            width: 24px;
-        }
+            img {
+                height: 30px;
+                width: 30px;
+            }
 
-        img {
-            height: 30px;
-            width: 30px;
-        }
-
-        &:hover {
-            color: $white;
-            background-color: $gray-700;
+            &:hover {
+                color: $white;
+                background-color: $blue-400;
+            }
         }
     }
 
     .navbar-toggler-button {
         outline: none !important;
         box-shadow: none;
-        border-right: 1px solid $gray-700 !important;
+        border-right: 1px solid $blue-500 !important;
         color: $white;
 
         svg {
@@ -139,13 +155,13 @@
         }
 
         &:hover {
-            background-color: $gray-700;
+            background-color: $blue-400;
         }
     }
 
     .navbar-back-button {
         color: $white;
-        border-right: 1px solid $gray-700 !important;
+        border-right: 1px solid $blue-500 !important;
 
         svg {
             height: 24px;
@@ -153,7 +169,7 @@
         }
 
         &:hover {
-            background-color: $gray-700;
+            background-color: $blue-400;
         }
     }
 }
