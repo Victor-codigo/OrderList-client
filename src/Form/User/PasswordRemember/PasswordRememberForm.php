@@ -6,11 +6,17 @@ namespace App\Form\User\PasswordRemember;
 
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormType;
+use Common\Domain\Ports\Captcha\CaptchaInterface;
 use Common\Domain\Validation\ValidationInterface;
 
 class PasswordRememberForm extends FormType
 {
     private const FORM_CSRF_TOKEN_ID = 'PasswordRememberFormCsrfTokenId';
+
+    public function __construct(
+        private CaptchaInterface $captcha
+    ) {
+    }
 
     public static function getName(): string
     {
@@ -29,7 +35,11 @@ class PasswordRememberForm extends FormType
 
     public function validate(ValidationInterface $validator, array $formData): array
     {
-        return [];
+        if ($this->captcha->valid()) {
+            return [];
+        }
+
+        return $this->captcha->getErrors();
     }
 
     /**
@@ -40,6 +50,10 @@ class PasswordRememberForm extends FormType
         $this
             ->addField(PASSWORD_REMEMBER_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
             ->addField(PASSWORD_REMEMBER_FORM_FIELDS::EMAIL, FIELD_TYPE::TEXT)
-            ->addField(PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT);
+            ->addField(PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT)
+            ->addField(PASSWORD_REMEMBER_FORM_FIELDS::CAPTCHA, FIELD_TYPE::CAPTCHA, null, [
+                'action_name' => 'login',
+                'locale' => 'en',
+            ]);
     }
 }

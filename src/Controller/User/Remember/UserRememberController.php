@@ -8,6 +8,7 @@ use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
 use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
 use App\Form\User\PasswordRemember\PasswordRememberForm;
 use App\Twig\Components\User\PasswordRemember\PasswordRememberDto;
+use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
 use Common\Domain\HttpClient\Exception\Error400Exception;
@@ -38,13 +39,14 @@ class UserRememberController extends AbstractController
     public function __construct(
         private FormFactoryInterface $formFactory,
         private HttpClientInterface $httpClient,
-        private GetPageTitleService $getPageTitleService
+        private GetPageTitleService $getPageTitleService,
+        private Recaptcha3ValidatorAdapter $recaptcha3ValidatorAdapter
     ) {
     }
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->formFactory->create(new PasswordRememberForm(), $request);
+        $form = $this->formFactory->create(new PasswordRememberForm($this->recaptcha3ValidatorAdapter), $request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->formValid($form, $request->getLocale());

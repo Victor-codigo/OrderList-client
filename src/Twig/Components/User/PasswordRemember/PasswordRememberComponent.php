@@ -24,6 +24,7 @@ class PasswordRememberComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
+    public readonly string $captchaFieldName;
     public readonly string $emailFieldName;
     public readonly string $submitFieldName;
 
@@ -40,6 +41,7 @@ class PasswordRememberComponent extends TwigComponent
 
         $this->formName = PASSWORD_REMEMBER_FORM_FIELDS::FORM;
         $this->tokenCsrfFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::TOKEN);
+        $this->captchaFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::CAPTCHA);
         $this->emailFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::EMAIL);
         $this->submitFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT);
 
@@ -70,6 +72,7 @@ class PasswordRememberComponent extends TwigComponent
         $errorsLang = [];
         foreach ($this->data->errors as $field => $error) {
             $errorsLang[] = match ($field) {
+                PASSWORD_REMEMBER_FORM_ERRORS::CAPTCHA->value => $this->translate('validation.error.captcha'),
                 PASSWORD_REMEMBER_FORM_ERRORS::EMAIL->value => $this->translate('validation.error.email'),
                 PASSWORD_REMEMBER_FORM_ERRORS::EMAIL_NOT_FOUND->value => $this->translate('validation.error.remember'),
                 default => $this->translate('validation.error.internal_server')
