@@ -24,6 +24,7 @@ class SignupComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
+    public readonly string $captchaFieldName;
     public readonly string $emailFieldName;
     public readonly string $passwordFieldName;
     public readonly string $passwordRepeatedFieldName;
@@ -43,6 +44,7 @@ class SignupComponent extends TwigComponent
 
         $this->formName = SIGNUP_FORM_FIELDS::FORM;
         $this->tokenCsrfFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::TOKEN);
+        $this->captchaFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::CAPTCHA);
         $this->emailFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::EMAIL);
         $this->passwordFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD);
         $this->passwordRepeatedFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD_REPEATED);
@@ -86,6 +88,7 @@ class SignupComponent extends TwigComponent
         $errorsLang = [];
         foreach ($this->data->errors as $error => $errorValue) {
             $errorsLang[] = match ($error) {
+                SIGNUP_FORM_ERRORS::CAPTCHA->value => $this->translate('validation.error.captcha'),
                 SIGNUP_FORM_ERRORS::EMAIL->value => $this->translate('email.msg_invalid'),
                 SIGNUP_FORM_ERRORS::PASSWORD->value => $this->translate('password.msg_invalid'),
                 SIGNUP_FORM_ERRORS::NAME->value => $this->translate('nick.msg_invalid'),

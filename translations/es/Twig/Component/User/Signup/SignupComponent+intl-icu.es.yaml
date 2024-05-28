@@ -8,10 +8,10 @@ email:
 password:
   label: Contraseña
   placeholder: Introduce tú contraseña
-  msg_invalid: Contrasña incorrecta. La constraseña tiene que contener al menos 6 caracteres
+  msg_invalid: Contraseña incorrecta. La contraseña tiene que contener al menos 6 caracteres
 
 password_repeated:
-  label: Repitir la contraseña
+  label: Repetir la contraseña
   placeholder: Introduce tú contraseña otra vez
   msg_invalid: Los campos Contraseña y Repetir contraseña no son iguales
 
@@ -24,10 +24,11 @@ nick:
 
 register_button: ¡Regístrate!
 
-login_link: O Identiticate aquí
+login_link: O Identifícate aquí
 
 validation:
   title: Errors
   error:
+    captcha: Upss..., parace que captcha te identifica como un robot. Por favor, recarga la página, e inténtalo otra vez.
     email_exists: El email ya está registrado
     internal_server: An error has been occurred, try it later

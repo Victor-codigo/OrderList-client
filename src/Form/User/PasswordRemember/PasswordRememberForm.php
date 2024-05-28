@@ -52,7 +52,7 @@ class PasswordRememberForm extends FormType
             ->addField(PASSWORD_REMEMBER_FORM_FIELDS::EMAIL, FIELD_TYPE::TEXT)
             ->addField(PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT)
             ->addField(PASSWORD_REMEMBER_FORM_FIELDS::CAPTCHA, FIELD_TYPE::CAPTCHA, null, [
-                'action_name' => 'login',
+                'action_name' => 'password_remember',
                 'locale' => 'en',
             ]);
     }

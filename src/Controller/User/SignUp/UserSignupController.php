@@ -8,6 +8,7 @@ use App\Form\User\Signup\SIGNUP_FORM_ERRORS;
 use App\Form\User\Signup\SIGNUP_FORM_FIELDS;
 use App\Form\User\Signup\SignupForm;
 use App\Twig\Components\User\Signup\SignupComponentDto;
+use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
 use Common\Domain\HttpClient\Exception\Error400Exception;
@@ -38,15 +39,16 @@ class UserSignupController extends AbstractController
     public function __construct(
         private FormFactoryInterface $formFactory,
         private HttpClientInterface $httpClient,
-        private GetPageTitleService $getPageTitleService
+        private GetPageTitleService $getPageTitleService,
+        private Recaptcha3ValidatorAdapter $recaptcha,
     ) {
     }
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->formFactory->create(new SignupForm(), $request);
+        $form = $this->formFactory->create(new SignupForm($this->recaptcha), $request);
 
-        if ($form->isSubmitted() && $form->isCsrfValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             return $this->formValid($form, $request->getLocale());
         }
 

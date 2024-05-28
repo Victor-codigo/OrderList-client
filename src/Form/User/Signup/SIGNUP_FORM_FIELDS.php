@@ -14,5 +14,6 @@ class SIGNUP_FORM_FIELDS implements FormFieldInterface
     public const PASSWORD = 'password';
     public const PASSWORD_REPEATED = 'password_repeated';
     public const NICK = 'nick';
-    public const SUBMIT = 'sumbit';
+    public const SUBMIT = 'submit';
+    public const CAPTCHA = 'captcha';
 }

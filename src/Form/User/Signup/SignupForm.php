@@ -6,11 +6,17 @@ namespace App\Form\User\Signup;
 
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormType;
+use Common\Domain\Ports\Captcha\CaptchaInterface;
 use Common\Domain\Validation\ValidationInterface;
 
 class SignupForm extends FormType
 {
     private const FORM_CSRF_TOKEN_ID = 'SignupFormCsrfTokenId';
+
+    public function __construct(
+        private CaptchaInterface $captcha
+    ) {
+    }
 
     public static function getName(): string
     {
@@ -29,7 +35,11 @@ class SignupForm extends FormType
 
     public function validate(ValidationInterface $validator, array $formData): array
     {
-        return [];
+        if ($this->captcha->valid()) {
+            return [];
+        }
+
+        return $this->captcha->getErrors();
     }
 
     /**
@@ -42,6 +52,10 @@ class SignupForm extends FormType
             ->addField(SIGNUP_FORM_FIELDS::EMAIL, FIELD_TYPE::EMAIL)
             ->addField(SIGNUP_FORM_FIELDS::PASSWORD, FIELD_TYPE::PASSWORD)
             ->addField(SIGNUP_FORM_FIELDS::PASSWORD_REPEATED, FIELD_TYPE::PASSWORD)
-            ->addField(SIGNUP_FORM_FIELDS::NICK, FIELD_TYPE::TEXT);
+            ->addField(SIGNUP_FORM_FIELDS::NICK, FIELD_TYPE::TEXT)
+            ->addField(SIGNUP_FORM_FIELDS::CAPTCHA, FIELD_TYPE::CAPTCHA, null, [
+                'action_name' => 'signup',
+                'locale' => 'en',
+            ]);
     }
 }

@@ -10,5 +10,6 @@ enum SIGNUP_FORM_ERRORS: string
     case PASSWORD = 'password';
     case NAME = 'name';
     case EMAIL_EXISTS = 'email_exists';
+    case CAPTCHA = 'captcha';
     case INTERNAL_SERVER = 'internal_server';
 }

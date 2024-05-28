@@ -29,5 +29,6 @@ login_link: Or login here
 validation:
   title: Errors
   error:
+    captcha: Upss..., it seems that captcha identifies you as a robot. Please, reload page and try again.
     email_exists: The email is already registered
     default: An error has been occurred, try it later
