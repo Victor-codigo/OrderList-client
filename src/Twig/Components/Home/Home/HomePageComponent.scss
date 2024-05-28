@@ -112,14 +112,3 @@
         }
     }
 }
-
-@include media-breakpoint-down(sm) {
-    .header {
-        .content {
-
-            .btn-try-it-out {
-                width: 100%;
-            }
-        }
-    }
-}

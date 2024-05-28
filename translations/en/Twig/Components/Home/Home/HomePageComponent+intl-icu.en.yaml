@@ -13,10 +13,6 @@ button:
     label: Sign up!
     title: Go to sign up page
 
-  try_out:
-    label: try it out!
-    title: Try out our service now
-
 logo:
   title: Go to {domain_name}
 

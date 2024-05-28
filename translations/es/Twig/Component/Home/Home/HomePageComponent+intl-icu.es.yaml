@@ -13,10 +13,6 @@ button:
     label: Regístrate!
     title: Ir a la página de registro
 
-  try_out:
-    label: Pruébalo!
-    title: Prueba nuestro servicio ahora
-
 logo:
   title: Ir a {domain_name}
 
