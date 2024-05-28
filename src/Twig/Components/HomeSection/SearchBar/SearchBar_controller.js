@@ -89,8 +89,8 @@ export default class extends Controller {
                 return await this.#getDataFromApiSectionGroup();
             case url.SECTIONS.GROUP_USERS:
                 return await this.#getDataFromApiSectionGroupUsers();
-            default:
-                return await this.#getDataFromApiSectionListOrders();
+            case url.SECTIONS.ORDERS:
+                return await this.#getDataFromApiSubSectionOrders();
 
         }
     }
@@ -124,10 +124,6 @@ export default class extends Controller {
      * @returns {Promise<string[]>}
      */
     async #getDataFromApiSectionListOrders() {
-        if (url.getSection() === url.SECTIONS.ORDERS) {
-            return await this.#getDataFromApiSubSectionOrders();
-        }
-
         if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
             return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
         } else if (this.sectionFilterTag.value === url.SECTIONS.PRODUCT) {
