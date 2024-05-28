@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\User\Login\LOGIN_FORM_FIELDS;
 use App\Form\User\Login\LoginForm;
 use App\Twig\Components\User\Login\LoginComponent;
+use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
@@ -36,15 +37,16 @@ class UserLoginController extends AbstractController
         private EndpointsInterface $apiEndpoint,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private LoginComponent $loginComponent,
+        private Recaptcha3ValidatorAdapter $recaptcha,
         private int $cookieSessionKeepAlive,
-        private string $cookieSessionName
+        private string $cookieSessionName,
     ) {
     }
 
     public function __invoke(RequestDto $requestDto): Response
     {
         $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
-        $loginForm = $this->formFactory->create(new LoginForm(), $requestDto->request);
+        $loginForm = $this->formFactory->create(new LoginForm($this->recaptcha), $requestDto->request);
 
         $tokenSession = null;
         if ($loginForm->isSubmitted() && $loginForm->isValid()) {

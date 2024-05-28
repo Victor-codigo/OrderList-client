@@ -14,4 +14,5 @@ final class LOGIN_FORM_FIELDS implements FormFieldInterface
     public const REMEMBER_ME = 'remember_me';
     public const TOKEN = 'token';
     public const SUBMIT = 'submit';
+    public const CAPTCHA = 'captcha';
 }

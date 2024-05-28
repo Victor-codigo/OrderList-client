@@ -17,3 +17,5 @@ import * as bootstrap from 'bootstrap';
 import * as themeLoader from 'App/ThemeLoader';
 
 themeLoader.load();
+
+import 'App/modules/recaptcha';

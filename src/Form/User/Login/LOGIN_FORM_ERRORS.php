@@ -11,5 +11,6 @@ enum LOGIN_FORM_ERRORS: string implements FormErrorInterface
     case LOGIN = 'error_login';
     case EMAIL = 'email';
     case PASSWORD = 'password';
+    case CAPTCHA = 'captcha';
     case INTERNAL_SERVER = 'error_internal_server';
 }

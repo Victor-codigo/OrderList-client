@@ -21,6 +21,7 @@ final class LoginComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
+    public readonly string $captchaFieldName;
     public readonly string $emailFieldName;
     public readonly string $passwordFieldName;
     public readonly string $rememberMeFieldName;
@@ -39,6 +40,7 @@ final class LoginComponent extends TwigComponent
 
         $this->formName = LOGIN_FORM_FIELDS::FORM;
         $this->tokenCsrfFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::TOKEN);
+        $this->captchaFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::CAPTCHA);
         $this->emailFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::EMAIL);
         $this->passwordFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::PASSWORD);
         $this->rememberMeFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::REMEMBER_ME);
@@ -80,6 +82,7 @@ final class LoginComponent extends TwigComponent
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
+                LOGIN_FORM_ERRORS::CAPTCHA->value => $this->translate('validation.error.captcha'),
                 LOGIN_FORM_ERRORS::LOGIN->value,
                 LOGIN_FORM_ERRORS::EMAIL->value,
                 LOGIN_FORM_ERRORS::PASSWORD->value => $this->translate('validation.error.login'),

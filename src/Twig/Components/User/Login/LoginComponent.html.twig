@@ -5,7 +5,9 @@
 	  method="post"
 	  action="{{ data.actionAttribute|escape('html_attr') }}"
 	  enctype="multipart/form-data"
-	  novalidate>
+	  novalidate
+	  data-recaptcha="{{ captchaFieldName }}">
+
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />

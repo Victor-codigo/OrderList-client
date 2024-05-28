@@ -6,6 +6,7 @@ namespace App\Controller\User\Login\Home;
 
 use App\Form\User\Login\LoginForm;
 use App\Twig\Components\User\Login\LoginComponentDto;
+use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Form\FormFactory;
 use Common\Domain\Config\Config;
@@ -35,6 +36,7 @@ class UserLoginHomeController extends AbstractController
         private Endpoints $apiEndpoints,
         private FlashBagInterface $sessionFlashBag,
         private GetPageTitleService $getPageTitleService,
+        private Recaptcha3ValidatorAdapter $recaptcha,
         private int $cookieSessionKeepAlive,
         private string $domainName,
         private string $cookieSessionName
@@ -43,7 +45,7 @@ class UserLoginHomeController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $form = $this->formFactory->create(new LoginForm(), $request);
+        $form = $this->formFactory->create(new LoginForm($this->recaptcha), $request);
 
         return $this->renderLoginComponent($form, $request);
     }
