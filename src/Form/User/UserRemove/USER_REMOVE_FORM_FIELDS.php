@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\UserRemove;
+namespace App\Form\User\UserRemove;
 
 class USER_REMOVE_FORM_FIELDS
 {

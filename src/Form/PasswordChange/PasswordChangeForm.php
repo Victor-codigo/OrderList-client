@@ -31,7 +31,7 @@ class PasswordChangeForm extends FormType
     {
     }
 
-    public function validate(ValidationInterface $validatior, array $formData): array
+    public function validate(ValidationInterface $validator, array $formData): array
     {
         return [];
     }

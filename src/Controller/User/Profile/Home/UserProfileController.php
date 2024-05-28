@@ -9,7 +9,7 @@ use App\Controller\Request\Response\UserDataResponse;
 use App\Form\EmailChange\EmailChangeForm;
 use App\Form\PasswordChange\PasswordChangeForm;
 use App\Form\User\Profile\ProfileForm;
-use App\Form\UserRemove\UserRemoveForm;
+use App\Form\User\UserRemove\UserRemoveForm;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;

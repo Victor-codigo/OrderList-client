@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\UserRemove;
+namespace App\Form\User\UserRemove;
 
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormType;
@@ -17,7 +17,7 @@ class UserRemoveForm extends FormType
         return USER_REMOVE_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }
@@ -27,7 +27,7 @@ class UserRemoveForm extends FormType
         return USER_REMOVE_FORM_FIELDS::TOKEN;
     }
 
-    public function validate(ValidationInterface $validatior, array $formData): array
+    public function validate(ValidationInterface $validator, array $formData): array
     {
         return [];
     }

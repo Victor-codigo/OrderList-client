@@ -12,14 +12,12 @@ class EmailChangeForm extends FormType
 {
     private const FORM_CSRF_TOKEN_ID = 'EmailChangeFormCsrfTokenId';
 
-
-
     public static function getName(): string
     {
         return EMAIL_CHANGE_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }
@@ -33,7 +31,7 @@ class EmailChangeForm extends FormType
     {
     }
 
-    public function validate(ValidationInterface $validatior, array $formData): array
+    public function validate(ValidationInterface $validator, array $formData): array
     {
         return [];
     }

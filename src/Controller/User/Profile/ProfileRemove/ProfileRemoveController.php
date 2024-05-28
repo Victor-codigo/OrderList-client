@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\User\Profile\ProfileRemove;
 
 use App\Controller\Request\RequestDto;
-use App\Form\UserRemove\USER_REMOVE_FORM_FIELDS;
-use App\Form\UserRemove\UserRemoveForm;
+use App\Form\User\UserRemove\USER_REMOVE_FORM_FIELDS;
+use App\Form\User\UserRemove\UserRemoveForm;
 use App\Twig\Components\User\UserRemove\UserRemoveComponent;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
