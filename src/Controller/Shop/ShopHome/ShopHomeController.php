@@ -310,6 +310,7 @@ class ShopHomeController extends AbstractController
         return $this->render('shop/shop_home/index.html.twig', [
             'shopHomeSectionComponent' => $shopHomeSectionComponent,
             'pageTitle' => $this->getPageTitleService->__invoke('ShopHomeComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

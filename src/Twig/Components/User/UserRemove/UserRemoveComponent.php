@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\UserRemove;
 
-use App\Form\UserRemove\USER_REMOVE_FORM_FIELDS;
+use App\Form\User\UserRemove\USER_REMOVE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;

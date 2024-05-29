@@ -41,6 +41,7 @@ class UserRegistrationCompleteController extends AbstractController
         return $this->render('user/user_registration_complete/index.html.twig', [
             'RegistrationCompleteComponentDto' => $registrationCompleteComponentDto,
             'pageTitle' => $this->getPageTitleService->__invoke('RegistrationCompleteComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

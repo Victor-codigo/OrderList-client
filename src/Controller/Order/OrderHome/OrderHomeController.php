@@ -285,6 +285,7 @@ class OrderHomeController extends AbstractController
         return $this->render('order/order_home/index.html.twig', [
             'OrderHomeSectionComponent' => $orderHomeSectionComponent,
             'pageTitle' => $this->getPageTitleService->setTitleWithDomainName($listName),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

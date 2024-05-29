@@ -275,6 +275,7 @@ class ListOrdersHomeController extends AbstractController
         return $this->render('listOrders/list_orders_home/index.html.twig', [
             'listOrdersHomeSectionComponent' => $listOrdersHomeSectionComponent,
             'pageTitle' => $this->getPageTitleService->__invoke('ListOrdersHomeComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

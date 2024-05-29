@@ -99,6 +99,7 @@ class UserRememberController extends AbstractController
         return $this->render('user/user_remember/index.html.twig', [
             'PasswordRememberComponent' => $data,
             'pageTitle' => $this->getPageTitleService->__invoke('PasswordRememberComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

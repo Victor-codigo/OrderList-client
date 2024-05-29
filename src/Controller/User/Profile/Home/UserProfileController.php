@@ -121,6 +121,7 @@ class UserProfileController extends AbstractController
         return $this->render('user/user_profile/index.html.twig', [
             'ProfileComponent' => $profileComponentData,
             'pageTitle' => $this->getPageTitleService->__invoke('ProfileComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

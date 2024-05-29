@@ -131,6 +131,7 @@ class NotificationHomeController extends AbstractController
         return $this->render('notification/notification_home/index.html.twig', [
             'NotificationHomeSectionComponent' => $notificationHomeSectionComponent,
             'pageTitle' => $this->getPageTitleService->__invoke('NotificationHomeComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

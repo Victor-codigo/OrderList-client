@@ -117,6 +117,7 @@ class UserRegistrationEmailConfirmController extends AbstractController
         return $this->render('user/user_signup_email_confirm/index.html.twig', [
             'registrationEmailConfirmationComponentDto' => $registrationEmailConfirmationComponent,
             'pageTitle' => $this->getPageTitleService->__invoke('RegistrationEmailConfirmationComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

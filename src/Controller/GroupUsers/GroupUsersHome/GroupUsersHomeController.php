@@ -7,8 +7,8 @@ namespace App\Controller\GroupUsers\GroupUsersHome;
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\GroupUserDataResponse;
 use App\Form\GroupUsers\GroupUsersAdd\GroupUsersAddForm;
-use App\Form\GroupUsers\GroupUsersRemove\GroupUsersRemoveForm;
 use App\Form\GroupUsers\GroupUsersRemoveMulti\GroupUsersRemoveMultiForm;
+use App\Form\GroupUsers\GroupUsersRemove\GroupUsersRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\GroupUsers\GroupUsersHome\GroupUsersHomeComponentBuilder;
@@ -268,6 +268,7 @@ class GroupUsersHomeController extends AbstractController
         return $this->render('group_users/group_users_home/index.html.twig', [
             'groupUsersHomeSectionComponent' => $groupUsersHomeSectionComponent,
             'pageTitle' => $this->getPageTitleService->__invoke('GroupUsersHomeComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

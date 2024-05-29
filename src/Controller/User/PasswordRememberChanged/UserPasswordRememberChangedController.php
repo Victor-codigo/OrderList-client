@@ -41,6 +41,7 @@ class UserPasswordRememberChangedController extends AbstractController
         return $this->render('user/user_password_remember_changed/index.html.twig', [
             'userPasswordRememberChangedComponentDto' => $userPasswordRememberChangedComponentDto,
             'pageTitle' => $this->getPageTitleService->__invoke('UserPasswordRememberChangedComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

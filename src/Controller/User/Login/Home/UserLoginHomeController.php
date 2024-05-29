@@ -74,6 +74,7 @@ class UserLoginHomeController extends AbstractController
         return $this->render('user/user_login/index.html.twig', [
             'LoginComponent' => $loginComponentData,
             'pageTitle' => $this->getPageTitleService->__invoke('LoginComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

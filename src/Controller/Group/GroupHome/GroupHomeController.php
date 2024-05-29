@@ -9,8 +9,8 @@ use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Group\GroupCreate\GroupCreateForm;
 use App\Form\Group\GroupModify\GroupModifyForm;
-use App\Form\Group\GroupRemove\GroupRemoveForm;
 use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
+use App\Form\Group\GroupRemove\GroupRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Group\GroupHome\GroupHomeComponentBuilder;
@@ -296,6 +296,7 @@ class GroupHomeController extends AbstractController
         return $this->render('group/group_home/index.html.twig', [
             'groupHomeSectionComponent' => $groupHomeSectionComponent,
             'pageTitle' => $this->getPageTitleService->__invoke('GroupHomeComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

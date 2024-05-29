@@ -41,6 +41,7 @@ class UserRememberEmailSendController extends AbstractController
         return $this->render('user/user_remember_email_send/index.html.twig', [
             'userRememberEmailSendComponentDto' => $userRememberEmailSendComponentDto,
             'pageTitle' => $this->getPageTitleService->__invoke('UserRememberEmailSendComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

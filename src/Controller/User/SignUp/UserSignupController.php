@@ -105,6 +105,7 @@ class UserSignupController extends AbstractController
         return $this->render('user/user_signup/index.html.twig', [
             'SignupComponent' => $data,
             'pageTitle' => $this->getPageTitleService->__invoke('SignupComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

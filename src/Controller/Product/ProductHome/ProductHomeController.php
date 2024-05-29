@@ -338,6 +338,7 @@ class ProductHomeController extends AbstractController
         return $this->render('product/product_home/index.html.twig', [
             'ProductHomeSectionComponent' => $productHomeSectionComponent,
             'pageTitle' => $this->getPageTitleService->__invoke('ProductHomeComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }
