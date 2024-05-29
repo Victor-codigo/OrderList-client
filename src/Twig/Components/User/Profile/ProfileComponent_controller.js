@@ -1,10 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
+import * as communication from 'App/modules/ControllerCommunication';
 
 export default class extends Controller {
-
-    connect() {
-    }
-
     setImageAvatarAsRemoved(event) {
         let imageRemovedField = this.element.querySelector('[data-js-image-remove]');
 

@@ -22,7 +22,9 @@ export default class extends Controller {
         this.#buttonImageRemoveTag = this.element.querySelector('[data-js-button-remove]');
         this.#buttonImageRemoveTag.addEventListener('click', this.removeImage.bind(this));
         this.#buttonImageRemoveUndoTag = this.element.querySelector('[data-js-button-remove-undo]');
-        this.setImage(this.#imageTag.src);
+
+        this.imageUrl = this.#imageTag.src;
+        this.setImageButtons();
 
         this.#buttonImageRemoveUndoTag.addEventListener('click', this.removeImageUndo.bind(this));
     }
@@ -31,7 +33,12 @@ export default class extends Controller {
         this.#imageTag.src = imageUrl;
         this.imageUrl = this.#imageTag.src;
 
+        this.setImageButtons();
+    }
+
+    setImageButtons() {
         if (this.imageUrl === this.#imageTag.dataset.noAvatar) {
+            console.log(this.imageUrl);
             this.#buttonImageRemoveTag.classList.add('d-none');
             this.#buttonImageRemoveUndoTag.classList.add('d-none');
             this.#imageTag.classList.add('image-avatar__img--svg-theme');
