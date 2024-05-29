@@ -69,14 +69,16 @@ final class GroupListItemComponent extends HomeListItemComponent
      */
     private function parseItemDataToJson(GroupListItemComponentDto $groupData): string
     {
+        $name = $groupData->name;
         $description = $groupData->description;
         if ('user' === $groupData->type) {
+            $name = $this->lang->userGroupLabel;
             $description = $this->lang->userGroupDescription;
         }
 
         $groupDataToParse = [
             'id' => $groupData->id,
-            'name' => $this->lang->userGroupLabel,
+            'name' => $name,
             'description' => $description,
             'image' => $groupData->image,
             'noImage' => $groupData->noImage,
