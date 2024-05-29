@@ -17,36 +17,36 @@ logo:
   title: Go to {domain_name}
 
 main_info:
-  title: Create your own shop list
+  title: Create your own shopping list
   info: Welcome to <strong>{domain_name}</strong>. A tool to <strong>create and manage</strong> your <strong>shopping data</strong> on an easy way.
   section:
-    order_list: Shop lists
+    order_list: Shopping lists
     products: Products
     shops: Shops
 
 card:
   list_orders:
     icon:
-      title: Create shop list
-    title: Shop list
+      title: Create shopping list
+    title: Shopping list
     description: |
-      <strong>Create an edit your shop lists</strong>. Keep shop lists you made, and you will make in the future, sorted.
+      <strong>Create an edit your shopping lists</strong>. Keep shopping lists you made, and you will make in the future, sorted.
       <br>Mark bought products whereas you buy them, and get it cost
 
   products:
     icon:
       title: Create products
     title: Products
-    description: <strong>Create and edit your products</strong>. Set products to shops, and add them to your shop lists.
+    description: <strong>Create and edit your products</strong>. Set products to shops, and add them to your shopping lists.
 
   shops:
     icon:
       title: Create shops
     title: Shops
-    description: <strong>Create shops</strong> in witch you make shopping. Set product prices, and create your shop lists.
+    description: <strong>Create shops</strong> in witch you make shopping. Set product prices, and create your shopping lists.
 
   groups:
     icon:
       title: Create groups
     title: Groups
-    description: Manage your own shop lists, and create groups to <strong>share</strong> with more users.
+    description: Manage your own shopping lists, and create groups to <strong>share</strong> with more users.

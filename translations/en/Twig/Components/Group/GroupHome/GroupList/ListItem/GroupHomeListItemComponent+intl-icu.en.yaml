@@ -1,6 +1,6 @@
 group_user:
   label: Personal group
-  description: This is your personal group, no one can join this group. Here you can create your own shop list, products, shops etc
+  description: This is your personal group, no one can join this group. Here you can create your own shopping list, products, shops etc
 
 group_remove_button:
   title: Remove the group

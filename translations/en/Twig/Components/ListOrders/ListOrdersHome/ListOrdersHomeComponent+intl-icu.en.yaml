@@ -1,13 +1,13 @@
-title: List of shop lists
+title: List of shopping lists
 
 home_section_add:
-  label: Add a new shop list
-  title: Add a new shop list to the list
+  label: Add a new shopping list
+  title: Add a new shopping list to the list
 
 home_section_create_from:
   label: Duplicate
-  title: Create a shop list, from another one
+  title: Create a shopping list, from another one
 
 home_section_remove_multiple:
-  label: Delete selected shop lists
-  title: Remove selected shop lists from the list
+  label: Delete selected shopping lists
+  title: Remove selected shopping lists from the list

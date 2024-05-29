@@ -1,32 +1,32 @@
-title: Duplicate shop list
+title: Duplicate shopping list
 
 name:
   label: Name
-  placeholder: Enter the name of the shop list
+  placeholder: Enter the name of the shopping list
   msg_invalid: |
     Enter a valid name.
     The name must contain at least a character and maximum 30 characters.
     Only are allowed alphanumeric characters white space and "_"
 
 list_orders:
-  label: Shop list
-  title: Select a shop list
-  msg_invalid: The shop list selected is not valid
+  label: Shopping list
+  title: Select a shopping list
+  msg_invalid: The shopping list selected is not valid
 
 list_orders_button:
   label: Select
-  title: Select a shop list
+  title: Select a shopping list
 
 button_list_orders_create_from:
-  label: Duplicate shop list
+  label: Duplicate shopping list
 
 validation:
   title: Errors
-  ok: Shop list created
+  ok: Shopping list created
   error:
     name: |
       Enter a valid name.
       The name must contain at least a character and maximum 30 characters.
       Only are allowed alphanumeric characters and "_"
-    name_exists: There are already a shop list with the same name
+    name_exists: There are already a shopping list with the same name
     internal_server: An error has been occurred, try it later
