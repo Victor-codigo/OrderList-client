@@ -54,11 +54,11 @@ export default class extends Controller {
     }
 
     /**
-     * @param {string} productImageUrl
+     * @param {string} groupImageUrl
      */
-    sendMessageAvatarSetImageEventToImageAvatarComponent(productImageUrl) {
+    sendMessageAvatarSetImageEventToImageAvatarComponent(groupImageUrl) {
         communication.sendMessageToNotRelatedController(this.element, 'avatarSetImage', {
-            imageUrl: productImageUrl
+            imageUrl: groupImageUrl
         },
             'ImageAvatarComponent'
         );

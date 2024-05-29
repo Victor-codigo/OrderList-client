@@ -310,7 +310,7 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
             [],
             '{name_placeholder}',
             '{description_placeholder}',
-            '{image_placeholder}',
+            '',
             Config::GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
             $groupModifyFormCsrfToken,
             mb_strtolower($groupModifyFormActionUrl),
