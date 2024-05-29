@@ -184,7 +184,7 @@ class GroupUsersHomeController extends AbstractController
 
         return (new GroupUsersHomeComponentBuilder())
             ->title(
-                null
+                $requestDto->groupData->name
             )
             ->groupUserGrants(
                 $requestDto->groupData->id
