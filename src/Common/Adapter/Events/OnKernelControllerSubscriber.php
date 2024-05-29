@@ -128,6 +128,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             $requestDto->getUserSessionData(),
             $requestDto->groupData?->type,
             $requestDto->groupNameUrlEncoded,
+            $requestDto->listOrdersUrlEncoded,
             $requestDto->sectionActiveId,
             $requestDto->locale ?? 'en',
             $requestDto->request->attributes->get('_route') ?? '',
@@ -183,10 +184,6 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function getGroupNameUrlEncoded(Request $request, ?GroupDataResponse $groupData): ?string
     {
-        if ($request->attributes->has('group_type')) {
-            return $request->attributes->get('group_name');
-        }
-
         if (null === $groupData) {
             return null;
         }

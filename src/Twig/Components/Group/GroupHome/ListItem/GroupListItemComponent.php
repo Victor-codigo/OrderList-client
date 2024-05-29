@@ -89,14 +89,14 @@ final class GroupListItemComponent extends HomeListItemComponent
 
     private function parseItemUrlGroupUsersPlaceholder(string $urlGroupUsersPlaceholder, string $groupUsersName): string
     {
-        $groupUsersNameDecoded = $this->encodeUrl($groupUsersName);
+        $groupUsersNameDecoded = $this->encodeUrl(mb_strtolower($groupUsersName));
 
         return mb_ereg_replace(self::GROUP_USERS_NAME_PLACEHOLDER, $groupUsersNameDecoded, $urlGroupUsersPlaceholder);
     }
 
     private function parseItemUrlGroupSelectPlaceholder(string $urlGroupSelectPlaceholder, string $groupName): string
     {
-        $groupSelectNameDecoded = $this->encodeUrl($groupName);
+        $groupSelectNameDecoded = $this->encodeUrl(mb_strtolower($groupName));
 
         return mb_ereg_replace(self::GROUP_USERS_NAME_PLACEHOLDER, $groupSelectNameDecoded, $urlGroupSelectPlaceholder);
     }

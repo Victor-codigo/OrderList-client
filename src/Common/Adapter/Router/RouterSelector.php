@@ -46,7 +46,6 @@ class RouterSelector
     /**
      * @return array<{
      *  '_locale': string
-     *  'group_type': string,
      *  'group_name': string,
      *  'section': string,
      *  'page': string,
@@ -69,9 +68,9 @@ class RouterSelector
             $parametersDefault['section'] = $this->section;
         }
 
-        if (null !== $this->listOrdersName) {
-            $parametersDefault['list_orders_name'] = $this->listOrdersName;
-        }
+        // if (null !== $this->listOrdersName) {
+        //     $parametersDefault['list_orders_name'] = $this->listOrdersName;
+        // }
 
         if (null !== $this->page) {
             $parametersDefault['page'] = 1;

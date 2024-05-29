@@ -71,7 +71,7 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
 
     private function parseItemUrlListItemsPlaceholder(string $urlListOrdersPlaceholder, string $listOrdersName): string
     {
-        $listOrdersNameDecoded = $this->encodeUrl($listOrdersName);
+        $listOrdersNameDecoded = $this->encodeUrl(mb_strtolower($listOrdersName));
 
         return mb_ereg_replace(self::LIST_ORDERS_NAME_PLACEHOLDER, $listOrdersNameDecoded, $urlListOrdersPlaceholder);
     }

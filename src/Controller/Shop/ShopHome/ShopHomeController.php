@@ -35,7 +35,6 @@ use Symfony\Component\Routing\Annotation\Route;
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
-        'group_type' => 'group',
         'section' => 'shop',
         'page' => '\d+',
         'page_items' => '\d+',

@@ -21,6 +21,7 @@ class NavigationBarDto implements TwigComponentDtoInterface
         public readonly ?UserDataResponse $userData,
         public readonly ?string $groupType,
         public readonly ?string $groupNameEncoded,
+        public readonly ?string $listOrdersUrlEncoded,
         public readonly ?string $sectionActiveId,
         public readonly string $locale,
         public readonly string $routeName,

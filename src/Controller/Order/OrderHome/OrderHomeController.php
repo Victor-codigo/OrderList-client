@@ -240,7 +240,9 @@ class OrderHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 OrdersEndpoint::GET_ORDERS_DATA,
-                $this->routerSelector->generateRouteWithDefaults('order_home', [])
+                $this->routerSelector->generateRouteWithDefaults('order_home', [
+                    'list_orders_name' => $requestDto->listOrdersUrlEncoded,
+                ])
             )
             ->orderCreateFormModal(
                 $orderCreateForm->getCsrfToken(),

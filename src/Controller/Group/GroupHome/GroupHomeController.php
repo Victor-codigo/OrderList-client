@@ -246,7 +246,6 @@ class GroupHomeController extends AbstractController
                     'page' => 1,
                     'page_items' => 100,
                     'section' => 'list-orders',
-                    'group_type' => 'group',
                 ]),
                 $this->generateUrl('list_orders_home_no_group', [
                     'page' => 1,
