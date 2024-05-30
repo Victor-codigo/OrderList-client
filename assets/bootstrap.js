@@ -27,6 +27,7 @@ import ItemPriceAddComponent from 'App/Twig/Components/Controls/ItemPriceAdd/Ite
 import ButtonLoadingComponent from 'App/Twig/Components/Controls/ButtonLoading/ButtonLoading_controller';
 import ItemsListAjaxComponent from 'App/Twig/Components/HomeSection/ItemsListAjax/ItemsListAjaxComponent_controller';
 import AlphanumericFilterComponent from 'App/Twig/Components/Controls/AlphanumericFilter/AlphanumericFilter_controller';
+import InfoModalComponent from 'App/Twig/Components/Controls/InfoModal/InfoModal_controller';
 
 import PaginatorComponent from 'App/Twig/Components/Paginator/Paginator_Component';
 import PaginatorJsComponent from 'App/Twig/Components/PaginatorJs/PaginatorJs_Component';
@@ -124,6 +125,7 @@ app.register('SearchBarComponent', SearchBarComponent);
 app.register('ContentLoaderJsComponent', ContentLoaderJsComponent);
 app.register('ItemsListAjaxComponent', ItemsListAjaxComponent);
 app.register('AlphanumericFilterComponent', AlphanumericFilterComponent);
+app.register('InfoModalComponent', InfoModalComponent);
 
 // HOME
 app.register('HomePageComponent', HomePageComponent);

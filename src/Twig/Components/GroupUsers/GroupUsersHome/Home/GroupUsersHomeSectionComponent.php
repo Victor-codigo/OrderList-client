@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\GroupUsers\GroupUsersHome\Home;
 
-use App\Twig\Components\Modal\ModalComponentButtonDto;
+use App\Twig\Components\Controls\InfoModal\INFO_MODAL_TYPE;
+use App\Twig\Components\Controls\InfoModal\InfoModalComponent;
+use App\Twig\Components\Controls\InfoModal\InfoModalComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -39,14 +41,20 @@ class GroupUsersHomeSectionComponent extends TwigComponent
 
     private function createInfoModalDto(): ModalComponentDto
     {
-        return new ModalComponentDto(
+        $infoModalDto = new InfoModalComponentDto(
             self::GROUP_CREATE_MODAL_ID,
             $this->lang->infoModalTitle,
-            false,
+            $this->lang->infoModalText,
+            INFO_MODAL_TYPE::WARNING
+        );
+
+        return new ModalComponentDto(
+            self::GROUP_CREATE_MODAL_ID,
             '',
-            $this->lang->infoModalText, [
-                new ModalComponentButtonDto($this->lang->infoModalCloseButtonLabel, 'btn btn-primary  w-100', true),
-            ]
+            false,
+            InfoModalComponent::getComponentName(),
+            $infoModalDto,
+            []
         );
     }
 
