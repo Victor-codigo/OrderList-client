@@ -45,7 +45,7 @@ class GroupUsersHomeSectionComponent extends TwigComponent
             false,
             '',
             $this->lang->infoModalText, [
-                new ModalComponentButtonDto($this->lang->infoModalCloseButtonLabel, 'btn btn-secondary  w-100', true),
+                new ModalComponentButtonDto($this->lang->infoModalCloseButtonLabel, 'btn btn-primary  w-100', true),
             ]
         );
     }
