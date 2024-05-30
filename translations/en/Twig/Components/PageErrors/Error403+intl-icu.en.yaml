@@ -1,14 +1,8 @@
 error: 403
 
-title:
-  forbidden: Forbidden
-  session_expired: Session expired
+title: Forbidden
 
-error_message:
-  forbidden: We are sorry, but you do not have access to this page.
-  session_expired: |
-    Looks like your session has expired.
-    <br>Do not worry, login again and continue with your work.
+error_message: We are sorry, but you do not have access to this page.
 
 go_home_button:
   label: Go to home page

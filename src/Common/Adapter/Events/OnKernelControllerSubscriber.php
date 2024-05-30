@@ -22,7 +22,6 @@ use Common\Adapter\Events\Exceptions\RequestListOrdersNameException;
 use Common\Adapter\Events\Exceptions\RequestNotificationsException;
 use Common\Adapter\Events\Exceptions\RequestProductNameException;
 use Common\Adapter\Events\Exceptions\RequestShopNameException;
-use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
 use Common\Adapter\Events\Exceptions\RequestUserException;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\CodedUrlParameter;
@@ -242,7 +241,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     private function loadGroupData(Request $request, ?string $tokenSession): ?GroupDataResponse
     {
         if (!$this->userHasPermissions($request->getPathInfo(), $tokenSession)) {
-            throw new RequestUnauthorizedException();
+            throw new RequestUserException('User has not Permissions');
         }
 
         if (null === $tokenSession) {
@@ -386,7 +385,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         );
 
         if (!empty($productData['errors'])) {
-            throw RequestProductNameException::fromMessage('Group data not found');
+            throw RequestProductNameException::fromMessage('Product data not found');
         }
 
         return ProductDataResponse::fromArray($productData['data']['products'][0]);

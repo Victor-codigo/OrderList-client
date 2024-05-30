@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% trans_default_domain 'Error' %}
+{% trans_default_domain 'Error401' %}
 
 {% block title %}
-{{ domainName }} | {{ 'title'|trans(locale = _locale) }} - 500
+
+{{ domainName }} | {{ 'title'|trans(locale = _locale) }} - 401
+
 {% endblock %}
 
 {% block navigation %}
@@ -16,26 +18,35 @@
             {{ 'error'|trans(locale = _locale) }}
         </h1>
     </section>
-    <section class="d-flex  block-below  flex-grow-1  max-vh-50">
-        <div class="d-flex  flex-column  justify-content-start  m-auto  mt-5  mb-5  ps-2  pe-2">
+    <section class="d-flex  block-below  flex-grow-1">
+        <div class="d-flex  flex-column  justify-content-start  m-auto  mt-5  mb-5 ps-2  pe-2">
 
-            <p class="fs-1  text-center  text-danger">
+            <p class="fs-1  text-center  text-primary  primary-color-dark">
 
                 {{ 'title'|trans(locale = _locale) }}
 
             </p>
 
             <p class="fs-4  text-center">
-                {{ 'description'|trans(locale = _locale) }}
+
+                {{ 'error_message'|trans(locale = _locale)|raw }}
+
             </p>
 
             <hr>
 
             <div class="text-center  mt-4">
+                <a class="btn  btn-primary  me-2"
+                   href="{{ path('user_login_home', { '_locale': _locale } ) }}"
+                   title="{{ 'go_login_button.title'|trans(locale = _locale) }}"
+                   role="button">{{ 'go_login_button.label'|trans(locale = _locale) }}
+                </a>
+
                 <a class="btn  btn-primary"
                    href="{{ path('home', { '_locale': _locale } ) }}"
                    title="{{ 'go_home_button.title'|trans(locale = _locale) }}"
-                   role="button">{{ 'go_home_button.label'|trans(locale = _locale) }} </a>
+                   role="button">{{ 'go_home_button.label'|trans(locale = _locale) }}
+                </a>
             </div>
 
         </div>

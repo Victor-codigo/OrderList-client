@@ -1,0 +1,16 @@
+error: 401
+
+title: Unauthorized
+
+error_message: |
+  It seems that you cannot access this page.
+  <br>The session is not valid or has expired.
+  <br>Try to login again.
+
+go_home_button:
+  label: Go to home page
+  title: Go to home page
+
+go_login_button:
+  label: Go to login
+  title: Go to login

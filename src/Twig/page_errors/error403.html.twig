@@ -4,11 +4,7 @@
 
 {% block title %}
 
-{% if error == null %}
-{{ domainName }} | {{ 'title.403'|trans(locale = _locale) }}
-{% else %}
-{{ domainName }} | {{ 'title.session_expired'|trans(locale = _locale) }}
-{% endif %}
+{{ domainName }} | {{ 'title'|trans(locale = _locale) }} - 403
 
 {% endblock %}
 
@@ -27,21 +23,13 @@
 
             <p class="fs-1  text-center  text-primary  primary-color-dark">
 
-                {% if error == 'forbidden' %}
-                {{ 'title.forbidden'|trans(locale = _locale) }}
-                {% else %}
-                {{ 'title.session_expired'|trans(locale = _locale) }}
-                {% endif %}
+                {{ 'title'|trans(locale = _locale) }}
 
             </p>
 
             <p class="fs-4  text-center">
 
-                {% if error == 'forbidden' %}
-                {{ 'error_message.forbidden'|trans(locale = _locale) }}
-                {% else %}
-                {{ 'error_message.session_expired'|trans(locale = _locale)|raw }}
-                {% endif %}
+                {{ 'error_message'|trans(locale = _locale) }}
 
             </p>
 
