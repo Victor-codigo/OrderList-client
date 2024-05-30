@@ -1,3 +1,15 @@
-<div class="mb-5  pt-5  pb-2  display-5  text-left  border-bottom">
+{% if this.getType == 'page_main' %}
+
+<div class="mb-5  pt-4  pb-2  text-left  border-bottom  text-primary  primary-color-dark  display-5">
+
      {{ data.titleLabel }}
 </div>
+
+{% elseif this.getType == 'pop_up' %}
+
+<div class="mb-5  pt-4  pb-2  text-center  display-5">
+
+     {{ data.titleLabel }}
+</div>
+
+{% endif %}

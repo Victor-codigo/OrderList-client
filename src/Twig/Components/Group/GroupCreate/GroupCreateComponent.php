@@ -6,6 +6,7 @@ use App\Form\Group\GroupCreate\GROUP_CREATE_FORM_ERRORS;
 use App\Form\Group\GroupCreate\GROUP_CREATE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -54,7 +55,7 @@ final class GroupCreateComponent extends TwigComponent
 
     private function createTitleComponent(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function getDopZoneDto(): DropZoneComponentDto

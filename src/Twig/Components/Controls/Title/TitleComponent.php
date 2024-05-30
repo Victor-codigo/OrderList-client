@@ -25,4 +25,9 @@ class TitleComponent extends TwigComponent
     {
         $this->data = $data;
     }
+
+    public function getType(): string
+    {
+        return $this->data->type->value;
+    }
 }

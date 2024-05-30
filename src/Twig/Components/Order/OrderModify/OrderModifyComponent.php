@@ -8,6 +8,7 @@ use App\Form\Order\OrderModify\ORDER_MODIFY_FORM_ERRORS;
 use App\Form\Order\OrderModify\ORDER_MODIFY_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\OrderProductAndShop\OrderProductAndShopComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -60,7 +61,7 @@ final class OrderModifyComponent extends TwigComponent
 
     private function createTitleComponentDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function createProductAndShop(): OrderProductAndShopComponentDto

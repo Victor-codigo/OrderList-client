@@ -10,6 +10,7 @@ use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ItemPriceAdd\ItemPriceAddComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -59,7 +60,7 @@ final class ProductCreateComponent extends TwigComponent
 
     private function createTitleComponentDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function createImageDropZone(): DropZoneComponentDto

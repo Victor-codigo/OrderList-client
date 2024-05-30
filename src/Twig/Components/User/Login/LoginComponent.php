@@ -5,6 +5,7 @@ namespace App\Twig\Components\User\Login;
 use App\Form\User\Login\LOGIN_FORM_ERRORS;
 use App\Form\User\Login\LOGIN_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -53,7 +54,7 @@ final class LoginComponent extends TwigComponent
 
     private function createTitleDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function loadTranslation(): void

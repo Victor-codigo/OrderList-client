@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\RegistrationEmailConfirmation;
 
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -33,6 +34,6 @@ final class RegistrationEmailConfirmationComponent extends TwigComponent
 
     private function createTitleDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->data->title);
+        return new TitleComponentDto($this->data->title, TITLE_TYPE::PAGE_MAIN);
     }
 }

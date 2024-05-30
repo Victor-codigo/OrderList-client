@@ -6,6 +6,7 @@ namespace App\Twig\Components\User\UserRemove;
 
 use App\Form\User\UserRemove\USER_REMOVE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -55,7 +56,7 @@ class UserRemoveComponent extends TwigComponent
 
     private function createTitleDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function loadTranslation(): void

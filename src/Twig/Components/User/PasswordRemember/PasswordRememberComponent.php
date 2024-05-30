@@ -8,6 +8,7 @@ use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
 use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -52,7 +53,7 @@ class PasswordRememberComponent extends TwigComponent
 
     private function createTitleDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function loadTranslation(): void

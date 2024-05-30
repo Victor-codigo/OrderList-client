@@ -9,6 +9,7 @@ use App\Form\User\Profile\PROFILE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -88,7 +89,7 @@ class ProfileComponent extends TwigComponent
 
     private function getTitle(string $title): TitleComponentDto
     {
-        return new TitleComponentDto($title);
+        return new TitleComponentDto($title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function loadTranslation(): void

@@ -7,6 +7,7 @@ namespace App\Twig\Components\User\PasswordChange;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
 use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -55,7 +56,7 @@ class PasswordChangeComponent extends TwigComponent
 
     private function createTitleDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function loadTranslation(): void

@@ -7,6 +7,7 @@ namespace App\Twig\Components\GroupUsers\GroupUsersAdd;
 use App\Form\GroupUsers\GroupUsersAdd\GROUP_USERS_ADD_FORM_ERRORS;
 use App\Form\GroupUsers\GroupUsersAdd\GROUP_USERS_ADD_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -49,7 +50,7 @@ final class GroupUsersAddComponent extends TwigComponent
 
     private function createTitle(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function loadTranslation(): void

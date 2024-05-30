@@ -3,6 +3,7 @@
 namespace App\Twig\Components\HomeSection\Home;
 
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\HomeSection\HomeList\HomeListComponentBuilder;
 use App\Twig\Components\HomeSection\HomeList\List\HomeListComponentDto;
@@ -48,10 +49,10 @@ class HomeSectionComponent extends TwigComponent
     private function createTitleDto(?string $title): TitleComponentDto
     {
         if (null === $title) {
-            return new TitleComponentDto($this->lang->title);
+            return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
         }
 
-        return new TitleComponentDto($title);
+        return new TitleComponentDto($title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function createListComponentDto(): HomeListComponentDto

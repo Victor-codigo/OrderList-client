@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\HomeSection\ItemsListAjax;
 
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -37,6 +38,6 @@ abstract class ItemsListAjaxComponent extends TwigComponent
 
     private function createTitle(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 }

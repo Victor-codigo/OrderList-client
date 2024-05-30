@@ -9,7 +9,8 @@ use App\Twig\Components\TwigComponentDtoInterface;
 class TitleComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
-        public readonly string $titleLabel
+        public readonly string $titleLabel,
+        public readonly TITLE_TYPE $type
     ) {
     }
 }
