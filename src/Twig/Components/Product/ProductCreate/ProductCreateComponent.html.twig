@@ -2,7 +2,8 @@
 	  name="{{ formName }}"
 	  data-controller="ProductCreateComponent"
 	  data-action="ModalComponent:beforeShowed->ProductCreateComponent#handleMessageBeforeShowed
-	  			   ItemPriceAddComponent:itemPriceSelected->ProductCreateComponent#handleItemNameClickEvent"
+	  			   ItemPriceAddComponent:itemPriceSelected->ProductCreateComponent#handleItemNameClickEvent
+				   ProductCreateComponent:clear->ProductCreateComponent#handleClearMessage"
 	  class="contaniner  p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"

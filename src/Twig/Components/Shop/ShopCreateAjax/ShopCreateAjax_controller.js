@@ -127,8 +127,7 @@ export default class extends Controller {
     }
 
     clear() {
-        this.#nameTag.value = '';
-        this.#descriptionTag.value = '';
+        this.sendMessageClearToShopCreateComponent();
         this.element.querySelector('[data-controller="AlertComponent"]')?.remove();
         communication.sendMessageToChildController(this.#buttonCreateShop, 'showButton');
     }
@@ -151,6 +150,10 @@ export default class extends Controller {
 
     #sendMessageToButtonLoadingShowButtonLoading() {
         communication.sendMessageToChildController(this.#buttonCreateShop, 'showButtonLoading');
+    }
+
+    sendMessageClearToShopCreateComponent() {
+        communication.sendMessageToChildController(this.#formTag, 'clear', {});
     }
 
     /**

@@ -119,6 +119,10 @@ export default class ProductCreateController extends Controller {
         });
     }
 
+    handleClearMessage({ detail: { content } }) {
+        this.#clearForm();
+    }
+
     #sendMessageItemPriceAddClear() {
         if (this.#itemPriceAddComponentTag === null) {
             return;

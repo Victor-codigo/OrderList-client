@@ -124,6 +124,10 @@ export default class ShopCreateController extends Controller {
         });
     }
 
+    handleMessageClear({ detail: { content } }) {
+        this.#clearForm();
+    }
+
     #sendMessageClearToDropZone() {
         communication.sendMessageToChildController(this.#dropzoneComponentTag, 'clear');
     }
