@@ -72,7 +72,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         // Need permissions
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return false;
         }
 
@@ -109,6 +109,15 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $request->attributes->set('requestDto', $requestDto);
 
         return $requestDto;
+    }
+
+    private function hasSessionActive(?string $tokenSession)
+    {
+        if (null === $tokenSession || JwtToken::hasExpired($tokenSession)) {
+            return false;
+        }
+
+        return true;
     }
 
     private function loadTwigGlobals(RequestDto $requestDto): void
@@ -195,7 +204,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
      */
     private function loadUserSessionData(?string $tokenSession): ?UserDataResponse
     {
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return null;
         }
 
@@ -214,7 +223,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
      */
     private function loadNotificationsData(string $lang, ?string $tokenSession): array
     {
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return [];
         }
 
@@ -244,7 +253,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             throw new RequestUserException('User has not Permissions');
         }
 
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return null;
         }
 
@@ -294,7 +303,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadShopData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ShopDataResponse
     {
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return null;
         }
 
@@ -355,7 +364,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadProductData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ProductDataResponse
     {
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return null;
         }
 
@@ -393,7 +402,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadListOrdersData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ListOrdersDataResponse
     {
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return null;
         }
 
@@ -428,7 +437,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadOrderData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?OrderDataResponse
     {
-        if (null === $tokenSession) {
+        if (!$this->hasSessionActive($tokenSession)) {
             return null;
         }
 

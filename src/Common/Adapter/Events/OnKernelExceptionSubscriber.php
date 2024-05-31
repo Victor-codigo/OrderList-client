@@ -34,7 +34,7 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
     public function __invoke(ExceptionEvent $event): void
     {
         if ($this->kernel->isDebug()) {
-            // return;
+            return;
         }
 
         $exception = $event->getThrowable();

@@ -12,6 +12,7 @@ use App\Controller\Request\Response\ProductDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Controller\Request\Response\UserDataResponse;
 use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
+use Common\Domain\JwtToken\JwtToken;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestDto
@@ -48,8 +49,8 @@ class RequestDto
      */
     public function getTokenSessionOrFail(): string
     {
-        if (null === $this->tokenSession) {
-            throw RequestUnauthorizedException::fromMessage('Token session missing');
+        if (null === $this->tokenSession || JwtToken::hasExpired($this->tokenSession)) {
+            throw RequestUnauthorizedException::fromMessage('Token session missing or expired');
         }
 
         return $this->tokenSession;
