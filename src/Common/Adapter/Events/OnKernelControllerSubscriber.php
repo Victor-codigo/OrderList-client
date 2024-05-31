@@ -6,29 +6,17 @@ namespace Common\Adapter\Events;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\RequestRefererDto;
-use App\Controller\Request\Response\GroupDataResponse;
-use App\Controller\Request\Response\ListOrdersDataResponse;
-use App\Controller\Request\Response\NotificationDataResponse;
-use App\Controller\Request\Response\OrderDataResponse;
-use App\Controller\Request\Response\ProductDataResponse;
-use App\Controller\Request\Response\ShopDataResponse;
-use App\Controller\Request\Response\UserDataResponse;
-use App\Twig\Components\HomeSection\SearchBar\NAME_FILTERS;
-use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
-use App\Twig\Components\NavigationBar\NavigationBarDto;
-use Common\Adapter\Endpoints\Endpoints;
-use Common\Adapter\Events\Exceptions\RequestGroupNameException;
-use Common\Adapter\Events\Exceptions\RequestListOrdersNameException;
-use Common\Adapter\Events\Exceptions\RequestNotificationsException;
-use Common\Adapter\Events\Exceptions\RequestProductNameException;
-use Common\Adapter\Events\Exceptions\RequestShopNameException;
-use Common\Adapter\Events\Exceptions\RequestUserException;
+use Common\Adapter\Events\DataLoader\GroupDataLoader;
+use Common\Adapter\Events\DataLoader\ListOrdersDataLoader;
+use Common\Adapter\Events\DataLoader\NavigationBarDataLoader;
+use Common\Adapter\Events\DataLoader\NotificationDataLoader;
+use Common\Adapter\Events\DataLoader\OrderDataLoader;
+use Common\Adapter\Events\DataLoader\ProductDataLoader;
+use Common\Adapter\Events\DataLoader\ShopDataLoader;
+use Common\Adapter\Events\DataLoader\UserDataLoader;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
-use Common\Domain\CodedUrlParameter\CodedUrlParameter;
 use Common\Domain\Config\Config;
-use Common\Domain\JwtToken\JwtToken;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -40,12 +28,18 @@ use Twig\Environment;
 
 class OnKernelControllerSubscriber implements EventSubscriberInterface
 {
-    use CodedUrlParameter;
-
     public function __construct(
         private Environment $twig,
-        private Endpoints $endpoints,
         private RouterInterface $router,
+
+        private UserDataLoader $userDataLoader,
+        private NotificationDataLoader $notificationDataLoader,
+        private NavigationBarDataLoader $navigationBarLoader,
+        private GroupDataLoader $groupDataLoader,
+        private ShopDataLoader $shopDataLoader,
+        private ProductDataLoader $productDataLoader,
+        private ListOrdersDataLoader $listOrdersDataLoader,
+        private OrderDataLoader $orderDataLoader,
     ) {
     }
 
@@ -60,48 +54,29 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $this->loadTwigGlobals($requestDto);
     }
 
-    private function userHasPermissions(string $urlPath, ?string $tokenSession): bool
-    {
-        $patternUser = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/user\/(?!profile)/u';
-        $patternHome = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/home/u';
-
-        // No need permissions
-        if (1 === preg_match($patternUser, $urlPath)
-        || 1 === preg_match($patternHome, $urlPath)) {
-            return true;
-        }
-
-        // Need permissions
-        if (!$this->hasSessionActive($tokenSession)) {
-            return false;
-        }
-
-        return true;
-    }
-
     private function loadRequestDto(Request $request): RequestDto
     {
         $tokenSession = $this->loadTokenSession($request);
-        $groupData = $this->loadGroupData($request, $tokenSession);
+        $groupData = $this->groupDataLoader->load($request, $tokenSession);
 
         $requestDto = new RequestDto(
             $tokenSession,
             $this->loadLocale($request),
             $request->attributes->get('section'),
             $request->attributes->get('user_name'),
-            $this->getGroupNameUrlEncoded($request, $groupData),
+            $this->groupDataLoader->getGroupNameUrlEncoded($groupData),
             $request->attributes->get('list_orders_name'),
             $request->attributes->get('shop_name'),
             $request->attributes->get('product_name'),
             $this->loadPageData($request),
             $this->loadPageItemsData($request),
-            $this->loadUserSessionData(...),
-            $this->loadNotificationsData(...),
+            $this->userDataLoader->load(...),
+            $this->notificationDataLoader->load(...),
             $groupData,
-            $this->loadShopData(...),
-            $this->loadProductData(...),
-            $this->loadListOrdersData(...),
-            $this->loadOrderData(...),
+            $this->shopDataLoader->load(...),
+            $this->productDataLoader->load(...),
+            $this->listOrdersDataLoader->load(...),
+            $this->orderDataLoader->load(...),
             $request,
             $this->loadRefererRouteName($request)
         );
@@ -111,39 +86,11 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         return $requestDto;
     }
 
-    private function hasSessionActive(?string $tokenSession)
-    {
-        if (null === $tokenSession || JwtToken::hasExpired($tokenSession)) {
-            return false;
-        }
-
-        return true;
-    }
-
     private function loadTwigGlobals(RequestDto $requestDto): void
     {
-        $navigationBarDto = $this->loadNavigationBar($requestDto);
+        $navigationBarDto = $this->navigationBarLoader->load($requestDto);
 
         $this->twig->addGlobal('NavigationBarComponent', $navigationBarDto);
-    }
-
-    private function loadNavigationBar(RequestDto $requestDto): NavigationBarDto
-    {
-        return new NavigationBarDto(
-            Config::CLIENT_DOMAIN,
-            Config::CLIENT_DOMAIN_NAME,
-            'OrderListTile',
-            $requestDto->getUserSessionData(),
-            $requestDto->groupData?->type,
-            $requestDto->groupNameUrlEncoded,
-            $requestDto->listOrdersUrlEncoded,
-            $requestDto->sectionActiveId,
-            $requestDto->locale ?? 'en',
-            $requestDto->request->attributes->get('_route') ?? '',
-            $requestDto->request->attributes->get('_route_params') ?? [],
-            $requestDto->getNotificationsData(),
-            $requestDto->requestReferer
-        );
     }
 
     private function loadTokenSession(Request $request): ?string
@@ -188,287 +135,6 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         }
 
         return null;
-    }
-
-    private function getGroupNameUrlEncoded(Request $request, ?GroupDataResponse $groupData): ?string
-    {
-        if (null === $groupData) {
-            return null;
-        }
-
-        return $this->encodeUrlParameter($groupData->name);
-    }
-
-    /**
-     * @throws RequestUserException
-     */
-    private function loadUserSessionData(?string $tokenSession): ?UserDataResponse
-    {
-        if (!$this->hasSessionActive($tokenSession)) {
-            return null;
-        }
-
-        $userId = JwtToken::getUserName($tokenSession);
-        $userData = $this->endpoints->usersGetData([$userId], $tokenSession);
-
-        if (!empty($userData['errors'])) {
-            throw RequestUserException::fromMessage('User data not found');
-        }
-
-        return UserDataResponse::fromArray($userData['data']['users'][0]);
-    }
-
-    /**
-     * @throws RequestNotificationsException
-     */
-    private function loadNotificationsData(string $lang, ?string $tokenSession): array
-    {
-        if (!$this->hasSessionActive($tokenSession)) {
-            return [];
-        }
-
-        $notificationsData = $this->endpoints->notificationGetData(1, 100, $lang, $tokenSession);
-
-        if (!empty($notificationsData['errors'])
-        && (count($notificationsData['errors']) > 1 || !array_key_exists('notification_not_found', $notificationsData['errors']))) {
-            throw RequestNotificationsException::fromMessage('Notifications data not found');
-        }
-
-        return array_map(
-            fn (array $notificationData) => NotificationDataResponse::fromArray($notificationData),
-            $notificationsData['data']['notifications']
-        );
-
-        return empty($notificationsData['data']['notifications'])
-            ? []
-            : NotificationDataResponse::fromArray($notificationsData['data']['notifications']);
-    }
-
-    /**
-     * @throws RequestGroupNameException
-     */
-    private function loadGroupData(Request $request, ?string $tokenSession): ?GroupDataResponse
-    {
-        if (!$this->userHasPermissions($request->getPathInfo(), $tokenSession)) {
-            throw new RequestUserException('User has not Permissions');
-        }
-
-        if (!$this->hasSessionActive($tokenSession)) {
-            return null;
-        }
-
-        if ($request->attributes->has('group_name')) {
-            return $this->loadUserGroupDataGroup($request->attributes, $tokenSession);
-        }
-
-        return $this->loadUserGroupDataUser($tokenSession);
-    }
-
-    private function loadUserGroupDataGroup(ParameterBag $attributes, string $tokenSession): GroupDataResponse
-    {
-        $groupNameDecoded = $this->decodeUrlParameter($attributes, 'group_name');
-
-        if (null === $groupNameDecoded) {
-            return null;
-        }
-
-        $groupData = $this->endpoints->groupGetDataByName($groupNameDecoded, $tokenSession);
-
-        if (!empty($groupData['errors'])) {
-            throw RequestGroupNameException::fromMessage('Group data not found');
-        }
-
-        return GroupDataResponse::fromArray($groupData['data']);
-    }
-
-    private function loadUserGroupDataUser(string $tokenSession): GroupDataResponse
-    {
-        $groupData = $this->endpoints->userGroupsGetData(
-            null,
-            null,
-            null,
-            1,
-            1,
-            'user',
-            true,
-            $tokenSession
-        );
-
-        if (!empty($groupData['errors'])) {
-            throw RequestGroupNameException::fromMessage('Group user data not found');
-        }
-
-        return GroupDataResponse::fromArray($groupData['data']['groups'][0]);
-    }
-
-    private function loadShopData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ShopDataResponse
-    {
-        if (!$this->hasSessionActive($tokenSession)) {
-            return null;
-        }
-
-        if (null === $groupId) {
-            return null;
-        }
-
-        $shopId = $this->loadParamShopId($attributes);
-        $shopNameDecoded = $this->loadParamShopName($attributes);
-
-        if (null === $shopId && null === $shopNameDecoded) {
-            return null;
-        }
-
-        $shopData = $this->endpoints->shopsGetData(
-            $groupId,
-            $shopId,
-            null,
-            $shopNameDecoded,
-            null,
-            null,
-            1,
-            1,
-            true,
-            $tokenSession
-        );
-
-        if (!empty($shopData['errors'])) {
-            throw RequestShopNameException::fromMessage('Group data not found');
-        }
-
-        return ShopDataResponse::fromArray($shopData['data']['shops'][0]);
-    }
-
-    private function loadParamShopId(ParameterBag $attributes): ?array
-    {
-        if (!$attributes->has('shop_id')) {
-            return null;
-        }
-
-        return [$attributes->get('shop_id')];
-    }
-
-    private function loadParamShopName(ParameterBag $attributes): ?string
-    {
-        if (!$attributes->has('shop_name')) {
-            return null;
-        }
-
-        $shopNameDecoded = $this->decodeUrlParameter($attributes, 'shop_name');
-
-        if (null === $shopNameDecoded) {
-            return null;
-        }
-
-        return $shopNameDecoded;
-    }
-
-    private function loadProductData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ProductDataResponse
-    {
-        if (!$this->hasSessionActive($tokenSession)) {
-            return null;
-        }
-
-        if (null === $groupId) {
-            return null;
-        }
-
-        $productNameDecoded = $this->decodeUrlParameter($attributes, 'product_name');
-
-        if (null === $productNameDecoded) {
-            return null;
-        }
-
-        $productData = $this->endpoints->productGetData(
-            $groupId,
-            null,
-            null,
-            $productNameDecoded,
-            null,
-            null,
-            null,
-            null,
-            1,
-            1,
-            true,
-            $tokenSession
-        );
-
-        if (!empty($productData['errors'])) {
-            throw RequestProductNameException::fromMessage('Product data not found');
-        }
-
-        return ProductDataResponse::fromArray($productData['data']['products'][0]);
-    }
-
-    private function loadListOrdersData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ListOrdersDataResponse
-    {
-        if (!$this->hasSessionActive($tokenSession)) {
-            return null;
-        }
-
-        if (null === $groupId) {
-            return null;
-        }
-
-        $listOrdersNameDecoded = $attributes->get('list_orders_name');
-
-        if (null === $listOrdersNameDecoded) {
-            return null;
-        }
-
-        $listOrdersData = $this->endpoints->listOrdersGetData(
-            $groupId,
-            null,
-            true,
-            $listOrdersNameDecoded,
-            SECTION_FILTERS::LIST_ORDERS->value,
-            NAME_FILTERS::EQUALS->value,
-            1,
-            1,
-            $tokenSession
-        );
-
-        if (!empty($listOrdersData['errors'])) {
-            throw RequestListOrdersNameException::fromMessage('List orders not found');
-        }
-
-        return ListOrdersDataResponse::fromArray($listOrdersData['data']['list_orders'][0]);
-    }
-
-    private function loadOrderData(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?OrderDataResponse
-    {
-        if (!$this->hasSessionActive($tokenSession)) {
-            return null;
-        }
-
-        if (null === $groupId) {
-            return null;
-        }
-
-        $orderNameDecoded = $this->decodeUrlParameter($attributes, 'order_name');
-
-        if (null === $orderNameDecoded) {
-            return null;
-        }
-
-        $orderData = $this->endpoints->ordersGetData(
-            $groupId,
-            null,
-            null,
-            1,
-            1,
-            true,
-            SECTION_FILTERS::PRODUCT->value,
-            NAME_FILTERS::EQUALS->value,
-            $orderNameDecoded,
-            $tokenSession
-        );
-
-        if (!empty($orderData['errors'])) {
-            throw RequestListOrdersNameException::fromMessage('Order not found');
-        }
-
-        return OrderDataResponse::fromArray($orderData['data']['orders'][0]);
     }
 
     private function loadRefererRouteName(Request $request): ?RequestRefererDto

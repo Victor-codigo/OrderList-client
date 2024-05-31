@@ -24,6 +24,15 @@ class JwtToken
         return false;
     }
 
+    public static function hasSessionActive(?string $tokenSession): bool
+    {
+        if (null === $tokenSession || self::hasExpired($tokenSession)) {
+            return false;
+        }
+
+        return true;
+    }
+
     private static function getTokenPayLoad(string $tokenSession): mixed
     {
         $tokenParts = explode('.', $tokenSession);
