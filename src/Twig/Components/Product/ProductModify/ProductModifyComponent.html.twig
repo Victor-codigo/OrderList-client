@@ -85,11 +85,14 @@
 
 	<div class="d-flex  flex-row  mt-5">
 		<button type="button"
-				class="btn  btn-transparent  d-flex  flex-row  align-items-center  me-4"
+				class="btn  btn-transparent  me-4"
 				data-action="ProductModifyComponent#modalClose">
 
 			{% include "arrow-back-icon.svg" %}
-			{{ lang.closeButton }}
+
+			<span class="align-text-top">
+				{{ lang.closeButton }}
+			</span>
 		</button>
 
 		<input type="submit"

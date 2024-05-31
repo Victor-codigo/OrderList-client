@@ -19,7 +19,10 @@
 			data-js-back-button>
 
 		{% include "arrow-back-icon.svg" %}
-		{{ langDto.backButtonLabel }}
+
+		<span class="align-text-top">
+			{{ langDto.backButtonLabel }}
+		</span>
 	</button>
 
 	{{ component('ButtonLoadingComponent', { data: productCreateButtonDto })}}

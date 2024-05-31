@@ -2,17 +2,18 @@
 
     {{ component('TitleComponent', { data: titleDto } ) }}
 
-    <div class="d-flex  flex-row  align-content-center  justify-content-center  px-4  pb-5  info-modal">
+    <div
+         class="d-flex  flex-row  align-content-center  justify-content-center  align-items-center  px-4  pb-5  info-modal">
 
         {% if this.getType == 'warning' %}
 
-        <div class="info-modal__icon">
+        <div class="d-flex  align-items-center justify-content-center  info-modal__icon">
             {% include "warning-icon.svg" %}
         </div>
 
         {% endif %}
 
-        <p class="ms-3">
+        <p class="m-0  ms-3">
             {{ data.content }}
         </p>
     </div>
