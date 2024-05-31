@@ -1,8 +1,7 @@
 <div data-controller="ImageAvatarComponent"
      data-GroupModifyComponent-target="imageAvatar"
      data-action="ImageAvatarComponent:avatarSetImage@window->ImageAvatarComponent#handleMessageSetImage"
-     class="position-relative"
-     style="max-width: 300px; max-height: 300px">
+     class="d-flex  flex-row    image-avatar">
 
      <img src="{{ data.imageSrc }}"
           class="img-thumbnail  image-avatar__img--svg"
@@ -10,13 +9,13 @@
           data-no-avatar="{{ data.imageNoAvatar }}"
           data-js-image />
 
-     <div class="position-absolute  top-0  end-0  mt-3  me-3"
+     <div class="align-self-start  image-avatar__button"
           role="button"
           data-js-button-remove>
 
           {% include 'image_avatar/remove-icon.svg' %}
      </div>
-     <div class="position-absolute  top-0  end-0  mt-3  me-3  d-none"
+     <div class="align-self-start  d-none  image-avatar__button  image-avatar__button--undo"
           role="button"
           data-js-button-remove-undo>
 

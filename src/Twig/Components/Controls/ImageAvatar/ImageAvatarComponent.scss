@@ -1,9 +1,22 @@
 .image-avatar {
     width: 170px;
 
-    &__img--svg {
+    .image-avatar__img--svg {
         width: 170px;
         height: 170px;
+        border-top-right-radius: 0;
+    }
+
+    .image-avatar__button {
+        margin-left: -1px;
+        padding: 0.5rem;
+        background-color: var(--bs-body-bg);
+        border-top: var(--bs-border-width) solid var(--bs-border-color);
+        border-right: var(--bs-border-width) solid var(--bs-border-color);
+        border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+        border-top-right-radius: var(--bs-border-radius);
+        border-bottom-right-radius: var(--bs-border-radius);
+        z-index: 1;
     }
 }
 
@@ -16,6 +29,14 @@
             background-color: #fff0;
             filter: invert(100);
             border: 1px solid $gray-100;
+        }
+
+        .image-avatar__button {
+            background-color: #2e343a;
+
+            &--undo {
+                border-color: #060504;
+            }
         }
     }
 }
