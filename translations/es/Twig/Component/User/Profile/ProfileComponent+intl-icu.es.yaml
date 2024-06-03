@@ -31,5 +31,5 @@ validation:
   error:
     profile:
       name: Introduce un nick válido. Solo se permiten caracteres alfanuméricos y "_"
-      image: La imagen no es válida. Solo se permiten imágenes del tipo jpg, png, bmp
+      image: La imagen no es válida. Solo se permiten imágenes del tipo jpg, jpeg, png, gif
     internal_server: Ocurrió un error, inténtalo más tarde

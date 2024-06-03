@@ -55,5 +55,5 @@ validation:
       The name must contain at least a character and maximum 30 characters.
       Only are allowed alphanumeric characters and "_"
     product_name_repeated: There is already a product with the same name
-    image: The image is not valid. It should be a jpg, png, bmp
+    image: The image is not valid. It should be a jpg, jpeg, png, gif
     internal_server: An error has been occurred, try it later

@@ -30,5 +30,5 @@ validation:
       Only are allowed alphanumeric characters and "_"
     name_repeated: The name of the group, is already in use
     description: The description is too large
-    image: The image is not valid. It should be a jpg, png, bmp
+    image: The image is not valid. It should be a jpg, jpeg, png, gif
     internal_server: An error has been occurred, try it later

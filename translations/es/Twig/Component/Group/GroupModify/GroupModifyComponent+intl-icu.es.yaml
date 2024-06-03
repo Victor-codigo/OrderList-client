@@ -37,5 +37,5 @@ validation:
       Solo están permitidos, caracteres alfanuméricos y "_"
     group_not_found: No se ha encontrado el grupo
     description: La descripción es demasiado larga
-    image: La imagen no es válida. Debe ser un jpg, png, bmp
+    image: La imagen no es válida. Debe ser un jpg, jpeg, png, gif
     internal_server: Ocurrió un error, inténtalo más tarde

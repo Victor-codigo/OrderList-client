@@ -34,5 +34,5 @@ validation:
       name: |
         Nick must contain at least a character and maximum 30 characters.
         Only are allowed alphanumeric characters and "_"
-      image: The image is not valid. It should be a jpg, png, bmp
+      image: The image is not valid. It should be a jpg, jpeg, png, gif
     internal_server: An error has been occurred, try it later

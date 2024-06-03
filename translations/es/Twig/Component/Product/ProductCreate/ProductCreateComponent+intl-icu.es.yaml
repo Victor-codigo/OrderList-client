@@ -52,5 +52,5 @@ validation:
       El nombre debe contener al menos un carácter y un máximo de 30 caracteres
       Solo se permiten caracteres alfanuméricos y "_"
     product_name_repeated: Ya hay un producto con el mismo nombre
-    image: Imagen no válida. Debe ser del tipo jpg, png, bmp
+    image: Imagen no válida. Debe ser del tipo jpg, jpeg, png, gif
     internal_server: Ocurrió un error, inténtalo más tarde
