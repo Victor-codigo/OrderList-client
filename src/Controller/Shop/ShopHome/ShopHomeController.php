@@ -273,13 +273,13 @@ class ShopHomeController extends AbstractController
             ->shopRemoveMultiFormModal(
                 $shopRemoveMultiForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('shop_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->shopRemoveFormModal(
                 $shopRemoveForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('shop_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->shopModifyFormModal(

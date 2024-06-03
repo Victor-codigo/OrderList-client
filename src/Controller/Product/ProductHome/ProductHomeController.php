@@ -302,13 +302,13 @@ class ProductHomeController extends AbstractController
             ->productRemoveMultiFormModal(
                 $productRemoveMultiForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('product_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->productRemoveFormModal(
                 $productRemoveForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('product_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->productModifyFormModal(
