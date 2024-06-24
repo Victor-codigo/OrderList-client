@@ -355,9 +355,9 @@ class UsersEndpoint extends EndpointBase
      *
      * @throws UnsupportedOptionException
      */
-    public function userRemove(string $userId, string $tokenSession): array
+    public function userRemove(string $tokenSession): array
     {
-        $response = $this->requestUserRemove($userId, $tokenSession);
+        $response = $this->requestUserRemove($tokenSession);
 
         return $this->apiResponseManage($response,
             fn (array $responseDataError) => [
@@ -375,11 +375,11 @@ class UsersEndpoint extends EndpointBase
         );
     }
 
-    private function requestUserRemove(string $userId, string $tokenSession): HttpClientResponseInterface
+    private function requestUserRemove(string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'DELETE',
-            self::DELETE_USER_REMOVE_ENDPOINT."/{$userId}",
+            self::DELETE_USER_REMOVE_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }

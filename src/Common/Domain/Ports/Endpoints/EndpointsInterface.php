@@ -325,7 +325,7 @@ interface EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
-    public function userRemove(string $userId, string $tokenSession): array;
+    public function userRemove(string $tokenSession): array;
 
     /**
      * @return array<{

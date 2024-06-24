@@ -555,9 +555,9 @@ class Endpoints implements EndpointsInterface
      *
      * @throws UnsupportedOptionException
      */
-    public function userRemove(string $userId, string $tokenSession): array
+    public function userRemove(string $tokenSession): array
     {
-        return UsersEndpoint::getInstance($this->httpClient)->userRemove($userId, $tokenSession);
+        return UsersEndpoint::getInstance($this->httpClient)->userRemove($tokenSession);
     }
 
     /**
