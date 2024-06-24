@@ -13,14 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(
-    path: '{_locale}/home',
-    name: 'home',
-    methods: ['GET'],
-    requirements: [
-        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
-    ]
-)]
 class HomeController extends AbstractController
 {
     public function __construct(
@@ -28,6 +20,24 @@ class HomeController extends AbstractController
     ) {
     }
 
+    #[Route(
+        path: '/',
+        name: 'home_default',
+        methods: ['GET'],
+    )]
+    public function homeRedirect(): Response
+    {
+        return $this->redirectToRoute('home', [], 308);
+    }
+
+    #[Route(
+        path: '{_locale}/home',
+        name: 'home',
+        methods: ['GET'],
+        requirements: [
+            '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
+        ]
+    )]
     public function __invoke(RequestDto $requestDto): Response
     {
         $urlParams = [
