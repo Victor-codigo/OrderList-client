@@ -4,6 +4,9 @@ import * as communication from 'App/modules/ControllerCommunication'
 import ModalManager from 'App/modules/ModalManager/ModalManager';
 import * as FormItemPriceAddTrait from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddFormTrait';
 import { MODAL_CHAINS } from 'App/Config';
+import * as autocomplete from 'App/modules/AutoComplete';
+import * as geoApiFy from 'App/modules/GeoApiFy';
+import * as url from 'App/modules/Url';
 
 export default class ShopCreateController extends Controller {
     /**
@@ -11,6 +14,11 @@ export default class ShopCreateController extends Controller {
      */
     #modalManager = null;
     get modalManager() { return this.#modalManager; }
+
+    /**
+     * @type {HTMLInputElement}
+     */
+    #addressTag;
 
     /**
      * @type {HTMLElement}
@@ -35,6 +43,14 @@ export default class ShopCreateController extends Controller {
         this.#itemPriceAddComponentTag = this.element.querySelector('[data-controller="ItemPriceAddComponent"]');
         this.#dropzoneComponentTag = this.element.querySelector('[data-controller="DropZoneComponent"]');
         this.alertComponentTag = this.element.querySelector('[data-controller="AlertComponent"]');
+        this.#addressTag = this.element.querySelector('[data-js-form-address]');
+
+        autocomplete.create(
+            () => geoApiFy.getAddresses(this.#addressTag.value, url.getLocale()),
+            '[data-js-form-address]',
+            1000, {
+            showAllSuggestions: true
+        });
 
         this.formValidate();
         this.setItemPriceAddEvents();

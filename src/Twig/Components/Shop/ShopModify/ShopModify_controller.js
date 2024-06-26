@@ -5,6 +5,9 @@ import * as communication from 'App/modules/ControllerCommunication';
 import * as FormItemPriceAddTrait from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddFormTrait';
 import ModalManager from 'App/modules/ModalManager/ModalManager';
 import { MODAL_CHAINS } from 'App/Config';
+import * as geoApiFy from 'App/modules/GeoApiFy';
+import * as url from 'App/modules/Url';
+import * as autocomplete from 'App/modules/AutoComplete';
 
 
 const SHOP_NAME_PLACEHOLDER = '--shop_name--';
@@ -55,6 +58,13 @@ export default class ShopModifyController extends Controller {
         this.shopAddressTag = this.element.querySelector('[data-js-shop-address]');
         this.shopDescriptionTag = this.element.querySelector('[data-js-shop-description]');
         this.shopAvatarTag = this.element.querySelector('[data-controller="ImageAvatarComponent"]')
+
+        autocomplete.create(
+            () => geoApiFy.getAddresses(this.shopAddressTag.value, url.getLocale()),
+            '[data-js-shop-address]',
+            1000, {
+            showAllSuggestions: true
+        });
 
         this.formValidate();
         this.setItemPriceAddEvents();
