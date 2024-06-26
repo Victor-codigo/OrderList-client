@@ -54,6 +54,26 @@
 	</div>
 
 	<div class="mb-3">
+		<label for="address"
+			   class="form-label">
+			{{ lang.addressLabel }}
+		</label>
+		<input type="text"
+			   class="form-control"
+			   id="address"
+			   maxlength="50"
+			   pattern="^[a-zA-ZÀ-ÿ0-9\s,_\-\\\\\.\#]+$"
+			   name="{{ addressFieldName }}"
+			   placeholder="{{ lang.addressPlaceholder }}"
+			   value="{{ data.address }}"
+			   required
+			   data-js-shop-address />
+		<div class="invalid-feedback">
+			{{ lang.addressMsgInvalid }}
+		</div>
+	</div>
+
+	<div class="mb-3">
 
 		<label for="description"
 			   class="form-label">

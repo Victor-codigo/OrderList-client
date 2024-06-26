@@ -67,6 +67,7 @@ class ShopModifyController extends AbstractController
             $shopId,
             $groupId,
             $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::NAME),
+            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::ADDRESS),
             $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::DESCRIPTION),
             $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::IMAGE),
             'true' === $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::IMAGE_REMOVE) ? true : false,

@@ -11,6 +11,7 @@ enum SHOP_MODIFY_FORM_ERRORS: string implements FormErrorInterface
     case SHOP_ID = 'shop_id';
     case GROUP_ID = 'group_id';
     case NAME = 'name';
+    case ADDRESS = 'address';
     case DESCRIPTION = 'description';
     case SHOP_NOT_FOUND = 'shop_not_found';
     case SHOP_NAME_REPEATED = 'shop_name_repeated';

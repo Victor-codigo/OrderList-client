@@ -27,6 +27,11 @@ export default class ShopModifyController extends Controller {
     shopNameTag;
 
     /**
+     * @type {HTMLInputElement}
+     */
+    shopAddressTag;
+
+    /**
      * @type {HTMLTextAreaElement}
      */
     shopDescriptionTag;
@@ -47,6 +52,7 @@ export default class ShopModifyController extends Controller {
     connect() {
         this.#itemPriceAddComponentTag = this.element.querySelector('[data-controller="ItemPriceAddComponent"]');
         this.shopNameTag = this.element.querySelector('[data-js-shop-name]');
+        this.shopAddressTag = this.element.querySelector('[data-js-shop-address]');
         this.shopDescriptionTag = this.element.querySelector('[data-js-shop-description]');
         this.shopAvatarTag = this.element.querySelector('[data-controller="ImageAvatarComponent"]')
 
@@ -91,6 +97,7 @@ export default class ShopModifyController extends Controller {
      */
     setFormFieldValues(shopData) {
         this.shopNameTag.value = shopData.name;
+        this.shopAddressTag.value = shopData.address;
         this.element.action = this.element.dataset.actionPlaceholder.replace(
             SHOP_NAME_PLACEHOLDER,
             encodedUrlParameter.encodeUrlParameter(shopData.name)
