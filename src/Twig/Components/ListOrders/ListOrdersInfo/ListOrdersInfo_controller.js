@@ -1,5 +1,4 @@
 import ItemInfo from "App/Twig/Components/HomeSection/ItemInfo/ItemInfo_controller";
-import * as html from 'App/modules/Html';
 import * as config from 'App/Config';
 import * as locale from 'App/modules/Locale';
 
@@ -31,6 +30,6 @@ export default class extends ItemInfo {
             dateToBuy = locale.formatDateToLocale(data.dateToBuy);
         }
 
-        this.#dateToBuyTag.innerText = dateToBuy;
+        this.#dateToBuyTag.textContent = dateToBuy;
     }
 }

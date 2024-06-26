@@ -197,7 +197,7 @@ export default class extends Controller {
             ? pageTag.classList.add('paginator-js__page', PAGE_ACTIVE_STYLE_NAME)
             : pageTag.classList.add('paginator-js__page');
 
-        pageLinkTag.innerHTML = text;
+        pageLinkTag.textContent = text;
 
         return pageTag;
     }

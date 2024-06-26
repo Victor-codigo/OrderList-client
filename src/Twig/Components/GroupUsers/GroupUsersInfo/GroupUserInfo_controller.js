@@ -18,7 +18,7 @@ export default class extends ItemInfo_controller {
      * @param {config.ItemData} data
      */
     setItemData(data) {
-        this.titleTag.innerText = data.name;
+        this.titleTag.textContent = data.name;
         this.setImage(data.image, data.noImage);
 
         if (data.admin) {

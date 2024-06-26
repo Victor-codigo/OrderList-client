@@ -86,25 +86,23 @@ export default class extends ItemInfo_controller {
      * @param {ListOrdersData} data
      */
     setItemData(data) {
-        console.log(data);
-        this.titleTag.innerText = data.product.name;
+        this.titleTag.textContent = data.product.name;
         this.imageTag.src = data.image;
         this.setImage(data.image, data.noImage);
-        this.dateTag.innerText = locale.formatDateToLocale(data.createdOn);
-        this.descriptionTag.innerText = data.description;
+        this.dateTag.textContent = locale.formatDateToLocale(data.createdOn);
+        this.descriptionTag.textContent = data.description;
         this.#setBoughtImage(data.bought);
-        this.#amountTag.innerText = locale.formatAmountAndUnit(data.amount, data.productShop.unit);
+        this.#amountTag.textContent = locale.formatAmountAndUnit(data.amount, data.productShop.unit);
 
-        this.#productNameTag.innerText = data.product.name;
-        this.#productDescriptionTag.innerText = data.product.description;
+        this.#productNameTag.textContent = data.product.name;
+        this.#productDescriptionTag.textContent = data.product.description;
 
-        this.#shopNameTag.innerText = data.shop.name;
-        this.#shopDescriptionTag.innerText = data.shop.description;
-        // this.#shopAddressTag.innerText = data.shop.address;
+        this.#shopNameTag.textContent = data.shop.name;
+        this.#shopDescriptionTag.textContent = data.shop.description;
         this.#setAddress(data.shop.address)
-        this.#shopPriceTag.innerText = locale.formatPriceCurrencyAndUnit(data.productShop.price, data.productShop.unit);
+        this.#shopPriceTag.textContent = locale.formatPriceCurrencyAndUnit(data.productShop.price, data.productShop.unit);
 
-        this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(this.#calculatePriceTotal(data.productShop.price, data.amount));
+        this.#priceTotalTag.textContent = locale.formatToStringLocaleCurrency(this.#calculatePriceTotal(data.productShop.price, data.amount));
         this.#setShopInfo(data.shop);
     }
 
@@ -117,7 +115,7 @@ export default class extends ItemInfo_controller {
             return;
         }
 
-        this.#shopAddressTag.innerText = address;
+        this.#shopAddressTag.textContent = address;
     }
 
     /**

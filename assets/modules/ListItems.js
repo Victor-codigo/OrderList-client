@@ -1,4 +1,3 @@
-import * as html from 'App/modules/Html';
 export default class ListItems {
 
     /**
@@ -77,7 +76,7 @@ export default class ListItems {
 
         listEmptyItem.classList.add('d-flex', 'flex-row', 'justify-content-center', 'align-items-center', 'list-empty', 'pt-5');
 
-        listEmptyItemText.innerText = listEmptyData.text;
+        listEmptyItemText.textContent = listEmptyData.text;
 
         listEmptyItemImage.src = listEmptyData.image;
         listEmptyItemImage.classList.add('image-filter-for-theme', 'me-2');
@@ -188,7 +187,7 @@ export default class ListItems {
         const listItemSpan = document.createElement('span');
 
         listItemSpan.classList.add('ms-2');
-        listItemSpan.innerHTML = html.escape(name);
+        listItemSpan.textContent = name;
 
         return listItemSpan;
     }

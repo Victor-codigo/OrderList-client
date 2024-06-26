@@ -1,7 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import * as communication from 'App/modules/ControllerCommunication';
 import * as apiEndpoint from 'App/modules/ApiEndpoints';
-import * as html from 'App/modules/Html';
 import * as locale from 'App/modules/Locale';
 
 const PRODUCT_SHOPS_MAX = 100;
@@ -119,7 +118,7 @@ export default class extends Controller {
             }
 
             option.value = shop.id;
-            option.innerHTML = html.escape(shop.name);
+            option.textContent = shop.name;
 
             return option;
         });
@@ -142,10 +141,10 @@ export default class extends Controller {
             const productsShopsPrice = await apiEndpoint.getProductShopsPricesData(groupId, [productId], []);
             const productShopPriceCurrent = productsShopsPrice.products_shops_prices.find((productShopPrice) => productShopPrice.shop_id === shopId);
 
-            this.#productPriceTag.innerHTML = '';
+            this.#productPriceTag.textContent = '';
             this.#unit = '';
             if (productShopPriceCurrent.price !== null) {
-                this.#productPriceTag.innerText = locale.formatPriceCurrencyAndUnit(productShopPriceCurrent.price, productShopPriceCurrent.unit);
+                this.#productPriceTag.textContent = locale.formatPriceCurrencyAndUnit(productShopPriceCurrent.price, productShopPriceCurrent.unit);
                 this.#unit = productShopPriceCurrent.unit
             }
 

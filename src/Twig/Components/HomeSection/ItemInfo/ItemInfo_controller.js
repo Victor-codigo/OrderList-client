@@ -1,5 +1,4 @@
 import { Controller } from '@hotwired/stimulus';
-import * as html from 'App/modules/Html';
 import * as config from 'App/Config';
 import * as locale from 'App/modules/Locale';
 
@@ -45,9 +44,9 @@ export default class extends Controller {
      * @param {config.ItemData} data
      */
     setItemData(data) {
-        this.#titleTag.innerHTML = html.escape(data.name);
-        this.#descriptionTag.innerHTML = html.escape(data.description === null ? '' : data.description);
-        this.#dateTag.innerText = locale.formatDateToLocale(data.createdOn);
+        this.#titleTag.textContent = data.name;
+        this.#descriptionTag.textContent = data.description === null ? '' : data.description;
+        this.#dateTag.textContent = locale.formatDateToLocale(data.createdOn);
         this.setImage(data.image, data.noImage);
 
         if (typeof data.itemsPrices !== 'undefined') {
@@ -60,7 +59,7 @@ export default class extends Controller {
      * @param {boolean} noImage
      */
     setImage(image, noImage) {
-        this.#imageTag.src = html.escape(image);
+        this.#imageTag.src = image;
 
         if (noImage) {
             this.#imageTag.classList.add('item-info__image--svg');
@@ -92,9 +91,9 @@ export default class extends Controller {
             numberTableCell.classList.add('ps-5');
             priceTableCell.classList.add('pe-5');
 
-            numberTableCell.innerHTML = html.escape(rowCounter.toString());
-            nameTableCell.innerHTML = html.escape(itemPrice.name);
-            priceTableCell.innerHTML = html.escape(itemPrice.price === null ? '' : locale.formatPriceCurrencyAndUnit(itemPrice.price, itemPrice.unit));
+            numberTableCell.textContent = rowCounter.toString();
+            nameTableCell.textContent = itemPrice.name;
+            priceTableCell.textContent = itemPrice.price === null ? '' : locale.formatPriceCurrencyAndUnit(itemPrice.price, itemPrice.unit);
 
             tableRow.replaceChildren(numberTableCell, nameTableCell, priceTableCell);
             this.#itemsPriceTag.appendChild(tableRow);
@@ -110,7 +109,7 @@ export default class extends Controller {
 
         emptyTableCell.colSpan = 3;
         emptyTableCell.classList.add('pt-4', 'pb-4', 'text-center', 'border-0');
-        emptyTableCell.innerHTML = html.escape(this.#itemsPriceTag.dataset.emptyMessage);
+        emptyTableCell.textContent = this.#itemsPriceTag.dataset.emptyMessage;
 
         tableRow.appendChild(emptyTableCell);
         this.#itemsPriceTag.appendChild(tableRow);
