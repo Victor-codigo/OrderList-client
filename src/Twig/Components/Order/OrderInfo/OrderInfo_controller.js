@@ -38,6 +38,16 @@ export default class extends ItemInfo_controller {
     /**
      * @type {HTMLParagraphElement}
      */
+    #shopAddressContainerTag;
+
+    /**
+     * @type {HTMLParagraphElement}
+     */
+    #shopAddressTag;
+
+    /**
+     * @type {HTMLParagraphElement}
+     */
     #shopDescriptionTag;
 
     /**
@@ -64,6 +74,8 @@ export default class extends ItemInfo_controller {
         this.#productNameTag = this.element.querySelector('[data-js-item-product-name]');
         this.#productDescriptionTag = this.element.querySelector('[data-js-item-product-description]');
         this.#shopNameTag = this.element.querySelector('[data-js-item-shop-name]');
+        this.#shopAddressContainerTag = this.element.querySelector('[data-js-item-shop-address-container]');
+        this.#shopAddressTag = this.element.querySelector('[data-js-item-shop-address]');
         this.#shopDescriptionTag = this.element.querySelector('[data-js-item-shop-description]');
         this.#shopPriceTag = this.element.querySelector('[data-js-item-shop-price]');
         this.#priceTotalTag = this.element.querySelector('[data-js-item-shop-price-total]');
@@ -88,10 +100,24 @@ export default class extends ItemInfo_controller {
 
         this.#shopNameTag.innerText = data.shop.name;
         this.#shopDescriptionTag.innerText = data.shop.description;
+        // this.#shopAddressTag.innerText = data.shop.address;
+        this.#setAddress(data.shop.address)
         this.#shopPriceTag.innerText = locale.formatPriceCurrencyAndUnit(data.productShop.price, data.productShop.unit);
 
         this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(this.#calculatePriceTotal(data.productShop.price, data.amount));
         this.#setShopInfo(data.shop);
+    }
+
+    /**
+     * @param {string|null} address
+     */
+    #setAddress(address) {
+        if (address === null || address === '') {
+            this.#shopAddressContainerTag.hidden = true;
+            return;
+        }
+
+        this.#shopAddressTag.innerText = address;
     }
 
     /**
