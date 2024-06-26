@@ -425,14 +425,14 @@ class Endpoints implements EndpointsInterface
         return ProductsEndPoint::getInstance($this->httpClient)->getProductShopPrice($groupId, $productsId, $shopsId, $tokenSession);
     }
 
-    public function shopCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
+    public function shopCreate(string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, string $tokenSession): array
     {
-        return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $description, $image, $tokenSession);
+        return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $address, $description, $image, $tokenSession);
     }
 
-    public function shopModify(string $shopId, string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
+    public function shopModify(string $shopId, string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
     {
-        return ShopsEndPoint::getInstance($this->httpClient)->shopModify($shopId, $groupId, $name, $description, $image, $imageRemove, $tokenSession);
+        return ShopsEndPoint::getInstance($this->httpClient)->shopModify($shopId, $groupId, $name, $address, $description, $image, $imageRemove, $tokenSession);
     }
 
     public function shopsGetData(

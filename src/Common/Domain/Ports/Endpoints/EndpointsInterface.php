@@ -247,9 +247,9 @@ interface EndpointsInterface
      */
     public function setProductShopPrice(string $groupId, ?string $productId, ?string $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array;
 
-    public function shopCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
+    public function shopCreate(string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, string $tokenSession): array;
 
-    public function shopModify(string $shopId, string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
+    public function shopModify(string $shopId, string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
 
     public function shopsGetData(string $groupId, ?array $shopsId, ?array $productsId, ?string $shopName, ?string $shopNameFilterType, ?string $shopNameFilterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
 
