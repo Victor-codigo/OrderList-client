@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import * as apiEndpoints from 'App/modules/ApiEndpoints';
 import * as url from 'App/modules/Url';
-import Autocomplete from "App/Dependencies/bootstrap5-autocomplete/autocomplete.min";
+import * as autocomplete from 'App/modules/AutoComplete';
 
 
 const SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS = 50;
@@ -45,7 +45,10 @@ export default class extends Controller {
         this.sectionFilterTag = this.element.querySelector('[data-js-section-filter]');
         this.nameFilterTag = this.element.querySelector('[data-js-name-filter]');
 
-        this.#createAutocomplete();
+        autocomplete.create(
+            this.#getDataFromApi.bind(this),
+            '[data-js-value]'
+        );
 
         this.searchBarFormTag.addEventListener('submit', this.#onSubmitHandler.bind(this));
     }
@@ -54,29 +57,9 @@ export default class extends Controller {
         this.searchBarFormTag.removeEventListener('submit', this.#onSubmitHandler);
     }
 
-    #createAutocomplete() {
-        Autocomplete.init('[data-js-value]', {
-            source: this.#setTimeout(async (input, callback) => await callback(await this.#getDataFromApi()), 500),
-            fullWidth: true,
-            fixed: true,
-            preventBrowserAutocomplete: true,
-        });
-    }
-
     /**
-     * @param {Function} callback
-     * @param {number} timeout
-     * @returns {Function}
+     * @returns {Promise<string[]>}
      */
-    #setTimeout(callback, timeout = 300) {
-        let timer;
-
-        return (...args) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => callback.apply(this, args), timeout);
-        };
-    }
-
     async #getDataFromApi() {
         switch (url.getSection().replace('-', '_')) {
             case url.SECTIONS.SHOP:
