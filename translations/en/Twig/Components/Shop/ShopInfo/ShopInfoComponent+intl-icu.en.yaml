@@ -4,6 +4,9 @@ image:
   title: Shop image
   alt: Shop image
 
+address:
+  label: Address
+
 description:
   label: Description
 
