@@ -446,6 +446,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             [],
             null,
             null,
+            null,
             $csrfToken,
             false,
             $shopCreateFormActionUrl,

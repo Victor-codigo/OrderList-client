@@ -86,20 +86,20 @@ class ShopCreateController extends AbstractController
     private function shopCreateRequest(FormInterface $form, string $groupId, string $tokenSession): ResponseDto
     {
         try {
-            $productId = $this->createShop($form, $groupId, $tokenSession);
-            $this->createProductShopPrice($form, $groupId, $productId, $tokenSession);
+            $shopId = $this->createShop($form, $groupId, $tokenSession);
+            $this->createProductShopPrice($form, $groupId, $shopId, $tokenSession);
 
-            $responseData = ['id' => $productId];
+            $responseData = ['id' => $shopId];
             $responseStatus = RESPONSE_STATUS::OK;
-            $responseMessage = 'Product created';
+            $responseMessage = 'Shop created';
             if (!empty($form->getErrors())) {
                 $responseStatus = RESPONSE_STATUS::ERROR;
-                $responseMessage = 'Product could not be created';
+                $responseMessage = 'Shop could not be created';
             }
         } catch (Error400Exception) {
             $responseData = [];
             $responseStatus = RESPONSE_STATUS::ERROR;
-            $responseMessage = 'Product could not be created';
+            $responseMessage = 'Shop could not be created';
         } finally {
             $responseErrors = $this->shopCreateComponent->loadErrorsTranslation($form->getErrors());
 
@@ -122,6 +122,7 @@ class ShopCreateController extends AbstractController
         $responseData = $this->endpoints->shopCreate(
             $groupId,
             $form->getFieldData(SHOP_CREATE_FORM_FIELDS::NAME, ''),
+            $form->getFieldData(SHOP_CREATE_FORM_FIELDS::ADDRESS),
             $form->getFieldData(SHOP_CREATE_FORM_FIELDS::DESCRIPTION),
             $form->getFieldData(SHOP_CREATE_FORM_FIELDS::IMAGE),
             $tokenSession

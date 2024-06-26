@@ -10,6 +10,12 @@ name:
     El nombre debe contener al menos, un carácter y un máximo de 30 caracteres
     Solo están permitidos caracteres alfanuméricos y "_"
 
+address:
+  label: Dirección
+  placeholder: Introduce la dirección de la tienda
+  msg_invalid: |
+    La dirección no es correcta, solo se aceptan números y letras, y "\, , ., -, _, #"
+
 description:
   label: Descripción
   placeholder: Introduce la descripción del tienda
@@ -51,6 +57,7 @@ validation:
       El nombre no es correcto.
       El nombre debe contener al menos un carácter y un máximo de 30 caracteres
       Solo se permiten caracteres alfanuméricos y "_"
+    address: La dirección no es correcta, solo se aceptan números y letras, y "\, , ., -, _, #"
     product_name_repeated: Ya hay un tienda con el mismo nombre
     image: Imagen no válida. Debe ser del tipo jpg, jpeg, png, gif
     internal_server: Ocurrió un error, inténtalo más tarde
