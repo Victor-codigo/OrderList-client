@@ -28,9 +28,20 @@
 
         {% endif %}
 
+        {% if not hasPrice %}
+
+        <p class="fs-5  my-4  mx-2  text-warning">
+            {{ data.name }}
+        </p>
+
+        {% else %}
+
         <p class="fs-5  my-4  mx-2">
             {{ data.name }}
         </p>
+
+        {% endif %}
+
     </label>
 
     <button type="button"
