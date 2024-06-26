@@ -26,6 +26,7 @@ class ShopListItemComponentDto extends HomeListItemComponentDto
         public readonly string $infoFormModalIdAttribute,
         public readonly string $translationDomainName,
 
+        public readonly ?string $address,
         public readonly ?string $description,
         public readonly ?string $image,
         public readonly bool $noImage,

@@ -261,6 +261,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
             [],
             '',
             '',
+            '',
             $shopCreateFormCsrfToken,
             false,
             mb_strtolower($shopCreateFormActionUrl)
@@ -321,6 +322,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
         $homeModalModify = new ShopModifyComponentDto(
             [],
             '{name_placeholder}',
+            '{address_placeholder}',
             '{description_placeholder}',
             '{image_placeholder}',
             Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
@@ -407,6 +409,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
                 self::SHOP_DELETE_MODAL_ID,
                 self::SHOP_INFO_MODAL_ID,
                 self::SHOP_HOME_LIST_ITEM_COMPONENT_NAME,
+                $listItemData['shopData']->address,
                 $listItemData['shopData']->description,
                 $listItemData['shopData']->image ?? Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
                 null === $listItemData['shopData']->image ? true : false,
