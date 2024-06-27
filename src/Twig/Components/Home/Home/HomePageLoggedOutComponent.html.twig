@@ -79,15 +79,22 @@
     </div>
 </nav>
 
+
 <section class="container  px-5    text-light  content">
     <div class="row gx-5 align-items-center">
         <div class="col-lg-6">
             <h1 class="fs-1">
                 {{ 'main_info.title'|trans }}
             </h1>
-            <p class="fs-5  mb-5">
+            <p class="fs-5  mb-4">
                 {{ 'main_info.info'|trans({'%domain_name%': data.domainName})|raw }}
             </p>
+
+            <a href="{{ path('home_tryout') }}"
+               class="btn  btn-warning  p-2  px-5  mt-3  mt-md-0  fs-4  btn-try-it-out"
+               type="button">
+                {{ 'main_info.try_it_out'|trans }}
+            </a>
 
         </div>
         <div class="col-lg-6">

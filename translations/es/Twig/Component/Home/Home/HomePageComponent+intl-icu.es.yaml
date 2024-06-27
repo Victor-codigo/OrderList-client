@@ -19,6 +19,7 @@ logo:
 main_info:
   title: Crea tús listas de la compra
   info: Bienvenido a <strong>{domain_name}</strong>. Una herramienta creada para <strong>crear y gestinar</strong>, tús <strong>listas de la compra</strong> de una forma fácil y sencilla.
+  try_it_out: ¡Pruébalo!
   section:
     order_list: Listas de la compra
     products: Productos

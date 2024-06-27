@@ -19,6 +19,7 @@ logo:
 main_info:
   title: Create your own shopping list
   info: Welcome to <strong>{domain_name}</strong>. A tool to <strong>create and manage</strong> your <strong>shopping data</strong> on an easy way.
+  try_it_out: Try it out!
   section:
     order_list: Shopping lists
     products: Products

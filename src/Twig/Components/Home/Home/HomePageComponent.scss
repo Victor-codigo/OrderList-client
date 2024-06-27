@@ -112,3 +112,14 @@
         }
     }
 }
+
+@include media-breakpoint-down(md) {
+    .header {
+        .content {
+            .btn-try-it-out {
+                width: 100%;
+                ;
+            }
+        }
+    }
+}
