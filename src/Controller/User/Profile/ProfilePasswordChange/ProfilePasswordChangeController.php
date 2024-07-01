@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\User\Profile\ProfilePasswordChange;
 
 use App\Controller\Request\RequestDto;
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
-use App\Form\PasswordChange\PasswordChangeForm;
+use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
+use App\Form\User\PasswordChange\PasswordChangeForm;
 use App\Twig\Components\User\PasswordChange\PasswordChangeComponent;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\EmailChange;
+namespace App\Form\User\EmailChange;
 
 enum EMAIL_CHANGE_FORM_ERRORS: string
 {

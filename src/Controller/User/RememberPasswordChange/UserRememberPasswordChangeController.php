@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\User\RememberPasswordChange;
 
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
-use App\Form\PasswordChange\PasswordChangeForm;
+use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
+use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
+use App\Form\User\PasswordChange\PasswordChangeForm;
 use App\Twig\Components\User\PasswordChange\PasswordChangeComponentDto;
 use Common\Adapter\Form\FormFactory;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;

@@ -6,8 +6,8 @@ namespace App\Controller\User\Profile\Home;
 
 use App\Controller\Request\RequestDto;
 use App\Controller\Request\Response\UserDataResponse;
-use App\Form\EmailChange\EmailChangeForm;
-use App\Form\PasswordChange\PasswordChangeForm;
+use App\Form\User\EmailChange\EmailChangeForm;
+use App\Form\User\PasswordChange\PasswordChangeForm;
 use App\Form\User\Profile\ProfileForm;
 use App\Form\User\UserRemove\UserRemoveForm;
 use Common\Adapter\Endpoints\Endpoints;

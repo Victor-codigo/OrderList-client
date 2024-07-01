@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\User\Profile\UserEmailChange;
 
 use App\Controller\Request\RequestDto;
-use App\Form\EmailChange\EMAIL_CHANGE_FORM_FIELDS;
-use App\Form\EmailChange\EmailChangeForm;
+use App\Form\User\EmailChange\EMAIL_CHANGE_FORM_FIELDS;
+use App\Form\User\EmailChange\EmailChangeForm;
 use App\Twig\Components\User\EmailChange\EmailChangeComponent;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;

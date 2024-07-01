@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\EmailChange;
+namespace App\Form\User\EmailChange;
 
 use Common\Domain\Form\FormFieldInterface;
 

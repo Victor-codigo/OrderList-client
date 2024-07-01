@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\PasswordChange;
 
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
+use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
+use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;

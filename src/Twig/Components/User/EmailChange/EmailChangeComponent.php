@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\EmailChange;
 
-use App\Form\EmailChange\EMAIL_CHANGE_FORM_ERRORS;
-use App\Form\EmailChange\EMAIL_CHANGE_FORM_FIELDS;
+use App\Form\User\EmailChange\EMAIL_CHANGE_FORM_ERRORS;
+use App\Form\User\EmailChange\EMAIL_CHANGE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;

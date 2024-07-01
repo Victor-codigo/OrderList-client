@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\PasswordChange;
+namespace App\Form\User\PasswordChange;
 
 use Common\Domain\Form\FormFieldInterface;
 
