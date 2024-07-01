@@ -18,6 +18,9 @@ class Config
     public const CLIENT_ENDPOINT_SHOP_REMOVE = '/{_locale}/shop/{group_name}/remove';
     public const CLIENT_LISTS_NUM_MAX_PARAMS = 100;
 
+    public const USER_TRY_OUT_EMAIL = 'guest@email.com';
+    public const USER_TRY_OUT_PASSWORD = '1597531564';
+
     public const SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/shop/shop-no-image.svg';
     public const PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/product/product-no-image.svg';
     public const LIST_ORDERS_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/assets/images/common/list_orders/list-orders-no-image.svg';

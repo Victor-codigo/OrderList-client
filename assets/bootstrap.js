@@ -2,6 +2,7 @@ import { startStimulusApp } from '@symfony/stimulus-bridge';
 
 // HOME
 import HomePageComponent from 'App/Twig/Components/Home/Home/HomePage_controller';
+import TryoutComponent from 'App/Twig/Components/Home/Tryout/TryoutComponent_controller';
 
 // USER
 import LoginComponent from 'App/Twig/Components/User/Login/LoginComponent_controller';
@@ -129,6 +130,7 @@ app.register('InfoModalComponent', InfoModalComponent);
 
 // HOME
 app.register('HomePageComponent', HomePageComponent);
+app.register('TryoutComponent', TryoutComponent);
 
 // HOME LIST
 app.register('HomeSectionComponent', HomeSectionComponent);
