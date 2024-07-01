@@ -13,5 +13,6 @@ enum PASSWORD_CHANGE_FORM_ERRORS: string
     case PASSWORD_REPEAT = 'passwoord_repeat';
     case TOKEN_WRONG = 'token_wrong';
     case TOKEN_EXPIRED = 'token_expired';
+    case TRYOUT_ROUTE_PERMISSIONS = 'tryout_route_permissions';
     case INTERNAL_SERVER = 'internal_server';
 }

@@ -133,6 +133,7 @@ class ProfileComponent extends TwigComponent
             $errorsLang[] = match ($field) {
                 PROFILE_FORM_ERRORS::NAME->value => $this->translate('validation.error.profile.name'),
                 PROFILE_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.profile.image'),
+                PROFILE_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
 
                 default => $this->translate('validation.error.internal_server')
             };

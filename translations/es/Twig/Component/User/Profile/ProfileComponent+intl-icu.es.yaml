@@ -32,4 +32,5 @@ validation:
     profile:
       name: Introduce un nick válido. Solo se permiten caracteres alfanuméricos y "_"
       image: La imagen no es válida. Solo se permiten imágenes del tipo jpg, jpeg, png, gif
+    tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
     internal_server: Ocurrió un error, inténtalo más tarde

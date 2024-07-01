@@ -102,6 +102,7 @@ class PasswordChangeComponent extends TwigComponent
                 PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_NEW_REPEAT,
                 PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_REPEAT->value => $this->translate('validation.error.password_new_repeat'),
                 PASSWORD_CHANGE_FORM_ERRORS::TOKEN_EXPIRED->value => $this->translate('validation.error.token_expired'),
+                PASSWORD_CHANGE_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
                 default => $this->translate('validation.error.internal_server')
             };
         }

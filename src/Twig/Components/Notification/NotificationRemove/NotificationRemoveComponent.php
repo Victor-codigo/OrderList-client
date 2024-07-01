@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Notification\NotificationRemove;
 
+use App\Form\Notification\NotificationRemove\NOTIFICATION_REMOVE_FORM_ERRORS;
 use App\Form\Notification\NotificationRemove\NOTIFICATION_REMOVE_FORM_FIELDS;
 use App\Twig\Components\HomeSection\ItemRemove\ItemRemoveComponent;
 use App\Twig\Components\HomeSection\ItemRemove\ItemRemoveComponentDto;
@@ -34,10 +35,10 @@ class NotificationRemoveComponent extends ItemRemoveComponent
     private function createRemoveData(): array
     {
         return [
-             NOTIFICATION_REMOVE_FORM_FIELDS::FORM,
-             sprintf('%s[%s]', NOTIFICATION_REMOVE_FORM_FIELDS::FORM, NOTIFICATION_REMOVE_FORM_FIELDS::SUBMIT),
-             sprintf('%s[%s]', NOTIFICATION_REMOVE_FORM_FIELDS::FORM, NOTIFICATION_REMOVE_FORM_FIELDS::NOTIFICATIONS_ID),
-             sprintf('%s[%s]', NOTIFICATION_REMOVE_FORM_FIELDS::FORM, NOTIFICATION_REMOVE_FORM_FIELDS::TOKEN),
+            NOTIFICATION_REMOVE_FORM_FIELDS::FORM,
+            sprintf('%s[%s]', NOTIFICATION_REMOVE_FORM_FIELDS::FORM, NOTIFICATION_REMOVE_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s]', NOTIFICATION_REMOVE_FORM_FIELDS::FORM, NOTIFICATION_REMOVE_FORM_FIELDS::NOTIFICATIONS_ID),
+            sprintf('%s[%s]', NOTIFICATION_REMOVE_FORM_FIELDS::FORM, NOTIFICATION_REMOVE_FORM_FIELDS::TOKEN),
         ];
     }
 
@@ -65,6 +66,7 @@ class NotificationRemoveComponent extends ItemRemoveComponent
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
+                NOTIFICATION_REMOVE_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
                 default => $this->translate('validation.error.internal_server')
             };
         }

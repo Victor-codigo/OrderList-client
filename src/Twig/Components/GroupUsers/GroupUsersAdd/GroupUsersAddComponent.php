@@ -82,6 +82,7 @@ final class GroupUsersAddComponent extends TwigComponent
                 GROUP_USERS_ADD_FORM_ERRORS::GROUP_USERS_EXCEEDED->value => $this->translate('validation.error.group_users_exceeded'),
                 GROUP_USERS_ADD_FORM_ERRORS::USERS->value => $this->translate('validation.error.users'),
                 GROUP_USERS_ADD_FORM_ERRORS::GROUP_ALREADY_IN_THE_GROUP->value => $this->translate('validation.error.group_already_in_the_group'),
+                GROUP_USERS_ADD_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
                 default => $this->translate('validation.error.internal_server')
             };
         }

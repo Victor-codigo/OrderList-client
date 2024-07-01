@@ -24,4 +24,5 @@ validation:
     users_validation: El nombre de usuario no existe
     group_users_exceeded: Se a llegado al límite de usuarios que puede tener un grupo. No se pueden añadir más usuarios
     group_already_in_the_group: El usuario ya ha está unido al grupo
+    tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
     internal_server: Ocurrió un error, inténtalo más tarde

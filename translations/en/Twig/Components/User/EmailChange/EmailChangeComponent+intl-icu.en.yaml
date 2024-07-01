@@ -20,4 +20,5 @@ validation:
     email: Email is wrong.
     password: The password is wrong
     password_invalid: Password is wrong. Password must contain at least 6 characters
+    tryout_route_permissions: This function is not available for guest user, you must be signed up.
     internal_server: An error has been occurred, try it later

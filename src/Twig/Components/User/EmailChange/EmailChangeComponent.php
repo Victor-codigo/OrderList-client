@@ -98,6 +98,7 @@ class EmailChangeComponent extends TwigComponent
                 EMAIL_CHANGE_FORM_ERRORS::EMAIL->value => $this->translate('validation.error.email'),
                 EMAIL_CHANGE_FORM_ERRORS::PASSWORD->value => $this->translate('validation.error.password'),
                 EMAIL_CHANGE_FORM_ERRORS::PASSWORD_WRONG->value, => $this->translate('validation.error.password_invalid'),
+                EMAIL_CHANGE_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value, => $this->translate('validation.error.tryout_route_permissions'),
                 default => $this->translate('validation.error.internal_server')
             };
         }

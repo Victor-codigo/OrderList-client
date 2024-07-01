@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\UserRemove;
 
+use App\Form\User\UserRemove\USER_REMOVE_FORM_ERRORS;
 use App\Form\User\UserRemove\USER_REMOVE_FORM_FIELDS;
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\Title\TITLE_TYPE;
@@ -85,6 +86,7 @@ class UserRemoveComponent extends TwigComponent
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
+                USER_REMOVE_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
                 default => $this->translate('validation.error.internal_server')
             };
         }

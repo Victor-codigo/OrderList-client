@@ -24,4 +24,5 @@ validation:
     users_validation: The name of the user does not exist
     group_users_exceeded: The group has reach the limit of users that can contain. You can not add more users
     group_already_in_the_group: The user is already joined to the group
+    tryout_route_permissions: This function is not available for guest user, you must be signed up.
     internal_server: An error has been ocurred, try it later

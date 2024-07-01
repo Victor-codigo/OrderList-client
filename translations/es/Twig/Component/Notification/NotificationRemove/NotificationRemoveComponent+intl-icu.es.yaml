@@ -14,4 +14,5 @@ validation:
   title: Errors
   ok: Notificación eliminada
   error:
-    internal_server: An error has been occurred, try it later
+    tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
+    internal_server: Ocurrió un error, inténtalo más tarde

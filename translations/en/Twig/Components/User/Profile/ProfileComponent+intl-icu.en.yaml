@@ -35,4 +35,5 @@ validation:
         Nick must contain at least a character and maximum 30 characters.
         Only are allowed alphanumeric characters and "_"
       image: The image is not valid. It should be a jpg, jpeg, png, gif
+    tryout_route_permissions: This function is not available for guest user, you must be signed up.
     internal_server: An error has been occurred, try it later
