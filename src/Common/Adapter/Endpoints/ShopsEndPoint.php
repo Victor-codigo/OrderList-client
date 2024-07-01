@@ -50,15 +50,24 @@ class ShopsEndPoint extends EndpointBase
      */
     private function requestShopCreate(string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, string $tokenSession): HttpClientResponseInterface
     {
+        $formData = [
+            'group_id' => $groupId,
+            'name' => $name,
+        ];
+
+        if (null !== $address) {
+            $formData['address'] = $address;
+        }
+
+        if (null !== $description) {
+            $formData['description'] = $description;
+        }
+
         return $this->httpClient->request(
             'POST',
-            self::POST_SHOP_CREATE,
-            HTTP_CLIENT_CONFIGURATION::form([
-                'group_id' => $groupId,
-                'name' => $name,
-                'address' => $address,
-                'description' => $description,
-            ],
+            self::POST_SHOP_CREATE.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            HTTP_CLIENT_CONFIGURATION::form(
+                $formData,
                 [
                     'image' => $image,
                 ],
@@ -85,18 +94,27 @@ class ShopsEndPoint extends EndpointBase
      */
     private function requestShopModify(string $shopId, string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
     {
+        $formData = [
+            'shop_id' => $shopId,
+            'group_id' => $groupId,
+            'name' => $name,
+            'image_remove' => $imageRemove,
+            '_method' => 'PUT',
+        ];
+
+        if (null !== $address) {
+            $formData['address'] = $address;
+        }
+
+        if (null !== $description) {
+            $formData['description'] = $description;
+        }
+
         return $this->httpClient->request(
             'POST',
             self::PUT_SHOP_MODIFY,
-            HTTP_CLIENT_CONFIGURATION::form([
-                'shop_id' => $shopId,
-                'group_id' => $groupId,
-                'name' => $name,
-                'address' => $address,
-                'description' => $description,
-                'image_remove' => $imageRemove,
-                '_method' => 'PUT',
-            ],
+            HTTP_CLIENT_CONFIGURATION::form(
+                $formData,
                 [
                     'image' => $image,
                 ],

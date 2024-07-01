@@ -10,7 +10,7 @@ class ShopDataResponse
         public readonly string $id,
         public readonly string $groupId,
         public readonly string $name,
-        public readonly string $address,
+        public readonly ?string $address,
         public readonly ?string $description,
         public readonly ?string $image,
         public readonly \DateTimeImmutable $createdOn,
