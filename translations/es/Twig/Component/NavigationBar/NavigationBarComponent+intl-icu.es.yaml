@@ -1,6 +1,25 @@
-title: Order list
+title: Lista de la compra
 
 navigation:
+  logo:
+    title: Ir a {domain_name}
+
+  profile:
+    label: Perfil
+    title: Ir a tú perfil
+    alt: Ir a tú perfil
+
+  groups:
+    label: Grupos
+    title: Ir a tús grupos
+
+  logout:
+    label: Cerrar sesión
+    title: Cierra la sesión actual
+
+  back_button:
+    title: Volver
+
   section:
     list_orders:
       label: Lista de pedidos

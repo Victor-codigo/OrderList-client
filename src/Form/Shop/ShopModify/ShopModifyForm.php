@@ -18,7 +18,7 @@ class ShopModifyForm extends FormType
         return SHOP_MODIFY_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }
@@ -43,6 +43,7 @@ class ShopModifyForm extends FormType
             ->addField(SHOP_MODIFY_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
             ->addField(SHOP_MODIFY_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT)
             ->addField(SHOP_MODIFY_FORM_FIELDS::NAME, FIELD_TYPE::TEXT)
+            ->addField(SHOP_MODIFY_FORM_FIELDS::ADDRESS, FIELD_TYPE::TEXT)
             ->addField(SHOP_MODIFY_FORM_FIELDS::DESCRIPTION, FIELD_TYPE::TEXTAREA)
             ->addField(SHOP_MODIFY_FORM_FIELDS::IMAGE, FIELD_TYPE::FILE)
             ->addField(SHOP_MODIFY_FORM_FIELDS::IMAGE_REMOVE, FIELD_TYPE::HIDDEN)

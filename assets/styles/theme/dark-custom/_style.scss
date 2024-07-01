@@ -1,7 +1,12 @@
+$navigationBarColor: #0c57ed;
 @import '/node_modules/bootstrap/scss/_functions';
 @import '/node_modules/bootstrap/scss/variables';
 
+$gray-850: #2e343a;
 
+$primary-dark: $blue-300;
+$danger-dark: $red-400;
+$success-dark: $green-400;
 
 // Then add them to your custom theme-colors map, together with any additional colors you might need
 $theme-colors: (
@@ -14,7 +19,9 @@ $theme-colors: (
     light: $light,
     dark: $dark,
     // add any additional color below
-
+    primary-dark: $primary-dark,
+    danger-dark: $danger-dark,
+    success-dark: $success-dark
 );
 
 $body-bg-dark: $gray-800;

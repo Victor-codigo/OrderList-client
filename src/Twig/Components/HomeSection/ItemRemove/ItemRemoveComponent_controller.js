@@ -28,32 +28,32 @@ export default class extends Controller {
     handleMessageRemoveListItem({ detail: { content } }) {
         if (this.element.hasAttribute('data-remove-multi')) return;
 
-        this.#loadComponentData(content.items);
+        this.loadComponentData(content.items);
     }
 
     handleMessageHomeSectionRemoveMulti({ detail: { content } }) {
         if (!this.element.hasAttribute('data-remove-multi')) return;
 
-        this.#loadComponentData(content.items);
+        this.loadComponentData(content.items);
     }
 
     /**
      * @param {object} items
      */
-    #loadComponentData(items) {
+    loadComponentData(items) {
         let itemsNames = [];
 
-        this.#clearInputItemIds();
+        this.clearInputItemIds();
         items.forEach((item) => {
-            this.#createInputItemId(item.id);
+            this.createInputItemId(item.id);
 
             itemsNames.push(item.name);
         });
 
-        this.#changePlaceholderItemName(itemsNames);
+        this.changePlaceholderItemName(itemsNames);
     }
 
-    #clearInputItemIds() {
+    clearInputItemIds() {
         const inputItemIds = this.element.querySelectorAll(`input[type="hidden"][name="${this.formRemoveItemIdFieldName}"]`);
 
         inputItemIds.forEach((inputItemId) => this.element.removeChild(inputItemId));
@@ -62,7 +62,7 @@ export default class extends Controller {
     /**
      * @param {string[]} itemsNames
      */
-    #changePlaceholderItemName(itemsNames) {
+    changePlaceholderItemName(itemsNames) {
         const listItems = itemsNames.map((itemName) => `<li class="list-group-item  text-start  fw-bold  align-self-center  text-center  w-100">${itemName}</li>`);
         const list = `<ul class="list-group  list-group-flush  d-flex  flex-column">${listItems.join('')}</ul>`;
         let message = `<p>${this.messagePlaceholder.replace('{item_placeholder}', '</p>{item_placeholder}<p>')}`;
@@ -74,7 +74,7 @@ export default class extends Controller {
     /**
      * @param {string} itemId
      */
-    #createInputItemId(itemId) {
+    createInputItemId(itemId) {
         const inputItemId = document.createElement('input');
 
         inputItemId.type = 'hidden';

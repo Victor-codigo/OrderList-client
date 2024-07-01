@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Product\ProductRemove;
 
 use App\Controller\Request\RequestDto;
-use App\Form\Product\ProductRemoveMulti\PRODUCT_REMOVE_MULTI_FORM_FIELDS;
-use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
 use App\Form\Product\ProductRemove\PRODUCT_REMOVE_FORM_FIELDS;
 use App\Form\Product\ProductRemove\ProductRemoveForm;
+use App\Form\Product\ProductRemoveMulti\PRODUCT_REMOVE_MULTI_FORM_FIELDS;
+use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
 use App\Twig\Components\Product\ProductRemove\ProductRemoveComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'product_remove',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ProductRemoveController extends AbstractController
@@ -66,7 +67,7 @@ class ProductRemoveController extends AbstractController
             $productRemoveForm,
             $requestDto->groupData->id,
             $productRemoveForm->getFieldData(PRODUCT_REMOVE_FORM_FIELDS::PRODUCTS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $productRemoveForm;
@@ -84,7 +85,7 @@ class ProductRemoveController extends AbstractController
             $productRemoveMultiForm,
             $requestDto->groupData->id,
             $productRemoveMultiForm->getFieldData(PRODUCT_REMOVE_MULTI_FORM_FIELDS::PRODUCTS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $productRemoveMultiForm;

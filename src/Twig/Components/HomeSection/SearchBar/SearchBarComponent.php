@@ -63,6 +63,8 @@ class SearchBarComponent extends TwigComponent
                 SECTION_FILTERS::LIST_ORDERS->value => $this->translate('section_filters.list_orders'),
                 SECTION_FILTERS::PRODUCT->value => $this->translate('section_filters.product'),
                 SECTION_FILTERS::SHOP->value => $this->translate('section_filters.shop'),
+                SECTION_FILTERS::GROUP->value => $this->translate('section_filters.group'),
+                SECTION_FILTERS::GROUP_USERS->value => $this->translate('section_filters.group_users'),
             ])
             ->build();
     }

@@ -4,9 +4,10 @@ namespace App\Twig\Components\Group\GroupCreate;
 
 use App\Form\Group\GroupCreate\GROUP_CREATE_FORM_ERRORS;
 use App\Form\Group\GroupCreate\GROUP_CREATE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -19,6 +20,8 @@ final class GroupCreateComponent extends TwigComponent
 {
     public GroupCreateComponentLangDto $lang;
     public GroupCreateComponentDataDto|TwigComponentDtoInterface $data;
+
+    public readonly TitleComponentDto $titleDto;
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
@@ -45,7 +48,14 @@ final class GroupCreateComponent extends TwigComponent
             $data,
             $this->getDopZoneDto()
         );
+
         $this->loadTranslation();
+        $this->titleDto = $this->createTitleComponent();
+    }
+
+    private function createTitleComponent(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function getDopZoneDto(): DropZoneComponentDto
@@ -61,23 +71,38 @@ final class GroupCreateComponent extends TwigComponent
 
     private function loadTranslation(): void
     {
-        $this->lang = new GroupCreateComponentLangDto(
+        $this->lang = (new GroupCreateComponentLangDto())
+        ->title(
             $this->translate('title'),
+        )
+        ->name(
             $this->translate('name.label'),
             $this->translate('name.placeholder'),
             $this->translate('name.msg_invalid'),
+        )
+        ->description(
             $this->translate('description.label'),
             $this->translate('description.placeholder'),
             $this->translate('description.msg_invalid'),
+        )
+        ->createButton(
             $this->translate('button_group_create.label'),
-            $this->data->groupCreate->validForm ? $this->loadErrorsTranslation() : null
-        );
+        )
+        ->errors(
+            $this->data->groupCreate->validForm ? $this->createAlertValidationComponentDto() : null
+        )
+        ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @param string[] $errors
+     *
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->groupCreate->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 GROUP_CREATE_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
                 GROUP_CREATE_FORM_ERRORS::DESCRIPTION->value => $this->translate('validation.error.description'),
@@ -87,20 +112,21 @@ final class GroupCreateComponent extends TwigComponent
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
+        return $errorsLang;
+    }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        $errorsLang = $this->loadErrorsTranslation($this->data->groupCreate->errors);
+
+        return new AlertValidationComponentDto(
+            array_unique([$this->loadValidationOkTranslation()]),
+            array_unique($errorsLang)
         );
     }
 }

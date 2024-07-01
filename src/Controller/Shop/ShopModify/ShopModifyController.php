@@ -6,6 +6,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Shop\ShopModify\SHOP_MODIFY_FORM_FIELDS;
 use App\Form\Shop\ShopModify\ShopModifyForm;
 use App\Twig\Components\Shop\ShopModify\ShopModifyComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -20,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'shop_modify',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ShopModifyController extends AbstractController
@@ -39,7 +40,7 @@ class ShopModifyController extends AbstractController
         $shopModifyForm = $this->formFactory->create(new ShopModifyForm(), $requestDto->request);
 
         if ($shopModifyForm->isSubmitted() && $shopModifyForm->isValid()) {
-            $this->formValid($shopModifyForm, $requestDto->groupData->id, $requestDto->shopData->id, $requestDto->tokenSession);
+            $this->formValid($shopModifyForm, $requestDto->groupData->id, $requestDto->getShopData()->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
@@ -60,12 +61,13 @@ class ShopModifyController extends AbstractController
         }
     }
 
-    private function modifyShop(FormInterface $form, string $groupId, string $shopId, string $tokenSession): string|null
+    private function modifyShop(FormInterface $form, string $groupId, string $shopId, string $tokenSession): ?string
     {
         $responseData = $this->endpoints->shopModify(
             $shopId,
             $groupId,
             $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::NAME),
+            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::ADDRESS),
             $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::DESCRIPTION),
             $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::IMAGE),
             'true' === $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::IMAGE_REMOVE) ? true : false,

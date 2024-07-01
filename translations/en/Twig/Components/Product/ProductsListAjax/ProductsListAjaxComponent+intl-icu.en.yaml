@@ -3,6 +3,9 @@ title: Products
 button_back:
   label: Back
 
+list_empty:
+  label: There is no products
+
 button_create_product:
   label: Crete product
 

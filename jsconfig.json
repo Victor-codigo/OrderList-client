@@ -16,6 +16,9 @@
             ],
             "App/Twig/*": [
                 "src/Twig/*"
+            ],
+            "App/Dependencies/*": [
+                "node_modules/*"
             ]
         }
     },

@@ -6,6 +6,8 @@ namespace Common\Adapter\Form;
 
 use Common\Domain\Form\FIELD_TYPE;
 use Common\Domain\Form\FormTypeInterface;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -130,6 +132,7 @@ class FormTypeSymfony extends AbstractType
             FIELD_TYPE::UUID => UuidType::class,
             FIELD_TYPE::WEEK => WeekType::class,
             FIELD_TYPE::DROPDOWN => DropzoneType::class,
+            FIELD_TYPE::CAPTCHA => Recaptcha3Type::class
         };
     }
 
@@ -148,6 +151,9 @@ class FormTypeSymfony extends AbstractType
             ],
             FIELD_TYPE::COLLECTION => [
                 'allow_add' => true,
+            ],
+            FIELD_TYPE::CAPTCHA => [
+                'constraints' => new Recaptcha3(),
             ],
             default => []
         };

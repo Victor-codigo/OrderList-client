@@ -11,4 +11,5 @@ message_advice:
 validation:
   title: Errores
   error:
+    tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
     default: Ocurrió un error, inténtalo más tarde

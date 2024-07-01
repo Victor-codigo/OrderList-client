@@ -30,18 +30,10 @@ validation:
   title: Errors
   ok: Profile has been changed
   error:
-    email_change:
-      email: Email is wrong.
-      password: The password is wrong
-      password_invalid: Password is wrong. Password must contain at least 6 characters
-    password_change:
-      old: Password is wrong
-      new: The new password is wrong. Password must contain at least 6 characters
-      change: The password could not be changed
-      new_repeat: Fields Password new and Password new repeat are not equals
     profile:
       name: |
         Nick must contain at least a character and maximum 30 characters.
         Only are allowed alphanumeric characters and "_"
-      image: The image is not valid. It should be a jpg, png, bmp
+      image: The image is not valid. It should be a jpg, jpeg, png, gif
+    tryout_route_permissions: This function is not available for guest user, you must be signed up.
     internal_server: An error has been occurred, try it later

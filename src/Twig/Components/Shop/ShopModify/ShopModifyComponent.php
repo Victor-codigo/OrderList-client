@@ -9,6 +9,7 @@ use App\Twig\Components\Controls\DropZone\DropZoneComponent;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
 use App\Twig\Components\Controls\ItemPriceAdd\ItemPriceAddComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
@@ -30,6 +31,7 @@ final class ShopModifyComponent extends TwigComponent
     public readonly string $formActionUrl;
     public readonly string $tokenCsrfFieldName;
     public readonly string $nameFieldName;
+    public readonly string $addressFieldName;
     public readonly string $descriptionFieldName;
     public readonly string $imageFieldName;
     public readonly string $imageRemoveFieldName;
@@ -48,6 +50,7 @@ final class ShopModifyComponent extends TwigComponent
         $this->formName = SHOP_MODIFY_FORM_FIELDS::FORM;
         $this->tokenCsrfFieldName = sprintf('%s[%s]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::TOKEN);
         $this->nameFieldName = sprintf('%s[%s]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::NAME);
+        $this->addressFieldName = sprintf('%s[%s]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::ADDRESS);
         $this->descriptionFieldName = sprintf('%s[%s]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::DESCRIPTION);
         $this->imageFieldName = sprintf('%s[%s]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::IMAGE);
         $this->imageRemoveFieldName = sprintf('%s[%s]', SHOP_MODIFY_FORM_FIELDS::FORM, SHOP_MODIFY_FORM_FIELDS::IMAGE_REMOVE);
@@ -64,7 +67,7 @@ final class ShopModifyComponent extends TwigComponent
 
     private function createTitleComponentDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
     }
 
     private function createImageDropZone(): DropZoneComponentDto
@@ -146,6 +149,11 @@ final class ShopModifyComponent extends TwigComponent
                 $this->translate('name.placeholder'),
                 $this->translate('name.msg_invalid')
             )
+            ->address(
+                $this->translate('address.label'),
+                $this->translate('address.placeholder'),
+                $this->translate('address.msg_invalid')
+            )
             ->description(
                 $this->translate('description.label'),
                 $this->translate('description.placeholder'),
@@ -177,6 +185,7 @@ final class ShopModifyComponent extends TwigComponent
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 SHOP_MODIFY_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
+                SHOP_MODIFY_FORM_ERRORS::ADDRESS->value => $this->translate('validation.error.address'),
                 SHOP_MODIFY_FORM_ERRORS::SHOP_NAME_REPEATED->value => $this->translate('validation.error.shop_name_repeated'),
                 SHOP_MODIFY_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.image'),
                 SHOP_MODIFY_FORM_ERRORS::SHOP_ID->value,

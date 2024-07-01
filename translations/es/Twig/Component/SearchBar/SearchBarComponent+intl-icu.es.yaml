@@ -16,3 +16,5 @@ section_filters:
   shop: Tienda
   order: Pedido
   list_orders: Lista de la compra
+  group: Grupo
+  group_users: Usuarios

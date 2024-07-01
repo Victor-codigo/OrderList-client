@@ -1,22 +1,21 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="GroupCreateComponent"
-	  class="contaniner  p-5"
+	  class="contaniner  pt-0  p-4"
 	  method="post"
+	  action="{{ data.groupCreate.groupCreateFormActionUrl|escape('html_attr') }}"
 	  enctype="multipart/form-data"
 	  novalidate>
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.groupCreate.csrfToken }}" />
 
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
 	{% if lang.validationErrors %}
 	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
-
-	<div class="mb-5 pt-5 display-1 text-center">
-		{{ lang.title }}
-	</div>
 
 	<div class="mb-3">
 		<label for="name"
@@ -27,6 +26,7 @@
 			   class="form-control"
 			   id="name"
 			   maxlength="50"
+			   pattern="[A-Za-zÀ-ÿ0-9_\s]+"
 			   name="{{ nameFieldName }}"
 			   placeholder="{{ lang.namePlaceholder }}"
 			   value="{{ data.groupCreate.name }}"
@@ -41,8 +41,7 @@
 			   class="form-label">
 			{{ lang.descriptionLabel }}
 		</label>
-		<textarea type="descrition"
-				  class="form-control"
+		<textarea class="form-control"
 				  id="description"
 				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
@@ -61,6 +60,6 @@
 		<input type="submit"
 			   class="btn btn-primary w-100"
 			   name="{{ submitFieldName }}"
-			   value="{{ lang.groupCreateButton }}" />
+			   value="{{ lang.groupCreateButtonLabel }}" />
 	</div>
 </form>

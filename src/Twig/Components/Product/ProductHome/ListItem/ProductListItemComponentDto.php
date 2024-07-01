@@ -26,8 +26,9 @@ class ProductListItemComponentDto extends HomeListItemComponentDto
         public readonly string $productInfoModalIdAttribute,
         public readonly string $translationDomainName,
 
-        public readonly string|null $description,
-        public readonly string|null $image,
+        public readonly ?string $description,
+        public readonly ?string $image,
+        public readonly bool $noImage,
         public readonly \DateTimeImmutable $createdOn,
         public readonly array $shops,
         public readonly array $productsShopsPrice,

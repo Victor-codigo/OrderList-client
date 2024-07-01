@@ -12,7 +12,9 @@ class EmailChangeComponentDto implements TwigComponentDtoInterface
         public readonly array $errors,
         public readonly string $email,
         public readonly string $password,
-        public readonly string $csrfToken
+        public readonly string $csrfToken,
+        public readonly string $actionAttribute,
+        public readonly bool $validForm
     ) {
     }
 }

@@ -6,6 +6,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Shop\ShopCreate\SHOP_CREATE_FORM_FIELDS;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Twig\Components\Shop\ShopCreate\ShopCreateComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ShopCreateController extends AbstractController
@@ -71,7 +72,7 @@ class ShopCreateController extends AbstractController
         $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
 
         if ($shopCreateForm->isSubmitted() && $shopCreateForm->isValid()) {
-            return $this->shopCreateRequest($shopCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            return $this->shopCreateRequest($shopCreateForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return new ResponseDto(
@@ -85,20 +86,20 @@ class ShopCreateController extends AbstractController
     private function shopCreateRequest(FormInterface $form, string $groupId, string $tokenSession): ResponseDto
     {
         try {
-            $productId = $this->createShop($form, $groupId, $tokenSession);
-            $this->createProductShopPrice($form, $groupId, $productId, $tokenSession);
+            $shopId = $this->createShop($form, $groupId, $tokenSession);
+            $this->createProductShopPrice($form, $groupId, $shopId, $tokenSession);
 
-            $responseData = ['id' => $productId];
+            $responseData = ['id' => $shopId];
             $responseStatus = RESPONSE_STATUS::OK;
-            $responseMessage = 'Product created';
+            $responseMessage = 'Shop created';
             if (!empty($form->getErrors())) {
                 $responseStatus = RESPONSE_STATUS::ERROR;
-                $responseMessage = 'Product could not be created';
+                $responseMessage = 'Shop could not be created';
             }
         } catch (Error400Exception) {
             $responseData = [];
             $responseStatus = RESPONSE_STATUS::ERROR;
-            $responseMessage = 'Product could not be created';
+            $responseMessage = 'Shop could not be created';
         } finally {
             $responseErrors = $this->shopCreateComponent->loadErrorsTranslation($form->getErrors());
 
@@ -121,6 +122,7 @@ class ShopCreateController extends AbstractController
         $responseData = $this->endpoints->shopCreate(
             $groupId,
             $form->getFieldData(SHOP_CREATE_FORM_FIELDS::NAME, ''),
+            $form->getFieldData(SHOP_CREATE_FORM_FIELDS::ADDRESS),
             $form->getFieldData(SHOP_CREATE_FORM_FIELDS::DESCRIPTION),
             $form->getFieldData(SHOP_CREATE_FORM_FIELDS::IMAGE),
             $tokenSession

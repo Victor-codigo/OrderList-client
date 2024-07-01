@@ -75,6 +75,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'title',
             'productCreateModal',
             'productModifyFormModal',
             'productRemoveMultiModal',
@@ -89,6 +90,15 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         ]);
 
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
+    }
+
+    public function title(?string $title): self
+    {
+        $this->builder->setMethodStatus('title', true);
+
+        $this->homeSectionComponentDto->title($title);
+
+        return $this;
     }
 
     public function productCreateFormModal(string $productCreateFormCsrfToken, ?float $productPrice, string $productCreateFormActionUrl): self
@@ -239,6 +249,9 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             $this->createProductListItemsComponentsDto(),
             Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
+        $this->homeSectionComponentDto->display(
+            false
+        );
 
         $this->productInfoModalDto = $this->createProductInfoModalDto();
 
@@ -385,6 +398,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
                 self::PRODUCT_HOME_LIST_ITEM_COMPONENT_NAME,
                 $listItemData['productData']->description,
                 $listItemData['productData']->image ?? Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
+                null === $listItemData['productData']->image ? true : false,
                 $listItemData['productData']->createdOn,
                 $listItemData['shopsData'],
                 $listItemData['shopsPricesData']
@@ -413,6 +427,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             $paginatorContentLoaderJsDto,
             $urlPathToShopImages,
             $urlImageShopNoImage,
+            Config::LIST_EMPTY_IMAGE
         );
 
         return new ModalComponentDto(
@@ -429,6 +444,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
     {
         $shopCreateComponentDto = new ShopCreateComponentDto(
             [],
+            null,
             null,
             null,
             $csrfToken,

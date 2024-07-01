@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\PasswordRemember;
 
-use App\Form\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
-use App\Form\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
+use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_ERRORS;
+use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -23,12 +25,15 @@ class PasswordRememberComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
+    public readonly string $captchaFieldName;
     public readonly string $emailFieldName;
     public readonly string $submitFieldName;
 
+    public readonly TitleComponentDto $titleDto;
+
     public static function getComponentName(): string
     {
-        return 'PassowrdRememberComponent';
+        return 'PasswordRememberComponent';
     }
 
     public function mount(PasswordRememberDto $data): void
@@ -37,10 +42,18 @@ class PasswordRememberComponent extends TwigComponent
 
         $this->formName = PASSWORD_REMEMBER_FORM_FIELDS::FORM;
         $this->tokenCsrfFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::TOKEN);
+        $this->captchaFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::CAPTCHA);
         $this->emailFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::EMAIL);
         $this->submitFieldName = sprintf('%s[%s]', PASSWORD_REMEMBER_FORM_FIELDS::FORM, PASSWORD_REMEMBER_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function loadTranslation(): void
@@ -60,6 +73,7 @@ class PasswordRememberComponent extends TwigComponent
         $errorsLang = [];
         foreach ($this->data->errors as $field => $error) {
             $errorsLang[] = match ($field) {
+                PASSWORD_REMEMBER_FORM_ERRORS::CAPTCHA->value => $this->translate('validation.error.captcha'),
                 PASSWORD_REMEMBER_FORM_ERRORS::EMAIL->value => $this->translate('validation.error.email'),
                 PASSWORD_REMEMBER_FORM_ERRORS::EMAIL_NOT_FOUND->value => $this->translate('validation.error.remember'),
                 default => $this->translate('validation.error.internal_server')

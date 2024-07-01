@@ -30,7 +30,7 @@ class ImageAvatarComponent extends TwigComponent
         );
     }
 
-    private function validateImageSrc(string|null $imageSrc, string|null $imageNoAvatar): string
+    private function validateImageSrc(?string $imageSrc, ?string $imageNoAvatar): string
     {
         if (null === $imageSrc) {
             return $imageNoAvatar;

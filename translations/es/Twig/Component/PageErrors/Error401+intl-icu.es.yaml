@@ -1,0 +1,16 @@
+error: 401
+
+title: No autorizado
+
+error_message: |
+  Parece que no tienes acceso a esta página.
+  <br>La sesión no es válida o ha expirado.
+  <br>Intenta hacer login otra vez.
+
+go_home_button:
+  label: Ir a la home page
+  title: Ir a la home page
+
+go_login_button:
+  label: Ir al login
+  title: ir al login

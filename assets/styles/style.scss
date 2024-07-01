@@ -1,0 +1,92 @@
+[data-bs-theme="light"] {
+    .background {
+        background-color: $gray-100;
+
+        .background__main-layer {
+            background-color: $white;
+            margin-top: 90px;
+        }
+    }
+
+    .btn-transparent {
+        @extend .btn;
+        background-color: transparent;
+
+        &:hover {
+            background-color: $gray-200;
+            color: $black;
+        }
+
+        &:active {
+            border-color: transparent !important;
+            background-color: $gray-300 !important;
+        }
+    }
+}
+
+[data-bs-theme="dark"] {
+    .background {
+        background-color: $gray-850;
+
+        .background__main-layer {
+            background-color: $gray-800;
+            margin-top: 90px;
+
+        }
+    }
+
+    .btn-transparent {
+        @extend .btn;
+        background-color: transparent;
+
+        &:hover {
+            background-color: $gray-700;
+            color: $white;
+        }
+
+        &:active {
+            border-color: transparent !important;
+            background-color: $gray-600 !important;
+        }
+    }
+
+    .btn-outline-primary {
+        color: $primary-dark;
+
+        &:hover {
+            color: var(--bs-btn-hover-color);
+        }
+    }
+
+
+
+    .btn-outline-danger {
+        color: $danger-dark;
+
+        &:hover {
+            color: var(--bs-btn-hover-color);
+        }
+    }
+
+    .btn-outline-success {
+        color: $success-dark;
+
+        &:hover {
+            color: var(--bs-btn-hover-color);
+        }
+    }
+
+    .primary-color-dark {
+        color: $primary-dark !important;
+    }
+
+    .text-secondary {
+        color: $gray-500 !important;
+    }
+
+    .image-filter-for-theme {
+        background-color: #fff0;
+        filter: invert(100);
+    }
+
+}

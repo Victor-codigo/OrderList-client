@@ -1,0 +1,4 @@
+home_list_empty:
+  message: There are not notifications
+  icon:
+    alt: The list has not notifications

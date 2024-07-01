@@ -4,7 +4,10 @@ import * as communication from 'App/modules/ControllerCommunication';
 export default class extends Controller {
     connect() {
         this.checkbox = this.element.querySelector('[data-js-checkbox]');
-        this.checkbox.addEventListener('change', this.#sendMessageHomeListItemSelectedToParent.bind(this));
+
+        if (this.checkbox !== null) {
+            this.checkbox.addEventListener('change', this.#sendMessageHomeListItemSelectedToParent.bind(this));
+        }
     }
 
     disconnect() {

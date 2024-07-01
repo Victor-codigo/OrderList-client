@@ -13,6 +13,8 @@ use Common\Domain\DtoBuilder\DtoBuilderInterface;
 
 class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderInterface
 {
+    public readonly ?string $title;
+
     /**
      * @param string[]
      */
@@ -39,18 +41,22 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
 
     public readonly bool $validForm;
 
-    public readonly SearchBarComponentDto $searchComponentDto;
-    public readonly RemoveMultiFormDto $removeMultiFormDto;
-    public readonly ModalComponentDto $removeMultiFormModalDto;
-    public readonly ModalComponentDto $removeFormModalDto;
-    public readonly ModalComponentDto $createFormModalDto;
-    public readonly ModalComponentDto $modifyFormModalDto;
+    public readonly bool $displayHeaderButtonsHide;
+
+    public readonly ?SearchBarComponentDto $searchComponentDto;
+    public readonly ?RemoveMultiFormDto $removeMultiFormDto;
+
+    public readonly ?ModalComponentDto $removeMultiFormModalDto;
+    public readonly ?ModalComponentDto $removeFormModalDto;
+    public readonly ?ModalComponentDto $createFormModalDto;
+    public readonly ?ModalComponentDto $modifyFormModalDto;
 
     private DtoBuilder $builder;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
+            'title',
             'searchBar',
             'createFormModal',
             'modifyFormModal',
@@ -61,12 +67,22 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
             'pagination',
             'listItems',
             'validation',
+            'display',
             'group',
             'translationDomainNames',
         ]);
     }
 
-    public function searchBar(SearchBarComponentDto $searchBarComponentDto): self
+    public function title(?string $title): self
+    {
+        $this->builder->setMethodStatus('title', true);
+
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function searchBar(?SearchBarComponentDto $searchBarComponentDto): self
     {
         $this->builder->setMethodStatus('searchBar', true);
 
@@ -75,7 +91,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function removeMultiFormModal(ModalComponentDto $removeMultiFormModalDto): self
+    public function removeMultiFormModal(?ModalComponentDto $removeMultiFormModalDto): self
     {
         $this->builder->setMethodStatus('removeMultiFormModal', true);
 
@@ -84,7 +100,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function removeFormModal(ModalComponentDto $removeFormModalDto): self
+    public function removeFormModal(?ModalComponentDto $removeFormModalDto): self
     {
         $this->builder->setMethodStatus('removeFormModal', true);
 
@@ -93,7 +109,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function createFormModal(ModalComponentDto $createFormModalDto): self
+    public function createFormModal(?ModalComponentDto $createFormModalDto): self
     {
         $this->builder->setMethodStatus('createFormModal', true);
 
@@ -102,7 +118,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function modifyFormModal(ModalComponentDto $modifyFormModalDto): self
+    public function modifyFormModal(?ModalComponentDto $modifyFormModalDto): self
     {
         $this->builder->setMethodStatus('modifyFormModal', true);
 
@@ -171,6 +187,15 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         $this->translationHomeDomainName = $homeDomainName;
         $this->translationHomeListDomainName = $homeListDomainName;
         $this->translationHomeListItemDomainName = $homeListItemDomanName;
+
+        return $this;
+    }
+
+    public function display(bool $headerButtonsHide): self
+    {
+        $this->builder->setMethodStatus('display', true);
+
+        $this->displayHeaderButtonsHide = $headerButtonsHide;
 
         return $this;
     }

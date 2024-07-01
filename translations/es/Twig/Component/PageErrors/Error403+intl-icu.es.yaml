@@ -1,0 +1,13 @@
+error: 403
+
+title: Prohibido
+
+error_message: Lo sentimos, pero tienes acceso a esta página
+
+go_home_button:
+  label: Ir a la home page
+  title: Ir a la home page
+
+go_login_button:
+  label: Ir al login
+  title: ir al login

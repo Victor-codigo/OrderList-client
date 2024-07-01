@@ -2,7 +2,8 @@
 	  name="{{ formName }}"
 	  data-controller="ProductCreateComponent"
 	  data-action="ModalComponent:beforeShowed->ProductCreateComponent#handleMessageBeforeShowed
-	  			   ItemPriceAddComponent:itemPriceSelected->ProductCreateComponent#handleItemNameClickEvent"
+	  			   ItemPriceAddComponent:itemPriceSelected->ProductCreateComponent#handleItemNameClickEvent
+				   ProductCreateComponent:clear->ProductCreateComponent#handleClearMessage"
 	  class="contaniner  p-4  pt-0"
 	  method="post"
 	  enctype="multipart/form-data"
@@ -68,7 +69,7 @@
 
 	{% block shops %}
 
-	<fieldset class="mt-5">
+	<fieldset class="mt-2">
 		<legend class="mb-3  pb-1  border-bottom">
 			{{ lang.shopsTitle }}
 		</legend>
@@ -83,15 +84,18 @@
 		{% block buttons %}
 
 		<button type="button"
-				class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+				class="btn  btn-transparent  me-4"
 				data-action="ProductCreateComponent#modalClose">
 
-			{% include "arrow-back-icon-white-24x24.svg" %}
-			{{ lang.closeButton }}
+			{% include "arrow-back-icon.svg" %}
+
+			<span class="align-text-top">
+				{{ lang.closeButton }}
+			</span>
 		</button>
 
 		<input type="submit"
-			   class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
+			   class="btn  btn-primary  flex-grow-1"
 			   name="{{ submitFieldName }}"
 			   value="{{ lang.productCreateButton }}" />
 

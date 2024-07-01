@@ -45,4 +45,5 @@ enum FIELD_TYPE
     case UUID;
     case WEEK;
     case DROPDOWN;
+    case CAPTCHA;
 }

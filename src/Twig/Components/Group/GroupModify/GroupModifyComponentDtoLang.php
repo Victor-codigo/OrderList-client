@@ -23,11 +23,7 @@ class GroupModifyComponentDtoLang
         // --
         public readonly string $groupCreateButton,
         // --
-        public readonly string $groupRemoveLabel,
-        public readonly string $groupRemovePlaceholder,
-
-        // --
-        public readonly AlertComponentDto|null $validationErrors
+        public readonly ?AlertComponentDto $validationErrors
     ) {
     }
 }

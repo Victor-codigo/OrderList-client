@@ -24,7 +24,8 @@ class ListOrdersListAjaxComponent extends ItemsListAjaxComponent
             $this->translate('title'),
             $this->translate('list_orders_image.title'),
             $this->translate('button_back.label'),
-            ''
+            '',
+            $this->translate('list_empty.label'),
         );
     }
 }

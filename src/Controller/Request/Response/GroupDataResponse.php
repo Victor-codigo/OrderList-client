@@ -8,16 +8,19 @@ class GroupDataResponse
 {
     public function __construct(
         public readonly string $id,
+        public readonly string $type,
         public readonly string $name,
-        public readonly string|null $description,
-        public readonly string|null $image,
-        public readonly string $createdOn,
+        public readonly ?string $description,
+        public readonly ?string $image,
+        public readonly \DateTimeImmutable $createdOn,
+        public readonly bool $admin,
     ) {
     }
 
     public static function fromArray(array $data): self
     {
         if (!isset($data['group_id'])
+        || !isset($data['type'])
         || !isset($data['name'])
         || !array_key_exists('description', $data)
         || !array_key_exists('image', $data)
@@ -28,10 +31,12 @@ class GroupDataResponse
 
         return new self(
             $data['group_id'],
+            $data['type'],
             $data['name'],
             $data['description'],
             $data['image'],
-            $data['created_on'],
+            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['created_on']),
+            $data['admin'] ?? false
         );
     }
 }

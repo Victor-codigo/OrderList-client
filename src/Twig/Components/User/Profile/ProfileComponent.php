@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\Profile;
 
-use App\Form\EmailChange\EMAIL_CHANGE_FORM_ERRORS;
-use App\Form\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
-use App\Form\Profile\PROFILE_FORM_ERRORS;
-use App\Form\Profile\PROFILE_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Form\User\Profile\PROFILE_FORM_ERRORS;
+use App\Form\User\Profile\PROFILE_FORM_FIELDS;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\DropZone\DropZoneComponentDto;
 use App\Twig\Components\Controls\ImageAvatar\ImageAvatarComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
+use Common\Domain\Config\Config;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -35,6 +35,7 @@ class ProfileComponent extends TwigComponent
     public readonly string $submitFieldName;
     public ImageAvatarComponentDto $imageAvatarDto;
     public DropZoneComponentDto $dropZoneDto;
+    public TitleComponentDto $titleDto;
 
     public readonly string $userRemoveFieldName;
 
@@ -58,17 +59,19 @@ class ProfileComponent extends TwigComponent
     public function mount(ProfileComponentDto $data): void
     {
         $this->data = $data;
-        $this->imageAvatarDto = $this->getImageAvatarComponentDto($data->image);
-        $this->dropZoneDto = $this->getDropZoneComponentDto();
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->getTitle($this->lang->title);
+        $this->imageAvatarDto = $this->getImageAvatarComponentDto($data->image);
+        $this->dropZoneDto = $this->getDropZoneComponentDto();
     }
 
-    private function getImageAvatarComponentDto(string|null $imagePath): ImageAvatarComponentDto
+    private function getImageAvatarComponentDto(?string $imagePath): ImageAvatarComponentDto
     {
         return new ImageAvatarComponentDto(
             $imagePath,
-            'http://orderlist.api/assets/img/common/user-avatar-no-image.svg',
+            Config::USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200,
             $this->translate('image.alt')
         );
     }
@@ -82,6 +85,11 @@ class ProfileComponent extends TwigComponent
             PROFILE_FORM_FIELDS::IMAGE,
             $this->translate('image.placeholder')
         );
+    }
+
+    private function getTitle(string $title): TitleComponentDto
+    {
+        return new TitleComponentDto($title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function loadTranslation(): void
@@ -110,47 +118,40 @@ class ProfileComponent extends TwigComponent
                 $this->translate('user_remove.placeholder'),
             )
             ->validationErrors(
-                $this->data->validForm ? $this->loadErrorsTranslation() : null
+                $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
             ->build();
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
-                EMAIL_CHANGE_FORM_ERRORS::EMAIL->value => $this->translate('validation.error.email_change.email'),
-                EMAIL_CHANGE_FORM_ERRORS::PASSWORD->value => $this->translate('validation.error.email_change.password'),
-                EMAIL_CHANGE_FORM_ERRORS::PASSWORD_WRONG->value, => $this->translate('validation.error.email_change.password_invalid'),
-
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_OLD->value => $this->translate('validation.error.password_change.old'),
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_NEW->value => $this->translate('validation.error.password_change.new'),
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_CHANGE->value => $this->translate('validation.error.password_change.change'),
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_NEW_REPEAT,
-                PASSWORD_CHANGE_FORM_ERRORS::PASSWORD_REPEAT->value => $this->translate('validation.error.password_change.new_repeat'),
-
                 PROFILE_FORM_ERRORS::NAME->value => $this->translate('validation.error.profile.name'),
                 PROFILE_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.profile.image'),
+                PROFILE_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
 
                 default => $this->translate('validation.error.internal_server')
             };
         }
 
-        if (!empty($errorsLang)) {
-            return new AlertComponentDto(
-                ALERT_TYPE::DANGER,
-                '',
-                '',
-                array_unique($errorsLang)
-            );
-        }
+        return $errorsLang;
+    }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::SUCCESS,
-            '',
-            '',
-            $this->translate('validation.ok')
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        return new AlertValidationComponentDto(
+            array_unique($this->data->messageOk),
+            array_unique($this->data->messageErrors)
         );
     }
 }

@@ -1,0 +1,108 @@
+<li class="list-group-item  list-group-item-action  d-flex  flex-row  p-0  mt-1  mb-1  border  border-1  border-light-subtle"
+    data-controller="GroupUsersListItemComponent"
+    data-item-data="{{ groupUsersDataJson }}"
+    data-js-list-item>
+
+    <label class="d-flex  flex-row  flex-grow-1">
+
+        {% if data.userSessionAdmin %}
+
+        <input class="form-check-input m-2  align-self-center"
+               type="checkbox"
+               data-js-checkbox>
+
+        {% endif %}
+
+        {% if data.noImage %}
+
+        <div class="flex-grow-0  border-0  group-users-list-item__image  p-0"
+             title="{{ lang.imageItemTitle }}"
+             data-js-item-image>
+
+            {% include "user/user-avatar-no-image.svg" %}
+        </div>
+
+        {% else %}
+
+        <img class="flex-grow-0  border-0  group-users-list-item__image  p-0"
+             src="{{ data.image }}"
+             alt="{{ lang.imageItemAlt }}"
+             title="{{ lang.imageItemTitle }}"
+             data-js-item-image>
+
+        {% endif %}
+
+        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
+
+            <div class="d-flex  flex-row  justify-content-between">
+
+                <p class="fs-5">
+                    {{ data.name }}
+                </p>
+            </div>
+
+            <span class="me-auto  badge  rounded-pill  text-bg-success"
+                  {{data.admin?'':'hidden'}}
+                  data-js-admin-badge>
+                {{ lang.adminLabel }}
+            </span>
+
+        </div>
+    </label>
+
+    {% if data.userSessionAdmin %}
+
+    <button type="button"
+            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-warning  group-user-list-item__button-grants"
+            value="{{ data.id }}"
+            title="{{ lang.grantsDowngradeItemButtonTitle }}"
+            data-action="GroupUsersListItemComponent#handleGrantsDowngradeToParent"
+            {{data.admin?'':'hidden'}}
+            data-js-button-grants-downgrade>
+
+        {% include 'user/user-grants-downgrade.svg' %}
+    </button>
+
+
+    <button type="button"
+            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-success  group-user-list-item__button-grants"
+            value="{{ data.id }}"
+            title="{{ lang.grantsUpgradeItemButtonTitle }}"
+            data-action="GroupUsersListItemComponent#handleGrantsUpgradeToParent"
+            {{data.admin?'hidden':''}}
+            data-js-button-grants-upgrade>
+
+        {% include 'user/user-grants-upgrade.svg' %}
+    </button>
+
+
+    {% endif %}
+
+    <button type="button"
+            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary"
+            value="{{ data.id }}"
+            title="{{ lang.infoItemButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.groupUsersInfoModalIdAttribute }}"
+            data-action="GroupUsersListItemComponent#sendMessageHomeListItemInfoToParent">
+
+        {% include 'info-icon.svg' %}
+    </button>
+
+    {% if data.userSessionAdmin or data.userSessionId == data.id %}
+
+    <button type="button"
+            data-js-remove-button
+            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger"
+            value="{{ data.id }}"
+            title="{{ lang.removeItemButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
+            data-action="GroupUsersListItemComponent#sendMessageHomeListItemRemoveEvent">
+
+        {% include 'remove-icon.svg' %}
+    </button>
+
+    {% endif %}
+
+</li>

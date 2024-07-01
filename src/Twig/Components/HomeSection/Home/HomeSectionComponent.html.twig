@@ -7,13 +7,21 @@
 	{{ component('AlertValidationComponent', { data: alertValidationComponentDto }) }}
 	{% endif %}
 
+	{% if not searchBarFormDto is empty %}
+
 	{{ component('SearchBarComponent', { data: searchBarFormDto } ) }}
 
-	<div class="border  border-1  rounded-2  p-2">
+	{% endif %}
+
+	<div class="border  border-0  p-2">
+
+		{% if not data.displayHeaderButtonsHide %}
 
 		<header class="mb-3">
 			<div class="d-flex  flex-row">
 				{% block headerButtonsBlock %}
+
+				{% if not createFormModalDto is empty %}
 
 				<button type="button"
 						class="btn btn-primary  flex-grow-1  rounded-1"
@@ -22,13 +30,17 @@
 						data-bs-target="#{{ createFormModalDto.idAttribute }}"
 						data-js-add-item>
 
-					{% include "add-icon-blue-18x18.svg" %}
+					{% include "add-icon.svg" %}
 
-					<span class="align-middle">{{ lang.buttonAddLabel }}</span>
+					<span class="align-text-top">{{ lang.buttonAddLabel }}</span>
 				</button>
+
+				{% endif %}
 
 				{% block headerButtonsBetweenBlock %}
 				{% endblock headerButtonsBetweenBlock %}
+
+				{% if not data.removeMultiFormModalDto is empty %}
 
 				<div id="{{ data.removeMultiFormDto.formName }}"
 					 data-remove-items-id-input-name="{{ data.removeMultiFormDto.itemsIdFieldName }}"
@@ -44,9 +56,12 @@
 							data-action="HomeSectionComponent#sendMessageHomeSectionRemoveMultiToParent"
 							data-js-form-remove-many-items-button>
 
-						{% include "remove-icon-red-24x24.svg" %}
+						{% include "remove-icon.svg" %}
 					</button>
 				</div>
+
+				{% endif %}
+
 
 				{% endblock headerButtonsBlock %}
 			</div>
@@ -55,10 +70,22 @@
 			{% endblock headerBlock %}
 		</header>
 
+		{% endif %}
+
 		{{ component('HomeListComponent', { data: listComponentDto }) }}
 	</div>
 
 
+	{% if not createFormModalDto is empty %}
+
 	{{ component('ModalComponent', { data: createFormModalDto }) }}
+
+	{% endif %}
+
+	{% if not removeMultiFormModalDto is empty %}
+
 	{{ component('ModalComponent', { data: removeMultiFormModalDto }) }}
+
+	{% endif %}
+
 </section>

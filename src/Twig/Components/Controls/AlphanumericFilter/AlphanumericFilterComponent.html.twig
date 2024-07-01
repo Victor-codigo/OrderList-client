@@ -1,0 +1,22 @@
+<div data-controller="AlphanumericFilterComponent"
+     data-action="AlphanumericFilterComponent:setLetterFilter->AlphanumericFilterComponent#handleMessageSetLetterFilter">
+    <ul class="pagination  pagination-sm  justify-content-center  flex-wrap  row-gap-1  column-gap-1">
+
+        {% for row in constant('LETTERS_FILTER', this) %}
+
+        <li class="page-item"
+            style="width: 38px">
+            <button type="button"
+                    class="btn  btn-outline-primary  rounded-0  w-100"
+                    data-bs-toggle="button"
+                    aria-pressed="false"
+                    data-letter-filter>
+                {{ row }}
+            </button>
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>

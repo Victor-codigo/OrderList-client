@@ -10,6 +10,12 @@ name:
     The name must contain at least a character and maximum 30 characters.
     Only are allowed alphanumeric characters and "_"
 
+address:
+  label: Address
+  placeholder: Enter the shop address
+  msg_invalid: |
+    The address is wrong, only accepts letters and numbers, and "\, , ., -, _, #"
+
 description:
   label: Description
   placeholder: Enter your a description for the shop
@@ -51,6 +57,7 @@ validation:
       The name is not correct.
       The name must contain at least a character and maximum 30 characters.
       Only are allowed alphanumeric characters and "_"
+    address: The address is wrong, only accepts letters and numbers, and "\, , ., -, _, #"
     shop_name_repeated: There is already a shop with the same name
-    image: The image is not valid. It should be a jpg, png, bmp
+    image: The image is not valid. It should be a jpg, jpeg, png, gif
     internal_server: An error has been occurred, try it later

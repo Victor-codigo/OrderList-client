@@ -4,19 +4,18 @@
 	  class="contaniner  p-5"
 	  method="post"
 	  enctype="multipart/form-data"
-	  novalidate>
+	  novalidate
+	  data-recaptcha="{{ captchaFieldName }}">
+
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />
 
+	{{ component('TitleComponent', { data: titleDto } ) }}
+
 	{% if lang.validationErrors.messages %}
 	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
-
-
-	<div class="mb-5 pt-5 display-1 text-center">
-		{{ lang.title }}
-	</div>
 
 	<div class="mb-3">
 		<label for="email"
@@ -70,7 +69,7 @@
 			   value="{{ data.nick }}"
 			   minlength="1"
 			   maxlength="30"
-			   pattern="[a-zA-Z0-9_]+"
+			   pattern="[A-Za-zÀ-ÿ0-9_\s]+"
 			   required>
 		<div class="invalid-feedback">{{ lang.nickMsgInvalid }}</div>
 	</div>
@@ -85,6 +84,6 @@
 
 
 	<div class="mt-5  text-center">
-		<a href="{{ path('user_login') }}">{{ lang.loginLink }}</a>
+		<a href="{{ path('user_login_home') }}">{{ lang.loginLink }}</a>
 	</div>
 </form>

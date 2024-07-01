@@ -54,6 +54,25 @@
 	</div>
 
 	<div class="mb-3">
+		<label for="address"
+			   class="form-label">
+			{{ lang.addressLabel }}
+		</label>
+		<input type="text"
+			   class="form-control"
+			   id="address"
+			   maxlength="50"
+			   pattern="^[a-zA-ZÀ-ÿ0-9\s,_\-\\\\\.\#]+$"
+			   name="{{ addressFieldName }}"
+			   placeholder="{{ lang.addressPlaceholder }}"
+			   value="{{ data.address }}"
+			   data-js-shop-address />
+		<div class="invalid-feedback">
+			{{ lang.addressMsgInvalid }}
+		</div>
+	</div>
+
+	<div class="mb-3">
 
 		<label for="description"
 			   class="form-label">
@@ -75,7 +94,7 @@
 		{{ component('DropZoneComponent', { data: imageDto }) }}
 	</div>
 
-	<fieldset class="mt-5">
+	<fieldset class="mt-2">
 		<legend class="mb-3  pb-1  border-bottom">
 			{{ lang.productsTitle }}
 		</legend>
@@ -86,15 +105,18 @@
 	<div class="d-flex  flex-row  mt-5">
 
 		<button type="button"
-				class="btn  btn-secondary  d-flex  flex-row  align-items-center  me-4  rounded-0  rounded-start"
+				class="btn  btn-transparent  me-4"
 				data-action="ShopModifyComponent#modalClose">
 
-			{% include "arrow-back-icon-white-24x24.svg" %}
-			{{ lang.closeButton }}
+			{% include "arrow-back-icon.svg" %}
+
+			<span class="align-text-top">
+				{{ lang.closeButton }}
+			</span>
 		</button>
 
 		<input type="submit"
-			   class="btn  btn-primary  flex-grow-1  rounded-0  rounded-end"
+			   class="btn  btn-primary  flex-grow-1"
 			   name="{{ submitFieldName }}"
 			   value="{{ lang.shopModifyButton }}" />
 	</div>

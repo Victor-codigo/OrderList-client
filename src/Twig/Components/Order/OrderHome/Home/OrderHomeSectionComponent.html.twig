@@ -1,21 +1,28 @@
 <div data-controller="OrderHomeSectionComponent"
      data-action="OrderListItemComponent:orderBoughtChanged->OrderHomeSectionComponent#handleMessageOrderBoughtChanged"
-     class="contaniner"
+     class="contaniner  position-relative"
      data-list-orders-id="{{ data.listOrdersId }}"
      data-group-id="{{ data.groupId }}">
 
     {% set langExtend = lang %}
+    {% set dataExtend = data %}
     {% component HomeSectionComponent with { data: data.homeSectionComponentDto } %}
+
+    {% block overTitle %}
+
+
+    {% endblock overTitle %}
+
     {% block headerBlock %}
     <div class="d-flex  flex-row  justify-content-end  mt-3  me-3">
-        <span class="lead  fw-semibold  order-bought-price  fs-5">
+        <span class="lead  fw-semibold  order-bought-price  fs-5  primary-color-dark">
             {{ langExtend.currentBought }}
         </span>
         &nbsp;
-        <span class="lead  fw-semibold  order-bought-price  fs-5"
+        <span class="lead  fw-semibold  order-bought-price  fs-5  primary-color-dark"
               data-js-price-bought>
         </span>
-        <span class="lead  fw-semibold  order-bought-price  fs-5">
+        <span class="lead  fw-semibold  order-bought-price  fs-5  primary-color-dark">
             &nbsp;&nbsp;/&nbsp;&nbsp;
         </span>
         <span class="

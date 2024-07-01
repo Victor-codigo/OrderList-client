@@ -1,0 +1,9 @@
+.notification-list-item__image {
+    width: 75px;
+
+    svg {
+        width: 40px;
+        height: 40px;
+        transform: rotateY(180deg);
+    }
+}

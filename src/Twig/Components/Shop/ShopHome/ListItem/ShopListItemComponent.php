@@ -71,8 +71,10 @@ final class ShopListItemComponent extends HomeListItemComponent
         $shopDataToParse = [
             'id' => $shopData->id,
             'name' => $shopData->name,
+            'address' => $shopData->address,
             'description' => $shopData->description,
             'image' => $shopData->image,
+            'noImage' => $shopData->noImage,
             'createdOn' => $shopData->createdOn->format('Y-m-d'),
             'itemsPrices' => $productShopsData,
         ];

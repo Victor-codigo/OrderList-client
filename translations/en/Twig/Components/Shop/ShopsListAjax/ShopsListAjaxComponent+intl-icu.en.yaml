@@ -3,6 +3,9 @@ title: Shops
 button_back:
   label: Back
 
+list_empty:
+  label: There is no shops
+
 button_create_shop:
   label: Crete shop
 

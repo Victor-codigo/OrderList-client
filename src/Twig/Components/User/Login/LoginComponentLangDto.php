@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\Login;
 
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 
 class LoginComponentLangDto
 {
@@ -25,7 +25,7 @@ class LoginComponentLangDto
         public readonly string $passwordForget,
         public readonly string $register,
         // --
-        public readonly AlertComponentDto $validationErrors
+        public readonly ?AlertValidationComponentDto $validationErrors
     ) {
     }
 }

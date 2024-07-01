@@ -1,0 +1,18 @@
+title: Eliminar notificación
+
+message_advice:
+  text: |
+    Te dispones a eliminar la notificación
+    {item_placeholder}
+
+    ¿Estás seguro?
+
+remove_button:
+  label: Eliminar notificación
+
+validation:
+  title: Errors
+  ok: Notificación eliminada
+  error:
+    tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
+    internal_server: Ocurrió un error, inténtalo más tarde

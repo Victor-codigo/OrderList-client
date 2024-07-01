@@ -3,6 +3,7 @@
 namespace App\Twig\Components\HomeSection\Home;
 
 use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\HomeSection\HomeList\HomeListComponentBuilder;
 use App\Twig\Components\HomeSection\HomeList\List\HomeListComponentDto;
@@ -22,9 +23,9 @@ class HomeSectionComponent extends TwigComponent
     public HomeSectionComponentDto|TwigComponentDtoInterface $data;
 
     public readonly TitleComponentDto $titleDto;
-    public readonly SearchBarComponentDto $searchBarFormDto;
-    public readonly ModalComponentDto $createFormModalDto;
-    public readonly ModalComponentDto $removeMultiFormModalDto;
+    public readonly ?SearchBarComponentDto $searchBarFormDto;
+    public readonly ?ModalComponentDto $createFormModalDto;
+    public readonly ?ModalComponentDto $removeMultiFormModalDto;
     public readonly HomeListComponentDto $listComponentDto;
     public readonly AlertValidationComponentDto $alertValidationComponentDto;
 
@@ -39,15 +40,19 @@ class HomeSectionComponent extends TwigComponent
         $this->createFormModalDto = $this->data->createFormModalDto;
         $this->removeMultiFormModalDto = $this->data->removeMultiFormModalDto;
         $this->loadTranslation();
-        $this->titleDto = $this->createTitleDto();
+        $this->titleDto = $this->createTitleDto($this->data->title);
         $this->searchBarFormDto = $this->data->searchComponentDto;
         $this->listComponentDto = $this->createListComponentDto();
         $this->alertValidationComponentDto = $this->createAlertValidationComponentDto();
     }
 
-    private function createTitleDto(): TitleComponentDto
+    private function createTitleDto(?string $title): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title);
+        if (null === $title) {
+            return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
+        }
+
+        return new TitleComponentDto($title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function createListComponentDto(): HomeListComponentDto

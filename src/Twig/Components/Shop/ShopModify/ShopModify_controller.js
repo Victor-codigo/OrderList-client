@@ -5,6 +5,9 @@ import * as communication from 'App/modules/ControllerCommunication';
 import * as FormItemPriceAddTrait from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAddFormTrait';
 import ModalManager from 'App/modules/ModalManager/ModalManager';
 import { MODAL_CHAINS } from 'App/Config';
+import * as geoApiFy from 'App/modules/GeoApiFy';
+import * as url from 'App/modules/Url';
+import * as autocomplete from 'App/modules/AutoComplete';
 
 
 const SHOP_NAME_PLACEHOLDER = '--shop_name--';
@@ -27,6 +30,11 @@ export default class ShopModifyController extends Controller {
     shopNameTag;
 
     /**
+     * @type {HTMLInputElement}
+     */
+    shopAddressTag;
+
+    /**
      * @type {HTMLTextAreaElement}
      */
     shopDescriptionTag;
@@ -47,8 +55,16 @@ export default class ShopModifyController extends Controller {
     connect() {
         this.#itemPriceAddComponentTag = this.element.querySelector('[data-controller="ItemPriceAddComponent"]');
         this.shopNameTag = this.element.querySelector('[data-js-shop-name]');
+        this.shopAddressTag = this.element.querySelector('[data-js-shop-address]');
         this.shopDescriptionTag = this.element.querySelector('[data-js-shop-description]');
         this.shopAvatarTag = this.element.querySelector('[data-controller="ImageAvatarComponent"]')
+
+        autocomplete.create(
+            () => geoApiFy.getAddresses(this.shopAddressTag.value, url.getLocale()),
+            '[data-js-shop-address]',
+            1000, {
+            showAllSuggestions: true
+        });
 
         this.formValidate();
         this.setItemPriceAddEvents();
@@ -91,6 +107,7 @@ export default class ShopModifyController extends Controller {
      */
     setFormFieldValues(shopData) {
         this.shopNameTag.value = shopData.name;
+        this.shopAddressTag.value = shopData.address;
         this.element.action = this.element.dataset.actionPlaceholder.replace(
             SHOP_NAME_PLACEHOLDER,
             encodedUrlParameter.encodeUrlParameter(shopData.name)

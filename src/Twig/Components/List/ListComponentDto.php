@@ -11,7 +11,6 @@ class ListComponentDto implements TwigComponentDtoInterface
     public function __construct(
         public readonly string $itemComponentName,
         public readonly array $listItemsDto,
-        public readonly string $listEmptyIconPath,
         public readonly string $listEmptyIconAlt,
         public readonly string $listEmptyMessage,
     ) {

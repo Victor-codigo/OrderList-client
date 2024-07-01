@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+{{ pageTitle }}
+{% endblock %}
+{% block body %}
+<main class="container-sm  mt-5  pt-5">
+    <section class="row  no-gutters">
+        <div class="col col-xxl-10  offset-xxl-1">
+            {{ component('GroupHomeSectionComponent', { data: groupHomeSectionComponent }) }}
+        </div>
+    </section>
+</main>
+{% endblock %}

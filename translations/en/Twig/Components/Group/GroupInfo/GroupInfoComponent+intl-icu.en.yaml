@@ -1,0 +1,14 @@
+created_on: "Created on: "
+
+image:
+  title: Group image
+  alt: Group image
+
+admin:
+  label: Admin
+
+description:
+  label: Description
+
+close_button:
+  label: Close

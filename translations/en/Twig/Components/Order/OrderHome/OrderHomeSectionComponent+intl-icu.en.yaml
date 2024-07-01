@@ -8,6 +8,10 @@ home_section_remove_multiple:
   label: Delete selected orders
   title: Remove selected orders from the list
 
+home_section_back:
+  label: Back
+  title: Back to list of orders
+
 home_header:
   currentBought: Bought
   totalBought: Total

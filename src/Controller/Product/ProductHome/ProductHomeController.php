@@ -19,9 +19,11 @@ use App\Twig\Components\HomeSection\SearchBar\SECTION_FILTERS;
 use App\Twig\Components\Product\ProductHome\Home\ProductHomeSectionComponentDto;
 use App\Twig\Components\Product\ProductHome\ProductHomeComponentBuilder;
 use Common\Adapter\Endpoints\ProductsEndPoint;
+use Common\Adapter\Router\RouterSelector;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
+use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -33,10 +35,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
     path: '{_locale}/{group_name}/{section}/page-{page}-{page_items}',
-    name: 'product_home',
+    name: 'product_home_group',
     methods: ['GET', 'POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
+        'section' => 'product',
+        'page' => '\d+',
+        'page_items' => '\d+',
+    ]
+)]
+#[Route(
+    path: '{_locale}/{section}/page-{page}-{page_items}',
+    name: 'product_home_no_group',
+    methods: ['GET', 'POST'],
+    requirements: [
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
         'section' => 'product',
         'page' => '\d+',
         'page_items' => '\d+',
@@ -50,7 +63,9 @@ class ProductHomeController extends AbstractController
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
-        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect
+        private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
+        private GetPageTitleService $getPageTitleService,
+        private RouterSelector $routerSelector
     ) {
     }
 
@@ -74,11 +89,11 @@ class ProductHomeController extends AbstractController
             $searchBarFormFields,
             $requestDto->page,
             $requestDto->pageItems,
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
-        $shopsData = $this->getProductsShopsData($requestDto->groupData->id, $productsData['products'], $requestDto->tokenSession);
-        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $productsData['products'], $shopsData, $requestDto->tokenSession);
+        $shopsData = $this->getProductsShopsData($requestDto->groupData->id, $productsData['products'], $requestDto->getTokenSessionOrFail());
+        $productsShopsPricesData = $this->getProductsShopPrices($requestDto->groupData->id, $productsData['products'], $shopsData, $requestDto->getTokenSessionOrFail());
 
         $productHomeComponentDto = $this->createProductHomeComponentDto(
             $requestDto,
@@ -128,7 +143,7 @@ class ProductHomeController extends AbstractController
     {
         if ($searchBarForm->isSubmitted() && $searchBarForm->isValid()) {
             return $this->controllerUrlRefererRedirect->createRedirectToRoute(
-                'product_home',
+                $this->routerSelector->getRouteNameWithSuffix('product_home'),
                 $requestDto->requestReferer->params,
                 [],
                 [],
@@ -248,6 +263,9 @@ class ProductHomeController extends AbstractController
         );
 
         return (new ProductHomeComponentBuilder())
+            ->title(
+                null
+            )
             ->errors(
                 $productHomeMessagesOk,
                 $productHomeMessagesError
@@ -272,35 +290,30 @@ class ProductHomeController extends AbstractController
                 $searchBarNameFilterValue,
                 $searchBarCsrfToken,
                 ProductsEndPoint::GET_PRODUCT_DATA,
-                $this->generateUrl('product_home', [
-                    'group_name' => $requestDto->groupNameUrlEncoded,
-                    'section' => 'product',
-                    'page' => $requestDto->page,
-                    'page_items' => $requestDto->pageItems,
-                ]),
+                $this->routerSelector->generateRouteWithDefaults('product_home', [])
             )
             ->productCreateFormModal(
                 $productCreateForm->getCsrfToken(),
                 null,
-                $this->generateUrl('product_create', [
+                $this->routerSelector->generateRoute('product_create', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )
             ->productRemoveMultiFormModal(
                 $productRemoveMultiForm->getCsrfToken(),
-                $this->generateUrl('product_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                $this->routerSelector->generateRoute('product_remove', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->productRemoveFormModal(
                 $productRemoveForm->getCsrfToken(),
-                $this->generateUrl('product_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                $this->routerSelector->generateRoute('product_remove', [
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->productModifyFormModal(
                 $productModifyForm->getCsrfToken(),
-                $this->generateUrl('product_modify', [
+                $this->routerSelector->generateRoute('product_modify', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                     'product_name' => self::PRODUCT_NAME_PLACEHOLDER,
                 ]),
@@ -313,7 +326,7 @@ class ProductHomeController extends AbstractController
             ->shopCreateModal(
                 $requestDto->groupData->id,
                 $shopCreateForm->getCsrfToken(),
-                $this->generateUrl('shop_create', [
+                $this->routerSelector->generateRoute('shop_create_ajax', [
                     'group_name' => $requestDto->groupNameUrlEncoded,
                 ]),
             )
@@ -324,6 +337,8 @@ class ProductHomeController extends AbstractController
     {
         return $this->render('product/product_home/index.html.twig', [
             'ProductHomeSectionComponent' => $productHomeSectionComponent,
+            'pageTitle' => $this->getPageTitleService->__invoke('ProductHomeComponent'),
+            'domainName' => Config::CLIENT_DOMAIN_NAME,
         ]);
     }
 }

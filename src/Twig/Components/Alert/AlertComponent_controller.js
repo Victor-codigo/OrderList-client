@@ -1,5 +1,4 @@
 import { Controller } from '@hotwired/stimulus';
-import * as html from 'App/modules/Html';
 
 /**
  * @readonly
@@ -40,7 +39,7 @@ export default class extends Controller {
         const listItem = this.listErrorsItemTemplateTag.content.cloneNode(true);
         const text = listItem.querySelector('[data-js-item-template-text]');
 
-        text.innerHTML = html.escape(validation);
+        text.textContent = validation;
 
         return listItem;
     }

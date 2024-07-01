@@ -29,16 +29,8 @@ validation:
   title: Errores
   ok: El perfil ha sido cambiado
   error:
-    email_change:
-      email: El email no es correcto
-      password: El password no es válido
-      password_invalid: El password es incorrecto. Debe contener al menos 6 caracteres
-    password_change:
-      old: Contraseña incorrecta
-      new: La contraseña nueva es incorrecta. La constraseña tiene que contener al menos 6 caracteres
-      change: No se puedo cambiar la contraseña
-      new_repeat: Los campos Contraseña nueva y Repetir contraseña nueva no son iguales
     profile:
       name: Introduce un nick válido. Solo se permiten caracteres alfanuméricos y "_"
-      image: La imagen no es válida. Solo se permiten imágenes del tipo jpg, png, bmp
-    internal_server: Ocurrió un error, inéntalo más tarde
+      image: La imagen no es válida. Solo se permiten imágenes del tipo jpg, jpeg, png, gif
+    tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
+    internal_server: Ocurrió un error, inténtalo más tarde

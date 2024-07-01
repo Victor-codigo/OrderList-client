@@ -42,6 +42,9 @@ class ShopInfoComponent extends ItemInfoComponent
             ->description(
                 $this->translate('description.label'),
             )
+            ->address(
+                $this->translate('address.label'),
+            )
             ->priceHeaders(
                 $this->translate('item_price.name'),
                 $this->translate('item_price.price'),

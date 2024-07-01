@@ -1,0 +1,28 @@
+title: Añade un usuario al grupo
+
+name:
+  label: Nombre
+  placeholder: Introduce el nombre del usuario
+  msg_invalid: |
+    Introduce un nombre válido.
+    El nombre debe contener al menos un carácter y un máximo de 30 caracteres.
+    Solo están permitidos, caracteres alfanuméricos y "_"
+
+button_group_user_add:
+  label: Añade usuario al grupo
+
+validation:
+  ok: Usuario añadido
+  error:
+    name: |
+      Introduce un nombre válido.
+      El nombre debe contener al menos un carácter y un máximo de 30 caracteres.
+      Solo están permitidos, caracteres alfanuméricos y "_"
+    group_not_found: Grupo no encontrado
+    permission: No tienes permisos para añadir usuarios al grupo
+    group_id: El id del grupo no es válido
+    users_validation: El nombre de usuario no existe
+    group_users_exceeded: Se a llegado al límite de usuarios que puede tener un grupo. No se pueden añadir más usuarios
+    group_already_in_the_group: El usuario ya ha está unido al grupo
+    tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
+    internal_server: Ocurrió un error, inténtalo más tarde

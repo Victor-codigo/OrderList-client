@@ -13,17 +13,20 @@ export function getGroupName() {
 }
 
 /**
- * @returns {string}
+ * @returns {string|null}
  */
 export function getSection() {
-    return window.location.pathname.split('/')[3];
-}
+    const urlPath = window.location.pathname.split('/');
+    const sections = Object
+        .values(SECTIONS)
+        .map((section) => section.replace('_', '-'));
+    const sectionsFound = urlPath.filter((urlChunk) => sections.includes(urlChunk))
 
-/**
- * @returns {string}
- */
-export function getSubSection() {
-    return window.location.pathname.split('/')[4];
+    if (sectionsFound.length === 0) {
+        return null;
+    }
+
+    return sectionsFound[0];
 }
 
 export const SECTIONS = {
@@ -32,4 +35,6 @@ export const SECTIONS = {
     ORDER: 'order',
     ORDERS: 'orders',
     LIST_ORDERS: 'list_orders',
+    GROUP: 'group',
+    GROUP_USERS: 'users'
 };

@@ -37,5 +37,5 @@ validation:
       Only are allowed alphanumeric characters and "_"
     group_not_found: Group not found
     description: The description is too large
-    image: The image is not valid. It should be a jpg, png, bmp
+    image: The image is not valid. It should be a jpg, jpeg, png, gif
     internal_server: An error has been occurred, try it later

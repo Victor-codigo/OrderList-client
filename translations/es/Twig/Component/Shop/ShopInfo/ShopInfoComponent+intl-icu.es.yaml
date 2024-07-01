@@ -4,6 +4,9 @@ image:
   title: Imagen de la tienda
   alt: Imagen de la tienda
 
+address:
+  label: Dirección
+
 description:
   label: Descripción
 

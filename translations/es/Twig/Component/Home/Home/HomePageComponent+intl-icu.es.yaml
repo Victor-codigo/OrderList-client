@@ -1,0 +1,53 @@
+button:
+  language:
+    title: Change language
+
+  theme:
+    title: Cambiar color del tema
+
+  login:
+    label: Log in
+    title: Ir a la página de login
+
+  sign_up:
+    label: Regístrate!
+    title: Ir a la página de registro
+
+logo:
+  title: Ir a {domain_name}
+
+main_info:
+  title: Crea tús listas de la compra
+  info: Bienvenido a <strong>{domain_name}</strong>. Una herramienta creada para <strong>crear y gestinar</strong>, tús <strong>listas de la compra</strong> de una forma fácil y sencilla.
+  try_it_out: ¡Pruébalo!
+  section:
+    order_list: Listas de la compra
+    products: Productos
+    shops: Tiendas
+
+card:
+  list_orders:
+    icon:
+      title: Crea listas de la compra
+    title: Listas de la compra
+    description: |
+      <strong>Crea y edita tús listas de la compra</strong>, para mantener ordenadas las compras que has realizado y realizarás en un futuro.
+      <br>Ve marcando los elementos comprados y el coste total de los mismos.
+
+  products:
+    icon:
+      title: Crea productos
+    title: Productos
+    description: <strong>Crea y edita productos</strong>, Asígnalos a tiendas, y añádelos a las listas de la compra posteriormente.
+
+  shops:
+    icon:
+      title: Crea tiendas
+    title: tiendas
+    description: <strong>Añade las tiendas</strong> en las que realizas las compras. Establece los precios de los productos, y crea tús listas de la compra
+
+  groups:
+    icon:
+      title: Crea grupos
+    title: Grupos
+    description: Administra tús propias listas de la compra, y crea grupos para <strong>compartir</strong> con otros usuarios.

@@ -1,0 +1,18 @@
+title: Notification remove
+
+message_advice:
+  text: |
+    You are going to remove notification:
+    {item_placeholder}
+
+    Are You sure?
+
+remove_button:
+  label: Remove notification
+
+validation:
+  title: Errors
+  ok: Notification removed
+  error:
+    tryout_route_permissions: This function is not available for guest user, you must be signed up.
+    internal_server: An error has been occurred, try it later

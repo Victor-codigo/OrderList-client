@@ -75,6 +75,97 @@ interface EndpointsInterface
     public function groupGetDataByName(string $groupName, string $tokenSession): array;
 
     /**
+     * @param string[] $groupsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupGetDataById(array $groupsId, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     */
+    public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, ?string $groupType, bool $orderAsc, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     */
+    public function groupGetUsersData(string $groupId, int $page, int $pageItems, ?string $filterSection, ?string $filterText, ?string $filterValue, bool $orderAsc, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUsersAdd(string $groupId, array $usersId, bool $admin, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUsersChangeRole(string $groupId, array $usersId, bool $admin, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUserRemove(string $groupId, array $usersId, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupModify(string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
+
+    /**
+     * @param string[] $groupsId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupRemove(array $groupsId, string $tokenSession): array;
+
+    /**
      * @return array<string, mixed> index: page -> int,
      *                              pages_total -> int,
      *                              orders -> array of orders
@@ -156,11 +247,108 @@ interface EndpointsInterface
      */
     public function setProductShopPrice(string $groupId, ?string $productId, ?string $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array;
 
-    public function shopCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array;
+    public function shopCreate(string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, string $tokenSession): array;
 
-    public function shopModify(string $shopId, string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
+    public function shopModify(string $shopId, string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
 
     public function shopsGetData(string $groupId, ?array $shopsId, ?array $productsId, ?string $shopName, ?string $shopNameFilterType, ?string $shopNameFilterValue, int $page, int $pageItems, bool $orderAsc, string $tokenSession): array;
 
     public function shopRemove(string $groupId, ?array $shopsId, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<{
+     *      token_session: string|null
+     *    }>
+     *    errors: array
+     * }>
+     */
+    public function userLogin(string $userName, string $password): array;
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array<int, array>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetData(array $usersId, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetDataByName(array $usersName, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userEmailChange(string $email, string $password, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userPasswordChange(string $userId, string $passwordOld, string $passwordNew, string $passwordNewRepeat, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userModify(string $name, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userRemove(string $tokenSession): array;
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    notifications: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array;
+
+    /**
+     * @param string[] $notificationsId
+     *
+     * @throws RequestUnauthorizedException
+     */
+    public function notificationRemove(array $notificationsId, string $tokenSession): array;
+
+    /**
+     * @param string[] $notificationsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationMarkAsViewed(array $notificationsId, string $tokenSession): array;
 }

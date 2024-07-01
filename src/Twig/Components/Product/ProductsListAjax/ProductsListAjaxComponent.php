@@ -25,6 +25,7 @@ class ProductsListAjaxComponent extends ItemsListAjaxComponent
             $this->translate('product_image.title'),
             $this->translate('button_back.label'),
             $this->translate('button_create_product.label'),
+            $this->translate('list_empty.label'),
         );
     }
 }

@@ -30,5 +30,5 @@ validation:
       Solo están permitidos, caracteres alfanuméricos y "_"
     name_repeated: El nombre del grupo ya está en uso
     description: Descripción muy larga
-    image: La imagen no es válida, debe ser un archivo jpg, png, bmp
+    image: La imagen no es válida, debe ser un archivo jpg, jpeg, png, gif
     internal_server: Ocurrió un error, inténtalo más tarde

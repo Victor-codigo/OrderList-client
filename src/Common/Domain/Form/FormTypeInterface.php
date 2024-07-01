@@ -10,11 +10,11 @@ interface FormTypeInterface
 {
     public static function getName(): string;
 
-    public static function getCsrfTokenId(): string|null;
+    public static function getCsrfTokenId(): ?string;
 
     public static function getCsrfTokenFieldName(): string;
 
-    public function validate(ValidationInterface $validatior, array $formData): array;
+    public function validate(ValidationInterface $validator, array $formData): array;
 
     /**
      * @return FormField[]

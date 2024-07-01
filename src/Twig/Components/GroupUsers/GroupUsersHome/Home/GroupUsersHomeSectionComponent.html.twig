@@ -1,0 +1,8 @@
+<div data-controller="GroupUsersHomeSectionComponent"
+     class="contaniner"
+     data-group-id="{{ data.groupId }}">
+
+    {{ component('HomeSectionComponent', { data: data.homeSectionComponentDto } ) }}
+    {{ component('ModalComponent', { data: data.groupUsersInfoModalDto } ) }}
+    {{ component('ModalComponent', { data: infoModalDto } ) }}
+</div>

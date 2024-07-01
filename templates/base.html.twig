@@ -1,24 +1,74 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}Page title
-			{% endblock %}
-		</title>
-		<link
-		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
-		{% endblock %}
 
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
+<head>
+	<meta charset="UTF-8">
+	<title>
+		{% block title %}
 		{% endblock %}
-	</head>
-	<body>
-		{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
-		{% block body %}{% endblock %}
-	</body>
+	</title>
+
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon"
+		  type="image/x-icon"
+		  href="/assets/images/common/favicon.png">
+
+	{% block stylesheets %}
+	{{ encore_entry_link_tags('app') }}
+	{% endblock %}
+
+	{% block javascripts %}
+	{{ encore_entry_script_tags('appNotDeferred', attributes={ defer: false }) }}
+	{{ encore_entry_script_tags('app') }}
+	{% endblock %}
+</head>
+
+<body class="d-flex  flex-column  min-vh-100  justify-content-between  background">
+
+	{% block navigation %}
+
+	{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
+
+	{% endblock navigation %}
+
+	{% block body %}{% endblock %}
+
+	<footer class="align-self-end  w-100  bg-dark  text-center  text-light  p-3">
+		<p class="m-0"
+		   xmlns:cc="http://creativecommons.org/ns#">
+			<a class="link-info  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover"
+			   rel="cc:attributionURL"
+			   href="https://github.com/Victor-codigo">
+				{{ domainName }}
+			</a>
+			is licensed under
+			<a class="link-info  link-offset-2  link-underline-opacity-25  link-underline-opacity-75-hover"
+			   href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1"
+			   target="_blank"
+			   rel="license noopener noreferrer"
+			   style="display:inline-block;">
+
+				<img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+					 src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"
+					 alt="">
+				CC 4.0
+				<img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+					 src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"
+					 alt="">
+				BY
+				<img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+					 src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"
+					 alt="">
+				NC
+				<img style="height:22px!important;margin-left:1rem;vertical-align:bottom;"
+					 src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1"
+					 alt="">
+				ND
+			</a>
+		</p>
+	</footer>
+</body>
+
 </html>

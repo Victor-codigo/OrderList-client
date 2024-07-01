@@ -1,0 +1,18 @@
+group_users_remove_button:
+  title: Quita el usuario del grupo
+
+group_users_info_button:
+  title: Muestra información del grupo
+
+group_users_grants_upgrade_button:
+  title: Establece este usuario como administrador del grupo
+
+group_users_grants_downgrade_button:
+  title: Establece este usuario como usuario del grupo
+
+group_users_image:
+  title: Imagen del usuario
+  alt: Imagen del usuario
+
+admin:
+  label: Admin

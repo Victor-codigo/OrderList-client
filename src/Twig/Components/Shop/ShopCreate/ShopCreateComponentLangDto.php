@@ -18,6 +18,10 @@ class ShopCreateComponentLangDto
     public readonly string $namePlaceholder;
     public readonly string $nameMsgInvalid;
 
+    public readonly string $addressLabel;
+    public readonly string $addressPlaceholder;
+    public readonly string $addressMsgInvalid;
+
     public readonly string $descriptionLabel;
     public readonly string $descriptionPlaceholder;
     public readonly string $descriptionMsgInvalid;
@@ -29,13 +33,14 @@ class ShopCreateComponentLangDto
     public readonly string $shopCreateButtonLabel;
     public readonly string $closeButton;
 
-    public readonly AlertValidationComponentDto|null $validationErrors;
+    public readonly ?AlertValidationComponentDto $validationErrors;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'title',
             'name',
+            'address',
             'shopsTitle',
             'description',
             'image',
@@ -60,6 +65,17 @@ class ShopCreateComponentLangDto
         $this->nameLabel = $nameLabel;
         $this->namePlaceholder = $namePlaceholder;
         $this->nameMsgInvalid = $nameMsgInvalid;
+
+        return $this;
+    }
+
+    public function address(string $addressLabel, string $addressPlaceholder, string $addressMsgInvalid): static
+    {
+        $this->builder->setMethodStatus('address', true);
+
+        $this->addressLabel = $addressLabel;
+        $this->addressPlaceholder = $addressPlaceholder;
+        $this->addressMsgInvalid = $addressMsgInvalid;
 
         return $this;
     }
@@ -105,7 +121,7 @@ class ShopCreateComponentLangDto
         return $this;
     }
 
-    public function errors(AlertValidationComponentDto|null $validationErrors): static
+    public function errors(?AlertValidationComponentDto $validationErrors): static
     {
         $this->builder->setMethodStatus('errors', true);
 

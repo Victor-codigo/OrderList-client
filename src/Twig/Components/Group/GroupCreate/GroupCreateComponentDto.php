@@ -10,10 +10,11 @@ class GroupCreateComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly array $errors,
-        public readonly string|null $name,
-        public readonly string|null $description,
-        public readonly string|null $csrfToken,
+        public readonly ?string $name,
+        public readonly ?string $description,
+        public readonly ?string $csrfToken,
         public readonly bool $validForm,
+        public readonly string $groupCreateFormActionUrl,
     ) {
     }
 }

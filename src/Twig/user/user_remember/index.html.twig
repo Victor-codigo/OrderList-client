@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+{{ pageTitle }}
+{% endblock %}
+{% block body %}
+<main class="container  mt-5">
+	<section class="row  no-gutters">
+		<div class="col col-lg-6  offset-lg-3">
+			{{ component('PasswordRememberComponent', { data: PasswordRememberComponent }) }}
+		</div>
+	</section>
+</main>
+{% endblock %}

@@ -55,14 +55,58 @@ export default class extends Controller {
      */
     async #getContentData(queryParameters) {
         if (this.endpointName === 'getShopsData') {
-            return await endpoint.getShopsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+            return await endpoint.getShopsData(
+                queryParameters['group_id'],
+                queryParameters['page'],
+                queryParameters['page_items'],
+                null,
+                null,
+                null,
+                'starts_with',
+                queryParameters['letter'],
+                true
+            );
         } else if (this.endpointName === 'getShopsNames') {
-            return await endpoint.getShopsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+            return await endpoint.getShopsData(
+                queryParameters['group_id'],
+                queryParameters['page'],
+                queryParameters['page_items'],
+                null,
+                null,
+                null,
+                'starts_with',
+                queryParameters['letter'],
+                true
+            );
         } else if (this.endpointName === 'getProductsData') {
-            return await endpoint.getProductsData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+            return await endpoint.getProductsData(
+                queryParameters['group_id'],
+                queryParameters['page'],
+                queryParameters['page_items'],
+                null,
+                null,
+                null,
+                'starts_with',
+                queryParameters['letter'],
+                null,
+                null,
+                true
+
+            );
         } else if (this.endpointName === 'getListOrdersData') {
-            return await endpoint.getListOrdersData(queryParameters['group_id'], queryParameters['page'], queryParameters['page_items']);
+            return await endpoint.getListOrdersData(
+                queryParameters['group_id'],
+                queryParameters['page'],
+                queryParameters['page_items'],
+                null,
+                null,
+                'list_orders',
+                'starts_with',
+                queryParameters['letter'],
+                true
+            );
         }
+
     }
 
     /**
@@ -77,6 +121,7 @@ export default class extends Controller {
      * @param {Object} event.detail
      * @param {Object} event.detail.content
      * @param {number} event.detail.content.page
+     * @param {number} event.detail.content.letter
      * @param {responseManageCallback} event.detail.content.responseManageCallback
      * @param {postResponseManageCallback} event.detail.content.postResponseManageCallback
      */
@@ -84,6 +129,7 @@ export default class extends Controller {
         let queryParameters = this.endpointQueryParameters;
 
         queryParameters.page = content.page;
+        queryParameters.letter = content.letter;
         await this.#loadContent(queryParameters, content.responseManageCallback, content.postResponseManageCallback);
     }
 }

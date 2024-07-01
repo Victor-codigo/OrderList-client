@@ -1,5 +1,9 @@
 import { startStimulusApp } from '@symfony/stimulus-bridge';
 
+// HOME
+import HomePageComponent from 'App/Twig/Components/Home/Home/HomePage_controller';
+import TryoutComponent from 'App/Twig/Components/Home/Tryout/TryoutComponent_controller';
+
 // USER
 import LoginComponent from 'App/Twig/Components/User/Login/LoginComponent_controller';
 import SignupComponent from 'App/Twig/Components/User/Signup/SignupComponent_controller';
@@ -8,6 +12,11 @@ import PasswordRememberComponent from 'App/Twig/Components/User/PasswordRemember
 import PasswordChangeComponent from 'App/Twig/Components/User/PasswordChange/PasswordChangeComponent_controller';
 import EmailChangeComponent from 'App/Twig/Components/User/EmailChange/EmailChangeComponent_controller';
 import UserRemoveComponent from 'App/Twig/Components/User/UserRemove/UserRemoveComponent_controller';
+
+// NOTIFICATION
+import NotificationHomeSectionComponent from 'App/Twig/Components/Notification/NotificationHome/Home/NotificationHomeSection_controller';
+import NotificationListItemComponent from 'App/Twig/Components/Notification/NotificationHome/ListItem/NotificationListItem_controller';
+import NotificationRemoveComponent from 'App/Twig/Components/Notification/NotificationRemove/NotificationRemoveComponent_controller';
 
 // GENERAL
 import AlertComponent from 'App/Twig/Components/Alert/AlertComponent_controller';
@@ -18,6 +27,8 @@ import ImageAvatarComponent from 'App/Twig/Components/Controls/ImageAvatar/Image
 import ItemPriceAddComponent from 'App/Twig/Components/Controls/ItemPriceAdd/ItemPriceAdd_controller';
 import ButtonLoadingComponent from 'App/Twig/Components/Controls/ButtonLoading/ButtonLoading_controller';
 import ItemsListAjaxComponent from 'App/Twig/Components/HomeSection/ItemsListAjax/ItemsListAjaxComponent_controller';
+import AlphanumericFilterComponent from 'App/Twig/Components/Controls/AlphanumericFilter/AlphanumericFilter_controller';
+import InfoModalComponent from 'App/Twig/Components/Controls/InfoModal/InfoModal_controller';
 
 import PaginatorComponent from 'App/Twig/Components/Paginator/Paginator_Component';
 import PaginatorJsComponent from 'App/Twig/Components/PaginatorJs/PaginatorJs_Component';
@@ -32,15 +43,20 @@ import HomeListItemComponent from 'App/Twig/Components/HomeSection/HomeList/List
 
 
 // GROUP
+import GroupHomeComponent from 'App/Twig/Components/Group/GroupHome/Home/GroupHomeSection_controller';
+import GroupListItemComponent from 'App/Twig/Components/Group/GroupHome/ListItem/GroupListItem_controller';
 import GroupCreateComponent from 'App/Twig/Components/Group/GroupCreate/GroupCreate_controller';
 import GroupModifyComponent from 'App/Twig/Components/Group/GroupModify/GroupModify_controller';
-import GroupRemoveComponent from 'App/Twig/Components/Group/GroupRemove/GroupRemove_controller';
+import GroupRemoveComponent from 'App/Twig/Components/Group/GroupRemove/GroupRemoveComponent_controller';
+import GroupInfoComponent from 'App/Twig/Components/Group/GroupInfo/GroupInfo_controller';
 import GroupListComponent from 'App/Twig/Components/Group/GroupList/List/GroupList_controller';
-import GroupListItemComponent from 'App/Twig/Components/Group/GroupList/ListItem/GroupListItem_controller';
-import GroupUsersListComponent from 'App/Twig/Components/Group/GroupUsersList/List/GroupUsersList_controller';
-import GroupUsersListItemComponent from 'App/Twig/Components/Group/GroupUsersList/ListItem/GroupUsersListItem_controller';
-import GroupUserRemoveComponent from 'App/Twig/Components/Group/GroupUserRemove/GroupUserRemove_controller';
-import GroupUserAddComponent from 'App/Twig/Components/Group/GroupUserAdd/GroupUserAdd_controller';
+
+// GROUP USERS
+import GroupUsersHomeComponent from 'App/Twig/Components/GroupUsers/GroupUsersHome/Home/GroupUsersHomeSection_controller';
+import GroupUsersListItemComponent from 'App/Twig/Components/GroupUsers/GroupUsersHome/ListItem/GroupUsersListItem_controller';
+import GroupUsersRemoveComponent from 'App/Twig/Components/GroupUsers/GroupUsersRemove/GroupUsersRemove_controller';
+import GroupUsersAddComponent from 'App/Twig/Components/GroupUsers/GroupUsersAdd/GroupUsersAdd_controller';
+import GroupUserInfoComponent from 'App/Twig/Components/GroupUsers/GroupUsersInfo/GroupUserInfo_controller';
 
 // LIST ORDERS
 import ListOrdersHomeSectionComponent from 'App/Twig/Components/ListOrders/ListOrdersHome/Home/ListOrdersHomeSection_controller';
@@ -109,6 +125,12 @@ app.register('ListComponent', ListComponent);
 app.register('SearchBarComponent', SearchBarComponent);
 app.register('ContentLoaderJsComponent', ContentLoaderJsComponent);
 app.register('ItemsListAjaxComponent', ItemsListAjaxComponent);
+app.register('AlphanumericFilterComponent', AlphanumericFilterComponent);
+app.register('InfoModalComponent', InfoModalComponent);
+
+// HOME
+app.register('HomePageComponent', HomePageComponent);
+app.register('TryoutComponent', TryoutComponent);
 
 // HOME LIST
 app.register('HomeSectionComponent', HomeSectionComponent);
@@ -125,16 +147,27 @@ app.register('PasswordChangeComponent', PasswordChangeComponent);
 app.register('EmailChangeComponent', EmailChangeComponent);
 app.register('UserRemoveComponent', UserRemoveComponent);
 
+// NOTIFICATION
+app.register('NotificationHomeSectionComponent', NotificationHomeSectionComponent);
+app.register('NotificationListItemComponent', NotificationListItemComponent);
+app.register('NotificationRemoveComponent', NotificationRemoveComponent);
+
 // GROUP
+app.register('GroupHomeComponent', GroupHomeComponent);
+app.register('GroupListItemComponent', GroupListItemComponent);
 app.register('GroupCreateComponent', GroupCreateComponent);
 app.register('GroupModifyComponent', GroupModifyComponent);
 app.register('GroupRemoveComponent', GroupRemoveComponent);
+app.register('GroupInfoComponent', GroupInfoComponent);
 app.register('GroupListComponent', GroupListComponent);
-app.register('GroupListItemComponent', GroupListItemComponent);
-app.register('GroupUsersListComponent', GroupUsersListComponent);
+
+// GROUP USERS
+app.register('GroupUsersHomeComponent', GroupUsersHomeComponent);
 app.register('GroupUsersListItemComponent', GroupUsersListItemComponent);
-app.register('GroupUserRemoveComponent', GroupUserRemoveComponent);
-app.register('GroupUserAddComponent', GroupUserAddComponent);
+app.register('GroupUsersRemoveComponent', GroupUsersRemoveComponent);
+app.register('GroupUsersAddComponent', GroupUsersAddComponent);
+app.register('GroupUserInfoComponent', GroupUserInfoComponent);
+
 
 // LIST ORDERS
 app.register('ListOrdersHomeSectionComponent', ListOrdersHomeSectionComponent);

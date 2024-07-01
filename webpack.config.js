@@ -22,6 +22,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('appNotDeferred', './assets/appNotDeferred.js',)
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers/controllers.json')
@@ -59,6 +60,7 @@ Encore
 
     .addAliases({
         'App/Twig': path.resolve(__dirname, 'src/Twig'),
+        'App/Dependencies': path.resolve(__dirname, 'node_modules'),
         'App': path.resolve(__dirname, 'assets'),
     })
 

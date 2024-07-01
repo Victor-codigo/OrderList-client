@@ -18,6 +18,10 @@ export default class extends Controller {
     }
 
     #buttonRemoveMultiToggle() {
+        if (this.removeMultiButtonTag === null) {
+            return;
+        }
+
         if (this.itemsIdSelected.length === 0) {
             this.removeMultiButtonTag.disabled = true;
 

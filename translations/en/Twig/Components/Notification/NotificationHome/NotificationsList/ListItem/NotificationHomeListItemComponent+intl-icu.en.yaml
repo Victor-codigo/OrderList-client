@@ -1,0 +1,7 @@
+notification_remove_button:
+  title: Remove the notification
+  alt: Button to remove the notification
+
+notification_image:
+  title: Notification image
+  alt: Notification image

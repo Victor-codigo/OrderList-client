@@ -17,7 +17,7 @@ class GroupRemoveForm extends FormType
         return GROUP_REMOVE_FORM_FIELDS::FORM;
     }
 
-    public static function getCsrfTokenId(): string|null
+    public static function getCsrfTokenId(): ?string
     {
         return static::FORM_CSRF_TOKEN_ID;
     }
@@ -38,7 +38,7 @@ class GroupRemoveForm extends FormType
     public function formBuild(): void
     {
         $this
-            ->addField(GROUP_REMOVE_FORM_FIELDS::GROUP_ID, FIELD_TYPE::HIDDEN)
+            ->addField(GROUP_REMOVE_FORM_FIELDS::GROUPS_ID, FIELD_TYPE::COLLECTION)
             ->addField(GROUP_REMOVE_FORM_FIELDS::TOKEN, FIELD_TYPE::HIDDEN)
             ->addField(GROUP_REMOVE_FORM_FIELDS::SUBMIT, FIELD_TYPE::SUBMIT);
     }

@@ -126,7 +126,142 @@ class Endpoints implements EndpointsInterface
     {
         $groupNameDecoded = $this->decodeUrlName($groupName);
 
-        return GroupsEndpoints::getInstance($this->httpClient)->groupGetDataByName($groupNameDecoded, $tokenSession);
+        return GroupsEndpoint::getInstance($this->httpClient)->groupGetDataByName($groupNameDecoded, $tokenSession);
+    }
+
+    /**
+     * @param string[] $groupsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupGetDataById(array $groupsId, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupGetDataById($groupsId, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     */
+    public function groupGetUsersData(
+        string $groupId,
+        int $page,
+        int $pageItems,
+        ?string $filterSection,
+        ?string $filterText,
+        ?string $filterValue,
+        bool $orderAsc,
+        string $tokenSession
+    ): array {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupGetUsersData(
+            $groupId,
+            $page,
+            $pageItems,
+            $filterSection,
+            $filterText,
+            $filterValue,
+            $orderAsc,
+            $tokenSession
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     */
+    public function userGroupsGetData(?string $filterSection, ?string $filterText, ?string $filterValue, int $page, int $pageItems, ?string $groupType, bool $orderAsc, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->userGroupsGetData($filterSection, $filterText, $filterValue, $page, $pageItems, $groupType, $orderAsc, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUsersAdd(string $groupId, array $usersId, bool $admin, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupUsersAdd($groupId, $usersId, $admin, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUsersChangeRole(string $groupId, array $usersId, bool $admin, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupUsersChangeRole($groupId, $usersId, $admin, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupUserRemove(string $groupId, array $usersId, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupUserRemove($groupId, $usersId, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupCreate(string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupCreate($name, $description, $image, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupModify(string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupModify($groupId, $name, $description, $image, $imageRemove, $tokenSession);
+    }
+
+    /**
+     * @param string[] $groupsId
+     *
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function groupRemove(array $groupsId, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupRemove($groupsId, $tokenSession);
     }
 
     /**
@@ -290,14 +425,14 @@ class Endpoints implements EndpointsInterface
         return ProductsEndPoint::getInstance($this->httpClient)->getProductShopPrice($groupId, $productsId, $shopsId, $tokenSession);
     }
 
-    public function shopCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
+    public function shopCreate(string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, string $tokenSession): array
     {
-        return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $description, $image, $tokenSession);
+        return ShopsEndPoint::getInstance($this->httpClient)->shopCreate($groupId, $name, $address, $description, $image, $tokenSession);
     }
 
-    public function shopModify(string $shopId, string $groupId, string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
+    public function shopModify(string $shopId, string $groupId, string $name, ?string $address, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
     {
-        return ShopsEndPoint::getInstance($this->httpClient)->shopModify($shopId, $groupId, $name, $description, $image, $imageRemove, $tokenSession);
+        return ShopsEndPoint::getInstance($this->httpClient)->shopModify($shopId, $groupId, $name, $address, $description, $image, $imageRemove, $tokenSession);
     }
 
     public function shopsGetData(
@@ -329,5 +464,133 @@ class Endpoints implements EndpointsInterface
     public function shopRemove(string $groupId, ?array $shopsId, string $tokenSession): array
     {
         return ShopsEndPoint::getInstance($this->httpClient)->shopRemove($groupId, $shopsId, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{
+     *      token_session: string|null
+     *    }>
+     *    errors: array
+     * }>
+     */
+    public function userLogin(string $userName, string $password): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userLogin($userName, $password);
+    }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetData(array $usersId, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->usersGetData($usersId, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function usersGetDataByName(array $usersName, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->usersGetDataByName($usersName, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    users: array<int, array>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userEmailChange(string $email, string $password, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userEmailChange($email, $password, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userPasswordChange(string $userId, string $passwordOld, string $passwordNew, string $passwordNewRepeat, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userPasswordChange($userId, $passwordOld, $passwordNew, $passwordNewRepeat, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userModify(string $name, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userModify($name, $image, $imageRemove, $tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{ id: string }>
+     *    errors: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function userRemove(string $tokenSession): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userRemove($tokenSession);
+    }
+
+    /**
+     * @return array<{
+     *    page: int,
+     *    pages_total: int,
+     *    notifications: array
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationGetData(int $page, int $pageItems, string $lang, string $tokenSession): array
+    {
+        return NotificationsEndPoint::getInstance($this->httpClient)->notificationGetData($page, $pageItems, $lang, $tokenSession);
+    }
+
+    /**
+     * @param string[] $notificationsId
+     *
+     * @throws RequestUnauthorizedException
+     */
+    public function notificationRemove(array $notificationsId, string $tokenSession): array
+    {
+        return NotificationsEndPoint::getInstance($this->httpClient)->notificationRemove($notificationsId, $tokenSession);
+    }
+
+    /**
+     * @param string[] $notificationsId
+     *
+     * @throws UnsupportedOptionException
+     */
+    public function notificationMarkAsViewed(array $notificationsId, string $tokenSession): array
+    {
+        return NotificationsEndPoint::getInstance($this->httpClient)->notificationMarkAsViewed($notificationsId, $tokenSession);
     }
 }

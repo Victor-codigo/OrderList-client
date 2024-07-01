@@ -1,0 +1,8 @@
+title: Email forwarded
+message: |
+  <strong>We have forwarded you an email</strong> to your email account.
+  <strong>Click on the link</strong> that the email contains, to change your password.
+
+  The link will be valid for 24 hours.
+
+  If you have not received the email, <a href="{urlRememberPasswordForm}">repeat the action again in the form.</a>

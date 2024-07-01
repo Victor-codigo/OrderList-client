@@ -1,0 +1,14 @@
+title: Users of the group
+
+home_section_add:
+  label: Add a new user to the group
+  title: Add a new user to the group to the list
+
+home_section_remove_multiple:
+  label: Remove from group, selected users
+  title: Remove from group, selected users
+
+info_modal:
+  title: Information
+  text: You cannot downgrade this user, at least one user must be administrator
+  close_button: Close

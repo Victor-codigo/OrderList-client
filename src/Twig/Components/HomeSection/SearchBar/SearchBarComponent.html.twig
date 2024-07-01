@@ -21,6 +21,7 @@
 
 				<select class="form-select  search-bar__filter"
 						name="{{ sectionFilterFieldName }}"
+						{{this.sectionFilters|length==1?'hidden':''}}
 						data-js-section-filter>
 
 					{% for sectionFilterName, sectionFilterValue in this.sectionFilters %}
@@ -68,13 +69,11 @@
 					   list="search-data-list"
 					   data-js-value />
 
-				<datalist id="search-data-list"> </datalist>
-
 				<button type="submit"
 						class="btn btn-primary  order-3"
 						name="{{ searchButtonFiledName }}"
 						alt="{{ lang.searchButton }}">
-					{% include "search-icon-blue-24x24.svg" %}
+					{% include "search-icon.svg" %}
 				</button>
 			</div>
 		</label>

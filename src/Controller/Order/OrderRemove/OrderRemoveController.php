@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Order\OrderRemove;
 
 use App\Controller\Request\RequestDto;
-use App\Form\Order\OrderRemoveMulti\ORDER_REMOVE_MULTI_FORM_FIELDS;
-use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
 use App\Form\Order\OrderRemove\ORDER_REMOVE_FORM_FIELDS;
 use App\Form\Order\OrderRemove\OrderRemoveForm;
+use App\Form\Order\OrderRemoveMulti\ORDER_REMOVE_MULTI_FORM_FIELDS;
+use App\Form\Order\OrderRemoveMulti\OrderRemoveMultiForm;
 use App\Twig\Components\Order\OrderRemove\OrderRemoveComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'order_remove',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class OrderRemoveController extends AbstractController
@@ -66,7 +67,7 @@ class OrderRemoveController extends AbstractController
             $orderRemoveForm,
             $requestDto->groupData->id,
             $orderRemoveForm->getFieldData(ORDER_REMOVE_FORM_FIELDS::ORDERS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $orderRemoveForm;
@@ -84,7 +85,7 @@ class OrderRemoveController extends AbstractController
             $orderRemoveMultiForm,
             $requestDto->groupData->id,
             $orderRemoveMultiForm->getFieldData(ORDER_REMOVE_MULTI_FORM_FIELDS::ORDERS_ID) ?? [],
-            $requestDto->tokenSession
+            $requestDto->getTokenSessionOrFail()
         );
 
         return $orderRemoveMultiForm;

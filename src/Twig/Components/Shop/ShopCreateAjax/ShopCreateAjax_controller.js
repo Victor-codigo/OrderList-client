@@ -22,6 +22,11 @@ export default class extends Controller {
     #nameTag;
 
     /**
+     * @type {HTMLInputElement}
+     */
+    #descriptionTag;
+
+    /**
      * @type {HTMLButtonElement}
      */
     #backButtonTag;
@@ -39,6 +44,7 @@ export default class extends Controller {
     connect() {
         this.#buttonCreateShop = this.element.querySelector('[data-controller="ButtonLoadingComponent"]');
         this.#nameTag = this.element.querySelector('[name="shop_create_form[name]"]');
+        this.#descriptionTag = this.element.querySelector('[name="shop_create_form[description]"]');
         this.#backButtonTag = this.element.querySelector('[data-js-back-button]');
 
         this.#formTag = this.element.querySelector('[data-controller="ShopCreateComponent"]');
@@ -89,7 +95,7 @@ export default class extends Controller {
     #modalShowOnSubmitOk(shopNewId, shopNewName) {
         const chainCurrentName = this.#modalManager.getChainCurrent().getName();
 
-        this.#modalManager.openModalAlreadyOpened(MODAL_CHAINS[chainCurrentName].modals.productCreate.open.shopCreated, {
+        this.#modalManager.openModalAlreadyOpened(MODAL_CHAINS[chainCurrentName].modals.shopCreate.open.shopCreated, {
             itemData: {
                 id: shopNewId.trim(),
                 name: shopNewName.trim()
@@ -121,6 +127,8 @@ export default class extends Controller {
     }
 
     clear() {
+        this.sendMessageClearToShopCreateComponent();
+        this.element.querySelector('[data-controller="AlertComponent"]')?.remove();
         communication.sendMessageToChildController(this.#buttonCreateShop, 'showButton');
     }
 
@@ -142,6 +150,10 @@ export default class extends Controller {
 
     #sendMessageToButtonLoadingShowButtonLoading() {
         communication.sendMessageToChildController(this.#buttonCreateShop, 'showButtonLoading');
+    }
+
+    sendMessageClearToShopCreateComponent() {
+        communication.sendMessageToChildController(this.#formTag, 'clear', {});
     }
 
     /**

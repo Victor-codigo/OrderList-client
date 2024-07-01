@@ -1,20 +1,48 @@
-<nav class="navbar  navbar-dark  bg-dark  navbar-expand-md  bg-body-tertiary  fixed-top  p-0"
+<nav class="navbar  navbar-dark  bg-dark  navbar-expand-lg  fixed-top  p-0"
 	 data-controller="NavigationBarComponent"
 	 data-bs-theme="dark">
-	<div class="container-fluid  align-items-stretch  pe-0">
+	<div class="container-fluid  align-items-stretch  ps-0  pe-0  flex-fill">
 
-		<a class="navbar-brand"
-		   href="#">Offcanvas navbar</a>
+		{% if this.hasBackButton %}
 
-		<div class="collapse navbar-collapse">
-			<ul
-				class="navbar-nav  justify-content-end flex-grow-1 pe-3  d-flex  flex-row  justify-content-center  align-items-end  navbar-expand-md">
+		<a class="d-flex  flex-column  justify-content-center  navbar-back-button  p-3"
+		   role="button"
+		   title="{{ backButtonTitle }}"
+		   data-js-back-button>
+			{% include "back-arrow.svg" %}
+		</a>
+
+		{% endif %}
+
+		{% if not sections is empty %}
+
+		<button class="navbar-toggler  border-0  rounded-0  p-2  ps-3  pe-3  navbar-toggler-button"
+				type="button"
+				data-bs-toggle="offcanvas"
+				data-bs-target="#offcanvasNavbar"
+				aria-controls="offcanvasNavbar"
+				aria-label="Toggle navigation">
+			{% include "list-icon.svg" %}
+		</button>
+
+		{% endif %}
+
+		<a class="navbar-brand  mx-auto  my-1  ms-lg-4"
+		   href="{{ path('home') }}">
+			<img class="navbar__logo  ms-2"
+				 src="/assets/images/common/logo-white.png"
+				 title="{{ data.domain }}"
+				 alt="{{ logoTitleAttribute }}">
+		</a>
+
+		<div class="collapse navbar-collapse  align-items-end  justify-content-center  flex-shrink-1">
+			<ul class="navbar-nav  pe-3  d-flex  flex-row  justify-content-center  align-items-end">
 
 				{% for section in sections %}
 
 				<li class="nav-item">
 
-					<a class="nav-link {{ section.active ? 'active  p-3  ps-5  pe-5' : 'p-3' }}"
+					<a class="nav-link  fs-5 {{ section.active ? 'active  p-3  ps-5  pe-5' : 'p-3' }}"
 					   title="{{ section.title }}"
 					   aria-current="page"
 					   href="{{ section.url|escape('html_attr') }}">
@@ -31,26 +59,26 @@
 
 			{% if data.locale=='es' %}
 
-			<a href="{{ languageToggleUrl }}">
-				<button class="navbar__language-switch  p-3"
-						type="button">
-					{% include "flag/english-flag.svg" %}
-				</button>
+			<a class="navbar__language-switch  px-3  d-flex  flex-column  justify-content-center"
+			   href="{{ languageToggleUrl }}"
+			   role="button"
+			   type="button">
+
+				{% include "flag/english-flag.svg" %}
 			</a>
 
 			{% else %}
 
-			<a href="{{ languageToggleUrl }}">
-				<button class="navbar__language-switch  p-3"
-						type="button">
-					{% include "flag/spanish-flag.svg" %}
-				</button>
+			<a class="navbar__language-switch  px-3  d-flex  flex-column  justify-content-center"
+			   href="{{ languageToggleUrl }}"
+			   role="button">
 
+				{% include "flag/spanish-flag.svg" %}
 			</a>
 
 			{% endif %}
 
-			<button class="navbar__theme-switch  p-3"
+			<button class="btn  btn-dark  navbar__theme-switch  rounded-0  p-3"
 					type="button"
 					data-js-theme-button>
 				<div hidden
@@ -67,40 +95,158 @@
 				</div>
 			</button>
 
-			<button class="navbar-toggler  border-0  rounded-0  p-2  ps-3  pe-3  navbar-toggler-button"
-					type="button"
-					data-bs-toggle="offcanvas"
-					data-bs-target="#offcanvasNavbar"
-					aria-controls="offcanvasNavbar"
-					aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+
+
+			<a href="{{ notificationUrl }}"
+			   class="position-relative  navbar__language-switch  p-3  d-flex  flex-column  justify-content-center"
+			   role="button">
+
+				{% if notificationsNewNumber > 0 %}
+
+				<span
+					  class="position-absolute  top-50  start-50  translate-middle-y  badge  rounded-pill  text-bg-danger  p-0  ps-1  pe-1">
+					{{ notificationsNewNumber }}
+				</span>
+
+				{% endif %}
+
+				{% include "bell-icon.svg" %}
+			</a>
+
+
+			{% if not userButton is null %}
+
+			<div class="dropdown  navbar__user-menu  d-flex">
+				<button class="btn  btn-dark  navbar__user-menu  rounded-0  p-3  pt-1  pb-1"
+						type="button"
+						data-bs-toggle="dropdown"
+						aria-expanded="false">
+
+					{% if userButton.image is null %}
+
+					<div data-js-user-avatar-image>
+						{% include "user/user-avatar-no-image.svg" %}
+					</div>
+
+					{% else %}
+
+					<img src="{{ userButton.image|escape('html_attr') }}"
+						 title="{{ userButton.title }}"
+						 alt="{{ userButton.alt }}">
+
+					{% endif %}
+
+					<span class="user-profile__name">
+						{{ userButton.name }}
+					</span>
+
+				</button>
+				<ul class="dropdown-menu  dropdown-menu-end  user-menu">
+					<li>
+						<a class="dropdown-item  menu-item__link  d-flex  justify-content-start  align-content-center  p-3"
+						   href="{{ profileButton.url|escape('html_attr') }}"
+						   role="button"
+						   title="{{ profileButton.title }}"
+						   data-js-user-avatar>
+
+							{% if profileButton.image is null %}
+
+							<div data-js-user-avatar-image>
+								{% include "user/user-avatar-no-image.svg" %}
+							</div>
+
+							{% else %}
+
+							<img src="{{ profileButton.image|escape('html_attr') }}"
+								 title="{{ profileButton.title }}">
+
+							{% endif %}
+
+							<span class="align-self-center  menu-item__name">
+								{{ profileButton.label }}
+							</span>
+
+						</a>
+					</li>
+
+					<li>
+						<a class="dropdown-item menu-item__link  d-flex  justify-content-start  align-content-center  p-3"
+						   href="{{ groupButton.url|escape('html_attr') }}"
+						   role="button"
+						   title="{{ groupButton.title }}"
+						   data-js-user-avatar>
+
+							<div data-js-user-avatar-image>
+								{% include "group/group-no-image.svg" %}
+							</div>
+
+							<span class="align-self-center  menu-item__name">
+								{{ groupButton.label }}
+							</span>
+
+						</a>
+					</li>
+
+					<li>
+						<a class="dropdown-item menu-item__link  d-flex  justify-content-start  align-content-center  p-3"
+						   href="{{ logoutButton.url|escape('html_attr') }}"
+						   role="button"
+						   title="{{ logoutButton.title }}"
+						   data-js-user-avatar>
+
+							<div class="menu-item__logout">
+								{% include "power-icon.svg" %}
+							</div>
+
+							<span class="align-self-center  menu-item__name">
+								{{ logoutButton.label }}
+							</span>
+
+						</a>
+					</li>
+
+				</ul>
+			</div>
+
+			{% endif %}
 		</div>
 
-		<div class="offcanvas offcanvas-start"
+		<div class="offcanvas  offcanvas-start"
 			 tabindex="-1"
 			 id="offcanvasNavbar"
 			 aria-labelledby="offcanvasNavbarLabel">
 			<div class="offcanvas-header">
-				<h5 class="offcanvas-title"
-					id="offcanvasNavbarLabel">Offcanvas</h5>
+
+				<a class="navbar-brand  mx-auto  my-1  ms-lg-4"
+				   href="{{ path('home') }}">
+					<img class="navbar__logo  ms-2"
+						 src="/assets/images/common/logo-white.png"
+						 title="{{ data.domain }}"
+						 alt="{{ logoTitleAttribute }}">
+				</a>
+
 				<button type="button"
 						class="btn-close"
 						data-bs-dismiss="offcanvas"
 						aria-label="Close"></button>
 			</div>
-			<div class="offcanvas-body">
-				<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+			<div class="p-0  offcanvas-body">
+				<ul class="navbar-nav  justify-content-end  flex-grow-1  p-0">
 					{% for section in sections %}
 
 					<li class="nav-item">
-
-						<a class="nav-link {{ section.active ? 'active  p-3  ps-5  pe-5' : 'p-3' }}"
+						<a class="nav-link  d-flex  flex-row  justify-content-start  align-content-center  text-light  fs-4  ps-5  p-3  {{ section.active ? 'active' : '' }}"
 						   title="{{ section.title }}"
 						   aria-current="page"
 						   href="{{ section.url|escape('html_attr') }}">
 
-							{{ section.label }}
+							<div class="d-flex  pe-2 nav-link__icon">
+								{% include section.icon %}
+							</div>
+
+							<span>
+								{{ section.label }}
+							</span>
 						</a>
 					</li>
 

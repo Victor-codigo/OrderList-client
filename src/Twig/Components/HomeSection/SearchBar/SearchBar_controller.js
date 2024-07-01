@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import * as apiEndpoints from 'App/modules/ApiEndpoints';
 import * as url from 'App/modules/Url';
+import * as autocomplete from 'App/modules/AutoComplete';
 
 
 const SEARCHBAR_AUTOCOMPLETE_MAX_RESULTS = 50;
@@ -33,11 +34,6 @@ export default class extends Controller {
     nameFilterTag;
 
     /**
-     * @type {HTMLDataListElement}
-     */
-    searchDataListTag;
-
-    /**
      * @type {function}
      */
     getDataFromApiCallback;
@@ -48,54 +44,22 @@ export default class extends Controller {
         this.valueTag = this.element.querySelector('[data-js-value]');
         this.sectionFilterTag = this.element.querySelector('[data-js-section-filter]');
         this.nameFilterTag = this.element.querySelector('[data-js-name-filter]');
-        this.searchDataListTag = this.element.querySelector('#search-data-list');
+
+        autocomplete.create(
+            this.#getDataFromApi.bind(this),
+            '[data-js-value]'
+        );
 
         this.searchBarFormTag.addEventListener('submit', this.#onSubmitHandler.bind(this));
-        this.valueTag.addEventListener('input', this.#onSearchValueInputHandler.bind(this));
     }
 
     disconnect() {
         this.searchBarFormTag.removeEventListener('submit', this.#onSubmitHandler);
-        this.valueTag.removeEventListener('input', this.#onSearchValueInputHandler);
     }
 
     /**
-     * @param {number} delayInMs
-     * @param {function} callback
-     * @param  {...any} args
+     * @returns {Promise<string[]>}
      */
-    #setTimeout(delayInMs, callback, ...args) {
-        clearTimeout(this.searchTimeoutId);
-
-        this.searchTimeoutId = setTimeout(() => callback(...args), delayInMs);
-    }
-
-    async #getAutoCompleteData() {
-        if (this.valueTag.value === '') {
-            this.#updateSearchDatalist([]);
-
-            return;
-        }
-
-        const shopsNames = await this.#getDataFromApi();
-        this.#updateSearchDatalist(shopsNames);
-    }
-
-    #updateSearchDatalist(data) {
-        this.searchDataListTag
-            .querySelectorAll('option')
-            .forEach((option) => option.remove());
-
-        const searchDataListOptions = data.map((item) => {
-            const option = document.createElement('option');
-            option.value = item;
-
-            return option;
-        });
-
-        searchDataListOptions.forEach((item) => this.searchDataListTag.appendChild(item));
-    }
-
     async #getDataFromApi() {
         switch (url.getSection().replace('-', '_')) {
             case url.SECTIONS.SHOP:
@@ -104,10 +68,28 @@ export default class extends Controller {
                 return await this.#getDataFromApiSectionProduct();
             case url.SECTIONS.LIST_ORDERS:
                 return await this.#getDataFromApiSectionListOrders();
-            default:
-                return await this.#getDataFromApiSectionListOrders();
+            case url.SECTIONS.GROUP:
+                return await this.#getDataFromApiSectionGroup();
+            case url.SECTIONS.GROUP_USERS:
+                return await this.#getDataFromApiSectionGroupUsers();
+            case url.SECTIONS.ORDERS:
+                return await this.#getDataFromApiSubSectionOrders();
 
         }
+    }
+
+    /**
+     * @returns {Promise<string[]>}
+     */
+    async #getDataFromApiSectionGroup() {
+        return await this.#getGroupsNames(this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
+    }
+
+    /**
+     * @returns {Promise<string[]>}
+     */
+    async #getDataFromApiSectionGroupUsers() {
+        return await this.#getGroupsUsersNames(this.element.dataset.groupId, this.nameFilterTag.value, this.sectionFilterTag.value, this.valueTag.value);
     }
 
     /**
@@ -125,11 +107,6 @@ export default class extends Controller {
      * @returns {Promise<string[]>}
      */
     async #getDataFromApiSectionListOrders() {
-        console.log(url.getSubSection().replace('-', '_'));
-        if (url.getSubSection().replace('-', '_') === url.SECTIONS.ORDERS) {
-            return await this.#getDataFromApiSubSectionOrders();
-        }
-
         if (this.sectionFilterTag.value === url.SECTIONS.SHOP) {
             return await this.#getShopsNames(this.nameFilterTag.value, this.valueTag.value);
         } else if (this.sectionFilterTag.value === url.SECTIONS.PRODUCT) {
@@ -210,24 +187,72 @@ export default class extends Controller {
      * @param {string} valueFilter
      * @returns {Promise<string[]>}
      */
-    #getListOrdersNames(nameFilter, sectionFilter, valueFilter) {
+    async #getListOrdersNames(nameFilter, sectionFilter, valueFilter) {
         let parameters = this.#getParametersDefault();
 
-        return apiEndpoints.getListOrdersNames(
-            parameters.groupId,
-            parameters.page,
-            parameters.pageItems,
-            null,
-            null,
-            sectionFilter,
-            nameFilter,
-            valueFilter,
-            parameters.orderAsc
-        );
+        try {
+            return await apiEndpoints.getListOrdersNames(
+                parameters.groupId,
+                parameters.page,
+                parameters.pageItems,
+                null,
+                null,
+                sectionFilter,
+                nameFilter,
+                valueFilter,
+                parameters.orderAsc
+            );
+        } catch (error) {
+            return new Promise((resolve) => []);
+        }
     }
 
-    #onSearchValueInputHandler() {
-        this.#setTimeout(300, this.#getAutoCompleteData.bind(this));
+    /**
+     * @param {string} nameFilter
+     * @param {string} sectionFilter
+     * @param {string} valueFilter
+     * @returns {Promise<string[]>}
+     */
+    async #getGroupsNames(nameFilter, sectionFilter, valueFilter) {
+        let parameters = this.#getParametersDefault();
+
+        try {
+            return await apiEndpoints.getGroupsNames(
+                parameters.page,
+                parameters.pageItems,
+                sectionFilter,
+                nameFilter,
+                valueFilter,
+                parameters.orderAsc
+            );
+        } catch (error) {
+            return new Promise((resolve) => []);
+        }
+    }
+
+    /**
+     * @param {string} groupId
+     * @param {string} nameFilter
+     * @param {string} sectionFilter
+     * @param {string} valueFilter
+     * @returns {Promise<string[]>}
+     */
+    async #getGroupsUsersNames(groupId, nameFilter, sectionFilter, valueFilter) {
+        let parameters = this.#getParametersDefault();
+
+        try {
+            return await apiEndpoints.getGroupUsersNames(
+                groupId,
+                parameters.page,
+                parameters.pageItems,
+                sectionFilter,
+                nameFilter,
+                valueFilter,
+                parameters.orderAsc
+            );
+        } catch (error) {
+            return new Promise((resolve) => []);
+        }
     }
 
     #onSubmitHandler() {

@@ -10,11 +10,14 @@ class PasswordChangeComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly array $errors,
-        public readonly string|null $passwordOld,
-        public readonly string|null $passwordNew,
-        public readonly string|null $passwordNewRepeat,
-        public readonly string|null $csrfToken,
-        public readonly bool $passwordOldRequired = true
+        public readonly string $userId,
+        public readonly ?string $passwordOld,
+        public readonly ?string $passwordNew,
+        public readonly ?string $passwordNewRepeat,
+        public readonly ?string $csrfToken,
+        public readonly bool $passwordOldRequired,
+        public readonly string $actionAttribute,
+        public readonly bool $validForm
     ) {
     }
 }

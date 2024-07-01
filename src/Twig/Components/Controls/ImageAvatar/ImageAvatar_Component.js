@@ -2,43 +2,69 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    connect() {
-        this.image = this.element.querySelector('[data-js-image]');
-        this.buttonImageRemove = this.element.querySelector('[data-js-button-remove]');
-        this.buttonImageRemove.addEventListener('click', this.removeImage.bind(this));
+    /**
+     * @type {HTMLImageElement}
+     */
+    #imageTag;
 
-        this.buttonImageRemoveUndo = this.element.querySelector('[data-js-button-remove-undo]');
-        this.buttonImageRemoveUndo.addEventListener('click', this.removeImageUndo.bind(this));
+    /**
+     * @type {HTMLDivElement}
+     */
+    #buttonImageRemoveTag;
+
+    /**
+     * @type {HTMLDivElement}
+     */
+    #buttonImageRemoveUndoTag;
+
+    connect() {
+        this.#imageTag = this.element.querySelector('[data-js-image]');
+        this.#buttonImageRemoveTag = this.element.querySelector('[data-js-button-remove]');
+        this.#buttonImageRemoveTag.addEventListener('click', this.removeImage.bind(this));
+        this.#buttonImageRemoveUndoTag = this.element.querySelector('[data-js-button-remove-undo]');
+
+        this.imageUrl = this.#imageTag.src;
+        this.setImageButtons();
+
+        this.#buttonImageRemoveUndoTag.addEventListener('click', this.removeImageUndo.bind(this));
     }
 
     setImage(imageUrl) {
-        this.image.src = imageUrl;
-        this.imageUrl = this.image.src;
+        this.#imageTag.src = imageUrl;
+        this.imageUrl = this.#imageTag.src;
 
-        if (this.imageUrl === this.image.dataset.noAvatar) {
-            this.buttonImageRemove.classList.add('d-none');
-            this.buttonImageRemoveUndo.classList.add('d-none');
+        this.setImageButtons();
+    }
+
+    setImageButtons() {
+        if (this.imageUrl === this.#imageTag.dataset.noAvatar) {
+            console.log(this.imageUrl);
+            this.#buttonImageRemoveTag.classList.add('d-none');
+            this.#buttonImageRemoveUndoTag.classList.add('d-none');
+            this.#imageTag.classList.add('image-avatar__img--svg-theme');
 
             return;
         }
 
-        this.buttonImageRemoveUndo.classList.add('d-none');
-        this.buttonImageRemove.classList.remove('d-none');
-
+        this.#buttonImageRemoveUndoTag.classList.add('d-none');
+        this.#buttonImageRemoveTag.classList.remove('d-none');
+        this.#imageTag.classList.remove('image-avatar__img--svg-theme');
     }
 
     removeImage() {
-        this.image.src = this.image.dataset.noAvatar;
-        this.buttonImageRemove.classList.add('d-none');
-        this.buttonImageRemoveUndo.classList.remove('d-none');
+        this.#imageTag.src = this.#imageTag.dataset.noAvatar;
+        this.#buttonImageRemoveTag.classList.add('d-none');
+        this.#buttonImageRemoveUndoTag.classList.remove('d-none');
+        this.#imageTag.classList.add('image-avatar__img--svg-theme');
 
         this.dispatch('imageRemoved', { detail: { imageRemove: true } });
     }
 
     removeImageUndo() {
-        this.image.src = this.imageUrl;
-        this.buttonImageRemoveUndo.classList.add('d-none');
-        this.buttonImageRemove.classList.remove('d-none');
+        this.#imageTag.src = this.imageUrl;
+        this.#buttonImageRemoveUndoTag.classList.add('d-none');
+        this.#buttonImageRemoveTag.classList.remove('d-none');
+        this.#imageTag.classList.remove('image-avatar__img--svg-theme');
 
         this.dispatch('imageRemovedUndo', { detail: { imageRemove: false } });
     }

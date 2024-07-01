@@ -61,6 +61,7 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
             'name' => $listOrdersData->name,
             'description' => $listOrdersData->description,
             'image' => $listOrdersData->image,
+            'noImage' => true,
             'createdOn' => $listOrdersData->createdOn->format('Y-m-d'),
             'dateToBuy' => $listOrdersData->dateToBuy?->format('Y-m-d H:i:s'),
         ];
@@ -70,7 +71,7 @@ final class ListOrdersListItemComponent extends HomeListItemComponent
 
     private function parseItemUrlListItemsPlaceholder(string $urlListOrdersPlaceholder, string $listOrdersName): string
     {
-        $listOrdersNameDecoded = $this->encodeUrl($listOrdersName);
+        $listOrdersNameDecoded = $this->encodeUrl(mb_strtolower($listOrdersName));
 
         return mb_ereg_replace(self::LIST_ORDERS_NAME_PLACEHOLDER, $listOrdersNameDecoded, $urlListOrdersPlaceholder);
     }

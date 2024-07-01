@@ -38,6 +38,16 @@ export default class extends ItemInfo_controller {
     /**
      * @type {HTMLParagraphElement}
      */
+    #shopAddressContainerTag;
+
+    /**
+     * @type {HTMLParagraphElement}
+     */
+    #shopAddressTag;
+
+    /**
+     * @type {HTMLParagraphElement}
+     */
     #shopDescriptionTag;
 
     /**
@@ -64,6 +74,8 @@ export default class extends ItemInfo_controller {
         this.#productNameTag = this.element.querySelector('[data-js-item-product-name]');
         this.#productDescriptionTag = this.element.querySelector('[data-js-item-product-description]');
         this.#shopNameTag = this.element.querySelector('[data-js-item-shop-name]');
+        this.#shopAddressContainerTag = this.element.querySelector('[data-js-item-shop-address-container]');
+        this.#shopAddressTag = this.element.querySelector('[data-js-item-shop-address]');
         this.#shopDescriptionTag = this.element.querySelector('[data-js-item-shop-description]');
         this.#shopPriceTag = this.element.querySelector('[data-js-item-shop-price]');
         this.#priceTotalTag = this.element.querySelector('[data-js-item-shop-price-total]');
@@ -74,23 +86,36 @@ export default class extends ItemInfo_controller {
      * @param {ListOrdersData} data
      */
     setItemData(data) {
-        console.log(data);
-        this.titleTag.innerText = data.product.name;
+        this.titleTag.textContent = data.product.name;
         this.imageTag.src = data.image;
-        this.dateTag.innerText = locale.formatDateToLocale(data.createdOn);
-        this.descriptionTag.innerText = data.description;
+        this.setImage(data.image, data.noImage);
+        this.dateTag.textContent = locale.formatDateToLocale(data.createdOn);
+        this.descriptionTag.textContent = data.description;
         this.#setBoughtImage(data.bought);
-        this.#amountTag.innerText = locale.formatAmountAndUnit(data.amount, data.productShop.unit);
+        this.#amountTag.textContent = locale.formatAmountAndUnit(data.amount, data.productShop.unit);
 
-        this.#productNameTag.innerText = data.product.name;
-        this.#productDescriptionTag.innerText = data.product.description;
+        this.#productNameTag.textContent = data.product.name;
+        this.#productDescriptionTag.textContent = data.product.description;
 
-        this.#shopNameTag.innerText = data.shop.name;
-        this.#shopDescriptionTag.innerText = data.shop.description;
-        this.#shopPriceTag.innerText = locale.formatPriceCurrencyAndUnit(data.productShop.price, data.productShop.unit);
+        this.#shopNameTag.textContent = data.shop.name;
+        this.#shopDescriptionTag.textContent = data.shop.description;
+        this.#setAddress(data.shop.address)
+        this.#shopPriceTag.textContent = locale.formatPriceCurrencyAndUnit(data.productShop.price, data.productShop.unit);
 
-        this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(this.#calculatePriceTotal(data.productShop.price, data.amount));
+        this.#priceTotalTag.textContent = locale.formatToStringLocaleCurrency(this.#calculatePriceTotal(data.productShop.price, data.amount));
         this.#setShopInfo(data.shop);
+    }
+
+    /**
+     * @param {string|null} address
+     */
+    #setAddress(address) {
+        if (address === null || address === '') {
+            this.#shopAddressContainerTag.hidden = true;
+            return;
+        }
+
+        this.#shopAddressTag.textContent = address;
     }
 
     /**

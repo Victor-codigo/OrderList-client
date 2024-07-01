@@ -1,0 +1,65 @@
+{% trans_default_domain 'TryoutComponent' %}
+
+<!DOCTYPE html>
+<html lang="{{ data.lang }}">
+
+<head>
+       <meta charset="UTF-8">
+       <meta name="viewport"
+             content="width=device-width, initial-scale=1.0">
+       <title>{{ data.domainName }} | {{ 'title'|trans }}</title>
+       <link rel="icon"
+             type="image/x-icon"
+             href="/assets/images/common/favicon.png">
+
+       {% block stylesheets %}
+       {{ encore_entry_link_tags('app') }}
+       {% endblock %}
+
+       {% block javascripts %}
+       {{ encore_entry_script_tags('app') }}
+       {% endblock %}
+
+</head>
+
+<body data-controller="TryoutComponent"
+      class="countdown-container">
+
+       <img class="position-absolute  top-50  start-50  logo"
+            src="/assets/images/common/logo-white.png"
+            title="{{ data.domain }}"
+            alt="{{ data.domain }}">
+
+       <h1 class="position-absolute  top-50  start-50  text-light  display-1  w-100  text-center  redirect-text">
+              {{ 'redirecting_text'|trans }}
+       </h1>
+       <div class="countdown"></div>
+
+       <form id="try-out-login-form"
+             name="{{ formName }}"
+             method="post"
+             action="{{ data.loginUrl }}"
+             enctype="multipart/form-data"
+             novalidate
+             data-recaptcha="{{ captchaFieldName }}"
+             hidden>
+
+              <input type="hidden"
+                     name="{{ tokenCsrfFieldName }}"
+                     value="{{ data.csrfToken }}" />
+
+              <input type="email"
+                     name="{{ emailFieldName }}"
+                     value="{{ emailFieldValue }}">
+
+              <input type="password"
+                     name="{{ passwordFieldName }}"
+                     value="{{ passwordFieldValue }}">
+
+              <input type="submit"
+                     name="{{ submitFieldName }}" />
+
+       </form>
+</body>
+
+</html>

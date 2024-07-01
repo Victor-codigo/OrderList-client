@@ -20,6 +20,7 @@ final class OrderListItemComponent extends HomeListItemComponent
     public OrderListItemComponentDto|TwigComponentDtoInterface $data;
 
     public readonly string $orderDataJson;
+    public readonly bool $hasPrice;
 
     public static function getComponentName(): string
     {
@@ -31,6 +32,10 @@ final class OrderListItemComponent extends HomeListItemComponent
         $this->data = $data;
         $this->loadTranslation();
         $this->orderDataJson = $this->parseItemDataToJson($data);
+
+        if ($data instanceof OrderListItemComponentDto) {
+            $this->hasPrice = null === $data->productShop?->price ? false : true;
+        }
     }
 
     protected function loadTranslation(): void
@@ -60,6 +65,7 @@ final class OrderListItemComponent extends HomeListItemComponent
             'amount' => $orderData->amount,
             'bought' => $orderData->bought,
             'image' => $orderData->image,
+            'noImage' => $orderData->noImage,
             'createdOn' => $orderData->createdOn->format('Y-m-d'),
             'product' => [
                 'id' => $orderData->product->id,
@@ -70,6 +76,7 @@ final class OrderListItemComponent extends HomeListItemComponent
             'shop' => [
                 'id' => $orderData->shop?->id,
                 'name' => $orderData->shop?->name,
+                'address' => $orderData->shop?->address,
                 'description' => $orderData->shop?->description,
             ],
             'productShop' => [

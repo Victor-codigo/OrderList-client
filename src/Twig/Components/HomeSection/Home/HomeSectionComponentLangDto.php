@@ -17,7 +17,7 @@ class HomeSectionComponentLangDto
     public readonly string $buttonRemoveMultipleLabel;
     public readonly string $buttonRemoveMultipleTitle;
 
-    public readonly AlertValidationComponentDto|null $validationErrors;
+    public readonly ?AlertValidationComponentDto $validationErrors;
 
     public function __construct()
     {
@@ -58,7 +58,7 @@ class HomeSectionComponentLangDto
         return $this;
     }
 
-    public function errors(AlertValidationComponentDto|null $validationErrors): self
+    public function errors(?AlertValidationComponentDto $validationErrors): self
     {
         $this->builder->setMethodStatus('errors', true);
 

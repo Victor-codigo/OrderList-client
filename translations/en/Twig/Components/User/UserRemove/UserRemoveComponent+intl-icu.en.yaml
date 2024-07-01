@@ -11,5 +11,5 @@ remove_user_button:
 validation:
   title: Errors
   error:
-    email_exists: The email is already registered
+    tryout_route_permissions: This function is not available for guest user, you must be signed up.
     default: An error has been occurred, try it later

@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Product\ProductModify\PRODUCT_MODIFY_FORM_FIELDS;
 use App\Form\Product\ProductModify\ProductModifyForm;
 use App\Twig\Components\Product\ProductModify\ProductModifyComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'product_modify',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class ProductModifyController extends AbstractController
@@ -41,7 +42,7 @@ class ProductModifyController extends AbstractController
         $productModifyForm = $this->formFactory->create(new ProductModifyForm(), $requestDto->request);
 
         if ($productModifyForm->isSubmitted() && $productModifyForm->isValid()) {
-            $this->formValid($productModifyForm, $requestDto->groupData->id, $requestDto->productData->id, $requestDto->tokenSession);
+            $this->formValid($productModifyForm, $requestDto->groupData->id, $requestDto->getproductData()->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
@@ -62,7 +63,7 @@ class ProductModifyController extends AbstractController
         }
     }
 
-    private function modifyProduct(FormInterface $form, string $groupId, string $productId, string $tokenSession): string|null
+    private function modifyProduct(FormInterface $form, string $groupId, string $productId, string $tokenSession): ?string
     {
         $responseData = $this->endpoints->productModify(
             $groupId,

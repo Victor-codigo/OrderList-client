@@ -1,0 +1,9 @@
+error: 404
+
+title: Page not found
+
+description: Opps..., The page you requested was not found
+
+button:
+  label: Go to home page
+  title: Go to home page

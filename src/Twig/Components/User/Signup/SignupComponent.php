@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\User\Signup;
 
-use App\Form\Signup\SIGNUP_FORM_ERRORS;
-use App\Form\Signup\SIGNUP_FORM_FIELDS;
+use App\Form\User\Signup\SIGNUP_FORM_ERRORS;
+use App\Form\User\Signup\SIGNUP_FORM_FIELDS;
 use App\Twig\Components\Alert\ALERT_TYPE;
 use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -21,11 +23,16 @@ class SignupComponent extends TwigComponent
     public SignupComponentLangDto $lang;
     public SignupComponentDto|TwigComponentDtoInterface $data;
 
+    public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
+    public readonly string $captchaFieldName;
     public readonly string $emailFieldName;
     public readonly string $passwordFieldName;
     public readonly string $passwordRepeatedFieldName;
     public readonly string $nickFieldName;
+    public readonly string $submitFieldName;
+
+    public readonly TitleComponentDto $titleDto;
 
     protected static function getComponentName(): string
     {
@@ -38,6 +45,7 @@ class SignupComponent extends TwigComponent
 
         $this->formName = SIGNUP_FORM_FIELDS::FORM;
         $this->tokenCsrfFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::TOKEN);
+        $this->captchaFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::CAPTCHA);
         $this->emailFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::EMAIL);
         $this->passwordFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD);
         $this->passwordRepeatedFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::PASSWORD_REPEATED);
@@ -45,6 +53,13 @@ class SignupComponent extends TwigComponent
         $this->submitFieldName = sprintf('%s[%s]', SIGNUP_FORM_FIELDS::FORM, SIGNUP_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function loadTranslation(): void
@@ -74,6 +89,7 @@ class SignupComponent extends TwigComponent
         $errorsLang = [];
         foreach ($this->data->errors as $error => $errorValue) {
             $errorsLang[] = match ($error) {
+                SIGNUP_FORM_ERRORS::CAPTCHA->value => $this->translate('validation.error.captcha'),
                 SIGNUP_FORM_ERRORS::EMAIL->value => $this->translate('email.msg_invalid'),
                 SIGNUP_FORM_ERRORS::PASSWORD->value => $this->translate('password.msg_invalid'),
                 SIGNUP_FORM_ERRORS::NAME->value => $this->translate('nick.msg_invalid'),

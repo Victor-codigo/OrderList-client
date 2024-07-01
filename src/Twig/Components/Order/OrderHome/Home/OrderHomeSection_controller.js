@@ -30,11 +30,11 @@ export default class extends HomeSectionComponent {
         try {
             const listOrdersPrice = await endpoint.getListOrdersPrice(listOrdersId, groupId);
 
-            this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(listOrdersPrice.total);
-            this.#priceBoughtTag.innerText = locale.formatToStringLocaleCurrency(listOrdersPrice.bought);
+            this.#priceTotalTag.textContent = locale.formatToStringLocaleCurrency(listOrdersPrice.total);
+            this.#priceBoughtTag.textContent = locale.formatToStringLocaleCurrency(listOrdersPrice.bought);
         } catch (Error) {
-            this.#priceTotalTag.innerText = locale.formatToStringLocaleCurrency(0);
-            this.#priceBoughtTag.innerText = locale.formatToStringLocaleCurrency(0);
+            this.#priceTotalTag.textContent = locale.formatToStringLocaleCurrency(0);
+            this.#priceBoughtTag.textContent = locale.formatToStringLocaleCurrency(0);
         }
     }
 

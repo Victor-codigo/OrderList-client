@@ -1,0 +1,9 @@
+title: Your groups
+
+home_section_add:
+  label: Add a new group
+  title: Add a new group to the list
+
+home_section_remove_multiple:
+  label: Remove selected groups
+  title: Remove selected groups from the list

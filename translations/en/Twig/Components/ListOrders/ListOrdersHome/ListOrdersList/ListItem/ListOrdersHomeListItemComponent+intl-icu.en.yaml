@@ -1,18 +1,18 @@
 list_orders_remove_button:
-  title: Remove the shop list
-  alt: Button to remove the shop list
+  title: Remove the shopping list
+  alt: Button to remove the shopping list
 
 list_orders_modify_button:
-  title: Modify the shop list
-  alt: Button to modify the shop list
+  title: Modify the shopping list
+  alt: Button to modify the shopping list
 
 list_orders_info_button:
-  title: Show info of the shop list
-  alt: Button to show info of the shop list
+  title: Show info of the shopping list
+  alt: Button to show info of the shopping list
 
 list_orders_link_to_orders_button:
-  title: Link to shop list orders
+  title: Link to shopping list orders
 
 list_orders_image:
-  title: Shop list image
-  alt: Shop list image
+  title: Shopping list image
+  alt: Shopping list image

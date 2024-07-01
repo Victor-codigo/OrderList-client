@@ -1,0 +1,28 @@
+title: Add user to the group
+
+name:
+  label: User name
+  placeholder: Enter the name of the user
+  msg_invalid: |
+    Enter a valid name.
+    The name must contain at least a character and maximum 30 characters.
+    Only are allowed alphanumeric characters and "_"
+
+button_group_user_add:
+  label: add user to the group
+
+validation:
+  ok: Group created
+  error:
+    users: |
+      Enter a valid name.
+      The name must contain at least a character and maximum 30 characters.
+      Only are allowed alphanumeric characters and "_"
+    group_not_found: Group not found
+    permission: You have not permissions to add users to the group
+    group_id: Group id is wrong
+    users_validation: The name of the user does not exist
+    group_users_exceeded: The group has reach the limit of users that can contain. You can not add more users
+    group_already_in_the_group: The user is already joined to the group
+    tryout_route_permissions: This function is not available for guest user, you must be signed up.
+    internal_server: An error has been ocurred, try it later

@@ -1,9 +1,13 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="GroupModifyComponent"
-	  data-action="ImageAvatarComponent:imageRemoved->GroupModifyComponent#setImageAvatarAsRemoved  ImageAvatarComponent:imageRemoveUndo->GroupModifyComponent#setImageAvatarAsRemoved"
-	  class="contaniner  p-5"
+	  data-action="ImageAvatarComponent:imageRemoved->GroupModifyComponent#setImageAvatarAsRemoved
+	  			   ImageAvatarComponent:imageRemovedUndo->GroupModifyComponent#setImageAvatarAsRemoved
+				   GroupModifyComponent:avatarSetImage->ImageAvatarComponent#handleMessageSetImage
+				   GroupListItemComponent:homeListItemModify@window->GroupModifyComponent#handleMessageHomeListItemModify"
+	  class="contaniner  p-4  pt-0"
 	  method="post"
+	  data-action-placeholder="{{ data.groupModify.groupModifyFormActionAttributePlaceholder|escape('html_attr') }}"
 	  enctype="multipart/form-data"
 	  novalidate>
 
@@ -12,20 +16,14 @@
 		   value="{{ data.groupModify.groupModifyCsrfToken }}" />
 
 	<input type="hidden"
-		   name="{{ groupIdFieldName }}"
-		   value="{{ data.groupModify.groupId }}" />
-
-	<input type="hidden"
 		   name="{{ imageAvatarRemoveFieldName }}"
 		   data-js-image-remove />
+
+	{{ component('TitleComponent', { data: data.titleDto } ) }}
 
 	{% if lang.validationErrors %}
 	{{ component('AlertComponent', { data: lang.validationErrors }) }}
 	{% endif %}
-
-	<div class="mb-5 pt-5 display-1 text-center">
-		{{ lang.title }}
-	</div>
 
 	<div class="mb-5  d-flex  justify-content-center">
 		{{ component('ImageAvatarComponent', { data: data.imageAvatarDto }) }}
@@ -42,10 +40,12 @@
 			   class="form-control"
 			   id="name"
 			   maxlength="50"
+			   pattern="[A-Za-zÀ-ÿ0-9_\s]+"
 			   name="{{ nameFieldName }}"
 			   placeholder="{{ lang.namePlaceholder }}"
 			   value="{{ data.groupModify.name }}"
-			   required>
+			   required
+			   data-js-group-name>
 
 		<div class="invalid-feedback">
 			{{ lang.nameMsgInvalid }}
@@ -62,7 +62,8 @@
 				  id="description"
 				  name="{{ descriptionFieldName }}"
 				  maxlength="500"
-				  placeholder="{{ lang.descriptionPlaceholder }}">{{ data.groupModify.description }}</textarea>
+				  placeholder="{{ lang.descriptionPlaceholder }}"
+				  data-js-group-description>{{ data.groupModify.description }}</textarea>
 
 		<div class="invalid-feedback">
 			{{ lang.descriptionMsgInvalid }}
@@ -82,25 +83,3 @@
 			   value="{{ lang.groupCreateButton }}" />
 	</div>
 </form>
-
-<div class="contaniner  mt-5  p-5">
-	<div class="text-center  border-bottom d-grid gap-2">
-		<button type="button"
-				class="btn btn-light  rounded-0  pt-3 pb-3  d-inline-flex"
-				data-bs-toggle="modal"
-				data-bs-target="#group_remove_modal">
-
-			<div class="flex-grow-1  text-danger">
-
-				{{ lang.groupRemoveLabel }}
-
-				<br><span class="fs-6">{{ lang.groupRemovePlaceholder }}</span>
-			</div>
-
-			{{ include('Components/Group/GroupModify/img/arrow-right-icon.svg') }}
-		</button>
-	</div>
-</div>
-
-
-{{ component('ModalComponent', { data: data.groupRemoveModal }) }}

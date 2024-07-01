@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\HomeSection\HomeList;
 
-use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 use App\Twig\Components\HomeSection\HomeList\List\HomeListComponentDto;
+use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
 use App\Twig\Components\Paginator\PaginatorComponentDto;
 use Common\Domain\DtoBuilder\DtoBuilder;
@@ -27,7 +27,7 @@ class HomeListComponentBuilder
 
     private readonly string $translationListDomainName;
 
-    private readonly ModalComponentDto $homeListItemModifyFormModalDto;
+    private readonly ?ModalComponentDto $homeListItemModifyFormModalDto;
     private readonly ModalComponentDto $homeListItemRemoveFormModalDto;
 
     public function __construct()
@@ -76,7 +76,7 @@ class HomeListComponentBuilder
         return $this;
     }
 
-    public function listItemModifyForm(ModalComponentDto $homeListItemModifyFormModalDto): self
+    public function listItemModifyForm(?ModalComponentDto $homeListItemModifyFormModalDto): self
     {
         $this->builder->setMethodStatus('listItemModifyForm', true);
 

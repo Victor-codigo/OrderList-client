@@ -149,7 +149,8 @@ export default class ItemsListAjaxController extends Controller {
                         alt: this.#itemImageTitle.replace('{item_name}', itemResponseData.name),
                         src: itemResponseData.image === null || typeof itemResponseData.image === 'undefined'
                             ? this.#urlNoItemsImage
-                            : `${this.#urlPathItemsImages}/${itemResponseData.image}`
+                            : itemResponseData.image,
+                        noImage: itemResponseData.image === null || typeof itemResponseData.image === 'undefined' ? true : false
                     },
                     data: {
                         id: itemResponseData.id,
@@ -159,7 +160,7 @@ export default class ItemsListAjaxController extends Controller {
                         htmlAttributes: {
                             [LIST_ITEM_ATTRIBUTE_SELECTOR]: ""
                         },
-                        cssClasses: []
+                        cssClasses: ['item__img--svg']
                     },
                 };
 
@@ -179,7 +180,10 @@ export default class ItemsListAjaxController extends Controller {
             cssClasses: []
         };
 
-        return new ListItems(listData, itemsData);
+        return new ListItems(listData, itemsData, {
+            text: this.element.dataset.listEmptyText,
+            image: this.element.dataset.listEmptyImage,
+        });
     }
 
     handleMessageConnected() {

@@ -2,10 +2,11 @@
 
 namespace App\Twig\Components\User\Login;
 
-use App\Form\Login\LOGIN_FORM_ERRORS;
-use App\Form\Login\LOGIN_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Form\User\Login\LOGIN_FORM_ERRORS;
+use App\Form\User\Login\LOGIN_FORM_FIELDS;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
+use App\Twig\Components\Controls\Title\TITLE_TYPE;
+use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -21,10 +22,13 @@ final class LoginComponent extends TwigComponent
 
     public readonly string $formName;
     public readonly string $tokenCsrfFieldName;
+    public readonly string $captchaFieldName;
     public readonly string $emailFieldName;
     public readonly string $passwordFieldName;
     public readonly string $rememberMeFieldName;
     public readonly string $submitFieldName;
+
+    public readonly TitleComponentDto $titleDto;
 
     public static function getComponentName(): string
     {
@@ -37,12 +41,20 @@ final class LoginComponent extends TwigComponent
 
         $this->formName = LOGIN_FORM_FIELDS::FORM;
         $this->tokenCsrfFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::TOKEN);
+        $this->captchaFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::CAPTCHA);
         $this->emailFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::EMAIL);
         $this->passwordFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::PASSWORD);
         $this->rememberMeFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::REMEMBER_ME);
         $this->submitFieldName = sprintf('%s[%s]', LOGIN_FORM_FIELDS::FORM, LOGIN_FORM_FIELDS::SUBMIT);
 
         $this->loadTranslation();
+
+        $this->titleDto = $this->createTitleDto();
+    }
+
+    private function createTitleDto(): TitleComponentDto
+    {
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
     }
 
     private function loadTranslation(): void
@@ -59,15 +71,19 @@ final class LoginComponent extends TwigComponent
             $this->translate('remember_login'),
             $this->translate('password_forget'),
             $this->translate('register'),
-            $this->loadErrorsTranslation()
+            $this->data->validForm ? $this->createAlertValidationComponentDto() : null
         );
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
+                LOGIN_FORM_ERRORS::CAPTCHA->value => $this->translate('validation.error.captcha'),
                 LOGIN_FORM_ERRORS::LOGIN->value,
                 LOGIN_FORM_ERRORS::EMAIL->value,
                 LOGIN_FORM_ERRORS::PASSWORD->value => $this->translate('validation.error.login'),
@@ -75,11 +91,14 @@ final class LoginComponent extends TwigComponent
             };
         }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::DANGER,
-            $this->translate('validation.title'),
-            '',
-            array_unique($errorsLang)
+        return $errorsLang;
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        return new AlertValidationComponentDto(
+            [],
+            array_unique($this->data->messagesErrors)
         );
     }
 }

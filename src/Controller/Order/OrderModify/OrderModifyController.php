@@ -8,6 +8,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Order\OrderModify\ORDER_MODIFY_FORM_FIELDS;
 use App\Form\Order\OrderModify\OrderModifyForm;
 use App\Twig\Components\Order\OrderModify\OrderModifyComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
     name: 'order_modify',
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
     ]
 )]
 class OrderModifyController extends AbstractController
@@ -40,7 +41,7 @@ class OrderModifyController extends AbstractController
         $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
 
         if ($orderModifyForm->isSubmitted() && $orderModifyForm->isValid()) {
-            $this->formValid($orderModifyForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            $this->formValid($orderModifyForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(

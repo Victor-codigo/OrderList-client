@@ -49,11 +49,11 @@ abstract class EndpointBase
      * @throws RequestUnauthorizedException
      * @throws RequestException
      */
-    protected function apiResponseManage(HttpClientResponseInterface $response, callable $onResponseErrorReturnCallback = null, callable $onResponseOkReturnCallback = null, callable $onResponseNoContentReturnCallBack = null): array
+    protected function apiResponseManage(HttpClientResponseInterface $response, ?callable $onResponseErrorReturnCallback = null, ?callable $onResponseOkReturnCallback = null, ?callable $onResponseNoContentReturnCallBack = null): array|string|null
     {
         try {
             if (Response::HTTP_NO_CONTENT === $response->getStatusCode()) {
-                return $this->noContentResponseHandler($response, $onResponseNoContentReturnCallBack);
+                return $this->noContentResponseHandler($onResponseNoContentReturnCallBack);
             }
 
             $responseDataOk = $response->toArray();
@@ -87,7 +87,7 @@ abstract class EndpointBase
     /**
      * @param callable $onResponseNoContentReturnCallBack function(array $responseDataNoContent): array
      */
-    private function noContentResponseHandler(HttpClientResponseInterface $response, callable $onResponseNoContentReturnCallBack): array
+    private function noContentResponseHandler(callable $onResponseNoContentReturnCallBack): array|string|null
     {
         if (null === $onResponseNoContentReturnCallBack) {
             return [];

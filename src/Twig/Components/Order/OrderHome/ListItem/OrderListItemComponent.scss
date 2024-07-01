@@ -1,5 +1,17 @@
 .order-list-item__image {
     width: 75px;
+
+    svg {
+        width: 75px;
+        height: 75px;
+    }
+
+    &--svg {
+        filter: invert(100);
+        background-color: #fff0;
+        border: 1px solid $gray-100;
+
+    }
 }
 
 .order-list-item__button-bought {

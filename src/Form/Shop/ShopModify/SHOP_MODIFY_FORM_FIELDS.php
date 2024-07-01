@@ -12,6 +12,7 @@ final class SHOP_MODIFY_FORM_FIELDS implements FormFieldInterface
     public const TOKEN = 'token';
     public const SUBMIT = 'submit';
     public const NAME = 'name';
+    public const ADDRESS = 'address';
     public const DESCRIPTION = 'description';
     public const IMAGE = 'image';
     public const IMAGE_REMOVE = 'image_remove';

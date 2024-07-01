@@ -1,22 +1,20 @@
 <form id="{{ formName }}"
 	  name="{{ formName }}"
 	  data-controller="EmailChangeComponent"
-	  class="contaniner  p-5"
+	  class="contaniner  p-4  pt-0"
 	  method="post"
+	  action="{{ data.actionAttribute|escape('html_attr') }}"
 	  enctype="multipart/form-data"
 	  novalidate>
 	<input type="hidden"
 		   name="{{ tokenCsrfFieldName }}"
 		   value="{{ data.csrfToken }}" />
 
-	{% if lang.validationErrors.messages %}
-	{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{% if lang.validationErrors %}
+	{{ component('AlertValidationComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
-
-	<div class="mb-5 pt-5 display-4 text-center">
-		{{ lang.title }}
-	</div>
+	{{ component('TitleComponent', { data: titleDto } ) }}
 
 	<div class="mb-3">
 		<label for="email"

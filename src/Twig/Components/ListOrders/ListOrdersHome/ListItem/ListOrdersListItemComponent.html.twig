@@ -1,30 +1,25 @@
-<li class="list-group-item  list-group-item-action  btn-outline-danger  d-flex  flex-row  p-0  mt-1  mb-1  border border-1"
+<li class="list-group-item  list-group-item-action  d-flex  flex-row  p-0  mt-1  mb-1  border  border-1  border-light-subtle"
     data-controller="ListOrdersListItemComponent"
     data-item-data="{{ productDataJson }}"
     data-js-list-item>
 
-    <label class="d-flex  flex-row  flex-grow-1">
+    <label class="d-flex  flex-row  flex-grow-1  align-items-center">
 
         <input class="form-check-input m-2  align-self-center"
                type="checkbox"
                data-js-checkbox>
 
-        <img class="img-thumbnail  flex-grow-0  rounded-0  border  border-0  border-start  border-end  list-orders-list-item__image  p-0"
-             src="{{ data.image }}"
-             alt="{{ lang.imageItemAlt }}"
+        <div class="flex-grow-0  border-0  list-orders-list-item__image  p-0"
              title="{{ lang.imageItemTitle }}"
              data-js-item-image>
 
-        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
-
-            <div class="d-flex  flex-row  justify-content-between">
-
-                <p class="fs-4"
-                   data-js-item-name>
-                    {{ data.name }}
-                </p>
-            </div>
+            {% include "list_orders/list-orders-no-image.svg" %}
         </div>
+
+        <p class="fs-5  my-4  mx-2"
+           data-js-item-name>
+            {{ data.name }}
+        </p>
     </label>
 
     <a href="{{ urlListOrders|escape('html_attr') }}"
@@ -33,14 +28,14 @@
        title="{{ lang.ordersLinkItemButtonTitle }}">
 
         <button type="button"
-                class="btn  flex-grow-0  ps-5  pe-5  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary  list-orders-list__button-orders">
+                class="btn  flex-grow-0  px-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  list-orders-list__button-orders  button-primary-color-dark">
 
             {% include 'list_orders/list-orders-icon-go-orders.svg' %}
         </button>
     </a>
 
     <button type="button"
-            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
+            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
             value="{{ data.id }}"
             alt="{{ lang.infoItemButtonAlt }}"
             title="{{ lang.infoItemButtonTitle }}"
@@ -48,11 +43,11 @@
             data-bs-target="#{{ data.infoFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemInfoToParent">
 
-        {% include 'info-icon-blue-24x24.svg' %}
+        {% include 'info-icon.svg' %}
     </button>
 
     <button type="button"
-            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  btn-outline-primary"
+            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
             value="{{ data.id }}"
             alt="{{ lang.modifyItemButtonAlt }}"
             title="{{ lang.modifyItemButtonTitle }}"
@@ -60,12 +55,12 @@
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemModifyToParent">
 
-        {% include 'modify-icon-blue-24x24.svg' %}
+        {% include 'modify-icon.svg' %}
     </button>
 
     <button type="button"
             data-js-remove-button
-            class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end  btn-outline-danger"
+            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger"
             value="{{ data.id }}"
             alt="{{ lang.removeItemButtonAlt }}"
             title="{{ lang.removeItemButtonTitle }}"
@@ -73,6 +68,6 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include 'remove-icon-red-24x24.svg' %}
+        {% include 'remove-icon.svg' %}
     </button>
 </li>

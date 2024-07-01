@@ -1,0 +1,35 @@
+.page-error {
+
+    .block-above {
+        padding-top: 200px;
+
+        .error-number {
+            font-size: 15rem;
+            font-weight: bold;
+            color: $gray-300;
+            margin: 0;
+            line-height: 12rem;
+        }
+    }
+
+    .block-below {
+        background-color: $gray-300;
+
+    }
+
+
+}
+
+[data-bs-theme="dark"] {
+    .block-above {
+        background-color: $gray-900;
+
+        .error-number {
+            color: $gray-700;
+        }
+    }
+
+    .block-below {
+        background-color: $gray-700;
+    }
+}

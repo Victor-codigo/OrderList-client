@@ -1,7 +1,10 @@
-title: Shops list
+title: Shopping lists
 
 button_back:
   label: Back
 
 list_orders_image:
-  title: Image of a shop list {item_name}
+  title: Image of a shopping list {item_name}
+
+list_empty:
+  label: There is no shopping lists

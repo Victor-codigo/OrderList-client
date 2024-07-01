@@ -1,0 +1,14 @@
+title: Usuarios del grupo
+
+home_section_add:
+  label: Añade un usuario al grupo
+  title: Añade un nuevo usuario al grupo
+
+home_section_remove_multiple:
+  label: Elimina del grupo, los usuarios seleccionados
+  title: Elimina del grupo, los usuarios seleccionados
+
+info_modal:
+  title: Información
+  text: No puedes establecer este usuario como usuario, al menos debe de haber un administrador del grupo
+  close_button: Cerrar

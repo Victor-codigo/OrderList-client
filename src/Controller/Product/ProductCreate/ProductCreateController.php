@@ -6,6 +6,7 @@ use App\Controller\Request\RequestDto;
 use App\Form\Product\ProductCreate\PRODUCT_CREATE_FORM_FIELDS;
 use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Twig\Components\Product\ProductCreate\ProductCreateComponent;
+use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\HttpClient\Exception\Error400Exception;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -21,7 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(
     methods: ['POST'],
     requirements: [
-        '_locale' => 'en|es',
+        '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
+        'section' => 'product',
     ]
 )]
 class ProductCreateController extends AbstractController
@@ -71,7 +73,7 @@ class ProductCreateController extends AbstractController
         $productCreateForm = $this->formFactory->create(new ProductCreateForm(), $requestDto->request);
 
         if ($productCreateForm->isSubmitted() && $productCreateForm->isValid()) {
-            return $this->productCreateRequest($productCreateForm, $requestDto->groupData->id, $requestDto->tokenSession);
+            return $this->productCreateRequest($productCreateForm, $requestDto->groupData->id, $requestDto->getTokenSessionOrFail());
         }
 
         return new ResponseDto(

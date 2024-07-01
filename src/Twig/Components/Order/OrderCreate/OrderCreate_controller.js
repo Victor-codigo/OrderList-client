@@ -123,19 +123,19 @@ export default class extends Controller {
         const totalPrice = price * amount;
 
         if (!isNaN(totalPrice) && totalPrice >= 0) {
-            this.#totalTag.innerText = locale.formatToStringLocaleCurrency(totalPrice);
+            this.#totalTag.textContent = locale.formatToStringLocaleCurrency(totalPrice);
 
             return;
         }
 
-        this.#totalTag.innerText = locale.formatToStringLocaleCurrency(0);
+        this.#totalTag.textContent = locale.formatToStringLocaleCurrency(0);
     }
 
     /**
      * @param {string} unit
      */
     #setAmountUnit(unit) {
-        this.#amountUnitTag.innerText = UNIT_MEASURE.translate(unit, true);
+        this.#amountUnitTag.textContent = UNIT_MEASURE.translate(unit, true);
     }
 
     /**
