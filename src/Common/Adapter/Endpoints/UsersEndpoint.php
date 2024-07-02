@@ -17,6 +17,7 @@ class UsersEndpoint extends EndpointBase
     use UrlEncoder;
     use Cookie;
 
+    public const POST_SIGNUP_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users';
     public const POST_LOGIN_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/login';
     public const GET_USER_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users';
     public const GET_USER_BY_NAME_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/name';
@@ -39,6 +40,38 @@ class UsersEndpoint extends EndpointBase
         }
 
         return self::$instance;
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{
+     *      id: string
+     *    }>
+     *    errors: array
+     * }>
+     */
+    public function userSignUp(string $name, string $email, string $password, string $emailConfirmationUrl): array
+    {
+        $response = $this->requestSignUp($name, $email, $password, $emailConfirmationUrl);
+
+        return $this->apiResponseManage($response);
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestSignUp(string $name, string $email, string $password, string $emailConfirmationUrl): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'POST',
+            self::POST_SIGNUP_ENDPOINT,
+            HTTP_CLIENT_CONFIGURATION::json([
+                'name' => $name,
+                'email' => $email,
+                'password' => $password,
+                'email_confirmation_url' => $emailConfirmationUrl,
+            ])
+        );
     }
 
     /**

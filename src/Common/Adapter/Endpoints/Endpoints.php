@@ -474,6 +474,19 @@ class Endpoints implements EndpointsInterface
      *    errors: array
      * }>
      */
+    public function userSignUp(string $name, string $email, string $password, string $emailConfirmationUrl): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userSignUp($name, $email, $password, $emailConfirmationUrl);
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{
+     *      token_session: string|null
+     *    }>
+     *    errors: array
+     * }>
+     */
     public function userLogin(string $userName, string $password): array
     {
         return UsersEndpoint::getInstance($this->httpClient)->userLogin($userName, $password);
