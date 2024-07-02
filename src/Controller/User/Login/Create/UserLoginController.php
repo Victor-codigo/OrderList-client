@@ -65,7 +65,9 @@ class UserLoginController extends AbstractController
             $requestDto->requestReferer->params,
             [],
             $this->loginComponent->loadErrorsTranslation($loginForm->getErrors()),
-            []
+            [
+                'form' => $loginForm->getData(),
+            ]
         );
     }
 
