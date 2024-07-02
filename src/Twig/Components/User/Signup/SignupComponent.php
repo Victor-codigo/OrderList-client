@@ -6,8 +6,7 @@ namespace App\Twig\Components\User\Signup;
 
 use App\Form\User\Signup\SIGNUP_FORM_ERRORS;
 use App\Form\User\Signup\SIGNUP_FORM_FIELDS;
-use App\Twig\Components\Alert\ALERT_TYPE;
-use App\Twig\Components\Alert\AlertComponentDto;
+use App\Twig\Components\AlertValidation\AlertValidationComponentDto;
 use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;
 use App\Twig\Components\TwigComponent;
@@ -80,15 +79,18 @@ class SignupComponent extends TwigComponent
             $this->translate('nick.msg_invalid'),
             $this->translate('register_button'),
             $this->translate('login_link'),
-            $this->loadErrorsTranslation()
+            $this->data->validForm ? $this->createAlertValidationComponentDto() : null
         );
     }
 
-    private function loadErrorsTranslation(): AlertComponentDto
+    /**
+     * @return string[]
+     */
+    public function loadErrorsTranslation(array $errors): array
     {
         $errorsLang = [];
-        foreach ($this->data->errors as $error => $errorValue) {
-            $errorsLang[] = match ($error) {
+        foreach ($errors as $field => $error) {
+            $errorsLang[] = match ($field) {
                 SIGNUP_FORM_ERRORS::CAPTCHA->value => $this->translate('validation.error.captcha'),
                 SIGNUP_FORM_ERRORS::EMAIL->value => $this->translate('email.msg_invalid'),
                 SIGNUP_FORM_ERRORS::PASSWORD->value => $this->translate('password.msg_invalid'),
@@ -98,11 +100,19 @@ class SignupComponent extends TwigComponent
             };
         }
 
-        return new AlertComponentDto(
-            ALERT_TYPE::DANGER,
-            $this->translate('validation.title'),
-            '',
-            $errorsLang
+        return $errorsLang;
+    }
+
+    public function loadValidationOkTranslation(): string
+    {
+        return $this->translate('validation.ok');
+    }
+
+    private function createAlertValidationComponentDto(): AlertValidationComponentDto
+    {
+        return new AlertValidationComponentDto(
+            array_unique([]),
+            array_unique($this->data->messagesErrors)
         );
     }
 }

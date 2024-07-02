@@ -1,5 +1,6 @@
 <form id="frm_signup"
 	  name="{{ formName }}"
+	  action="{{ data.formActionAttribute|escape('html_attr') }}"
 	  data-controller="SignupComponent"
 	  class="contaniner  p-5"
 	  method="post"
@@ -13,8 +14,8 @@
 
 	{{ component('TitleComponent', { data: titleDto } ) }}
 
-	{% if lang.validationErrors.messages %}
-	{{ component('AlertComponent', { data: lang.validationErrors }) }}
+	{% if lang.validationErrors %}
+	{{ component('AlertValidationComponent', { data: lang.validationErrors }) }}
 	{% endif %}
 
 	<div class="mb-3">
