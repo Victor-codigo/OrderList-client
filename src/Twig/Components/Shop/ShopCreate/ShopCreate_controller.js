@@ -8,6 +8,8 @@ import * as autocomplete from 'App/modules/AutoComplete';
 import * as geoApiFy from 'App/modules/GeoApiFy';
 import * as url from 'App/modules/Url';
 
+const AUTOCOMPLETE_SELECTOR = '[data-js-form-address]';
+
 export default class ShopCreateController extends Controller {
     /**
      * @type {ModalManager|null}
@@ -47,7 +49,7 @@ export default class ShopCreateController extends Controller {
 
         autocomplete.create(
             () => geoApiFy.getAddresses(this.#addressTag.value, url.getLocale()),
-            '[data-js-form-address]',
+            AUTOCOMPLETE_SELECTOR,
             1000, {
             showAllSuggestions: true
         });
@@ -78,6 +80,8 @@ export default class ShopCreateController extends Controller {
         if (this.alertComponentTag !== null) {
             this.alertComponentTag.style.display = 'none';
         }
+
+        autocomplete.close(AUTOCOMPLETE_SELECTOR);
 
         this.#sendMessageClearToDropZone();
         this.#sendMessageItemPriceAddClear();

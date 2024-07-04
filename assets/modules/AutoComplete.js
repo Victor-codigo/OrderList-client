@@ -18,6 +18,19 @@ export function create(requestCallBack, tagSelector, delay = 500, config = {}) {
 }
 
 /**
+ * @param {string} tagSelector
+ */
+export function close(tagSelector) {
+    /** @type {HTMLInputElement} itemTag */
+    const itemTag = document.querySelector(tagSelector);
+    const autocompleteList = Autocomplete.getInstance(itemTag);
+    /** @type {HTMLUListElement} */
+    const dropMenuTag = autocompleteList.getDropMenu();
+
+    dropMenuTag.classList.remove('show');
+}
+
+/**
  * @param {Function} callback
  * @param {number} timeout
  * @returns {Function}

@@ -11,6 +11,7 @@ import * as autocomplete from 'App/modules/AutoComplete';
 
 
 const SHOP_NAME_PLACEHOLDER = '--shop_name--';
+const AUTOCOMPLETE_SELECTOR = '[data-js-shop-address]';
 
 export default class ShopModifyController extends Controller {
     /**
@@ -61,7 +62,7 @@ export default class ShopModifyController extends Controller {
 
         autocomplete.create(
             () => geoApiFy.getAddresses(this.shopAddressTag.value, url.getLocale()),
-            '[data-js-shop-address]',
+            AUTOCOMPLETE_SELECTOR,
             1000, {
             showAllSuggestions: true
         });
@@ -118,6 +119,10 @@ export default class ShopModifyController extends Controller {
         this.sendMessageAddItemsToItemsAddComponent(shopData.itemsPrices)
     }
 
+    #clearForm() {
+        autocomplete.close(AUTOCOMPLETE_SELECTOR);
+    }
+
     #setModalData() {
         if (this.modalManager.getChainCurrent() !== null
             && this.modalManager.getChainCurrent().getName() !== MODAL_CHAINS.shopModifyChain.name) {
@@ -146,6 +151,7 @@ export default class ShopModifyController extends Controller {
         this.#modalManager = content.modalManager;
 
         if (modalBefore === null) {
+            this.#clearForm();
             this.#setModalData();
 
             return;
