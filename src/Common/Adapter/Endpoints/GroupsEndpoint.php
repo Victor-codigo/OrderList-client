@@ -303,7 +303,16 @@ class GroupsEndpoint extends EndpointBase
             $tokenSession
         );
 
-        return $this->apiResponseManage($response, null, null,
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError): array => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 1,
+                    'users' => [],
+                ],
+                'errors' => ['users_not_found' => 'Users not found'],
+            ],
+            null,
             fn (array $responseDataNoContent) => [
                 'data' => [
                     'page' => 1,

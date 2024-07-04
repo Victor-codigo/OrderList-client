@@ -45,6 +45,8 @@ class Config
 
     /**
      * Maximum number of users per group.
+     *
+     * @see This value, must be the same of AppConfig::GROUP_USERS_MAX in api
      */
     public const GROUP_USERS_MAX = 100;
 }

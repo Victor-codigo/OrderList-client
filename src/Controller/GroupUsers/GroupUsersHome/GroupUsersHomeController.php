@@ -65,7 +65,7 @@ class GroupUsersHomeController extends AbstractController
         $groupUsersData = $this->getGroupUsersData(
             $requestDto->groupData->id,
             $requestDto->page,
-            $requestDto->pageItems,
+            Config::GROUP_USERS_MAX,
             $searchBarFormFields,
             $requestDto->getTokenSessionOrFail()
         );
