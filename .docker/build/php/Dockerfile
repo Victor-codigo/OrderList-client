@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.3-fpm
 
 ARG TIMEZONE
 ARG WORK_DIR
@@ -9,10 +9,10 @@ ARG GIT_EMAIL
 RUN apt-get update
 
 # install WGET
-RUN apt-get install -y --no-install-recommends wget 
+RUN apt-get install -y --no-install-recommends wget
 
 # Install SUDO
-RUN apt-get install -y --no-install-recommends sudo 
+RUN apt-get install -y --no-install-recommends sudo
 
 # Install APT-UTILS
 RUN apt-get install -y --no-install-recommends apt-utils
@@ -24,29 +24,29 @@ RUN apt-get install -y --no-install-recommends dialog
 RUN apt-get install -y --no-install-recommends locales
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
     locale-gen
-ENV LANG en_US.UTF-8  
-ENV LANGUAGE en_US:en  
-ENV LC_ALL en_US.UTF-8 
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # Install GIT
 RUN apt-get install -y --no-install-recommends git
 
 # Install ZLIB
-RUN apt-get install -y --no-install-recommends zlib1g-dev 
+RUN apt-get install -y --no-install-recommends zlib1g-dev
 
 # Install LIBXML
 RUN apt-get install -y --no-install-recommends libxml2-dev \
-    && docker-php-ext-install intl 
+    && docker-php-ext-install intl
 
 # Install ZIP
 RUN apt-get install -y --no-install-recommends libzip-dev \
-    && docker-php-ext-install zip    
+    && docker-php-ext-install zip
 
 # Install UNZIP
-RUN apt-get install -y --no-install-recommends unzip    
+RUN apt-get install -y --no-install-recommends unzip
 
 # Install PDO
-RUN docker-php-ext-install pdo pdo_mysql 
+RUN docker-php-ext-install pdo pdo_mysql
 
 # Install OPCACHE
 RUN docker-php-ext-install pdo pdo_mysql opcache
@@ -57,14 +57,14 @@ RUN pecl install apcu \
 
 # Install Xdebug
 RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug 
- 
+    && docker-php-ext-enable xdebug
+
 # Install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs 
+    && apt-get install -y nodejs
 
 # Install yarn
-RUN npm install -g yarn    
+RUN npm install -g yarn
 
 # Xdebug.ini
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
@@ -80,7 +80,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
 
 # Git configuration
-RUN git config --global user.email $GIT_EMAIL 
+RUN git config --global user.email $GIT_EMAIL
 RUN git config --global user.name $GIT_NAME
 
 

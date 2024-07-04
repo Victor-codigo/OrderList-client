@@ -8,21 +8,23 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "karser/karser-recaptcha3-bundle": "^0.1.27",
-        "symfony/console": "6.1.*",
-        "symfony/dotenv": "6.1.*",
+        "symfony/asset": "^7.0",
+        "symfony/console": "v6.4.9",
+        "symfony/dependency-injection": "^6.4",
+        "symfony/dotenv": "v6.4.8",
         "symfony/flex": "^2",
-        "symfony/form": "6.1.*",
-        "symfony/framework-bundle": "6.1.*",
-        "symfony/http-client": "6.1.*",
-        "symfony/mime": "6.1.*",
-        "symfony/runtime": "6.1.*",
-        "symfony/security-csrf": "6.1.*",
-        "symfony/translation": "6.1.*",
-        "symfony/twig-bundle": "v6.1.11",
+        "symfony/form": "v6.4.8",
+        "symfony/framework-bundle": "v6.4.9",
+        "symfony/http-client": "v6.4.9",
+        "symfony/mime": "v6.4.9",
+        "symfony/runtime": "v6.4.8",
+        "symfony/security-csrf": "v6.4.8",
+        "symfony/translation": "v6.4.8",
+        "symfony/twig-bundle": "v6.4.8",
         "symfony/ux-dropzone": "^2.13",
         "symfony/ux-twig-component": "^v2.13.3",
-        "symfony/validator": "6.1.*",
-        "symfony/yaml": "6.1.*",
+        "symfony/validator": "v6.4.9",
+        "symfony/yaml": "v6.4.8",
         "twig/extra-bundle": "^3.8",
         "twig/intl-extra": "^3.8",
         "twig/twig": "^v3.8.0"
@@ -31,12 +33,12 @@
         "friendsofphp/php-cs-fixer": "^3.13",
         "friendsoftwig/twigcs": "^6.4",
         "phpstan/phpstan": "^1.10.50",
-        "phpunit/phpunit": "^9.5",
-        "symfony/browser-kit": "6.1.*",
-        "symfony/css-selector": "6.1.*",
+        "phpunit/phpunit": "^9.6.19",
+        "symfony/browser-kit": "v6.4.8",
+        "symfony/css-selector": "v6.4.8",
         "symfony/maker-bundle": "^1.48",
         "symfony/phpunit-bridge": "^6.1",
-        "symfony/webpack-encore-bundle": "^1.16"
+        "symfony/webpack-encore-bundle": "^v2.1.1"
     },
     "config": {
         "allow-plugins": {
@@ -88,7 +90,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.1.*"
+            "require": "6.4.*"
         }
     }
 }
