@@ -31,7 +31,6 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
     public function __construct(
         private Environment $twig,
         private RouterInterface $router,
-
         private UserDataLoader $userDataLoader,
         private NotificationDataLoader $notificationDataLoader,
         private NavigationBarDataLoader $navigationBarLoader,

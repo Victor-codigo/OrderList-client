@@ -62,7 +62,8 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
                 '_locale' => $locale,
                 'domainName' => Config::CLIENT_DOMAIN_NAME,
                 'error' => null === $tokenSession ? 'forbidden' : 'session.expired',
-            ])
+            ]),
+            Response::HTTP_UNAUTHORIZED
         );
     }
 
@@ -81,7 +82,8 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
                 '_locale' => $locale,
                 'domainName' => Config::CLIENT_DOMAIN_NAME,
                 'error' => null === $tokenSession ? 'forbidden' : 'session.expired',
-            ])
+            ]),
+            Response::HTTP_FORBIDDEN
         );
     }
 
@@ -97,7 +99,8 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
             $this->twig->render('page_errors/error404.html.twig', [
                 '_locale' => $locale,
                 'domainName' => Config::CLIENT_DOMAIN_NAME,
-            ])
+            ]),
+            Response::HTTP_NOT_FOUND
         );
     }
 
@@ -109,7 +112,8 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
             $this->twig->render('page_errors/error.html.twig', [
                 '_locale' => $locale,
                 'domainName' => Config::CLIENT_DOMAIN_NAME,
-            ])
+            ]),
+            Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
