@@ -93,8 +93,7 @@ class GroupDataLoader
     private function groupHasPermissions(string $urlPath, ?string $tokenSession): bool
     {
         $patternUser = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/user\/(?!profile)/u';
-        $patternHome = '/^(\/home|\/)/u';
-        // $patternHome = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')?(\/home|\/)/u';
+        $patternHome = '/^(\/$|\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/home)/u';
 
         // No need permissions
         if (1 === preg_match($patternUser, $urlPath)
