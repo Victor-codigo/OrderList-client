@@ -1,10 +1,8 @@
-// @import url('https://fonts.googleapis.com/css?family=Montserrat:700');
-
 $timer_unit: 1s;
-$timer_length: 5;
+$timer_length: 3;
 $timer_delay: 1s;
 
-$starting_hue: 160;
+$starting_hue: 160deg;
 $hue_increment: calc(360 / $timer_length);
 
 @mixin scale_timer($scale) {
@@ -17,16 +15,16 @@ $hue_increment: calc(360 / $timer_length);
 
 .countdown-container {
     height: 100vh;
-    background-color: hsl($starting_hue, 80, 60);
+    background-color: hsl($starting_hue, 80%, 60%);
     font-family: var(--bs-body-font-family);
     animation: ($timer_unit * $timer_length) ($timer_delay - $timer_unit * 0.125) cubic-bezier(0.9, 0, 0.1, 1) forwards background_color;
 
     @at-root {
         @keyframes background_color {
-            @for $i from 1 through $timer_length +1 {
+            @for $i from 1 through ($timer_length + 1) {
                 #{calc(100% / $timer_length * $i)} {
                     $hue: $hue_increment * $i * 2;
-                    background-color: hsl($starting_hue + $hue, 80, 60);
+                    background-color: hsl($starting_hue + $hue, 80%, 60%);
                 }
             }
         }
