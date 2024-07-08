@@ -43,7 +43,12 @@
 			   value="{{ data.password }}"
 			   required>
 		<div class="invalid-feedback">{{ lang.passwordMsgInvalid }}</div>
+
+
+		<a class="mt-2"
+		   href="{{ path('user_remember') }}">{{ lang.passwordForget }}</a>
 	</div>
+
 
 	<div class="mb-3">
 		<input type="checkbox"
@@ -65,9 +70,7 @@
 			   value="{{ lang.loginButton }}" />
 	</div>
 
-	<div class="mt-5  text-center">
-		<a href="{{ path('user_remember') }}">{{ lang.passwordForget }}</a>
-		o
-		<a href="{{ path('user_register') }}">{{ lang.register }}</a>
+	<div class="mt-2  text-center">
+		{{ lang.registerPreText }} <a href="{{ path('user_register') }}">{{ lang.register }}</a>
 	</div>
 </form>

@@ -70,7 +70,8 @@ final class LoginComponent extends TwigComponent
             $this->translate('login_button'),
             $this->translate('remember_login'),
             $this->translate('password_forget'),
-            $this->translate('register'),
+            $this->translate('register.pre_text'),
+            $this->translate('register.register'),
             $this->data->validForm ? $this->createAlertValidationComponentDto() : null
         );
     }

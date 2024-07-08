@@ -16,7 +16,9 @@ remember_login: Remember me
 
 password_forget: Forgot your password?
 
-register: Sign up
+register:
+  pre_text: Not registered?
+  register: Sign up!
 
 validation:
   title: Errors

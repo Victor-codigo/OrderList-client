@@ -23,6 +23,7 @@ class LoginComponentLangDto
         public readonly string $rememberLogin,
         // --
         public readonly string $passwordForget,
+        public readonly string $registerPreText,
         public readonly string $register,
         // --
         public readonly ?AlertValidationComponentDto $validationErrors
