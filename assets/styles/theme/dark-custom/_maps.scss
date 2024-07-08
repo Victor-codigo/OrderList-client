@@ -1,0 +1,28 @@
+$theme-colors: (
+    primary: $primary,
+    secondary: $secondary,
+    success: $success,
+    info: $info,
+    warning: $warning,
+    danger: $danger,
+    light: $light,
+    dark: $dark,
+    // add any additional color below
+    primary-dark: $primary-dark,
+    danger-dark: $danger-dark,
+    success-dark: $success-dark
+);
+
+.btn-home-user-menu {
+    --bs-btn-font-weight: #{$btn-font-weight};
+    --bs-btn-color: var(--bs-white);
+    --bs-btn-bg: $home-page-header-color-2;
+    --bs-btn-border-color: $home-page-header-color-2;
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: $home-page-header-color-2;
+    --bs-btn-hover-border-color: #{shade-color($home-page-header-color-2, 10%)};
+    --bs-btn-focus-shadow-rgb: $home-page-header-color-2;
+    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-bg: #{shade-color($home-page-header-color-2, 0%)};
+    --bs-btn-active-border-color: #{shade-color($home-page-header-color-1, 0%)};
+}

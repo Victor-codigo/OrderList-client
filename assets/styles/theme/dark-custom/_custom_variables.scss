@@ -1,0 +1,22 @@
+$gray-850: #2e343a;
+
+$primary-dark: $blue-300;
+$danger-dark: $red-400;
+$success-dark: $green-400;
+
+$body-bg-dark: $gray-800;
+$body-color-dark: white;
+
+$home-page-header-color-1: #0061f2;
+$home-page-header-color-2: rgba(105, 0, 199, 0.8);
+
+// scss-docs-start form-validation-colors-dark
+$form-valid-color-dark: $green-300 ;
+$form-valid-border-color-dark: $green-300 ;
+$form-invalid-color-dark: $red-300 ;
+$form-invalid-border-color-dark: $red-300 ;
+// scss-docs-end form-validation-colors-dark
+
+
+
+@import '/node_modules/bootstrap/scss/variables-dark';
