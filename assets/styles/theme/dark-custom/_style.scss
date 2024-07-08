@@ -27,11 +27,29 @@ $theme-colors: (
 $body-bg-dark: $gray-800;
 $body-color-dark: white;
 
+$home-page-header-color-1: #0061f2;
+$home-page-header-color-2: rgba(105, 0, 199, 0.8);
+
 // scss-docs-start form-validation-colors-dark
 $form-valid-color-dark: $green-300 ;
 $form-valid-border-color-dark: $green-300 ;
 $form-invalid-color-dark: $red-300 ;
 $form-invalid-border-color-dark: $red-300 ;
 // scss-docs-end form-validation-colors-dark
+
+.btn-home-user-menu {
+    --bs-btn-font-weight: #{$btn-font-weight};
+    --bs-btn-color: var(--bs-white);
+    --bs-btn-bg: $home-page-header-color-2;
+    --bs-btn-border-color: $home-page-header-color-2;
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: $home-page-header-color-2;
+    --bs-btn-hover-border-color: #{shade-color($home-page-header-color-2, 10%)};
+    --bs-btn-focus-shadow-rgb: $home-page-header-color-2;
+    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-bg: #{shade-color($home-page-header-color-2, 0%)};
+    --bs-btn-active-border-color: #{shade-color($home-page-header-color-1, 0%)};
+}
+
 
 @import '/node_modules/bootstrap/scss/variables-dark';

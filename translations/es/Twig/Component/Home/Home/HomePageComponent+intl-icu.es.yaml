@@ -16,6 +16,23 @@ button:
 logo:
   title: Ir a {domain_name}
 
+user_menu:
+  logo:
+    title: Ir a {domain_name}
+
+  profile:
+    label: Perfil
+    title: Ir a tú perfil
+    alt: Ir a tú perfil
+
+  groups:
+    label: Grupos
+    title: Ir a tús grupos
+
+  logout:
+    label: Cerrar sesión
+    title: Cierra la sesión actual
+
 main_info:
   title: Crea tús listas de la compra
   info: Bienvenido a <strong>{domain_name}</strong>. Una herramienta creada para <strong>crear y gestinar</strong>, tús <strong>listas de la compra</strong> de una forma fácil y sencilla.

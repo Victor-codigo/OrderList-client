@@ -69,7 +69,8 @@ class HomeController extends AbstractController
             $this->generateUrl('shop_home'.$groupNameEncodedSuffix, [
                 'section' => 'shop',
                 ...$urlParams,
-            ])
+            ]),
+            $requestDto->getUserSessionData()
         );
 
         return $this->render('home/home/index.html.twig', [

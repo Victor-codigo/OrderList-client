@@ -1,6 +1,6 @@
 .header {
-    background-color: #0061f2;
-    @include gradient-directional(#0061f2, rgba(105, 0, 199, 0.8), 135deg);
+    background-color: $home-page-header-color-1;
+    @include gradient-directional($home-page-header-color-1, $home-page-header-color-2, 135deg);
 
     .navigation {
         .navigation__logo {
@@ -14,7 +14,6 @@
         }
 
         .btn-nav {
-            border: 1px solid transparent;
             color: $light;
 
             &:hover {
@@ -24,6 +23,58 @@
             svg {
                 width: 22px;
                 height: 22px;
+            }
+        }
+
+        .btn-user {
+            .btn-user__image {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .user-menu {
+            background-color: $home-page-header-color-2;
+            border-color: $home-page-header-color-1;
+
+            .menu-item__link {
+                color: $white;
+                border: 0;
+                border-color: $home-page-header-color-2;
+                background-color: $home-page-header-color-2;
+                text-decoration: none;
+
+                .user-profile__name {
+                    margin-left: 5px;
+                }
+
+                .menu-item__name {
+                    margin-left: 5px;
+                }
+
+                .menu-item__logout {
+
+                    svg {
+                        color: $red;
+                    }
+                }
+
+                svg {
+                    height: 24px;
+                    width: 24px;
+                }
+
+                img {
+                    border: 1px solid $white;
+                    border-radius: 2px;
+                    height: 30px;
+                    width: 30px;
+                }
+
+                &:hover {
+                    color: $white;
+                    background-color: $home-page-header-color-1;
+                }
             }
         }
     }
@@ -42,14 +93,13 @@
                 border: 1px solid transparent !important;
 
                 &:hover {
-                    // background-color: #1052ec !important;
                     border: 1px solid $white !important;
                 }
 
                 svg {
-                    margin-left: 2rem;
-                    width: 80px;
-                    height: 80px;
+                    margin-left: 1rem;
+                    width: 73px;
+                    height: 73px;
                 }
             }
         }

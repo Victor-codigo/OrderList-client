@@ -16,6 +16,23 @@ button:
 logo:
   title: Go to {domain_name}
 
+user_menu:
+  logo:
+    title: Ir a {domain_name}
+
+  profile:
+    label: Profile
+    title: Go to your profile
+    alt: Go to your profile
+
+  groups:
+    label: Groups
+    title: Go to your groups
+
+  logout:
+    label: Logout
+    title: Closes the current session
+
 main_info:
   title: Create your own shopping list
   info: Welcome to <strong>{domain_name}</strong>. A tool to <strong>create and manage</strong> your <strong>shopping data</strong> on an easy way.
