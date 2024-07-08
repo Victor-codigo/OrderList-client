@@ -9,14 +9,12 @@ use App\Form\User\Login\LOGIN_FORM_FIELDS;
 use App\Form\User\Login\LoginForm;
 use App\Twig\Components\User\Login\LoginComponentDto;
 use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
-use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Form\FormFactory;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\FlashBag\FlashBagInterface;
 use Common\Domain\Ports\Form\FormInterface;
-use Common\Domain\Ports\HttpClient\HttpClientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,14 +32,10 @@ class UserLoginHomeController extends AbstractController
 {
     public function __construct(
         private FormFactory $formFactory,
-        private HttpClientInterface $httpClient,
-        private Endpoints $apiEndpoints,
         private FlashBagInterface $sessionFlashBag,
         private GetPageTitleService $getPageTitleService,
         private Recaptcha3ValidatorAdapter $recaptcha,
-        private int $cookieSessionKeepAlive,
         private string $domainName,
-        private string $cookieSessionName
     ) {
     }
 

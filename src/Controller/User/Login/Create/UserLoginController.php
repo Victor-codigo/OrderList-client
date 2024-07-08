@@ -9,6 +9,7 @@ use App\Form\User\Login\LOGIN_FORM_FIELDS;
 use App\Form\User\Login\LoginForm;
 use App\Twig\Components\User\Login\LoginComponent;
 use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
+use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
@@ -16,8 +17,8 @@ use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormFactoryInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(
@@ -54,10 +55,10 @@ class UserLoginController extends AbstractController
         }
 
         if (null !== $tokenSession) {
-            $redirectResponse = $this->redirectToRoute('home');
-            $redirectResponse->headers->setCookie($this->getCookieSession($loginForm, $tokenSession));
+            $requestDto->request->getSession()->set(HTTP_CLIENT_CONFIGURATION::TOKEN_SESSION_VAR_NAME, $tokenSession);
+            $this->setCookieSession($loginForm, $requestDto->request->getSession());
 
-            return $redirectResponse;
+            return $this->redirectToRoute('home');
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
@@ -92,22 +93,14 @@ class UserLoginController extends AbstractController
         return $responseData['data']['token_session'];
     }
 
-    private function getCookieSession(FormInterface $form, string $tokenSession): Cookie
+    private function setCookieSession(FormInterface $form, SessionInterface $session): void
     {
         $formData = $form->getData();
         $sessionExpire = 0;
         if ($formData[LOGIN_FORM_FIELDS::REMEMBER_ME]) {
-            $sessionExpire = time() + $this->cookieSessionKeepAlive;
+            $sessionExpire = $this->cookieSessionKeepAlive;
         }
 
-        return Cookie::create(
-            $this->cookieSessionName,
-            $tokenSession,
-            $sessionExpire,
-            '/',
-            '',
-            'https' === mb_strtolower(Config::CLIENT_PROTOCOL) ? true : false,
-            false
-        );
+        $session->migrate(true, $sessionExpire);
     }
 }
