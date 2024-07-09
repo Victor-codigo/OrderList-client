@@ -101,6 +101,11 @@ import ProductInfoComponent from 'App/Twig/Components/Product/ProductInfo/Produc
 import ProductsListAjaxComponent from 'App/Twig/Components/Product/ProductsListAjax/ProductsListAjaxComponent_controller';
 
 
+// LEGAL
+import LegalNoticeComponent from 'App/Twig/Components/Legal/Notice/Legal_controller';
+import PrivacyComponent from 'App/Twig/Components/Legal/Privacy/Privacy_controller';
+
+
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
     '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
@@ -200,7 +205,6 @@ app.register('PaginatorContentLoaderJsComponent', PaginatorContentLoaderJsCompon
 app.register('ShopsListAjaxComponent', ShopsListAjaxComponent);
 app.register('ShopInfoComponent', ShopInfoComponent);
 
-
 // PRODUCT
 app.register('ProductHomeSectionComponent', ProductHomeSectionComponent);
 app.register('ProductCreateComponent', ProductCreateComponent);
@@ -210,3 +214,7 @@ app.register('ProductRemoveComponent', ProductRemoveComponent);
 app.register('ProductListItemComponent', ProductListItemComponent);
 app.register('ProductInfoComponent', ProductInfoComponent);
 app.register('ProductsListAjaxComponent', ProductsListAjaxComponent);
+
+// LEGAL
+app.register('LegalNoticeComponent', LegalNoticeComponent);
+app.register('PrivacyComponent', PrivacyComponent);
