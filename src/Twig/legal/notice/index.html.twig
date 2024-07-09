@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+{{ pageTitle }}
+{% endblock %}
+{% block body %}
+<main class="container-sm  mb-auto  mt-5">
+    <section class="row  no-gutters">
+        <div class="col col-xxl-10  offset-xxl-1">
+            {{ component('LegalNoticeComponent', { data: legalNoticeComponentDto }) }}
+        </div>
+    </section>
+</main>
+{% endblock %}
