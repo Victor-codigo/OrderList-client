@@ -77,6 +77,9 @@ class SignupComponent extends TwigComponent
             $this->translate('nick.label'),
             $this->translate('nick.placeholder'),
             $this->translate('nick.msg_invalid'),
+            $this->translate('legal.pre_text'),
+            $this->translate('legal.link_text'),
+            $this->translate('legal.msg_invalid'),
             $this->translate('register_button'),
             $this->translate('login_link'),
             $this->data->validForm ? $this->createAlertValidationComponentDto() : null

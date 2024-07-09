@@ -27,6 +27,10 @@ class SignupComponentLangDto
         public readonly string $nickPlaceholder,
         public readonly string $nickMsgInvalid,
         // --
+        public readonly string $legalPreText,
+        public readonly string $legalTermsAndConditions,
+        public readonly string $legalMsgInvalid,
+        // --
         public readonly string $loginButton,
         public readonly string $loginLink,
         public readonly ?AlertValidationComponentDto $validationErrors

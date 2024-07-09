@@ -22,6 +22,11 @@ nick:
     Enter a valid nick.
     Nick must contain alphanumeric characters, and between 1 and 30 characters
 
+legal:
+  pre_text: I have read and accept
+  link_text: terms of service
+  msg_invalid: You have to accept terms of service to sign up
+
 register_button: Sign up!
 
 login_link: Or login here

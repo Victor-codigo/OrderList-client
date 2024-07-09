@@ -22,6 +22,11 @@ nick:
     Introduce un nick válido
     El nick debe contener, caracteres alfanuméricos y estar entre 1 y 30 caracteres
 
+legal:
+  pre_text: He leído y acepto los
+  link_text: Términos del servicio
+  msg_invalid: Tienes que aceptar los términos del servicio para poder registrarte
+
 register_button: ¡Regístrate!
 
 login_link: O Identifícate aquí
@@ -29,6 +34,6 @@ login_link: O Identifícate aquí
 validation:
   title: Errors
   error:
-    captcha: Upss..., parace que captcha te identifica como un robot. Por favor, recarga la página, e inténtalo otra vez.
+    captcha: Upss..., parece que captcha te identifica como un robot. Por favor, recarga la página, e inténtalo otra vez.
     email_exists: El email ya está registrado
     internal_server: An error has been occurred, try it later

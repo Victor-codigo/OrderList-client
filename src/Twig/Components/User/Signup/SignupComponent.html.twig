@@ -76,6 +76,21 @@
 	</div>
 
 	<div class="mt-5">
+
+		<input class="form-check-input"
+			   type="checkbox"
+			   id="terms-and-conditions"
+			   required>
+		<label class="form-check-label"
+			   for="terms-and-conditions">
+			{{ lang.legalPreText }} <a href="{{ path('privacy_notice') }}">{{ lang.legalTermsAndConditions }}</a>
+		</label>
+
+
+		<div class="invalid-feedback">{{ lang.legalMsgInvalid }}</div>
+	</div>
+
+	<div class="mt-5">
 		<input type="submit"
 			   id="register_button"
 			   class="btn btn-primary w-100"

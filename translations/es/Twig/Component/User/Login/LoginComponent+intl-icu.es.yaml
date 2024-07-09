@@ -24,5 +24,5 @@ validation:
   title: Errors
   error:
     login: El email o el password son incorrectos
-    captcha: Upss..., parace que captcha te identifica como un robot. Por favor, recarga la página, e inténtalo otra vez.
+    captcha: Upss..., parece que captcha te identifica como un robot. Por favor, recarga la página, e inténtalo otra vez.
     internal_server: Ha ocurrido un error, inténtalo más tarde
