@@ -100,6 +100,8 @@ import ProductListItemComponent from 'App/Twig/Components/Product/ProductHome/Li
 import ProductInfoComponent from 'App/Twig/Components/Product/ProductInfo/ProductInfo_controller';
 import ProductsListAjaxComponent from 'App/Twig/Components/Product/ProductsListAjax/ProductsListAjaxComponent_controller';
 
+// FOOTER
+import FooterComponent from 'App/Twig/Components/Common/Footer/FooterComponent_controller';
 
 // LEGAL
 import LegalNoticeComponent from 'App/Twig/Components/Legal/Notice/Legal_controller';
@@ -214,6 +216,9 @@ app.register('ProductRemoveComponent', ProductRemoveComponent);
 app.register('ProductListItemComponent', ProductListItemComponent);
 app.register('ProductInfoComponent', ProductInfoComponent);
 app.register('ProductsListAjaxComponent', ProductsListAjaxComponent);
+
+// FOOTER
+app.register('FooterComponent', FooterComponent);
 
 // LEGAL
 app.register('LegalNoticeComponent', LegalNoticeComponent);
