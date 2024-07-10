@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Components\Legal\Privacy;
+namespace App\Twig\Components\Common\Legal\Privacy;
 
 use Common\Domain\DtoBuilder\DtoBuilder;
 

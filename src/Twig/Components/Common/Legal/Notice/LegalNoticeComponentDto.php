@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Components\Legal\Privacy;
+namespace App\Twig\Components\Common\Legal\Notice;
 
 use App\Twig\Components\TwigComponentDtoInterface;
 
-class PrivacyComponentDto implements TwigComponentDtoInterface
+class LegalNoticeComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly string $domainName,

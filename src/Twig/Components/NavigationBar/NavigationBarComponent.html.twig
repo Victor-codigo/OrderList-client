@@ -95,7 +95,7 @@
 				</div>
 			</button>
 
-
+			{% if not userButton is null %}
 
 			<a href="{{ notificationUrl }}"
 			   class="position-relative  navbar__language-switch  p-3  d-flex  flex-column  justify-content-center"
@@ -112,9 +112,6 @@
 
 				{% include "bell-icon.svg" %}
 			</a>
-
-
-			{% if not userButton is null %}
 
 			<div class="dropdown  navbar__user-menu  d-flex">
 				<button class="btn  btn-dark  navbar__user-menu  rounded-0  p-3  pt-1  pb-1"

@@ -107,8 +107,8 @@ import FooterComponent from 'App/Twig/Components/Common/Footer/FooterComponent_c
 import CookiesConsentComponent from 'App/Twig/Components/Common/CookiesConsent/CookiesConsentComponent_controller';
 
 // LEGAL
-import LegalNoticeComponent from 'App/Twig/Components/Legal/Notice/Legal_controller';
-import PrivacyComponent from 'App/Twig/Components/Legal/Privacy/Privacy_controller';
+import LegalNoticeComponent from 'App/Twig/Components/Common/Legal/Notice/Legal_controller';
+import PrivacyComponent from 'App/Twig/Components/Common/Legal/Privacy/Privacy_controller';
 
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory

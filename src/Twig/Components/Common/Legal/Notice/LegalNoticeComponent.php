@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Components\Legal\Notice;
+namespace App\Twig\Components\Common\Legal\Notice;
 
 use App\Twig\Components\Controls\Title\TITLE_TYPE;
 use App\Twig\Components\Controls\Title\TitleComponentDto;

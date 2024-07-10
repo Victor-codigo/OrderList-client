@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twig\Components\Legal\Notice;
+namespace App\Twig\Components\Common\Legal\Notice;
 
 use Common\Domain\DtoBuilder\DtoBuilder;
 
