@@ -11,6 +11,7 @@ use App\Form\User\PasswordChange\PasswordChangeForm;
 use App\Form\User\Profile\ProfileForm;
 use App\Form\User\UserRemove\UserRemoveForm;
 use Common\Adapter\Endpoints\Endpoints;
+use Common\Adapter\Events\Exceptions\NotFoundHttpException;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
 use Common\Domain\PageTitle\GetPageTitleService;
@@ -22,7 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 #[Route(
     path: '{_locale}/user/profile/{user_name}',
@@ -34,8 +34,6 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 )]
 class UserProfileController extends AbstractController
 {
-    private const PROFILE_IMAGE_NOT_SET = '/assets/img/common/user-avatar-no-image.svg';
-
     private UserDataResponse $userData;
 
     public function __construct(
@@ -72,16 +70,20 @@ class UserProfileController extends AbstractController
         $usersData = $this->apiEndpoint->usersGetDataByName([$userNameEncoded], $tokenSession);
 
         if (!empty($usersData['errors'])) {
-            throw new NotFoundResourceException('Profile not found');
+            throw new NotFoundHttpException('Profile not found');
+        }
+
+        if (empty($usersData['data']['users'])) {
+            throw new NotFoundHttpException('Profile not found');
         }
 
         try {
             $usersData['data']['users'] = array_map(
                 fn (array $usersData) => UserDataResponse::fromArray($usersData),
-                $usersData['data']['users'] ?? []
+                $usersData['data']['users']
             );
         } catch (\Throwable $e) {
-            throw new NotFoundResourceException('Profile not found');
+            throw new NotFoundHttpException('Profile not found');
         }
 
         return $usersData['data']['users'][0];
