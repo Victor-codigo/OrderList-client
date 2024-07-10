@@ -103,6 +103,9 @@ import ProductsListAjaxComponent from 'App/Twig/Components/Product/ProductsListA
 // FOOTER
 import FooterComponent from 'App/Twig/Components/Common/Footer/FooterComponent_controller';
 
+// COOKIES CONSENT
+import CookiesConsentComponent from 'App/Twig/Components/Common/CookiesConsent/CookiesConsentComponent_controller';
+
 // LEGAL
 import LegalNoticeComponent from 'App/Twig/Components/Legal/Notice/Legal_controller';
 import PrivacyComponent from 'App/Twig/Components/Legal/Privacy/Privacy_controller';
@@ -219,6 +222,9 @@ app.register('ProductsListAjaxComponent', ProductsListAjaxComponent);
 
 // FOOTER
 app.register('FooterComponent', FooterComponent);
+
+// COOKIES CONSENT
+app.register('CookiesConsentComponent', CookiesConsentComponent);
 
 // LEGAL
 app.register('LegalNoticeComponent', LegalNoticeComponent);

@@ -24,6 +24,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootstrap5-autocomplete": "^1.1.26"
+        "bootstrap5-autocomplete": "^1.1.26",
+        "vanilla-cookieconsent": "^3.0.1"
     }
 }

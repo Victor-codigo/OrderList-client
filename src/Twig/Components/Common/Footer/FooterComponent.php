@@ -17,8 +17,4 @@ class FooterComponent extends TwigComponent
     {
         return 'FooterComponent';
     }
-
-    public function mount(): void
-    {
-    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
 
 <head>
 	<meta charset="UTF-8">
@@ -26,6 +26,8 @@
 </head>
 
 <body class="d-flex  flex-column  min-vh-100  justify-content-between  background">
+
+	{{ component('CookiesConsentComponent') }}
 
 	{% block navigation %}
 

@@ -2,7 +2,12 @@
 
 @import '/assets/styles/style';
 
+
+// Google recaptcha
 @import '/assets/styles/recaptcha';
+
+// Cookies Consent
+@import '/node_modules/vanilla-cookieconsent/dist/cookieconsent.css';
 
 
 // Landing page
