@@ -18,7 +18,6 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\OptionsResolver\Exception\NoConfigurationException;
@@ -56,7 +55,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadRequestDto(Request $request): RequestDto
     {
-        $tokenSession = $this->loadTokenSessionFromSession($request->getSession());
+        $tokenSession = $this->loadTokenSession($request);
         $groupData = $this->groupDataLoader->load($request, $tokenSession);
 
         $requestDto = new RequestDto(
@@ -93,13 +92,13 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('NavigationBarComponent', $navigationBarDto);
     }
 
-    private function loadTokenSessionFromSession(SessionInterface $session): ?string
+    private function loadTokenSession(Request $request): ?string
     {
-        if (!$session->has(HTTP_CLIENT_CONFIGURATION::TOKEN_SESSION_VAR_NAME)) {
+        if (!$request->cookies->has(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME)) {
             return null;
         }
 
-        return $session->get(HTTP_CLIENT_CONFIGURATION::TOKEN_SESSION_VAR_NAME);
+        return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
     }
 
     private function loadLocale(Request $request): string

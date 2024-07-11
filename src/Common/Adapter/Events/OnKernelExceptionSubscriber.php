@@ -54,7 +54,7 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
         }
 
         $request = $this->request->getMainRequest();
-        $tokenSession = $request->getSession()->get(HTTP_CLIENT_CONFIGURATION::TOKEN_SESSION_VAR_NAME);
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
         $locale = $this->getLocale($request->getPathInfo());
 
         return new Response(
@@ -74,7 +74,7 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
         }
 
         $request = $this->request->getMainRequest();
-        $tokenSession = $request->getSession()->get(HTTP_CLIENT_CONFIGURATION::TOKEN_SESSION_VAR_NAME);
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
         $locale = $this->getLocale($request->getPathInfo());
 
         return new Response(

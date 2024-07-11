@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Logout;
 
+use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,10 +23,9 @@ class UserLogoutController extends AbstractController
 {
     public function __invoke(Request $request): RedirectResponse
     {
-        $request->getSession()->clear();
-
         $redirect = $this->redirectToRoute('home');
         $redirect->headers->clearCookie($request->getSession()->getName());
+        $redirect->headers->clearCookie(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
 
         return $redirect;
     }

@@ -13,9 +13,9 @@ final class HTTP_CLIENT_CONFIGURATION
     public const API_DOMAIN = 'http://orderlist.api';
     public const CLIENT_DOMAIN = 'http://orderlist.client';
     public const XDEBUG_VAR = 'XDEBUG_SESSION=VSCODE';
-    public const TOKEN_SESSION_VAR_NAME = 'TOKENSESSION';
+    public const COOKIE_SESSION_NAME = 'TOKENSESSION';
 
-    public static function json(array $data = null, string $tokenSession = null): array
+    public static function json(?array $data = null, ?string $tokenSession = null): array
     {
         $json = self::getConfiguration();
 
@@ -25,7 +25,7 @@ final class HTTP_CLIENT_CONFIGURATION
         return $json;
     }
 
-    public static function form(array $data, array $files = [], string $tokenSession = null): array
+    public static function form(array $data, array $files = [], ?string $tokenSession = null): array
     {
         $form = self::getConfiguration();
         null === $tokenSession ?: $form['auth_bearer'] = $tokenSession;
@@ -42,7 +42,7 @@ final class HTTP_CLIENT_CONFIGURATION
         return $form;
     }
 
-    private static function loadFiles(UploadedFile|null $file): DataPart|null
+    private static function loadFiles(?UploadedFile $file): ?DataPart
     {
         if (null === $file) {
             return null;

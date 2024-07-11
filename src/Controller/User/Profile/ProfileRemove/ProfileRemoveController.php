@@ -7,6 +7,7 @@ namespace App\Controller\User\Profile\ProfileRemove;
 use App\Controller\Request\RequestDto;
 use App\Form\User\UserRemove\UserRemoveForm;
 use App\Twig\Components\User\UserRemove\UserRemoveComponent;
+use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -44,7 +45,10 @@ class ProfileRemoveController extends AbstractController
             $this->validForm($userRemoveComponent, $requestDto->getTokenSessionOrFail());
         }
 
-        return $this->redirectToRoute('home');
+        $redirect = $this->redirectToRoute('home');
+        $redirect->headers->clearCookie(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+
+        return $redirect;
     }
 
     private function validForm(FormInterface $form, string $tokenSession): void
