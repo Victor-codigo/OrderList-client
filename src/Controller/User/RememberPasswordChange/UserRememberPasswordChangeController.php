@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller\User\RememberPasswordChange;
 
-use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_ERRORS;
 use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use App\Form\User\PasswordChange\PasswordChangeForm;
 use App\Twig\Components\User\PasswordChange\PasswordChangeComponentDto;
 use Common\Adapter\Form\FormFactory;
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
-use Common\Domain\HttpClient\Exception\Error400Exception;
-use Common\Domain\HttpClient\Exception\Error500Exception;
-use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\PageTitle\GetPageTitleService;
+use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\Form\FormInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
-use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,11 +28,10 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class UserRememberPasswordChangeController extends AbstractController
 {
-    private const PASSWORD_CHANGE_ENDPOINT = '/api/v1/users/password-remember';
-
     public function __construct(
         private HttpClientInterface $httpClient,
         private FormFactory $formFactory,
+        private EndpointsInterface $endpoints,
         private GetPageTitleService $getPageTitleService
     ) {
     }
@@ -47,47 +41,29 @@ class UserRememberPasswordChangeController extends AbstractController
         $sessionToken = $request->attributes->get('token');
         $form = $this->formFactory->create(new PasswordChangeForm(), $request);
 
+        $validForm = false;
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->formValid($form, $sessionToken);
+            $validForm = true;
+            $this->formValid($form, $sessionToken);
         }
 
-        return $this->renderPasswordChange($form);
+        return $this->renderPasswordChange($form, $validForm);
     }
 
-    private function formValid(FormInterface $form, string $sessionToken): Response
+    private function formValid(FormInterface $form, string $sessionToken): void
     {
-        try {
-            $response = $this->requestPasswordChange($form, $sessionToken);
-            $responseData = $response->getContent();
-            $responseHttp = $this->redirectToRoute('user_password_remember_changed');
-        } catch (Error400Exception $e) {
-            $responseData = $e->getResponse()->toArray(false);
-            foreach ($responseData['errors'] as $error => $errorValue) {
-                $form->addError($error, $errorValue);
-            }
-        } catch (Error500Exception|NetworkException $e) {
-            $form->addError(PASSWORD_CHANGE_FORM_ERRORS::INTERNAL_SERVER->value);
-        } finally {
-            return $responseHttp ?? $this->renderPasswordChange($form);
-        }
-    }
-
-    private function requestPasswordChange(FormInterface $form, string $sessionToken): HttpClientResponseInterface
-    {
-        $formData = $form->getData();
-
-        return $this->httpClient->request(
-            'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::PASSWORD_CHANGE_ENDPOINT,
-            HTTP_CLIENT_CONFIGURATION::json([
-                'token' => $sessionToken,
-                'passwordNew' => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW],
-                'passwordNewRepeat' => $formData[PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT],
-            ])
+        $responseData = $this->endpoints->userRememberPasswordChange(
+            $form->getFieldData(PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW, ''),
+            $form->getFieldData(PASSWORD_CHANGE_FORM_FIELDS::PASSWORD_NEW_REPEAT, ''),
+            $sessionToken
         );
+
+        foreach ($responseData['errors'] as $error => $errorDescription) {
+            $form->addError((string) $error, $errorDescription);
+        }
     }
 
-    private function renderPasswordChange(FormInterface $form): Response
+    private function renderPasswordChange(FormInterface $form, bool $validForm): Response
     {
         $formData = $form->getData();
         $data = new PasswordChangeComponentDto(
@@ -99,7 +75,7 @@ class UserRememberPasswordChangeController extends AbstractController
             $form->getCsrfToken(),
             false,
             '',
-            true,
+            $validForm,
         );
 
         return $this->render('user/user_remember_password_change/index.html.twig', [
