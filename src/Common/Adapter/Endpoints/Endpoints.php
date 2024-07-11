@@ -492,6 +492,17 @@ class Endpoints implements EndpointsInterface
 
     /**
      * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     */
+    public function userRememberPasswordChange(string $passwordNew, string $passwordNewRepeat, string $sessionToken): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userRememberPasswordChange($passwordNew, $passwordNewRepeat, $sessionToken);
+    }
+
+    /**
+     * @return array<{
      *    data: array<{
      *      token_session: string|null
      *    }>

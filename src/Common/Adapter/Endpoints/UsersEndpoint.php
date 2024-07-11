@@ -20,6 +20,7 @@ class UsersEndpoint extends EndpointBase
     public const POST_SIGNUP_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users';
     public const POST_LOGIN_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/login';
     public const POST_PASSWORD_REMEMBER_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/remember';
+    public const PATCH_PASSWORD_CHANGE_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/password-remember';
     public const GET_USER_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users';
     public const GET_USER_BY_NAME_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/name';
     public const POST_USER_MODIFY_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/modify';
@@ -167,6 +168,48 @@ class UsersEndpoint extends EndpointBase
             HTTP_CLIENT_CONFIGURATION::json([
                 'email' => $email,
                 'email_password_remember_url' => $emailPasswordRememberUrl,
+            ])
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     */
+    public function userRememberPasswordChange(string $passwordNew, string $passwordNewRepeat, string $sessionToken): array
+    {
+        $response = $this->requestUserRememberPasswordChange($passwordNew, $passwordNewRepeat, $sessionToken);
+
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError) => [
+                'data' => [],
+                'errors' => $responseDataError['errors'],
+            ],
+            fn (array $responseDataOk) => [
+                'data' => $responseDataOk,
+                'errors' => [],
+            ],
+            fn (array $responseDataNoContent) => [
+                'data' => [],
+                'errors' => [],
+            ]
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestUserRememberPasswordChange(string $passwordNew, string $passwordNewRepeat, string $sessionToken): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'PATCH',
+            self::PATCH_PASSWORD_CHANGE_ENDPOINT,
+            HTTP_CLIENT_CONFIGURATION::json([
+                'passwordNew' => $passwordNew,
+                'passwordNewRepeat' => $passwordNewRepeat,
+                'token' => $sessionToken,
             ])
         );
     }

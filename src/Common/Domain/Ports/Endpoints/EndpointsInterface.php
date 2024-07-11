@@ -285,6 +285,14 @@ interface EndpointsInterface
 
     /**
      * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     */
+    public function userRememberPasswordChange(string $passwordNew, string $passwordNewRepeat, string $sessionToken): array;
+
+    /**
+     * @return array<{
      *    page: int,
      *    pages_total: int,
      *    users: array<int, array>
