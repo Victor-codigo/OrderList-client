@@ -277,6 +277,14 @@ interface EndpointsInterface
 
     /**
      * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     */
+    public function userRememberPassword(string $email, string $emailPasswordRememberUrl, string $locale): array;
+
+    /**
+     * @return array<{
      *    page: int,
      *    pages_total: int,
      *    users: array<int, array>

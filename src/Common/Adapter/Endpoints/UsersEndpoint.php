@@ -19,6 +19,7 @@ class UsersEndpoint extends EndpointBase
 
     public const POST_SIGNUP_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users';
     public const POST_LOGIN_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/login';
+    public const POST_PASSWORD_REMEMBER_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/remember';
     public const GET_USER_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users';
     public const GET_USER_BY_NAME_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/name';
     public const POST_USER_MODIFY_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/modify';
@@ -125,6 +126,47 @@ class UsersEndpoint extends EndpointBase
             HTTP_CLIENT_CONFIGURATION::json([
                 'username' => $userName,
                 'password' => $password,
+            ])
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array
+     *    errors: array
+     * }>
+     */
+    public function userRememberPassword(string $email, string $emailPasswordRememberUrl, string $locale): array
+    {
+        $response = $this->requestUserRememberPassword($email, $emailPasswordRememberUrl, $locale);
+
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError) => [
+                'data' => [],
+                'errors' => $responseDataError['errors'],
+            ],
+            fn (array $responseDataOk) => [
+                'data' => $responseDataOk,
+                'errors' => [],
+            ],
+            fn (array $responseDataNoContent) => [
+                'data' => [],
+                'errors' => [],
+            ]
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestUserRememberPassword(string $email, string $emailPasswordRememberUrl, string $locale): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'POST',
+            self::POST_PASSWORD_REMEMBER_ENDPOINT."?lang={$locale}",
+            HTTP_CLIENT_CONFIGURATION::json([
+                'email' => $email,
+                'email_password_remember_url' => $emailPasswordRememberUrl,
             ])
         );
     }
