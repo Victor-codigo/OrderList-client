@@ -13,7 +13,7 @@ password:
 password_repeated:
   label: Password repeat
   placeholder: Enter your password again
-  msg_invalid: Fields Password and Password repeat are not equals
+  msg_invalid: Fields Password and Password repeat must be equals, and contain at least 6 characters
 
 nick:
   label: Nick

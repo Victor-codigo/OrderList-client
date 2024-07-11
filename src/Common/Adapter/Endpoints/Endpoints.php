@@ -474,9 +474,9 @@ class Endpoints implements EndpointsInterface
      *    errors: array
      * }>
      */
-    public function userSignUp(string $name, string $email, string $password, string $emailConfirmationUrl): array
+    public function userSignUp(string $name, string $email, string $password, string $emailConfirmationUrl, string $locale): array
     {
-        return UsersEndpoint::getInstance($this->httpClient)->userSignUp($name, $email, $password, $emailConfirmationUrl);
+        return UsersEndpoint::getInstance($this->httpClient)->userSignUp($name, $email, $password, $emailConfirmationUrl, $locale);
     }
 
     /**

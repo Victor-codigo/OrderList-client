@@ -13,7 +13,7 @@ password:
 password_repeated:
   label: Repetir la contraseña
   placeholder: Introduce tú contraseña otra vez
-  msg_invalid: Los campos Contraseña y Repetir contraseña no son iguales
+  msg_invalid: Los campos Contraseña y Repetir contraseña tienen que ser iguales, y contener al menos 6 caracteres
 
 nick:
   label: Nick

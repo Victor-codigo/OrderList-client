@@ -50,9 +50,9 @@ class UsersEndpoint extends EndpointBase
      *    errors: array
      * }>
      */
-    public function userSignUp(string $name, string $email, string $password, string $emailConfirmationUrl): array
+    public function userSignUp(string $name, string $email, string $password, string $emailConfirmationUrl, string $locale): array
     {
-        $response = $this->requestSignUp($name, $email, $password, $emailConfirmationUrl);
+        $response = $this->requestSignUp($name, $email, $password, $emailConfirmationUrl, $locale);
 
         return $this->apiResponseManage($response);
     }
@@ -60,11 +60,11 @@ class UsersEndpoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestSignUp(string $name, string $email, string $password, string $emailConfirmationUrl): HttpClientResponseInterface
+    private function requestSignUp(string $name, string $email, string $password, string $emailConfirmationUrl, string $locale): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',
-            self::POST_SIGNUP_ENDPOINT,
+            self::POST_SIGNUP_ENDPOINT."?lang={$locale}",
             HTTP_CLIENT_CONFIGURATION::json([
                 'name' => $name,
                 'email' => $email,

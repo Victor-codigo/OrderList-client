@@ -71,6 +71,7 @@ class UserSignupController extends AbstractController
             $form->getFieldData(SIGNUP_FORM_FIELDS::EMAIL),
             $form->getFieldData(SIGNUP_FORM_FIELDS::PASSWORD),
             str_replace('{_locale}', $locale, self::EMAIL_CONFIRMATION_URL),
+            $locale
         );
 
         foreach ($responseData['errors'] as $error => $errorDescription) {
