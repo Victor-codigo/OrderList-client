@@ -45,28 +45,28 @@ export default class extends Controller {
     }
 
     #show() {
-        this.element.style.display = 'block';
+        this.element.removeAttribute('hidden');
     }
 
     #hide() {
-        this.element.style.display = 'none';
+        this.element.setAttribute('hidden');
     }
 
     /**
      * @param {string} type
      */
     #setValidationType(type) {
-        this.element.classList.remove('text-bg-light', 'text-bg-danger', 'text-bg-success');
+        this.element.classList.remove('alert-light', 'alert-danger', 'alert-success');
 
         switch (type) {
             case ALERT_TYPE.DANGER:
-                this.element.classList.add('text-bg-danger');
+                this.element.classList.add('alert-danger');
                 break;
             case ALERT_TYPE.SUCCESS:
-                this.element.classList.add('text-bg-success');
+                this.element.classList.add('alert-success');
                 break;
             default:
-                this.element.classList.add('text-bg-light');
+                this.element.classList.add('alert-light');
         }
     }
 
