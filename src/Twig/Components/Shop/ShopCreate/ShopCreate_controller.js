@@ -77,9 +77,7 @@ export default class ShopCreateController extends Controller {
         this.element.reset();
         this.element.classList.remove('was-validated');
 
-        if (this.alertComponentTag !== null) {
-            this.alertComponentTag.style.display = 'none';
-        }
+        this.alertComponentTag?.setAttribute('hidden', true);
 
         autocomplete.close(AUTOCOMPLETE_SELECTOR);
 

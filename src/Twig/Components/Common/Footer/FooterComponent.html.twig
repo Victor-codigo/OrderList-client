@@ -36,12 +36,12 @@
 	</p>
 
 	<p class="mt-3  pb-5">
-		<a class="link-light link-underline-opacity-0 link-underline-opacity-100-hover  me-3"
-		   href="{{ path('legal_notice') }}">
+		 <a class="link-light link-underline-opacity-0 link-underline-opacity-100-hover  me-3"
+		   href="{{ path('legal_notice', { '_locale': app.request.locale }) }}">
 			{{ 'legal.legal_note'|trans }}
 		</a>
 		<a class="link-light link-underline-opacity-0 link-underline-opacity-100-hover"
-		   href="{{ path('privacy_notice') }}">
+		   href="{{ path('privacy_notice', { '_locale': app.request.locale }) }}">
 			{{ 'legal.privacy_note'|trans }}
 		</a>
 	</p>

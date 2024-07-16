@@ -96,11 +96,6 @@ export async function createRequest(url, fetchOptions) {
  * @throws Error
  */
 export async function manageResponseJson(response, callbackResponseNoContent, callbackRequestError, callbackResponseOk) {
-
-    if (!response.ok) {
-        throw new Error(`Response error status ${response.status}`);
-    }
-
     if (response.status === 204) {  // No content
         if (callbackResponseNoContent) {
             return callbackResponseNoContent(response);
@@ -112,7 +107,7 @@ export async function manageResponseJson(response, callbackResponseNoContent, ca
     try {
         const responseData = await response.json();
 
-        if (responseData.errors.length > 0) {
+        if (Object.values(responseData.errors).length > 0) {
             if (callbackRequestError) {
                 return callbackRequestError(responseData.errors);
             }

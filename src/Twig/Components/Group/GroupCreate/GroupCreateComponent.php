@@ -55,7 +55,7 @@ final class GroupCreateComponent extends TwigComponent
 
     private function createTitleComponent(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP,null);
     }
 
     private function getDopZoneDto(): DropZoneComponentDto

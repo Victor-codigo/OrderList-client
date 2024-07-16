@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Legal\Privacy;
 
-use App\Twig\Components\Legal\Privacy\PrivacyComponentDto;
+use App\Twig\Components\Common\Legal\Privacy\PrivacyComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\PageTitle\GetPageTitleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

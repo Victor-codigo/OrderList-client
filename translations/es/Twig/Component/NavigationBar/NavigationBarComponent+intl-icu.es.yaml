@@ -4,6 +4,18 @@ navigation:
   logo:
     title: Ir a {domain_name}
 
+  notification:
+    title: Notificaciones
+
+  language:
+    title: Idioma
+
+  theme:
+    title: Tema visual
+
+  user_menu:
+    title: Menú del usuario
+
   profile:
     label: Perfil
     title: Ir a tú perfil

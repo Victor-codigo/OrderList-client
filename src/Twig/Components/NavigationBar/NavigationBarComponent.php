@@ -46,11 +46,18 @@ class NavigationBarComponent extends TwigComponent
     public readonly string $cssTextColor;
 
     public readonly array $sections;
+
     public readonly string $languageToggleUrl;
+    public readonly string $languageToggleTitle;
+
     public readonly string $notificationUrl;
+    public readonly string $notificationTitle;
 
     public readonly string $logoTitleAttribute;
     public readonly string $backButtonTitle;
+
+    public readonly string $themeButtonTitle;
+    public readonly string $userButtonTitle;
 
     public readonly int $notificationsNewNumber;
 
@@ -77,11 +84,15 @@ class NavigationBarComponent extends TwigComponent
         $sections = $this->createSections($this->data);
         $this->userButton = $this->createUserButton($data->userData);
         $this->notificationUrl = $this->createNotificationsUrl();
+        $this->notificationTitle = $this->translate('navigation.notification.title');
         $this->notificationsNewNumber = $this->getNotificationsNewCount($this->data->notificationsData);
         $this->profileButton = $this->createProfileButton($data->userData);
         $this->groupButton = $this->createGroupButton($data->userData);
         $this->logoutButton = $this->createLogoutButton($data->userData);
         $this->languageToggleUrl = $this->createLanguageToggleUrl($this->data->routeName, $this->data->routeParameters, $this->data->locale);
+        $this->languageToggleTitle = $this->translate('navigation.language.title');
+        $this->themeButtonTitle = $this->translate('navigation.theme.title');
+        $this->userButtonTitle = $this->translate('navigation.user_menu.title');
         $this->sections = $sections;
         $this->logoTitleAttribute = $this->translate('navigation.logo.title', ['domain_name' => $this->data->domainName]);
         $this->backButtonTitle = $this->translate('navigation.back_button.title');

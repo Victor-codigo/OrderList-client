@@ -34,6 +34,6 @@ final class RegistrationEmailConfirmationComponent extends TwigComponent
 
     private function createTitleDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->data->title, TITLE_TYPE::PAGE_MAIN);
+        return new TitleComponentDto($this->data->title, TITLE_TYPE::PAGE_MAIN,null);
     }
 }

@@ -222,6 +222,7 @@ class GroupHomeController extends AbstractController
 
         return (new GroupHomeComponentBuilder())
             ->title(
+                null,
                 null
             )
             ->errors(

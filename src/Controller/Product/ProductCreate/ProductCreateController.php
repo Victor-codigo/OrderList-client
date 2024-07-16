@@ -48,7 +48,7 @@ class ProductCreateController extends AbstractController
             $requestDto->requestReferer->routeName,
             $requestDto->requestReferer->params,
             [$this->productCreateComponent->loadValidationOkTranslation()],
-            $this->productCreateComponent->loadErrorsTranslation($responseData->getErrors()),
+            $responseData->getErrors(),
             []
         );
     }

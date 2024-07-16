@@ -1,7 +1,15 @@
 import { Controller } from '@hotwired/stimulus';
-import * as communication from 'App/modules/ControllerCommunication';
+import * as form from 'App/modules/form';
 
 export default class extends Controller {
+    connect() {
+        this.formValidate();
+    }
+
+    formValidate() {
+        form.validate(this.element, null);
+    }
+
     setImageAvatarAsRemoved(event) {
         let imageRemovedField = this.element.querySelector('[data-js-image-remove]');
 
@@ -11,6 +19,6 @@ export default class extends Controller {
             return;
         }
 
-        imageRemovedField.removeAttribute('value');
+        imageRemovedField.value = "false";
     }
 }

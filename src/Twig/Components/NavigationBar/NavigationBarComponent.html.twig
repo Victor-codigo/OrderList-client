@@ -1,7 +1,7 @@
 <nav class="navbar  navbar-dark  bg-dark  navbar-expand-lg  fixed-top  p-0"
 	 data-controller="NavigationBarComponent"
 	 data-bs-theme="dark">
-	<div class="container-fluid  align-items-stretch  ps-0  pe-0  flex-fill">
+	<div class="container  align-items-stretch  ps-0  pe-0  flex-fill">
 
 		{% if this.hasBackButton %}
 
@@ -62,6 +62,7 @@
 			<a class="navbar__language-switch  px-3  d-flex  flex-column  justify-content-center"
 			   href="{{ languageToggleUrl }}"
 			   role="button"
+			   title="{{ languageToggleTitle }}"
 			   type="button">
 
 				{% include "flag/english-flag.svg" %}
@@ -71,6 +72,7 @@
 
 			<a class="navbar__language-switch  px-3  d-flex  flex-column  justify-content-center"
 			   href="{{ languageToggleUrl }}"
+			   title="{{ languageToggleTitle }}"
 			   role="button">
 
 				{% include "flag/spanish-flag.svg" %}
@@ -80,6 +82,7 @@
 
 			<button class="btn  btn-dark  navbar__theme-switch  rounded-0  p-3"
 					type="button"
+					title="{{ themeButtonTitle }}"
 					data-js-theme-button>
 				<div hidden
 					 data-js-theme-dark>
@@ -99,6 +102,7 @@
 
 			<a href="{{ notificationUrl }}"
 			   class="position-relative  navbar__language-switch  p-3  d-flex  flex-column  justify-content-center"
+			   title="{{ notificationTitle }}"
 			   role="button">
 
 				{% if notificationsNewNumber > 0 %}
@@ -113,7 +117,8 @@
 				{% include "bell-icon.svg" %}
 			</a>
 
-			<div class="dropdown  navbar__user-menu  d-flex">
+			<div class="dropdown  navbar__user-menu  d-flex"
+				 title="{{ userButtonTitle }}">
 				<button class="btn  btn-dark  navbar__user-menu  rounded-0  p-3  pt-1  pb-1"
 						type="button"
 						data-bs-toggle="dropdown"

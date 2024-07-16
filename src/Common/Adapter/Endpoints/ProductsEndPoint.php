@@ -18,7 +18,7 @@ class ProductsEndPoint extends EndpointBase
     public const GET_PRODUCT_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products';
     public const GET_PRODUCT_SHOP_PRICE_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/products/price';
 
-    private static self|null $instance = null;
+    private static ?self $instance = null;
 
     private function __construct(
         private HttpClientInterface $httpClient
@@ -42,7 +42,7 @@ class ProductsEndPoint extends EndpointBase
      *
      * @throws UnsupportedOptionException
      */
-    public function productCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): array
+    public function productCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): array
     {
         $response = $this->requestProductCreate($groupId, $name, $description, $image, $tokenSession);
 
@@ -52,16 +52,16 @@ class ProductsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    private function requestProductCreate(string $groupId, string $name, string|null $description, UploadedFile|null $image, string $tokenSession): HttpClientResponseInterface
+    private function requestProductCreate(string $groupId, string $name, ?string $description, ?UploadedFile $image, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',
             self::POST_PRODUCT_CREATE,
             HTTP_CLIENT_CONFIGURATION::form($this->createFormParameters([
-                    'group_id' => $groupId,
-                    'name' => $name,
-                    'description' => $description,
-                ]),
+                'group_id' => $groupId,
+                'name' => $name,
+                'description' => $description,
+            ]),
                 $this->createFormParameters([
                     'image' => $image,
                 ]),
@@ -73,7 +73,7 @@ class ProductsEndPoint extends EndpointBase
     /**
      * @throws UnsupportedOptionException
      */
-    public function productModify(string $groupId, string $productId, string|null $shopId, string|null $name, string|null $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): array
+    public function productModify(string $groupId, string $productId, ?string $shopId, ?string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): array
     {
         $response = $this->requestProductModify($groupId, $productId, $shopId, $name, $description, $image, $imageRemove, $tokenSession);
 
@@ -85,23 +85,23 @@ class ProductsEndPoint extends EndpointBase
      * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    private function requestProductModify(string $groupId, string $productId, string|null $shopId, string|null $name, string|null $description, UploadedFile|null $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
+    private function requestProductModify(string $groupId, string $productId, ?string $shopId, ?string $name, ?string $description, ?UploadedFile $image, bool $imageRemove, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'POST',
             self::POST_PRODUCT_MODIFY,
             HTTP_CLIENT_CONFIGURATION::form($this->createFormParameters([
-                    'group_id' => $groupId,
-                    'product_id' => $productId,
-                    'shop_id' => $shopId,
-                    'name' => $name,
-                    'description' => $description,
-                    'image_remove' => $imageRemove,
-                    '_method' => 'PUT',
-                ]),
+                'group_id' => $groupId,
+                'product_id' => $productId,
+                'shop_id' => $shopId,
+                'name' => $name,
+                'description' => $description,
+                'image_remove' => $imageRemove,
+                '_method' => 'PUT',
+            ]),
                 $this->createFormParameters([
-                     'image' => $image,
-                 ]),
+                    'image' => $image,
+                ]),
                 $tokenSession
             )
         );
@@ -115,7 +115,7 @@ class ProductsEndPoint extends EndpointBase
      * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    public function productRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): array
+    public function productRemove(string $groupId, array $productsId, ?array $shopsId, string $tokenSession): array
     {
         $response = $this->requestProductRemove($groupId, $productsId, $shopsId, $tokenSession);
 
@@ -128,16 +128,16 @@ class ProductsEndPoint extends EndpointBase
      *
      * @throws UnsupportedOptionException
      */
-    private function requestProductRemove(string $groupId, array $productsId, array|null $shopsId, string $tokenSession): HttpClientResponseInterface
+    private function requestProductRemove(string $groupId, array $productsId, ?array $shopsId, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'DELETE',
             self::DELETE_PRODUCT_DELETE,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
-                    'group_id' => $groupId,
-                    'products_id' => $productsId,
-                    'shops_id' => $shopsId,
-                ]),
+                'group_id' => $groupId,
+                'products_id' => $productsId,
+                'shops_id' => $shopsId,
+            ]),
                 $tokenSession
             )
         );
@@ -155,13 +155,13 @@ class ProductsEndPoint extends EndpointBase
      */
     public function productGetData(
         string $groupId,
-        array|null $productsId,
-        array|null $shopsId,
-        string|null $productName,
-        string|null $productNameFilterType,
-        string|null $productNameFilterValue,
-        string|null $shopNameFilterFilter,
-        string|null $shopNameFilterValue,
+        ?array $productsId,
+        ?array $shopsId,
+        ?string $productName,
+        ?string $productNameFilterType,
+        ?string $productNameFilterValue,
+        ?string $shopNameFilterFilter,
+        ?string $shopNameFilterValue,
         int $page,
         int $pageItems,
         bool $orderAsc,
@@ -182,11 +182,19 @@ class ProductsEndPoint extends EndpointBase
             $tokenSession
         );
 
-        return $this->apiResponseManage($response, null, null,
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError) => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 1,
+                    'products' => [],
+                ],
+                'errors' => $responseDataError,
+            ], null,
             fn (array $responseDataNoContent) => [
                 'data' => [
                     'page' => 1,
-                    'pages_total' => 0,
+                    'pages_total' => 1,
                     'products' => [],
                 ],
                 'errors' => ['product_not_found' => 'Product not found'],
@@ -199,13 +207,13 @@ class ProductsEndPoint extends EndpointBase
      */
     private function requestProductGetData(
         string $groupId,
-        array|null $productsId,
-        array|null $shopsId,
-        string|null $productName,
-        string|null $productNameFilterType,
-        string|null $productNameFilterValue,
-        string|null $shopNameFilterFilter,
-        string|null $shopNameFilterValue,
+        ?array $productsId,
+        ?array $shopsId,
+        ?string $productName,
+        ?string $productNameFilterType,
+        ?string $productNameFilterValue,
+        ?string $shopNameFilterFilter,
+        ?string $shopNameFilterValue,
         int $page,
         int $pageItems,
         bool $orderAsc,
@@ -290,7 +298,7 @@ class ProductsEndPoint extends EndpointBase
      *
      * @throws UnsupportedOptionException
      */
-    public function setProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array
+    public function setProductShopPrice(string $groupId, ?string $productId, ?string $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): array
     {
         $response = $this->requestProductShopPrice($groupId, $productId, $shopId, $productsOrShopsId, $prices, $unitsMeasure, $tokenSession);
 
@@ -304,19 +312,19 @@ class ProductsEndPoint extends EndpointBase
      * @throws RequestException
      * @throws RequestUnauthorizedException
      */
-    private function requestProductShopPrice(string $groupId, string|null $productId, string|null $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): HttpClientResponseInterface
+    private function requestProductShopPrice(string $groupId, ?string $productId, ?string $shopId, array $productsOrShopsId, array $prices, array $unitsMeasure, string $tokenSession): HttpClientResponseInterface
     {
         return $this->httpClient->request(
             'PUT',
             self::POST_PRODUCT_SHOP.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
-                    'group_id' => $groupId,
-                    'product_id' => $productId,
-                    'shop_id' => $shopId,
-                    'products_or_shops_id' => $productsOrShopsId,
-                    'prices' => $prices,
-                    'units' => $unitsMeasure,
-                ]),
+                'group_id' => $groupId,
+                'product_id' => $productId,
+                'shop_id' => $shopId,
+                'products_or_shops_id' => $productsOrShopsId,
+                'prices' => $prices,
+                'units' => $unitsMeasure,
+            ]),
                 $tokenSession
             )
         );

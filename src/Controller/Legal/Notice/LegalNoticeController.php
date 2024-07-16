@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Legal\Notice;
 
-use App\Twig\Components\Legal\Notice\LegalNoticeComponentDto;
+use App\Twig\Components\Common\Legal\Notice\LegalNoticeComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\PageTitle\GetPageTitleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

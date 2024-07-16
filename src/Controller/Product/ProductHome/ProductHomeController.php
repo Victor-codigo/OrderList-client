@@ -264,7 +264,8 @@ class ProductHomeController extends AbstractController
 
         return (new ProductHomeComponentBuilder())
             ->title(
-                null
+                null,
+                'user' === $requestDto->groupData->type ? null : $requestDto->groupData->name
             )
             ->errors(
                 $productHomeMessagesOk,

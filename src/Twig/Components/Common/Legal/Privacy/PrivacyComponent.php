@@ -12,7 +12,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent(
     name: 'PrivacyComponent',
-    template: 'Components/Legal/Privacy/PrivacyComponent.html.twig'
+    template: 'Components/Common/Legal/Privacy/PrivacyComponent.html.twig'
 )]
 final class PrivacyComponent extends TwigComponent
 {
@@ -34,7 +34,7 @@ final class PrivacyComponent extends TwigComponent
 
     private function createTitleComponent(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN,null);
     }
 
     private function loadTranslation(): void

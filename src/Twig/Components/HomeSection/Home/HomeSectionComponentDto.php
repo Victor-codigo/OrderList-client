@@ -14,6 +14,7 @@ use Common\Domain\DtoBuilder\DtoBuilderInterface;
 class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderInterface
 {
     public readonly ?string $title;
+    public readonly ?string $titlePath;
 
     /**
      * @param string[]
@@ -73,11 +74,12 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         ]);
     }
 
-    public function title(?string $title): self
+    public function title(?string $title, ?string $titlePath): self
     {
         $this->builder->setMethodStatus('title', true);
 
         $this->title = $title;
+        $this->titlePath = $titlePath;
 
         return $this;
     }

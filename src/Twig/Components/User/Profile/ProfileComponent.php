@@ -89,7 +89,7 @@ class ProfileComponent extends TwigComponent
 
     private function getTitle(string $title): TitleComponentDto
     {
-        return new TitleComponentDto($title, TITLE_TYPE::PAGE_MAIN);
+        return new TitleComponentDto($title, TITLE_TYPE::PAGE_MAIN,null);
     }
 
     private function loadTranslation(): void

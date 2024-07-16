@@ -92,11 +92,11 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
     }
 
-    public function title(?string $title): self
+    public function title(?string $title, ?string $titlePath): self
     {
         $this->builder->setMethodStatus('title', true);
 
-        $this->homeSectionComponentDto->title($title);
+        $this->homeSectionComponentDto->title($title, $titlePath);
 
         return $this;
     }

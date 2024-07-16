@@ -11,7 +11,9 @@ export function formatToStringLocaleCurrency(price) {
         return '--- ' + config.CURRENCY;
     }
 
-    return price.toLocaleString(getLocaleItl(url.getLocale())) + config.CURRENCY;
+    const priceFormat = Math.round(price * 100) / 100;
+
+    return priceFormat.toLocaleString(getLocaleItl(url.getLocale())) + config.CURRENCY;
 }
 
 /**
@@ -26,7 +28,7 @@ export function formatPriceCurrencyAndUnit(price, unit) {
     let unitTextFormatted = '';
 
     if (price !== null) {
-        priceFormat = price.toString();
+        priceFormat = (Math.round(price * 100) / 100).toString();
     }
 
     if (unitFormatted !== '') {

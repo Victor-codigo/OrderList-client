@@ -37,7 +37,7 @@ final class UserPasswordRememberChangedComponent extends TwigComponent
 
     private function createTitleDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::PAGE_MAIN, null);
     }
 
     private function loadTranslation(): void

@@ -154,11 +154,19 @@ class ShopsEndPoint extends EndpointBase
             $tokenSession
         );
 
-        return $this->apiResponseManage($response, null, null,
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError): array => [
+                'data' => [
+                    'page' => 1,
+                    'pages_total' => 1,
+                    'shops' => [],
+                ],
+                'errors' => $responseDataError,
+            ], null,
             fn (array $responseDataNoContent) => [
                 'data' => [
                     'page' => 1,
-                    'pages_total' => 0,
+                    'pages_total' => 1,
                     'shops' => [],
                 ],
                 'errors' => ['shop_not_found' => 'Shop not found'],

@@ -4,6 +4,18 @@ navigation:
   logo:
     title: Ir a {domain_name}
 
+  notification:
+    title: Notifications
+
+  language:
+    title: Language
+
+  theme:
+    title: Theme
+
+  user_menu:
+    title: User menu
+
   profile:
     label: Profile
     title: Go to your profile
@@ -22,7 +34,7 @@ navigation:
 
   section:
     list_orders:
-      label: List orders
+      label: Shopping list
       title: Shows a list of orders
     products:
       label: Products

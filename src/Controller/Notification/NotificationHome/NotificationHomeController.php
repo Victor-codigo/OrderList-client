@@ -102,7 +102,8 @@ class NotificationHomeController extends AbstractController
 
         return (new NotificationHomeComponentBuilder())
             ->title(
-                null
+                null,
+                'user' === $requestDto->groupData->type ? null : $requestDto->groupData->name
             )
             ->errors(
                 $notificationHomeMessagesOk,

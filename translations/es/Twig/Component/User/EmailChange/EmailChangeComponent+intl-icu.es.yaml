@@ -19,6 +19,6 @@ validation:
   error:
     email: El email no es válido
     password: La contraseña no es válida
-    password_invalid: La contraseña no es válido. Debe contener al menos 6 caracteres
+    password_invalid: La contraseña no es válida
     tryout_route_permissions: Esta función no está disponible para el usuario invitado, es necesario registrarse.
     internal_server: Ocurrió un error, inténtalo más tarde

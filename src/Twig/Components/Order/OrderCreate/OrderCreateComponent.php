@@ -59,7 +59,7 @@ final class OrderCreateComponent extends TwigComponent
 
     private function createTitleComponentDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP,null);
     }
 
     private function createProductAndShop(): OrderProductAndShopComponentDto

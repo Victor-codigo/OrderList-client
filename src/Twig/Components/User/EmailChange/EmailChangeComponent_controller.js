@@ -8,6 +8,6 @@ export default class extends Controller {
     }
 
     formValidate() {
-        form.validate(this.element);
+        form.validate(this.element, null);
     }
 }

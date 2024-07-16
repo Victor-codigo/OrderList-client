@@ -237,7 +237,8 @@ class ShopHomeController extends AbstractController
 
         return (new ShopHomeComponentBuilder())
             ->title(
-                null
+                null,
+                'user' === $requestDto->groupData->type ? null : $requestDto->groupData->name
             )
             ->errors(
                 $shopHomeMessagesOk,

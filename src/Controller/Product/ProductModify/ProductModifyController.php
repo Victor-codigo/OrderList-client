@@ -42,7 +42,7 @@ class ProductModifyController extends AbstractController
         $productModifyForm = $this->formFactory->create(new ProductModifyForm(), $requestDto->request);
 
         if ($productModifyForm->isSubmitted() && $productModifyForm->isValid()) {
-            $this->formValid($productModifyForm, $requestDto->groupData->id, $requestDto->getproductData()->id, $requestDto->getTokenSessionOrFail());
+            $this->formValid($productModifyForm, $requestDto->groupData->id, $requestDto->getProductData()->id, $requestDto->getTokenSessionOrFail());
         }
 
         return $this->controllerUrlRefererRedirect->createRedirectToRoute(
@@ -70,7 +70,7 @@ class ProductModifyController extends AbstractController
             $productId,
             null,
             $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::NAME),
-            $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::DESCRIPTION),
+            $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::DESCRIPTION, ''),
             null,
             $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::IMAGE),
             'true' === $form->getFieldData(PRODUCT_MODIFY_FORM_FIELDS::IMAGE_REMOVE) ? true : false,

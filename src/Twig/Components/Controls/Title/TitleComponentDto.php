@@ -10,7 +10,8 @@ class TitleComponentDto implements TwigComponentDtoInterface
 {
     public function __construct(
         public readonly string $titleLabel,
-        public readonly TITLE_TYPE $type
+        public readonly TITLE_TYPE $type,
+        public readonly ?string $titlePathLabel,
     ) {
     }
 }

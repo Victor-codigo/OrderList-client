@@ -212,7 +212,8 @@ class OrderHomeController extends AbstractController
 
         return (new OrderHomeComponentBuilder())
             ->title(
-                $requestDto->getListOrdersData()->name
+                $requestDto->getListOrdersData()->name,
+                'user' === $requestDto->groupData->type ? null : $requestDto->groupData->name
             )
             ->listOrders(
                 $requestDto->getListOrdersData()->id,

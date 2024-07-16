@@ -10,7 +10,7 @@ message_advice:
   text_multi: |
     Te dispones a eliminar los productos:
     {item_placeholder}
-    Las tiendas relacionadas con estos productos, perderán la relación con las mismas.
+    Las tiendas relacionadas con estos productos, perderán la relación con los mismos.
 
     ¿Estás seguro?
 

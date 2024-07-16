@@ -55,12 +55,20 @@ export async function getShopsData(groupId, page, pageItems, shopsId = null, pro
             return {
                 data: {
                     page: 1,
-                    pages_total: 0,
+                    pages_total: 1,
                     shops: []
                 }
             }
         },
-        null,
+        (responseDataError) => {
+            return {
+                data: {
+                    page: 1,
+                    pages_total: 1,
+                    shops: []
+                }
+            }
+        },
         null
     );
 
@@ -150,12 +158,20 @@ export async function getProductsData(groupId, page, pageItems, shopsId = null, 
             return {
                 data: {
                     page: 1,
-                    pages_total: 0,
+                    pages_total: 1,
                     products: []
                 }
             }
         },
-        null,
+        (responseDataError) => {
+            return {
+                data: {
+                    page: 1,
+                    pages_total: 1,
+                    products: []
+                }
+            }
+        },
         null
     );
 

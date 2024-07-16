@@ -66,9 +66,9 @@ class ShopModifyController extends AbstractController
         $responseData = $this->endpoints->shopModify(
             $shopId,
             $groupId,
-            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::NAME),
-            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::ADDRESS),
-            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::DESCRIPTION),
+            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::NAME, ''),
+            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::ADDRESS, ''),
+            $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::DESCRIPTION, ''),
             $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::IMAGE),
             'true' === $form->getFieldData(SHOP_MODIFY_FORM_FIELDS::IMAGE_REMOVE) ? true : false,
             $tokenSession
@@ -88,10 +88,6 @@ class ShopModifyController extends AbstractController
     private function createShopShopPrice(FormInterface $form, string $groupId, string $shopId, string $tokenSession): void
     {
         $productsId = array_filter($form->getFieldData(SHOP_MODIFY_FORM_FIELDS::PRODUCT_ID, []));
-
-        if (empty($productsId)) {
-            return;
-        }
 
         $responseData = $this->endpoints->setProductShopPrice(
             $groupId,

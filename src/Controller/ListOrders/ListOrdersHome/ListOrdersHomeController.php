@@ -201,7 +201,8 @@ class ListOrdersHomeController extends AbstractController
 
         return (new ListOrdersHomeComponentBuilder())
             ->title(
-                null
+                null,
+                'user' === $requestDto->groupData->type ? null : $requestDto->groupData->name
             )
             ->errors(
                 $shopHomeMessagesOk,

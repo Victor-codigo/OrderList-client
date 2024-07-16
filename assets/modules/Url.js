@@ -35,6 +35,6 @@ export const SECTIONS = {
     ORDER: 'order',
     ORDERS: 'orders',
     LIST_ORDERS: 'list_orders',
-    GROUP: 'group',
+    GROUP: 'groups',
     GROUP_USERS: 'users'
 };

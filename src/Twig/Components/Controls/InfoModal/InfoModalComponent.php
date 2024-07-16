@@ -36,7 +36,7 @@ class InfoModalComponent extends TwigComponent
 
     private function createTitle(): TitleComponentDto
     {
-        return new TitleComponentDto($this->data->title, TITLE_TYPE::POP_UP);
+        return new TitleComponentDto($this->data->title, TITLE_TYPE::POP_UP,null);
     }
 
     protected function loadTranslation(): void

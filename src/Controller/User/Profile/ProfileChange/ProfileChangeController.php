@@ -63,7 +63,7 @@ class ProfileChangeController extends AbstractController
         $responseData = $this->apiEndpoint->userModify(
             $form->getFieldData(PROFILE_FORM_FIELDS::NICK, ''),
             $form->getFieldData(PROFILE_FORM_FIELDS::IMAGE, null),
-            $form->getFieldData(PROFILE_FORM_FIELDS::IMAGE_REMOVE, false),
+            'true' === $form->getFieldData(PROFILE_FORM_FIELDS::IMAGE_REMOVE, false) ? true : false,
             $tokenSession
         );
 

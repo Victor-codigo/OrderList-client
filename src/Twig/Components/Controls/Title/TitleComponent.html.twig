@@ -1,15 +1,13 @@
 {% if this.getType == 'page_main' %}
 
-<div class="mb-5  pt-4  pb-2  text-left  border-bottom  text-primary  primary-color-dark  display-5">
-
-     {{ data.titleLabel }}
-</div>
+<h1 class="mb-5  pt-4  pb-2  text-left  border-bottom  text-primary  primary-color-dark  display-4">
+     <span class="display-6  text-secondary">{{ data.titlePathLabel }}</span>{{ data.titleLabel }}
+</h1>
 
 {% elseif this.getType == 'pop_up' %}
 
-<div class="mb-5  pt-4  pb-2  text-center  display-5">
-
-     {{ data.titleLabel }}
-</div>
+<h1 class="mb-5  pt-4  pb-2  text-center  display-4">
+     <span class="display-6  text-secondary">{{ data.titlePathLabel }}</span>{{ data.titleLabel }}
+</h1>
 
 {% endif %}

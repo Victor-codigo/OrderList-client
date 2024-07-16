@@ -128,7 +128,7 @@ export default class extends Controller {
 
     clear() {
         this.#sendMessageClearToProductCreateComponent();
-        this.element.querySelector('[data-controller="AlertComponent"]')?.remove();
+        this.element.querySelector('[data-controller="AlertComponent"]')?.setAttribute('hidden', true);
         communication.sendMessageToChildController(this.#buttonCreateProduct, 'showButton');
     }
 
