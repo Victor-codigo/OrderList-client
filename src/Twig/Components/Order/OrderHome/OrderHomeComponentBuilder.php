@@ -387,6 +387,8 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
         $orderProductListAjaxComponentDto = new OrderProductsListAjaxComponentDto(
             OrderProductsListAjaxComponent::getComponentName(),
+            $groupId,
+            SECTION_FILTERS::PRODUCT,
             $paginatorContentLoaderJsDto,
             $urlPathToProductImages,
             $urlImageProductNoImage,

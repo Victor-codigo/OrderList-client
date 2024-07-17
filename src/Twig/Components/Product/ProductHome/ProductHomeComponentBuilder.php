@@ -424,6 +424,8 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
 
         $shopListAjaxComponentDto = new ShopsListAjaxComponentDto(
             ShopsListAjaxComponent::getComponentName(),
+            $groupId,
+            SECTION_FILTERS::SHOP,
             $paginatorContentLoaderJsDto,
             $urlPathToShopImages,
             $urlImageShopNoImage,

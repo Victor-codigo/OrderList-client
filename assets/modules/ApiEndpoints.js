@@ -6,18 +6,17 @@ const API_DOMAIN = 'http://orderlist.api';
 const CLIENT_DOMAIN = 'http://orderlist.client';
 
 const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
+const GET_SHOPS_FIRST_LETTER_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops/first-letter`;
 const GET_PRODUCTS_URL = `${API_DOMAIN}/api/v${API_VERSION}/products`;
+const GET_PRODUCTS_FIRST_LETTER_URL = `${API_DOMAIN}/api/v${API_VERSION}/products/first-letter`;
 const GET_PRODUCTS_SHOPS_PRICE_URL = `${API_DOMAIN}/api/v${API_VERSION}/products/price`;
 const GET_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/list-orders`;
+const GET_LIST_ORDERS_FIRST_LETTER_URL = `${API_DOMAIN}/api/v${API_VERSION}/list-orders/first-letter`;
 const GET_LIST_ORDERS_PRICE = `${API_DOMAIN}/api/v${API_VERSION}/list-orders/price`;
 const PATCH_ORDER_BOUGHT = `${API_DOMAIN}/api/v${API_VERSION}/orders/bought`;
 const GET_GROUP_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user-groups`;
 const GET_GROUP_USERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user`;
 const GET_GROUP_USERS_CHANGE_ROL_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user/role`;
-
-const POST_SHOP_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/shop/create`;
-const POST_PRODUCT_URL = `${CLIENT_DOMAIN}/ajax/{locale}/{group_name}/product/create`;
-
 
 /**
  * @param {string} groupId
@@ -602,6 +601,102 @@ export async function groupUserChangeRole(groupId, users, admin) {
         null,
         null
     );
+
+    return responseJson.data;
+}
+
+/**
+ * @param {string} groupId
+ */
+export async function getProductsFirstLetter(groupId) {
+    const queryParameters = {
+        'group_id': groupId
+    };
+
+    const response = await fetch.createQueryRequest(GET_PRODUCTS_FIRST_LETTER_URL, 'GET', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (responseDataNoContent) => {
+            return {
+                data: {},
+                errors: { 'products_not_found': 'products not found' }
+            }
+        },
+        (responseDataError) => {
+            return {
+                data: {},
+                errors: responseDataError
+            }
+        },
+        (responseDataOk) => {
+            return {
+                data: responseDataOk,
+                errors: {}
+            }
+        });
+
+    return responseJson.data;
+}
+
+/**
+ * @param {string} groupId
+ */
+export async function getShopsFirstLetter(groupId) {
+    const queryParameters = {
+        'group_id': groupId
+    };
+
+    const response = await fetch.createQueryRequest(GET_SHOPS_FIRST_LETTER_URL, 'GET', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (responseDataNoContent) => {
+            return {
+                data: {},
+                errors: { 'products_not_found': 'products not found' }
+            }
+        },
+        (responseDataError) => {
+            return {
+                data: {},
+                errors: responseDataError
+            }
+        },
+        (responseDataOk) => {
+            return {
+                data: responseDataOk,
+                errors: {}
+            }
+        });
+
+    return responseJson.data;
+}
+
+/**
+ * @param {string} groupId
+ */
+export async function getListOrdersFirstLetter(groupId) {
+    const queryParameters = {
+        'group_id': groupId
+    };
+
+    const response = await fetch.createQueryRequest(GET_LIST_ORDERS_FIRST_LETTER_URL, 'GET', queryParameters);
+    const responseJson = await fetch.manageResponseJson(response,
+        (responseDataNoContent) => {
+            return {
+                data: {},
+                errors: { 'products_not_found': 'products not found' }
+            }
+        },
+        (responseDataError) => {
+            return {
+                data: {},
+                errors: responseDataError
+            }
+        },
+        (responseDataOk) => {
+            return {
+                data: responseDataOk,
+                errors: {}
+            }
+        });
 
     return responseJson.data;
 }

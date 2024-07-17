@@ -1,17 +1,19 @@
 <div data-controller="AlphanumericFilterComponent"
-     data-action="AlphanumericFilterComponent:setLetterFilter->AlphanumericFilterComponent#handleMessageSetLetterFilter">
+     data-action="AlphanumericFilterComponent:setLetterFilter->AlphanumericFilterComponent#handleMessageSetLetterFilter
+                  AlphanumericFilterComponent:loadLetters->AlphanumericFilterComponent#handleMessageLoadLetters">
     <ul class="pagination  pagination-sm  justify-content-center  flex-wrap  row-gap-1  column-gap-1">
 
-        {% for row in constant('LETTERS_FILTER', this) %}
+        {% for letter in constant('LETTERS_FILTER', this) %}
 
         <li class="page-item"
             style="width: 38px">
             <button type="button"
-                    class="btn  btn-outline-primary  rounded-0  w-100"
+                    class="btn  btn-outline-primar  rounded-0  w-100"
                     data-bs-toggle="button"
                     aria-pressed="false"
-                    data-letter-filter>
-                {{ row }}
+                    data-letter-filter
+                    disabled>
+                {{ letter }}
             </button>
         </li>
 

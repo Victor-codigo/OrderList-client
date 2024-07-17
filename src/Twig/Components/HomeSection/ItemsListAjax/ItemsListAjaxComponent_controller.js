@@ -202,12 +202,13 @@ export default class ItemsListAjaxController extends Controller {
         this.#modalManager = content.modalManager;
         this.#setItemsNotSelectable();
         this.#sendMessagePageChangeToPaginatorJsComponent(1);
+        this.#sendMessageLoadLettersAlphanumericFilter();
     }
 
     #sendMessageInitializeToPaginatorContentLoaderJsComponent() {
         communication.sendMessageToChildController(this.#paginatorContentLoaderJsComponent, 'initialize', {
             responseManageCallback: (responseData) => this.responseManageCallback(responseData).listTag,
-            postResponseManageCallback: () => { }
+            postResponseManageCallback: () => { },
         });
     }
 
@@ -217,6 +218,15 @@ export default class ItemsListAjaxController extends Controller {
     #sendMessagePageChangeToPaginatorJsComponent(page) {
         communication.sendMessageToChildController(this.#paginatorContentLoaderJsComponent, 'changePage', {
             page: page
+        },
+            'PaginatorJsComponent'
+        );
+    }
+
+    #sendMessageLoadLettersAlphanumericFilter() {
+        communication.sendMessageToChildController(this.#paginatorContentLoaderJsComponent, 'loadLetters', {
+            groupId: this.element.dataset.groupId,
+            section: this.element.dataset.section
         },
             'PaginatorJsComponent'
         );
