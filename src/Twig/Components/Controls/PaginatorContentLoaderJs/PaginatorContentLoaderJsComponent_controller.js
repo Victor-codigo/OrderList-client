@@ -65,6 +65,17 @@ export default class extends Controller {
         });
     }
 
+    /**
+     * @param {string} groupId
+     * @param {string} section
+     */
+    #sendMessageLoadLetterToAlphanumericFilter(groupId, section) {
+        communication.sendMessageToChildController(this.alphanumericFilterComponent, 'loadLetters', {
+            groupId: groupId,
+            section: section
+        });
+    }
+
     #sendMessageConnectedToParent() {
         communication.sendMessageToParentController(this.element, 'connected');
     }
@@ -102,8 +113,20 @@ export default class extends Controller {
      * @param {Object} event
      * @param {Object} event.detail
      * @param {Object} event.detail.content
+     * @param {string} event.detail.content.groupId
+     * @param {string} event.detail.content.section
+     */
+    handleMessageLoadLetters({ detail: { content } }) {
+        this.#sendMessageLoadLetterToAlphanumericFilter(content.groupId, content.section);
+    }
+
+    /**
+     * @param {Object} event
+     * @param {Object} event.detail
+     * @param {Object} event.detail.content
      * @param {Object} event.detail.content.responseManageCallback
      * @param {Object} event.detail.content.postResponseManageCallback
+     * @param {Object} event.detail.content.groupId
      */
     handleMessageInitialize({ detail: { content } }) {
         this.responseManageCallback = content.responseManageCallback;
