@@ -38,8 +38,6 @@ class UserLoginController extends AbstractController
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private LoginComponent $loginComponent,
         private Recaptcha3ValidatorAdapter $recaptcha,
-        private int $cookieSessionKeepAlive,
-        private string $cookieSessionName,
     ) {
     }
 
@@ -97,11 +95,11 @@ class UserLoginController extends AbstractController
         $formData = $form->getData();
         $sessionExpire = 0;
         if ($formData[LOGIN_FORM_FIELDS::REMEMBER_ME]) {
-            $sessionExpire = time() + $this->cookieSessionKeepAlive;
+            $sessionExpire = time() + Config::SESSION_KEEP_ALIVE;
         }
 
         return Cookie::create(
-            $this->cookieSessionName,
+            Config::COOKIE_TOKEN_SESSION_NAME,
             $tokenSession,
             $sessionExpire,
             '/',

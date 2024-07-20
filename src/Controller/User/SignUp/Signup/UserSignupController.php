@@ -28,8 +28,6 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 class UserSignupController extends AbstractController
 {
-    private const EMAIL_CONFIRMATION_URL = 'http://orderlist.client/{_locale}/user/signup/confirm';
-
     public function __construct(
         private FormFactoryInterface $formFactory,
         private EndpointsInterface $apiEndpoint,
@@ -66,11 +64,15 @@ class UserSignupController extends AbstractController
 
     private function validForm(FormInterface $form, string $locale): bool
     {
+        $emailConfirmationUrl = $this->generateUrl('user_signup_email_confirm', [
+            '_locale' => $locale,
+        ]);
+
         $responseData = $this->apiEndpoint->userSignUp(
             $form->getFieldData(SIGNUP_FORM_FIELDS::NICK),
             $form->getFieldData(SIGNUP_FORM_FIELDS::EMAIL),
             $form->getFieldData(SIGNUP_FORM_FIELDS::PASSWORD),
-            str_replace('{_locale}', $locale, self::EMAIL_CONFIRMATION_URL),
+            $emailConfirmationUrl,
             $locale
         );
 

@@ -43,7 +43,6 @@ class UserProfileController extends AbstractController
         private ProfileBuilder $profileBuilder,
         private FlashBagInterface $sessionFlashBag,
         private GetPageTitleService $getPageTitleService,
-        private readonly string $apiUrl
     ) {
     }
 

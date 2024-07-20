@@ -27,6 +27,7 @@ class UsersEndpoint extends EndpointBase
     public const DELETE_USER_REMOVE_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/remove';
     public const PATCH_PROFILE_EMAIL_CHANGE_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/email';
     public const PATCH_PROFILE_PASSWORD_CHANGE_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/password';
+    public const PATCH_SIGNUP_CONFIRM_ENDPOINT = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/api/v1/users/confirm';
 
     public static ?self $instance = null;
 

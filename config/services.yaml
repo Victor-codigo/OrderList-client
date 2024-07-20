@@ -4,10 +4,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    cookie.session.name: "%env(string:COOKIE_TOKEN_SESSION_NAME)%"
-    session.expire: "%env(int:SESSION_KEEP_ALIVE)%"
-    domain_name: "%env(string:DOMAIN_NAME)%"
-    api_url: "%env(string:API_URL)%"
 
 services:
     # default configuration for services in *this* file
@@ -16,10 +12,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
         bind:
-            $cookieSessionName: "%cookie.session.name%"
-            $cookieSessionKeepAlive: "%session.expire%"
-            $domainName: "%domain_name%"
-            $apiUrl: "%api_url%"
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
