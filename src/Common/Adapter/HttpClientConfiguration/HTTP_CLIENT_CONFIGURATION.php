@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace Common\Adapter\HttpClientConfiguration;
 
+use Common\Domain\Config\Config;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
 final class HTTP_CLIENT_CONFIGURATION
 {
-    public const API_DOMAIN = 'http://orderlist.api';
-    public const CLIENT_DOMAIN = 'http://orderlist.client';
+    public const API_DOMAIN = Config::API_DOMAIN;
+    public const CLIENT_DOMAIN = Config::CLIENT_DOMAIN;
     public const XDEBUG_VAR = 'XDEBUG_SESSION=VSCODE';
-    public const COOKIE_SESSION_NAME = 'TOKENSESSION';
+    public const COOKIE_SESSION_NAME = Config::COOKIE_TOKEN_SESSION_NAME;
 
     public static function json(?array $data = null, ?string $tokenSession = null): array
     {
-        $json = self::getConfiguration();
+        $json = self::getConfigurationHttp();
 
         null === $data ?: $json['json'] = $data;
         null === $tokenSession ?: $json['auth_bearer'] = $tokenSession;
@@ -27,7 +28,7 @@ final class HTTP_CLIENT_CONFIGURATION
 
     public static function form(array $data, array $files = [], ?string $tokenSession = null): array
     {
-        $form = self::getConfiguration();
+        $form = self::getConfigurationHttp();
         null === $tokenSession ?: $form['auth_bearer'] = $tokenSession;
 
         $files = array_filter($files);
@@ -51,12 +52,20 @@ final class HTTP_CLIENT_CONFIGURATION
         return DataPart::fromPath($file->getPathname());
     }
 
-    private static function getConfiguration(): array
+    private static function getConfigurationHttp(): array
     {
+        if (Config::CLIENT_PROTOCOL === 'http') {
+            return [
+                'proxy' => 'http://proxy:80',
+                'verify_peer' => false,
+                'verify_host' => false,
+            ];
+        }
+
         return [
-            'proxy' => 'http://proxy:80',
-            'verify_peer' => false,
-            'verify_host' => false,
+            'proxy' => 'https://proxy:80',
+            'verify_peer' => true,
+            'verify_host' => true,
         ];
     }
 }

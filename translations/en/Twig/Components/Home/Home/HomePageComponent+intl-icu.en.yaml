@@ -1,3 +1,6 @@
+metadata:
+  description: Create and manage your shopping articles on an easy way
+
 button:
   language:
     title: Change language
@@ -35,7 +38,7 @@ user_menu:
 
 main_info:
   title: Create your own shopping list
-  info: Welcome to <strong>{domain_name}</strong>. A tool to <strong>create and manage</strong> your <strong>shopping data</strong> on an easy way.
+  info: Welcome to <strong>{domain_name}</strong>. A tool to <strong>create and manage</strong> your <strong>shopping articles</strong> on an easy way.
   try_it_out: Try it out!
   section:
     order_list: Shopping lists

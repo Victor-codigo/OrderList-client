@@ -23,7 +23,6 @@ class UserRememberEmailSendController extends AbstractController
 {
     public function __construct(
         private GetPageTitleService $getPageTitleService,
-        private string $domainName
     ) {
     }
 

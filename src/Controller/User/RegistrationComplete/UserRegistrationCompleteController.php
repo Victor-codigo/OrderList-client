@@ -23,7 +23,6 @@ class UserRegistrationCompleteController extends AbstractController
 {
     public function __construct(
         private GetPageTitleService $getPageTitleService,
-        private string $domainName
     ) {
     }
 
@@ -35,7 +34,7 @@ class UserRegistrationCompleteController extends AbstractController
     private function renderRegistrationCompleteComponent(): Response
     {
         $registrationCompleteComponentDto = new RegistrationCompleteComponentDto(
-            $this->domainName
+            Config::CLIENT_DOMAIN_NAME
         );
 
         return $this->render('user/user_registration_complete/index.html.twig', [

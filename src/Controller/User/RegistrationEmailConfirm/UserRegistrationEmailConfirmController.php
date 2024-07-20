@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\User\RegistrationEmailConfirm;
 
 use App\Twig\Components\User\RegistrationEmailConfirmation\RegistrationEmailConfirmationComponentDto;
+use Common\Adapter\Endpoints\UsersEndpoint;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
 use Common\Domain\HttpClient\Exception\Error400Exception;
@@ -29,13 +30,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 )]
 class UserRegistrationEmailConfirmController extends AbstractController
 {
-    private const SIGNUP_CONFIRM_ENDPOINT = '/api/v1/users/confirm';
+    private const SIGNUP_CONFIRM_ENDPOINT = UsersEndpoint::PATCH_SIGNUP_CONFIRM_ENDPOINT;
 
     public function __construct(
         private HttpClientInterface $httpClient,
         private TranslatorInterface $translator,
         private GetPageTitleService $getPageTitleService,
-        private string $domainName
     ) {
     }
 
@@ -77,7 +77,7 @@ class UserRegistrationEmailConfirmController extends AbstractController
     {
         $params = [
             'loginLink' => $this->generateUrl('user_login_home'),
-            'appName' => $this->domainName,
+            'appName' => Config::CLIENT_DOMAIN_NAME,
         ];
 
         return $this->renderRegistrationEmailConfirmationComponent(
@@ -90,7 +90,7 @@ class UserRegistrationEmailConfirmController extends AbstractController
     {
         $params = [
             'loginLink' => $this->generateUrl('user_login_home'),
-            'appName' => $this->domainName,
+            'appName' => Config::CLIENT_DOMAIN_NAME,
         ];
 
         return $this->renderRegistrationEmailConfirmationComponent(

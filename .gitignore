@@ -27,7 +27,6 @@ yarn-error.log
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-/OrderList/
 
 coverage.xml
 

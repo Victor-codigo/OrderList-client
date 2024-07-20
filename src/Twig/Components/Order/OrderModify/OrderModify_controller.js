@@ -117,7 +117,6 @@ export default class extends Controller {
      * @param {import('App/Config').OrderData} orderData
      */
     #setFormFieldValues(orderData) {
-        console.log(orderData);
         this.#orderIdTag.value = orderData.id;
         this.#setAmountUnit(orderData.productShop.unit);
         this.#amountInputTag.value = orderData.amount;

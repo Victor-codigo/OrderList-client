@@ -9,15 +9,14 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 class Config
 {
     public const CLIENT_PROTOCOL = 'http';
+    public const API_DOMAIN = 'http://orderlist.api';
     public const CLIENT_DOMAIN = 'orderlist.client';
     public const CLIENT_DOMAIN_NAME = 'Order List';
+    public const COOKIE_TOKEN_SESSION_NAME = 'TOKENSESSION';
+    public const SESSION_KEEP_ALIVE = 5_184_000; // 60 days
     public const ADMIN_EMAIL = 'admin@orderlist.com';
     public const CLIENT_DOMAIN_LOCALE_VALID = 'es|en';
     public const CLIENT_PROTOCOL_AND_DOMAIN = self::CLIENT_PROTOCOL.'://'.self::CLIENT_DOMAIN;
-    public const CLIENT_ENDPOINT_SHOP_CREATE = '/{_locale}/shop/{group_name}/create';
-    public const CLIENT_ENDPOINT_SHOP_MODIFY = '/{_locale}/shop/{group_name}/modify/{shop_name}';
-    public const CLIENT_ENDPOINT_SHOP_REMOVE = '/{_locale}/shop/{group_name}/remove';
-    public const CLIENT_LISTS_NUM_MAX_PARAMS = 100;
 
     public const USER_TRY_OUT_EMAIL = 'guest@email.com';
     public const USER_TRY_OUT_PASSWORD = '1597531564';
