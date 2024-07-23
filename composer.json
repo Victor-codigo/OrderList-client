@@ -24,6 +24,7 @@
         "symfony/ux-dropzone": "^2.13",
         "symfony/ux-twig-component": "^v2.13.3",
         "symfony/validator": "v6.4.9",
+        "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "v6.4.8",
         "twig/extra-bundle": "^3.8",
         "twig/intl-extra": "^3.8",
@@ -37,8 +38,7 @@
         "symfony/browser-kit": "v6.4.8",
         "symfony/css-selector": "v6.4.8",
         "symfony/maker-bundle": "^1.48",
-        "symfony/phpunit-bridge": "^6.1",
-        "symfony/webpack-encore-bundle": "^v2.1.1"
+        "symfony/phpunit-bridge": "^6.1"
     },
     "config": {
         "allow-plugins": {
