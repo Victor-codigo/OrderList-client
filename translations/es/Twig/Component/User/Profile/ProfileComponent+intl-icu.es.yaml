@@ -18,7 +18,6 @@ nick:
 image:
   label: Avatar
   placeholder: Sube tú imagen de perfil
-  msg_invalid: Password is wrong. Password must contain at least 6 characters
   alt: Imagen de perfil de usuario
 
 button_save:

@@ -17,6 +17,7 @@ nick:
 
 image:
   label: Avatar
+  placeholder: Upload your profile image
   alt: Upload your user profile image
 
 button_save:
