@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Adapter\Router;
 
+use Common\Domain\Config\Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
@@ -68,16 +69,12 @@ class RouterSelector
             $parametersDefault['section'] = $this->section;
         }
 
-        // if (null !== $this->listOrdersName) {
-        //     $parametersDefault['list_orders_name'] = $this->listOrdersName;
-        // }
-
         if (null !== $this->page) {
             $parametersDefault['page'] = 1;
         }
 
         if (null !== $this->pageItems) {
-            $parametersDefault['page_items'] = 100;
+            $parametersDefault['page_items'] = Config::PAGINATION_ITEMS_MAX;
         }
 
         return $parametersDefault;

@@ -9,6 +9,7 @@ use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Common\Adapter\Router\RouterSelector;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
+use Common\Domain\Config\Config;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -94,7 +95,7 @@ class HomePageComponent extends TwigComponent
             $this->routerSelector->generateRoute('group_home', [
                 'section' => 'groups',
                 'page' => 1,
-                'page_items' => 100,
+                'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
             null
         );

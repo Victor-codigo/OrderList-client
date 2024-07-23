@@ -2,8 +2,9 @@ import { Controller } from '@hotwired/stimulus';
 import * as communication from 'App/modules/ControllerCommunication';
 import * as apiEndpoint from 'App/modules/ApiEndpoints';
 import * as locale from 'App/modules/Locale';
+import * as config from 'App/Config';
 
-const PRODUCT_SHOPS_MAX = 100;
+const PRODUCT_SHOPS_MAX = config.PAGINATION_ITEMS_MAX;
 
 export default class extends Controller {
     /**

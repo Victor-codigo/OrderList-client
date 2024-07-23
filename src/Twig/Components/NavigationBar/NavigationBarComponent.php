@@ -10,6 +10,7 @@ use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Common\Adapter\Router\RouterSelector;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
+use Common\Domain\Config\Config;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -130,7 +131,7 @@ class NavigationBarComponent extends TwigComponent
             $this->routerSelector->generateRouteWithDefaults('list_orders_home', [
                 'section' => 'list-orders',
                 'page' => 1,
-                'page_items' => 100,
+                'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
             'list_orders/list-orders-no-image.svg',
             'list-orders' === $sectionActiveId || 'orders' === $sectionActiveId ? true : false
@@ -145,7 +146,7 @@ class NavigationBarComponent extends TwigComponent
             $this->routerSelector->generateRouteWithDefaults('product_home', [
                 'section' => 'product',
                 'page' => 1,
-                'page_items' => 100,
+                'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
             'product/product-no-image.svg',
             'product' === $sectionActiveId ? true : false
@@ -160,7 +161,7 @@ class NavigationBarComponent extends TwigComponent
             $this->routerSelector->generateRouteWithDefaults('shop_home', [
                 'section' => 'shop',
                 'page' => 1,
-                'page_items' => 100,
+                'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
             'shop/shop-no-image.svg',
             'shop' === $sectionActiveId ? true : false
@@ -182,7 +183,7 @@ class NavigationBarComponent extends TwigComponent
         return $this->routerSelector->generateRoute('notification_home', [
             'section' => 'notifications',
             'page' => 1,
-            'page_items' => 100,
+            'page_items' => Config::PAGINATION_ITEMS_MAX,
         ]);
     }
 
@@ -229,7 +230,7 @@ class NavigationBarComponent extends TwigComponent
             $this->routerSelector->generateRoute('group_home', [
                 'section' => 'groups',
                 'page' => 1,
-                'page_items' => 100,
+                'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
             null
         );

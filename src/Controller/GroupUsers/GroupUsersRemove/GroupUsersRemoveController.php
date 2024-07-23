@@ -80,7 +80,7 @@ class GroupUsersRemoveController extends AbstractController
             [
                 'section' => 'groups',
                 'page' => 1,
-                'page_items' => 100,
+                'page_items' => Config::PAGINATION_ITEMS_MAX,
             ],
             [$this->groupUsersRemoveComponent->loadValidationRevedOwnUserOkTranslation()],
             $this->groupUsersRemoveComponent->loadErrorsTranslation(

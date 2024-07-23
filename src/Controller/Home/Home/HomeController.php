@@ -42,7 +42,7 @@ class HomeController extends AbstractController
     {
         $urlParams = [
             'page' => 1,
-            'page_items' => 100,
+            'page_items' => Config::PAGINATION_ITEMS_MAX,
         ];
 
         $groupNameEncodedSuffix = '_no_group';

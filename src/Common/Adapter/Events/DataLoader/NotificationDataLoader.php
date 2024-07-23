@@ -7,6 +7,7 @@ namespace Common\Adapter\Events\DataLoader;
 use App\Controller\Request\Response\NotificationDataResponse;
 use Common\Adapter\Endpoints\Endpoints;
 use Common\Adapter\Events\Exceptions\RequestNotificationsException;
+use Common\Domain\Config\Config;
 use Common\Domain\JwtToken\JwtToken;
 
 class NotificationDataLoader
@@ -25,7 +26,7 @@ class NotificationDataLoader
             return [];
         }
 
-        $notificationsData = $this->endpoints->notificationGetData(1, 100, $lang, $tokenSession);
+        $notificationsData = $this->endpoints->notificationGetData(1, Config::PAGINATION_ITEMS_MAX, $lang, $tokenSession);
 
         if (!empty($notificationsData['errors'])
         && (count($notificationsData['errors']) > 1 || !array_key_exists('notification_not_found', $notificationsData['errors']))) {

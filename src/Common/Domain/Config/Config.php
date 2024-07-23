@@ -49,4 +49,9 @@ class Config
      * @see This value, must be the same of AppConfig::GROUP_USERS_MAX in api
      */
     public const GROUP_USERS_MAX = 100;
+
+    /**
+     * Maximum number of item per page.
+     */
+    public const PAGINATION_ITEMS_MAX = 20;
 }

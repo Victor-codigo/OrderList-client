@@ -182,6 +182,8 @@ export const dateTimeFormat = {
     hour12: false
 };
 
+export const PAGINATION_ITEMS_MAX = 50;
+
 /**
  * @type {string}
  */

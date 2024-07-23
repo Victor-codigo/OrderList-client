@@ -11,8 +11,8 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Form\Shop\ShopRemove\ShopRemoveForm;
+use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
 use App\Twig\Components\Shop\ShopHome\Home\ShopHomeSectionComponentDto;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Adapter\Endpoints\ShopsEndPoint;
@@ -185,7 +185,7 @@ class ShopHomeController extends AbstractController
             null,
             null,
             1,
-            100,
+            Config::PAGINATION_ITEMS_MAX,
             true,
             $tokenSession
         );

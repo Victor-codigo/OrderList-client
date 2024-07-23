@@ -9,8 +9,8 @@ use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Group\GroupCreate\GroupCreateForm;
 use App\Form\Group\GroupModify\GroupModifyForm;
-use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
 use App\Form\Group\GroupRemove\GroupRemoveForm;
+use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Group\GroupHome\GroupHomeComponentBuilder;
@@ -186,7 +186,7 @@ class GroupHomeController extends AbstractController
             null,
             null,
             1,
-            100,
+            Config::PAGINATION_ITEMS_MAX,
             true,
             $tokenSession
         );
@@ -239,18 +239,18 @@ class GroupHomeController extends AbstractController
                 $this->generateUrl('group_users_home', [
                     'group_name' => GroupListItemComponent::GROUP_USERS_NAME_PLACEHOLDER,
                     'page' => 1,
-                    'page_items' => 100,
+                    'page_items' => Config::PAGINATION_ITEMS_MAX,
                     'section' => 'users',
                 ]),
                 $this->generateUrl('list_orders_home_group', [
                     'group_name' => GroupListItemComponent::GROUP_USERS_NAME_PLACEHOLDER,
                     'page' => 1,
-                    'page_items' => 100,
+                    'page_items' => Config::PAGINATION_ITEMS_MAX,
                     'section' => 'list-orders',
                 ]),
                 $this->generateUrl('list_orders_home_no_group', [
                     'page' => 1,
-                    'page_items' => 100,
+                    'page_items' => Config::PAGINATION_ITEMS_MAX,
                     'section' => 'list-orders',
                 ])
             )
