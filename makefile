@@ -21,13 +21,6 @@ setup-dev: ## Sets the application up for deveopment
 	@echo '------------------------------'
 	npm install
 
-	@echo 'Migrating database, dev and test environments'
-	@echo '--------------------------------------------'
-	bin/console doctrine:database:create --env=dev
-	bin/console doctrine:database:create --env=test
-	bin/console doctrine:migrations:migrate --no-interaction --env=dev
-	bin/console doctrine:migrations:migrate --no-interaction --env=test
-
 
 setup-prod: ## Sets the application up for production
 	@echo 'Installing symfony dependecies'
@@ -37,11 +30,6 @@ setup-prod: ## Sets the application up for production
 	@echo 'Installing node dependecies'
 	@echo '------------------------------'
 	npm install
-
-	@echo 'Migrating database, prod environments'
-	@echo '--------------------------------------------'
-	bin/console doctrine:database:create --env=prod
-	bin/console doctrine:migrations:migrate --no-interaction --env=prod
 
 	@echo 'Security: generating keys'
 	@echo '--------------------------------------------'
