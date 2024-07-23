@@ -72,7 +72,7 @@
         <button type="button"
                 class="btn  flex-grow-0  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__group-users-button">
 
-            {% include 'group_users/group-users-no-image.svg' %}
+            {% include "group_users/group-users-no-image.svg" %}
         </button>
     </a>
 
@@ -86,7 +86,7 @@
         <button type="button"
                 class="btn  flex-grow-0  ps-3  pe-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__group-select-button">
 
-            {% include 'group/group-select-icon.svg' %}
+            {% include "group/group-select-icon.svg" %}
         </button>
     </a>
 
@@ -98,7 +98,7 @@
             data-bs-target="#{{ data.groupInfoModalIdAttribute }}"
             data-action="GroupListItemComponent#sendMessageHomeListItemInfoToParent">
 
-        {% include 'info-icon.svg' %}
+        {% include "info-icon.svg" %}
     </button>
 
     {% if data.admin and data.type != 'user' %}
@@ -111,7 +111,7 @@
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
             data-action="GroupListItemComponent#sendMessageHomeListItemModifyToParent">
 
-        {% include 'modify-icon.svg' %}
+        {% include "modify-icon.svg" %}
     </button>
 
     <button type="button"
@@ -123,7 +123,7 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="GroupListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include 'remove-icon.svg' %}
+        {% include "remove-icon.svg" %}
     </button>
 
     {% endif %}

@@ -8,6 +8,7 @@
         "@symfony/webpack-encore": "^4.0.0",
         "bootstrap": "^5.2.2",
         "core-js": "^3.23.0",
+        "file-loader": "^6.2.0",
         "regenerator-runtime": "^0.14.1",
         "sass": "^1.56.1",
         "sass-loader": "^14.2.1",

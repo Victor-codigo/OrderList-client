@@ -64,6 +64,11 @@ Encore
         'App': path.resolve(__dirname, 'assets'),
     })
 
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+    })
+
 
     // enables Sass/SCSS support
     .enableSassLoader()

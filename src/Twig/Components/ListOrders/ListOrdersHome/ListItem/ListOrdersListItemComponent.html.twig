@@ -30,7 +30,7 @@
         <button type="button"
                 class="btn  flex-grow-0  px-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  list-orders-list__button-orders  button-primary-color-dark">
 
-            {% include 'list_orders/list-orders-icon-go-orders.svg' %}
+            {% include "list_orders/list-orders-icon-go-orders.svg" %}
         </button>
     </a>
 
@@ -43,7 +43,7 @@
             data-bs-target="#{{ data.infoFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemInfoToParent">
 
-        {% include 'info-icon.svg' %}
+        {% include "info-icon.svg" %}
     </button>
 
     <button type="button"
@@ -55,7 +55,7 @@
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemModifyToParent">
 
-        {% include 'modify-icon.svg' %}
+        {% include "modify-icon.svg" %}
     </button>
 
     <button type="button"
@@ -68,6 +68,6 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include 'remove-icon.svg' %}
+        {% include "remove-icon.svg" %}
     </button>
 </li>

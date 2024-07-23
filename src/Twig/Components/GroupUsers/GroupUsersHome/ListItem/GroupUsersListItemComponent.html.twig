@@ -60,7 +60,7 @@
             {{data.admin?'':'hidden'}}
             data-js-button-grants-downgrade>
 
-        {% include 'user/user-grants-downgrade.svg' %}
+        {% include "user/user-grants-downgrade.svg" %}
     </button>
 
 
@@ -72,7 +72,7 @@
             {{data.admin?'hidden':''}}
             data-js-button-grants-upgrade>
 
-        {% include 'user/user-grants-upgrade.svg' %}
+        {% include "user/user-grants-upgrade.svg" %}
     </button>
 
 
@@ -86,7 +86,7 @@
             data-bs-target="#{{ data.groupUsersInfoModalIdAttribute }}"
             data-action="GroupUsersListItemComponent#sendMessageHomeListItemInfoToParent">
 
-        {% include 'info-icon.svg' %}
+        {% include "info-icon.svg" %}
     </button>
 
     {% if data.userSessionAdmin or data.userSessionId == data.id %}
@@ -100,7 +100,7 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="GroupUsersListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include 'remove-icon.svg' %}
+        {% include "remove-icon.svg" %}
     </button>
 
     {% endif %}
