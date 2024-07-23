@@ -36,11 +36,7 @@ setup-prod: ## Sets the application up for production
 
 	@echo 'Installing node dependecies'
 	@echo '------------------------------'
-	npm install --omit=dev
-
-	@echo 'Optimizing environment variables'
-	@echo '------------------------------'
-	composer dump-env prod
+	npm install
 
 	@echo 'Migrating database, prod environments'
 	@echo '--------------------------------------------'
@@ -58,3 +54,15 @@ setup-prod: ## Sets the application up for production
 	@echo 'Security: reCaptcha - RECAPTCHA3_SECRET'
 	@echo '--------------------------------------------'
 	bin/console secrets:set RECAPTCHA3_SECRET --env=prod
+
+	@echo 'Optimizing environment variables'
+	@echo '------------------------------'
+	composer dump-env prod
+
+	@echo 'Optimizing environment variables'
+	@echo '------------------------------'
+	npm run build
+
+	@echo 'Removing node dependecies'
+	@echo '------------------------------'
+	npm prune --production
