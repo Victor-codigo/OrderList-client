@@ -32,7 +32,7 @@ setup-dev: ## Sets the application up for deveopment
 setup-prod: ## Sets the application up for production
 	@echo "$(TITLE)Installing symfony dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	APP_ENV=prod APP_DEBUG=false composer install
+	composer install
 
 	@echo "$(TITLE)Installing node dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
@@ -41,6 +41,10 @@ setup-prod: ## Sets the application up for production
 	@echo "$(TITLE)Security: generating keys$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
 	bin/console secrets:generate-keys --env=prod
+
+	@echo "$(TITLE)Security: APP_SECRET $(END)"
+	@echo "$(SEPARATOR)--------------------------------------------$(END)"
+	bin/console secrets:set APP_SECRET --random --env=prod
 
 	@echo "$(TITLE)Security: reCaptcha - RECAPTCHA3_KEY$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
@@ -52,7 +56,7 @@ setup-prod: ## Sets the application up for production
 
 	@echo "$(TITLE)Optimizing environment variables$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	APP_ENV=prod APP_DEBUG=false composer dump-env prod
+	composer dump-env prod
 
 	@echo "$(TITLE)Optimizing JS, CSS, assets$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
@@ -64,7 +68,7 @@ setup-prod: ## Sets the application up for production
 
 	@echo "$(TITLE)Removing Composer development dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	APP_ENV=prod APP_DEBUG=false composer install --no-dev --optimize-autoloader
+	composer install --no-dev --optimize-autoloader
 
 	@echo "$(TITLE)Removing devlopment files$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
