@@ -67,6 +67,7 @@ Encore
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]',
+        pattern: /\.(png|jpg|jpeg)$/
     })
 
 
