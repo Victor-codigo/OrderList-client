@@ -68,7 +68,6 @@ setup-prod: ## Sets the application up for production
 
 	@echo "$(TITLE)Removing devlopment files$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	rm .env
 	rm .env.dev
 	rm .env.test
 	rm .gitignore
