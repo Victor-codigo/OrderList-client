@@ -9,7 +9,7 @@
 		   role="button"
 		   title="{{ backButtonTitle }}"
 		   data-js-back-button>
-			{% include "back-arrow.svg" %}
+			{% include "common/back-arrow.svg" %}
 		</a>
 
 		{% endif %}
@@ -22,7 +22,7 @@
 				data-bs-target="#offcanvasNavbar"
 				aria-controls="offcanvasNavbar"
 				aria-label="Toggle navigation">
-			{% include "list-icon.svg" %}
+			{% include "common/list-icon.svg" %}
 		</button>
 
 		{% endif %}
@@ -30,7 +30,7 @@
 		<a class="navbar-brand  mx-auto  my-1  ms-lg-4"
 		   href="{{ path('home') }}">
 			<img class="navbar__logo  ms-2"
-				 src="/build/images/common/logo-white.png"
+				 src="{{ asset('build/images/common/logo-white.png') }}"
 				 title="{{ data.domain }}"
 				 alt="{{ logoTitleAttribute }}">
 		</a>
@@ -65,7 +65,7 @@
 			   title="{{ languageToggleTitle }}"
 			   type="button">
 
-				{% include "flag/english-flag.svg" %}
+				{% include "common/flag/english-flag.svg" %}
 			</a>
 
 			{% else %}
@@ -75,7 +75,7 @@
 			   title="{{ languageToggleTitle }}"
 			   role="button">
 
-				{% include "flag/spanish-flag.svg" %}
+				{% include "common/flag/spanish-flag.svg" %}
 			</a>
 
 			{% endif %}
@@ -86,15 +86,15 @@
 					data-js-theme-button>
 				<div hidden
 					 data-js-theme-dark>
-					{% include "theme-dark-mode-icon.svg" %}
+					{% include "common/theme-dark-mode-icon.svg" %}
 				</div>
 				<div hidden
 					 data-js-theme-light>
-					{% include "theme-light-mode-icon.svg" %}
+					{% include "common/theme-light-mode-icon.svg" %}
 				</div>
 				<div hidden
 					 data-js-theme-auto>
-					{% include "theme-auto-mode-icon.svg" %}
+					{% include "common/theme-auto-mode-icon.svg" %}
 				</div>
 			</button>
 
@@ -114,7 +114,7 @@
 
 				{% endif %}
 
-				{% include "bell-icon.svg" %}
+				{% include "common/bell-icon.svg" %}
 			</a>
 
 			<div class="dropdown  navbar__user-menu  d-flex"
@@ -127,7 +127,7 @@
 					{% if userButton.image is null %}
 
 					<div data-js-user-avatar-image>
-						{% include "user/user-avatar-no-image.svg" %}
+						{% include "common/user/user-avatar-no-image.svg" %}
 					</div>
 
 					{% else %}
@@ -154,7 +154,7 @@
 							{% if profileButton.image is null %}
 
 							<div data-js-user-avatar-image>
-								{% include "user/user-avatar-no-image.svg" %}
+								{% include "common/user/user-avatar-no-image.svg" %}
 							</div>
 
 							{% else %}
@@ -179,7 +179,7 @@
 						   data-js-user-avatar>
 
 							<div data-js-user-avatar-image>
-								{% include "group/group-no-image.svg" %}
+								{% include "common/group/group-no-image.svg" %}
 							</div>
 
 							<span class="align-self-center  menu-item__name">
@@ -197,7 +197,7 @@
 						   data-js-user-avatar>
 
 							<div class="menu-item__logout">
-								{% include "power-icon.svg" %}
+								{% include "common/power-icon.svg" %}
 							</div>
 
 							<span class="align-self-center  menu-item__name">
@@ -222,7 +222,7 @@
 				<a class="navbar-brand  mx-auto  my-1  ms-lg-4"
 				   href="{{ path('home') }}">
 					<img class="navbar__logo  ms-2"
-						 src="/build/images/common/logo-white.png"
+						 src="{{ asset('build/images/common/logo-white.png') }}"
 						 title="{{ data.domain }}"
 						 alt="{{ logoTitleAttribute }}">
 				</a>

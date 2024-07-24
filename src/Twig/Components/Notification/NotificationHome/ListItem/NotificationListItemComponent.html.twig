@@ -11,7 +11,7 @@
              title="{{ lang.imageItemTitle }}"
              data-js-item-image>
 
-            {% include "notification/notification-no-image.svg" %}
+            {% include "common/notification/notification-no-image.svg" %}
         </div>
 
         {% else %}
@@ -52,6 +52,6 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="NotificationListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include "remove-icon.svg" %}
+        {% include "common/remove-icon.svg" %}
     </button>
 </li>

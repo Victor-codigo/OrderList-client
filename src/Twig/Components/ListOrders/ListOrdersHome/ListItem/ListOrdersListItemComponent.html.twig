@@ -13,7 +13,7 @@
              title="{{ lang.imageItemTitle }}"
              data-js-item-image>
 
-            {% include "list_orders/list-orders-no-image.svg" %}
+            {% include "common/list_orders/list-orders-no-image.svg" %}
         </div>
 
         <p class="fs-5  my-4  mx-2"
@@ -30,7 +30,7 @@
         <button type="button"
                 class="btn  flex-grow-0  px-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  list-orders-list__button-orders  button-primary-color-dark">
 
-            {% include "list_orders/list-orders-icon-go-orders.svg" %}
+            {% include "common/list_orders/list-orders-icon-go-orders.svg" %}
         </button>
     </a>
 
@@ -43,7 +43,7 @@
             data-bs-target="#{{ data.infoFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemInfoToParent">
 
-        {% include "info-icon.svg" %}
+        {% include "common/info-icon.svg" %}
     </button>
 
     <button type="button"
@@ -55,7 +55,7 @@
             data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemModifyToParent">
 
-        {% include "modify-icon.svg" %}
+        {% include "common/modify-icon.svg" %}
     </button>
 
     <button type="button"
@@ -68,6 +68,6 @@
             data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
             data-action="ListOrdersListItemComponent#sendMessageHomeListItemRemoveEvent">
 
-        {% include "remove-icon.svg" %}
+        {% include "common/remove-icon.svg" %}
     </button>
 </li>
