@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 
-<head>
-	<meta charset="UTF-8">
-	<title>
-		{% block title %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}
+			{% endblock %}
+		</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="icon" type="image/x-icon" href="{{ asset('build/images/common/favicon.png') }}">
+
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-	</title>
 
-	<meta name="viewport"
-		  content="width=device-width, initial-scale=1.0">
+		{% block javascripts %}
+			{{ encore_entry_script_tags('appNotDeferred', attributes={ defer: false }) }}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
 
-	<link rel="icon"
-		  type="image/x-icon"
-		  href="{{ asset('/build/images/common/favicon.png') }}">
+	<body class="d-flex  flex-column  min-vh-100  justify-content-between  background">
 
-	{% block stylesheets %}
-	{{ encore_entry_link_tags('app') }}
-	{% endblock %}
+		{{ component('CookiesConsentComponent') }}
 
-	{% block javascripts %}
-	{{ encore_entry_script_tags('appNotDeferred', attributes={ defer: false }) }}
-	{{ encore_entry_script_tags('app') }}
-	{% endblock %}
-</head>
+		{% block navigation %}
 
-<body class="d-flex  flex-column  min-vh-100  justify-content-between  background">
+			{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
 
-	{{ component('CookiesConsentComponent') }}
+		{% endblock navigation %}
 
-	{% block navigation %}
+		{% block body %}
+		{% endblock %}
 
-	{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
-
-	{% endblock navigation %}
-
-	{% block body %}{% endblock %}
-
-	{{ component('FooterComponent') }}
-</body>
+		{{ component('FooterComponent') }}
+	</body>
 
 </html>
