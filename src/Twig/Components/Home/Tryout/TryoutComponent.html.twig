@@ -10,7 +10,7 @@
        <title>{{ data.domainName }} | {{ 'title'|trans }}</title>
        <link rel="icon"
              type="image/x-icon"
-             href="/build/images/common/favicon.png">
+             href="{{ asset('/build/images/common/favicon.png') }}">
 
        {% block stylesheets %}
        {{ encore_entry_link_tags('app') }}
@@ -26,7 +26,7 @@
       class="countdown-container">
 
        <img class="position-absolute  top-50  start-50  logo"
-            src="/build/images/common/logo-white.png"
+            src="{{ asset('build/images/common/logo-white.png') }}"
             title="{{ data.domain }}"
             alt="{{ data.domain }}">
 

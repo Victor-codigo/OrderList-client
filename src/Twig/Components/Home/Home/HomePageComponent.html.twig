@@ -15,7 +15,7 @@
 
     <link rel="icon"
           type="image/x-icon"
-          href="/build/images/common/favicon.png">
+          href="{{ asset('build/images/common/favicon.png') }}">
 
     <link rel="alternate"
 		  hreflang="en"
@@ -52,7 +52,7 @@
             {% endif %}
 
             <footer class="border-bottom">
-                {% include "home_page/border-bottom.svg" %}
+                {% include "common/home_page/border-bottom.svg" %}
             </footer>
         </header>
         <section class="container-md  text-center  body">
@@ -61,7 +61,7 @@
                          class="body-card  col-lg-3  border border-3  border-warning border-top-0  border-start-0  border-end-0  py-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.list_orders.icon.title'|trans }}">
-                        {% include "list_orders/list-orders-no-image.svg" %}
+                        {% include "common/list_orders/list-orders-no-image.svg" %}
                     </div>
                     <h2 class="text-center">
                         {{ 'card.list_orders.title'|trans }}
@@ -75,7 +75,7 @@
                          class="body-card  col-lg-3  border border-3  border-warning border-top-0  border-start-0  border-end-0  pt-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.products.icon.title'|trans }}">
-                        {% include "product/product-no-image.svg" %}
+                        {% include "common/product/product-no-image.svg" %}
                     </div>
                     <h2 class="text-center">
                         {{ 'card.products.title'|trans }}
@@ -89,7 +89,7 @@
                          class="body-card  col-lg-3  border border-3  border-warning border-top-0  border-start-0  border-end-0  pt-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.shops.icon.title'|trans }}">
-                        {% include "shop/shop-no-image.svg" %}
+                        {% include "common/shop/shop-no-image.svg" %}
                     </div>
                     <h2 class="text-center">
                         {{ 'card.shops.title'|trans }}
@@ -103,7 +103,7 @@
                          class="body-card  col-lg-2  border border-3  border-warning border-top-0  border-start-0  border-end-0  pt-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.groups.icon.title'|trans }}">
-                        {% include "group/group-no-image.svg" %}
+                        {% include "common/group/group-no-image.svg" %}
                     </div>
                     <h2 class="text-center">
                         {{ 'card.groups.title'|trans }}

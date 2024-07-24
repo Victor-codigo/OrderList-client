@@ -13,7 +13,7 @@
     <a href="{{ path('home') }}">
 
         <img class="navigation__logo  ms-4"
-             src="/build/images/common/logo-white.png"
+             src="{{ asset('build/images/common/logo-white.png') }}"
              title="{{ 'logo.title'|trans({'%domain_name%': data.domainName}) }}"
              alt="{{ 'logo.title'|trans({'%domain_name%': data.domainName}) }}">
     </a>
@@ -27,7 +27,7 @@
                role="button"
                type="button">
 
-                {% include "flag/english-flag.svg" %}
+                {% include "common/flag/english-flag.svg" %}
             </a>
 
             {% else %}
@@ -37,7 +37,7 @@
                title="{{ 'button.language.title'|trans }}"
                role="button">
 
-                {% include "flag/spanish-flag.svg" %}
+                {% include "common/flag/spanish-flag.svg" %}
             </a>
 
             {% endif %}
@@ -48,15 +48,15 @@
                     data-js-theme-button>
                 <div hidden
                      data-js-theme-dark>
-                    {% include "theme-dark-mode-icon.svg" %}
+                    {% include "common/theme-dark-mode-icon.svg" %}
                 </div>
                 <div hidden
                      data-js-theme-light>
-                    {% include "theme-light-mode-icon.svg" %}
+                    {% include "common/theme-light-mode-icon.svg" %}
                 </div>
                 <div hidden
                      data-js-theme-auto>
-                    {% include "theme-auto-mode-icon.svg" %}
+                    {% include "common/theme-auto-mode-icon.svg" %}
                 </div>
             </button>
 
@@ -99,7 +99,7 @@
         </div>
         <div class="col-lg-6  d-flex  justify-content-center">
             <img class="image-main"
-                 src="/build/images/common/home/image-header.png"
+                 src="{{ asset('build/images/common/home/image-header.png') }}"
                  title="{{ 'main_info.title'|trans }}"
                  alt="{{ 'main_info.title'|trans }}">
         </div>
