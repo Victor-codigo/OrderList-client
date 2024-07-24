@@ -32,7 +32,7 @@ setup-dev: ## Sets the application up for deveopment
 setup-prod: ## Sets the application up for production
 	@echo "$(TITLE)Installing symfony dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	composer install --no-dev
+	APP_ENV=prod APP_DEBUG=false composer install
 
 	@echo "$(TITLE)Installing node dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
@@ -52,7 +52,7 @@ setup-prod: ## Sets the application up for production
 
 	@echo "$(TITLE)Optimizing environment variables$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	composer dump-env prod
+	APP_ENV=prod APP_DEBUG=false composer dump-env prod
 
 	@echo "$(TITLE)Optimizing JS, CSS, assets$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
@@ -64,12 +64,13 @@ setup-prod: ## Sets the application up for production
 
 	@echo "$(TITLE)Removing Composer development dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	composer install --no-dev --optimize-autoloader
+	APP_ENV=prod APP_DEBUG=false composer install --no-dev --optimize-autoloader
 
 	@echo "$(TITLE)Removing devlopment files$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
 	rm .env
 	rm .env.dev
+	rm .env.test
 	rm .gitignore
 	rm .php-cs-fixer.dist.php
 	rm jsconfig.json

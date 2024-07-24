@@ -4,7 +4,7 @@ twig:
         [
             "%kernel.project_dir%/templates",
             "%kernel.project_dir%/src/Twig",
-            "%kernel.project_dir%/public/build/images/common",
+            "%kernel.project_dir%/assets/images",
         ]
     globals:
         globals: '@Common\Adapter\Template\Globals\TemplateGlobalParamsService'
