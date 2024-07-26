@@ -86,9 +86,11 @@ export default class extends Controller {
      * @param {string} groupId
      * @param {object} section
      *
+     * @returns {Promise<string[]>}
+     *
      * @throws Error
      */
-    async #loadUsableLetters(groupId, section) {
+    async #getUsableLetters(groupId, section) {
         let letters;
 
         switch (section) {
@@ -106,7 +108,7 @@ export default class extends Controller {
                 throw new Error('Section not found');
         }
 
-        this.#setButtonsEnabled(Array.from(letters));
+        return letters;
     }
 
     /**
@@ -126,8 +128,16 @@ export default class extends Controller {
      * @param {object} event.detail.content.groupId
      * @param {string} event.detail.content.section
      */
-    handleMessageLoadLetters({ detail: { content } }) {
-        this.#loadUsableLetters(content.groupId, content.section);
+    async handleMessageLoadLetters({ detail: { content } }) {
+        const letters = await this.#getUsableLetters(content.groupId, content.section);
+
+        this.#setButtonsEnabled(Array.from(letters));
+
+        if (letters.length > 0) {
+            this.#setPage(letters[0]);
+        } else {
+            this.#setPage('A');
+        }
     }
 
     /**
