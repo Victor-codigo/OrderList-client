@@ -21,17 +21,17 @@ class Config
     public const USER_TRY_OUT_EMAIL = 'guest@email.com';
     public const USER_TRY_OUT_PASSWORD = '1597531564';
 
-    public const SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/shop/shop-no-image.svg';
-    public const PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/product/product-no-image.svg';
-    public const LIST_ORDERS_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/list_orders/list-orders-no-image.svg';
-    public const ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/order/order-no-image.svg';
-    public const USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/user/user-avatar-no-image.svg';
-    public const GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/group/group-no-image.svg';
-    public const NOTIFICATION_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/notification/notification-no-image.svg';
+    public const SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = '/build/images/common/shop/shop-no-image.svg';
+    public const PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = '/build/images/common/product/product-no-image.svg';
+    public const LIST_ORDERS_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = '/build/images/common/list_orders/list-orders-no-image.svg';
+    public const ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = '/build/images/common/order/order-no-image.svg';
+    public const USER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = '/build/images/common/user/user-avatar-no-image.svg';
+    public const GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = '/build/images/common/group/group-no-image.svg';
+    public const NOTIFICATION_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200 = '/build/images/common/notification/notification-no-image.svg';
 
-    public const LIST_EMPTY_IMAGE = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/list-icon.svg';
-    public const ORDER_BOUGHT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/order/bought-icon-green-24x24.svg';
-    public const ORDER_BOUGHT_NOT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/order/bought-not-icon-orange-24x24.svg';
+    public const LIST_EMPTY_IMAGE = '/build/images/common/list-icon.svg';
+    public const ORDER_BOUGHT_ICON = '/build/images/common/order/bought-icon-green-24x24.svg';
+    public const ORDER_BOUGHT_NOT_ICON = '/build/images/common/order/bought-not-icon-orange-24x24.svg';
 
     public const string LIST_ORDERS_NO_IMAGE = 'common/list_orders/list-orders-no-image.svg';
     public const string PRODUCT_NO_IMAGE = 'common/product/product-no-image.svg';
