@@ -96,7 +96,6 @@ export default class extends Controller {
      * @param {number} event.detail.content.page
      */
     handleMessageChangePage({ detail: { content } }) {
-        this.#sendMessageContentChangeToContentLoaderJsComponent('A', content.page);
     }
 
     /**
@@ -142,6 +141,5 @@ export default class extends Controller {
      */
     handleMessageBeforeShowed({ detail: { content } }) {
         this.#sendMessagePageChangeToPaginatorJsComponent(1);
-        this.#sendMessageSetLetterFilterToAlphanumericFilter('A');
     }
 }
