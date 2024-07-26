@@ -37,7 +37,7 @@ export default class extends Controller {
     }
 
     setImageButtons() {
-        if (this.imageUrl === this.#imageTag.dataset.noAvatar) {
+        if (this.#imageTag.getAttribute('src') === this.#imageTag.dataset.noAvatar) {
             this.#buttonImageRemoveTag.classList.add('d-none');
             this.#buttonImageRemoveUndoTag.classList.add('d-none');
             this.#imageTag.classList.add('image-avatar__img--svg-theme');
