@@ -28,6 +28,7 @@ setup-dev: ## Sets the application up for deveopment
 	@echo "$(SEPARATOR)------------------------------$(END)"
 	npm run dev
 
+	@echo "$(TITLE)Application ready for development.$(END)"
 
 setup-prod: ## Sets the application up for production
 	@echo "$(TITLE)Installing symfony dependecies$(END)"
@@ -81,3 +82,9 @@ setup-prod: ## Sets the application up for production
 	rm phpstan.neon
 	rm phpunit.xml.dist
 	rm webpack.config.js
+
+	@echo "$(TITLE)Application ready for production$(END)"
+	@echo "$(SEPARATOR)--------------------------------$(END)"
+	@echo "$(TITLE)Do no forget to review files:$(END)"
+	@echo "$(TITLE).env.prod.php: for environment configuration$(END)"
+	@echo "$(TITLE)Common\Domain\Config\Config: for more specific configuration$(END)"
