@@ -12,6 +12,7 @@ help: ## Show help
 # -------------------------------------------
 
 TITLE=\n\033[1;32m
+TEXT=\033[0;32m
 SEPARATOR=\033[1;32m
 END=\033[0m
 
@@ -29,6 +30,7 @@ setup-dev: ## Sets the application up for deveopment
 	npm run dev
 
 	@echo "$(TITLE)Application ready for development.$(END)"
+	@echo "$(TEXT)Do not forget to replace constant SITE_KEY value in file "assets/modules/recaptcha.js", bye reCaptcha site key.$(END)"
 
 setup-prod: ## Sets the application up for production
 	@echo "$(TITLE)Installing symfony dependecies$(END)"
@@ -45,11 +47,13 @@ setup-prod: ## Sets the application up for production
 
 	@echo "$(TITLE)Security: APP_SECRET $(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
-	bin/console secrets:set APP_SECRET --random --env=prod
+	bin/console secrets:set APP_SECRET --random=32 --env=prod
 
 	@echo "$(TITLE)Security: reCaptcha - RECAPTCHA3_KEY$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
 	bin/console secrets:set RECAPTCHA3_KEY --env=prod
+
+
 
 	@echo "$(TITLE)Security: reCaptcha - RECAPTCHA3_SECRET$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
@@ -75,6 +79,7 @@ setup-prod: ## Sets the application up for production
 	@echo "$(SEPARATOR)------------------------------$(END)"
 	rm .env
 	rm .env.dev
+	rm .env.prod
 	rm .env.test
 	rm .gitignore
 	rm .php-cs-fixer.dist.php
@@ -86,5 +91,5 @@ setup-prod: ## Sets the application up for production
 	@echo "$(TITLE)Application ready for production$(END)"
 	@echo "$(SEPARATOR)--------------------------------$(END)"
 	@echo "$(TITLE)Do no forget to review files:$(END)"
-	@echo "$(TITLE).env.prod.php: for environment configuration$(END)"
+	@echo "$(TITLE).env.local.php: for environment configuration$(END)"
 	@echo "$(TITLE)Common\Domain\Config\Config: for more specific configuration$(END)"
