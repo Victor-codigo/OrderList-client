@@ -133,7 +133,7 @@ class NavigationBarComponent extends TwigComponent
                 'page' => 1,
                 'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
-            'list_orders/list-orders-no-image.svg',
+            Config::LIST_ORDERS_NO_IMAGE,
             'list-orders' === $sectionActiveId || 'orders' === $sectionActiveId ? true : false
         );
     }
@@ -148,7 +148,7 @@ class NavigationBarComponent extends TwigComponent
                 'page' => 1,
                 'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
-            'product/product-no-image.svg',
+            Config::PRODUCT_NO_IMAGE,
             'product' === $sectionActiveId ? true : false
         );
     }
@@ -163,7 +163,7 @@ class NavigationBarComponent extends TwigComponent
                 'page' => 1,
                 'page_items' => Config::PAGINATION_ITEMS_MAX,
             ]),
-            'shop/shop-no-image.svg',
+            Config::SHOP_NO_IMAGE,
             'shop' === $sectionActiveId ? true : false
         );
     }

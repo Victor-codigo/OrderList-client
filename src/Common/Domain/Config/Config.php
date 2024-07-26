@@ -33,6 +33,10 @@ class Config
     public const ORDER_BOUGHT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/order/bought-icon-green-24x24.svg';
     public const ORDER_BOUGHT_NOT_ICON = self::CLIENT_PROTOCOL_AND_DOMAIN.'/build/images/common/order/bought-not-icon-orange-24x24.svg';
 
+    public const string LIST_ORDERS_NO_IMAGE = 'common/list_orders/list-orders-no-image.svg';
+    public const string PRODUCT_NO_IMAGE = 'common/product/product-no-image.svg';
+    public const string SHOP_NO_IMAGE = 'common/shop/shop-no-image.svg';
+
     public const API_IMAGES_SHOP_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/build/img/shops';
     public const API_IMAGES_PRODUCTS_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/build/img/products';
     public const API_IMAGES_USERS_PATH = HTTP_CLIENT_CONFIGURATION::API_DOMAIN.'/build/img/users';
