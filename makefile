@@ -93,3 +93,5 @@ setup-prod: ## Sets the application up for production
 	@echo "$(TITLE)Do no forget to review files:$(END)"
 	@echo "$(TITLE).env.local.php: for environment configuration$(END)"
 	@echo "$(TITLE)Common\Domain\Config\Config: for more specific configuration$(END)"
+	@echo "$(TITLE)assets/modules/recaptcha.js: Replace constant SITE_KEY with the reCaptcha SITE_KEY$(END)"
+
