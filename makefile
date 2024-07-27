@@ -87,6 +87,7 @@ setup-prod: ## Sets the application up for production
 	rm phpstan.neon
 	rm phpunit.xml.dist
 	rm webpack.config.js
+	rm makefile
 
 	@echo "$(TITLE)Application ready for production$(END)"
 	@echo "$(SEPARATOR)--------------------------------$(END)"
