@@ -17,6 +17,7 @@ use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route(
     path: '{_locale}/user/signup/execute',
@@ -64,15 +65,21 @@ class UserSignupController extends AbstractController
 
     private function validForm(FormInterface $form, string $locale): bool
     {
-        $emailConfirmationUrl = $this->generateUrl('user_signup_email_confirm', [
+        $emailConfirmationUrl = $this->generateUrl(
+            'user_signup_email_confirm',
+            [
             '_locale' => $locale,
-        ]);
+            'token' => ''
+        ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
 
+        $emailConfirmationUrlWithoutEndSlash = rtrim($emailConfirmationUrl, '/');
         $responseData = $this->apiEndpoint->userSignUp(
             $form->getFieldData(SIGNUP_FORM_FIELDS::NICK),
             $form->getFieldData(SIGNUP_FORM_FIELDS::EMAIL),
             $form->getFieldData(SIGNUP_FORM_FIELDS::PASSWORD),
-            $emailConfirmationUrl,
+            $emailConfirmationUrlWithoutEndSlash,
             $locale
         );
 
