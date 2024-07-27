@@ -66,7 +66,7 @@ class UserRegistrationEmailConfirmController extends AbstractController
     {
         return $this->httpClient->request(
             'PATCH',
-            HTTP_CLIENT_CONFIGURATION::API_DOMAIN.self::SIGNUP_CONFIRM_ENDPOINT,
+            self::SIGNUP_CONFIRM_ENDPOINT,
             HTTP_CLIENT_CONFIGURATION::json([
                 'token' => $token,
             ])
