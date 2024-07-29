@@ -6,14 +6,10 @@ namespace App\Controller\User\RegistrationEmailConfirm;
 
 use App\Twig\Components\User\RegistrationEmailConfirmation\RegistrationEmailConfirmationComponentDto;
 use Common\Adapter\Endpoints\UsersEndpoint;
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
-use Common\Domain\HttpClient\Exception\Error400Exception;
-use Common\Domain\HttpClient\Exception\Error500Exception;
-use Common\Domain\HttpClient\Exception\NetworkException;
 use Common\Domain\PageTitle\GetPageTitleService;
+use Common\Domain\Ports\Endpoints\EndpointsInterface;
 use Common\Domain\Ports\HttpClient\HttpClientInterface;
-use Common\Domain\Ports\HttpClient\HttpClientResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,41 +32,24 @@ class UserRegistrationEmailConfirmController extends AbstractController
         private HttpClientInterface $httpClient,
         private TranslatorInterface $translator,
         private GetPageTitleService $getPageTitleService,
+        private EndpointsInterface $apiEndpoints
     ) {
     }
 
     public function __invoke(Request $request): Response
     {
         $token = $request->attributes->get('token');
+        $responseData = $this->apiEndpoints->userRegistrationEmailConfirmation(self::SIGNUP_CONFIRM_ENDPOINT, $token);
 
-        try {
-            $response = $this->requestSignupConfirm($token);
-            $responseData = $response->toArray();
-
+        if (empty($responseData['errors'])) {
             return $this->renderRegistrationEmailConfirmationComponentOk();
-        } catch (Error400Exception|Error500Exception|NetworkException $e) {
-            $responseData = (object) $e->getResponse()->toArray(false);
-
-            if (isset($responseData->errors['email_verified'])) {
-                return $this->renderRegistrationEmailConfirmationComponentAlreadyVerified();
-            } else {
-                return $this->renderRegistrationEmailConfirmationComponentFail();
-            }
         }
-    }
 
-    /**
-     * @throws UnsupportedOptionException
-     */
-    private function requestSignupConfirm(string $token): HttpClientResponseInterface
-    {
-        return $this->httpClient->request(
-            'PATCH',
-            self::SIGNUP_CONFIRM_ENDPOINT,
-            HTTP_CLIENT_CONFIGURATION::json([
-                'token' => $token,
-            ])
-        );
+        if (isset($responseData['errors']['email_verified'])) {
+            return $this->renderRegistrationEmailConfirmationComponentAlreadyVerified();
+        } else {
+            return $this->renderRegistrationEmailConfirmationComponentFail();
+        }
     }
 
     private function renderRegistrationEmailConfirmationComponentOk(): Response
