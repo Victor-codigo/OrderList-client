@@ -69,12 +69,12 @@ class UserSignupController extends AbstractController
             'user_signup_email_confirm',
             [
             '_locale' => $locale,
-            'token' => ''
+            'token' => 'a',
         ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
-        $emailConfirmationUrlWithoutEndSlash = rtrim($emailConfirmationUrl, '/');
+        $emailConfirmationUrlWithoutEndSlash = rtrim($emailConfirmationUrl, '/a');
         $responseData = $this->apiEndpoint->userSignUp(
             $form->getFieldData(SIGNUP_FORM_FIELDS::NICK),
             $form->getFieldData(SIGNUP_FORM_FIELDS::EMAIL),
