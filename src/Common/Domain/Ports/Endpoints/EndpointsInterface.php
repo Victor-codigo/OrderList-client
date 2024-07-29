@@ -268,6 +268,16 @@ interface EndpointsInterface
     /**
      * @return array<{
      *    data: array<{
+     *      username: string user identifier
+     *    }>
+     *    errors: array<string, array>
+     * }>
+     */
+    public function userRegistrationEmailConfirmation(string $signupConfirmEndpoint, string $token): array;
+
+    /**
+     * @return array<{
+     *    data: array<{
      *      token_session: string|null
      *    }>
      *    errors: array

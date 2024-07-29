@@ -80,6 +80,40 @@ class UsersEndpoint extends EndpointBase
     /**
      * @return array<{
      *    data: array<{
+     *      username: string user identifier
+     *    }>
+     *    errors: array<string, array>
+     * }>
+     */
+    public function userRegistrationEmailConfirmation(string $signupConfirmEndpoint, string $token): array
+    {
+        $response = $this->requestRegistrationEmailConfirmation($signupConfirmEndpoint, $token);
+
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError) => [
+                'data' => [],
+                'errors' => $responseDataError['errors'],
+            ]
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestRegistrationEmailConfirmation(string $signupConfirmEndpoint, string $token): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'PATCH',
+            $signupConfirmEndpoint,
+            HTTP_CLIENT_CONFIGURATION::json([
+                'token' => $token,
+            ])
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array<{
      *      token_session: string|null
      *    }>
      *    errors: array

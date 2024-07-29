@@ -481,6 +481,19 @@ class Endpoints implements EndpointsInterface
 
     /**
      * @return array<{
+     *    data: array<{
+     *      username: string user identifier
+     *    }>
+     *    errors: array<string, array>
+     * }>
+     */
+    public function userRegistrationEmailConfirmation(string $signupConfirmEndpoint, string $token): array
+    {
+        return UsersEndpoint::getInstance($this->httpClient)->userRegistrationEmailConfirmation($signupConfirmEndpoint, $token);
+    }
+
+    /**
+     * @return array<{
      *    data: array
      *    errors: array
      * }>
