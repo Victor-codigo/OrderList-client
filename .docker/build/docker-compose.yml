@@ -1,44 +1,26 @@
-version: "3.9"
-
-services: 
-
-  # SERVIDOR PROXY
-  proxy:
-    container_name: ${APP_NAME}-proxy
-    build: 
-      context: ./proxy-server
-      dockerfile: Dockerfile
-    networks:
-      - orderlist-network-client
-      - orderlist-network-api
-    ports:
-      - 80:80
-      # - 443:443
-    depends_on:
-      - nginx-client
-
+services:
 
   # SERVIDOR WEB
   nginx-client:
     container_name: ${APP_NAME}-nginx-client
-    build: 
+    build:
       context: ./nginx
       dockerfile: Dockerfile
     restart: always
     environment:
       - PATH_PUBLIC=${VOLUME_CONTAINER_PATH_PUBLIC}
-    ports: 
+    ports:
       - ${SERVER_PORT}
-    volumes: 
+    volumes:
       - $PWD/${VOLUME_HOST_PATH_PHP_SOURCE}:${VOLUME_CONTAINER_PATH_PHP_SOURCE}
-    networks: 
+    networks:
       - orderlist-network-client
 
   # INTERPRETE PHP
   php:
     container_name: ${APP_NAME}-php-8.1
     user: ${USER_ID}:${GROUP_ID}
-    build: 
+    build:
       context: ./php
       dockerfile: Dockerfile
       args:
@@ -49,24 +31,24 @@ services:
         - GIT_NAME=${GIT_NAME}
         - GIT_EMAIL={GIT_EMAIL}
     restart: always
-    env_file:  
+    env_file:
       - ./env/php.env
-    volumes: 
+    volumes:
       - $PWD/${VOLUME_HOST_PATH_PHP_SOURCE}:${VOLUME_CONTAINER_PATH_PHP_SOURCE}
-    networks: 
+    networks:
       - orderlist-network-client
-    depends_on: 
+    depends_on:
       - nginx-client
 
   # COMPOSER
   composer:
     container_name: ${APP_NAME}-composer-2.0
-    build: 
+    build:
       context: ./composer
       dockerfile: Dockerfile
-    networks: 
+    networks:
       - orderlist-network-client
-    depends_on: 
+    depends_on:
       - nginx-client
 
 
@@ -74,6 +56,3 @@ services:
 networks:
   orderlist-network-client:
     name: orderlist-network-client
-
-  orderlist-network-api:
-    name: orderlist-network-api
