@@ -1,12 +1,11 @@
 # OrderList client
-It is a client for OrderList-api.
+OrderList client it is a client for OrderList-api.
 
 # Prerequisites
 - Docker
 - Or if you prefer to create your own configuration:
-
--   HTTP server,
--   PHP 8.3
+	- HTTP server,
+	- PHP 8.3
 
 # Stack
 
@@ -23,7 +22,7 @@ It is a client for OrderList-api.
 
 # Tools
 - [VSCode](https://code.visualstudio.com/)
-- 
+
 # Installation
 1. [Fork](https://github.com/Victor-codigo/OrderList-client/fork) or clone repository.
 ```
@@ -60,19 +59,19 @@ make bash
 ```
 4.  There is a make file with following commands:
    - `make setup-dev` Sets the application up for development
-    - `make setup-prod` Sets the application up for production
+   - `make setup-prod` Sets the application up for production
 
-Execute the following command to build API for development:
+Execute the following command to build client for development:
 ```
 make setup-dev
 ```
-Or build API for production:
+Or build client for production:
 ```
 make setup-prod
 ```
 
 5.  Follow make instructions.
-6.  Congratulations! You have installed the API correctly
+6.  Congratulations! You have installed the client correctly
 7.  You can access client though:
 -   [http://127.0.0.1](http://127.0.0.1) to client
-- It is necessary api proxy-server is running before.
+- It is necessary api proxy-server to be running before.
