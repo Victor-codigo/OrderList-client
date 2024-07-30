@@ -74,4 +74,4 @@ make setup-prod
 6.  Congratulations! You have installed the client correctly
 7.  You can access client though:
 -   [http://127.0.0.1](http://127.0.0.1) to client
-- It is necessary api proxy-server to be running before.
+- It is necessary all OrderList-api containers to be running before.
