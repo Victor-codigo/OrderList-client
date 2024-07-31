@@ -65,7 +65,7 @@ class ShopsEndPoint extends EndpointBase
 
         return $this->httpClient->request(
             'POST',
-            self::POST_SHOP_CREATE.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::POST_SHOP_CREATE,
             HTTP_CLIENT_CONFIGURATION::form(
                 $formData,
                 [

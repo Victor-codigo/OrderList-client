@@ -100,7 +100,7 @@ class OrdersEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'POST',
-            self::POST_ORDER_CREATE.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::POST_ORDER_CREATE,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                 'group_id' => $groupId,
                 'list_orders_id' => $listOrdersId,
@@ -131,7 +131,7 @@ class OrdersEndpoint extends EndpointBase
     {
         return $this->httpClient->request(
             'PUT',
-            self::PUT_ORDER_MODIFY.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::PUT_ORDER_MODIFY,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                 'group_id' => $groupId,
                 'list_orders_id' => $listOrdersId,
@@ -199,7 +199,7 @@ class OrdersEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_ORDERS_DATA.'?'.$this->createQueryParameters($parameters).'&'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::GET_ORDERS_DATA.'?'.$this->createQueryParameters($parameters),
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }

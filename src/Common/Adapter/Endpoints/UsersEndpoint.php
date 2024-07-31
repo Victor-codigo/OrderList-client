@@ -358,7 +358,7 @@ class UsersEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_USER_BY_NAME_ENDPOINT."/{$usersNameAttribute}?".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::GET_USER_BY_NAME_ENDPOINT."/{$usersNameAttribute}",
             HTTP_CLIENT_CONFIGURATION::json(null, $tokenSession)
         );
     }

@@ -316,7 +316,7 @@ class ProductsEndPoint extends EndpointBase
     {
         return $this->httpClient->request(
             'PUT',
-            self::POST_PRODUCT_SHOP.'?'.HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::POST_PRODUCT_SHOP,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                 'group_id' => $groupId,
                 'product_id' => $productId,
