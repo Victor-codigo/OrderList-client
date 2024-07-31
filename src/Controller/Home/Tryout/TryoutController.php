@@ -57,7 +57,7 @@ class TryoutController extends AbstractController
     {
         $tryoutComponentDto = new TryoutComponentDto(
             Config::CLIENT_DOMAIN_NAME,
-            Config::CLIENT_DOMAIN,
+            $requestDto->request->getHost(),
             $requestDto->locale,
             $tokenSession,
             $this->generateUrl('user_login_execute')

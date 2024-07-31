@@ -10,13 +10,11 @@ class Config
 {
     public const CLIENT_PROTOCOL = 'http';
     public const API_DOMAIN = 'http://orderlist.api';
-    public const CLIENT_DOMAIN = 'orderlist.client';
     public const CLIENT_DOMAIN_NAME = 'Order List';
     public const COOKIE_TOKEN_SESSION_NAME = 'TOKENSESSION';
     public const SESSION_KEEP_ALIVE = 5_184_000; // 60 days
     public const ADMIN_EMAIL = 'admin@orderlist.com';
     public const CLIENT_DOMAIN_LOCALE_VALID = 'es|en';
-    public const CLIENT_PROTOCOL_AND_DOMAIN = self::CLIENT_PROTOCOL.'://'.self::CLIENT_DOMAIN;
 
     public const USER_TRY_OUT_EMAIL = 'guest@email.com';
     public const USER_TRY_OUT_PASSWORD = '1597531564';

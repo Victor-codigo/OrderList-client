@@ -12,7 +12,6 @@ use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 final class HTTP_CLIENT_CONFIGURATION
 {
     public const API_DOMAIN = Config::API_DOMAIN;
-    public const CLIENT_DOMAIN = Config::CLIENT_DOMAIN;
     public const XDEBUG_VAR = 'XDEBUG_SESSION=VSCODE';
     public const COOKIE_SESSION_NAME = Config::COOKIE_TOKEN_SESSION_NAME;
 

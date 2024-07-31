@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Legal\Notice;
 
+use App\Controller\Request\RequestDto;
 use App\Twig\Components\Common\Legal\Notice\LegalNoticeComponentDto;
 use Common\Domain\Config\Config;
 use Common\Domain\PageTitle\GetPageTitleService;
@@ -26,15 +27,15 @@ class LegalNoticeController extends AbstractController
     ) {
     }
 
-    public function __invoke(): Response
+    public function __invoke(RequestDto $requestDto): Response
     {
-        return $this->renderTemplate();
+        return $this->renderTemplate($requestDto);
     }
 
-    private function renderTemplate(): Response
+    private function renderTemplate(RequestDto $requestDto): Response
     {
         $legalNoticeComponentDto = new LegalNoticeComponentDto(
-            Config::CLIENT_DOMAIN,
+            $requestDto->request->getHost(),
             Config::ADMIN_EMAIL
         );
 

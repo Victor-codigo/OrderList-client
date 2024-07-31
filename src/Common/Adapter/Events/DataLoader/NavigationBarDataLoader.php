@@ -19,7 +19,7 @@ class NavigationBarDataLoader
     public function load(RequestDto $requestDto): NavigationBarDto
     {
         return new NavigationBarDto(
-            Config::CLIENT_DOMAIN,
+            $requestDto->request->getHost(),
             Config::CLIENT_DOMAIN_NAME,
             'OrderListTile',
             $requestDto->getUserSessionData(),

@@ -15,8 +15,8 @@ use Common\Adapter\Events\DataLoader\ProductDataLoader;
 use Common\Adapter\Events\DataLoader\ShopDataLoader;
 use Common\Adapter\Events\DataLoader\UserDataLoader;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
-use Common\Domain\Config\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -138,7 +138,9 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
 
     private function loadRefererRouteName(Request $request): ?RequestRefererDto
     {
-        if (Config::CLIENT_DOMAIN !== $request->getHost()) {
+        try {
+            $request->getHost();
+        } catch (SuspiciousOperationException) {
             return null;
         }
 
