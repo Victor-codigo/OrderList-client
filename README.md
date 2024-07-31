@@ -6,6 +6,7 @@ OrderList client it is a client for OrderList-api.
 - Or if you prefer to create your own configuration:
 	- HTTP server,
 	- PHP 8.3
+- OrderList-api installed
 
 # Stack
 
