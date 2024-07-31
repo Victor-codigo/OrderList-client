@@ -1,6 +1,6 @@
 
 
-const SITE_KEY = '6LfkPukpAAAAAOGy7_LA1RlyySgaITDlc55UcR_S';
+const SITE_KEY = '6Lf2SBwqAAAAAOlWQnQk8PSr6mMQZaBKBPldgPcu';
 
 loadReCaptcha();
 
