@@ -74,8 +74,8 @@ make setup-prod
 5.  Follow make instructions.
 6.  It is necessary to create a Google reCaptcha account, and enter in domain field: 127.0.0.1.
 You have to update, .env.dev variables, or in production secrets:
-   - RECAPTCHA3_KEY
-   - RECAPTCHA3_SECRET
+      - RECAPTCHA3_KEY
+      - RECAPTCHA3_SECRET
 7.  Congratulations! You have installed the client correctly
 8.  You can access client though:
 -   [http://127.0.0.1](http://127.0.0.1)
