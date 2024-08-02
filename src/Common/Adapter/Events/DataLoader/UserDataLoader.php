@@ -21,6 +21,7 @@ class UserDataLoader
 
     /**
      * @throws RequestUserException
+     * @throws JwtTokenGetPayLoadException
      */
     public function load(?string $tokenSession): ?UserDataResponse
     {

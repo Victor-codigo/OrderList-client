@@ -20,6 +20,9 @@ class ProductDataLoader
     ) {
     }
 
+    /**
+     * @throws JwtTokenGetPayLoadException
+     */
     public function load(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?ProductDataResponse
     {
         if (!JwtToken::hasSessionActive($tokenSession)) {

@@ -15,6 +15,8 @@ use Common\Adapter\Events\DataLoader\ProductDataLoader;
 use Common\Adapter\Events\DataLoader\ShopDataLoader;
 use Common\Adapter\Events\DataLoader\UserDataLoader;
 use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
+use Common\Domain\JwtToken\Exception\JwtTokenGetPayLoadException;
+use Common\Domain\JwtToken\JwtToken;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +41,7 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
         private ProductDataLoader $productDataLoader,
         private ListOrdersDataLoader $listOrdersDataLoader,
         private OrderDataLoader $orderDataLoader,
+        private JwtToken $jwtToken
     ) {
     }
 
@@ -98,7 +101,15 @@ class OnKernelControllerSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        return $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+        $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+
+        try {
+            $this->jwtToken::hasSessionActive($tokenSession);
+
+            return $tokenSession;
+        } catch (JwtTokenGetPayLoadException $th) {
+            return null;
+        }
     }
 
     private function loadLocale(Request $request): string

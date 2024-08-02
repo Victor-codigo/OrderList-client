@@ -19,6 +19,7 @@ class NotificationDataLoader
 
     /**
      * @throws RequestNotificationsException
+     * @throws JwtTokenGetPayLoadException
      */
     public function load(string $lang, ?string $tokenSession): array
     {

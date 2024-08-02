@@ -22,6 +22,9 @@ class OrderDataLoader
     ) {
     }
 
+    /**
+     * @throws JwtTokenGetPayLoadException
+     */
     public function load(ParameterBag $attributes, ?string $groupId, ?string $tokenSession): ?OrderDataResponse
     {
         if (!JwtToken::hasSessionActive($tokenSession)) {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Common\Domain\JwtToken;
 
-use Common\Adapter\Events\Exceptions\RequestUnauthorizedException;
+use Common\Domain\JwtToken\Exception\JwtTokenGetPayLoadException;
 
 class JwtToken
 {
     /**
-     * @throws RequestUnauthorizedException
+     * @throws JwtTokenGetPayLoadException
      */
     public static function getUserName(string $tokenSession): string
     {
@@ -19,7 +19,7 @@ class JwtToken
     }
 
     /**
-     * @throws RequestUnauthorizedException
+     * @throws JwtTokenGetPayLoadException
      */
     public static function hasExpired(string $tokenSession): bool
     {
@@ -32,6 +32,9 @@ class JwtToken
         return false;
     }
 
+    /**
+     * @throws JwtTokenGetPayLoadException
+     */
     public static function hasSessionActive(?string $tokenSession): bool
     {
         if (null === $tokenSession || self::hasExpired($tokenSession)) {
@@ -42,7 +45,7 @@ class JwtToken
     }
 
     /**
-     * @throws RequestUnauthorizedException
+     * @throws JwtTokenGetPayLoadException
      */
     private static function getTokenPayLoad(string $tokenSession): mixed
     {
@@ -52,7 +55,7 @@ class JwtToken
 
             return json_decode($tokenPayload);
         } catch (\Throwable) {
-            throw RequestUnauthorizedException::fromMessage('Error getting token payload');
+            throw JwtTokenGetPayLoadException::fromMessage('Error getting token payload');
         }
     }
 }

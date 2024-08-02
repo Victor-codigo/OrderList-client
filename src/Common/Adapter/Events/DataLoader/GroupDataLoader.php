@@ -26,6 +26,7 @@ class GroupDataLoader
 
     /**
      * @throws RequestGroupNameException
+     * @throws JwtTokenGetPayLoadException
      */
     public function load(Request $request, ?string $tokenSession): ?GroupDataResponse
     {
@@ -90,6 +91,9 @@ class GroupDataLoader
         return GroupDataResponse::fromArray($groupData['data']['groups'][0]);
     }
 
+    /**
+     * @throws JwtTokenGetPayLoadException
+     */
     private function groupHasPermissions(string $urlPath, ?string $tokenSession): bool
     {
         $patternUser = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/user\/(?!profile)/u';

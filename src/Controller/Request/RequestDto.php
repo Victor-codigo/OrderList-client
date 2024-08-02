@@ -46,6 +46,7 @@ class RequestDto
 
     /**
      * @throws RequestUnauthorizedException
+     * @throws JwtTokenGetPayLoadException
      */
     public function getTokenSessionOrFail(): string
     {
