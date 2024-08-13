@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - Create-github-action-deployment
 
 jobs:
   production-setup:
