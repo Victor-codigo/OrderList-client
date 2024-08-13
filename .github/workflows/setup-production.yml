@@ -54,3 +54,10 @@ jobs:
         env:
           RECAPTCHA_KEY: ${{ secrets.RECAPTCHA_KEY }}
           RECAPTCHA_SECRET: ${{ secrets.RECAPTCHA_SECRET }}
+
+      - name: Create application artifact
+        uses: actions/upload-artifact@v4
+          with:
+            name: app-production-artifact
+            path: $GITHUB_WORKSPACE/
+            overwrite: true
