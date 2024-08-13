@@ -105,7 +105,7 @@ setup-deploy: ## Sets the application up for deploy
 
 	@echo "$(TITLE)Security: generating keys$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
-	bin/console secrets:generate-keys --env=prod
+	bin/console secrets:generate-keys --quiet --env=prod
 
 	@echo "$(TITLE)Security: APP_SECRET $(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
