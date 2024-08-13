@@ -1,1 +1,56 @@
 name: setup production
+
+on:
+  push:
+    branches:
+      - main
+      - Create-github-action-deployment
+
+jobs:
+  production-setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Clone repository
+        uses: actions/checkout@v4.1.7
+
+      # Composer cache
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      # NPM cache
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      - uses: actions/cache@v4
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setting up project for deploy
+        run: |
+          cd $GITHUB_WORKSPACE
+          make setup-deploy
+        env:
+          RECAPTCHA_KEY: ${{ secrets.RECAPTCHA_KEY }}
+          RECAPTCHA_SECRET: ${{ secrets.RECAPTCHA_SECRET }}
