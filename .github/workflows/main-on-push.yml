@@ -83,7 +83,7 @@ jobs:
           path: .
 
       - name: Deploy to server
-        uses: easingthemes/ssh-deploy@main
+        uses: easingthemes/ssh-deploy@v5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
@@ -92,3 +92,7 @@ jobs:
           SOURCE: ""
           TARGET: ${{ secrets.DEPLOY_PATH }}
           ARGS: "-rlgoDzvc --delete"
+
+      - name: Create entrypoint symbol
+        run: |
+          ssh -p 65002 u501702274@213.130.145.140 -t "cd ${{ secrets.DEPLOY_PATH }} && ln -s ${{ secrets.DEPLOY_PATH }}/public public_html"
