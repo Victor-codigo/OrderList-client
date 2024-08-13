@@ -29,7 +29,7 @@ yarn-error.log
 
 
 coverage.xml
-.vscode/
+**/.vscode/
 
 
 ###> friendsofphp/php-cs-fixer ###
