@@ -1,4 +1,4 @@
-name: setup production
+name: Main on push
 
 on:
   push:
@@ -6,7 +6,10 @@ on:
       - main
 
 jobs:
-  production-setup:
+  # --------------------------------------
+  # Sets the application up for production
+  # --------------------------------------
+  setup-production:
     runs-on: ubuntu-latest
 
     steps:
@@ -54,8 +57,33 @@ jobs:
           RECAPTCHA_KEY: ${{ secrets.RECAPTCHA_KEY }}
           RECAPTCHA_SECRET: ${{ secrets.RECAPTCHA_SECRET }}
 
-      - uses: actions/upload-artifact@v4
-          with:
-            name: app-production-artifact
-            path: .
-            overwrite: true
+      - name: Create application artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-production-artifact
+          path: $GITHUB_WORKSPACE/
+          overwrite: true
+
+  # --------------------------------------
+  # Deploy application on server
+  # --------------------------------------
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get application artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-production-artifact
+          path: $GITHUB_WORKSPACE/
+
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          SOURCE: ""
+          TARGET: ${{ secrets.DEPLOY_PATH }}
+          ARGS: "-rlgoDzvc --delete"
