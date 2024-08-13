@@ -109,7 +109,8 @@ setup-deploy: ## Sets the application up for deploy
 
 	@echo "$(TITLE)Security: APP_SECRET $(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
-	bin/console secrets:set APP_SECRET --random=32 --env=prod
+	bin/console secrets:set APP_SECRET --random=32 --quiet --env=prod
+
 
 	@echo "$(TITLE)Security: reCaptcha - RECAPTCHA3_KEY$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
