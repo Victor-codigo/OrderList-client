@@ -114,11 +114,11 @@ setup-deploy: ## Sets the application up for deploy
 
 	@echo "$(TITLE)Security: reCaptcha - RECAPTCHA3_KEY$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
-	echo -n ${RECAPTCHA_KEY} | bin/console secrets:set RECAPTCHA3_KEY - --env=prod
+	echo -n ${RECAPTCHA_KEY} | bin/console secrets:set RECAPTCHA3_KEY - --quiet --env=prod
 
 	@echo "$(TITLE)Security: reCaptcha - RECAPTCHA3_SECRET$(END)"
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
-	echo -n ${RECAPTCHA_SECRET} | bin/console secrets:set RECAPTCHA3_SECRET - --env=prod
+	echo -n ${RECAPTCHA_SECRET} | bin/console secrets:set RECAPTCHA3_SECRET - --quiet --env=prod
 
 	@echo "$(TITLE)Optimizing environment variables$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
