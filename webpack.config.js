@@ -75,6 +75,10 @@ Encore
         path: './.env'
     }))
 
+    .addPlugin(new Dotenv({
+        path: './.env.prod'
+    }))
+
     // enables Sass/SCSS support
     .enableSassLoader()
 
@@ -92,16 +96,16 @@ Encore
     //.autoProvidejQuery()
     ;
 
-if (process.env.NODE_ENV === 'dev') {
-    Encore.addPlugin(new Dotenv({
-        path: './.env.dev'
-    }))
-}
+// if (process.env.NODE_ENV === 'dev') {
+//     Encore.addPlugin(new Dotenv({
+//         path: './.env.dev'
+//     }))
+// }
 
-else if (process.env.NODE_ENV === 'prod') {
-    Encore.addPlugin(new Dotenv({
-        path: './.env.prod'
-    }))
-}
+// else if (process.env.NODE_ENV === 'prod') {
+//     Encore.addPlugin(new Dotenv({
+//         path: './.env.prod'
+//     }))
+// }
 
 module.exports = Encore.getWebpackConfig();
