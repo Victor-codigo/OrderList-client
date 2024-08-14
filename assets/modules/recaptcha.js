@@ -1,5 +1,4 @@
 const SITE_KEY = process.env.RECAPTCHA3_KEY;
-console.log('SITE_KEY' + SITE_KEY);
 
 loadReCaptcha();
 

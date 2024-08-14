@@ -59,7 +59,7 @@ setup-deploy: ## Sets the application up for deploy
 
 	@echo "$(TITLE)Optimizing JS, CSS, assets$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	npm run build
+	APP_ENV=prod npm run build
 
 	@echo "$(TITLE)Removing NPM development dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
