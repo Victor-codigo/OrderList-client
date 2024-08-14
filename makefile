@@ -53,6 +53,10 @@ setup-deploy: ## Sets the application up for deploy
 	@echo "$(SEPARATOR)--------------------------------------------$(END)"
 	echo -n ${RECAPTCHA_SECRET} | bin/console secrets:set RECAPTCHA3_SECRET - --quiet --env=prod
 
+	@echo "$(TITLE)Optimizing environment variables$(END)"
+	@echo "$(SEPARATOR)------------------------------$(END)"
+	composer dump-env prod
+
 	@echo "$(TITLE)Optimizing JS, CSS, assets$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
 	npm run build

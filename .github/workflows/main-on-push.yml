@@ -103,4 +103,3 @@ jobs:
           port: ${{ secrets.REMOTE_PORT }}
           script: |
             ln -s ${{ secrets.DEPLOY_PATH }}/public ${{ secrets.DEPLOY_PUBLIC_PATH }}
-            cp ${{ secrets.REMOTE_HOST_CONFIG_PATH }}/.env.local.php ${{ secrets.DEPLOY_PATH }}/.env.local.php

@@ -74,11 +74,6 @@ Encore
     .addPlugin(new Dotenv({
         path: './.env'
     }))
-    .addPlugin(new Dotenv({
-        path: './.env.dev'
-    }))
-
-
 
     // enables Sass/SCSS support
     .enableSassLoader()
@@ -96,5 +91,17 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
     ;
+
+if (process.env.NODE_ENV === 'dev') {
+    Encore.addPlugin(new Dotenv({
+        path: './.env.dev'
+    }))
+}
+
+else if (process.env.NODE_ENV === 'prod') {
+    Encore.addPlugin(new Dotenv({
+        path: './.env.prod'
+    }))
+}
 
 module.exports = Encore.getWebpackConfig();
