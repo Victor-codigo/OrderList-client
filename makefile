@@ -63,7 +63,7 @@ setup-deploy: ## Sets the application up for deploy
 
 	@echo "$(TITLE)Removing Composer development dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
-	composer install --no-dev --optimize-autoloader
+	APP_ENV=prod composer install --no-dev --optimize-autoloader
 
 	@echo "$(TITLE)Removing devlopment files$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
