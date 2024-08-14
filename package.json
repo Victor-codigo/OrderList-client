@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "bootstrap5-autocomplete": "^1.1.26",
+        "dotenv-webpack": "^8.1.0",
         "vanilla-cookieconsent": "^3.0.1"
     }
 }
