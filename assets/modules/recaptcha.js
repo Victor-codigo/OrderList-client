@@ -1,6 +1,4 @@
-
-
-const SITE_KEY = '6Lf2SBwqAAAAAOlWQnQk8PSr6mMQZaBKBPldgPcu';
+const SITE_KEY = process.env.RECAPTCHA3_KEY;
 
 loadReCaptcha();
 
