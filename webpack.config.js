@@ -76,7 +76,7 @@ Encore
     }))
 
     .addPlugin(new Dotenv({
-        path: process.env.NODE_ENV === 'prod'
+        path: Encore.isProduction()
             ? './.env.prod'
             : './.env.dev'
     }))
