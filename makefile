@@ -73,6 +73,7 @@ setup-deploy: ## Sets the application up for deploy
 	@echo "$(SEPARATOR)------------------------------$(END)"
 	rm .env
 	rm .env.dev
+	rm .env.prod
 	rm .env.test
 	rm .gitignore
 	rm .php-cs-fixer.dist.php
