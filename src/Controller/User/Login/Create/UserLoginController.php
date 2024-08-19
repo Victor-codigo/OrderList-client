@@ -9,6 +9,7 @@ use App\Form\User\Login\LOGIN_FORM_FIELDS;
 use App\Form\User\Login\LoginForm;
 use App\Twig\Components\User\Login\LoginComponent;
 use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
+use Common\Adapter\Events\Exceptions\NotFoundHttpException;
 use Common\Domain\CodedUrlParameter\UrlEncoder;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
@@ -79,6 +80,7 @@ class UserLoginController extends AbstractController
             $form->getFieldData(LOGIN_FORM_FIELDS::PASSWORD),
         );
 
+        throw new NotFoundHttpException(json_encode($responseData));
         foreach ($responseData['errors'] as $error) {
             $form->addError((string) $error);
         }
