@@ -11,9 +11,10 @@ use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
 final class HTTP_CLIENT_CONFIGURATION
 {
-    public const API_DOMAIN = Config::API_DOMAIN;
-    public const XDEBUG_VAR = 'XDEBUG_SESSION=VSCODE';
-    public const COOKIE_SESSION_NAME = Config::COOKIE_TOKEN_SESSION_NAME;
+    public const string API_DOMAIN = Config::API_DOMAIN;
+    public const string XDEBUG_VAR = 'XDEBUG_SESSION=VSCODE';
+    public const string COOKIE_SESSION_NAME = Config::COOKIE_TOKEN_SESSION_NAME;
+    public const bool HAS_PROXY = false;
 
     public static function json(?array $data = null, ?string $tokenSession = null): array
     {
@@ -53,6 +54,10 @@ final class HTTP_CLIENT_CONFIGURATION
 
     private static function getConfigurationHttp(): array
     {
+        if (!self::HAS_PROXY) {
+            return [];
+        }
+
         if (Config::CLIENT_PROTOCOL === 'http') {
             return [
                 'proxy' => 'http://proxy:80',
