@@ -10,7 +10,11 @@ Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    RewriteCond %{HTTP_HOST} ^www.shoppinglist.es [NC]
+    RewriteRule ^(.*)$ https://shoppinglist.es/$1 [L,R=301]
+
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-l
     RewriteCond %{REQUEST_URI} ^/api
     RewriteRule ^(.*)$ index_api.php [L]
 
