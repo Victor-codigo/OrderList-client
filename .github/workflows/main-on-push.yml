@@ -105,3 +105,4 @@ jobs:
             ln -sfn ${{ secrets.DEPLOY_PATH }}/public ${{ secrets.DEPLOY_PUBLIC_PATH }}
             cp ${{ secrets.DEPLOY_PATH }}/../config/OrderList-client/Config.php ${{ secrets.DEPLOY_PATH }}/src/Common/Domain/Config/Config.php
             cp ${{ secrets.DEPLOY_PATH }}/../config/OrderList-client/HTTP_CLIENT_CONFIGURATION.php ${{ secrets.DEPLOY_PATH }}/src/Common/Adapter/HttpClientConfiguration/HTTP_CLIENT_CONFIGURATION.php
+            chmod 644 ${{ secrets.DEPLOY_PATH }}/public/.htaccess
