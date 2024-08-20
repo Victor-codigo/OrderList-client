@@ -1,9 +1,7 @@
 import * as fetch from 'App/modules/Fetch';
-import * as url from 'App/modules/Url';
 
 const API_VERSION = '1';
-const API_DOMAIN = 'http://orderlist.api';
-const CLIENT_DOMAIN = 'http://orderlist.client';
+const API_DOMAIN = process.env.API_DOMAIN;
 
 const GET_SHOPS_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops`;
 const GET_SHOPS_FIRST_LETTER_URL = `${API_DOMAIN}/api/v${API_VERSION}/shops/first-letter`;
