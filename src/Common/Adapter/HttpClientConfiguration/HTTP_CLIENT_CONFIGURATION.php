@@ -14,7 +14,7 @@ final class HTTP_CLIENT_CONFIGURATION
     public const string API_DOMAIN = Config::API_DOMAIN;
     public const string XDEBUG_VAR = 'XDEBUG_SESSION=VSCODE';
     public const string COOKIE_SESSION_NAME = Config::COOKIE_TOKEN_SESSION_NAME;
-    public const bool HAS_PROXY = false;
+    public const bool HAS_PROXY = true;
 
     public static function json(?array $data = null, ?string $tokenSession = null): array
     {
