@@ -9,6 +9,10 @@
 
         .offcanvas-header {
             background-color: $navigationBarColor !important;
+
+            .btn-close {
+                margin: 0 !important;
+            }
         }
 
         .offcanvas-body {
@@ -209,7 +213,7 @@
 @include media-breakpoint-down(sm) {
     .navbar {
         .navbar__logo {
-            height: 45px;
+            height: 40px;
         }
     }
 }
