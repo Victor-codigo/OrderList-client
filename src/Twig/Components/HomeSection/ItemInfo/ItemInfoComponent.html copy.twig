@@ -2,35 +2,30 @@
      data-action="HomeListItemComponent:homeListItemInfo@window->{{ componentName }}#handleMessageHomeListItemInfo"
      data-modal-component-content>
 
-    <section class="d-flex  flex-column  p-3  p-sm-4">
-        <div class="flex-shrink-0  d-flex  flex-row  justify-content-start">
-
+    <section class="d-flex  flex-row  p-3  p-sm-4">
+        <div class="flex-shrink-0  d-flex  flex-column  justify-content-start  me-4">
             <img class="img-thumbnail  mb-1  item-info__image "
                  src=""
                  title="{{ lang.imageTitle }}"
                  alt="{{ lang.imageAlt }}"
                  data-js-item-image>
 
-            <div class="d-flex  flex-column  w-100">
-                <h2 class="display-6  ms-2"
-                    data-js-item-title>
-                    { item title }
-                </h2>
-                <hr class="solid  m-2">
+            {% block imageBelow %}
 
-                {% block imageBelow %}
+            <small class="fs-6  text-secondary">
+                {{ lang.createdOn }}
+                <br><small data-js-item-date>{ item date }</small>
+            </small>
 
-                    <small class="fs-6  text-secondary  ms-2">
-                        {{ lang.createdOn }}
-                        <br><small data-js-item-date>{ item date }</small>
-                    </small>
-
-                {% endblock imageBelow %}
-
-            </div>
-
+            {% endblock imageBelow %}
         </div>
-        <div class="mt-4">
+        <div class="flex-grow-1">
+            <h2 class="display-6"
+                data-js-item-title>
+                { item title }
+            </h2>
+            <hr class="solid">
+
             {% block mainFirstBlock %}
             {% endblock mainFirstBlock %}
 
