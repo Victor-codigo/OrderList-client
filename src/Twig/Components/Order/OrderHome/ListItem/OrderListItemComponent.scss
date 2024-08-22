@@ -16,12 +16,23 @@
 
 .order-list-item__button-bought {
     color: lightgray;
+    max-width: 90px;
 
     svg {
-        height: 32px;
+        width: 32px;
+        height: auto;
     }
 }
 
 .order-list-item__button-bought--bought {
     color: var(--bs-green);
+}
+
+.order-list-item__button {
+    max-width: 90px;
+
+    svg {
+        width: 24px;
+        height: auto;
+    }
 }

@@ -10,18 +10,30 @@
     }
 
     .group-list-item__group-users-button {
+        max-width: 100px;
+
         svg {
             width: 24px;
-            height: 24px;
+            height: auto;
         }
     }
 
     .group-list-item__group-select-button {
+        max-width: 150px;
 
         svg {
             color: $warning;
             width: 30px;
-            height: 30px;
+            height: auto;
+        }
+    }
+
+    .group-list-item__button {
+        max-width: 90px;
+
+        svg {
+            width: 24px;
+            height: auto;
         }
     }
 }

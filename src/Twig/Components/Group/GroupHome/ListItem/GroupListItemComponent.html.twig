@@ -65,12 +65,12 @@
     {% if data.type != 'user' %}
 
     <a href="{{ urlGroupUsers|escape('html_attr') }}"
-       class="d-flex"
+       class="d-flex  flex-grow-1  group-list-item__group-users-button"
        role="button"
        title="{{ lang.groupUsersLinkItemButtonTitle }}">
 
         <button type="button"
-                class="btn  flex-grow-1  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__group-users-button">
+                class="btn  flex-grow-1  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary">
 
             {% include "common/group_users/group-users-no-image.svg" %}
         </button>
@@ -79,19 +79,19 @@
     {% endif %}
 
     <a href="{{ data.type == 'user' ?  urlGroupSelectNoGroup|escape('html_attr') : urlGroupSelectWithGroup|escape('html_attr') }}"
-       class="d-flex"
+       class="d-flex  flex-grow-1  group-list-item__group-select-button"
        role="button"
        title="{{ lang.groupSelectLinkItemButtonTitle }}">
 
         <button type="button"
-                class="btn  flex-grow-1  ps-3  pe-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__group-select-button">
+                class="btn  flex-grow-1  ps-3  pe-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary">
 
             {% include "common/group/group-select-icon.svg" %}
         </button>
     </a>
 
     <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__button"
             value="{{ data.id }}"
             title="{{ lang.infoItemButtonTitle }}"
             data-bs-toggle="modal"
@@ -104,7 +104,7 @@
     {% if data.admin and data.type != 'user' %}
 
     <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__button"
             value="{{ data.id }}"
             title="{{ lang.modifyItemButtonTitle }}"
             data-bs-toggle="modal"
@@ -116,7 +116,7 @@
 
     <button type="button"
             data-js-remove-button
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger  group-list-item__button"
             value="{{ data.id }}"
             title="{{ lang.removeItemButtonTitle }}"
             data-bs-toggle="modal"

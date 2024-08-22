@@ -1,15 +1,24 @@
 .group-users-list-item__image {
-    width: 75px;
-
     svg {
-        width: 100%;
+        width: 75px;
         height: auto;
     }
 }
 
 .group-user-list-item__button-grants {
+    max-width: 90px;
+
     svg {
         width: 24px;
         height: 24px;
+    }
+}
+
+.group-user-list-item__button {
+    max-width: 90px;
+
+    svg {
+        width: 24px;
+        height: auto;
     }
 }

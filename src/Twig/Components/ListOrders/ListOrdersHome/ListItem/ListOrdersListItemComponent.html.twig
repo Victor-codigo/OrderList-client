@@ -23,7 +23,7 @@
     </label>
 
     <a href="{{ urlListOrders|escape('html_attr') }}"
-       class="d-flex"
+       class="d-flex  list-orders-list-item__button--orders-list"
        role="button"
        title="{{ lang.ordersLinkItemButtonTitle }}">
 
@@ -35,7 +35,7 @@
     </a>
 
     <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  list-orders-list-item__button"
             value="{{ data.id }}"
             alt="{{ lang.infoItemButtonAlt }}"
             title="{{ lang.infoItemButtonTitle }}"
@@ -47,7 +47,7 @@
     </button>
 
     <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  list-orders-list-item__button"
             value="{{ data.id }}"
             alt="{{ lang.modifyItemButtonAlt }}"
             title="{{ lang.modifyItemButtonTitle }}"
@@ -60,7 +60,7 @@
 
     <button type="button"
             data-js-remove-button
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger  list-orders-list-item__button"
             value="{{ data.id }}"
             alt="{{ lang.removeItemButtonAlt }}"
             title="{{ lang.removeItemButtonTitle }}"
