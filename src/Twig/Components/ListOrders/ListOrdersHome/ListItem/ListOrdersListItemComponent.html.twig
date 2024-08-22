@@ -1,4 +1,4 @@
-<li class="list-group-item  list-group-item-action  d-flex  flex-row  p-0  mt-1  mb-1  border  border-1  border-light-subtle"
+<li class="list-group-item  list-group-item-action  d-flex  flex-row  flex-wrap  p-0  mt-1  mb-1  border  border-1  border-light-subtle"
     data-controller="ListOrdersListItemComponent"
     data-item-data="{{ productDataJson }}"
     data-js-list-item>
@@ -28,14 +28,14 @@
        title="{{ lang.ordersLinkItemButtonTitle }}">
 
         <button type="button"
-                class="btn  flex-grow-0  px-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  list-orders-list__button-orders  button-primary-color-dark">
+                class="btn  flex-grow-1  px-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  list-orders-list__button-orders  button-primary-color-dark">
 
             {% include "common/list_orders/list-orders-icon-go-orders.svg" %}
         </button>
     </a>
 
     <button type="button"
-            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
             value="{{ data.id }}"
             alt="{{ lang.infoItemButtonAlt }}"
             title="{{ lang.infoItemButtonTitle }}"
@@ -47,7 +47,7 @@
     </button>
 
     <button type="button"
-            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark"
             value="{{ data.id }}"
             alt="{{ lang.modifyItemButtonAlt }}"
             title="{{ lang.modifyItemButtonTitle }}"
@@ -60,7 +60,7 @@
 
     <button type="button"
             data-js-remove-button
-            class="btn  flex-grow-0  px-3  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger"
+            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger"
             value="{{ data.id }}"
             alt="{{ lang.removeItemButtonAlt }}"
             title="{{ lang.removeItemButtonTitle }}"
