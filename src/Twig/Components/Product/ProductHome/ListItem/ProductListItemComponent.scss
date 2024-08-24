@@ -1,5 +1,6 @@
 .product-list-item__image {
     width: 75px;
+    height: 75px;
 
     svg {
         width: 100%;
@@ -13,5 +14,12 @@
     svg {
         width: 24px;
         height: auto;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .product-list-item__image {
+        width: 60px;
+        height: 60px;
     }
 }

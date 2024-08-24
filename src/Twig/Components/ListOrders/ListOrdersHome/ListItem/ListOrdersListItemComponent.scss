@@ -1,5 +1,6 @@
 .list-orders-list-item__image {
     width: 75px;
+    height: 75px;
 
     svg {
         width: 100%;
@@ -22,5 +23,12 @@
     svg {
         width: 32px;
         height: auto;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .list-orders-list-item__image {
+        width: 60px;
+        height: 60px;
     }
 }
