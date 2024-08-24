@@ -101,7 +101,7 @@
 			{% if not userButton is null %}
 
 			<a href="{{ notificationUrl }}"
-			   class="position-relative  navbar__language-switch  p-3  d-flex  flex-column  justify-content-center"
+			   class="position-relative  navbar__notifications  p-3  d-flex  flex-column  justify-content-center"
 			   title="{{ notificationTitle }}"
 			   role="button">
 
@@ -254,6 +254,49 @@
 
 					{% endfor %}
 				</ul>
+
+				<div class="p-0  offcanvas-body  d-flex  flex-row  justify-content-center">
+					{% if data.locale=='es' %}
+
+					<a class="p-3  d-flex  flex-row  justify-content-center  align-items-center  w-50  navbar__language-switch--offcanvas"
+					href="{{ languageToggleUrl }}"
+					role="button"
+					title="{{ languageToggleTitle }}"
+					type="button">
+
+						{% include "common/flag/english-flag.svg" %}
+					</a>
+
+					{% else %}
+
+					<a class="px-3  d-flex  flex-column  justify-content-center  align-items-center  w-50  navbar__language-switch--offcanvas"
+					href="{{ languageToggleUrl }}"
+					title="{{ languageToggleTitle }}"
+					role="button">
+
+						{% include "common/flag/spanish-flag.svg" %}
+					</a>
+
+					{% endif %}
+
+					<button class="btn  btn-dark  rounded-0  p-3  w-50  navbar__theme-switch--offcanvas"
+							type="button"
+							title="{{ themeButtonTitle }}"
+							data-js-theme-button>
+						<div hidden
+							data-js-theme-dark>
+							{% include "common/theme-dark-mode-icon.svg" %}
+						</div>
+						<div hidden
+							data-js-theme-light>
+							{% include "common/theme-light-mode-icon.svg" %}
+						</div>
+						<div hidden
+							data-js-theme-auto>
+							{% include "common/theme-auto-mode-icon.svg" %}
+						</div>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

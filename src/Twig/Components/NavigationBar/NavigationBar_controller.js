@@ -1,21 +1,23 @@
 import { Controller } from '@hotwired/stimulus';
 import * as themeManager from 'App/modules/Theme';
+import * as event from 'App/modules/Event'
 
 export default class extends Controller {
-    /**
-     * @type {HTMLButtonElement}
-     */
-    #darkLightModeButton;
 
     connect() {
-        this.#darkLightModeButton = this.element.querySelector('[data-js-theme-button]');
         this.#backButton();
 
-        this.#darkLightModeButton.addEventListener('click', this.#toggleDarkMode.bind(this));
+        event.addEventListenerDelegate({
+            element: this.element,
+            elementDelegateSelector: '[data-js-theme-button]',
+            eventName: 'click',
+            callbackListener: this.#toggleDarkMode.bind(this),
+            eventOptions: {}
+        });
     }
 
     disconnect() {
-        this.#darkLightModeButton.removeEventListener('click', this.#toggleDarkMode);
+        event.removeEventListenerDelegate(this.element, 'click', this.#toggleDarkMode);
     }
 
     #toggleDarkMode() {
@@ -33,14 +35,17 @@ export default class extends Controller {
      * @param {string} theme
      */
     #setTheme(theme) {
-        /** @type {HTMLButtonElement} themeLight */
-        const themeLightIconTag = document.querySelector('[data-js-theme-light]');
-        /** @type {HTMLButtonElement} themeDarkIconTag */
-        const themeDarkIconTag = document.querySelector('[data-js-theme-dark]');
-        /** @type {HTMLButtonElement} themeDark */
-        const themeAutoIconTag = document.querySelector('[data-js-theme-auto]');
+        /** @type {HTMLButtonElement[]} themeLight */
+        const themeLightIconTags = document.querySelectorAll('[data-js-theme-light]');
+        /** @type {HTMLButtonElement[]} themeDarkIconTag */
+        const themeDarkIconTags = document.querySelectorAll('[data-js-theme-dark]');
+        /** @type {HTMLButtonElement[]} themeDark */
+        const themeAutoIconTags = document.querySelectorAll('[data-js-theme-auto]');
 
-        themeManager.setTheme(theme, themeAutoIconTag, themeLightIconTag, themeDarkIconTag);
+        for (let index in Array.from(themeAutoIconTags)) {
+            themeManager.setTheme(theme, themeAutoIconTags[index], themeLightIconTags[index], themeDarkIconTags[index]);
+
+        }
     }
 
     #backButton() {
