@@ -31,7 +31,6 @@
     {% endblock %}
 
     {% block javascripts %}
-    {{ encore_entry_script_tags('appNotDeferred', attributes={ defer: false }) }}
     {{ encore_entry_script_tags('app') }}
     {% endblock %}
 
@@ -119,6 +118,9 @@
 
     {{ component('FooterComponent') }}
 
+    {% block javascripts_not_defered %}
+        {{ encore_entry_script_tags('appNotDeferred') }}
+    {% endblock %}
 </body>
 
 </html>

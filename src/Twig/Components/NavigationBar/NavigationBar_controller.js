@@ -44,7 +44,6 @@ export default class extends Controller {
 
         for (let index in Array.from(themeAutoIconTags)) {
             themeManager.setTheme(theme, themeAutoIconTags[index], themeLightIconTags[index], themeDarkIconTags[index]);
-
         }
     }
 
