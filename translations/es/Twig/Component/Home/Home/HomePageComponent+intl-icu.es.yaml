@@ -41,7 +41,7 @@ main_info:
   info: Bienvenido a <strong>{domain_name}</strong>. Una herramienta creada para <strong>crear y gestionar</strong>, tús <strong>listas de la compra</strong> de una forma fácil y sencilla.
   try_it_out: ¡Pruébalo!
   section:
-    order_list: Listas de la compra
+    order_list: Listas compra
     products: Productos
     shops: Tiendas
 
