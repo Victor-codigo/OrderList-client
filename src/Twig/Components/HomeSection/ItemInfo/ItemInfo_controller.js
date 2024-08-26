@@ -88,8 +88,6 @@ export default class extends Controller {
             const numberTableCell = document.createElement('th');
             const nameTableCell = document.createElement('td');
             const priceTableCell = document.createElement('td');
-            numberTableCell.classList.add('ps-5');
-            priceTableCell.classList.add('pe-5');
 
             numberTableCell.textContent = rowCounter.toString();
             nameTableCell.textContent = itemPrice.name;
