@@ -29,6 +29,7 @@
 @include media-breakpoint-down(sm) {
     .list-orders-list-item__image {
         width: 60px;
+        min-width: 60px;
         height: 60px;
     }
 }
