@@ -87,5 +87,4 @@ setup-deploy: ## Sets the application up for deploy
 	rm -rf .docker
 	rm -rf tests
 	rm -rf var
-	rm -rf assets
 	rm README.md
