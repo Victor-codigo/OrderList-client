@@ -26,59 +26,66 @@
                 {{ data.itemNameLabel }}
             </label>
 
-            <div class="input-group"
+            <div class="d-flex  flex-row"
                  data-js-item-group>
 
-                <input type="hidden"
-                       name="{{ data.itemIdFieldName}}"
-                       value="{{ data.itemIdFieldValue }}"
-                       data-js-item-id>
+                <div class="d-flex  fex-row  flex-wrap">
+                    <input type="hidden"
+                        name="{{ data.itemIdFieldName }}"
+                        value="{{ data.itemIdFieldValue }}"
+                        data-js-item-id>
 
-                <input type="text"
-                       class="form-control  item-add-component__item-name"
-                       maxlength="50"
-                       name="{{ data.itemNameFieldName }}"
-                       placeholder="{{ data.itemNamePlaceholder }}"
-                       value="{{ data.itemNameFieldValue }}"
-                       required
-                       data-js-item-name />
+                    <div class="w-100">
+                        <input type="text"
+                            class="form-control  item-add-component__item-name"
+                            maxlength="50"
+                            name="{{ data.itemNameFieldName }}"
+                            placeholder="{{ data.itemNamePlaceholder }}"
+                            value="{{ data.itemNameFieldValue }}"
+                            required
+                            data-js-item-name />
+                    </div>
+                    <div class="d-flex  flex-row  flex-nowrap  w-100">
+                        <input type="number"
+                            class="form-control  item-add-component__item-price"
+                            pattern="\d{1,5}(\.\d{1,2})?"
+                            name="{{ data.itemPriceFieldName }}"
+                            placeholder="{{ data.itemPricePlaceholder }}"
+                            value="{{ data.itemPriceFieldValue }}"
+                            step="0.1"
+                            data-js-item-price />
 
-                <input type=""
-                       class="form-control  item-add-component__item-price"
-                       pattern="\d{1,5}(\.\d{1,2})?"
-                       name="{{ data.itemPriceFieldName }}"
-                       placeholder="{{ data.itemPricePlaceholder }}"
-                       value="{{ data.itemPriceFieldValue }}"
-                       data-js-item-price />
+                        <span class="input-group-text  rounded-0"
+                            id="name">
 
-                <span class="input-group-text"
-                      id="name">
+                            {{ data.itemPriceCurrencyLabel }}
+                        </span>
 
-                    {{ data.itemPriceCurrencyLabel }}
-                </span>
+                        <select class="form-select  rounded-0  item-add-component__item-unit"
+                                name="{{ data.itemPriceUnitMeasureFieldName }}"
+                                data-js-item-unit>
+                            {% for unit in lang.unitsMeasure %}
 
-                <select class="form-select  item-add-component__item-unit"
-                        name="{{ data.itemPriceUnitMeasureFieldName}}"
-                        data-js-item-unit>
-                    {% for unit in lang.unitsMeasure %}
-
-                    {% if loop.index==1 %}
-                    <option value="{{ unitsMeasureValue[loop.index0] }}"
-                            selected>
-                        {{ unit }}
-                    </option>
-                    {% else %}
-                    <option value="{{ unitsMeasureValue[loop.index0] }}"> {{ unit }}</option>
-                    {% endif %}
-                    {% endfor %}
-                </select>
-
-                <button class="btn btn-danger  item-add-component__item-remove-button"
-                        title="{{ data.itemRemoveAddButtonTitle }}"
-                        alt="{{ data.itemRemoveAddButtonAlt }}"
-                        data-js-item-remove-button>
-                    {% include "common/remove-icon.svg" %}
-                </button>
+                            {% if loop.index==1 %}
+                            <option value="{{ unitsMeasureValue[loop.index0] }}"
+                                    selected>
+                                {{ unit }}
+                            </option>
+                            {% else %}
+                            <option value="{{ unitsMeasureValue[loop.index0] }}"> {{ unit }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-danger  h-100  rounded-0  rounded-end  item-add-component__item-remove-button"
+                            title="{{ data.itemRemoveAddButtonTitle }}"
+                            alt="{{ data.itemRemoveAddButtonAlt }}"
+                            data-js-item-remove-button>
+                        {% include "common/remove-icon.svg" %}
+                    </button>
+                </div>
             </div>
             <div class="invalid-feedback">
                 {{ data.itemNameMsgInvalid }}

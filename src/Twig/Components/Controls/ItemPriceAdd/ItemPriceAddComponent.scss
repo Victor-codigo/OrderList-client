@@ -1,6 +1,9 @@
 .item-add-component {
     &__item-name {
         cursor: pointer;
+        border-radius: 0;
+        border-top-left-radius: var(--bs-border-radius);
+        border-bottom: none;
     }
 
     &__item-remove-button {
@@ -11,11 +14,12 @@
     }
 
     &__item-price {
-        max-width: 75px;
-        text-align: right;
+        border-radius: 0;
+        border-bottom-left-radius: var(--bs-border-radius);
+        border-right: none;
     }
 
     &__item-unit {
-        max-width: 100px;
+        border-left: none;
     }
 }
