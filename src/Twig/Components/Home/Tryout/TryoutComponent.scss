@@ -1,8 +1,8 @@
 $timer_unit: 1s;
-$timer_length: 3;
+$timer_length: 5;
 $timer_delay: 1s;
 
-$starting_hue: 160deg;
+$starting_hue: 230deg;
 $hue_increment: calc(360 / $timer_length);
 
 @mixin scale_timer($scale) {
@@ -17,18 +17,7 @@ $hue_increment: calc(360 / $timer_length);
     height: 100vh;
     background-color: hsl($starting_hue, 80%, 60%);
     font-family: var(--bs-body-font-family);
-    animation: ($timer_unit * $timer_length) ($timer_delay - $timer_unit * 0.125) cubic-bezier(0.9, 0, 0.1, 1) forwards background_color;
-
-    @at-root {
-        @keyframes background_color {
-            @for $i from 1 through ($timer_length + 1) {
-                #{calc(100% / $timer_length * $i)} {
-                    $hue: $hue_increment * $i * 2;
-                    background-color: hsl($starting_hue + $hue, 80%, 60%);
-                }
-            }
-        }
-    }
+    background-image: linear-gradient(135deg, $home-page-header-color-1, $home-page-header-color-2);
 
     .redirect-text {
         transform: translate(-50%, 20vmin);

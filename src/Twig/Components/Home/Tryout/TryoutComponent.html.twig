@@ -32,7 +32,7 @@
 		</h1>
 		<div class="countdown"></div>
 
-		<form id="try-out-login-form" name="{{ formName }}" method="post" action="{{ data.loginUrl }}" enctype="multipart/form-data" novalidate data-recaptcha="{{ captchaFieldName }}" hidden>
+		<form id="try-out-login-form" name="{{ formName }}" method="post" action="{{ data.loginUrl }}" enctype="multipart/form-data" novalidate data-recaptcha="{{ captchaFieldName }}" data-recaptcha-v2 hidden>
 
 			<input type="hidden" name="{{ tokenCsrfFieldName }}" value="{{ data.csrfToken }}"/>
 
