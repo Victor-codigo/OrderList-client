@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
-const REDIRECT_TIME = 5000;
+const REDIRECT_TIME = 7000;
 
 export default class extends Controller {
 

@@ -14,7 +14,7 @@ amount:
   msg_invalid: La cantidad de producto no es válida
 
 order_modify_button:
-  label: Modificar el pedido
+  label: Modificar pedido
 
 close_button:
   label: Cerrar
