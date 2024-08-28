@@ -4,5 +4,6 @@ msg: |
   Congratulations, you are almost signed up on <strong>{appName}</strong>.
   <strong>We have forwarded you an email</strong> to your email account, with a link, to confirm the sign up.
   Click on the link <strong>before 24 hours</strong> to verify your email, and complete the sign up.
+  If you are not receiving the email, check spam section in your email, it may be there.
 
   Thank you for sign up on <strong>{appName}</strong>.
