@@ -1,4 +1,12 @@
 User-agent: *
 
-Allow: /$
-Disallow: /
+Allow: /
+
+Disallow: /*/legal/notice
+Disallow: /*/legal/privacy
+Disallow: /*/user/login
+Disallow: /*/user/signup
+Disallow: /*/user/remember
+Disallow: /*/home/try-out
+
+Sitemap: sitemap.xml
