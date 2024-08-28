@@ -6,4 +6,4 @@ msg: |
   Click on the link <strong>before 24 hours</strong> to verify your email, and complete the sign up.
   <br><br>If you are not receiving the email, check spam section in your email, it may be there.
 
-  Thank you for sign up on <strong>{appName}</strong>.
+  <br><br>Thank you for sign up on <strong>{appName}</strong>.

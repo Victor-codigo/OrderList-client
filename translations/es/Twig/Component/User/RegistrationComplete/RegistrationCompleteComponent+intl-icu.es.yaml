@@ -2,8 +2,8 @@ title: Registro casi completado
 
 msg: |
   Enhorabuena, ya casi te has registrado en <strong>{appName}</strong>.
-  <strong>Te hemos enviado un email</strong> a tú dirección de correo, con un enlace, para comfirmar el registro.
-  Haz click en el enlace <strong>antes de 24 horas</strong> para comfirmar tú email, y completar el registro.
-  <br><br>Si no recibes el email, coprueba tú sección de spam, quizás esté allí.
+  <strong>Te hemos enviado un email</strong> a tú dirección de correo, con un enlace, para confirmar el registro.
+  Haz click en el enlace <strong>antes de 24 horas</strong> para confirmar tú email, y completar el registro.
+  <br><br>Si no recibes el email, comprueba tú sección de spam, quizás esté allí.
 
-  Gracias por registrarte en <strong>{appName}</strong>.
+  <br><br>Gracias por registrarte en <strong>{appName}</strong>.
