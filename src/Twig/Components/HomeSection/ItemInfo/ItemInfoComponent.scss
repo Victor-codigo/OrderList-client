@@ -18,3 +18,12 @@
         }
     }
 }
+
+@include media-breakpoint-down(sm) {
+    .item-info {
+        &__image {
+            max-width: 75px;
+            max-height: 75px;
+        }
+    }
+}
