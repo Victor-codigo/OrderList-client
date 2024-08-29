@@ -57,7 +57,7 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
         $tokenSession = $request->cookies->get(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
         $locale = $this->getLocale($request->getPathInfo());
 
-        return new Response(
+        $response = new Response(
             $this->twig->render('page_errors/error401.html.twig', [
                 '_locale' => $locale,
                 'domainName' => Config::CLIENT_DOMAIN_NAME,
@@ -65,6 +65,10 @@ class OnKernelExceptionSubscriber implements EventSubscriberInterface
             ]),
             Response::HTTP_UNAUTHORIZED
         );
+
+        $response->headers->clearCookie(HTTP_CLIENT_CONFIGURATION::COOKIE_SESSION_NAME);
+
+        return $response;
     }
 
     private function error403(\Throwable $exception): ?Response
