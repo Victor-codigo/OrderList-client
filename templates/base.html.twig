@@ -17,6 +17,7 @@
 		{% endblock %}
 
 		{% block javascripts %}
+			{{ encore_entry_script_tags('appNotDeferred', attributes = { defer: false }) }}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
@@ -28,7 +29,6 @@
 		{% block navigation %}
 
 			{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
-			{{ encore_entry_script_tags('appNotDeferred', attributes = { defer: false }) }}
 
 		{% endblock navigation %}
 
@@ -36,6 +36,7 @@
 		{% endblock %}
 
 		{{ component('FooterComponent') }}
+
 	</body>
 
 </html>

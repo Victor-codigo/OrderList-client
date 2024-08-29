@@ -1,5 +1,3 @@
 import * as themeLoader from 'App/ThemeLoader';
 
-themeLoader.load();
-
-
+themeLoader.setTheme();
