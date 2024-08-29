@@ -1,6 +1,6 @@
 import * as themeManager from 'App/modules/Theme';
 
-export function load() {
+export function updateThemeButtons() {
     const theme = themeManager.getTheme();
     const navigationBar = document.querySelector('[data-js-navigation-bar]')
     /** @type {HTMLButtonElement[]} themeLight */
@@ -13,4 +13,9 @@ export function load() {
     for (let index in Array.from(themeAutoIconTags)) {
         themeManager.setTheme(theme, themeAutoIconTags[index], themeLightIconTags[index], themeDarkIconTags[index]);
     }
+}
+
+export function setTheme() {
+    const theme = themeManager.getTheme();
+    themeManager.setTheme(theme, null, null, null)
 }
