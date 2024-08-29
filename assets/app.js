@@ -13,5 +13,8 @@ import './styles/app.scss';
 import './bootstrap';
 
 import * as bootstrap from 'bootstrap';
+import * as themeLoader from 'App/ThemeLoader';
+
+themeLoader.updateThemeButtons();
 
 import 'App/modules/recaptcha';
