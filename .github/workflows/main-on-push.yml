@@ -91,7 +91,9 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           SOURCE: ""
           TARGET: ${{ secrets.DEPLOY_PATH }}
-          ARGS: "-rlgoDzvc --delete --include='.*'"
+          ARGS: "-rlgoDzvc --delete"
+          SCRIPT_BEFORE: |
+            shopt -s dotglob
 
       - name: Create entrypoint symbol
         uses: appleboy/ssh-action@v1.0.3
