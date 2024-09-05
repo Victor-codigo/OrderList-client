@@ -91,7 +91,7 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           SOURCE: ""
           TARGET: ${{ secrets.DEPLOY_PATH }}
-          ARGS: "-rlgoDzvca --delete"
+          ARGS: "-rlgoDzvc --delete"
 
       - name: Create entrypoint symbol
         uses: appleboy/ssh-action@v1.0.3
@@ -107,4 +107,4 @@ jobs:
             ln -sfn ${{ secrets.DEPLOY_API_PUBLIC_PATH }}/index.php ${{ secrets.DEPLOY_PUBLIC_PATH }}/index_api.php
             cp ${{ secrets.DEPLOY_PATH }}/../config/OrderList-client/Config.php ${{ secrets.DEPLOY_PATH }}/src/Common/Domain/Config/Config.php
             cp ${{ secrets.DEPLOY_PATH }}/../config/OrderList-client/HTTP_CLIENT_CONFIGURATION.php ${{ secrets.DEPLOY_PATH }}/src/Common/Adapter/HttpClientConfiguration/HTTP_CLIENT_CONFIGURATION.php
-            # chmod u=wr,g=r,o=r ${{ secrets.DEPLOY_PATH }}/public/.htaccess
+            chmod u=wr,g=r,o=r ${{ secrets.DEPLOY_PATH }}/public/.htaccess
