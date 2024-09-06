@@ -67,6 +67,7 @@ jobs:
           name: app-production-artifact
           path: .
           overwrite: true
+          include-hidden-files: true
 
   # --------------------------------------
   # Deploy application on server
