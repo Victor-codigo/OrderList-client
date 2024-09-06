@@ -1,12 +1,7 @@
 User-agent: *
 
-Allow: /
+Disallow: /
 
-Disallow: /*/legal/notice
-Disallow: /*/legal/privacy
-Disallow: /*/user/login
-Disallow: /*/user/signup
-Disallow: /*/user/remember
-Disallow: /*/home/try-out
+Allow: /*/home
 
 Sitemap: sitemap.xml
