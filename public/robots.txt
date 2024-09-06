@@ -1,8 +1,7 @@
 User-agent: *
 
 Disallow: /
-Disallow: /*/home/tryout
 
-Allow: /*/home
+Allow: /*/home$
 
 Sitemap: sitemap.xml
