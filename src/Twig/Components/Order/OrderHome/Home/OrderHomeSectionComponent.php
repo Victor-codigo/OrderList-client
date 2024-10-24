@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Order\OrderHome\Home;
 
+use App\Twig\Components\Controls\ButtonLoading\ButtonLoadingComponentDto;
 use App\Twig\Components\TwigComponent;
 use App\Twig\Components\TwigComponentDtoInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -16,6 +17,7 @@ class OrderHomeSectionComponent extends TwigComponent
 {
     public OrderHomeSectionComponentLangDto $lang;
     public OrderHomeSectionComponentDto|TwigComponentDtoInterface $data;
+    public readonly ButtonLoadingComponentDto $buttonShareWhatsApp;
 
     public static function getComponentName(): string
     {
@@ -26,14 +28,33 @@ class OrderHomeSectionComponent extends TwigComponent
     {
         $this->data = $data;
 
+        $this->buttonShareWhatsApp = $this->createButtonShareWhatsApp();
         $this->loadTranslation();
+    }
+
+    private function createButtonShareWhatsApp(): ButtonLoadingComponentDto
+    {
+        return new ButtonLoadingComponentDto(
+            'data-js-share-button',
+            'button',
+            '',
+            '',
+            $this->translate('home_section_share_in_whatsapp.title'),
+            'common/share-icon.svg',
+        );
     }
 
     private function loadTranslation(): void
     {
-        $this->lang = new OrderHomeSectionComponentLangDto(
+        $this->lang = (new OrderHomeSectionComponentLangDto())
+        ->headerBoughtCounter(
             $this->translate('home_header.currentBought'),
             $this->translate('home_header.totalBought'),
-        );
+        )
+        ->buttonShareWhatsApp(
+            $this->translate('home_section_share_in_whatsapp.label'),
+            $this->translate('home_section_share_in_whatsapp.title'),
+        )
+        ->build();
     }
 }

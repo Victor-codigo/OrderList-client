@@ -85,7 +85,7 @@ class HttpClientResponse implements HttpClientResponseInterface
         }
     }
 
-    public function getInfo(bool|null $throwException = true): array
+    public function getInfo(?bool $throwException = true): array
     {
         return $this->response->getInfo($throwException);
     }

@@ -1,8 +1,15 @@
-.order-bought-price {
-    color: var(--bs-primary);
-}
+[data-controller="OrderHomeSectionComponent"] {
 
-.order-bought-separator {
-    margin-right: 0;
-    margin-left: auto;
+    [data-controller="ButtonLoadingComponent"] {
+        @extend .rounded-1;
+    }
+
+    .order-bought-price {
+        color: var(--bs-primary);
+    }
+
+    .order-bought-separator {
+        margin-right: 0;
+        margin-left: auto;
+    }
 }

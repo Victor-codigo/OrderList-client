@@ -25,7 +25,7 @@ class GroupsEndpoint extends EndpointBase
     private static ?self $instance = null;
 
     private function __construct(
-        private HttpClientInterface $httpClient
+        private HttpClientInterface $httpClient,
     ) {
     }
 
@@ -111,7 +111,7 @@ class GroupsEndpoint extends EndpointBase
         int $pageItems,
         ?string $groupType,
         bool $orderAsc,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         $response = $this->requestUserGroupsGetData(
             $filterSection,
@@ -156,7 +156,7 @@ class GroupsEndpoint extends EndpointBase
         int $pageItems,
         ?string $groupType,
         bool $orderAsc,
-        string $tokenSession
+        string $tokenSession,
     ): HttpClientResponseInterface {
         $parameters = [
             'page' => $page,
@@ -170,7 +170,7 @@ class GroupsEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}",
+            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}&".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
@@ -299,7 +299,7 @@ class GroupsEndpoint extends EndpointBase
         ?string $filterText,
         ?string $filterValue,
         bool $orderAsc,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         $response = $this->requestGroupUsersGetData(
             $groupId,
@@ -344,7 +344,7 @@ class GroupsEndpoint extends EndpointBase
         ?string $filterText,
         ?string $filterValue,
         bool $orderAsc,
-        string $tokenSession
+        string $tokenSession,
     ): HttpClientResponseInterface {
         $parameters = [
             'group_id' => $groupId,

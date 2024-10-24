@@ -63,7 +63,7 @@ abstract class EndpointBase
             }
 
             return $onResponseOkReturnCallback($responseDataOk);
-        } catch (Error400Exception|Error500Exception|NetworkException) {
+        } catch (Error400Exception|Error500Exception|NetworkException $e) {
             $responseDataError = $response->toArray(false);
 
             if (array_key_exists('data', $responseDataError)

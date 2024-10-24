@@ -2,7 +2,8 @@
      data-action="OrderListItemComponent:orderBoughtChanged->OrderHomeSectionComponent#handleMessageOrderBoughtChanged"
      class="contaniner  position-relative"
      data-list-orders-id="{{ data.listOrdersId }}"
-     data-group-id="{{ data.groupId }}">
+     data-group-id="{{ data.groupId }}"
+     data-list-name="{{ data.homeSectionComponentDto.title }}">
 
     {% set langExtend = lang %}
     {% set dataExtend = data %}
@@ -12,6 +13,14 @@
 
 
     {% endblock overTitle %}
+
+    {% block headerButtonsBetweenBlock %}
+
+    <div class="d-flex  ms-1">
+        {{ component('ButtonLoadingComponent', { data: buttonShareWhatsApp } ) }}
+    </div>
+
+    {% endblock headerButtonsBetweenBlock %}
 
     {% block headerBlock %}
     <div class="d-flex  flex-row  justify-content-end  mt-3  me-3">

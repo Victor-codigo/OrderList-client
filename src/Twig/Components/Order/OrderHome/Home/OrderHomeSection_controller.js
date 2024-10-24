@@ -1,6 +1,7 @@
 import HomeSectionComponent from 'App/Twig/Components/HomeSection/Home/HomeSection_controller';
 import * as locale from 'App/modules/Locale';
 import * as endpoint from 'App/modules/ApiEndpoints';
+import * as communication from 'App/modules/ControllerCommunication';
 
 export default class extends HomeSectionComponent {
 
@@ -14,13 +15,31 @@ export default class extends HomeSectionComponent {
      */
     #priceTotalTag;
 
+    /**
+     * @type {string}
+     */
+    #listOrdersId;
+
+    /**
+     * @type {HTMLButtonElement}
+     */
+    #shareWhatsappButton;
+
+
     connect() {
         super.connect();
 
         this.#priceBoughtTag = this.element.querySelector('[data-js-price-bought]');
         this.#priceTotalTag = this.element.querySelector('[data-js-price-total]');
+        this.#shareWhatsappButton = this.element.querySelector('[data-js-share-button]');
+        this.#listOrdersId = this.element.dataset.listOrdersId;
+        this.#shareWhatsappButton.addEventListener('click', this.#shareWhatsAppCreate.bind(this));
 
         this.#updateListOrderBoughtPrice();
+    }
+
+    disconnect() {
+        this.#shareWhatsappButton.removeEventListener('click', this.#shareWhatsAppCreate);
     }
 
     async #updateListOrderBoughtPrice() {
@@ -36,6 +55,24 @@ export default class extends HomeSectionComponent {
             this.#priceTotalTag.textContent = locale.formatToStringLocaleCurrency(0);
             this.#priceBoughtTag.textContent = locale.formatToStringLocaleCurrency(0);
         }
+    }
+
+    /**
+     * @throws {Error}
+     */
+    async #shareWhatsAppCreate() {
+        communication.sendMessageToChildController(this.#shareWhatsappButton, 'showButtonLoading');
+        const responseData = await endpoint.createListOrdersShare(this.#listOrdersId);
+        communication.sendMessageToChildController(this.#shareWhatsappButton, 'showButton');
+
+        if (responseData.status !== 'ok') {
+            throw new Error(responseData.message);
+        }
+
+        navigator.share({
+            url: endpoint.GET_SHARE_LIST_ORDERS_URL.replace('{list_orders_id}', responseData.data.list_orders_id),
+            title: this.element.dataset.listName
+        });
     }
 
     /**
