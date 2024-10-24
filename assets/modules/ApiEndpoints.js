@@ -15,6 +15,8 @@ const PATCH_ORDER_BOUGHT = `${API_DOMAIN}/api/v${API_VERSION}/orders/bought`;
 const GET_GROUP_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user-groups`;
 const GET_GROUP_USERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user`;
 const GET_GROUP_USERS_CHANGE_ROL_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user/role`;
+const POST_CREATE_SHARE_URL = `${API_DOMAIN}/api/v${API_VERSION}/share/list-orders`;
+export const GET_SHARE_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/share/list-orders/{list_orders_id}`;
 
 /**
  * @param {string} groupId
@@ -221,6 +223,7 @@ export async function createProduct(form, submitter) {
 
     return await response.json();
 }
+
 
 /**
  * @param {string} groupId
@@ -697,4 +700,16 @@ export async function getListOrdersFirstLetter(groupId) {
         });
 
     return responseJson.data;
+}
+
+/**
+ * @param {string} recourseId
+ * @returns {Promise<import('App/modules/Fetch').ResponseDto>}
+ */
+export async function createListOrdersShare(recourseId) {
+    const response = await fetch.createJsonRequest(POST_CREATE_SHARE_URL, 'POST', {
+        'list_orders_id': recourseId
+    });
+
+    return await response.json();
 }
