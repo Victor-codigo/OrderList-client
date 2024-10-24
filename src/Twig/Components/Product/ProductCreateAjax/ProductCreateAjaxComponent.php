@@ -52,9 +52,12 @@ final class ProductCreateAjaxComponent extends TwigComponent
     private function createButtonLoadingComponentDto(): ButtonLoadingComponentDto
     {
         return new ButtonLoadingComponentDto(
+            null,
             'submit',
             $this->lang->productCreateLabel,
             $this->lang->productCreateLoadingLabel,
+            null,
+            null
         );
     }
 

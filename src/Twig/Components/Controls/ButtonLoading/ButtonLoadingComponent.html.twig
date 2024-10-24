@@ -2,16 +2,30 @@
         data-action="ButtonLoadingComponent:showButton->ButtonLoadingComponent#handleMessageShowButton
                      ButtonLoadingComponent:showButtonLoading->ButtonLoadingComponent#handleMessageShowButtonLoading"
         class="btn  btn-primary  flex-grow-1"
-        type="{{ data.type }}">
+        title="{{ data.title }}"
+        type="{{ data.type }}"
+        {{data.selector}}>
 
-      <span class="spinner-border spinner-border-sm"
-            aria-hidden="true"
-            data-js-spinner></span>
 
-      <span role="status"
-            data-js-button-text>
-            {{ data.label }}
-      </span>
+
+      <div class="d-flex  flex-row  flex-nowrap  justify-content-center  align-items-center">
+            <div class="spinner-border spinner-border-sm  me-1"
+                 aria-hidden="true"
+                 data-js-spinner></div>
+
+            {% if not data.icon is null %}
+
+            <div class="{{ data.label == '' ? '' : 'me-1' }}">
+                  {% include data.icon %}
+            </div>
+
+            {% endif %}
+
+            <span role="status"
+                  data-js-button-text>
+                  {{ data.label }}
+            </span>
+      </div>
 
       <span role="status"
             data-js-button-text-loading>

@@ -13,8 +13,8 @@ export default class extends Controller {
         this.element.setAttribute('disabled', true);
         this.textButtonTag.style.display = 'none';
 
-        this.spinnerTag.style.display = 'inline-block';
-        this.textButtonLoadingTag.style.display = 'inline-block';
+        this.spinnerTag.style.display = 'block';
+        this.textButtonLoadingTag.style.display = 'block';
     }
 
     #showButton() {
