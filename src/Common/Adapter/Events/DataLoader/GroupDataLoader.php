@@ -98,12 +98,14 @@ class GroupDataLoader
     {
         $patternUser = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/user\/(?!profile)/u';
         $patternHome = '/^(\/$|\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/home)/u';
-        $patternLegal = '/^\/'.Config::CLIENT_DOMAIN_LOCALE_VALID.'\/legal/u';
+        $patternLegal = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/legal/u';
+        $patternShareListOrders = '/^\/('.Config::CLIENT_DOMAIN_LOCALE_VALID.')\/share/u';
 
         // No need permissions
         if (1 === preg_match($patternUser, $urlPath)
         || 1 === preg_match($patternHome, $urlPath)
-        || 1 === preg_match($patternLegal, $urlPath)) {
+        || 1 === preg_match($patternLegal, $urlPath)
+        || 1 === preg_match($patternShareListOrders, $urlPath)) {
             return true;
         }
 

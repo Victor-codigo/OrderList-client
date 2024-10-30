@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+{{ pageTitle }}
+{% endblock %}
+{% block body %}
+
+
+{% if listOrdersNotFound %}
+
+<main class="container-sm  mb-auto mt-auto">
+    <section class="row  no-gutters">
+        <div class="col col-xxl-10  offset-xxl-1">
+
+            {{ component('ShareNotFoundComponent') }}
+
+        </div>
+    </section>
+</main>
+
+{% else %}
+
+<main class="container-sm  mb-auto">
+    <section class="row  no-gutters">
+        <div class="col col-xxl-10  offset-xxl-1">
+
+            {{ component('OrderHomeSectionComponent', { data: OrderHomeSectionComponent }) }}
+
+        </div>
+    </section>
+</main>
+
+
+{% endif %}
+
+
+{% endblock %}

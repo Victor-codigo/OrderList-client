@@ -58,12 +58,16 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private readonly array $listOrdersData;
     private readonly string $listOrdersId;
     private readonly string $groupId;
+    private readonly bool $interactive;
+    private readonly bool $headerButtonsHide;
+    private readonly bool $hideInteraction;
 
     public function __construct()
     {
         $this->builder = new DtoBuilder([
             'title',
             'listOrders',
+            'homeSection',
             'orderCreateModal',
             'orderModifyFormModal',
             'orderRemoveMultiModal',
@@ -94,6 +98,17 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
 
         $this->listOrdersId = $listOrdersId;
         $this->groupId = $groupId;
+
+        return $this;
+    }
+
+    public function homeSection(bool $interactive, bool $headerButtonsHide, bool $hideInteraction): self
+    {
+        $this->builder->setMethodStatus('homeSection', true);
+
+        $this->interactive = $interactive;
+        $this->headerButtonsHide = $headerButtonsHide;
+        $this->hideInteraction = $hideInteraction;
 
         return $this;
     }
@@ -196,8 +211,12 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
+    /**
+     * @param SECTION_FILTERS[] $sectionFilters
+     */
     public function searchBar(
         string $groupId,
+        array $sectionFilters,
         ?string $searchValue,
         ?string $sectionFilterValue,
         ?string $nameFilterValue,
@@ -210,7 +229,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         $this->homeSectionComponentDto->searchBar(new SearchBarComponentDto(
             $groupId,
             $searchValue,
-            [SECTION_FILTERS::ORDER, SECTION_FILTERS::PRODUCT, SECTION_FILTERS::SHOP],
+            $sectionFilters,
             $sectionFilterValue,
             $nameFilterValue,
             $searchBarCsrfToken,
@@ -239,7 +258,8 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             Config::ORDER_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
         $this->homeSectionComponentDto->display(
-            false
+            $this->interactive,
+            $this->headerButtonsHide,
         );
 
         $this->orderInfoModalDto = $this->createOrderInfoModalDto();
@@ -364,7 +384,8 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->createdOn,
                 $listItemData->product,
                 $listItemData->shop,
-                $listItemData->productShop
+                $listItemData->productShop,
+                $this->hideInteraction
             ),
             $this->listOrdersData
         );
@@ -436,7 +457,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
                 $groupId
             )
             ->homeSection(
-                $this->homeSectionComponentDto
+                $this->homeSectionComponentDto,
             )
             ->listItemsModal(
                 $productListItemsModalDto

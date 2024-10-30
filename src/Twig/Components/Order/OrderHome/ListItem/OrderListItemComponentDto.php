@@ -39,6 +39,8 @@ class OrderListItemComponentDto extends HomeListItemComponentDto
         public readonly ProductDataResponse $product,
         public readonly ?ShopDataResponse $shop,
         public readonly ?ProductShopPriceDataResponse $productShop,
+
+        public readonly bool $hideInteraction,
     ) {
     }
 }
