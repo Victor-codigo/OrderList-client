@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 class ListOrdersDataLoader
 {
     public function __construct(
-        private Endpoints $endpoints
+        private Endpoints $endpoints,
     ) {
     }
 
@@ -50,7 +50,7 @@ class ListOrdersDataLoader
             $tokenSession
         );
 
-        if (!empty($listOrdersData['errors'])) {
+        if (!empty($listOrdersData['errors']) || empty($listOrdersData['data']['list_orders'])) {
             throw RequestListOrdersNameException::fromMessage('List orders not found');
         }
 
