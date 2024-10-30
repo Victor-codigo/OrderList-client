@@ -387,4 +387,11 @@ interface EndpointsInterface
      * @throws UnsupportedOptionException
      */
     public function notificationMarkAsViewed(array $notificationsId, string $tokenSession): array;
+
+    /**
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function sharedListOrdersGetData(string $sharedListOrdersId, int $page, int $pageItems, ?string $filterText, ?string $filterValue): array;
 }

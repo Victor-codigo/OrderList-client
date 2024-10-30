@@ -18,7 +18,7 @@ class Endpoints implements EndpointsInterface
     public const API_DOMAIN = HTTP_CLIENT_CONFIGURATION::API_DOMAIN;
 
     public function __construct(
-        private HttpClientInterface $httpClient
+        private HttpClientInterface $httpClient,
     ) {
     }
 
@@ -42,7 +42,7 @@ class Endpoints implements EndpointsInterface
         ?string $filterText,
         int $page,
         int $pageItems,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         $listOrderNameDecoded = $this->decodeUrlName($filterValue);
 
@@ -156,7 +156,7 @@ class Endpoints implements EndpointsInterface
         ?string $filterText,
         ?string $filterValue,
         bool $orderAsc,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         return GroupsEndpoint::getInstance($this->httpClient)->groupGetUsersData(
             $groupId,
@@ -336,7 +336,7 @@ class Endpoints implements EndpointsInterface
         ?float $price,
         ?UploadedFile $image,
         bool $imageRemove,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         return ProductsEndPoint::getInstance($this->httpClient)->productModify(
             $groupId,
@@ -381,7 +381,7 @@ class Endpoints implements EndpointsInterface
         int $page,
         int $pageItems,
         bool $orderAsc,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         return ProductsEndPoint::getInstance($this->httpClient)->productGetData(
             $groupId,
@@ -445,7 +445,7 @@ class Endpoints implements EndpointsInterface
         int $page,
         int $pageItems,
         bool $orderAsc,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         return ShopsEndPoint::getInstance($this->httpClient)->shopsGetData(
             $groupId,
@@ -640,5 +640,15 @@ class Endpoints implements EndpointsInterface
     public function notificationMarkAsViewed(array $notificationsId, string $tokenSession): array
     {
         return NotificationsEndPoint::getInstance($this->httpClient)->notificationMarkAsViewed($notificationsId, $tokenSession);
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     * @throws RequestException
+     * @throws RequestUnauthorizedException
+     */
+    public function sharedListOrdersGetData(string $sharedListOrdersId, int $page, int $pageItems, ?string $filterText, ?string $filterValue): array
+    {
+        return ShareEndpoint::getInstance($this->httpClient)->getListOrdersDataById($sharedListOrdersId, $page, $pageItems, $filterText, $filterValue);
     }
 }
