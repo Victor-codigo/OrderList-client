@@ -144,7 +144,7 @@ class GroupUsersHomeComponentBuilder implements DtoBuilderInterface
     {
         $this->builder->setMethodStatus('display', true);
 
-        $this->homeSectionComponentDto->display($headerButtonsHide);
+        $this->homeSectionComponentDto->display(true, $headerButtonsHide);
 
         return $this;
     }

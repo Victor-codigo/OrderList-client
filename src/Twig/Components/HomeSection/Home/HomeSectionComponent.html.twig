@@ -1,5 +1,6 @@
 <section data-controller="HomeSectionComponent"
-		 class="contaniner">
+		 class="contaniner"
+		 {{data.interactive?'data-interactive':''}}>
 
 	{{ component('TitleComponent', { data: titleDto } ) }}
 

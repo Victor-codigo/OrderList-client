@@ -171,6 +171,9 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
+    /**
+     * @param ListOrdersDataResponse[] $listListOrdersData
+     */
     public function listItems(array $listListOrdersData, string $urlListOrdersPlaceholder): self
     {
         $this->builder->setMethodStatus('listItems', true);
@@ -235,6 +238,7 @@ class ListOrdersHomeComponentBuilder implements DtoBuilderInterface
             Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
         $this->homeSectionComponentDto->display(
+            true,
             false
         );
         $this->listOrdersInfoModalDto = $this->createListOrdersInfoModalDto();

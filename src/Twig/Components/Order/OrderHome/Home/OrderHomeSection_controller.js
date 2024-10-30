@@ -33,9 +33,12 @@ export default class extends HomeSectionComponent {
         this.#priceTotalTag = this.element.querySelector('[data-js-price-total]');
         this.#shareWhatsappButton = this.element.querySelector('[data-js-share-button]');
         this.#listOrdersId = this.element.dataset.listOrdersId;
-        this.#shareWhatsappButton.addEventListener('click', this.#shareWhatsAppCreate.bind(this));
 
-        this.#updateListOrderBoughtPrice();
+
+        if (this.interactive) {
+            this.#shareWhatsappButton.addEventListener('click', this.#shareWhatsAppCreate.bind(this));
+            this.#updateListOrderBoughtPrice();
+        }
     }
 
     disconnect() {
@@ -83,6 +86,8 @@ export default class extends HomeSectionComponent {
      * @param {boolean} event.detail.content.bought
      */
     handleMessageOrderBoughtChanged({ detail: { content } }) {
-        this.#updateListOrderBoughtPrice();
+        if (this.interactive) {
+            this.#updateListOrderBoughtPrice();
+        }
     }
 }

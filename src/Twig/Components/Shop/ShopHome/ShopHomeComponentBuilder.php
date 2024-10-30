@@ -248,6 +248,7 @@ class ShopHomeComponentBuilder implements DtoBuilderInterface
             Config::SHOP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
         $this->homeSectionComponentDto->display(
+            true,
             false
         );
         $this->shopInfoModalDto = $this->createShopInfoModalDto();

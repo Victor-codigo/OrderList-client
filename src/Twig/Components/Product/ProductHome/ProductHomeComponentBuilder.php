@@ -250,6 +250,7 @@ class ProductHomeComponentBuilder implements DtoBuilderInterface
             Config::PRODUCT_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
         $this->homeSectionComponentDto->display(
+            true,
             false
         );
 

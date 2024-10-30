@@ -224,6 +224,7 @@ class GroupHomeComponentBuilder implements DtoBuilderInterface
             Config::GROUP_IMAGE_NO_IMAGE_PUBLIC_PATH_200_200
         );
         $this->homeSectionComponentDto->display(
+            true,
             false
         );
 

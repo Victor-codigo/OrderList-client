@@ -15,7 +15,10 @@ export default class extends HomeListItemController {
         this.#buttonItemBought = this.element.querySelector('[data-js-item-bought]');
         const itemData = this.getItemData();
 
-        this.#setOrderBought(itemData.id, itemData.bought, false);
+
+        if (this.interactive) {
+            this.#setOrderBought(itemData.id, itemData.bought, false);
+        }
     }
 
     /**
@@ -24,6 +27,7 @@ export default class extends HomeListItemController {
      * @param {boolean} sendMessageBought
      */
     #setOrderBought(orderId, bought, sendMessageBought) {
+
         if (bought) {
             this.#buttonItemBought.classList.add('order-list-item__button-bought--bought');
             this.#buttonItemBought.title = this.#buttonItemBought.dataset.orderBoughtTitle;

@@ -3,11 +3,19 @@ import * as communication from 'App/modules/ControllerCommunication';
 
 export default class extends Controller {
 
+    /**
+     * @type {boolean}
+     */
+    interactive;
+
     connect() {
         this.itemsIdSelected = [];
         this.listItemsCheckboxes = this.element.querySelectorAll('[data-js-checkbox]');
         this.removeMultiButtonTag = this.element.querySelector('[data-js-form-remove-many-items-button]');
         this.element.addEventListener('change', this.#itemsIdSelectedToggle.bind(this));
+
+        let homeSelector = this.element.querySelector('[data-controller="HomeSectionComponent"]');
+        this.interactive = homeSelector === null || typeof homeSelector.dataset.interactive === 'undefined' ? false : true;
 
         this.#itemsIdSelectedAddAll();
         this.#buttonRemoveMultiToggle();

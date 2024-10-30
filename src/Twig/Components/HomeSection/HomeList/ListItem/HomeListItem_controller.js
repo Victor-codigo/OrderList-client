@@ -2,8 +2,17 @@ import { Controller } from '@hotwired/stimulus';
 import * as communication from 'App/modules/ControllerCommunication';
 
 export default class extends Controller {
+
+    /**
+     * @type {boolean}
+     */
+    interactive;
+
     connect() {
         this.checkbox = this.element.querySelector('[data-js-checkbox]');
+
+        let homeSelection = this.element.closest('[data-controller="HomeSectionComponent"]');
+        this.interactive = homeSelection === null || typeof homeSelection.dataset.interactive === 'undefined' ? false : true;
 
         if (this.checkbox !== null) {
             this.checkbox.addEventListener('change', this.#sendMessageHomeListItemSelectedToParent.bind(this));

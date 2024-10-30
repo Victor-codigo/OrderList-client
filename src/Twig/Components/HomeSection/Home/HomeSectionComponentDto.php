@@ -42,6 +42,7 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
 
     public readonly bool $validForm;
 
+    public readonly bool $interactive;
     public readonly bool $displayHeaderButtonsHide;
 
     public readonly ?SearchBarComponentDto $searchComponentDto;
@@ -193,10 +194,11 @@ class HomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuilderIn
         return $this;
     }
 
-    public function display(bool $headerButtonsHide): self
+    public function display(bool $interactive, bool $headerButtonsHide): self
     {
         $this->builder->setMethodStatus('display', true);
 
+        $this->interactive = $interactive;
         $this->displayHeaderButtonsHide = $headerButtonsHide;
 
         return $this;
