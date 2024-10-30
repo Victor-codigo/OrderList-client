@@ -1,0 +1,8 @@
+share:
+  page:
+    title: Lista de pedidos compartida
+
+  list_orders:
+    not_found:
+      title: Lista de pedidos no encontrada
+      description: Parece que la lista de pedidos que buscabas ya no existe
