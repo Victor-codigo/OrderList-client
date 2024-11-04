@@ -37,7 +37,9 @@ final class GroupUsersListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new GroupUsersListItemComponentLangDto(
+            $this->translate('group_users_remove_button.label'),
             $this->translate('group_users_remove_button.title'),
+            $this->translate('group_users_info_button.label'),
             $this->translate('group_users_info_button.title'),
 
             $this->translate('group_users_grants_upgrade_button.title'),

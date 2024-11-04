@@ -12,7 +12,7 @@ button_group_user_add:
   label: Añade usuario al grupo
 
 validation:
-  ok: Usuario añadido
+  ok: Usuario añadido al grupo
   error:
     name: |
       Introduce un nombre válido.

@@ -1,7 +1,9 @@
 group_users_remove_button:
+  label: Eliminar
   title: Quita el usuario del grupo
 
 group_users_info_button:
+  label: Info
   title: Muestra información del grupo
 
 group_users_grants_upgrade_button:

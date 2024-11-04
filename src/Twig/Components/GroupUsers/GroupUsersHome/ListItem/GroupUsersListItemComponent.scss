@@ -17,19 +17,20 @@
 }
 
 .group-user-list-item__button {
-    max-width: 90px;
 
     svg {
         width: 24px;
         height: auto;
     }
+
+    &--menu {
+        width: 100%;
+    }
 }
 
 @include media-breakpoint-down(sm) {
     .group-users-list-item__image {
-        width: 60px;
-        min-width: 60px;
-        height: 60px;
+        display: none !important;
 
     }
 }

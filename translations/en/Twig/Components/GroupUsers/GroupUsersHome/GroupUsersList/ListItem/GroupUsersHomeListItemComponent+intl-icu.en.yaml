@@ -1,7 +1,9 @@
 group_users_remove_button:
+  label: Remove
   title: Remove the user from the group
 
 group_users_info_button:
+  label: Info
   title: Show info of the user
 
 group_users_grants_upgrade_button:

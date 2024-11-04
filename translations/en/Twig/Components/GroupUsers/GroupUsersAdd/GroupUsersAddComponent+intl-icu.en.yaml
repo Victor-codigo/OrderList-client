@@ -12,7 +12,7 @@ button_group_user_add:
   label: add user to the group
 
 validation:
-  ok: Group created
+  ok: User Added to the group
   error:
     users: |
       Enter a valid name.
