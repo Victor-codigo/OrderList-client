@@ -53,8 +53,11 @@ final class GroupListItemComponent extends HomeListItemComponent
         $this->lang = new GroupListItemComponentLangDto(
             $this->translate('group_user.label'),
             $this->translate('group_user.description'),
+            $this->translate('group_modify_button.label'),
             $this->translate('group_modify_button.title'),
+            $this->translate('group_remove_button.label'),
             $this->translate('group_remove_button.title'),
+            $this->translate('group_info_button.label'),
             $this->translate('group_info_button.title'),
             $this->translate('group_group_users_button.title'),
             $this->translate('group_group_select_button.title'),

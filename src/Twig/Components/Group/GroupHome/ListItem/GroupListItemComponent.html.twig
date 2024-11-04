@@ -1,4 +1,4 @@
-<li class="list-group-item  list-group-item-action  d-flex  flex-row  flex-wrap  p-0  mt-1  mb-1  border  border-1  border-light-subtle  list-groups__item"
+<li class="list-group-item  list-group-item-action  d-flex  flex-row  p-0  mt-1  mb-1  border  border-1  border-light-subtle  list-groups__item"
     data-controller="GroupListItemComponent"
     data-item-data="{{ groupDataJson }}"
     data-js-list-item>
@@ -32,7 +32,7 @@
 
         {% endif %}
 
-        <div class="d-flex  flex-column  flex-grow-1  ps-3  pe-3  p-2">
+        <div class="d-flex  flex-column  flex-grow-1  p-2">
 
             <div class="d-flex  flex-row  justify-content-between">
 
@@ -65,12 +65,12 @@
     {% if data.type != 'user' %}
 
     <a href="{{ urlGroupUsers|escape('html_attr') }}"
-       class="d-flex  flex-grow-1  group-list-item__group-users-button"
+       class="d-flex  group-list-item__group-users-button"
        role="button"
        title="{{ lang.groupUsersLinkItemButtonTitle }}">
 
         <button type="button"
-                class="btn  flex-grow-1  ps-4  pe-4  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary">
+                class="btn  px-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary">
 
             {% include "common/group_users/group-users-no-image.svg" %}
         </button>
@@ -79,55 +79,101 @@
     {% endif %}
 
     <a href="{{ data.type == 'user' ?  urlGroupSelectNoGroup|escape('html_attr') : urlGroupSelectWithGroup|escape('html_attr') }}"
-       class="d-flex  flex-grow-1  group-list-item__group-select-button"
+       class="d-flex  group-list-item__group-select-button"
        role="button"
        title="{{ lang.groupSelectLinkItemButtonTitle }}">
 
         <button type="button"
-                class="btn  flex-grow-1  ps-3  pe-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary">
+                class="btn  px-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary">
 
             {% include "common/group/group-select-icon.svg" %}
         </button>
     </a>
 
-    <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__button"
-            value="{{ data.id }}"
-            title="{{ lang.infoItemButtonTitle }}"
-            data-bs-toggle="modal"
-            data-bs-target="#{{ data.groupInfoModalIdAttribute }}"
-            data-action="GroupListItemComponent#sendMessageHomeListItemInfoToParent">
+    <div class="dropdown  dropstart">
+        <button type="button"
+                class="btn btn-secondary  rounded-0  h-100"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
 
-        {% include "common/info-icon.svg" %}
-    </button>
+            {% include "common/dots-vertical-icon.svg" %}
 
-    {% if data.admin and data.type != 'user' %}
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <button type="button"
+                        class="d-flex  flex-row  btn  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-primary  group-list-item__button  group-list-item__button--menu"
+                        value="{{ data.id }}"
+                        title="{{ lang.infoItemButtonTitle }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ data.groupInfoModalIdAttribute }}"
+                        data-action="GroupListItemComponent#sendMessageHomeListItemInfoToParent">
 
-    <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__button"
-            value="{{ data.id }}"
-            title="{{ lang.modifyItemButtonTitle }}"
-            data-bs-toggle="modal"
-            data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
-            data-action="GroupListItemComponent#sendMessageHomeListItemModifyToParent">
+                    <div>
 
-        {% include "common/modify-icon.svg" %}
-    </button>
+                        {% include "common/info-icon.svg" %}
 
-    <button type="button"
-            data-js-remove-button
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger  group-list-item__button"
-            value="{{ data.id }}"
-            title="{{ lang.removeItemButtonTitle }}"
-            data-bs-toggle="modal"
-            data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
-            data-action="GroupListItemComponent#sendMessageHomeListItemRemoveEvent">
+                    </div>
+                    <div class="ms-2">
 
-        {% include "common/remove-icon.svg" %}
-    </button>
+                        {{ lang.infoItemButtonLabel }}
 
-    {% endif %}
+                    </div>
+                </button>
+            </li>
 
+            {% if data.admin and data.type != 'user' %}
+
+            <li>
+                <button type="button"
+                        class="d-flex  flex-row  btn  px-3  py-3  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  group-list-item__button  group-list-item__button--menu"
+                        value="{{ data.id }}"
+                        title="{{ lang.modifyItemButtonTitle }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
+                        data-action="GroupListItemComponent#sendMessageHomeListItemModifyToParent">
+
+                    <div>
+
+                        {% include "common/modify-icon.svg" %}
+
+                    </div>
+                    <div class="ms-2">
+
+                        {{ lang.modifyItemButtonLabel }}
+
+                    </div>
+                </button>
+            </li>
+
+            <li>
+                <button type="button"
+                        data-js-remove-button
+                        class="d-flex  flex-row  btn  px-3  py-3  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger  group-list-item__button  group-list-item__button--menu"
+                        value="{{ data.id }}"
+                        title="{{ lang.removeItemButtonTitle }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
+                        data-action="GroupListItemComponent#sendMessageHomeListItemRemoveEvent">
+
+                    <div>
+
+                        {% include "common/remove-icon.svg" %}
+
+                    </div>
+                    <div class="ms-2">
+
+                        {{ lang.removeItemButtonLabel }}
+
+                    </div>
+                </button>
+
+            </li>
+
+            {% endif %}
+
+        </ul>
+    </div>
 </li>
 
 {% if data.type == 'user' %}
