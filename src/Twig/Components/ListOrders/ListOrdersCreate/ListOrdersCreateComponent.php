@@ -52,7 +52,7 @@ final class ListOrdersCreateComponent extends TwigComponent
 
     private function createTitleComponentDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP,null);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP, null);
     }
 
     private function loadTranslation(): void
@@ -79,6 +79,9 @@ final class ListOrdersCreateComponent extends TwigComponent
             ->submitButton(
                 $this->translate('button_list_orders_create.label')
             )
+            ->closeButton(
+                $this->translate('button_list_orders_close.label')
+            )
             ->errors(
                 $this->data->validForm ? $this->createAlertValidationComponentDto() : null
             )
@@ -93,7 +96,7 @@ final class ListOrdersCreateComponent extends TwigComponent
                 LIST_ORDERS_CREATE_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
                 LIST_ORDERS_CREATE_FORM_ERRORS::NAME_EXISTS->value => $this->translate('validation.error.name_exists'),
                 LIST_ORDERS_CREATE_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.internal_server'),
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

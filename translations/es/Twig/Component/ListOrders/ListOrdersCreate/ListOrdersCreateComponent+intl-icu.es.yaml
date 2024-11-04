@@ -19,7 +19,10 @@ date_to_buy:
   msg_invalid: La fecha no es correcta
 
 button_list_orders_create:
-  label: Crear la lista de la compra
+  label: Crear
+
+button_list_orders_close:
+  label: Cerrar
 
 validation:
   title: Errores
