@@ -9,7 +9,10 @@ name:
     Solo están permitidos, caracteres alfanuméricos y "_"
 
 button_group_user_add:
-  label: Añade usuario al grupo
+  label: Añadir usuario
+
+button_group_user_add:
+  label: Cerrar
 
 validation:
   ok: Usuario añadido al grupo

@@ -50,7 +50,7 @@ final class GroupUsersAddComponent extends TwigComponent
 
     private function createTitle(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP,null);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP, null);
     }
 
     private function loadTranslation(): void
@@ -61,6 +61,7 @@ final class GroupUsersAddComponent extends TwigComponent
             $this->translate('name.placeholder'),
             $this->translate('name.msg_invalid'),
             $this->translate('button_group_user_add.label'),
+            $this->translate('button_group_close.label'),
             $this->data->validForm ? $this->createAlertValidationComponentDto() : null
         );
     }
@@ -83,7 +84,7 @@ final class GroupUsersAddComponent extends TwigComponent
                 GROUP_USERS_ADD_FORM_ERRORS::USERS->value => $this->translate('validation.error.users'),
                 GROUP_USERS_ADD_FORM_ERRORS::GROUP_ALREADY_IN_THE_GROUP->value => $this->translate('validation.error.group_already_in_the_group'),
                 GROUP_USERS_ADD_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

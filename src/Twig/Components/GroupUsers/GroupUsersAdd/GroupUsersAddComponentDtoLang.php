@@ -16,8 +16,9 @@ class GroupUsersAddComponentDtoLang
         public readonly string $nameMsgInvalid,
         // --
         public readonly string $groupUserAddButton,
+        public readonly string $groupCloseButton,
         // --
-        public readonly ?AlertValidationComponentDto $validationErrors
+        public readonly ?AlertValidationComponentDto $validationErrors,
     ) {
     }
 }
