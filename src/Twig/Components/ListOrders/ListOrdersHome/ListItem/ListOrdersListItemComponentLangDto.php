@@ -9,10 +9,13 @@ use App\Twig\Components\HomeSection\HomeList\ListItem\HomeListItemComponentLangD
 class ListOrdersListItemComponentLangDto extends HomeListItemComponentLangDto
 {
     public function __construct(
+        public readonly string $modifyItemButtonLabel,
         public readonly string $modifyItemButtonAlt,
         public readonly string $modifyItemButtonTitle,
+        public readonly string $removeItemButtonLabel,
         public readonly string $removeItemButtonAlt,
         public readonly string $removeItemButtonTitle,
+        public readonly string $infoItemButtonLabel,
         public readonly string $infoItemButtonAlt,
         public readonly string $infoItemButtonTitle,
 

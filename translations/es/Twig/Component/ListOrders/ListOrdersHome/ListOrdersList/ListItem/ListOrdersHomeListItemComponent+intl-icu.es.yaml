@@ -1,12 +1,15 @@
 list_orders_remove_button:
+  label: Eliminar
   title: Elimina la lista de la compra
   alt: Botón para eliminar la lista de la compra
 
 list_orders_modify_button:
+  label: Modificar
   title: Modifica la lista de la compra
   alt: Botón para modificar la lista de la compra
 
 list_orders_info_button:
+  label: Info
   title: Muestra información de la lista de la compra
   alt: Botón para mostrar información de la lista de la compra
 
