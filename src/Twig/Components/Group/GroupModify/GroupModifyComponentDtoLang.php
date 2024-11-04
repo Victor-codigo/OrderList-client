@@ -22,8 +22,9 @@ class GroupModifyComponentDtoLang
         public readonly string $imageAlt,
         // --
         public readonly string $groupCreateButton,
+        public readonly string $closeButtonLabel,
         // --
-        public readonly ?AlertComponentDto $validationErrors
+        public readonly ?AlertComponentDto $validationErrors,
     ) {
     }
 }

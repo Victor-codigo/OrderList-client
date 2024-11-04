@@ -23,6 +23,9 @@ image_thumbnail:
 button_group_modify:
   label: Modify group
 
+button_group_close:
+  label: Close
+
 group_remove:
   label: Group Remove
   placeholder: Remove the group from the website

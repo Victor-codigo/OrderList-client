@@ -61,7 +61,7 @@ final class GroupModifyComponent extends TwigComponent
 
     private function createTitle(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP,null);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP, null);
     }
 
     private function getDopZoneDto(): DropZoneComponentDto
@@ -96,6 +96,7 @@ final class GroupModifyComponent extends TwigComponent
             $this->translate('description.msg_invalid'),
             $this->translate('image_thumbnail.alt'),
             $this->translate('button_group_modify.label'),
+            $this->translate('button_group_close.label'),
             $validForm ? $this->createAlertValidationComponentDto() : null
         );
     }
@@ -115,7 +116,7 @@ final class GroupModifyComponent extends TwigComponent
                 GROUP_MODIFY_FORM_ERRORS::NAME->value => $this->translate('validation.error.name'),
                 GROUP_MODIFY_FORM_ERRORS::DESCRIPTION->value => $this->translate('validation.error.description'),
                 GROUP_MODIFY_FORM_ERRORS::IMAGE->value => $this->translate('validation.error.image'),
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 
