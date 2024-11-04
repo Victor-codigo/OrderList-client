@@ -1,4 +1,4 @@
-.list-group-item {
+.list-shop-item {
     .shop-list-item__image {
         width: 75px;
         height: 75px;
@@ -23,7 +23,7 @@
 }
 
 @include media-breakpoint-down(sm) {
-    .list-group-item {
+    .list-shop-item {
         .shop-list-item__image {
             display: none;
         }
