@@ -39,8 +39,10 @@ final class ProductListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new ProductListItemComponentLangDto(
+            $this->translate('product_modify_button.label'),
             $this->translate('product_modify_button.alt'),
             $this->translate('product_modify_button.title'),
+            $this->translate('product_remove_button.label'),
             $this->translate('product_remove_button.alt'),
             $this->translate('product_remove_button.title'),
             $this->translate('product_info_button.alt'),

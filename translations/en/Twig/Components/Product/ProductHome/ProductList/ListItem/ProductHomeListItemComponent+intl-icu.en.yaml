@@ -1,8 +1,10 @@
 product_remove_button:
+  label: Remove
   title: Remove the product
   alt: Button to remove the product
 
 product_modify_button:
+  label: Modify
   title: Modify the product
   alt: Button to modify the product
 
