@@ -1,8 +1,10 @@
 shop_remove_button:
+  label: Eliminar
   title: Elimina la tienda
   alt: Botón para eliminar la tienda
 
 shop_modify_button:
+  label: Modificar
   title: Modifica la tienda
   alt: Botón para modificar la tienda
 

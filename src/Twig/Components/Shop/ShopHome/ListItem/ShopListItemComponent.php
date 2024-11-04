@@ -34,8 +34,10 @@ final class ShopListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new ShopListItemComponentLangDto(
+            $this->translate('shop_modify_button.label'),
             $this->translate('shop_modify_button.alt'),
             $this->translate('shop_modify_button.title'),
+            $this->translate('shop_remove_button.label'),
             $this->translate('shop_remove_button.alt'),
             $this->translate('shop_remove_button.title'),
             $this->translate('shop_info_button.alt'),

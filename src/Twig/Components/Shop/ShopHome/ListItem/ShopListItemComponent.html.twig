@@ -34,7 +34,7 @@
     </label>
 
     <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  shop-list-item__button"
+            class="btn  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  shop-list-item__button"
             value="{{ data.id }}"
             alt="{{ lang.infoItemButtonAlt }}"
             title="{{ lang.infoItemButtonTitle }}"
@@ -45,28 +45,63 @@
         {% include "common/info-icon.svg" %}
     </button>
 
-    <button type="button"
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  shop-list-item__button"
-            value="{{ data.id }}"
-            alt="{{ lang.modifyItemButtonAlt }}"
-            title="{{ lang.modifyItemButtonTitle }}"
-            data-bs-toggle="modal"
-            data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
-            data-action="ShopListItemComponent#sendMessageHomeListItemModifyToParent">
+    <div class="dropdown  dropstart">
+        <button type="button"
+                class="btn btn-secondary  rounded-0  h-100"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
 
-        {% include "common/modify-icon.svg" %}
-    </button>
+            {% include "common/dots-vertical-icon.svg" %}
 
-    <button type="button"
-            data-js-remove-button
-            class="btn  flex-grow-1  px-3  py-2  rounded-0  border  border-0  border-start  border-light-subtle  btn-outline-danger  shop-list-item__button"
-            value="{{ data.id }}"
-            alt="{{ lang.removeItemButtonAlt }}"
-            title="{{ lang.removeItemButtonTitle }}"
-            data-bs-toggle="modal"
-            data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
-            data-action="ShopListItemComponent#sendMessageHomeListItemRemoveEvent">
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <button type="button"
+                        class="d-flex  flex-row  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  shop-list-item__button  shop-list-item__button--menu"
+                        value="{{ data.id }}"
+                        alt="{{ lang.modifyItemButtonAlt }}"
+                        title="{{ lang.modifyItemButtonTitle }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ data.modifyFormModalIdAttribute }}"
+                        data-action="ShopListItemComponent#sendMessageHomeListItemModifyToParent">
 
-        {% include "common/remove-icon.svg" %}
-    </button>
+                    <div>
+
+                        {% include "common/modify-icon.svg" %}
+
+                    </div>
+                    <div class="ms-2">
+
+                        {{ lang.modifyItemButtonLabel }}
+
+                    </div>
+                </button>
+            </li>
+
+            <li>
+                <button type="button"
+                        data-js-remove-button
+                        class="d-flex  flex-row  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-danger  shop-list-item__button  shop-list-item__button--menu"
+                        value="{{ data.id }}"
+                        alt="{{ lang.removeItemButtonAlt }}"
+                        title="{{ lang.removeItemButtonTitle }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{ data.deleteFormModalIdAttribute }}"
+                        data-action="ShopListItemComponent#sendMessageHomeListItemRemoveEvent">
+
+                    <div>
+
+                        {% include "common/remove-icon.svg" %}
+
+                    </div>
+                    <div class="ms-2">
+
+                        {{ lang.removeItemButtonLabel }}
+
+                    </div>
+                </button>
+            </li>
+
+        </ul>
+    </div>
 </li>
