@@ -36,12 +36,35 @@
         width: 24px;
         height: auto;
     }
+
+    &--menu {
+        width: 100%;
+    }
+
+    &--info-menu {
+        display: none !important;
+        width: 100%;
+    }
 }
 
 @include media-breakpoint-down(sm) {
     .order-list-item__image {
-        width: 60px;
-        min-width: 60px;
-        height: 60px;
+        display: none;
+    }
+
+    .order-list-item__button {
+        display: none;
+
+        &--menu {
+            display: block;
+        }
+
+        &--info {
+            display: none;
+        }
+
+        &--info-menu {
+            display: flex !important;
+        }
     }
 }

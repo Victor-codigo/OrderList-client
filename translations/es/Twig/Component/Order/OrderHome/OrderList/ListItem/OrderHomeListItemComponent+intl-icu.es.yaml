@@ -1,12 +1,15 @@
 order_remove_button:
+  label: Eliminar
   title: Elimina el pedido
   alt: Botón para eliminar el pedido
 
 order_modify_button:
+  label: Modificar
   title: Modifica el pedido
   alt: Botón para modificar el pedido
 
 order_info_button:
+  label: Info
   title: Muestra información del pedido
   alt: Botón para mostrar información del pedido
 

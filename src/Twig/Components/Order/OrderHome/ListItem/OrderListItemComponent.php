@@ -42,10 +42,13 @@ final class OrderListItemComponent extends HomeListItemComponent
     {
         $this->setTranslationDomainName($this->data->translationDomainName);
         $this->lang = new OrderListItemComponentLangDto(
+            $this->translate('order_modify_button.label'),
             $this->translate('order_modify_button.alt'),
             $this->translate('order_modify_button.title'),
+            $this->translate('order_remove_button.label'),
             $this->translate('order_remove_button.alt'),
             $this->translate('order_remove_button.title'),
+            $this->translate('order_info_button.label'),
             $this->translate('order_info_button.alt'),
             $this->translate('order_info_button.title'),
             $this->translate('order_bought_button.title'),
