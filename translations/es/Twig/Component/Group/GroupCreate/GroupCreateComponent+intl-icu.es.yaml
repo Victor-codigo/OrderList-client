@@ -20,6 +20,9 @@ image:
 button_group_create:
   label: Crear grupo
 
+button_group_close:
+  label: Cerrar
+
 validation:
   title: Errores
   ok: Grupo creado

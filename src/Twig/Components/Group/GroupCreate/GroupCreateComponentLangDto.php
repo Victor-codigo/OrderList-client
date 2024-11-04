@@ -22,6 +22,7 @@ class GroupCreateComponentLangDto
     public readonly string $descriptionMsgInvalid;
 
     public readonly string $groupCreateButtonLabel;
+    public readonly string $closeButtonLabel;
 
     public readonly ?AlertValidationComponentDto $validationErrors;
 
@@ -32,6 +33,7 @@ class GroupCreateComponentLangDto
             'name',
             'description',
             'createButton',
+            'closeButton',
             'errors',
         ]);
     }
@@ -72,6 +74,15 @@ class GroupCreateComponentLangDto
         $this->builder->setMethodStatus('createButton', true);
 
         $this->groupCreateButtonLabel = $label;
+
+        return $this;
+    }
+
+    public function closeButton(string $label): self
+    {
+        $this->builder->setMethodStatus('closeButton', true);
+
+        $this->closeButtonLabel = $label;
 
         return $this;
     }
