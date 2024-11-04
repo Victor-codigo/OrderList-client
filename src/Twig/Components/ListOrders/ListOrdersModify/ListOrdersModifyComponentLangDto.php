@@ -26,6 +26,7 @@ class ListOrdersModifyComponentLangDto
     public readonly string $dateToBuyMsgInvalid;
 
     public readonly string $listOrdersModifyButton;
+    public readonly string $closeButtonLabel;
 
     public readonly ?AlertComponentDto $validationErrors;
 
@@ -37,6 +38,7 @@ class ListOrdersModifyComponentLangDto
             'description',
             'dateToBuy',
             'submitButton',
+            'closeButton',
             'errors',
         ]);
     }
@@ -88,6 +90,15 @@ class ListOrdersModifyComponentLangDto
         $this->builder->setMethodStatus('submitButton', true);
 
         $this->listOrdersModifyButton = $listOrdersModifyLabel;
+
+        return $this;
+    }
+
+    public function closeButton(string $label): self
+    {
+        $this->builder->setMethodStatus('closeButton', true);
+
+        $this->closeButtonLabel = $label;
 
         return $this;
     }

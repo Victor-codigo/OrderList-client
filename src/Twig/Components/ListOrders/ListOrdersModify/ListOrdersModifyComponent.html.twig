@@ -73,9 +73,19 @@
 		</div>
 	</div>
 
-	<div class="mt-5">
+	<div class="d-flex  flex-row  mt-5">
+		<button type="button"
+				class="btn  btn-transparent  me-2"
+				data-bs-dismiss="modal">
+
+			{% include "common/arrow-back-icon.svg" %}
+
+			<span class="align-text-top">
+				{{ lang.closeButtonLabel }}
+			</span>
+		</button>
 		<input type="submit"
-			   class="btn btn-primary w-100"
+			   class="btn btn-primary  flex-grow-1"
 			   name="{{ submitFieldName }}"
 			   value="{{ lang.listOrdersModifyButton }}" />
 	</div>
