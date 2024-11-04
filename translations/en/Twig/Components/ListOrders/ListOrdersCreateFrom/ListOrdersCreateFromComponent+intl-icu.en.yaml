@@ -18,7 +18,10 @@ list_orders_button:
   title: Select a shopping list
 
 button_list_orders_create_from:
-  label: Duplicate shopping list
+  label: Duplicate
+
+button_list_orders_close:
+  label: Close
 
 validation:
   title: Errors

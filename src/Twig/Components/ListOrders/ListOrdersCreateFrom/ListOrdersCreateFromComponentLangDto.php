@@ -26,6 +26,7 @@ class ListOrdersCreateFromComponentLangDto
     public readonly string $listOrdersPlaceholder;
 
     public readonly string $listOrdersCreateFromButton;
+    public readonly string $closeButtonLabel;
 
     public readonly ?AlertComponentDto $validationErrors;
 
@@ -36,6 +37,7 @@ class ListOrdersCreateFromComponentLangDto
             'name',
             'listOrders',
             'submitButton',
+            'closeButton',
             'errors',
         ]);
     }
@@ -78,6 +80,15 @@ class ListOrdersCreateFromComponentLangDto
         $this->builder->setMethodStatus('submitButton', true);
 
         $this->listOrdersCreateFromButton = $listOrdersCreateFromLabel;
+
+        return $this;
+    }
+
+    public function closeButton(string $label): self
+    {
+        $this->builder->setMethodStatus('closeButton', true);
+
+        $this->closeButtonLabel = $label;
 
         return $this;
     }
