@@ -15,7 +15,10 @@ message_advice:
     ¿Estás seguro?
 
 remove_button:
-  label: Eliminar grupo
+  label: Eliminar
+
+close_button:
+  label: Cerrar
 
 validation:
   title: Errors

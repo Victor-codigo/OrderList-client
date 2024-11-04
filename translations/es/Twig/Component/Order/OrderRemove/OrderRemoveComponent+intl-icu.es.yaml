@@ -13,7 +13,10 @@ message_advice:
     ¿Estás seguro?
 
 remove_button:
-  label: Eliminar pedido
+  label: Eliminar
+
+close_button:
+  label: Cerrar
 
 validation:
   title: Errores

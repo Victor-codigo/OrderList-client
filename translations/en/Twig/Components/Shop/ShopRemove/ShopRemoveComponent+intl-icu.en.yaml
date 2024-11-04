@@ -15,7 +15,10 @@ message_advice:
     Are You sure?
 
 remove_button:
-  label: Remove shop
+  label: Remove
+
+close_button:
+  label: Close
 
 validation:
   title: Errors

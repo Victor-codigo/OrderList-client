@@ -68,6 +68,9 @@ class GroupRemoveComponent extends ItemRemoveComponent
             ->itemRemoveButton(
                 $this->translate('remove_button.label')
             )
+            ->itemCloseButton(
+                $this->translate('close_button.label')
+            )
             ->validationErrors(
                 $this->createAlertValidationComponentDto()
             )
@@ -84,7 +87,7 @@ class GroupRemoveComponent extends ItemRemoveComponent
                 GROUP_REMOVE_FORM_ERRORS::INTERNAL_SERVER->value => $this->translate('validation.error.internal_server'),
                 GROUP_REMOVE_FORM_ERRORS::GROUP_NOT_FOUND->value ,
                 GROUP_REMOVE_FORM_ERRORS::PERMISSIONS->value => $this->translate('validation.error.permissions'),
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

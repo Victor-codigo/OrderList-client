@@ -37,20 +37,20 @@ class ProductRemoveComponent extends ItemRemoveComponent
     private function createRemoveMultiData(): array
     {
         return [
-             PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM,
-             sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
-             sprintf('%s[%s][]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::PRODUCTS_ID),
-             sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::TOKEN),
+            PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM,
+            sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s][]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::PRODUCTS_ID),
+            sprintf('%s[%s]', PRODUCT_REMOVE_MULTI_FORM_FIELDS::FORM, PRODUCT_REMOVE_MULTI_FORM_FIELDS::TOKEN),
         ];
     }
 
     private function createRemoveData(): array
     {
         return [
-             PRODUCT_REMOVE_FORM_FIELDS::FORM,
-             sprintf('%s[%s]', PRODUCT_REMOVE_FORM_FIELDS::FORM, PRODUCT_REMOVE_FORM_FIELDS::SUBMIT),
-             sprintf('%s[%s]', PRODUCT_REMOVE_FORM_FIELDS::FORM, PRODUCT_REMOVE_FORM_FIELDS::PRODUCTS_ID),
-             sprintf('%s[%s]', PRODUCT_REMOVE_FORM_FIELDS::FORM, PRODUCT_REMOVE_FORM_FIELDS::TOKEN),
+            PRODUCT_REMOVE_FORM_FIELDS::FORM,
+            sprintf('%s[%s]', PRODUCT_REMOVE_FORM_FIELDS::FORM, PRODUCT_REMOVE_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s]', PRODUCT_REMOVE_FORM_FIELDS::FORM, PRODUCT_REMOVE_FORM_FIELDS::PRODUCTS_ID),
+            sprintf('%s[%s]', PRODUCT_REMOVE_FORM_FIELDS::FORM, PRODUCT_REMOVE_FORM_FIELDS::TOKEN),
         ];
     }
 
@@ -67,6 +67,9 @@ class ProductRemoveComponent extends ItemRemoveComponent
             ->itemRemoveButton(
                 $this->translate('remove_button.label')
             )
+            ->itemCloseButton(
+                $this->translate('close_button.label')
+            )
             ->validationErrors(
                 $this->createAlertValidationComponentDto()
             )
@@ -78,7 +81,7 @@ class ProductRemoveComponent extends ItemRemoveComponent
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

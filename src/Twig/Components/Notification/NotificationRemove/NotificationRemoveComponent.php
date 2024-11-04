@@ -55,6 +55,9 @@ class NotificationRemoveComponent extends ItemRemoveComponent
             ->itemRemoveButton(
                 $this->translate('remove_button.label')
             )
+            ->itemCloseButton(
+                $this->translate('close_button.label')
+            )
             ->validationErrors(
                 $this->createAlertValidationComponentDto()
             )
@@ -67,7 +70,7 @@ class NotificationRemoveComponent extends ItemRemoveComponent
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
                 NOTIFICATION_REMOVE_FORM_ERRORS::TRYOUT_ROUTE_PERMISSIONS->value => $this->translate('validation.error.tryout_route_permissions'),
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

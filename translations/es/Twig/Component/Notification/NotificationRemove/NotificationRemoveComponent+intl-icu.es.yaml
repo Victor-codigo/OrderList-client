@@ -8,7 +8,10 @@ message_advice:
     ¿Estás seguro?
 
 remove_button:
-  label: Eliminar notificación
+  label: Eliminar
+
+close_button:
+  label: Cerrar
 
 validation:
   title: Errors

@@ -11,6 +11,7 @@ class ItemRemoveComponentLangDto
     public readonly string $title;
     public readonly string $messageAdvice;
     public readonly string $itemRemoveButton;
+    public readonly string $itemCloseButtonLabel;
 
     public readonly AlertValidationComponentDto $validationErrors;
 
@@ -18,6 +19,7 @@ class ItemRemoveComponentLangDto
         'title' => false,
         'message_advice' => false,
         'itemRemoveButton' => false,
+        'itemCloseButton' => false,
         'build' => false,
     ];
 
@@ -44,6 +46,15 @@ class ItemRemoveComponentLangDto
         $this->builder['itemRemoveButton'] = true;
 
         $this->itemRemoveButton = $text;
+
+        return $this;
+    }
+
+    public function itemCloseButton(string $label): static
+    {
+        $this->builder['itemCloseButton'] = true;
+
+        $this->itemCloseButtonLabel = $label;
 
         return $this;
     }

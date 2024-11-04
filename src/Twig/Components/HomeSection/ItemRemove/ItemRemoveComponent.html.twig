@@ -28,10 +28,19 @@
 		 data-js-message>
 	</div>
 
-	<div class="mt-5">
+	<div class="d-flex  flex-row  mt-5">
+		<button type="button"
+				class="btn  btn-transparent  me-2"
+				data-bs-dismiss="modal">
 
+			{% include "common/arrow-back-icon.svg" %}
+
+			<span class="align-text-top">
+				{{ lang.itemCloseButtonLabel }}
+			</span>
+		</button>
 		<input type="submit"
-			   class="btn btn-danger w-100"
+			   class="btn btn-danger  flex-grow-1"
 			   name="{{ submitFieldName }}"
 			   value="{{ lang.itemRemoveButton }}" />
 

@@ -67,6 +67,9 @@ class OrderRemoveComponent extends ItemRemoveComponent
             ->itemRemoveButton(
                 $this->translate('remove_button.label')
             )
+            ->itemCloseButton(
+                $this->translate('close_button.label')
+            )
             ->validationErrors(
                 $this->createAlertValidationComponentDto()
             )
@@ -78,7 +81,7 @@ class OrderRemoveComponent extends ItemRemoveComponent
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

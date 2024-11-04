@@ -13,7 +13,10 @@ message_advice:
     ¿Estás seguro?
 
 remove_group_user_button:
-  label: Eliminar usuario
+  label: Eliminar
+
+close_group_user_button:
+  label: Cerrar
 
 validation:
   title: Errors

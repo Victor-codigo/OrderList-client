@@ -75,6 +75,9 @@ final class GroupUsersRemoveComponent extends ItemRemoveComponent
             ->itemRemoveButton(
                 $this->translate('remove_group_user_button.label'),
             )
+            ->itemCloseButton(
+                $this->translate('close_group_user_button.label'),
+            )
             ->messageAdvice(
                 $this->translate('message_advice.text'),
             )
@@ -100,7 +103,7 @@ final class GroupUsersRemoveComponent extends ItemRemoveComponent
                 GROUP_USERS_REMOVE_MULTI_FORM_ERRORS::GROUP_USERS_NOT_FOUND->value,
                 GROUP_USERS_REMOVE_MULTI_FORM_ERRORS::PERMISSIONS->value,
                 GROUP_USERS_REMOVE_MULTI_FORM_ERRORS::INTERNAL_SERVER->value => $this->translate('validation.error.internal_server'),
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

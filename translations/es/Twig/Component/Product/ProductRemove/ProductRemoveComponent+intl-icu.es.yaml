@@ -17,6 +17,9 @@ message_advice:
 remove_button:
   label: Eliminar producto
 
+close_button:
+  label: Close
+
 validation:
   title: Errores
   ok: Producto eliminado

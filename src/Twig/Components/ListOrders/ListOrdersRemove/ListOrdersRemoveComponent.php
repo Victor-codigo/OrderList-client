@@ -37,20 +37,20 @@ class ListOrdersRemoveComponent extends ItemRemoveComponent
     private function createRemoveMultiData(): array
     {
         return [
-             LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM,
-             sprintf('%s[%s]', LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
-             sprintf('%s[%s][]', LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::LIST_ORDERS_ID),
-             sprintf('%s[%s]', LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::TOKEN),
+            LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM,
+            sprintf('%s[%s]', LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s][]', LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::LIST_ORDERS_ID),
+            sprintf('%s[%s]', LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_MULTI_FORM_FIELDS::TOKEN),
         ];
     }
 
     private function createRemoveData(): array
     {
         return [
-             LIST_ORDERS_REMOVE_FORM_FIELDS::FORM,
-             sprintf('%s[%s]', LIST_ORDERS_REMOVE_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_FORM_FIELDS::SUBMIT),
-             sprintf('%s[%s]', LIST_ORDERS_REMOVE_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_FORM_FIELDS::LIST_ORDERS_ID),
-             sprintf('%s[%s]', LIST_ORDERS_REMOVE_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_FORM_FIELDS::TOKEN),
+            LIST_ORDERS_REMOVE_FORM_FIELDS::FORM,
+            sprintf('%s[%s]', LIST_ORDERS_REMOVE_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s]', LIST_ORDERS_REMOVE_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_FORM_FIELDS::LIST_ORDERS_ID),
+            sprintf('%s[%s]', LIST_ORDERS_REMOVE_FORM_FIELDS::FORM, LIST_ORDERS_REMOVE_FORM_FIELDS::TOKEN),
         ];
     }
 
@@ -67,6 +67,9 @@ class ListOrdersRemoveComponent extends ItemRemoveComponent
             ->itemRemoveButton(
                 $this->translate('remove_button.label')
             )
+            ->itemCloseButton(
+                $this->translate('close_button.label')
+            )
             ->validationErrors(
                 $this->createAlertValidationComponentDto()
             )
@@ -78,7 +81,7 @@ class ListOrdersRemoveComponent extends ItemRemoveComponent
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 

@@ -46,19 +46,19 @@ class ShopRemoveComponent extends ItemRemoveComponent
     {
         return [
             SHOP_REMOVE_MULTI_FORM_FIELDS::FORM,
-             sprintf('%s[%s]', SHOP_REMOVE_MULTI_FORM_FIELDS::FORM, SHOP_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
-             sprintf('%s[%s][]', SHOP_REMOVE_MULTI_FORM_FIELDS::FORM, SHOP_REMOVE_MULTI_FORM_FIELDS::SHOPS_ID),
-             sprintf('%s[%s]', SHOP_REMOVE_MULTI_FORM_FIELDS::FORM, SHOP_REMOVE_MULTI_FORM_FIELDS::TOKEN),
+            sprintf('%s[%s]', SHOP_REMOVE_MULTI_FORM_FIELDS::FORM, SHOP_REMOVE_MULTI_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s][]', SHOP_REMOVE_MULTI_FORM_FIELDS::FORM, SHOP_REMOVE_MULTI_FORM_FIELDS::SHOPS_ID),
+            sprintf('%s[%s]', SHOP_REMOVE_MULTI_FORM_FIELDS::FORM, SHOP_REMOVE_MULTI_FORM_FIELDS::TOKEN),
         ];
     }
 
     private function createRemoveData(): array
     {
         return [
-             SHOP_REMOVE_FORM_FIELDS::FORM,
-             sprintf('%s[%s]', SHOP_REMOVE_FORM_FIELDS::FORM, SHOP_REMOVE_FORM_FIELDS::SUBMIT),
-             sprintf('%s[%s]', SHOP_REMOVE_FORM_FIELDS::FORM, SHOP_REMOVE_FORM_FIELDS::SHOPS_ID),
-             sprintf('%s[%s]', SHOP_REMOVE_FORM_FIELDS::FORM, SHOP_REMOVE_FORM_FIELDS::TOKEN),
+            SHOP_REMOVE_FORM_FIELDS::FORM,
+            sprintf('%s[%s]', SHOP_REMOVE_FORM_FIELDS::FORM, SHOP_REMOVE_FORM_FIELDS::SUBMIT),
+            sprintf('%s[%s]', SHOP_REMOVE_FORM_FIELDS::FORM, SHOP_REMOVE_FORM_FIELDS::SHOPS_ID),
+            sprintf('%s[%s]', SHOP_REMOVE_FORM_FIELDS::FORM, SHOP_REMOVE_FORM_FIELDS::TOKEN),
         ];
     }
 
@@ -74,6 +74,9 @@ class ShopRemoveComponent extends ItemRemoveComponent
             ->itemRemoveButton(
                 $this->translate('remove_button.label')
             )
+            ->itemCloseButton(
+                $this->translate('close_button.label')
+            )
             ->validationErrors(
                 $this->createAlertValidationComponentDto()
             )
@@ -85,7 +88,7 @@ class ShopRemoveComponent extends ItemRemoveComponent
         $errorsLang = [];
         foreach ($errors as $field => $error) {
             $errorsLang[] = match ($field) {
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 
