@@ -7,3 +7,9 @@
         transform: rotateY(180deg);
     }
 }
+
+@include media-breakpoint-down(sm) {
+    .notification-list-item__image {
+        display: none !important;
+    }
+}
