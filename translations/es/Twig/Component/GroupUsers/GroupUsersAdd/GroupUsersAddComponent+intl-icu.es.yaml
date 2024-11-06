@@ -11,7 +11,7 @@ name:
 button_group_user_add:
   label: Añadir usuario
 
-button_group_user_add:
+button_group_close:
   label: Cerrar
 
 validation:
