@@ -1,7 +1,7 @@
 <button data-controller="ButtonLoadingComponent"
         data-action="ButtonLoadingComponent:showButton->ButtonLoadingComponent#handleMessageShowButton
                      ButtonLoadingComponent:showButtonLoading->ButtonLoadingComponent#handleMessageShowButtonLoading"
-        class="btn  btn-primary  flex-grow-1"
+        class="d-flex  flex-row  justify-content-center  btn  btn-primary  flex-grow-1"
         title="{{ data.title }}"
         type="{{ data.type }}"
         {{data.selector}}>
@@ -9,9 +9,11 @@
 
 
       <div class="d-flex  flex-row  flex-nowrap  justify-content-center  align-items-center">
-            <div class="spinner-border spinner-border-sm  me-1"
+            <div class="spinner-border spinner-border-sm  me-2"
                  aria-hidden="true"
-                 data-js-spinner></div>
+                 hidden
+                 data-js-spinner>
+            </div>
 
             {% if not data.icon is null %}
 
