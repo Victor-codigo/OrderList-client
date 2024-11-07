@@ -35,7 +35,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
     methods: ['GET', 'POST'],
     requirements: [
         '_locale' => Config::CLIENT_DOMAIN_LOCALE_VALID,
-        'shared_recourse_id' => Requirement::UUID_V4,
+        'shared_recourse_id' => '('.Requirement::UUID_V4.'|--shared_recourse_id--)',
         'page' => '\d+',
         'page_items' => '\d+',
     ]
@@ -206,6 +206,9 @@ class ShareListOrdersController extends AbstractController
             ->listOrders(
                 $listOrdersData->id,
                 $listOrdersData->groupId
+            )
+            ->shareButton(
+                ''
             )
             ->errors(
                 [],

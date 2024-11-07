@@ -16,7 +16,6 @@ const GET_GROUP_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user-groups`;
 const GET_GROUP_USERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user`;
 const GET_GROUP_USERS_CHANGE_ROL_URL = `${API_DOMAIN}/api/v${API_VERSION}/groups/user/role`;
 const POST_CREATE_SHARE_URL = `${API_DOMAIN}/api/v${API_VERSION}/share/list-orders`;
-export const GET_SHARE_LIST_ORDERS_URL = `${API_DOMAIN}/api/v${API_VERSION}/share/list-orders/{list_orders_id}`;
 
 /**
  * @param {string} groupId

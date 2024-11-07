@@ -61,6 +61,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
     private readonly bool $interactive;
     private readonly bool $headerButtonsHide;
     private readonly bool $hideInteraction;
+    private readonly string $shareButtonUrl;
 
     public function __construct()
     {
@@ -76,6 +77,7 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             'errors',
             'pagination',
             'listItems',
+            'shareButton',
             'validation',
             'searchBar',
         ]);
@@ -196,6 +198,15 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
         $this->builder->setMethodStatus('listItems', true);
 
         $this->listOrdersData = $listOrdersData;
+
+        return $this;
+    }
+
+    public function shareButton(string $url): self
+    {
+        $this->builder->setMethodStatus('shareButton', true);
+
+        $this->shareButtonUrl = $url;
 
         return $this;
     }
@@ -464,6 +475,9 @@ class OrderHomeComponentBuilder implements DtoBuilderInterface
             )
             ->orderInfoModal(
                 $orderInfoModalDto
+            )
+            ->share(
+                $this->shareButtonUrl
             )
             ->build();
     }

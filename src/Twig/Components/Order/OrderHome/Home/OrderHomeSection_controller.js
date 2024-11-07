@@ -2,6 +2,7 @@ import HomeSectionComponent from 'App/Twig/Components/HomeSection/Home/HomeSecti
 import * as locale from 'App/modules/Locale';
 import * as endpoint from 'App/modules/ApiEndpoints';
 import * as communication from 'App/modules/ControllerCommunication';
+import * as bootstrap from 'bootstrap';
 
 export default class extends HomeSectionComponent {
 
@@ -25,6 +26,15 @@ export default class extends HomeSectionComponent {
      */
     #shareWhatsappButton;
 
+    /**
+     * @type {bootstrap.Modal}}
+     */
+    #guestUserRestrictionInfoModal;
+
+    /**
+     * @type {bootstrap.Modal}}
+     */
+    #shareBrowserNotCompatibleInfoModal;
 
     connect() {
         super.connect();
@@ -33,6 +43,8 @@ export default class extends HomeSectionComponent {
         this.#priceTotalTag = this.element.querySelector('[data-js-price-total]');
         this.#shareWhatsappButton = this.element.querySelector('[data-js-share-button]');
         this.#listOrdersId = this.element.dataset.listOrdersId;
+        this.#guestUserRestrictionInfoModal = new bootstrap.Modal('#info_guest_user_restriction_modal');
+        this.#shareBrowserNotCompatibleInfoModal = new bootstrap.Modal('#info_share_browser_not_compatible_modal');
 
 
         if (this.interactive) {
@@ -64,18 +76,32 @@ export default class extends HomeSectionComponent {
      * @throws {Error}
      */
     async #shareWhatsAppCreate() {
+        if (typeof navigator.canShare === 'undefined' || !navigator.canShare()) {
+            this.#shareBrowserNotCompatibleInfoModal.show();
+
+            return;
+        }
+
         communication.sendMessageToChildController(this.#shareWhatsappButton, 'showButtonLoading');
         const responseData = await endpoint.createListOrdersShare(this.#listOrdersId);
         communication.sendMessageToChildController(this.#shareWhatsappButton, 'showButton');
 
-        if (responseData.status !== 'ok') {
-            throw new Error(responseData.message);
+        if (responseData.status === 'ok') {
+            navigator.share({
+                url: this.element.dataset.shareUrl.replace('--shared_recourse_id--', responseData.data.list_orders_id),
+                text: this.element.dataset.listName
+            });
+
+            return;
         }
 
-        navigator.share({
-            url: endpoint.GET_SHARE_LIST_ORDERS_URL.replace('{list_orders_id}', responseData.data.list_orders_id),
-            title: this.element.dataset.listName
-        });
+        if (Object.hasOwn(responseData.errors, 'tryout_route_permissions')) {
+            this.#guestUserRestrictionInfoModal.show();
+
+            return;
+        }
+
+        throw new Error(responseData.message);
     }
 
     /**

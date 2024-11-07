@@ -19,3 +19,8 @@ home_section_back:
 home_header:
   currentBought: Bought
   totalBought: Total
+
+home_section_info_guest_user:
+  share:
+    guest_restriction: This function is not available for guest user, you must be signed up.
+    not_compatible: Your browser is not compatible with share functionality.

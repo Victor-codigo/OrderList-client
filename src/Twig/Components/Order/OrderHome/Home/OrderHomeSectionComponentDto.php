@@ -16,6 +16,7 @@ class OrderHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
 
     public readonly string $listOrdersId;
     public readonly string $groupId;
+    public readonly string $shareUrl;
     public readonly HomeSectionComponentDto $homeSectionComponentDto;
     public readonly ModalComponentDto $listItemsModalDto;
     public readonly ModalComponentDto $shopCreateModalDto;
@@ -28,6 +29,7 @@ class OrderHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
             'homeSection',
             'listItemsModal',
             'orderInfoModal',
+            'share',
         ]);
     }
 
@@ -73,6 +75,15 @@ class OrderHomeSectionComponentDto implements TwigComponentDtoInterface, DtoBuil
         $this->builder->setMethodStatus('orderInfoModal', true);
 
         $this->orderInfoModalDto = $orderInfoModalDto;
+
+        return $this;
+    }
+
+    public function share(string $url): self
+    {
+        $this->builder->setMethodStatus('share', true);
+
+        $this->shareUrl = $url;
 
         return $this;
     }

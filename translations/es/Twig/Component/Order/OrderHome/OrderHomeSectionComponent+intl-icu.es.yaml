@@ -19,3 +19,7 @@ home_section_back:
 home_header:
   currentBought: Comprado
   totalBought: Total
+
+share:
+  guest_restriction: Esta función no está disponible para el usuario invitado, debes registrate.
+  not_compatible: El navegador no es compatible con la funcionalidad share.

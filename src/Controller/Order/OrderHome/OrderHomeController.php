@@ -237,6 +237,13 @@ class OrderHomeController extends AbstractController
             ->listItems(
                 $ordersData
             )
+            ->shareButton(
+                $this->routerSelector->generateRoute('share_list_orders', [
+                    'shared_recourse_id' => '--shared_recourse_id--',
+                    'page' => 1,
+                    'page_items' => 20,
+                ])
+            )
             ->validation(
                 !empty($orderHomeMessagesError) || !empty($orderHomeMessagesOk) ? true : false,
             )
