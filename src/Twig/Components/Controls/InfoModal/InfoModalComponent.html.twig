@@ -7,8 +7,14 @@
 
         {% if this.getType == 'warning' %}
 
-        <div class="d-flex  align-items-center justify-content-center  info-modal__icon">
+        <div class="d-flex  align-items-center justify-content-center  info-modal__icon  info-modal__icon--warning">
             {% include "common/warning-icon.svg" %}
+        </div>
+
+        {% elseif this.getType == 'info' %}
+
+        <div class="d-flex  align-items-center justify-content-center  info-modal__icon info-modal__icon--info ">
+            {% include "common/info-icon.svg" %}
         </div>
 
         {% endif %}

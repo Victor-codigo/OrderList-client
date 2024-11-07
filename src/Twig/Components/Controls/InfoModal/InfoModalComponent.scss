@@ -1,10 +1,17 @@
 .info-modal {
     .info-modal__icon {
-        color: $warning;
 
         svg {
             width: 75px;
             height: 75px;
+        }
+
+        &--warning {
+            color: $warning;
+        }
+
+        &--info {
+            color: $info;
         }
     }
 }
