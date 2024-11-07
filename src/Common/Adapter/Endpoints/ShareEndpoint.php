@@ -64,7 +64,7 @@ class ShareEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_SHARE_LIST_ORDERS."?{$this->createQueryParameters($queryParameters)}&".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::GET_SHARE_LIST_ORDERS."?{$this->createQueryParameters($queryParameters)}",
             HTTP_CLIENT_CONFIGURATION::json([])
         );
     }

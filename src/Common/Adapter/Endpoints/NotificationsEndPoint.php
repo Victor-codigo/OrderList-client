@@ -17,7 +17,7 @@ class NotificationsEndPoint extends EndpointBase
     private static ?self $instance = null;
 
     private function __construct(
-        private HttpClientInterface $httpClient
+        private HttpClientInterface $httpClient,
     ) {
     }
 
@@ -139,10 +139,9 @@ class NotificationsEndPoint extends EndpointBase
     {
         return $this->httpClient->request(
             'PATCH',
-            self::PATCH_NOTIFICATION_MARK_AS_VIEWED.'?XDEBUG_SESSION=VSCODE',
+            self::PATCH_NOTIFICATION_MARK_AS_VIEWED,
             HTTP_CLIENT_CONFIGURATION::json($this->createFormParameters([
                 'notifications_id' => $notificationsId,
-                // '_method' => 'PATCH',
             ]),
                 $tokenSession
             )

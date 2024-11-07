@@ -170,7 +170,7 @@ class GroupsEndpoint extends EndpointBase
 
         return $this->httpClient->request(
             'GET',
-            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}&".HTTP_CLIENT_CONFIGURATION::XDEBUG_VAR,
+            self::GET_USER_GROUPS_GET_DATA."?{$this->createQueryParameters($parameters)}",
             HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
