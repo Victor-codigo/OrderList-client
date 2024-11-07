@@ -2,7 +2,12 @@ import * as themeManager from 'App/modules/Theme';
 
 export function updateThemeButtons() {
     const theme = themeManager.getTheme();
-    const navigationBar = document.querySelector('[data-js-navigation-bar]')
+    const navigationBar = document.querySelector('[data-js-navigation-bar]');
+
+    if (!navigationBar) {
+        return;
+    }
+
     /** @type {HTMLButtonElement[]} themeLight */
     const themeLightIconTags = navigationBar.querySelectorAll('[data-js-theme-light]');
     /** @type {HTMLButtonElement[]} themeDarkIconTag */
