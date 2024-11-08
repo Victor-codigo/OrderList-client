@@ -13,6 +13,9 @@ class SearchBarComponentLangDto
     public readonly string $searchLabel;
     public readonly string $searchPlaceholder;
     public readonly string $searchButton;
+    public readonly string $sectionFilterLabel;
+    public readonly string $textFilterLabel;
+    public readonly string $inputTextFilterLabel;
     /**
      * @var string[]
      */
@@ -28,13 +31,16 @@ class SearchBarComponentLangDto
         ]);
     }
 
-    public function input(string $searchLabel, string $searchPlaceholder, string $searchButton): self
+    public function input(string $searchLabel, string $searchPlaceholder, string $searchButton, string $sectionFilterLabel, string $textFilterLabel, string $inputTextFilterLabel): self
     {
         $this->builder->setMethodStatus('searchInput', true);
 
         $this->searchLabel = $searchLabel;
         $this->searchPlaceholder = $searchPlaceholder;
         $this->searchButton = $searchButton;
+        $this->sectionFilterLabel = $sectionFilterLabel;
+        $this->textFilterLabel = $textFilterLabel;
+        $this->inputTextFilterLabel = $inputTextFilterLabel;
 
         return $this;
     }

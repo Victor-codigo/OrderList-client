@@ -48,9 +48,12 @@ class SearchBarComponent extends TwigComponent
     {
         $this->lang = (new SearchBarComponentLangDto())
             ->input(
-                $this->translate('inputSearch.label'),
+                $this->translate('toggle_button.label'),
                 $this->translate('inputSearch.placeholder'),
                 $this->translate('button.label'),
+                $this->translate('inputSectionFilter.label'),
+                $this->translate('inputTextFilter.label'),
+                $this->translate('inputTextBoxFilter.label'),
             )
             ->nameFilters([
                 NAME_FILTERS::STARTS_WITH->value => $this->translate('name_filters.startsWith'),

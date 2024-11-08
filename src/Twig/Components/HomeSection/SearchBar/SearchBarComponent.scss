@@ -1,6 +1,11 @@
-.search-bar {
-    &__filter {
-        max-width: 130px;
-        min-width: 100px;
+[data-bs-theme="light"] {
+    .search_menu {
+        background-color: #eee;
+    }
+}
+
+[data-bs-theme="dark"] {
+    .search_menu {
+        background-color: #222;
     }
 }

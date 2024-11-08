@@ -1,5 +1,16 @@
+toggle_button:
+  label: "Filtrar por:"
+
+inputSectionFilter:
+  label: Tipo
+
+inputTextFilter:
+  label: Texto
+
+inputTextBoxFilter:
+  label: Palabra clave
+
 inputSearch:
-  label: Buscar por
   placeholder: Introduce una palabra por la que buscar
 
 button:

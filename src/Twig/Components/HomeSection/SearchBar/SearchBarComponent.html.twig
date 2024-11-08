@@ -1,81 +1,106 @@
 <section data-controller="SearchBarComponent"
+		 class="p-2"
 		 data-url-search-autocomplete="{{ data.searchAutoCompleteUrl|escape('html_attr') }}"
 		 data-group-id="{{ data.groupId }}">
 
-	<form name="{{ formName }}"
-		  class="search-bar  contaniner  p-3"
-		  action="{{ data.searchFormActionUrl|escape('html_attr') }}"
-		  method="post"
-		  enctype="multipart/form-data"
-		  novalidate
-		  data-js-searchbar-form>
-
-		<input type="hidden"
-			   name="{{ searchTokenCsrfFieldName }}"
-			   value="{{ data.searchCsrfToken }}" />
-
-		<label class="form-label  w-100">
+	<div class="d-inline-flex gap-1">
+		<button class="btn  btn-outline-seconary  border-1  border-secondary  border-0 border-bottom  border-start  rounded-0  pe-4"
+				type="button"
+				data-bs-toggle="collapse"
+				data-bs-target=".multi-collapse"
+				aria-expanded="false"
+				aria-controls="seach_menu">
 			{{ lang.searchLabel }}
+		</button>
+	</div>
+	<div class="collapse multi-collapse  search_menu"
+		 id="search_menu">
+		<div class="d-flex  flex-column  row-gap-3  border-start  border-secondary">
+			<form name="{{ formName }}"
+				  class="search-bar  contaniner  p-3  d-flex  flex-column  row-gap-3  card card-body"
+				  action="{{ data.searchFormActionUrl|escape('html_attr') }}"
+				  method="post"
+				  enctype="multipart/form-data"
+				  novalidate
+				  data-js-searchbar-form>
 
-			<div class="input-group">
+				<input type="hidden"
+					   name="{{ searchTokenCsrfFieldName }}"
+					   value="{{ data.searchCsrfToken }}" />
 
-				<select class="form-select  search-bar__filter"
-						name="{{ sectionFilterFieldName }}"
-						{{this.sectionFilters|length==1?'hidden':''}}
-						data-js-section-filter>
+				<label {{this.sectionFilters|length==1?'hidden':''}}>
 
-					{% for sectionFilterName, sectionFilterValue in this.sectionFilters %}
+					{{ lang.sectionFilterLabel }}
 
-					{% if sectionFilterName==data.sectionFilterValue %}
+					<select class="form-select"
+							name="{{ sectionFilterFieldName }}"
+							data-js-section-filter>
 
-					<option value="{{ sectionFilterName }}"
-							selected>
+						{% for sectionFilterName, sectionFilterValue in this.sectionFilters %}
 
-						{{ sectionFilterValue }}
-					</option>
+						{% if sectionFilterName==data.sectionFilterValue %}
 
-					{% else %}
+						<option value="{{ sectionFilterName }}"
+								selected>
 
-					<option value="{{ sectionFilterName }}">{{ sectionFilterValue }}</option>
+							{{ sectionFilterValue }}
+						</option>
 
-					{% endif %}
-					{% endfor %}
-				</select>
+						{% else %}
 
-				<select class="form-select  search-bar__filter"
-						name="{{ nameFilterFieldName }}"
-						data-js-name-filter>
+						<option value="{{ sectionFilterName }}">{{ sectionFilterValue }}</option>
 
-					{% for nameFilterName, valueFilterLang in lang.filters %}
+						{% endif %}
+						{% endfor %}
+					</select>
+				</label>
 
-					{% if nameFilterName==data.nameFilterValue %}
+				<label>
 
-					<option value="{{ nameFilterName }}"
-							selected>{{ valueFilterLang }}</option>
+					{{ lang.textFilterLabel }}
 
-					{% else %}
+					<select class="form-select"
+							name="{{ nameFilterFieldName }}"
+							data-js-name-filter>
 
-					<option value="{{ nameFilterName }}">{{ valueFilterLang }}</option>
-					{% endif %}
+						{% for nameFilterName, valueFilterLang in lang.filters %}
 
-					{% endfor %}
-				</select>
+						{% if nameFilterName==data.nameFilterValue %}
 
-				<input type="text"
-					   class="form-control"
-					   name="{{ searchValueFieldName }}"
-					   placeholder="{{ lang.searchPlaceholder }}"
-					   value="{{ data.searchValue }}"
-					   list="search-data-list"
-					   data-js-value />
+						<option value="{{ nameFilterName }}"
+								selected>{{ valueFilterLang }}</option>
+
+						{% else %}
+
+						<option value="{{ nameFilterName }}">{{ valueFilterLang }}</option>
+
+						{% endif %}
+
+						{% endfor %}
+					</select>
+				</label>
+
+				<label>
+
+					{{ lang.inputTextFilterLabel }}
+
+					<input type="text"
+						   class="form-control"
+						   name="{{ searchValueFieldName }}"
+						   placeholder="{{ lang.searchPlaceholder }}"
+						   value="{{ data.searchValue }}"
+						   list="search-data-list"
+						   data-js-value />
+				</label>
 
 				<button type="submit"
-						class="btn btn-primary  order-3"
+						class="btn btn-primary  order-3  mt-4  mb-4"
 						name="{{ searchButtonFiledName }}"
 						alt="{{ lang.searchButton }}">
 					{% include "common/search-icon.svg" %}
+					{{ lang.searchButton }}
 				</button>
-			</div>
-		</label>
-	</form>
+			</form>
+		</div>
+	</div>
 </section>
