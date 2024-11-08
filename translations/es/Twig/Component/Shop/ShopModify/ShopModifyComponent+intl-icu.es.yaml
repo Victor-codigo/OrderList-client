@@ -52,8 +52,8 @@ shop_create_button:
 close_button:
   label: Cerrar
 
-product_create_button:
-  label: Modificar tienda
+shop_modify_button:
+  label: Modificar
 
 validation:
   title: Errores

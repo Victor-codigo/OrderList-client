@@ -63,11 +63,17 @@ card:
   shops:
     icon:
       title: Crea tiendas
-    title: tiendas
-    description: <strong>Añade las tiendas</strong> en las que realizas las compras. Establece los precios de los productos, y crea tús listas de la compra
+    title: Tiendas
+    description: <strong>Añade las tiendas</strong> en las que realizas las compras. Establece los precios de los productos, y crea tús listas de la compra.
 
   groups:
     icon:
       title: Crea grupos
     title: Grupos
     description: Administra tús propias listas de la compra, y crea grupos para <strong>compartir</strong> con otros usuarios.
+
+  share:
+    icon:
+      title: Comparte tús listas de la compra, en redes sociales
+    title: Share
+    description: Crea tús listas de la compra y <strong>compártelas</strong> en las redes sociales.

@@ -45,7 +45,7 @@ export function formatPriceCurrencyAndUnit(price, unit) {
  * @return {string}
  */
 export function formatAmountAndUnit(amount, unit) {
-    return `${amount.toLocaleString(getLocaleItl(url.getLocale()))}${formatApiUnits(unit)}`
+    return `${amount.toLocaleString(getLocaleItl(url.getLocale()))} ${formatApiUnits(unit, amount > 1)}`
 }
 
 /**
@@ -62,16 +62,18 @@ export function formatDateToLocale(date) {
 
 /**
  * @param {string|null} unit
+ * @param {boolean} plural
  *
  * @returns {string}
+ *
  */
-function formatApiUnits(unit) {
+function formatApiUnits(unit, plural) {
     if (null === unit) {
         return '';
     }
 
     const units = {
-        "UNITS": "Unit",
+        "UNITS": config.UNIT_MEASURE.translate(unit, plural),
         "KG": "Kg"
     };
 

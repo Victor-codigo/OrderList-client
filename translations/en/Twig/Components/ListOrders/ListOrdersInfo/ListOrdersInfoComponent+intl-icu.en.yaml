@@ -15,7 +15,7 @@ item_price:
   price: Price/Unit
 
 shops:
-  empty: "<There is no shops>"
+  empty: "<There is no shopping lists>"
 
 close_button:
   label: Close

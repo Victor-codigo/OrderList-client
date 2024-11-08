@@ -2,5 +2,5 @@ product_back_button:
   label: Volver
 
 product_create_button:
-  label: Crear producto
-  loading_label: Creando producto...
+  label: Crear
+  loading_label: Creando...

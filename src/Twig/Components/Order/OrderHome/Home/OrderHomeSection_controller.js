@@ -76,7 +76,7 @@ export default class extends HomeSectionComponent {
      * @throws {Error}
      */
     async #shareWhatsAppCreate() {
-        if (typeof navigator.canShare === 'undefined' || !navigator.canShare()) {
+        if (!navigator.share) {
             this.#shareBrowserNotCompatibleInfoModal.show();
 
             return;

@@ -31,8 +31,8 @@
     {% endblock %}
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('appNotDeferred') }}
-        {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('appNotDeferred') }}
+    {{ encore_entry_script_tags('app') }}
     {% endblock %}
 
 </head>
@@ -59,7 +59,7 @@
         <section class="container-md  text-center  body">
             <div class="row  justify-content-md-center  gap-lg-4  p-5">
                 <article
-                         class="body-card  col-lg-3  border border-3  border-warning border-top-0  border-start-0  border-end-0  py-5  pb-3">
+                         class="body-card  col-lg-4  border border-3  border-light-subtle border-top-0  border-start-0  border-end-0  py-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.list_orders.icon.title'|trans }}">
                         {% include "common/list_orders/list-orders-no-image.svg" %}
@@ -73,7 +73,7 @@
                 </article>
 
                 <article
-                         class="body-card  col-lg-3  border border-3  border-warning border-top-0  border-start-0  border-end-0  pt-5  pb-3">
+                         class="body-card  col-lg-4  border border-3  border-light-subtle border-top-0  border-start-0  border-end-0  pt-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.products.icon.title'|trans }}">
                         {% include "common/product/product-no-image.svg" %}
@@ -87,7 +87,7 @@
                 </article>
 
                 <article
-                         class="body-card  col-lg-3  border border-3  border-warning border-top-0  border-start-0  border-end-0  pt-5  pb-3">
+                         class="body-card  col-lg-4  border border-3  border-light-subtle border-top-0  border-start-0  border-end-0  pt-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.shops.icon.title'|trans }}">
                         {% include "common/shop/shop-no-image.svg" %}
@@ -101,7 +101,7 @@
                 </article>
 
                 <article
-                         class="body-card  col-lg-2  border border-3  border-warning border-top-0  border-start-0  border-end-0  pt-5  pb-3">
+                         class="body-card  col-lg-4  border border-3  border-light-subtle border-top-0  border-start-0  border-end-0  pt-5  pb-3">
                     <div class="mb-3  body-card__icon"
                          title="{{ 'card.groups.icon.title'|trans }}">
                         {% include "common/group/group-no-image.svg" %}
@@ -111,6 +111,20 @@
                     </h2>
                     <p class="body-card__description">
                         {{ 'card.groups.description'|trans|raw }}
+                    </p>
+                </article>
+
+                <article
+                         class="body-card  col-lg-4  border border-3  border-light-subtle border-top-0  border-start-0  border-end-0  pt-5  pb-3">
+                    <div class="mb-3  body-card__icon"
+                         title="{{ 'card.groups.icon.title'|trans }}">
+                        {% include "common/share-icon.svg" %}
+                    </div>
+                    <h2 class="text-center">
+                        {{ 'card.share.title'|trans }}
+                    </h2>
+                    <p class="body-card__description">
+                        {{ 'card.share.description'|trans|raw }}
                     </p>
                 </article>
             </div>

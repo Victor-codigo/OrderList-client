@@ -4,7 +4,7 @@ button_back:
   label: Volver
 
 button_create_product:
-  label: Crear producto
+  label: Crear
 
 product_image:
   title: Imagen del producto {item_name}

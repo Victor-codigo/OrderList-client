@@ -2,5 +2,5 @@ product_back_button:
   label: Back
 
 product_create_button:
-  label: Create product
-  loading_label: Creating product...
+  label: Create
+  loading_label: Creating...

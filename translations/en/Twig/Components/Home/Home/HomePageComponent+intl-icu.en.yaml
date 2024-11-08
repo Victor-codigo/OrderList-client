@@ -71,3 +71,9 @@ card:
       title: Create groups
     title: Groups
     description: Manage your own shopping lists, and create groups to <strong>share</strong> with more users.
+
+  share:
+    icon:
+      title: Share shopping lists in social media
+    title: Share
+    description: Create a shopping list, and <strong>share</strong> it in social media.

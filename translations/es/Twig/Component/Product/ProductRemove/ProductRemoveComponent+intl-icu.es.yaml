@@ -4,7 +4,7 @@ message_advice:
   text: |
     Te dispones a eliminar el producto:
     {item_placeholder}
-    Las tiendas relacionados con este producto, perderán su relación con la misma
+    Las tiendas relacionados con este producto, perderán su relación con el mismo
 
     ¿Estás seguro?
   text_multi: |

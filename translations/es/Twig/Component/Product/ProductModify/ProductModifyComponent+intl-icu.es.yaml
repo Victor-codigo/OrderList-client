@@ -41,7 +41,7 @@ shop_remove_button:
   alt: Remove shop
 
 product_modify_button:
-  label: Modifica el producto
+  label: Modificar
 
 close_button:
   label: Cerrar

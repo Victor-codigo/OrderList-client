@@ -15,8 +15,6 @@
 
 		{% endif %}
 
-		{% if not sections is empty %}
-
 		<button class="navbar-toggler  border-0  rounded-0  p-2  ps-3  pe-3  navbar-toggler-button"
 				type="button"
 				data-bs-toggle="offcanvas"
@@ -25,8 +23,6 @@
 				aria-label="Toggle navigation">
 			{% include "common/list-icon.svg" %}
 		</button>
-
-		{% endif %}
 
 		<a class="navbar-brand  mx-auto  my-1  ms-lg-4"
 		   href="{{ path('home') }}">
@@ -260,10 +256,10 @@
 					{% if data.locale=='es' %}
 
 					<a class="p-3  d-flex  flex-row  justify-content-center  align-items-center  w-50  navbar__language-switch--offcanvas"
-					href="{{ languageToggleUrl }}"
-					role="button"
-					title="{{ languageToggleTitle }}"
-					type="button">
+					   href="{{ languageToggleUrl }}"
+					   role="button"
+					   title="{{ languageToggleTitle }}"
+					   type="button">
 
 						{% include "common/flag/english-flag.svg" %}
 					</a>
@@ -271,9 +267,9 @@
 					{% else %}
 
 					<a class="px-3  d-flex  flex-column  justify-content-center  align-items-center  w-50  navbar__language-switch--offcanvas"
-					href="{{ languageToggleUrl }}"
-					title="{{ languageToggleTitle }}"
-					role="button">
+					   href="{{ languageToggleUrl }}"
+					   title="{{ languageToggleTitle }}"
+					   role="button">
 
 						{% include "common/flag/spanish-flag.svg" %}
 					</a>
@@ -285,15 +281,15 @@
 							title="{{ themeButtonTitle }}"
 							data-js-theme-button>
 						<div hidden
-							data-js-theme-dark>
+							 data-js-theme-dark>
 							{% include "common/theme-dark-mode-icon.svg" %}
 						</div>
 						<div hidden
-							data-js-theme-light>
+							 data-js-theme-light>
 							{% include "common/theme-light-mode-icon.svg" %}
 						</div>
 						<div hidden
-							data-js-theme-auto>
+							 data-js-theme-auto>
 							{% include "common/theme-auto-mode-icon.svg" %}
 						</div>
 					</button>

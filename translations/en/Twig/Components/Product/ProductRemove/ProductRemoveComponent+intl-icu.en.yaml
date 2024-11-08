@@ -4,7 +4,7 @@ message_advice:
   text: |
     You are going to remove product:
     {item_placeholder}
-    Shops related to this product, will lose the relation with the shop.
+    Shops related to this product, will lose the relation with the product.
 
     Are You sure?
   text_multi: |

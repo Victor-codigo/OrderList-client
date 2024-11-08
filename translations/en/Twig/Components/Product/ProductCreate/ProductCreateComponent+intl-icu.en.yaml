@@ -38,7 +38,7 @@ shop_remove_button:
   alt: Remove shop
 
 product_create_button:
-  label: Create product
+  label: Create
 
 close_button:
   label: Close

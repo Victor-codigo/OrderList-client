@@ -67,7 +67,7 @@ final class ShopModifyComponent extends TwigComponent
 
     private function createTitleComponentDto(): TitleComponentDto
     {
-        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP,null);
+        return new TitleComponentDto($this->lang->title, TITLE_TYPE::POP_UP, null);
     }
 
     private function createImageDropZone(): DropZoneComponentDto
@@ -110,7 +110,7 @@ final class ShopModifyComponent extends TwigComponent
                 $this->translate('product_add_button.alt'),
             )
             ->itemRemoveButton(
-                $this->translate('product_remove_button.title'),
+                'asdf',// $this->translate('product_remove_button.title'),
                 $this->translate('product_remove_button.alt'),
             )
             ->build();
@@ -192,7 +192,7 @@ final class ShopModifyComponent extends TwigComponent
                 SHOP_MODIFY_FORM_ERRORS::SHOP_NOT_FOUND->value,
                 SHOP_MODIFY_FORM_ERRORS::DESCRIPTION->value,
                 SHOP_MODIFY_FORM_ERRORS::GROUP_ID->value => $this->translate('validation.error.internal_server'),
-                default => $this->translate('validation.error.internal_server')
+                default => $this->translate('validation.error.internal_server'),
             };
         }
 
