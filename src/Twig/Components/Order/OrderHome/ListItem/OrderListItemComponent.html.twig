@@ -64,6 +64,22 @@
 
     {% endif %}
 
+    {% if data.hideInteraction %}
+
+    <button type="button"
+            class="btn  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  order-list-item__button  order-list-item__button--info"
+            value="{{ data.id }}"
+            alt="{{ lang.infoItemButtonAlt }}"
+            title="{{ lang.infoItemButtonTitle }}"
+            data-bs-toggle="modal"
+            data-bs-target="#{{ data.orderInfoModalIdAttribute }}"
+            data-action="OrderListItemComponent#sendMessageHomeListItemInfoToParent">
+
+        {% include "common/info-icon.svg" %}
+    </button>
+
+    {% else %}
+
     <button type="button"
             class="btn  px-3  py-2  rounded-0  border  border-0  border-start  border-end-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  order-list-item__button"
             value="{{ data.id }}"
@@ -75,6 +91,10 @@
 
         {% include "common/info-icon.svg" %}
     </button>
+
+    {% endif %}
+
+    {% if not data.hideInteraction %}
 
     <div class="dropdown  dropstart">
         <button type="button"
@@ -109,8 +129,6 @@
                     </div>
                 </button>
             </li>
-
-            {% if not data.hideInteraction %}
 
             <li>
                 <button type="button"
@@ -158,9 +176,9 @@
                     </div>
                 </button>
             </li>
-
-            {% endif %}
-
         </ul>
     </div>
+
+    {% endif %}
+
 </li>
