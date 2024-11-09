@@ -20,6 +20,7 @@ use Common\Domain\Ports\Form\FormInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route(
     path: '{_locale}/{section}/page-{page}-{page_items}',
@@ -39,7 +40,7 @@ class NotificationHomeController extends AbstractController
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
-        private GetPageTitleService $getPageTitleService
+        private GetPageTitleService $getPageTitleService,
     ) {
     }
 
@@ -117,6 +118,15 @@ class NotificationHomeController extends AbstractController
             ->listItems(
                 $notificationsData,
             )
+            ->shareUrl(
+                $this->generateUrl(
+                    'share_list_orders', [
+                        'shared_recourse_id' => NotificationHomeComponentBuilder::SHARED_RECOURSE_ID_URL_PLACEHOLDER,
+                        'page' => 1,
+                        'page_items' => 20,
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ))
             ->validation(
                 !empty($notificationHomeMessagesError) || !empty($notificationHomeMessagesOk) ? true : false,
             )

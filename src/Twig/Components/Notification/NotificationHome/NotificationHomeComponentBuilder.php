@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components\Notification\NotificationHome;
 
+use App\Controller\Notification\NotificationHome\NOTIFICATION_TYPE;
 use App\Controller\Request\Response\NotificationDataResponse;
 use App\Twig\Components\HomeSection\Home\HomeSectionComponentDto;
 use App\Twig\Components\Modal\ModalComponentDto;
@@ -25,8 +26,12 @@ class NotificationHomeComponentBuilder implements DtoBuilderInterface
     private const NOTIFICATION_HOME_LIST_COMPONENT_NAME = 'NotificationHomeListComponent';
     private const NOTIFICATION_HOME_LIST_ITEM_COMPONENT_NAME = 'NotificationHomeListItemComponent';
 
+    public const string SHARED_RECOURSE_ID_URL_PLACEHOLDER = '--shared_recourse_id--';
+
     private readonly DtoBuilder $builder;
     private readonly HomeSectionComponentDto $homeSectionComponentDto;
+
+    private readonly string $sharedRecourseUrlTemplate;
 
     /**
      * @var NotificationDataResponse[]
@@ -42,6 +47,7 @@ class NotificationHomeComponentBuilder implements DtoBuilderInterface
             'pagination',
             'listItems',
             'validation',
+            'utils',
         ]);
 
         $this->homeSectionComponentDto = $this->createHomeSectionComponentDto();
@@ -100,11 +106,23 @@ class NotificationHomeComponentBuilder implements DtoBuilderInterface
         return $this;
     }
 
+    /**
+     * @param NotificationDataResponse[] $listNotificationsData
+     */
     public function listItems(array $listNotificationsData): self
     {
         $this->builder->setMethodStatus('listItems', true);
 
         $this->listNotificationsData = $listNotificationsData;
+
+        return $this;
+    }
+
+    public function shareUrl(string $sharedRecourseUrlTemplate): self
+    {
+        $this->builder->setMethodStatus('utils', true);
+
+        $this->sharedRecourseUrlTemplate = $sharedRecourseUrlTemplate;
 
         return $this;
     }
@@ -157,6 +175,11 @@ class NotificationHomeComponentBuilder implements DtoBuilderInterface
 
     private function createNotificationListItemsComponentsDto(): array
     {
+        $notificationsData = array_map(
+            fn (NotificationDataResponse $notificationData): NotificationDataResponse => $this->notificationListOrdersSharedMapper($notificationData),
+            $this->listNotificationsData
+        );
+
         return array_map(
             fn (NotificationDataResponse $listItemData) => new NotificationListItemComponentDto(
                 NotificationListItemComponent::getComponentName(),
@@ -169,7 +192,35 @@ class NotificationHomeComponentBuilder implements DtoBuilderInterface
                 $listItemData->viewed,
                 $listItemData->createdOn
             ),
-            $this->listNotificationsData
+            $notificationsData
+        );
+    }
+
+    private function notificationListOrdersSharedMapper(NotificationDataResponse $notificationData): NotificationDataResponse
+    {
+        if ($notificationData->type !== NOTIFICATION_TYPE::SHARE_LIST_ORDERS_CREATED->value) {
+            return $notificationData;
+        }
+
+        $sharedListOrdersUrl = str_replace(
+            self::SHARED_RECOURSE_ID_URL_PLACEHOLDER,
+            $notificationData->data['shared_recourse_id'],
+            $this->sharedRecourseUrlTemplate
+        );
+        $notificationMessage = str_replace(
+            '{shared_list_orders_url}',
+            $sharedListOrdersUrl,
+            $notificationData->message
+        );
+
+        return new NotificationDataResponse(
+            $notificationData->id,
+            $notificationData->type,
+            $notificationData->userId,
+            $notificationMessage,
+            $notificationData->data,
+            $notificationData->viewed,
+            $notificationData->createdOn
         );
     }
 
