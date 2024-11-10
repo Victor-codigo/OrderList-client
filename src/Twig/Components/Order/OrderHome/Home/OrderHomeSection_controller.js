@@ -112,21 +112,21 @@ export default class extends HomeSectionComponent {
      */
     async #share(sharedRecourseId) {
         try {
-            let shareIconResponse = await fetch(LOGO_URL);
-            let shareIcon = new File(
-                [await shareIconResponse.blob()],
-                'logo.png',
-                {
-                    type: 'image/png',
-                    lastModified: new Date().getTime()
-                }
-            );
+            // let shareIconResponse = await fetch(LOGO_URL);
+            // let shareIcon = new File(
+            //     [await shareIconResponse.blob()],
+            //     'logo.png',
+            //     {
+            //         type: 'image/png',
+            //         lastModified: new Date().getTime()
+            //     }
+            // );
 
             navigator.share({
                 title: this.element.dataset.listName,
                 text: location.hostname,
                 url: this.element.dataset.shareUrl.replace(SHARED_RESOURCE_PLACEHOLDER, sharedRecourseId),
-                files: [shareIcon]
+                // files: [shareIcon]
             });
 
             return;
