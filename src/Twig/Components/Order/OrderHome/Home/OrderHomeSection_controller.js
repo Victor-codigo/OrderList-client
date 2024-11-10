@@ -90,7 +90,7 @@ export default class extends HomeSectionComponent {
         communication.sendMessageToChildController(this.#shareButton, 'showButton');
 
         if (responseData.status === 'ok') {
-            await this.#share(responseData.data.list_orders_id);
+            await this.#shareOrders(responseData.data.list_orders_id);
 
             return;
         }
@@ -110,29 +110,53 @@ export default class extends HomeSectionComponent {
      * @returns {Promise<void>}
      * @throws {Error}
      */
-    async #share(sharedRecourseId) {
+    async #shareOrders(sharedRecourseId) {
         try {
-            // let shareIconResponse = await fetch(LOGO_URL);
-            // let shareIcon = new File(
-            //     [await shareIconResponse.blob()],
-            //     'logo.png',
-            //     {
-            //         type: 'image/png',
-            //         lastModified: new Date().getTime()
-            //     }
-            // );
-
-            navigator.share({
-                title: this.element.dataset.listName,
-                text: location.hostname,
-                url: this.element.dataset.shareUrl.replace(SHARED_RESOURCE_PLACEHOLDER, sharedRecourseId),
-                // files: [shareIcon]
-            });
-
-            return;
+            await this.#shareWithImage(sharedRecourseId);
         } catch (Error) {
-            throw new Error(Error.message);
+            await this.#share(sharedRecourseId, []);
         }
+    }
+
+    /**
+     * @param {string} sharedRecourseId
+     * @returns {Promise<void>}
+     *
+     * @throws {Error}
+     */
+    async #shareWithImage(sharedRecourseId) {
+        let shareIconResponse = await fetch(LOGO_URL);
+        let shareIcon = new File(
+            [await shareIconResponse.blob()],
+            'logo.png',
+            {
+                type: 'image/png',
+                lastModified: new Date().getTime()
+            }
+        );
+
+        await this.#share(sharedRecourseId, [shareIcon]);
+    }
+
+    /**
+     * @param {string} sharedRecourseId
+     * @param {File[]} images
+     *
+     * @returns {Promise<void>}
+     *
+     * @throws {Error}
+     */
+    async #share(sharedRecourseId, images) {
+        let sharedData = {
+            title: this.element.dataset.listName,
+            text: location.hostname,
+            url: this.element.dataset.shareUrl.replace(SHARED_RESOURCE_PLACEHOLDER, sharedRecourseId),
+        };
+
+        if (images.length > 0) {
+            sharedData['files'] = images;
+        }
+        navigator.share(sharedData);
     }
 
     /**
