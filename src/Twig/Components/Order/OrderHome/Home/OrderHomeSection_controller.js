@@ -90,7 +90,7 @@ export default class extends HomeSectionComponent {
         communication.sendMessageToChildController(this.#shareButton, 'showButton');
 
         if (responseData.status === 'ok') {
-            await this.#shareOrders(responseData.data.list_orders_id);
+            await this.#share(responseData.data.list_orders_id);
 
             return;
         }
@@ -105,27 +105,11 @@ export default class extends HomeSectionComponent {
     }
 
     /**
-     * @param {string} sharedRecourseId
-     *
-     * @returns {Promise<void>}
-     * @throws {Error}
-     */
-    async #shareOrders(sharedRecourseId) {
-        try {
-            await this.#shareWithImage(sharedRecourseId);
-        } catch (Error) {
-            console.log(Error);
-            await this.#share(sharedRecourseId, []);
-        }
-    }
-
-    /**
-     * @param {string} sharedRecourseId
-     * @returns {Promise<void>}
+     * @returns {Promise<File>}
      *
      * @throws {Error}
      */
-    async #shareWithImage(sharedRecourseId) {
+    async #getSharedLogo() {
         let shareIconResponse = await fetch(LOGO_URL);
         let shareIcon = new File(
             [await shareIconResponse.blob()],
@@ -136,26 +120,28 @@ export default class extends HomeSectionComponent {
             }
         );
 
-        await this.#share(sharedRecourseId, [shareIcon]);
+        return shareIcon;
     }
 
     /**
      * @param {string} sharedRecourseId
-     * @param {File[]} images
      *
      * @returns {Promise<void>}
      *
      * @throws {Error}
      */
-    async #share(sharedRecourseId, images) {
+    async #share(sharedRecourseId) {
+        const sharedLogo = await this.#getSharedLogo();
+
         let sharedData = {
             title: this.element.dataset.listName,
             text: location.hostname,
             url: this.element.dataset.shareUrl.replace(SHARED_RESOURCE_PLACEHOLDER, sharedRecourseId),
+            files: [sharedLogo]
         };
 
-        if (images.length > 0) {
-            sharedData['files'] = images;
+        if (!navigator.canShare(sharedData)) {
+            delete sharedData.files;
         }
 
         await navigator.share(sharedData);
