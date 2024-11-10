@@ -114,6 +114,7 @@ export default class extends HomeSectionComponent {
         try {
             await this.#shareWithImage(sharedRecourseId);
         } catch (Error) {
+            console.log(Error);
             await this.#share(sharedRecourseId, []);
         }
     }
@@ -156,7 +157,8 @@ export default class extends HomeSectionComponent {
         if (images.length > 0) {
             sharedData['files'] = images;
         }
-        navigator.share(sharedData);
+
+        await navigator.share(sharedData);
     }
 
     /**
