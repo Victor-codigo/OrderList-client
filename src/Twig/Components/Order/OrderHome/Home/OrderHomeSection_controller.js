@@ -3,6 +3,7 @@ import * as locale from 'App/modules/Locale';
 import * as endpoint from 'App/modules/ApiEndpoints';
 import * as communication from 'App/modules/ControllerCommunication';
 import * as bootstrap from 'bootstrap';
+import * as fetch from 'App/modules/Fetch'
 
 export default class extends HomeSectionComponent {
 
@@ -87,12 +88,33 @@ export default class extends HomeSectionComponent {
         communication.sendMessageToChildController(this.#shareWhatsappButton, 'showButton');
 
         if (responseData.status === 'ok') {
-            navigator.share({
-                url: this.element.dataset.shareUrl.replace('--shared_recourse_id--', responseData.data.list_orders_id),
-                text: this.element.dataset.listName
-            });
+            try {
+                let shareIconResponse = await fetch.createRequest(location.protocol + location.host + location + '/build/images/common/logo-white.png');
+                let shareIcon = new File(
+                    await shareIconResponse.blob(),
+                    'logo.png',
+                    {
+                        type: 'image/png',
+                        lastModified: new Date().getTime()
+                    }
+                );
 
-            return;
+                navigator.share({
+                    title: this.element.dataset.listName,
+                    text: location.hostname,
+                    url: this.element.dataset.shareUrl.replace('--shared_recourse_id--', responseData.data.list_orders_id),
+                    files: [shareIcon]
+                });
+
+                return;
+            } catch (Error) {
+                this.#guestUserRestrictionInfoModal.show();
+
+                return;
+            }
+
+
+
         }
 
         if (Object.hasOwn(responseData.errors, 'tryout_route_permissions')) {
