@@ -12,14 +12,14 @@ class OrderHomeSectionComponentLangDto
 
     public readonly string $currentBought;
     public readonly string $totalBought;
-    public readonly string $buttonShareWhatsAppTitle;
-    public readonly string $buttonShareWhatsAppLabel;
+    public readonly string $buttonShareTitle;
+    public readonly string $buttonShareLabel;
 
     public function __construct(
     ) {
         $this->builder = new DtoBuilder([
             'headerBoughtCounter',
-            'buttonShareWhatsApp',
+            'buttonShare',
         ]);
     }
 
@@ -33,12 +33,12 @@ class OrderHomeSectionComponentLangDto
         return $this;
     }
 
-    public function buttonShareWhatsApp(string $label, string $title): self
+    public function buttonShare(string $label, string $title): self
     {
-        $this->builder->setMethodStatus('buttonShareWhatsApp', true);
+        $this->builder->setMethodStatus('buttonShare', true);
 
-        $this->buttonShareWhatsAppLabel = $label;
-        $this->buttonShareWhatsAppTitle = $title;
+        $this->buttonShareLabel = $label;
+        $this->buttonShareTitle = $title;
 
         return $this;
     }

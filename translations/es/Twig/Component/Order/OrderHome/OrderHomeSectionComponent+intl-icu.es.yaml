@@ -4,7 +4,7 @@ home_section_add:
   label: Añade un nuevo pedido
   title: Añade un nuevo pedido a la lista de pedidos
 
-home_section_share_in_whatsapp:
+home_section_share:
   label: Comparte
   title: Comparte la lista
 

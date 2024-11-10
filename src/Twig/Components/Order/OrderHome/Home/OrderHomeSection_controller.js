@@ -5,6 +5,9 @@ import * as communication from 'App/modules/ControllerCommunication';
 import * as bootstrap from 'bootstrap';
 import * as fetch from 'App/modules/Fetch'
 
+const SHARED_RESOURCE_PLACEHOLDER = '--shared_recourse_id--';
+const LOGO_URL = location.protocol + location.host + '/build/images/common/logo-white.png';
+
 export default class extends HomeSectionComponent {
 
     /**
@@ -25,7 +28,7 @@ export default class extends HomeSectionComponent {
     /**
      * @type {HTMLButtonElement}
      */
-    #shareWhatsappButton;
+    #shareButton;
 
     /**
      * @type {bootstrap.Modal}}
@@ -42,20 +45,20 @@ export default class extends HomeSectionComponent {
 
         this.#priceBoughtTag = this.element.querySelector('[data-js-price-bought]');
         this.#priceTotalTag = this.element.querySelector('[data-js-price-total]');
-        this.#shareWhatsappButton = this.element.querySelector('[data-js-share-button]');
+        this.#shareButton = this.element.querySelector('[data-js-share-button]');
         this.#listOrdersId = this.element.dataset.listOrdersId;
         this.#guestUserRestrictionInfoModal = new bootstrap.Modal('#info_guest_user_restriction_modal');
         this.#shareBrowserNotCompatibleInfoModal = new bootstrap.Modal('#info_share_browser_not_compatible_modal');
 
 
         if (this.interactive) {
-            this.#shareWhatsappButton.addEventListener('click', this.#shareWhatsAppCreate.bind(this));
+            this.#shareButton.addEventListener('click', this.#shareCreate.bind(this));
             this.#updateListOrderBoughtPrice();
         }
     }
 
     disconnect() {
-        this.#shareWhatsappButton.removeEventListener('click', this.#shareWhatsAppCreate);
+        this.#shareButton.removeEventListener('click', this.#shareCreate);
     }
 
     async #updateListOrderBoughtPrice() {
@@ -76,45 +79,19 @@ export default class extends HomeSectionComponent {
     /**
      * @throws {Error}
      */
-    async #shareWhatsAppCreate() {
+    async #shareCreate() {
         if (!navigator.share) {
             this.#shareBrowserNotCompatibleInfoModal.show();
 
             return;
         }
 
-        communication.sendMessageToChildController(this.#shareWhatsappButton, 'showButtonLoading');
+        communication.sendMessageToChildController(this.#shareButton, 'showButtonLoading');
         const responseData = await endpoint.createListOrdersShare(this.#listOrdersId);
-        communication.sendMessageToChildController(this.#shareWhatsappButton, 'showButton');
+        communication.sendMessageToChildController(this.#shareButton, 'showButton');
 
         if (responseData.status === 'ok') {
-            try {
-                let shareIconResponse = await fetch.createRequest(location.protocol + location.host + location + '/build/images/common/logo-white.png');
-                let shareIcon = new File(
-                    await shareIconResponse.blob(),
-                    'logo.png',
-                    {
-                        type: 'image/png',
-                        lastModified: new Date().getTime()
-                    }
-                );
-
-                navigator.share({
-                    title: this.element.dataset.listName,
-                    text: location.hostname,
-                    url: this.element.dataset.shareUrl.replace('--shared_recourse_id--', responseData.data.list_orders_id),
-                    files: [shareIcon]
-                });
-
-                return;
-            } catch (Error) {
-                this.#guestUserRestrictionInfoModal.show();
-
-                return;
-            }
-
-
-
+            this.#share(responseData.data.list_orders_id);
         }
 
         if (Object.hasOwn(responseData.errors, 'tryout_route_permissions')) {
@@ -124,6 +101,37 @@ export default class extends HomeSectionComponent {
         }
 
         throw new Error(responseData.message);
+    }
+
+    /**
+     * @param {string} sharedRecourseId
+     *
+     * @returns {Promise<void>}
+     * @throws {Error}
+     */
+    async #share(sharedRecourseId) {
+        try {
+            let shareIconResponse = await fetch.createRequest(LOGO_URL);
+            let shareIcon = new File(
+                [await shareIconResponse.blob()],
+                'logo.png',
+                {
+                    type: 'image/png',
+                    lastModified: new Date().getTime()
+                }
+            );
+
+            navigator.share({
+                title: this.element.dataset.listName,
+                text: location.hostname,
+                url: this.element.dataset.shareUrl.replace(SHARED_RESOURCE_PLACEHOLDER, sharedRecourseId),
+                files: [shareIcon]
+            });
+
+            return;
+        } catch (Error) {
+            throw new Error(Error.message);
+        }
     }
 
     /**

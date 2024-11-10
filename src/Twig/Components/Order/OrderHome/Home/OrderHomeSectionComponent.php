@@ -21,7 +21,7 @@ class OrderHomeSectionComponent extends TwigComponent
 {
     public OrderHomeSectionComponentLangDto $lang;
     public OrderHomeSectionComponentDto|TwigComponentDtoInterface $data;
-    public readonly ButtonLoadingComponentDto $buttonShareWhatsApp;
+    public readonly ButtonLoadingComponentDto $buttonShare;
     public ModalComponentDto $guestUserRestrictionInfoModalDto;
     public ModalComponentDto $shareBrowserNotCompatibleInfoModalDto;
 
@@ -34,7 +34,7 @@ class OrderHomeSectionComponent extends TwigComponent
     {
         $this->data = $data;
 
-        $this->buttonShareWhatsApp = $this->createButtonShareWhatsApp();
+        $this->buttonShare = $this->createButtonShare();
         $this->guestUserRestrictionInfoModalDto = $this->createInfoModalDto(
             'info_guest_user_restriction_modal',
             $this->translate('home_section_info_guest_user.share.guest_restriction')
@@ -46,14 +46,14 @@ class OrderHomeSectionComponent extends TwigComponent
         $this->loadTranslation();
     }
 
-    private function createButtonShareWhatsApp(): ButtonLoadingComponentDto
+    private function createButtonShare(): ButtonLoadingComponentDto
     {
         return new ButtonLoadingComponentDto(
             'data-js-share-button',
             'button',
             '',
             '',
-            $this->translate('home_section_share_in_whatsapp.title'),
+            $this->translate('home_section_share.title'),
             'common/share-icon.svg',
         );
     }
@@ -84,9 +84,9 @@ class OrderHomeSectionComponent extends TwigComponent
             $this->translate('home_header.currentBought'),
             $this->translate('home_header.totalBought'),
         )
-        ->buttonShareWhatsApp(
-            $this->translate('home_section_share_in_whatsapp.label'),
-            $this->translate('home_section_share_in_whatsapp.title'),
+        ->buttonShare(
+            $this->translate('home_section_share.label'),
+            $this->translate('home_section_share.title'),
         )
         ->build();
     }

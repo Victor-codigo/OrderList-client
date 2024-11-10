@@ -4,7 +4,7 @@ home_section_add:
   label: Add a new order
   title: Add a new order to the list
 
-home_section_share_in_whatsapp:
+home_section_share:
   label: Share
   title: Share the list
 
