@@ -710,5 +710,7 @@ export async function createListOrdersShare(recourseId) {
         'list_orders_id': recourseId
     });
 
-    return await response.json();
+    const responseJson = await fetch.manageResponseJson(response, null, null, null,);
+
+    return responseJson;
 }
