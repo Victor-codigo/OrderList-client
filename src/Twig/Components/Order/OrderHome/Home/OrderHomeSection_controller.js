@@ -105,25 +105,6 @@ export default class extends HomeSectionComponent {
     }
 
     /**
-     * @returns {Promise<File>}
-     *
-     * @throws {Error}
-     */
-    async #getSharedLogo() {
-        let shareIconResponse = await fetch(LOGO_URL);
-        let shareIcon = new File(
-            [await shareIconResponse.blob()],
-            'logo.png',
-            {
-                type: 'image/png',
-                lastModified: new Date().getTime()
-            }
-        );
-
-        return shareIcon;
-    }
-
-    /**
      * @param {string} sharedRecourseId
      *
      * @returns {Promise<void>}
@@ -131,18 +112,11 @@ export default class extends HomeSectionComponent {
      * @throws {Error}
      */
     async #share(sharedRecourseId) {
-        const sharedLogo = await this.#getSharedLogo();
-
         let sharedData = {
             title: this.element.dataset.listName,
             text: location.hostname,
             url: this.element.dataset.shareUrl.replace(SHARED_RESOURCE_PLACEHOLDER, sharedRecourseId),
-            files: [sharedLogo]
         };
-
-        if (!navigator.canShare(sharedData)) {
-            delete sharedData.files;
-        }
 
         await navigator.share(sharedData);
     }
