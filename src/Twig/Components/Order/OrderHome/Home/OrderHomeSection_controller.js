@@ -90,7 +90,7 @@ export default class extends HomeSectionComponent {
         communication.sendMessageToChildController(this.#shareButton, 'showButton');
 
         if (responseData.status === 'ok') {
-            await this.#share(responseData.data.list_orders_id);
+            await this.#share(responseData.data.shared_recourse_id);
 
             return;
         }
