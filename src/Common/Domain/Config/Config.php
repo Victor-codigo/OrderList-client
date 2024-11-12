@@ -56,4 +56,39 @@ class Config
      * Maximum number of item per page.
      */
     public const PAGINATION_ITEMS_MAX = 20;
+
+    /**
+     * Determines if between the client and the api, there is a proxy.
+     */
+    public const bool HAS_PROXY = true;
+
+    /**
+     * Gets the HTTP configuration for connections with the api.
+     *
+     * @return array{}|array{
+     *  proxy: string,
+     *  verify_peer: boolean,
+     *  verify_host: boolean,
+     * }
+     */
+    public static function getConfigurationHttp(): array
+    {
+        if (!self::HAS_PROXY) {
+            return [];
+        }
+
+        if (self::CLIENT_PROTOCOL === 'http') {
+            return [
+                'proxy' => 'http://proxy:80',
+                'verify_peer' => false,
+                'verify_host' => false,
+            ];
+        }
+
+        return [
+            'proxy' => 'https://proxy:80',
+            'verify_peer' => true,
+            'verify_host' => true,
+        ];
+    }
 }
