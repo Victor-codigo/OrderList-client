@@ -8,6 +8,9 @@ $primary-dark: $blue-300;
 $danger-dark: $red-400;
 $success-dark: $green-400;
 
+$border-shadow-color: $gray-400;
+$border-shadow-color-dark: var(--bs-border-color);
+
 // Then add them to your custom theme-colors map, together with any additional colors you might need
 $theme-colors: (
     primary: $primary,

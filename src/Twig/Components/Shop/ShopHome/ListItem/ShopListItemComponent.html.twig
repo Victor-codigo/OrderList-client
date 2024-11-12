@@ -1,4 +1,4 @@
-<li class="list-shop-item  list-shop-item-action  d-flex  flex-row  flex-wrap  p-0  mt-1  mb-1  border  border-1  border-light-subtle"
+<li class="list-shop-item  list-shop-item-action  d-flex  flex-row  flex-wrap  p-0  mt-1  mb-1  border  border-1  border-light-subtle  shop-list-item"
     data-controller="ShopListItemComponent"
     data-item-data="{{ productDataJson }}"
     data-js-list-item>
@@ -47,7 +47,7 @@
 
     <div class="dropdown  dropstart">
         <button type="button"
-                class="btn border-light-subtle  btn-outline-primary  button-primary-color-dark  rounded-0  h-100"
+                class="btn border-light-subtle  btn-outline-primary  button-primary-color-dark  rounded-0  h-100  button-open-menu"
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
 
@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
             <li>
                 <button type="button"
-                        class="d-flex  flex-row  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-primary  button-primary-color-dark  shop-list-item__button  shop-list-item__button--menu"
+                        class="d-flex  flex-row  btn  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-primary  product-list-item__button  product-list-item__button--menu"
                         value="{{ data.id }}"
                         alt="{{ lang.modifyItemButtonAlt }}"
                         title="{{ lang.modifyItemButtonTitle }}"
@@ -81,7 +81,7 @@
             <li>
                 <button type="button"
                         data-js-remove-button
-                        class="d-flex  flex-row  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-danger  shop-list-item__button  shop-list-item__button--menu"
+                        class="d-flex  flex-row  btn  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-danger  shop-list-item__button  shop-list-item__button--menu"
                         value="{{ data.id }}"
                         alt="{{ lang.removeItemButtonAlt }}"
                         title="{{ lang.removeItemButtonTitle }}"

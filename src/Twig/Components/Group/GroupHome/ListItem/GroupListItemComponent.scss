@@ -1,3 +1,15 @@
+[data-bs-theme="light"] {
+    .list-groups__item {
+        border-bottom: 1px solid $border-shadow-color !important;
+    }
+}
+
+[data-bs-theme="dark"] {
+    .list-groups__item {
+        border-bottom: 1px solid $border-shadow-color-dark !important;
+    }
+}
+
 .list-groups__item {
     .group-list-item__image {
         width: 75px;
@@ -38,6 +50,12 @@
         &--menu {
             width: 100%;
         }
+    }
+
+    .button-open-menu {
+        border-top: 0;
+        border-bottom: 0;
+        border-right: 0;
     }
 }
 
