@@ -9,7 +9,7 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 class Config
 {
     public const CLIENT_PROTOCOL = 'http';
-    public const API_DOMAIN = 'http://orderlist.api';
+    public const API_DOMAIN = 'http://nginx-api';
     public const CLIENT_DOMAIN_NAME = 'Order List';
     public const COOKIE_TOKEN_SESSION_NAME = 'TOKENSESSION';
     public const SESSION_KEEP_ALIVE = 5_184_000; // 60 days
