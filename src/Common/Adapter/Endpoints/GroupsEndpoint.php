@@ -11,16 +11,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class GroupsEndpoint extends EndpointBase
 {
-    public const GET_GROUP_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
-    public const GET_GROUP_BY_ID = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data';
-    public const GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
-    public const GET_GROUP_USERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
-    public const POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
-    public const POST_GROUP_USER_ADD = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
-    public const PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/modify';
-    public const DELETE_GROUP_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
-    public const DELETE_GROUP_USERS_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
-    public const PUT_GROUP_USER_CHANGE_GRANTS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user/role';
+    public const string GET_GROUP_BY_NAME = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data/name/{group_name}';
+    public const string GET_GROUP_BY_ID = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/data';
+    public const string GET_USER_GROUPS_GET_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user-groups';
+    public const string GET_GROUP_USERS_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
+    public const string GET_GROUP_USERS_ADMIN_DATA = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/admins/{group_id}';
+    public const string POST_GROUP_CREATE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
+    public const string POST_GROUP_USER_ADD = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
+    public const string PUT_GROUP_MODIFY = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/modify';
+    public const string DELETE_GROUP_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups';
+    public const string DELETE_GROUP_USERS_DELETE = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user';
+    public const string PUT_GROUP_USER_CHANGE_GRANTS = Endpoints::API_DOMAIN.'/api/v'.Endpoints::API_VERSION.'/groups/user/role';
 
     private static ?self $instance = null;
 
@@ -451,6 +452,48 @@ class GroupsEndpoint extends EndpointBase
             ],
                 $tokenSession
             )
+        );
+    }
+
+    /**
+     * @return array<{
+     *    data: array{
+     *      is_admin: bool,
+     *      admins: string[]
+     *    },
+     *    errors: array<string, mixed>
+     * }>
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     * @throws RequestException
+     */
+    public function groupGetUsersAdminId(string $groupId, string $tokenSession): array
+    {
+        $response = $this->requestGroupUsersAdminId($groupId, $tokenSession);
+
+        return $this->apiResponseManage($response,
+            fn (array $responseDataError) => [
+                'data' => [],
+                'errors' => $responseDataError,
+            ],
+            null,
+            fn (array $responseDataNoContent) => [
+                'data' => [],
+                'errors' => $responseDataNoContent,
+            ]
+        );
+    }
+
+    /**
+     * @throws UnsupportedOptionException
+     */
+    private function requestGroupUsersAdminId(string $groupId, string $tokenSession): HttpClientResponseInterface
+    {
+        return $this->httpClient->request(
+            'GET',
+            str_replace('{group_id}', $groupId, self::GET_GROUP_USERS_ADMIN_DATA),
+            HTTP_CLIENT_CONFIGURATION::json([], $tokenSession)
         );
     }
 }

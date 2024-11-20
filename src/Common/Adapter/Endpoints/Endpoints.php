@@ -122,11 +122,35 @@ class Endpoints implements EndpointsInterface
         return ListOrdersEndpoints::getInstance($this->httpClient)->listOrdersRemoveOrders($groupId, $listsOrdersId, $tokenSession);
     }
 
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
     public function groupGetDataByName(string $groupName, string $tokenSession): array
     {
         $groupNameDecoded = $this->decodeUrlName($groupName);
 
         return GroupsEndpoint::getInstance($this->httpClient)->groupGetDataByName($groupNameDecoded, $tokenSession);
+    }
+
+    /**
+     * @return array{
+     *    data: array{
+     *      is_admin: bool,
+     *      admins: string[]
+     *    },
+     *    errors: array<string, mixed>
+     * }
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     * @throws RequestException
+     */
+    public function groupGetUsersAdminId(string $groupId, string $tokenSession): array
+    {
+        return GroupsEndpoint::getInstance($this->httpClient)->groupGetUsersAdminId($groupId, $tokenSession);
     }
 
     /**

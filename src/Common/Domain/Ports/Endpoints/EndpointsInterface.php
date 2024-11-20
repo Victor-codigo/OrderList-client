@@ -72,7 +72,28 @@ interface EndpointsInterface
      */
     public function listOrdersRemoveOrders(string $groupId, array $listsOrdersId, string $tokenSession): array;
 
+    /**
+     * @return array<{
+     *    data: array<string, mixed>,
+     *    errors: array<string, mixed>
+     * }>
+     */
     public function groupGetDataByName(string $groupName, string $tokenSession): array;
+
+    /**
+     * @return array{
+     *    data: array{
+     *      is_admin: bool,
+     *      admins: string[]
+     *    },
+     *    errors: array<string, mixed>
+     * }
+     *
+     * @throws UnsupportedOptionException
+     * @throws RequestUnauthorizedException
+     * @throws RequestException
+     */
+    public function groupGetUsersAdminId(string $groupId, string $tokenSession): array;
 
     /**
      * @param string[] $groupsId
