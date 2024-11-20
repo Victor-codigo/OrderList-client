@@ -14,6 +14,7 @@ use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\GroupUsers\GroupUsersHome\GroupUsersHomeComponentBuilder;
 use App\Twig\Components\GroupUsers\GroupUsersHome\Home\GroupUsersHomeSectionComponentDto;
 use Common\Adapter\Endpoints\GroupsEndpoint;
+use Common\Adapter\Events\Exceptions\GroupHasNotAdminException;
 use Common\Domain\Config\Config;
 use Common\Domain\ControllerUrlRefererRedirect\ControllerUrlRefererRedirect;
 use Common\Domain\ControllerUrlRefererRedirect\FLASH_BAG_TYPE_SUFFIX;
@@ -45,7 +46,7 @@ class GroupUsersHomeController extends AbstractController
         private EndpointsInterface $endpoints,
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
-        private GetPageTitleService $getPageTitleService
+        private GetPageTitleService $getPageTitleService,
     ) {
     }
 
@@ -70,6 +71,11 @@ class GroupUsersHomeController extends AbstractController
             $requestDto->getTokenSessionOrFail()
         );
 
+        $isUserSessionAdminOfTheGroup = $this->isUserSessionAdminOfTheGroup(
+            $requestDto->groupData->id,
+            $requestDto->getTokenSessionOrFail()
+        );
+
         $groupHomeComponentDto = $this->createGroupHomeComponentDto(
             $requestDto,
             $groupUserAddForm,
@@ -80,7 +86,8 @@ class GroupUsersHomeController extends AbstractController
             $searchBarFormFields[SEARCHBAR_FORM_FIELDS::SECTION_FILTER],
             $searchBarForm->getCsrfToken(),
             $groupUsersData['users'],
-            $groupUsersData['pages_total']
+            $groupUsersData['pages_total'],
+            $isUserSessionAdminOfTheGroup
         );
 
         return $this->renderTemplate($groupHomeComponentDto);
@@ -162,6 +169,17 @@ class GroupUsersHomeController extends AbstractController
         return $groupUsersData['data'];
     }
 
+    private function isUserSessionAdminOfTheGroup(string $groupId, string $tokenSession): bool
+    {
+        $groupUsersAdminData = $this->endpoints->groupGetUsersAdminId($groupId, $tokenSession);
+
+        if (!empty($groupUsersAdminData['errors'])) {
+            throw GroupHasNotAdminException::fromMessage(sprintf('This group ahs no user admin: group id: [%s]', $groupId));
+        }
+
+        return $groupUsersAdminData['data']['is_admin'];
+    }
+
     private function createGroupHomeComponentDto(
         RequestDto $requestDto,
         FormInterface $groupUserAddForm,
@@ -173,6 +191,7 @@ class GroupUsersHomeController extends AbstractController
         string $searchBarCsrfToken,
         array $groupUsersData,
         int $pagesTotal,
+        bool $isUserSessionAdminOfTheGroup,
     ): GroupUsersHomeSectionComponentDto {
         $groupHomeMessagesError = $this->sessionFlashBag->get(
             $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_ERROR->value
@@ -180,7 +199,6 @@ class GroupUsersHomeController extends AbstractController
         $groupHomeMessagesOk = $this->sessionFlashBag->get(
             $requestDto->request->attributes->get('_route').FLASH_BAG_TYPE_SUFFIX::MESSAGE_OK->value
         );
-        $isUserSessionAdminOfTheGroup = $this->isUserSessionAdminOfTheGroup($requestDto->getUserSessionData()->id, $groupUsersData);
 
         return (new GroupUsersHomeComponentBuilder())
             ->title(
@@ -241,27 +259,6 @@ class GroupUsersHomeController extends AbstractController
                 !$isUserSessionAdminOfTheGroup
             )
             ->build();
-    }
-
-    /**
-     * @param GroupUserDataResponse[] $groupUsersData
-     */
-    private function isUserSessionAdminOfTheGroup(string $userSessionId, array $groupUsersData): bool
-    {
-        $groupUserDataSession = array_values(array_filter(
-            $groupUsersData,
-            fn (GroupUserDataResponse $groupUserData) => $groupUserData->id === $userSessionId
-        ));
-
-        if (empty($groupUserDataSession)) {
-            return false;
-        }
-
-        if ($groupUserDataSession[0]->admin) {
-            return true;
-        }
-
-        return false;
     }
 
     private function renderTemplate(GroupUsersHomeSectionComponentDto $groupUsersHomeSectionComponent): Response
