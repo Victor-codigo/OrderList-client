@@ -46,10 +46,10 @@ class UserRememberPasswordChangeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $validForm = true;
             $this->formValid($form, $sessionToken);
-        }
 
-        if (empty($form->getErrors())) {
-            return $this->renderPasswordChanged();
+            if (empty($form->getErrors())) {
+                return $this->renderPasswordChanged();
+            }
         }
 
         return $this->renderPasswordChange($form, $validForm);
