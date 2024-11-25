@@ -67,6 +67,11 @@ export default class extends Controller {
         unit: ''
     };
 
+    /**
+     * @type {HTMLInputElement}
+     */
+    #orderModifyButton;
+
     connect() {
         this.#orderProductAndShopTag = this.element.querySelector('[data-controller="OrderProductAndShopComponent"]');
         this.#productSelectName = this.#orderProductAndShopTag.querySelector('[data-js-product-select-name]');
@@ -75,6 +80,7 @@ export default class extends Controller {
         this.#totalTag = this.element.querySelector('[data-js-total]');
         this.#amountUnitTag = this.element.querySelector('[data-js-amount-unit]');
         this.#orderIdTag = this.element.querySelector('[data-js-order-id]');
+        this.#orderModifyButton = this.element.querySelector('[data-js-order-modify-button]');
 
         this.element.addEventListener('submit', this.#handleFormSubmit.bind(this));
         this.#amountInputTag.addEventListener('input', this.#handleAmountInputInputEvent.bind(this));
@@ -227,6 +233,7 @@ export default class extends Controller {
     }
 
     handleOrderProductSelected() {
+        this.#orderModifyButton.setAttribute('disabled', 'disabled');
         const chainCurrentName = this.modalManager.getChainCurrent().getName();
 
         this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.orderModify.open.productsListModal);
@@ -253,6 +260,8 @@ export default class extends Controller {
         this.#calculatePrice(price);
         this.#setAmountUnit(unit);
         this.#validateProductInput();
+
+        this.#orderModifyButton.removeAttribute('disabled');
     }
 
     /**

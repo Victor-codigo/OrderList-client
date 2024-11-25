@@ -1,42 +1,49 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}
-			{% endblock %}
-		</title>
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<link rel="icon" type="image/x-icon" href="{{ asset('build/images/common/favicon.png') }}">
-
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
+<head>
+	<meta charset="UTF-8">
+	<title>
+		{% block title %}
 		{% endblock %}
+	</title>
 
-		{% block javascripts %}
-			{{ encore_entry_script_tags('appNotDeferred', attributes = { defer: false }) }}
-			{{ encore_entry_script_tags('app') }}
-		{% endblock %}
-	</head>
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1.0">
 
-	<body class="d-flex  flex-column  min-vh-100  justify-content-between  background">
+	<link rel="icon"
+		  type="image/x-icon"
+		  href="{{ asset('build/images/common/favicon.png') }}">
 
-		{{ component('CookiesConsentComponent') }}
+	{% block stylesheets %}
+	{{ encore_entry_link_tags('app') }}
+	{% endblock %}
+
+	{% block javascripts %}
+	{{ encore_entry_script_tags('appNotDeferred', attributes = { defer: false }) }}
+	{{ encore_entry_script_tags('app') }}
+	{% endblock %}
+</head>
+
+<body class="d-flex  flex-column  min-vh-100  justify-content-between  background">
+
+	{{ component('CookiesConsentComponent') }}
+
+	<header>
 
 		{% block navigation %}
 
-			{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
+		{{ component('NavigationBarComponent', { data: NavigationBarComponent }) }}
 
 		{% endblock navigation %}
 
-		{% block body %}
-		{% endblock %}
+	</header>
 
-		{{ component('FooterComponent') }}
+	{% block body %}
+	{% endblock %}
 
-	</body>
+	{{ component('FooterComponent') }}
+
+</body>
 
 </html>

@@ -38,6 +38,7 @@ class ShopInfoComponent extends ItemInfoComponent
                 $this->translate('image.title'),
                 $this->translate('image.alt'),
                 $this->translate('created_on'),
+                null
             )
             ->description(
                 $this->translate('description.label'),

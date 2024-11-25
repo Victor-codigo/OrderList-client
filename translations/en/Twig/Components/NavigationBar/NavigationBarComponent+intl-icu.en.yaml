@@ -15,6 +15,7 @@ navigation:
 
   user_menu:
     title: User menu
+    alt: User menu
 
   profile:
     label: Profile

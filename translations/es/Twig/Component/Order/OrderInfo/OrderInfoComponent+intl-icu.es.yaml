@@ -17,13 +17,10 @@ bought:
   not_bought_icon:
     title: Pedido no comprado
 
-product:
-  description:
-    label: Producto
+info:
+  label: "Info:"
 
 shop:
-  description:
-    label: Tienda
   price:
     label: Precio
 

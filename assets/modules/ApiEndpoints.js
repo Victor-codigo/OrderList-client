@@ -230,9 +230,14 @@ export async function createProduct(form, submitter) {
  * @param {string[]} shopsId
  *
  * @returns {Promise<{
-*      'page': number,
-*      'pages_total': number,
-*      'products_shops_prices': object[]
+ *      'page': number,
+ *      'pages_total': number,
+ *      'products_shops_prices': [{
+ *          'price': number,
+ *          'product_id': string,
+ *          'shop_id': string,
+ *          'unit': string
+ *      }]
 * }>}
 * @throws Error
 */
@@ -253,7 +258,15 @@ export async function getProductShopsPricesData(groupId, productsId, shopsId) {
                 }
             }
         },
-        null,
+        (responseDataError) => {
+            return {
+                data: {
+                    page: 1,
+                    pages_total: 0,
+                    products_shops_prices: []
+                }
+            }
+        },
         (responseDataOk) => {
             return {
                 data: {

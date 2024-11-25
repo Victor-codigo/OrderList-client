@@ -17,13 +17,10 @@ bought:
   not_bought_icon:
     title: Order not bought
 
-product:
-  description:
-    label: Product
+info:
+  label: "Info:"
 
 shop:
-  description:
-    label: Shop
   price:
     label: Price
 

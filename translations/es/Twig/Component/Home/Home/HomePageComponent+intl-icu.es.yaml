@@ -20,8 +20,9 @@ logo:
   title: Ir a {domain_name}
 
 user_menu:
-  logo:
-    title: Ir a {domain_name}
+  user:
+    title: User menu
+    alt: User menu
 
   profile:
     label: Perfil

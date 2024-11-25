@@ -40,6 +40,7 @@ class ListOrdersInfoComponent extends ItemInfoComponent
                 $this->translate('image.title'),
                 $this->translate('image.alt'),
                 $this->translate('created_on'),
+                null
             )
             ->dateToBuy(
                 $this->translate('date_to_buy.label'),

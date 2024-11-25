@@ -12,7 +12,7 @@
 <nav class="d-flex  flex-row  justify-content-between  container-lg  p-3  navigation"
      data-js-navigation-bar>
     <a href="{{ path('home') }}">
-        <img class="navigation__logo  ms-4"
+        <img class="navigation__logo  ms-3  ms-lg-4"
              src="{{ asset('build/images/common/logo-white.png') }}"
              title="{{ 'logo.title'|trans({'%domain_name%': data.domainName}) }}"
              alt="{{ 'logo.title'|trans({'%domain_name%': data.domainName}) }}"
@@ -76,10 +76,12 @@
 
                     {% else %}
 
-                    <img class="btn-user__image"
-                         src="{{ userButton.image|escape('html_attr') }}"
-                         title="{{ userButton.title }}"
-                         alt="{{ userButton.alt }}">
+                    <div data-js-user-avatar-image>
+                        <img class="btn-user__image"
+                             src="{{ userButton.image|escape('html_attr') }}"
+                             title="{{ userButton.title }}"
+                             alt="{{ userButton.alt }}">
+                    </div>
 
                     {% endif %}
 

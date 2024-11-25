@@ -42,11 +42,9 @@
 
 
 @include media-breakpoint-down(sm) {
-    .shop-list-item {
-        .list-shop-item {
-            .shop-list-item__image {
-                display: none;
-            }
+    .list-shop-item {
+        .shop-list-item__image {
+            display: none !important;
         }
     }
 }

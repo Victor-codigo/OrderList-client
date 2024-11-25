@@ -10,7 +10,13 @@
 				data-bs-target=".multi-collapse"
 				aria-expanded="false"
 				aria-controls="seach_menu">
-			{{ lang.searchLabel }}
+			<span class="text-secondary">
+				{{ lang.searchLabel }}
+			</span>
+			&nbsp;
+			<span>
+				{{ data.searchValue }}
+			</span>
 		</button>
 	</div>
 	<div class="collapse multi-collapse  search_menu"

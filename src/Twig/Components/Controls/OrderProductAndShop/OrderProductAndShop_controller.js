@@ -57,6 +57,22 @@ export default class extends Controller {
      */
     #unit;
 
+
+    /**
+     * @type {object[]}
+     */
+    #productShopsData;
+
+    /**
+     * @type {[{
+     *  price: number,
+     *  product_id: string,
+     *  shop_id: string,
+     *  unit: string
+     * }]}
+     */
+    #productShopsPrices;
+
     connect() {
         this.#productSelectIdTag = this.element.querySelector('[data-js-product-id-select]');
         this.#productSelectNameTag = this.element.querySelector('[data-js-product-select-name]');
@@ -66,6 +82,7 @@ export default class extends Controller {
 
         this.#productSelectButtonTag.addEventListener('click', this.#sendMessageProductSelectClickedToParent.bind(this));
         this.#shopSelectTag.addEventListener('change', this.#handleShopChangeEvent.bind(this));
+        this.#shopSelectTag.addEventListener('click', this.#handleShopClickEvent.bind(this));
     }
 
     disconnect() {
@@ -83,9 +100,9 @@ export default class extends Controller {
         this.#clearProductShopPriceData();
         this.#productSelectIdTag.value = productId;
         this.#productSelectNameTag.value = productName;
+        this.#productShopsPrices = await this.#loadProductShopPrices(groupId, productId);
         await this.#loadProductShops(groupId, productId, shopId);
-        await this.#loadProductShopPrice(groupId, productId, this.#shopSelectTag.value);
-
+        this.#setShopPrice(this.#productShopsPrices, this.#shopSelectTag.value);
 
         this.#sendMessageShopSelectedTpParent();
     }
@@ -111,7 +128,21 @@ export default class extends Controller {
             true,
         );
 
-        const options = productShopsData.shops.map((shop) => {
+        this.#productShopsData = productShopsData.shops;
+        loadingSpinner.hidden = true;
+        this.#setShopSelectTagOptions(this.#productShopsData, shopIdSelected, false);
+
+        this.#groupId = groupId;
+        this.#productId = productId;
+    }
+
+    /**
+     * @param {object[]} shops
+     * @param {string} shopIdSelected
+     * @param {boolean} setPrice
+     */
+    #setShopSelectTagOptions(shops, shopIdSelected, setPrice) {
+        const options = shops.map((shop) => {
             const option = document.createElement('option');
 
             if (shopIdSelected === shop.id) {
@@ -121,39 +152,83 @@ export default class extends Controller {
             option.value = shop.id;
             option.textContent = shop.name;
 
+            if (setPrice) {
+                const productShopPrice = this.#getProductShopPriceById(shop.id);
+                const price = locale.formatPriceCurrencyAndUnit(productShopPrice.price, productShopPrice.unit);
+                option.textContent = `${shop.name} - ${price}`;
+            }
+
+
             return option;
         });
+
         this.#shopSelectTag.replaceChildren(...options);
-
-        loadingSpinner.hidden = true;
         this.#shopSelectTag.disabled = options.length === 0;
+    }
 
-        this.#groupId = groupId;
-        this.#productId = productId;
+    /**
+     * @param {string} shopId
+     *
+     * @returns {null|{
+     *  price: number,
+     *  product_id: string,
+     *  shop_id: string,
+     *  unit: string
+     * }}
+     */
+    #getProductShopPriceById(shopId) {
+        const shopPrice = this.#productShopsPrices.filter((productShopPrice) => productShopPrice.shop_id === shopId);
+
+        if (shopPrice.length === 0) {
+            return null;
+        }
+
+        return shopPrice[0];
     }
 
     /**
      * @param {string} groupId
      * @param {string} productId
+     *
+     * @returns {Promise<[{
+     *  price: number,
+     *  product_id: string,
+     *  shop_id: string,
+     *  unit: string
+     * }]>}
+     */
+    async #loadProductShopPrices(groupId, productId) {
+        let productsShopsPrice = await apiEndpoint.getProductShopsPricesData(groupId, [productId], []);
+
+        return productsShopsPrice.products_shops_prices;
+    }
+
+    /**
+     * @param {[{
+     *  price: number,
+     *  product_id: string,
+     *  shop_id: string,
+     *  unit: string
+     * }]} productsShopsPrice,
      * @param {string} shopId
      */
-    async #loadProductShopPrice(groupId, productId, shopId) {
-        try {
-            const productsShopsPrice = await apiEndpoint.getProductShopsPricesData(groupId, [productId], []);
-            const productShopPriceCurrent = productsShopsPrice.products_shops_prices.find((productShopPrice) => productShopPrice.shop_id === shopId);
+    #setShopPrice(productsShopsPrice, shopId) {
+        const productShopPriceCurrent = productsShopsPrice.find((productShopPrice) => productShopPrice.shop_id === shopId);
 
-            this.#productPriceTag.textContent = '';
-            this.#unit = '';
-            if (productShopPriceCurrent.price !== null) {
-                this.#productPriceTag.textContent = locale.formatPriceCurrencyAndUnit(productShopPriceCurrent.price, productShopPriceCurrent.unit);
-                this.#unit = productShopPriceCurrent.unit
-            }
+        this.#productPriceTag.textContent = '';
+        this.#unit = '';
 
-            this.#shopId = shopId;
-            this.#price = parseFloat(productShopPriceCurrent.price);
-        } catch (Error) {
-            this.#productPriceTag.innerHTML = '';
+        if (typeof productShopPriceCurrent === 'undefined') {
+            return;
         }
+
+        if (productShopPriceCurrent.price !== null) {
+            this.#productPriceTag.textContent = locale.formatPriceCurrencyAndUnit(productShopPriceCurrent.price, productShopPriceCurrent.unit);
+            this.#unit = productShopPriceCurrent.unit
+        }
+
+        this.#shopId = shopId;
+        this.#price = productShopPriceCurrent.price;
     }
 
     #clear() {
@@ -200,11 +275,16 @@ export default class extends Controller {
      */
     async #handleShopChangeEvent(event) {
         this.#clearShopPriceData();
-        if (event.currentTarget instanceof HTMLSelectElement) {
-            await this.#loadProductShopPrice(this.#groupId, this.#productId, event.currentTarget.value);
-        }
-
+        this.#setShopPrice(this.#productShopsPrices, event.currentTarget.value);
         this.#sendMessageShopSelectedTpParent();
+        this.#setShopSelectTagOptions(this.#productShopsData, event.currentTarget.value, false);
+    }
+
+    /**
+     * @param {PointerEvent} event
+     */
+    #handleShopClickEvent(event) {
+        this.#setShopSelectTagOptions(this.#productShopsData, event.currentTarget.value, true);
     }
 
     #sendMessageProductSelectClickedToParent() {

@@ -1,4 +1,4 @@
-<li class="list-shop-item  list-shop-item-action  d-flex  flex-row  flex-wrap  p-0  mt-1  mb-1  border  border-1  border-light-subtle  shop-list-item"
+<li class="list-shop-item  list-shop-item-action  d-flex  flex-row  p-0  mt-1  mb-1  border  border-1  border-light-subtle  shop-list-item"
     data-controller="ShopListItemComponent"
     data-item-data="{{ productDataJson }}"
     data-js-list-item>
@@ -27,7 +27,7 @@
              data-js-item-image>
 
         {% endif %}
-        <p class="fs-5  my-2  mx-2"
+        <p class="fs-5  my-2  mx-2  text-break"
            data-js-item-name>
             {{ data.name }}
         </p>
@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
             <li>
                 <button type="button"
-                        class="d-flex  flex-row  btn  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-primary  product-list-item__button  product-list-item__button--menu"
+                        class="d-flex  flex-row  btn  px-3  py-3  rounded-0  border  border-0  border-light-subtle  btn-outline-primary  shop-list-item__button  shop-list-item__button--menu"
                         value="{{ data.id }}"
                         alt="{{ lang.modifyItemButtonAlt }}"
                         title="{{ lang.modifyItemButtonTitle }}"

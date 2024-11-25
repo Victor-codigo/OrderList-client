@@ -143,6 +143,11 @@
             height: 40px;
             width: 40px;
         }
+
+        .user-profile__name {
+            display: block;
+            max-width: 5rem;
+        }
     }
 
     .user-menu {
@@ -154,10 +159,6 @@
             border-color: $navigationBarColor;
             background-color: $navigationBarColor;
             text-decoration: none;
-
-            .user-profile__name {
-                margin-left: 5px;
-            }
 
             .menu-item__name {
                 margin-left: 5px;
@@ -221,6 +222,10 @@
         &:hover {
             background-color: $blue-400;
         }
+    }
+
+    .navbar-logo-center {
+        visibility: hidden;
     }
 }
 

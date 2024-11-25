@@ -3,7 +3,8 @@
      data-action="ItemPriceAddComponent:clear->ItemPriceAddComponent#handleMessageClear
                   ItemPriceAddComponent:addItems->ItemPriceAddComponent#handleMessageAddItems">
 
-    <div data-js-items-add-container>
+    <div class="item-add-component__item-group  px-1"
+         data-js-items-add-container>
 
     </div>
 
@@ -31,32 +32,32 @@
 
                 <div class="d-flex  fex-row  flex-wrap">
                     <input type="hidden"
-                        name="{{ data.itemIdFieldName }}"
-                        value="{{ data.itemIdFieldValue }}"
-                        data-js-item-id>
+                           name="{{ data.itemIdFieldName }}"
+                           value="{{ data.itemIdFieldValue }}"
+                           data-js-item-id>
 
                     <div class="w-100">
                         <input type="text"
-                            class="form-control  item-add-component__item-name"
-                            maxlength="50"
-                            name="{{ data.itemNameFieldName }}"
-                            placeholder="{{ data.itemNamePlaceholder }}"
-                            value="{{ data.itemNameFieldValue }}"
-                            required
-                            data-js-item-name />
+                               class="form-control  item-add-component__item-name"
+                               maxlength="50"
+                               name="{{ data.itemNameFieldName }}"
+                               placeholder="{{ data.itemNamePlaceholder }}"
+                               value="{{ data.itemNameFieldValue }}"
+                               required
+                               data-js-item-name />
                     </div>
                     <div class="d-flex  flex-row  flex-nowrap  w-100">
                         <input type="text"
-                            class="form-control  item-add-component__item-price"
-                            pattern="\d+(\.\d{1,2})?"
-                            name="{{ data.itemPriceFieldName }}"
-                            placeholder="{{ data.itemPricePlaceholder }}"
-                            value="{{ data.itemPriceFieldValue }}"
-                            step="0.10"
-                            data-js-item-price />
+                               class="form-control  item-add-component__item-price"
+                               pattern="\d+(\.\d{1,2})?"
+                               name="{{ data.itemPriceFieldName }}"
+                               placeholder="{{ data.itemPricePlaceholder }}"
+                               value="{{ data.itemPriceFieldValue }}"
+                               step="0.10"
+                               data-js-item-price />
 
                         <span class="input-group-text  rounded-0"
-                            id="name">
+                              id="name">
 
                             {{ data.itemPriceCurrencyLabel }}
                         </span>

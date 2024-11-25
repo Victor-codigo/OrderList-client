@@ -6,7 +6,7 @@
 
 		{% if this.hasBackButton %}
 
-		<a class="d-flex  flex-column  justify-content-center  navbar-back-button  p-3"
+		<a class="d-flex  flex-column  justify-content-center  navbar-back-button  p-2"
 		   role="button"
 		   title="{{ backButtonTitle }}"
 		   data-js-back-button>
@@ -114,9 +114,9 @@
 				{% include "common/bell-icon.svg" %}
 			</a>
 
-			<div class="dropdown  navbar__user-menu  d-flex"
+			<div class="dropdown  d-flex"
 				 title="{{ userButtonTitle }}">
-				<button class="btn  btn-dark  navbar__user-menu  rounded-0  p-3  pt-1  pb-1"
+				<button class="btn  btn-dark  navbar__user-menu  rounded-0  p-3  pt-1  pb-0"
 						type="button"
 						data-bs-toggle="dropdown"
 						aria-expanded="false">
@@ -129,13 +129,15 @@
 
 					{% else %}
 
-					<img src="{{ userButton.image|escape('html_attr') }}"
-						 title="{{ userButton.title }}"
-						 alt="{{ userButton.alt }}">
+					<div data-js-user-avatar-image>
+						<img src="{{ userButton.image|escape('html_attr') }}"
+							 title="{{ userButton.title }}"
+							 alt="{{ userButton.alt }}">
+					</div>
 
 					{% endif %}
 
-					<span class="user-profile__name">
+					<span class="user-profile__name  text-truncate">
 						{{ userButton.name }}
 					</span>
 
@@ -207,6 +209,12 @@
 				</ul>
 			</div>
 
+			{% else %}
+
+			<div class="navbar-toggler  p-2  ps-3  pe-3  navbar-toggler-button  navbar-logo-center">
+				{% include "common/list-icon.svg" %}
+			</div>
+
 			{% endif %}
 		</div>
 
@@ -243,7 +251,7 @@
 								{% include section.icon %}
 							</div>
 
-							<span>
+							<span class="align-self-center">
 								{{ section.label }}
 							</span>
 						</a>
@@ -252,7 +260,7 @@
 					{% endfor %}
 				</ul>
 
-				<div class="p-0  offcanvas-body  d-flex  flex-row  justify-content-center">
+				<div class="mt-3  p-0  offcanvas-body  d-flex  flex-row  justify-content-center">
 					{% if data.locale=='es' %}
 
 					<a class="p-3  d-flex  flex-row  justify-content-center  align-items-center  w-50  navbar__language-switch--offcanvas"

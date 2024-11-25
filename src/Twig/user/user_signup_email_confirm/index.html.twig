@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ pageTitle }}
+{{ pageTitle }}
 {% endblock %}
 {% block body %}
-	<main class="container  mb-auto">
-		<section class="row  no-gutters">
-			<div class="col col-lg-6  offset-lg-3  mt-5">
-				{{ component('RegistrationEmailConfirmationComponent', { data: registrationEmailConfirmationComponentDto })
+<main class="container  mb-auto">
+	<section class="row  no-gutters">
+		<div class="col col-lg-6  offset-lg-3  mt-5">
+			{{ component('RegistrationEmailConfirmationComponent', { data: registrationEmailConfirmationComponentDto })
 			}}
-			</div>
-		</section>
-	</main>
+		</div>
+	</section>
+</main>
 {% endblock %}

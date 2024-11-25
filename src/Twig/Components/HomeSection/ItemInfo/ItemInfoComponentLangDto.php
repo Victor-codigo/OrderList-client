@@ -17,6 +17,7 @@ class ItemInfoComponentLangDto
     public readonly string $createdOn;
     public readonly string $imageTitle;
     public readonly string $imageAlt;
+    public readonly ?string $infoLabel;
 
     public readonly string $description;
 
@@ -45,13 +46,14 @@ class ItemInfoComponentLangDto
         return $this;
     }
 
-    public function info(string $imageTitle, string $imageAlt, string $createdOn): static
+    public function info(string $imageTitle, string $imageAlt, string $createdOn, ?string $infoLabel): static
     {
         $this->builder->setMethodStatus('info', true);
 
         $this->imageTitle = $imageTitle;
         $this->imageAlt = $imageAlt;
         $this->createdOn = $createdOn;
+        $this->infoLabel = $infoLabel;
 
         return $this;
     }

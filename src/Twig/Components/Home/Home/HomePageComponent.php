@@ -61,8 +61,8 @@ class HomePageComponent extends TwigComponent
         return new UserButtonDto(
             $userData->name,
             $userData->image,
-            $this->translate('user_menu.user_menu.title'),
-            $this->translate('user_menu.user_menu.alt'),
+            $this->translate('user_menu.user.title'),
+            $this->translate('user_menu.user.alt'),
         );
     }
 

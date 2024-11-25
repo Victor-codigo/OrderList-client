@@ -38,6 +38,7 @@ class OrderInfoComponent extends ItemInfoComponent
                 $this->translate('image.title'),
                 $this->translate('image.alt'),
                 $this->translate('created_on'),
+                $this->translate('info.label'),
             )
             ->description(
                 $this->translate('description.label'),
@@ -50,11 +51,7 @@ class OrderInfoComponent extends ItemInfoComponent
                 $this->translate('bought.bought_icon.title'),
                 $this->translate('bought.not_bought_icon.title'),
             )
-            ->product(
-                $this->translate('product.description.label'),
-            )
             ->shop(
-                $this->translate('shop.description.label'),
                 $this->translate('shop.price.label'),
             )
             ->price(

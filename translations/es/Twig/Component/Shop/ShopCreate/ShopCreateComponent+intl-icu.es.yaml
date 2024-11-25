@@ -44,7 +44,7 @@ product_remove_button:
   alt: Remove product
 
 shop_create_button:
-  label: Crear tienda
+  label: Crear
 
 close_button:
   label: Cerrar

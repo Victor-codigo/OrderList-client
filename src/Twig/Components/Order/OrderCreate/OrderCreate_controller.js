@@ -54,12 +54,18 @@ export default class extends Controller {
         unit: ''
     };
 
+    /**
+     * @type {HTMLInputElement}
+     */
+    #orderCreateButton;
+
     connect() {
         this.#orderProductAndShopTag = this.element.querySelector('[data-controller="OrderProductAndShopComponent"]');
         this.#productSelectName = this.#orderProductAndShopTag.querySelector('[data-js-product-select-name]');
         this.#amountInputTag = this.element.querySelector('[data-js-amount]');
         this.#totalTag = this.element.querySelector('[data-js-total]');
         this.#amountUnitTag = this.element.querySelector('[data-js-amount-unit]');
+        this.#orderCreateButton = this.element.querySelector('[data-js-order-create-button]');
 
         this.element.addEventListener('submit', this.#handleFormSubmit.bind(this));
         this.#amountInputTag.addEventListener('input', this.#handleAmountInputInputEvent.bind(this));
@@ -190,6 +196,7 @@ export default class extends Controller {
     }
 
     handleOrderProductSelected() {
+        this.#orderCreateButton.setAttribute('disabled', 'disabled');
         const chainCurrentName = this.modalManager.getChainCurrent().getName();
 
         this.modalManager.openNewModal(MODAL_CHAINS[chainCurrentName].modals.orderCreate.open.productsListModal);
@@ -216,6 +223,8 @@ export default class extends Controller {
         this.#calculatePrice(price);
         this.#setAmountUnit(unit);
         this.#validateProductInput();
+
+        this.#orderCreateButton.removeAttribute('disabled');
     }
 
     /**

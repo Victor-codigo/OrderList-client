@@ -1,10 +1,10 @@
 signup_email_confirmation:
-  title: Email verificated
+  title: Email verified
   message: |
-    Congratulations, you have verificated your email correctly.
-    Now you can login through the form <a href="{loginLink}">here</a>
+    Congratulations, you have verified your email correctly.
+    Now you can login through the form <a href="{loginLink}">here</a>.
 
-    Thanks for signup in {appName}.
+    <br><br>Thanks for sign up in {appName}.
 
 signup_email_confirmation_fail:
   title: Uppsss!
@@ -14,6 +14,4 @@ signup_email_confirmation_already_verified:
   title: Email already verified
   message: |
     Your email is already verified.
-    You can login through the form <a href="{loginLink}">here</a>
-
-    Thanks for signup in {appName}.
+    You can login through the form <a href="{loginLink}">here</a>.

@@ -51,6 +51,11 @@ export default class extends ItemInfo_controller {
     #shopDescriptionTag;
 
     /**
+     * @type {HTMLHRElement}
+     */
+    #shopAddressDescriptionSeparatorTag;
+
+    /**
      * @type {HTMLParagraphElement}
      */
     #shopPriceTag;
@@ -77,6 +82,7 @@ export default class extends ItemInfo_controller {
         this.#shopAddressContainerTag = this.element.querySelector('[data-js-item-shop-address-container]');
         this.#shopAddressTag = this.element.querySelector('[data-js-item-shop-address]');
         this.#shopDescriptionTag = this.element.querySelector('[data-js-item-shop-description]');
+        this.#shopAddressDescriptionSeparatorTag = this.element.querySelector('[data-js-shop-description-address-separator]');
         this.#shopPriceTag = this.element.querySelector('[data-js-item-shop-price]');
         this.#priceTotalTag = this.element.querySelector('[data-js-item-shop-price-total]');
         this.#shopInfoTag = this.element.querySelector('[data-js-shop-info]');
@@ -100,6 +106,7 @@ export default class extends ItemInfo_controller {
         this.#shopNameTag.textContent = data.shop.name;
         this.#shopDescriptionTag.textContent = data.shop.description;
         this.#setAddress(data.shop.address)
+        this.#setShopAddressDescriptionSeparator(data.shop.address, data.shop.description);
         this.#shopPriceTag.textContent = locale.formatPriceCurrencyAndUnit(data.productShop.price, data.productShop.unit);
 
         this.#priceTotalTag.textContent = locale.formatToStringLocaleCurrency(this.#calculatePriceTotal(data.productShop.price, data.amount));
@@ -115,7 +122,28 @@ export default class extends ItemInfo_controller {
             return;
         }
 
+        this.#shopAddressContainerTag.hidden = false;
         this.#shopAddressTag.textContent = address;
+    }
+
+    /**
+     * @param {string|null} address
+     * @param {string|null} description
+     */
+    #setShopAddressDescriptionSeparator(address, description) {
+        if (address === null || address === '') {
+            this.#shopAddressDescriptionSeparatorTag.hidden = true;
+
+            return;
+        }
+
+        if (description === null || description === '') {
+            this.#shopAddressDescriptionSeparatorTag.hidden = true;
+
+            return;
+        }
+
+        this.#shopAddressDescriptionSeparatorTag.hidden = false;
     }
 
     /**

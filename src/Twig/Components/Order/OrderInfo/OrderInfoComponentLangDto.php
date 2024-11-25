@@ -14,10 +14,6 @@ class OrderInfoComponentLangDto extends ItemInfoComponentLangDto
     public readonly string $boughtTitle;
     public readonly string $notBoughtTitle;
 
-    public readonly string $productDescriptionTitle;
-
-    public readonly string $shopDescriptionTitle;
-
     public readonly string $shopPrice;
     public readonly string $priceTotal;
 
@@ -27,7 +23,6 @@ class OrderInfoComponentLangDto extends ItemInfoComponentLangDto
 
         $this->builder->addBuilderMethod('amount');
         $this->builder->addBuilderMethod('bought');
-        $this->builder->addBuilderMethod('product');
         $this->builder->addBuilderMethod('shop');
         $this->builder->addBuilderMethod('price');
     }
@@ -52,20 +47,10 @@ class OrderInfoComponentLangDto extends ItemInfoComponentLangDto
         return $this;
     }
 
-    public function product(string $descriptionTitle): self
-    {
-        $this->builder->setMethodStatus('product', true);
-
-        $this->productDescriptionTitle = $descriptionTitle;
-
-        return $this;
-    }
-
-    public function shop(string $descriptionTitle, string $price): self
+    public function shop(string $price): self
     {
         $this->builder->setMethodStatus('shop', true);
 
-        $this->shopDescriptionTitle = $descriptionTitle;
         $this->shopPrice = $price;
 
         return $this;

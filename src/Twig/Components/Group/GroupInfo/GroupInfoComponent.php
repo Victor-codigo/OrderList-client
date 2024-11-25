@@ -38,6 +38,7 @@ class GroupInfoComponent extends ItemInfoComponent
                 $this->translate('image.title'),
                 $this->translate('image.alt'),
                 $this->translate('created_on'),
+                null
             )
             ->admin(
                 $this->translate('admin.label')

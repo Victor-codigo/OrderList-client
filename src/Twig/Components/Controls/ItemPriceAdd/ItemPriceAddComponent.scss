@@ -1,4 +1,9 @@
 .item-add-component {
+    &__item-group {
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+
     &__item-name {
         cursor: pointer;
         border-radius: 0;

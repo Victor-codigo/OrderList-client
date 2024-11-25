@@ -122,6 +122,10 @@
     margin-bottom: 5rem;
 
     .body-card {
+        &:last-child {
+            border: 0 !important;
+        }
+
         .body-card__icon {
             svg {
                 width: 75px;

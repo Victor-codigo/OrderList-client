@@ -7,7 +7,7 @@ list_empty:
   label: No hay productos
 
 button_create_product:
-  label: Crear
+  label: Crear producto
 
 product_image:
   title: Imagen del producto {item_name}

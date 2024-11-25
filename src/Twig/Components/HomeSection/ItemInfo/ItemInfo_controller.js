@@ -83,6 +83,7 @@ export default class extends Controller {
 
         this.#itemsPriceTag.innerHTML = '';
 
+        itemPrices.sort((shop1, shop2) => shop1.price - shop2.price);
         itemPrices.forEach((itemPrice) => {
             const tableRow = document.createElement('tr');
             const numberTableCell = document.createElement('th');
@@ -90,6 +91,7 @@ export default class extends Controller {
             const priceTableCell = document.createElement('td');
 
             numberTableCell.textContent = rowCounter.toString();
+            nameTableCell.classList.add('text-break');
             nameTableCell.textContent = itemPrice.name;
             priceTableCell.textContent = itemPrice.price === null ? '' : locale.formatPriceCurrencyAndUnit(itemPrice.price, itemPrice.unit);
 

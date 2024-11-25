@@ -4,12 +4,10 @@ message_advice:
   text: |
     You are going to remove user:
     {item_placeholder}
-
     Are You sure?
   text_multi: |
     You are going to remove users:
     {item_placeholder}
-
     Are You sure?
 
 remove_group_user_button:

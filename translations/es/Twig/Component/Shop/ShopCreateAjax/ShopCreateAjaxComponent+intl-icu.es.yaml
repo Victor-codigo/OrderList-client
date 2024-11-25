@@ -2,5 +2,5 @@ shop_back_button:
   label: Volver
 
 shop_create_button:
-  label: Crear tienda
-  loading_label: Creando tienda...
+  label: Crear
+  loading_label: Creando...
