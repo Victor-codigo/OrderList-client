@@ -7,6 +7,7 @@ namespace App\Controller\User\RememberPasswordChange;
 use App\Form\User\PasswordChange\PASSWORD_CHANGE_FORM_FIELDS;
 use App\Form\User\PasswordChange\PasswordChangeForm;
 use App\Twig\Components\User\PasswordChange\PasswordChangeComponentDto;
+use App\Twig\Components\User\UserPasswordRememberChanged\UserPasswordRememberChangedComponentDto;
 use Common\Adapter\Form\FormFactory;
 use Common\Domain\Config\Config;
 use Common\Domain\PageTitle\GetPageTitleService;
@@ -32,7 +33,7 @@ class UserRememberPasswordChangeController extends AbstractController
         private HttpClientInterface $httpClient,
         private FormFactory $formFactory,
         private EndpointsInterface $endpoints,
-        private GetPageTitleService $getPageTitleService
+        private GetPageTitleService $getPageTitleService,
     ) {
     }
 
@@ -45,6 +46,10 @@ class UserRememberPasswordChangeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $validForm = true;
             $this->formValid($form, $sessionToken);
+        }
+
+        if (empty($form->getErrors())) {
+            return $this->renderPasswordChanged();
         }
 
         return $this->renderPasswordChange($form, $validForm);
@@ -82,6 +87,17 @@ class UserRememberPasswordChangeController extends AbstractController
             'PasswordChangeComponent' => $data,
             'pageTitle' => $this->getPageTitleService->__invoke('PasswordChangeComponent'),
             'domainName' => Config::CLIENT_DOMAIN_NAME,
+        ]);
+    }
+
+    private function renderPasswordChanged(): Response
+    {
+        $loginUrl = $this->generateUrl('user_login_home');
+        $data = new UserPasswordRememberChangedComponentDto($loginUrl);
+
+        return $this->render('user/user_password_remember_changed/index.html.twig', [
+            'userPasswordRememberChangedComponentDto' => $data,
+            'pageTitle' => $this->getPageTitleService->__invoke('UserPasswordRememberChangedComponent'),
         ]);
     }
 }
