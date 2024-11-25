@@ -8,7 +8,6 @@ use App\Form\User\PasswordRemember\PASSWORD_REMEMBER_FORM_FIELDS;
 use App\Form\User\PasswordRemember\PasswordRememberForm;
 use App\Twig\Components\User\PasswordRemember\PasswordRememberDto;
 use Common\Adapter\Captcha\Recaptcha3ValidatorAdapter;
-use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 use Common\Domain\Config\Config;
 use Common\Domain\PageTitle\GetPageTitleService;
 use Common\Domain\Ports\Endpoints\EndpointsInterface;
@@ -35,7 +34,7 @@ class UserRememberController extends AbstractController
         private HttpClientInterface $httpClient,
         private EndpointsInterface $endpoints,
         private GetPageTitleService $getPageTitleService,
-        private Recaptcha3ValidatorAdapter $recaptcha3ValidatorAdapter
+        private Recaptcha3ValidatorAdapter $recaptcha3ValidatorAdapter,
     ) {
     }
 
@@ -59,7 +58,7 @@ class UserRememberController extends AbstractController
     {
         $responseData = $this->endpoints->userRememberPassword(
             $form->getFieldData(PASSWORD_REMEMBER_FORM_FIELDS::EMAIL),
-            HTTP_CLIENT_CONFIGURATION::CLIENT_DOMAIN."/{$locale}/user/password-remember",
+            Config::CLIENT_PROTOCOL.'://'.Config::CLIENT_DOMAIN."/{$locale}/user/password-remember",
             $locale
         );
 

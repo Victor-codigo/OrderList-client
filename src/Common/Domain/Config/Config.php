@@ -9,6 +9,7 @@ use Common\Adapter\HttpClientConfiguration\HTTP_CLIENT_CONFIGURATION;
 class Config
 {
     public const CLIENT_PROTOCOL = 'http';
+    public const string CLIENT_DOMAIN = '127.0.0.1';
     public const API_DOMAIN = 'http://nginx-api';
     public const CLIENT_DOMAIN_NAME = 'Order List';
     public const COOKIE_TOKEN_SESSION_NAME = 'TOKENSESSION';
