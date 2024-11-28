@@ -271,13 +271,13 @@ class OrderHomeController extends AbstractController
             ->orderRemoveMultiFormModal(
                 $orderRemoveMultiForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('order_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->orderRemoveFormModal(
                 $orderRemoveForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('order_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->orderModifyFormModal(

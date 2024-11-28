@@ -82,12 +82,15 @@ export default class extends Controller {
 
         this.#productSelectButtonTag.addEventListener('click', this.#sendMessageProductSelectClickedToParent.bind(this));
         this.#shopSelectTag.addEventListener('change', this.#handleShopChangeEvent.bind(this));
-        this.#shopSelectTag.addEventListener('click', this.#handleShopClickEvent.bind(this));
+        this.#shopSelectTag.addEventListener('blur', this.#handleShopChangeEvent.bind(this));
+        this.#shopSelectTag.addEventListener('mousedown', this.#handleShopClickEvent.bind(this));
     }
 
     disconnect() {
         this.#productSelectButtonTag.removeEventListener('click', this.#sendMessageProductSelectClickedToParent);
         this.#shopSelectTag.removeEventListener('change', this.#handleShopChangeEvent);
+        this.#shopSelectTag.removeEventListener('blur', this.#handleShopChangeEvent);
+        this.#shopSelectTag.removeEventListener('mousedown', this.#handleShopChangeEvent);
     }
 
     /**
@@ -137,27 +140,73 @@ export default class extends Controller {
     }
 
     /**
+     * @param {{
+     *  productShopPrice: {
+     *      price: number,
+    *       product_id: string,
+    *       shop_id: string,
+    *       unit: string
+    * }}} shop1
+    * @param {{
+    *   productShopPrice: {
+     *      price: number,
+    *       product_id: string,
+    *       shop_id: string,
+    *       unit: string
+    * }}} shop2
+     */
+    #sortShopByProductPriceAscendant(shop1, shop2) {
+        if (shop1.productShopPrice.price === null) {
+            return 1;
+        }
+
+        if (shop2.productShopPrice.price === null) {
+            return -1;
+        }
+
+        if (shop1.productShopPrice.price === null && shop2.productShopPrice.price === null) {
+            return 0;
+        }
+
+        return shop1.productShopPrice.price - shop2.productShopPrice.price;
+    }
+
+    /**
      * @param {object[]} shops
      * @param {string} shopIdSelected
      * @param {boolean} setPrice
      */
     #setShopSelectTagOptions(shops, shopIdSelected, setPrice) {
-        const options = shops.map((shop) => {
+        let shopsWhitPrice = shops;
+
+        if (setPrice) {
+            shopsWhitPrice = shops.map((shop) => {
+                const productShopPrice = this.#getProductShopPriceById(shop.id);
+                shop.productShopPrice = productShopPrice;
+
+                return shop;
+            });
+            shopsWhitPrice = shopsWhitPrice.sort(this.#sortShopByProductPriceAscendant);
+        }
+
+        const options = shopsWhitPrice.map((shop) => {
             const option = document.createElement('option');
 
             if (shopIdSelected === shop.id) {
                 option.selected = true;
             }
 
-            option.value = shop.id;
-            option.textContent = shop.name;
-
+            let shopName = shop.name;
             if (setPrice) {
-                const productShopPrice = this.#getProductShopPriceById(shop.id);
-                const price = locale.formatPriceCurrencyAndUnit(productShopPrice.price, productShopPrice.unit);
-                option.textContent = `${shop.name} - ${price}`;
+                if (shop.productShopPrice.price !== null) {
+                    const price = locale.formatPriceCurrencyAndUnit(shop.productShopPrice.price, shop.productShopPrice.unit);
+
+                    shopName += ` - ${price}`;
+                }
             }
 
+            option.value = shop.id;
+            option.textContent = shopName;
 
             return option;
         });

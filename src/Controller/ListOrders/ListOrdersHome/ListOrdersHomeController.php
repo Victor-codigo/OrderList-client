@@ -60,7 +60,7 @@ class ListOrdersHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
-        private RouterSelector $routerSelector
+        private RouterSelector $routerSelector,
     ) {
     }
 
@@ -252,13 +252,13 @@ class ListOrdersHomeController extends AbstractController
             ->listOrdersRemoveMultiFormModal(
                 $listOrdersRemoveMultiForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('list_orders_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->listOrdersRemoveFormModal(
                 $listOrdersRemoveForm->getCsrfToken(),
                 $this->routerSelector->generateRoute('list_orders_remove', [
-                    'group_name' => $requestDto->groupData->name,
+                    'group_name' => $requestDto->groupNameUrlEncoded,
                 ])
             )
             ->listOrdersModifyFormModal(

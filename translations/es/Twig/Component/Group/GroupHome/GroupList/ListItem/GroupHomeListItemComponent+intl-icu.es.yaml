@@ -3,7 +3,7 @@ group_user:
   description: Este es tú grupo personal, nadie más puede unirse a él. Aquí es donde puedes crear tús propias listas de la compra, productos, tiendas, etc
 
 group_remove_button:
-  label: Elimina
+  label: Eliminar
   title: Elimina el grupo
   alt: Botón para eliminar el grupo
 

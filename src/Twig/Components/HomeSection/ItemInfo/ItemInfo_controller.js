@@ -83,7 +83,7 @@ export default class extends Controller {
 
         this.#itemsPriceTag.innerHTML = '';
 
-        itemPrices.sort((shop1, shop2) => shop1.price - shop2.price);
+        itemPrices.sort(this.#sortPricesAscendant);
         itemPrices.forEach((itemPrice) => {
             const tableRow = document.createElement('tr');
             const numberTableCell = document.createElement('th');
@@ -99,6 +99,28 @@ export default class extends Controller {
             this.#itemsPriceTag.appendChild(tableRow);
             rowCounter++;
         });
+    }
+
+    /**
+     * @param {config.ItemPriceData} shop1
+     * @param {config.ItemPriceData} shop2
+     *
+     * @returns {number}
+     */
+    #sortPricesAscendant(shop1, shop2) {
+        if (shop1.price === null) {
+            return 1;
+        }
+
+        if (shop2.price === null) {
+            return -1;
+        }
+
+        if (shop1.price === null && shop2.price === null) {
+            return 0;
+        }
+
+        return shop1.price - shop2.price;
     }
 
     #setNoPrices() {

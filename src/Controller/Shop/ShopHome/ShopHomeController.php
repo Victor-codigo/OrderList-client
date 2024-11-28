@@ -11,8 +11,8 @@ use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
 use App\Form\Shop\ShopModify\ShopModifyForm;
-use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Form\Shop\ShopRemoveMulti\ShopRemoveMultiForm;
+use App\Form\Shop\ShopRemove\ShopRemoveForm;
 use App\Twig\Components\Shop\ShopHome\Home\ShopHomeSectionComponentDto;
 use App\Twig\Components\Shop\ShopHome\ShopHomeComponentBuilder;
 use Common\Adapter\Endpoints\ShopsEndPoint;
@@ -61,7 +61,7 @@ class ShopHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
-        private RouterSelector $routerSelector
+        private RouterSelector $routerSelector,
     ) {
     }
 
@@ -144,7 +144,7 @@ class ShopHomeController extends AbstractController
         ?string $shopNameFilterValue,
         int $page,
         int $pageItems,
-        string $tokenSession
+        string $tokenSession,
     ): array {
         $shopsData = $this->endpoints->shopsGetData(
             $groupId,
