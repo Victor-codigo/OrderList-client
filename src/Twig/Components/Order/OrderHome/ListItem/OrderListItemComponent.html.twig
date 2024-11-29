@@ -15,7 +15,7 @@
 
         {% if data.noImage %}
 
-        <div class="border-0  order-list-item__image   p-0"
+        <div class="border-0  flex-grow-0  flex-shrink-0  order-list-item__image   p-0"
              title="{{ lang.imageItemTitle }}"
              data-js-item-image>
 
@@ -24,7 +24,7 @@
 
         {% else %}
 
-        <img class="border-0  order-list-item__image  p-0"
+        <img class="border-0  flex-grow-0  flex-shrink-0  order-list-item__image  p-0"
              src="{{ data.image }}"
              alt="{{ lang.imageItemAlt }}"
              title="{{ lang.imageItemTitle }}"
