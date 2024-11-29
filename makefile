@@ -24,6 +24,7 @@ setup-dev: ## Sets the application up for deveopment
 	@echo "$(TITLE)Installing node dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
 	npm install
+	npm audit fix
 
 	@echo "$(TITLE)Executing Webpack dev$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
@@ -60,6 +61,7 @@ setup-deploy: ## Sets the application up for deploy
 	@echo "$(TITLE)Optimizing JS, CSS, assets$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
 	npm run build
+	npm audit fix
 
 	@echo "$(TITLE)Removing NPM development dependecies$(END)"
 	@echo "$(SEPARATOR)------------------------------$(END)"
