@@ -60,7 +60,7 @@ make bash
 ```
 4.  There is a make file with following commands:
    - `make setup-dev` Sets the application up for development
-   - `make setup-deploy` Sets the application for production. (You have to modify this section to your own configuration)
+   - `make setup-deploy` Sets the application for production. (You have to change this section according to your configuration)
 
 Execute the following command to build client for development:
 ```
