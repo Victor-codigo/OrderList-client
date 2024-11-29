@@ -60,15 +60,11 @@ make bash
 ```
 4.  There is a make file with following commands:
    - `make setup-dev` Sets the application up for development
-   - `make setup-prod` Sets the application up for production
+   - `make setup-deploy` Sets the application for production. (You have to modify this section to your own configuration)
 
 Execute the following command to build client for development:
 ```
 make setup-dev
-```
-Or build client for production:
-```
-make setup-prod
 ```
 
 5.  Follow make instructions.
