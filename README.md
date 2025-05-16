@@ -21,6 +21,7 @@ OrderList client it is a client for OrderList-api.
 - [Stimulus framework](https://stimulus.hotwired.dev/)
 - [Bootstarp 5.3](https://getbootstrap.com/)
 - [SASS](https://sass-lang.com/)
+- [GitHub Actions](https://github.com/features/actions)
 
 # Tools
 - [VSCode](https://code.visualstudio.com/)
