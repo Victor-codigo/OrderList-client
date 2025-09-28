@@ -67,6 +67,8 @@ class ShopHomeController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+
         $shopCreateForm = $this->formFactory->create(new ShopCreateForm(), $requestDto->request);
         $shopModifyForm = $this->formFactory->create(new ShopModifyForm(), $requestDto->request);
         $shopRemoveForm = $this->formFactory->create(new ShopRemoveForm(), $requestDto->request);

@@ -68,6 +68,8 @@ class OrderHomeController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+
         $orderCreateForm = $this->formFactory->create(new OrderCreateForm(), $requestDto->request);
         $orderModifyForm = $this->formFactory->create(new OrderModifyForm(), $requestDto->request);
         $orderRemoveForm = $this->formFactory->create(new OrderRemoveForm(), $requestDto->request);

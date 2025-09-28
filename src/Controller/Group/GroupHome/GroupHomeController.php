@@ -9,8 +9,8 @@ use App\Controller\Request\Response\GroupDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Group\GroupCreate\GroupCreateForm;
 use App\Form\Group\GroupModify\GroupModifyForm;
-use App\Form\Group\GroupRemove\GroupRemoveForm;
 use App\Form\Group\GroupRemoveMulti\GroupRemoveMultiForm;
+use App\Form\Group\GroupRemove\GroupRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Twig\Components\Group\GroupHome\GroupHomeComponentBuilder;
@@ -52,12 +52,14 @@ class GroupHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
-        private RouterSelector $routerSelector
+        private RouterSelector $routerSelector,
     ) {
     }
 
     public function __invoke(RequestDto $requestDto): Response
     {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+
         $groupCreateForm = $this->formFactory->create(new GroupCreateForm(), $requestDto->request);
         $groupModifyForm = $this->formFactory->create(new GroupModifyForm(), $requestDto->request);
         $groupRemoveForm = $this->formFactory->create(new GroupRemoveForm(), $requestDto->request);

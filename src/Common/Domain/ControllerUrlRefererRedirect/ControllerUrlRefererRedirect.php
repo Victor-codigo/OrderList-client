@@ -15,7 +15,7 @@ class ControllerUrlRefererRedirect
 {
     public function __construct(
         private FlashBagInterface $sessionFlashBag,
-        private RouterInterface $router
+        private RouterInterface $router,
     ) {
     }
 
@@ -41,7 +41,7 @@ class ControllerUrlRefererRedirect
         );
     }
 
-    public function validateReferer(RequestRefererDto $requestReferer): void
+    public function validateReferer(?RequestRefererDto $requestReferer): void
     {
         if (null === $requestReferer) {
             throw RequestRefererException::fromMessage('Request referer not valid');

@@ -66,6 +66,8 @@ class ListOrdersHomeController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+
         $listOrdersCreateForm = $this->formFactory->create(new ListOrdersCreateForm(), $requestDto->request);
         $listOrdersCreateFromForm = $this->formFactory->create(new ListOrdersCreateFromForm(), $requestDto->request);
         $listOrdersModifyForm = $this->formFactory->create(new ListOrdersModifyForm(), $requestDto->request);

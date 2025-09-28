@@ -44,8 +44,12 @@ class TryoutController extends AbstractController
         return $this->renderTemplate($requestDto, $loginForm->getCsrfToken());
     }
 
-    private function redirectToHome(RequestRefererDto $requestRefererDto): ?Response
+    private function redirectToHome(?RequestRefererDto $requestRefererDto): ?Response
     {
+        if (null === $requestRefererDto) {
+            return null;
+        }
+
         if ('home_tryout' !== $requestRefererDto->routeName) {
             return null;
         }

@@ -10,8 +10,8 @@ use App\Controller\Request\Response\ProductShopPriceDataResponse;
 use App\Controller\Request\Response\ShopDataResponse;
 use App\Form\Product\ProductCreate\ProductCreateForm;
 use App\Form\Product\ProductModify\ProductModifyForm;
-use App\Form\Product\ProductRemove\ProductRemoveForm;
 use App\Form\Product\ProductRemoveMulti\ProductRemoveMultiForm;
+use App\Form\Product\ProductRemove\ProductRemoveForm;
 use App\Form\SearchBar\SEARCHBAR_FORM_FIELDS;
 use App\Form\SearchBar\SearchBarForm;
 use App\Form\Shop\ShopCreate\ShopCreateForm;
@@ -65,12 +65,14 @@ class ProductHomeController extends AbstractController
         private FlashBagInterface $sessionFlashBag,
         private ControllerUrlRefererRedirect $controllerUrlRefererRedirect,
         private GetPageTitleService $getPageTitleService,
-        private RouterSelector $routerSelector
+        private RouterSelector $routerSelector,
     ) {
     }
 
     public function __invoke(RequestDto $requestDto): Response
     {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+
         $productCreateForm = $this->formFactory->create(new ProductCreateForm(), $requestDto->request);
         $productModifyForm = $this->formFactory->create(new ProductModifyForm(), $requestDto->request);
         $productRemoveForm = $this->formFactory->create(new ProductRemoveForm(), $requestDto->request);
