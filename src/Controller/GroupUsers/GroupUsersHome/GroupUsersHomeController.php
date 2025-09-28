@@ -52,6 +52,8 @@ class GroupUsersHomeController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+
         $groupUserAddForm = $this->formFactory->create(new GroupUsersAddForm(), $requestDto->request);
         $groupUserRemoveForm = $this->formFactory->create(new GroupUsersRemoveForm(), $requestDto->request);
         $groupUserRemoveMultiForm = $this->formFactory->create(new GroupUsersRemoveMultiForm(), $requestDto->request);

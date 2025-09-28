@@ -55,6 +55,8 @@ class ShareListOrdersController extends AbstractController
 
     public function __invoke(RequestDto $requestDto): Response
     {
+        $this->controllerUrlRefererRedirect->validateReferer($requestDto->requestReferer);
+
         $sharedRecourseId = $requestDto->request->attributes->get('shared_recourse_id');
         $searchBarForm = $this->formFactory->create(new SearchBarForm(), $requestDto->request);
 
