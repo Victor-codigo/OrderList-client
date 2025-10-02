@@ -76,8 +76,12 @@ class Config
     {
         $httpConfig = [];
 
-        if (self::HAS_PROXY) {
+        if (self::HAS_PROXY && self::CLIENT_PROTOCOL === 'http') {
             $httpConfig['proxy'] = 'http://proxy:80';
+        }
+
+        if (self::HAS_PROXY && self::CLIENT_PROTOCOL === 'https') {
+            $httpConfig['proxy'] = 'https://proxy:80';
         }
 
         if (self::CLIENT_PROTOCOL === 'http') {
