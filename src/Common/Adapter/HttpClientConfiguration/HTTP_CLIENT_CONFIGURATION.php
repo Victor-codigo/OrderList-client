@@ -19,7 +19,7 @@ final class HTTP_CLIENT_CONFIGURATION
     {
         $json = Config::getConfigurationHttp();
 
-        null === $data ?: $json['json'] = $data;
+        null === $data || empty($data) ?: $json['json'] = $data;
         null === $tokenSession ?: $json['auth_bearer'] = $tokenSession;
 
         return $json;
