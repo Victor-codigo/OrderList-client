@@ -68,28 +68,32 @@ class Config
      *
      * @return array{}|array{
      *  proxy: string,
-     *  verify_peer: boolean,
-     *  verify_host: boolean,
+     *  verify_peer: bool,
+     *  verify_host: bool,
      * }
      */
     public static function getConfigurationHttp(): array
     {
-        if (!self::HAS_PROXY) {
-            return [];
+        $httpConfig = [];
+
+        if (self::HAS_PROXY) {
+            $httpConfig['proxy'] = 'http://proxy:80';
         }
 
         if (self::CLIENT_PROTOCOL === 'http') {
-            return [
-                'proxy' => 'http://proxy:80',
+            $httpConfig = [
                 'verify_peer' => false,
                 'verify_host' => false,
             ];
         }
 
-        return [
-            'proxy' => 'https://proxy:80',
-            'verify_peer' => true,
-            'verify_host' => true,
-        ];
+        if (self::CLIENT_PROTOCOL === 'https') {
+            $httpConfig = [
+                'verify_peer' => true,
+                'verify_host' => true,
+            ];
+        }
+
+        return $httpConfig;
     }
 }
