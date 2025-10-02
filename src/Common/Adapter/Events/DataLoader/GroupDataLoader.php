@@ -54,7 +54,7 @@ class GroupDataLoader
         return $this->encodeUrlParameter($groupData->name);
     }
 
-    private function groupData(ParameterBag $attributes, string $tokenSession): GroupDataResponse
+    private function groupData(ParameterBag $attributes, string $tokenSession): ?GroupDataResponse
     {
         $groupNameDecoded = $this->decodeUrlParameter($attributes, 'group_name');
 
